@@ -24,7 +24,10 @@ namespace CRUX_Renewal
 
        
         ////////// Property //////////
+        // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
+        // Server와 통신을 하기 위한 인덱스
+        public static int CurDisplayIndex { get; set; } = 0;
         public static void SetCogJob()
         {
            CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\TestInsp\TestInsp_ForTest.vpp");

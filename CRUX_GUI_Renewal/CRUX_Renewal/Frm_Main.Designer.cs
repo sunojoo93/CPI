@@ -48,7 +48,7 @@
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.14307F));
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 83F));
+            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.Tlp_Main.Controls.Add(this.Pb_Logo, 0, 0);
             this.Tlp_Main.Controls.Add(this.Lb_JobName, 1, 0);
             this.Tlp_Main.Controls.Add(this.Btn_Exit, 6, 0);
@@ -88,7 +88,7 @@
             this.Lb_JobName.Location = new System.Drawing.Point(103, 4);
             this.Lb_JobName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.Lb_JobName.Name = "Lb_JobName";
-            this.Lb_JobName.Size = new System.Drawing.Size(450, 44);
+            this.Lb_JobName.Size = new System.Drawing.Size(448, 44);
             this.Lb_JobName.TabIndex = 13;
             this.Lb_JobName.Text = "JOB NAME";
             this.Lb_JobName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -102,9 +102,9 @@
             this.Btn_Exit.FlatAppearance.BorderSize = 0;
             this.Btn_Exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Exit.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Exit.Location = new System.Drawing.Point(1839, 3);
+            this.Btn_Exit.Location = new System.Drawing.Point(1832, 3);
             this.Btn_Exit.Name = "Btn_Exit";
-            this.Btn_Exit.Size = new System.Drawing.Size(78, 45);
+            this.Btn_Exit.Size = new System.Drawing.Size(85, 45);
             this.Btn_Exit.TabIndex = 1;
             this.Btn_Exit.Text = "종료";
             this.Btn_Exit.UseVisualStyleBackColor = false;
@@ -117,7 +117,7 @@
             this.Btn_Minimize.FlatAppearance.BorderSize = 0;
             this.Btn_Minimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Minimize.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Minimize.Location = new System.Drawing.Point(1759, 3);
+            this.Btn_Minimize.Location = new System.Drawing.Point(1752, 3);
             this.Btn_Minimize.Name = "Btn_Minimize";
             this.Btn_Minimize.Size = new System.Drawing.Size(74, 45);
             this.Btn_Minimize.TabIndex = 0;
@@ -137,7 +137,7 @@
             this.Cmb_SelPC.Items.AddRange(new object[] {
             "Upper",
             "Lower"});
-            this.Cmb_SelPC.Location = new System.Drawing.Point(1218, 5);
+            this.Cmb_SelPC.Location = new System.Drawing.Point(1213, 5);
             this.Cmb_SelPC.Margin = new System.Windows.Forms.Padding(0, 5, 2, 0);
             this.Cmb_SelPC.Name = "Cmb_SelPC";
             this.Cmb_SelPC.Size = new System.Drawing.Size(98, 40);

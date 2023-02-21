@@ -100,7 +100,7 @@ namespace CRUX_Renewal
       //  public static string[][] PatternName;
         public static int nLanguageFlg = 0;
         private static bool[] bIsSavedRecipe;
-        public static string[] MAINFORM_NAME { get; set; }
+        public static List<string> MAINFORM_NAME { get; set; }
 
         public static void m_fnInitSelectRecipe(int nCnt)
         {

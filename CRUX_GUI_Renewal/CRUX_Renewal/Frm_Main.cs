@@ -17,7 +17,20 @@ namespace CRUX_Renewal
     public partial class Frm_Main : Form
     {
         Point CurWindowPosition = new Point();
-        public string CurDisplayForm { get; set; } = string.Empty;
+        private string CurDisplayForm_;
+        public string CurDisplayForm
+        {
+            get { return CurDisplayForm_; }
+            set
+            {
+                CurDisplayForm_ = value;
+                var Temp = Globals.MAINFORM_NAME?.Find(x => x == CurDisplayForm_) ?? null;
+                if (Temp != null || Temp.Count() <= 0)
+                {
+                    Systems.CurDisplayIndex = Globals.MAINFORM_NAME.IndexOf(Temp);
+                }
+            }
+        }
         // 프로그램 상태 폼
         public Ex_Frm_Status Frm_Status;
         // 계정 관리 폼
