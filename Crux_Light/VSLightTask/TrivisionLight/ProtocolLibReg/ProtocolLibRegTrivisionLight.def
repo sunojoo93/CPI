@@ -1,0 +1,6 @@
+; ProtocolLibRegTrivisionLight.def : Declares the module parameters for the DLL.
+
+LIBRARY      "ProtocolLibRegTrivisionLight"
+
+EXPORTS
+    ; Explicit exports can go here

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Define Header">
+      <UniqueIdentifier>{d1e75026-2878-4175-b55c-f240196579df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define Header\Error Code">
+      <UniqueIdentifier>{9f629301-55f0-46ad-ada1-49c5d4ab8541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define Header\Server Client Common">
+      <UniqueIdentifier>{b8e4c339-ec87-4376-b3da-0d86f1a7d24e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define Header\Server Common">
+      <UniqueIdentifier>{190a621e-d731-4edc-90fa-2fde14180f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ETC">
+      <UniqueIdentifier>{ca9b0921-c987-405d-a229-1ded73479982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ETC\Header">
+      <UniqueIdentifier>{4a5ed038-4c77-4dbd-a896-aacf31ddcbe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ETC\Resource">
+      <UniqueIdentifier>{bcbc63b1-8751-4d8d-b473-086a08b7d3f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ETC\Source">
+      <UniqueIdentifier>{9b9cdf7d-dfd4-4406-8279-aa9869e82484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainClass">
+      <UniqueIdentifier>{05a00d25-4dda-4523-b46a-13eab128ce3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainClass\Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="MainClass\Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Utility Class">
+      <UniqueIdentifier>{173b46df-70b7-4cc3-a750-b4decddde6ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility Class\Header">
+      <UniqueIdentifier>{01fabe2d-5d93-42bd-b9d3-bc2d9fa0ced8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility Class\Source">
+      <UniqueIdentifier>{9e1eacd9-c698-4505-8938-55b17aac0010}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="VisualStationServer.h">
+      <Filter>MainClass\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="InternalServer.h">
+      <Filter>MainClass\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LogWriter.h">
+      <Filter>MainClass\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemory.h">
+      <Filter>MainClass\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientListener.h">
+      <Filter>MainClass\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientMessenger.h">
+      <Filter>MainClass\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommonHeader\ErrorCode\InternalServerErrorCode.h">
+      <Filter>Define Header\Error Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommonHeader\Constant\CommonConstant.h">
+      <Filter>Define Header\Server Client Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommonHeader\Structure\CommonStructure.h">
+      <Filter>Define Header\Server Client Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerConstant.h">
+      <Filter>Define Header\Server Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerStructure.h">
+      <Filter>Define Header\Server Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportSmpDLL.h">
+      <Filter>ETC\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>ETC\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>ETC\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread.h">
+      <Filter>Utility Class\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>ETC\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemList.h">
+      <Filter>Utility Class\Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="VisualStationServer.cpp">
+      <Filter>MainClass\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemory.cpp">
+      <Filter>MainClass\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientListener.cpp">
+      <Filter>MainClass\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientMessenger.cpp">
+      <Filter>MainClass\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="InternalServer.cpp">
+      <Filter>MainClass\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ETC\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LogWriter.cpp">
+      <Filter>MainClass\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>Utility Class\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VisualStationServer.rc">
+      <Filter>ETC\Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\vs.png" />
+    <Image Include="VisualStationServer.ico" />
+  </ItemGroup>
+</Project>

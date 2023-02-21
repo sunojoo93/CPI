@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Main Class">
+      <UniqueIdentifier>{3b1d03ad-e9c9-4283-a3ca-fd73fca4048f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main Class\Header File">
+      <UniqueIdentifier>{5873ba26-56fe-43cd-bfbd-f531dd49819e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility Class">
+      <UniqueIdentifier>{2c860fb6-54ad-4aac-93e7-d1ed44db5d14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility Class\Header File">
+      <UniqueIdentifier>{2a85ce3c-36ba-4a6f-89ef-6c87a2c652bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility Class\Source File">
+      <UniqueIdentifier>{3ae430f6-aeba-41d1-ae3d-f8ca82e644bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Grobal">
+      <UniqueIdentifier>{89ec4f24-aed3-45a5-8c06-ca9d132da2a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Grobal\소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Grobal\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Define Header">
+      <UniqueIdentifier>{9b19df01-21b6-442d-a8ad-846dec3ca9db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define Header\Client Common">
+      <UniqueIdentifier>{c88e87ae-b49d-46dc-b0cd-cf4ff2bfbafc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define Header\Client Server Common">
+      <UniqueIdentifier>{6ef2ef05-2949-4dac-8a3e-3e8236430aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define Header\Error Code">
+      <UniqueIdentifier>{9a163366-8309-4a80-acfc-f0f043b7dc30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Export Class">
+      <UniqueIdentifier>{a316ba1c-ed19-4a80-a10c-27c594435bd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main Class\Source File">
+      <UniqueIdentifier>{315d2541-76a1-4d6a-82ac-1e7af6a8d321}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AppSupporter.h">
+      <Filter>Main Class\Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageProcessor.h">
+      <Filter>Main Class\Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageReceiver.h">
+      <Filter>Main Class\Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread.h">
+      <Filter>Utility Class\Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSocketDll.h">
+      <Filter>Grobal\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Grobal\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientConstant.h">
+      <Filter>Define Header\Client Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientStructure.h">
+      <Filter>Define Header\Client Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonHeader\ErrorCode\ClientDllErrorCode.h">
+      <Filter>Define Header\Error Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonHeader\ErrorCode\InternalServerErrorCode.h">
+      <Filter>Define Header\Error Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonHeader\Constant\CommonConstant.h">
+      <Filter>Define Header\Client Server Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonHeader\Structure\CommonStructure.h">
+      <Filter>Define Header\Client Server Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonHeader\Class\Interserverinterface.h">
+      <Filter>Export Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\CRUX_SVN업로드소스\Source\VisualStation\CommonHeader\Class\messagequeue.h">
+      <Filter>Utility Class\Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\CRUX_SVN업로드소스\Source\VisualStation\CommonHeader\Class\MemPooler.h">
+      <Filter>Utility Class\Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonHeader\Structure\define_message.h">
+      <Filter>Define Header\Client Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonHeader\ImportClientDll.h">
+      <Filter>Grobal\헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AppSupporter.cpp">
+      <Filter>Main Class\Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageProcessor.cpp">
+      <Filter>Main Class\Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageReceiver.cpp">
+      <Filter>Main Class\Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>Utility Class\Source File</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSockDll.cpp">
+      <Filter>Grobal\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Grobal\소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

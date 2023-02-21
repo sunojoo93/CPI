@@ -1,0 +1,119 @@
+//모든 Client 에서 사용되는 구조체가 아니므로 다른 파일로 옮겨야한다. Work Item !!!!!!!!!!!!!!!
+/** 
+@brief		H/W Interface 시 사용되는 Message Trunk 이다.
+@remark	
+@author		고정진
+@date		2006.05.08
+*/ 
+struct HW_MESSAGE_TRUNK
+{
+	USHORT		uAccessType;									///< 접근 방법.
+	USHORT		nStartPos;										///< 시작 주소.
+	USHORT		nLength;										///< Writing 할 데이터의 길이.
+	USHORT		nStep;
+	bool		bBitOn;											///< TRUE=On/ False=Off
+	bool		bPulse;
+	char		cAccessID[MAX_SHARED_MEMORY_ACCESS_ID_NAME];	///< 접근 아이디
+	char		cBuff[HW_CMDBUFF_SIZE];							///< Message Buffer 의 크기
+
+	HW_MESSAGE_TRUNK()											///< 구조체 생성자, 초기 생성과 동시에 메모리를 초기화 한다.
+	{
+		memset(this, 0x00, sizeof(HW_MESSAGE_TRUNK));
+	}
+};
+
+
+//가공에 관련된 구조체를 정리하여 따로 관리하여야 한다. Work Item!!!!!
+/** 
+@brief		Point 가공 조건 정보를 가지는 구조체
+@remark		
+#-			GUI, Sequence, PLC, Image Task 에서 사용된다.
+#-			컴파일러에서 기본 제공되는 구조체 구조는 4바이트 단위 정렬이므로, 
+			구조체 중간에 공백이 발생될수 있다. PLC Parameter 에 대응되어야 하므로 빈메모리가 있어선 안된다.
+@author		김용태
+@date		2007.02.14
+*/
+#pragma pack(push,1)
+struct CONDITION_DATA_POINT
+{
+	UCHAR	szPointConditionName[20];	///< 가공 조건 이름
+	int		nPointSlitX;				///< Slit X Size
+	int		nPointSlitY;				///< Slit Y Size
+	short	nPointLens;					///< Lens 번호
+	short	sPointWave;					///< Wave Length
+	short	sPointPower;				///< Laser Power
+	int		nPointAtt;					///< Attenuator
+	short	sPointShots;				///< Shot 수
+	short	sPointPulse;				///< Pulse 수
+	///////////////////////
+	CONDITION_DATA_POINT()				///< 구조체 생성자, 초기 생성과 동시에 메모리를 초기화 한다.
+	{
+		memset(this, 0x00, sizeof(CONDITION_DATA_POINT));
+	}
+};
+#pragma pack(pop)
+
+/** 
+@brief		Line 가공 조건 정보를 가지는 구조체
+@remark		
+#-			GUI, Sequence, PLC, Image Task 에서 사용된다.
+#-			컴파일러에서 기본 제공되는 구조체 구조는 4바이트 단위 정렬이므로, 
+			구조체 중간에 공백이 발생될수 있다. PLC Parameter 에 대응되어야 하므로 빈메모리가 있어선 안된다.
+@author		김용태
+@date		2007.02.14
+*/
+#pragma pack(push,1)
+struct CONDITION_DATA_LINE
+{
+	UCHAR	szLineConditionName[20];	///< 가공 조건 이름
+	int		nLineSlitX;					///< Slit X Size
+	int		nLineSlitY;					///< Slit Y Size
+	short	sLineLens;					///< Lens 번호
+	short	sLineWave;					///< Wave Length
+	short	sLinePower;					///< Laser Power
+	int		nLineAtt;					///< Attenuator
+	short	sLineShots;					///< Shot 수
+	short	sLinePulse;					///< Pulse 수
+	int		nLineSpeed;					///< 가공 Speed
+	int		nLineOverrn;				///< 가공 Overrun
+	short	sLineShotDelay;				///< Shot Delay
+	short	sLineStopDelay;				///< Stop Delay
+	///////////////////////
+	CONDITION_DATA_LINE()				///< 구조체 생성자, 초기 생성과 동시에 메모리를 초기화 한다.
+	{
+		memset(this, 0x00, sizeof(CONDITION_DATA_LINE));
+	}
+};
+#pragma pack(pop)
+
+/** 
+@brief		BLOCK 가공 조건 정보를 가지는 구조체
+@remark		
+#-			GUI, Sequence, PLC, Image Task 에서 사용된다.
+#-			컴파일러에서 기본 제공되는 구조체 구조는 4바이트 단위 정렬이므로, 
+			구조체 중간에 공백이 발생될수 있다. PLC Parameter 에 대응되어야 하므로 빈메모리가 있어선 안된다.
+@author		김용태
+@date		2007.02.14
+*/
+#pragma pack(push,1)
+struct CONDITION_DATA_BLOCK
+{
+	UCHAR	szBlockConditionName[20];	///< 가공 조건 이름
+	int		nBlockSlitX;				///< Slit X Size
+	int		nBlockSlitY;				///< Slit Y Size
+	short	sBlockLens;					///< Lens 번호
+	short	sBlockWave;					///< Wave Length
+	short	sBlockPower;				///< Laser Power
+	int		nBlockAtt;					///< Attenuator
+	short	sBlockShots;				///< Shot 수
+	short	sBlockPulse;				///< Pulse 수
+	int		nBlockSpeed;				///< 가공 Speed
+	int		nBlockStOverlap;			///< Step Overlap
+	int		nBlockReOverlap;			///< Repeat Overlap
+	///////////////////////
+	CONDITION_DATA_BLOCK()				///< 구조체 생성자, 초기 생성과 동시에 메모리를 초기화 한다.
+	{
+		memset(this, 0x00, sizeof(CONDITION_DATA_BLOCK));
+	}
+};
+#pragma pack(pop)

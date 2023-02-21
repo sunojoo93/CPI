@@ -1,0 +1,18 @@
+LIBRARY	"ClientSockCs"
+
+EXPORTS
+	test
+	InitClientSockDLL
+	FreeMemory
+	PeekMessageForNonBlock
+	PeekMessageBlocking
+	RegisterTask
+	ReRegisterTask
+	UnRegisterTask
+	SendCommand1
+	SendCommand2
+	SendCommand3
+	SendCommand
+	SendResponseCommand
+	PrintLog
+	GetVSServerConnected

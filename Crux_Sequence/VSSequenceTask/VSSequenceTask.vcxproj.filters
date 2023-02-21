@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CommonCtrl">
+      <UniqueIdentifier>{9a42c660-be76-46be-9653-10155ba0487d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VisualStation">
+      <UniqueIdentifier>{6d24e937-8186-49b6-a8b9-5c0c562c702b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="헤더파일">
+      <UniqueIdentifier>{aa01ec15-cd05-4d2a-b8ac-e7daa7a44441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Task">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="소스파일">
+      <UniqueIdentifier>{171f6eb4-3697-4f8f-8da1-cc86403cec2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{9ce22245-489b-40d8-bf0b-a178acf3ab6f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\VSSequenceTask.ico">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\VSSequenceTask.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\Sequence.ico">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CPUTimer.h">
+      <Filter>CommonCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="VSSequenceTaskDlg.h">
+      <Filter>Task</Filter>
+    </ClInclude>
+    <ClInclude Include="VSSequenceTask.h">
+      <Filter>Task</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusManager.h">
+      <Filter>VisualStation</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskInterfacer.h">
+      <Filter>VisualStation</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkManager.h">
+      <Filter>VisualStation</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="DefineSequenceTable.h">
+      <Filter>Task</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorProcess.h">
+      <Filter>VisualStation</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>헤더파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CPUTimer.cpp">
+      <Filter>CommonCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="VSSequenceTaskDlg.cpp">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="VSSequenceTask.cpp">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusManager.cpp">
+      <Filter>VisualStation</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskInterfacer.cpp">
+      <Filter>VisualStation</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkManager.cpp">
+      <Filter>VisualStation</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VSSequenceTask.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

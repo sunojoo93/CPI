@@ -1,0 +1,9 @@
+
+
+//가공 관련 상수
+#define POINT_RECORD_LENGTH					22
+#define LINE_RECORD_LENGTH					34
+#define BLOCK_RECORD_LENGTH					34
+
+//PLC Type 제어에 사용되는 상수
+#define HW_CMDBUFF_SIZE						1024 * 12

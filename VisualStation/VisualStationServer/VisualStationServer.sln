@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VisualStationServer", "VisualStationServer\VisualStationServer.vcxproj", "{07A49E6E-39FE-42BF-82E2-73991AA33F6A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{485F2DD4-2CC9-4B4A-A7D9-CFE60981E347} = {485F2DD4-2CC9-4B4A-A7D9-CFE60981E347}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShareMem", "ShareMem\ShareMem.vcxproj", "{485F2DD4-2CC9-4B4A-A7D9-CFE60981E347}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07A49E6E-39FE-42BF-82E2-73991AA33F6A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{07A49E6E-39FE-42BF-82E2-73991AA33F6A}.Debug|Win32.Build.0 = Debug|Win32
+		{07A49E6E-39FE-42BF-82E2-73991AA33F6A}.Release|Win32.ActiveCfg = Release|Win32
+		{07A49E6E-39FE-42BF-82E2-73991AA33F6A}.Release|Win32.Build.0 = Release|Win32
+		{485F2DD4-2CC9-4B4A-A7D9-CFE60981E347}.Debug|Win32.ActiveCfg = Debug|Win32
+		{485F2DD4-2CC9-4B4A-A7D9-CFE60981E347}.Debug|Win32.Build.0 = Debug|Win32
+		{485F2DD4-2CC9-4B4A-A7D9-CFE60981E347}.Release|Win32.ActiveCfg = Release|Win32
+		{485F2DD4-2CC9-4B4A-A7D9-CFE60981E347}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

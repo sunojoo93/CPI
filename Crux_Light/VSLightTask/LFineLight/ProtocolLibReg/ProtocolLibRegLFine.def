@@ -1,0 +1,6 @@
+; ProtocolLibRegLFine.def : Declares the module parameters for the DLL.
+
+LIBRARY      "ProtocolLibRegLFine"
+
+EXPORTS
+    ; Explicit exports can go here

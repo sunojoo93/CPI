@@ -1,0 +1,6 @@
+; ProtocolLibRegSunin.def : Declares the module parameters for the DLL.
+
+LIBRARY      "ProtocolLibRegSunin"
+
+EXPORTS
+    ; Explicit exports can go here

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{0179cc1e-ff38-4fb9-ba77-6b3f55a3e9ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Interface">
+      <UniqueIdentifier>{503e9452-3f1d-429d-aaf3-5fc3e815e0f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\CommonCtrl">
+      <UniqueIdentifier>{9a42c660-be76-46be-9653-10155ba0487d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\VisualStation">
+      <UniqueIdentifier>{6d24e937-8186-49b6-a8b9-5c0c562c702b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Common\소스파일">
+      <UniqueIdentifier>{171f6eb4-3697-4f8f-8da1-cc86403cec2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\헤더파일">
+      <UniqueIdentifier>{aa01ec15-cd05-4d2a-b8ac-e7daa7a44441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Customize">
+      <UniqueIdentifier>{85da816a-b6bd-49c5-9ed0-eb531454ab60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Customize\Dialog">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Customize\PlustekLight">
+      <UniqueIdentifier>{93f21d3c-6b72-4f56-af8d-a3add4a80080}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\VSLightTask.ico">
+      <Filter>Common\리소스 파일</Filter>
+    </None>
+    <None Include="res\VSLightTask.rc2">
+      <Filter>Common\리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CPUTimer.h">
+      <Filter>Common\CommonCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="LogWriter.h">
+      <Filter>Common\CommonCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="LightInterface.h">
+      <Filter>Common\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="LightWorkManager.h">
+      <Filter>Common\VisualStation</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Common\헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Common\헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Common\헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="VSLightTask.h">
+      <Filter>Common\헤더파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Plustek\PlustekLightControl.h">
+      <Filter>Customize\PlustekLight</Filter>
+    </ClInclude>
+    <ClInclude Include="Plustek\ProtocolLibReg.h">
+      <Filter>Customize\PlustekLight</Filter>
+    </ClInclude>
+    <ClInclude Include="Plustek\resource.h">
+      <Filter>Customize\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Plustek\PlustekLightTaskDlg.h">
+      <Filter>Customize\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Plustek\version.h">
+      <Filter>Customize</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CPUTimer.cpp">
+      <Filter>Common\CommonCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="LogWriter.cpp">
+      <Filter>Common\CommonCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="LightInterface.cpp">
+      <Filter>Common\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="LightWorkManager.cpp">
+      <Filter>Common\VisualStation</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Common\소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="VSLightTask.cpp">
+      <Filter>Common\소스파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Plustek\PlustekLightControl.cpp">
+      <Filter>Customize\PlustekLight</Filter>
+    </ClCompile>
+    <ClCompile Include="Plustek\PlustekLightTaskDlg.cpp">
+      <Filter>Customize\Dialog</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Plustek\PlustekLightTask.rc">
+      <Filter>Customize\Dialog</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,6 @@
+; ProtocolLibRegLLight.def : Declares the module parameters for the DLL.
+
+LIBRARY      "ProtocolLibRegLLight"
+
+EXPORTS
+    ; Explicit exports can go here

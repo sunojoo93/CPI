@@ -1,0 +1,109 @@
+// Create ljk 2014.11.20
+#ifndef __INDEX_DEFINE_H_
+#define __INDEX_DEFINE_H_
+
+typedef enum enumReportGrid
+{
+	REPORT_FIXED_ROW_CNT		 = 1 ,
+	REPORT_FIXED_COL_CNT		 = 1 ,
+	REPORT_NAME_COL				 = 0 ,
+	REPORT_COUNT_COL			 = 1 ,
+	REPORT_RATIO_COL			 = 2 ,
+	REPORT_MAX_COL_CNT			 = 3 ,
+	REPORT_FIXED_ROW			 = 0 ,
+	//REPORT_ROW_TOTAL			 = 1 ,
+	//REPORT_ROW_GOOD				 = 2 ,
+	//REPORT_ROW_DEFECT			 = 3 ,
+	//REPORT_ROW_INSPECT_FAIL		 = 4 ,
+	//REPORT_ROW_TOP_NAME			 = 5 ,
+	//REPORT_ROW_TOP_STABBED		 = 6 ,
+	//REPORT_ROW_BOTTOM_BUBBLE	 = 7 ,
+	//REPORT_ROW_BOTTOM_ERROR		 = 8 ,
+	//REPORT_ROW_COLOR_SPOT		 = 9 ,
+	//REPORT_ROW_CIRCLE_SPOT		 = 10,
+	//REPORT_ROW_MONOMER_UNITE	 = 11,
+	//REPORT_ROW_FILM_ROLL_LINE	 = 12,
+	//REPORT_ROW_WAVE				 = 13,
+	//REPORT_ROW_WASHING			 = 14,
+	//REPORT_ROW_PAD_BURNT		 = 15,
+	//REPORT_ROW_PAD_SCRATCH		 = 16,
+	//REPORT_ROW_PAD_ERROR		 = 17,
+	//REPORT_ROW_PAD_STABBED		 = 18,
+	//REPORT_ROW_CUT_ERROR		 = 19,
+	//REPORT_ROW_PAD_PULLED_OUT	 = 20,
+	//REPORT_ROW_C_CUT			 = 21,
+
+	REPORT_ROW_DUST				 = 1,
+	REPORT_ROW_WHITE_TURBITY	 = 2,
+	REPORT_ROW_ITO				 = 3,
+	REPORT_ROW_EDGE_BROKEN		 = 4,
+	REPORT_ROW_PAD_SCRATCH		 = 5,
+	REPORT_ROW_DIMPLE_POINT		 = 6,
+	REPORT_ROW_ETCHING_LINE		 = 7,
+	REPORT_ROW_DIMPLE_LINE		 = 8,
+	REPORT_ROW_PAD_BURNT		 = 9,
+	REPORT_ROW_BURR				 = 10,
+	REPORT_ROW_POL_BUBBLE		 = 11,
+	REPORT_ROW_POL_SCRATCH		 = 12,
+	REPORT_ROW_POL_ALIEN_SUB	 = 13,
+	REPORT_ROW_POL_MINOR		 = 14,
+	REPORT_ROW_BLACK_SCRATCH	 = 15,
+	REPORT_ROW_WHITE_SCRATCH	 = 16,
+	REPORT_ROW_CF_MEASURE		 = 17,
+	REPORT_ROW_TFT_MEASURE		 = 18,
+	REPORT_ROW_MURA				 = 19,
+	REPORT_MAX_ROW_CNT			 = 20
+};
+
+typedef struct stReportListInfo
+{
+	int nTotal;
+	int nGood;
+	int nDefect;
+	int nInspectFail;
+	int nTopName;
+	int nTopStabbed;
+	int nBottomBubble;
+	int nBottomError;
+	int nColorSpot;
+	int nCircleSpot;
+	int nMonomerUnite;
+	int nFilmRollLine;
+	int nWave;
+	int nWashing;
+	int nPadBurnt;
+	int nPadScratch;
+	int nPadError;
+	int nPadStabbed;
+	int nCutError;
+	int nPadPulledOut;
+	int nC_Cut;
+}stReportList;
+
+typedef enum enumComboBar
+{
+	COMBO_BAR_TOTAL			 ,
+	COMBO_BAR_GOOD			 ,
+	COMBO_BAR_DEFECT		 ,
+	COMBO_BAR_INSPECT_FAIL	 ,
+	COMBO_BAR_TOP_NAME		 ,
+	COMBO_BAR_TOP_STABBED	 ,
+	COMBO_BAR_BOTTOM_BUBBLE	 ,
+	COMBO_BAR_BOTTOM_ERROR	 ,
+	COMBO_BAR_COLOR_SPOT	 ,
+	COMBO_BAR_CIRCLE_SPOT	 ,
+	COMBO_BAR_MONOMER_UNITE	 ,
+	COMBO_BAR_FILM_ROLL_LINE ,
+	COMBO_BAR_WAVE			 ,
+	COMBO_BAR_WASHING		 ,
+	COMBO_BAR_PAD_BURNT		 ,
+	COMBO_BAR_PAD_SCRATCH	 ,
+	COMBO_BAR_PAD_ERROR		 ,
+	COMBO_BAR_PAD_STABBED	 ,
+	COMBO_BAR_CUT_ERROR		 ,
+	COMBO_BAR_PAD_PULLED_OUT ,
+	COMBO_BAR_C_CUT			 ,
+	COMBO_BAR_MAX_COUNT
+};
+
+#endif
