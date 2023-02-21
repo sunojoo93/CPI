@@ -22,7 +22,7 @@ namespace CRUX_Renewal.Ex_Form
             TopLevel = false;
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
-            this.Cmb_SelPC.SelectedIndex = 0;
+            
             Timer_Time.Start();
             Show();
         }

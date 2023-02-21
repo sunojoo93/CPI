@@ -23,22 +23,8 @@ namespace CRUX_Renewal
         private static List<ProcessSet> ProcessList = new List<ProcessSet>();
         public static Frm_Init Frm_Init_;
         // 메인 폼       
-        public static Frm_Main Frm_Main_;
-        // 프로그램 상태 폼
-        public static Ex_Frm_Status Frm_Status;
-        // 계정 관리 폼
-        public static Ex_Frm_AccountManage Frm_AccountManage;
-        // 메뉴 바 폼
-        public static Ex_Frm_Menubar Frm_MenuBar;
-
-        // 오토 폼
-        public static Main_Frm_Auto Frm_Auto;
-        // 메뉴얼 폼
-        public static Main_Frm_Manual Frm_Manual;
-        // 레시피 폼
-        public static Main_Frm_Recipe Frm_Recipe;
-        // 광학 폼
-        public static Main_Frm_Optical Frm_Optical;        
+        public static List<Frm_MainContent> Frm_MainContent_;
+        public static Frm_Main Frm_Main;
 
         /// <summary>
         /// 해당 응용 프로그램의 주 진입점입니다.
@@ -75,6 +61,15 @@ namespace CRUX_Renewal
             }
             Frm_Init_ = new Frm_Init() { /*TopMost = true */};
             Application.Run(Frm_Init_);
+        }
+        public static void ProgramExit()
+        {
+            Program.KillAllTask();
+            Systems.LogWriter.Info("Process Exit");
+            Systems.CogJobManager_.Shutdown();
+            foreach (var item in Frm_MainContent_)
+                item.Close();     
+            Application.Exit();
         }
         static Process IsExistProcess ()
         {

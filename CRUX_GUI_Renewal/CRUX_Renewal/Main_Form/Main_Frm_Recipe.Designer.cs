@@ -109,7 +109,7 @@
             this.tab_optic.Location = new System.Drawing.Point(4, 22);
             this.tab_optic.Name = "tab_optic";
             this.tab_optic.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_optic.Size = new System.Drawing.Size(1467, 1431);
+            this.tab_optic.Size = new System.Drawing.Size(1467, 1198);
             this.tab_optic.TabIndex = 1;
             this.tab_optic.Text = "Optic";
             this.tab_optic.UseVisualStyleBackColor = true;
@@ -118,7 +118,7 @@
             // 
             this.tab_align.Location = new System.Drawing.Point(4, 22);
             this.tab_align.Name = "tab_align";
-            this.tab_align.Size = new System.Drawing.Size(1467, 1431);
+            this.tab_align.Size = new System.Drawing.Size(1467, 1198);
             this.tab_align.TabIndex = 2;
             this.tab_align.Text = "Align";
             this.tab_align.UseVisualStyleBackColor = true;
@@ -127,7 +127,7 @@
             // 
             this.tab_judge.Location = new System.Drawing.Point(4, 22);
             this.tab_judge.Name = "tab_judge";
-            this.tab_judge.Size = new System.Drawing.Size(1467, 1431);
+            this.tab_judge.Size = new System.Drawing.Size(1467, 1198);
             this.tab_judge.TabIndex = 3;
             this.tab_judge.Text = "Judge";
             this.tab_judge.UseVisualStyleBackColor = true;
@@ -139,6 +139,7 @@
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(1641, 1226);
             this.Controls.Add(this.Tlp_RecipeLayout);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Main_Frm_Recipe";
             this.Text = "Main_Frm_Recipe";

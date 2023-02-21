@@ -24,27 +24,37 @@ namespace CRUX_Renewal.Ex_Form
 
         private void Btn_Auto_Click (object sender, EventArgs e)
         {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Auto);
+            var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
+            if(Temp != null)
+                Temp.ChangeMainForm(Temp.Frm_Auto);
         }
 
         private void Btn_Manual_Click (object sender, EventArgs e)
         {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Manual);
+            var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
+            if (Temp != null)
+                Temp.ChangeMainForm(Temp.Frm_Manual);
         }
 
         private void Btn_Job_Click (object sender, EventArgs e)
         {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Recipe);
+            var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
+            if (Temp != null)
+                Temp.ChangeMainForm(Temp.Frm_Recipe);
         }
 
         private void Btn_Optical_Click (object sender, EventArgs e)
         {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Optical);
+            var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
+            if (Temp != null)
+                Temp.ChangeMainForm(Temp.Frm_Optical);
         }
 
         private void Btn_Advance_Click (object sender, EventArgs e)
         {
-            Program.Frm_Recipe.DisplayJob();
+            var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
+            //if (Temp != null)
+            //Program.Frm_Recipe.DisplayJob();
         }
 
         private void Ex_Frm_Menubar_Shown(object sender, EventArgs e)

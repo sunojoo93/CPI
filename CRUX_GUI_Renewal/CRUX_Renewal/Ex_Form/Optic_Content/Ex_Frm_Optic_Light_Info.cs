@@ -24,31 +24,6 @@ namespace CRUX_Renewal.Ex_Form
 
         }
 
-        private void button1_Click (object sender, EventArgs e)
-        {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Auto);
-        }
-
-        private void button2_Click (object sender, EventArgs e)
-        {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Manual);
-        }
-
-        private void button3_Click (object sender, EventArgs e)
-        {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Recipe);
-        }
-
-        private void button4_Click (object sender, EventArgs e)
-        {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Optical);
-        }
-
-        private void button5_Click (object sender, EventArgs e)
-        {
-           
-        }
-
         private void Ex_Frm_Optic_Light_Info_Load(object sender, EventArgs e)
         {
             //Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 15, 15));

@@ -122,16 +122,21 @@ namespace CRUX_Renewal.Main_Form
                             Systems.Inspector_ = Class.Inspector.Instance();
                             Systems.LogWriter.Info("Initialize Inspector...");
                             break;
+                        case (int)Enums.InitFlag.Init_Form:
+                            setControlText(lbl_CurrentState, string.Format("Initialize Form..."));
+                            InitMainForm();
+                            Systems.LogWriter.Info("Initialize Form...");
+                            ++InitFlag;
+                            break;
                         case (int)Enums.InitFlag.LoadJOB:
                             setControlText(lbl_CurrentState, string.Format("Initialize Job..."));
-                            LoadJob(); // 모델 적용
+                            //LoadJob(); // 모델 적용
                             Systems.LogWriter.Info("Initialize Job...");
                             ++InitFlag;
                             break;
                         case (int)Enums.InitFlag.MAINPC_TASK:
                             setControlText(lbl_CurrentState, string.Format("Initialize Main Program..."));
-                            Program.StartMainInterface();
-                            InitMainForm();
+                            Program.StartMainInterface();                            
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize Main...");
                             break;
@@ -139,8 +144,7 @@ namespace CRUX_Renewal.Main_Form
                             setControlText(lbl_CurrentState, string.Format("Initialize Sequence Program..."));
                             for ( int i = 0; i < 2; i++ )
                                 TempBin();
-                            Program.StartSequence();
-                           
+                            Program.StartSequence();                           
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize Seq...");
                             break;
@@ -162,12 +166,14 @@ namespace CRUX_Renewal.Main_Form
                         ;
                 }
                 Percent = (int)Enums.InitFlag.MAX;
-                Task AliveChecker = new Task(Program.Frm_Main_.ThreadTaskAlive);
+
+                Task AliveChecker = new Task(Program.Frm_Main.ThreadTaskAlive);
                 AliveChecker.Start();
+
                 Systems.LogWriter.Info("Init Finished");
 
                 setControlText(lbl_CurrentState, string.Format("Program Opening ... "));
-                FormOpen(Program.Frm_Main_);
+                FormOpen(Program.Frm_Main);
             }
             catch ( Exception ex )
             {
@@ -203,7 +209,20 @@ namespace CRUX_Renewal.Main_Form
         }
         public void InitMainForm ()
         {
-            Program.Frm_Main_ = new Frm_Main();        
+            if (Program.Frm_MainContent_ == null)
+                Program.Frm_MainContent_ = new List<Frm_MainContent>();
+
+            for (int i = 0; i < Consts.MAX_VISION_COUNT; ++i)
+            {
+                Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i] });                
+            }
+
+            Program.Frm_Main = new Frm_Main();
+            Program.Frm_Main.SetForm(Program.Frm_MainContent_[0]);
+           
+            //Program.Frm_Main.CurDisplayForm = Program.Frm_MainContent_[0].Name;
+            //Program.Frm_MainContent_[0].Show();
+           //
         }
 
         private int SetInitCount (ref int nPercent)
@@ -239,7 +258,9 @@ namespace CRUX_Renewal.Main_Form
 
             //Globals.DrawRctColor = new Color[5]; // ROI 색은 5개까지
             //for(int i = 0; i < Globals.DrawRctColor.Count(); i++)
-
+            Globals.MAINFORM_NAME = new string[2];
+            Globals.MAINFORM_NAME[0] = "Upper";
+            Globals.MAINFORM_NAME[1] = "Lower";
             Paths.NET_DRIVE = new string[Globals.MaxVisionCnt];
             Paths.NET_INITIAL_PATH = new string[Globals.MaxVisionCnt];
             Paths.NET_ORIGIN_PATH = new string[Globals.MaxVisionCnt];

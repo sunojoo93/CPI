@@ -81,7 +81,9 @@ namespace CRUX_Renewal
         public static string[] NET_ALGRESULT_PATH;
         public static string[] NET_PANEL_INFO;
         public static string[] NET_PANEL_MANUAL_INFO;
-        public static string[] MANUAL_RESULT_DATA_DRIVE;           
+        public static string[] MANUAL_RESULT_DATA_DRIVE;
+
+ 
     }
     static class Globals
     {        
@@ -97,7 +99,8 @@ namespace CRUX_Renewal
         public static int Insp_Type;
       //  public static string[][] PatternName;
         public static int nLanguageFlg = 0;
-        private static bool[] bIsSavedRecipe;  
+        private static bool[] bIsSavedRecipe;
+        public static string[] MAINFORM_NAME { get; set; }
 
         public static void m_fnInitSelectRecipe(int nCnt)
         {
@@ -325,6 +328,8 @@ namespace CRUX_Renewal
 
         public static int MAX_INSPECTION_COUNT = 10;
         public static int MAX_FACE_COUNT = 8;
+
+        public static int MAX_VISION_COUNT = 2;
     }
 
     /// <summary>
@@ -439,6 +444,7 @@ namespace CRUX_Renewal
             IPC,
             SharedMemory,
             Inspector,
+            Init_Form,
             LoadJOB,
             MAINPC_TASK,
             SEQ_TASK,
@@ -532,9 +538,6 @@ namespace CRUX_Renewal
             [Description("SimulationCameraTask")]
             Sim_Cam = 5,
             MAX
-
-
-
         };
     }
 

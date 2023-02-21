@@ -621,7 +621,7 @@ namespace CRUX_Renewal.Class
 
                 // 라이브 영상이 출력 중인지 확인하고 출력 중이면 라이브 영상을 정지한다.
                 //if (Program.Frm_Optical[nPcNo].m_UcRcpTeachPic.GetThreadDoWork())
-                if ( Program.Frm_Optical != null)
+                if ( Program.Frm_MainContent_.Find(x => x.Name == Program.Frm_Main.CurDisplayForm)?.Frm_Optical != null)
                     //Program.Frm_Optical[nPcNo].m_fnLiveStop();
                 //Systems.g_FrmMain.IsEnableTab((int)Enums.MainView.CAMERA, false);                    
 

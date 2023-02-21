@@ -414,6 +414,12 @@
     <Compile Include="Ex_Form\Ex_Frm_Optic_Area.Designer.cs">
       <DependentUpon>Ex_Frm_Optic_Area.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frm_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Main.Designer.cs">
+      <DependentUpon>Frm_Main.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main_Form\Frm_Init.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -477,11 +483,11 @@
     <Compile Include="Ex_Form\Ex_Frm_Status.Designer.cs">
       <DependentUpon>Ex_Frm_Status.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Main.cs">
+    <Compile Include="Frm_Main_Content.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Main.Designer.cs">
-      <DependentUpon>Frm_Main.cs</DependentUpon>
+    <Compile Include="Frm_Main_Content.Designer.cs">
+      <DependentUpon>Frm_Main_Content.cs</DependentUpon>
     </Compile>
     <Compile Include="Main_Form\Main_Frm_Auto.cs">
       <SubType>Form</SubType>
@@ -542,6 +548,9 @@
     <EmbeddedResource Include="Ex_Form\Ex_Frm_Optic_Area.resx">
       <DependentUpon>Ex_Frm_Optic_Area.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Main.resx">
+      <DependentUpon>Frm_Main.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="User_Controls\CircularProgressBar.resx">
       <DependentUpon>CircularProgressBar.cs</DependentUpon>
     </EmbeddedResource>
@@ -561,8 +570,8 @@
     <EmbeddedResource Include="Ex_Form\Ex_Frm_Status.resx">
       <DependentUpon>Ex_Frm_Status.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Main.resx">
-      <DependentUpon>Frm_Main.cs</DependentUpon>
+    <EmbeddedResource Include="Frm_Main_Content.resx">
+      <DependentUpon>Frm_Main_Content.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main_Form\Frm_Init.resx">
       <DependentUpon>Frm_Init.cs</DependentUpon>

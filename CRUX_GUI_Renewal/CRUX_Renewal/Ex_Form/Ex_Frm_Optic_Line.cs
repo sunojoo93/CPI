@@ -32,30 +32,5 @@ namespace CRUX_Renewal.Ex_Form
             LightInfo.Show();
             LineContent.Show();
         }
-
-        private void button1_Click (object sender, EventArgs e)
-        {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Auto);
-        }
-
-        private void button2_Click (object sender, EventArgs e)
-        {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Manual);
-        }
-
-        private void button3_Click (object sender, EventArgs e)
-        {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Recipe);
-        }
-
-        private void button4_Click (object sender, EventArgs e)
-        {
-            Program.Frm_Main_.ChangeMainForm(Program.Frm_Optical);
-        }
-
-        private void button5_Click (object sender, EventArgs e)
-        {
-           
-        }
     }
 }

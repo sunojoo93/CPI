@@ -19,8 +19,12 @@ namespace CRUX_Renewal
         public static ServerInterface g_Ipc;
         public static ALIVE_STATE[] g_Alive;
         public static CogJobManager CogJobManager_;
-        public static bool Simulation { get; set; } = true;
 
+
+
+       
+        ////////// Property //////////
+        public static bool Simulation { get; set; } = true;
         public static void SetCogJob()
         {
            CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\TestInsp\TestInsp_ForTest.vpp");
