@@ -195,13 +195,15 @@ namespace CRUX_Renewal.Ex_Form
             // Lb_DateTime
             // 
             this.Lb_DateTime.AutoSize = true;
+            this.Lb_DateTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Tlp_Status.SetColumnSpan(this.Lb_DateTime, 9);
             this.Lb_DateTime.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_DateTime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Lb_DateTime.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold);
-            this.Lb_DateTime.Location = new System.Drawing.Point(346, 0);
-            this.Lb_DateTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 3);
+            this.Lb_DateTime.Location = new System.Drawing.Point(346, 2);
+            this.Lb_DateTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 3);
             this.Lb_DateTime.Name = "Lb_DateTime";
-            this.Lb_DateTime.Size = new System.Drawing.Size(605, 41);
+            this.Lb_DateTime.Size = new System.Drawing.Size(605, 39);
             this.Lb_DateTime.TabIndex = 12;
             this.Lb_DateTime.Text = "2023-02-18\\/24:00:00";
             this.Lb_DateTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

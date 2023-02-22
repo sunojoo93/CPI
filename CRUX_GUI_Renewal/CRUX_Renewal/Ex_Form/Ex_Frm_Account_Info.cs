@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace CRUX_Renewal.Ex_Form
 {
-    public partial class Ex_Frm_AccountManage : Form
+    public partial class Ex_Frm_Account_Info : Form
     {
-        public Ex_Frm_AccountManage ()
+        public Ex_Frm_Account_Info ()
         {
             InitializeComponent();
             TopLevel = false;
@@ -49,12 +49,21 @@ namespace CRUX_Renewal.Ex_Form
         private void Ex_Frm_AccountManage_Shown(object sender, EventArgs e)
         {
             Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 5, 5));
-            WinApis.SetWindowRgn(Btn_Connect.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Connect.Width, Btn_Connect.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_Manage.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Manage.Width, Btn_Manage.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_Login.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Login.Width, Btn_Login.Height, 15, 15), true);
         }
 
-        private void Btn_Connect_Click_1(object sender, EventArgs e)
-        {
 
+        private void Btn_Login_Click(object sender, EventArgs e)
+        {
+            Ex_Frm_Account_Login Frm_Login = new Ex_Frm_Account_Login();
+            Frm_Login.ShowDialog();
+        }
+
+        private void Btn_Manage_Click(object sender, EventArgs e)
+        {
+            Ex_Frm_Account_Manage Frm_Manage = new Ex_Frm_Account_Manage();
+            Frm_Manage.ShowDialog();
         }
     }
 }

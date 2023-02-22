@@ -34,13 +34,13 @@ namespace CRUX_Renewal
         // 프로그램 상태 폼
         public Ex_Frm_Status Frm_Status;
         // 계정 관리 폼
-        public Ex_Frm_AccountManage Frm_AccountManage;
+        public Ex_Frm_Account_Info Frm_AccountManage;
 
         public Frm_Main()
         {
             InitializeComponent();
             Frm_Status = new Ex_Frm_Status();
-            Frm_AccountManage = new Ex_Frm_AccountManage();
+            Frm_AccountManage = new Ex_Frm_Account_Info();
             Tlp_Main.Controls.Add(Frm_Status, 2, 0);
             Tlp_Main.Controls.Add(Frm_AccountManage, 4, 0);
             CurDisplayForm = "Upper";
@@ -128,7 +128,6 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }

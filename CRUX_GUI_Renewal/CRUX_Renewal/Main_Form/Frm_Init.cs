@@ -258,9 +258,9 @@ namespace CRUX_Renewal.Main_Form
 
             //Globals.DrawRctColor = new Color[5]; // ROI 색은 5개까지
             //for(int i = 0; i < Globals.DrawRctColor.Count(); i++)
-            Globals.MAINFORM_NAME = new string[2];
-            Globals.MAINFORM_NAME[0] = "Upper";
-            Globals.MAINFORM_NAME[1] = "Lower";
+            Globals.MAINFORM_NAME = new List<string>();
+            Globals.MAINFORM_NAME.Add("Upper");
+            Globals.MAINFORM_NAME.Add("Lower");
             Paths.NET_DRIVE = new string[Globals.MaxVisionCnt];
             Paths.NET_INITIAL_PATH = new string[Globals.MaxVisionCnt];
             Paths.NET_ORIGIN_PATH = new string[Globals.MaxVisionCnt];

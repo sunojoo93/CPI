@@ -372,6 +372,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ex_Form\Account\Ex_Frm_Account_Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Account\Ex_Frm_Account_Login.Designer.cs">
+      <DependentUpon>Ex_Frm_Account_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ex_Form\Account\Ex_Frm_Account_Manage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Account\Ex_Frm_Account_Manage.Designer.cs">
+      <DependentUpon>Ex_Frm_Account_Manage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Light_Info.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -465,11 +477,11 @@
     <Compile Include="Class\ShreadMemory.cs" />
     <Compile Include="Class\Structs.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Ex_Form\Ex_Frm_AccountManage.cs">
+    <Compile Include="Ex_Form\Ex_Frm_Account_Info.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ex_Form\Ex_Frm_AccountManage.Designer.cs">
-      <DependentUpon>Ex_Frm_AccountManage.cs</DependentUpon>
+    <Compile Include="Ex_Form\Ex_Frm_Account_Info.Designer.cs">
+      <DependentUpon>Ex_Frm_Account_Info.cs</DependentUpon>
     </Compile>
     <Compile Include="Ex_Form\Ex_Frm_MenuBar.cs">
       <SubType>Form</SubType>
@@ -527,6 +539,12 @@
     <None Include="Res\Unstable.png" />
     <None Include="Res\Diconnect.png" />
     <None Include="Res\Connect.png" />
+    <EmbeddedResource Include="Ex_Form\Account\Ex_Frm_Account_Login.resx">
+      <DependentUpon>Ex_Frm_Account_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Account\Ex_Frm_Account_Manage.resx">
+      <DependentUpon>Ex_Frm_Account_Manage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Light_Info.resx">
       <DependentUpon>Ex_Frm_Optic_Light_Info.cs</DependentUpon>
     </EmbeddedResource>
@@ -561,8 +579,8 @@
       <DependentUpon>Uctrl_MiniMap.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Res\Logo_Ox.png" />
-    <EmbeddedResource Include="Ex_Form\Ex_Frm_AccountManage.resx">
-      <DependentUpon>Ex_Frm_AccountManage.cs</DependentUpon>
+    <EmbeddedResource Include="Ex_Form\Ex_Frm_Account_Info.resx">
+      <DependentUpon>Ex_Frm_Account_Info.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Ex_Frm_MenuBar.resx">
       <DependentUpon>Ex_Frm_MenuBar.cs</DependentUpon>
