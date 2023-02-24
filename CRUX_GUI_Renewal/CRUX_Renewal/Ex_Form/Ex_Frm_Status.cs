@@ -16,17 +16,17 @@ namespace CRUX_Renewal.Ex_Form
 {
     public partial class Ex_Frm_Status : Form
     {
+        CancellationTokenSource TokenSource;
         public Ex_Frm_Status ()
         {
             InitializeComponent();
             TopLevel = false;
             Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;
-            
+            FormBorderStyle = FormBorderStyle.None;            
             Timer_Time.Start();
+            TokenSource = new CancellationTokenSource();
             Show();
-            Task AliveChecker = new Task(ThreadTaskAlive);
-            AliveChecker.Start();
+            Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));           
         }
 
         private void Ex_Frm_Status_Load(object sender, EventArgs e)
@@ -57,6 +57,10 @@ namespace CRUX_Renewal.Ex_Form
         private void Pb_CAM_State_Click(object sender, EventArgs e)
         {
             ChageWindowState((sender as PictureBox)?.Name.ToString());
+        }
+        public void StopTwinkleThread()
+        {
+            TokenSource.Cancel();
         }
 
         private void ChageWindowState(string name)
@@ -114,7 +118,7 @@ namespace CRUX_Renewal.Ex_Form
         /// UI가 다른 Task의 상태를 확인하지 말고 다른 개별 Task가 UI로 상태를 보낸다?
         /// 다시 빨강색으로 바꾸는 조건? 타이머 여러개...?;;
         /// </summary>
-        public void ThreadTaskAlive()
+        public void ThreadTaskAlive(CancellationToken token)
         {
             int nRet = Consts.APP_OK;
             CmdMsgParam Param = new CmdMsgParam();
@@ -124,6 +128,8 @@ namespace CRUX_Renewal.Ex_Form
             {
                 try
                 {
+                    if (token.IsCancellationRequested == true)
+                        break;
                     #region Camera Check
                     Param.ClearOffset();
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.CAMERA_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,

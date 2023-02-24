@@ -43,7 +43,8 @@ namespace CRUX_Renewal.User_Controls
         private _ProgressShape ProgressShapeVal;
         private _TextMode ProgressTextMode;
         bool Direction;
-        System.Threading.Timer ColorChanger;
+        CancellationTokenSource TokenSource = new CancellationTokenSource();
+
         #endregion
 
         #region Contructor
@@ -227,65 +228,27 @@ namespace CRUX_Renewal.User_Controls
         /// <summary>
         /// ColorTimer 관리
         /// </summary>
+        private delegate void DelTimerStart();
         public void TimerStart()
         {
-            ColorChanger = new System.Threading.Timer(ChangeColor, null, 0, 10);
-        }
-        /// <summary>
-        /// ColorTimer 관리
-        /// </summary>
-        public void TimerStop ()
-        {      
-            ColorChanger.Dispose();
-        }
-        private void SetStandardSize()
-        {
-            int _Size = Math.Max(Width, Height);
-            Size = new Size(_Size, _Size);
-        }
-        public void ChangeColor(object o)
-        {
-            if(this.InvokeRequired)
+            if (this.InvokeRequired)
             {
-
-                this.Invoke(new MethodInvoker(delegate ()
-                {
-                    if ( _ColorTimer )
-                    {
-                        if ( BarColor1.A >= 200 )
-                            Direction = true;
-                        else if ( BarColor1.A <= 50 )
-                            Direction = false;
-                        int Bar1 = BarColor1.A;
-                        int Bar2 = BarColor2.A;
-                        if ( Direction )
-                        {
-                            Bar1 -= 3;
-                            Bar2 -= 3;
-                            BarColor1 = Color.FromArgb(Bar1, BarColor1.R, BarColor1.G, BarColor1.B);
-                            BarColor2 = Color.FromArgb(Bar2, BarColor2.R, BarColor2.G, BarColor2.B);
-                        }
-                        else
-                        {
-                            Bar1 += 3;
-                            Bar2 += 3;
-                            BarColor1 = Color.FromArgb(Bar1, BarColor1.R, BarColor1.G, BarColor1.B);
-                            BarColor2 = Color.FromArgb(Bar2, BarColor2.R, BarColor2.G, BarColor2.B);
-                        }
-                    }
-                }));
+                DelTimerStart Temp = new DelTimerStart(TimerStart);
+                Temp.Invoke();
             }
-            else
+            while (true)
             {
-                if ( _ColorTimer )
+                if (TokenSource.Token.IsCancellationRequested == true)
+                    break;
+                if (_ColorTimer)
                 {
-                    if ( BarColor1.A >= 255 )
+                    if (BarColor1.A >= 200)
                         Direction = true;
-                    else if ( BarColor1.A <= 50 )
+                    else if (BarColor1.A <= 50)
                         Direction = false;
                     int Bar1 = BarColor1.A;
                     int Bar2 = BarColor2.A;
-                    if ( Direction )
+                    if (Direction)
                     {
                         Bar1 -= 3;
                         Bar2 -= 3;
@@ -300,9 +263,23 @@ namespace CRUX_Renewal.User_Controls
                         BarColor2 = Color.FromArgb(Bar2, BarColor2.R, BarColor2.G, BarColor2.B);
                     }
                 }
+                Thread.Sleep(10);
             }
-            
+
         }
+        /// <summary>
+        /// ColorChange 효과를 사용한다면 폼 종료시 반드시 실행
+        /// </summary>
+        public void TimerStop ()
+        {
+            TokenSource.Cancel();
+        }
+        private void SetStandardSize()
+        {
+            int _Size = Math.Max(Width, Height);
+            Size = new Size(_Size, _Size);
+        }
+
         public void Increment(double Val)
         {
             this._Value += Val;

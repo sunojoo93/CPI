@@ -20,13 +20,14 @@ namespace CRUX_Renewal.Main_Form
     public partial class Frm_Init : Form
     {
         Thread thread;
+
         public Frm_Init ()
         {
             InitializeComponent();
             lbl_CurrentState.Parent = CircleProgressBar;
             //타이머 객체 시작 필요
-            if ( CircleProgressBar.ColorTimer )
-                CircleProgressBar.TimerStart();
+            if (CircleProgressBar.ColorTimer)
+                Task.Factory.StartNew(() => CircleProgressBar.TimerStart());
             Globals.MaxVisionCnt = Convert.ToInt32(iniUtl.GetIniValue("Common", "VISION PC COUNT", Paths.INIT_PATH));
 
             thread = new Thread(new ParameterizedThreadStart(initialize));
@@ -174,8 +175,7 @@ namespace CRUX_Renewal.Main_Form
             }
             catch ( Exception ex )
             {
-                Systems.LogWriter.Error("초기화 실패", ex);
-                //MessageBox.Show(ex.StackTrace);
+                Systems.LogWriter.Error("초기화 실패", ex);  
                 if ( ex.Message == "카메라 실행 실패" )
                 {
                     setTextboxContent(lbl_CurrentState, string.Format("카메라 실행 실패"), Color.Red);
@@ -190,7 +190,10 @@ namespace CRUX_Renewal.Main_Form
                     setTextboxContent(lbl_CurrentState, string.Format("프로그램을 종료합니다."), Color.Black);
                     Thread.Sleep(3000);
                 }
+                CircleProgressBar.TimerStop();
                 Program.KillAllTask();
+                if(Systems.CogJobManager_ != null)
+                    Systems.CogJobManager_.Shutdown();
                 Application.Exit();
             }
         }

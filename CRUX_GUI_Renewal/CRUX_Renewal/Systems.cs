@@ -31,8 +31,8 @@ namespace CRUX_Renewal
         public static void SetCogJob()
         {
 
-           CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\TestInsp\TestInsp_ForTest.vpp");
-            CogJobManager_.Changed += new CogChangedEventHandler((sender, e) =>
+           CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0223\Cog_Test_버그수정및최적화(230216).vpp");
+          CogJobManager_.Changed += new CogChangedEventHandler((sender, e) =>
             {
                 int aa = 0;
             });
@@ -40,11 +40,11 @@ namespace CRUX_Renewal
             {
                 int aa = 0;
             });
-            CogJobManager_.Job(3).Changed += new CogChangedEventHandler((sender, e) =>
+            CogJobManager_.Job(0).Changed += new CogChangedEventHandler((sender, e) =>
             {
                 int aa = 0;
             });
-            var temp = CogJobManager_.Job(0).CloneParameters();
+            //var temp = CogJobManager_.Job(0).CloneParameters();
 
         }
 
