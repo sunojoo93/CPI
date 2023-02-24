@@ -58,6 +58,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Pb_VSS_State.Margin = new System.Windows.Forms.Padding(5);
             this.Pb_VSS_State.Name = "Pb_VSS_State";
             this.Pb_VSS_State.Size = new System.Drawing.Size(32, 34);
+            this.Pb_VSS_State.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Pb_VSS_State.TabIndex = 7;
             this.Pb_VSS_State.TabStop = false;
             this.Pb_VSS_State.Click += new System.EventHandler(this.Pb_VSS_State_Click);
@@ -123,6 +124,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Pb_MI_State.Margin = new System.Windows.Forms.Padding(5);
             this.Pb_MI_State.Name = "Pb_MI_State";
             this.Pb_MI_State.Size = new System.Drawing.Size(32, 34);
+            this.Pb_MI_State.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Pb_MI_State.TabIndex = 8;
             this.Pb_MI_State.TabStop = false;
             this.Pb_MI_State.Click += new System.EventHandler(this.Pb_MI_State_Click);
@@ -136,6 +138,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Pb_SEQ_State.Margin = new System.Windows.Forms.Padding(5);
             this.Pb_SEQ_State.Name = "Pb_SEQ_State";
             this.Pb_SEQ_State.Size = new System.Drawing.Size(32, 34);
+            this.Pb_SEQ_State.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Pb_SEQ_State.TabIndex = 9;
             this.Pb_SEQ_State.TabStop = false;
             this.Pb_SEQ_State.Click += new System.EventHandler(this.Pb_SEQ_State_Click);

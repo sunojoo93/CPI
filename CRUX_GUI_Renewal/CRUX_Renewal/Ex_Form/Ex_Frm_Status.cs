@@ -25,6 +25,8 @@ namespace CRUX_Renewal.Ex_Form
             
             Timer_Time.Start();
             Show();
+            Task AliveChecker = new Task(ThreadTaskAlive);
+            AliveChecker.Start();
         }
 
         private void Ex_Frm_Status_Load(object sender, EventArgs e)
@@ -107,6 +109,137 @@ namespace CRUX_Renewal.Ex_Form
         private void Timer_Time_Tick(object sender, EventArgs e)
         {
             Lb_DateTime.Text = System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+        }
+        /// <summary>
+        /// UI가 다른 Task의 상태를 확인하지 말고 다른 개별 Task가 UI로 상태를 보낸다?
+        /// 다시 빨강색으로 바꾸는 조건? 타이머 여러개...?;;
+        /// </summary>
+        public void ThreadTaskAlive()
+        {
+            int nRet = Consts.APP_OK;
+            CmdMsgParam Param = new CmdMsgParam();
+
+            int nTimeOutCnt = 1000;
+            while (true)
+            {
+                try
+                {
+                    #region Camera Check
+                    Param.ClearOffset();
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.CAMERA_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
+                                                                 IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                        Systems.AliveList[Systems.CurDisplayIndex].camrea = true;
+                    else
+                        Systems.AliveList[Systems.CurDisplayIndex].camrea = false;
+                    #endregion
+
+                    #region SEQ Check
+                    Param.ClearOffset();
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
+                                                IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                        Systems.AliveList[Systems.CurDisplayIndex].sequence = true;
+                    else
+                        Systems.AliveList[Systems.CurDisplayIndex].sequence = false;
+                    #endregion
+                    // Main은 3단계로 구분하자.
+                    // 빨강 : 운영, Main 연결 끊김
+                    // 주황 : Main Task는 켜져있으나 Main과 운영이 연결 안됨
+                    // 녹색 : 운영과 Main이 연결됐고, Main과 서버가 연결됐을 때
+                    #region MAIN Check 
+                    Param.ClearOffset();
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
+                                                IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                        Systems.AliveList[Systems.CurDisplayIndex].sequence = true;
+                    else
+                        Systems.AliveList[Systems.CurDisplayIndex].sequence = false;
+                    #endregion
+                    //#region LIGHT Check
+                    //Param.ClearOffset();
+                    //nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.LIGHT_TASK),
+                    //                                          IpcConst.TASK_ALIVE_FUNC,
+                    //                                          IpcConst.TASK_ALIVE_SIGNAL,
+                    //                                          IpcInterface.CMD_TYPE_RES,
+                    //                                          nTimeOutCnt,
+                    //                                          Param.GetByteSize(),
+                    //                                          Param.GetParam());
+                    //if (nRet != Consts.APP_OK)
+                    //    break;
+
+
+                    //if (nRet == Consts.APP_OK)
+                    //    Systems.AliveList[Systems.CurDisplayIndex].light = true;
+                    //else
+                    //    Systems.AliveList[Systems.CurDisplayIndex].light = false;
+                    //#endregion
+                    // Check Main PC Task Alive
+                    #region SEQ Check
+                    Param.ClearOffset();
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.MAINPC_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
+                                                IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                        Systems.AliveList[Systems.CurDisplayIndex].mainpc = true;
+                    else
+                        Systems.AliveList[Systems.CurDisplayIndex].mainpc = false;
+                    #endregion
+                    this.Invoke(new MethodInvoker(delegate ()
+                    {
+                        SetState();
+                    }));
+                  
+                    Thread.Sleep(1000);
+                }
+                catch (Exception ex)
+                {
+                    Systems.LogWriter.Error("Error", ex);
+                }
+            }
+        }
+
+        private void SetState()
+        {
+                   System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
+                   string resourceName = asm.GetName().Name + ".Properties.Resources";
+                   var rm = new System.Resources.ResourceManager(resourceName, asm);
+
+                   if (Systems.g_Ipc.m_fnGetConnected())
+                       Pb_VSS_State.Image = (Bitmap)rm.GetObject("Connect");
+                   else
+                       Pb_VSS_State.Image = (Bitmap)rm.GetObject("Disconnect");
+                   //Pb_VSS_State.Refresh();
+
+                   if (Systems.AliveList[Systems.CurDisplayIndex].camrea)
+                       Pb_CAM_State.Image = (Bitmap)rm.GetObject("Connect");
+                   else
+                       Pb_CAM_State.Image = (Bitmap)rm.GetObject("Disconnect");
+
+                   if (Systems.AliveList[Systems.CurDisplayIndex].sequence)
+                       Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Connect");
+                   else
+
+                       Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Disconnect");
+                   if (Systems.AliveList[Systems.CurDisplayIndex].mainpc)
+                       Pb_MI_State.Image = (Bitmap)rm.GetObject("Connect");
+                   else
+                       Pb_MI_State.Image = (Bitmap)rm.GetObject("Disconnect");
+
+                   //if (Systems.AliveList[Systems.CurDisplayIndex].inspect)
+                   //    picAliveInsp.Image = (Bitmap)rm.GetObject("Connect");
+                   //else
+                   //    picAliveInsp.Image = (Bitmap)rm.GetObject("Disconnect");
+
+                   //if (Systems.AliveList[Systems.CurDisplayIndex].light)
+                   //    picAliveLight.Image = (Bitmap)rm.GetObject("Connect");
+                   //else
+                   //    picAliveLight.Image = (Bitmap)rm.GetObject("Disconnect");
+
+                   //if (Systems.AliveList[Systems.CurDisplayIndex].pgcontrol)
+                   //    picAlivePg.Image = (Bitmap)rm.GetObject("Connect");
+                   //else
+                   //    picAlivePg.Image = (Bitmap)rm.GetObject("Disconnect");
+
         }
     }
 }

@@ -536,8 +536,8 @@
     <Compile Include="Utils\Snappy\Utilities.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="Utils\WinApis.cs" />
+    <None Include="Res\Disconnect.png" />
     <None Include="Res\Unstable.png" />
-    <None Include="Res\Diconnect.png" />
     <None Include="Res\Connect.png" />
     <EmbeddedResource Include="Ex_Form\Account\Ex_Frm_Account_Login.resx">
       <DependentUpon>Ex_Frm_Account_Login.cs</DependentUpon>
@@ -607,7 +607,7 @@
       <DependentUpon>Main_Frm_Recipe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>

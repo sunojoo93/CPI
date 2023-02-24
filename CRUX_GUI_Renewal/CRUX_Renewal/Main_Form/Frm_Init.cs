@@ -122,15 +122,9 @@ namespace CRUX_Renewal.Main_Form
                             Systems.Inspector_ = Class.Inspector.Instance();
                             Systems.LogWriter.Info("Initialize Inspector...");
                             break;
-                        case (int)Enums.InitFlag.Init_Form:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Form..."));
-                            InitMainForm();
-                            Systems.LogWriter.Info("Initialize Form...");
-                            ++InitFlag;
-                            break;
                         case (int)Enums.InitFlag.LoadJOB:
                             setControlText(lbl_CurrentState, string.Format("Initialize Job..."));
-                            //LoadJob(); // 모델 적용
+                            LoadJob(); // 모델 적용
                             Systems.LogWriter.Info("Initialize Job...");
                             ++InitFlag;
                             break;
@@ -153,6 +147,12 @@ namespace CRUX_Renewal.Main_Form
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize Light...");
                             break;
+                        case (int)Enums.InitFlag.Init_Form:
+                            setControlText(lbl_CurrentState, string.Format("Initialize Form..."));
+                            InitMainForm();
+                            Systems.LogWriter.Info("Initialize Form...");
+                            ++InitFlag;
+                            break;
                     }
                     this.Invoke(new Action(delegate () {
                         int Per = SetInitCount(ref Percent);
@@ -166,9 +166,6 @@ namespace CRUX_Renewal.Main_Form
                         ;
                 }
                 Percent = (int)Enums.InitFlag.MAX;
-
-                Task AliveChecker = new Task(Program.Frm_Main.ThreadTaskAlive);
-                AliveChecker.Start();
 
                 Systems.LogWriter.Info("Init Finished");
 
@@ -273,7 +270,7 @@ namespace CRUX_Renewal.Main_Form
             Paths.MANUAL_RESULT_DATA_DRIVE = new string[Globals.MaxVisionCnt];
 
 
-            Systems.g_Alive = new ALIVE_STATE[Globals.MaxVisionCnt];
+            Systems.AliveList = new ALIVE_STATE[2];
             //Systems.Evironment.MAX_LIGHT_CHANNEL_COUNT = 3; // 현재는 고정 
 
 
@@ -301,7 +298,7 @@ namespace CRUX_Renewal.Main_Form
 
 
 
-                Systems.g_Alive[i].init();
+                Systems.AliveList[i].init();
             }
 
             Globals.nLanguageFlg = iniUtl.GetIniValue("common", "Language", Paths.INIT_PATH).toInt();
