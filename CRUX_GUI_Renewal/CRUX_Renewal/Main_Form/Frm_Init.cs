@@ -328,6 +328,7 @@ namespace CRUX_Renewal.Main_Form
             }
             catch ( Exception ex )
             {
+                Systems.LogWriter.Error(ex);
                 //m_fnAddLog(0, ex.StackTrace);
             }
         }

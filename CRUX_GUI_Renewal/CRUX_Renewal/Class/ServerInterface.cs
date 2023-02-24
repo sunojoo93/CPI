@@ -188,6 +188,7 @@ namespace CRUX_Renewal.Class
             catch (Exception ex)
             {
                 Marshal.FreeHGlobal(pSndMsgBuff);
+                Systems.LogWriter.Error(ex);
                 ////Systems.m_fnAddLog(Globals.SelPcNo, string.Format("[GUI] SendCommand Error - {0}", ex.Message.ToString()));
 
             }
@@ -413,6 +414,7 @@ namespace CRUX_Renewal.Class
             }
             catch ( Exception ex )
             {
+                Systems.LogWriter.Error(ex);
                 ////Systems.m_fnAddLog(0, ex.StackTrace);
                 //Systems.m_inspector.GrabImage.Clear();
                 return 0;
@@ -1015,10 +1017,11 @@ namespace CRUX_Renewal.Class
             }
             catch (System.Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(param.nPcNo, Globals.CurLogView, string.Format("[TASK NO:{0:D3}] - ", param.nTaskNo),
-                    //string.Format("ERROR : {0} MESSAGE = {1}", ex.StackTrace, ex.Message),
-                    //string.Format("PANEL ID : {0} TACT NAME = {1}", struRcvTactData.strPanelID.toUniString<byte[]>(), struRcvTactData.strTactName.toUniString<byte[]>())
-                    //);
+                //string.Format("ERROR : {0} MESSAGE = {1}", ex.StackTrace, ex.Message),
+                //string.Format("PANEL ID : {0} TACT NAME = {1}", struRcvTactData.strPanelID.toUniString<byte[]>(), struRcvTactData.strTactName.toUniString<byte[]>())
+                //);
             }
             return nRet;
         }

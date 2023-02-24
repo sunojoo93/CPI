@@ -65,7 +65,8 @@ namespace CRUX_Renewal.Class
                 return Consts.APP_OK;
             }
             catch (Exception ex)
-            {           
+            {
+                Systems.LogWriter.Error(ex);
                 throw new Exception("공유메모리 접근 실패");
             }
             return Consts.APP_OK;

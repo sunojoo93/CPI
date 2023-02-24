@@ -128,6 +128,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 throw;
             }
         }

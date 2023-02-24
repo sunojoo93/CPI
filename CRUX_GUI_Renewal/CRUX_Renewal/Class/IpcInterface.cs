@@ -675,6 +675,7 @@ namespace CRUX_Renewal.Class
             }
            catch(Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(nPcNo, ex.Message+"\r\n\n"+ex.StackTrace);
                 ////Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }

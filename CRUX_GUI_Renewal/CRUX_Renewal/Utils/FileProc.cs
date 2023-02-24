@@ -133,8 +133,9 @@ namespace CRUX_Renewal
             }
             catch(Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 ////Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
-               // string CurrentClass = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString();
+                // string CurrentClass = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString();
                 //Systems.m_fnAddLog(Globals.SelPcNo, (int)Enums.LogLevel.ALL, 0, ex.StackTrace, ex.Message);
                 return false;
             }
@@ -164,6 +165,7 @@ namespace CRUX_Renewal
             }
             catch(Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, (int)Enums.LogLevel.JUST_LOG_FILE, 0, ex.StackTrace, ex.Message);                
                 return false;
             }
@@ -986,6 +988,7 @@ namespace CRUX_Renewal
             }           
            catch(Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);             
             }
             return aryLst;

@@ -188,6 +188,7 @@ namespace CRUX_Renewal
             }
            catch(Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);                         
                 return new ArrayList();
             }
@@ -213,6 +214,7 @@ namespace CRUX_Renewal
             }
            catch(Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);                         
                 return new ArrayList();
             }
@@ -436,6 +438,7 @@ namespace CRUX_Renewal
             }
             catch(Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);                         
                 return false;
             }
@@ -466,6 +469,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);             
                 return false;
             }
@@ -498,6 +502,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);             
                 return false;
             }
@@ -527,6 +532,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);
                 return false;
             }
@@ -554,6 +560,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);
                 return false;
             }
@@ -584,6 +591,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);             
                 return false;
             }
@@ -615,6 +623,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);             
                 return false;
             }
@@ -638,6 +647,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);             
                 return false;
             }
@@ -658,6 +668,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);
                 return false;
             }
@@ -677,6 +688,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);
                 return false;
             }
@@ -715,6 +727,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);             
                 return false;
             }
@@ -760,6 +773,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);             
                 return 0;
             }
@@ -1131,6 +1145,7 @@ namespace CRUX_Renewal
                 }
                 catch (System.Exception ex)
                 {
+                    Systems.LogWriter.Error(ex);
                     //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);
                 }
                
@@ -1364,6 +1379,7 @@ namespace CRUX_Renewal
             }
             catch (Exception ex)
             {
+                Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);                
             }
 
