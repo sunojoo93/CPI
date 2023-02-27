@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Cognex.VisionPro;
 using Cognex.VisionPro.QuickBuild;
+using Cognex.VisionPro.ImageFile;
+using Cognex.VisionPro.ToolGroup;
+using Cognex.VisionPro.QuickBuild.Implementation.Internal;
+using Cognex.VisionPro.Implementation;
 
 namespace CRUX_Renewal
 {
@@ -31,21 +35,54 @@ namespace CRUX_Renewal
         public static void SetCogJob()
         {
 
-           CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0223\Cog_Test_버그수정및최적화(230216).vpp");
-          CogJobManager_.Changed += new CogChangedEventHandler((sender, e) =>
+            try
             {
-                int aa = 0;
-            });
-            CogJobManager_.JobAdded += new CogJobManager.CogJobAddedEventHandler((sender, e) =>
-            {
-                int aa = 0;
-            });
-            CogJobManager_.Job(0).Changed += new CogChangedEventHandler((sender, e) =>
-            {
-                int aa = 0;
-            });
-            //var temp = CogJobManager_.Job(0).CloneParameters();
+                CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.02.27_New.vpp");
 
+                var t = (CogToolGroup)CogJobManager_.Job(0).VisionTool;
+
+                var test = t.Tools;
+                CogInputImageTool coginputToolTest = test[0] as CogInputImageTool;
+
+                coginputToolTest.InputImage = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
+
+                var Tem = Systems.CogJobManager_.JobsRunningState;
+                CogJobManager_.Changed += new CogChangedEventHandler((sender, e) =>
+                  {
+                      int aa = 0;
+                  });
+                CogJobManager_.JobAdded += new CogJobManager.CogJobAddedEventHandler((sender, e) =>
+                {
+                    int aa = 0;
+                });
+                CogJobManager_.Job(0).Stopped += new CogJob.CogJobStoppedEventHandler((sender, e) =>
+                {
+                    var Job = sender as CogJob;
+                    Console.WriteLine((Job.RunStatus as CogRunStatus).TotalTime.ToString());
+                    Console.WriteLine("검사 완료");
+                });
+                CogJobManager_.Job(0).Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
+                {
+                    var tt = sender as CogJob;
+                    Console.WriteLine("검사 시작");
+                });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        static private CogImage8Grey Load_Image(string strPath)
+        {
+            CogImageFile img = new CogImageFile();
+
+            img.Open(strPath, CogImageFileModeConstants.Read);
+            CogImage8Grey image8Grey = CogImageConvert.GetIntensityImage(img[0], 0, 0, img[0].Width, img[0].Height);
+
+            img.Close();
+
+            return image8Grey;
         }
 
         private static void Systems_Changed(object sender, CogChangedEventArgs e)
