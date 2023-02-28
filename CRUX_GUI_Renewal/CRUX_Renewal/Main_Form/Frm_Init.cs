@@ -138,7 +138,7 @@ namespace CRUX_Renewal.Main_Form
                         case (int)Enums.InitFlag.SEQ_TASK:
                             setControlText(lbl_CurrentState, string.Format("Initialize Sequence Program..."));
                             for ( int i = 0; i < 2; i++ )
-                                TempBin();
+                                //TempBin();
                             Program.StartSequence();                           
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize Seq...");

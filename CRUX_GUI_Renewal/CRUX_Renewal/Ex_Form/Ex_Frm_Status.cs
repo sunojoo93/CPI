@@ -132,6 +132,7 @@ namespace CRUX_Renewal.Ex_Form
                         break;
                     #region Camera Check
                     Param.ClearOffset();
+                    Param.SetInteger(1);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.CAMERA_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
                                                                  IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
@@ -142,6 +143,7 @@ namespace CRUX_Renewal.Ex_Form
 
                     #region SEQ Check
                     Param.ClearOffset();
+                    Param.SetInteger(1);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
                                                 IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
@@ -155,6 +157,7 @@ namespace CRUX_Renewal.Ex_Form
                     // 녹색 : 운영과 Main이 연결됐고, Main과 서버가 연결됐을 때
                     #region MAIN Check 
                     Param.ClearOffset();
+                    Param.SetInteger(1);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
                                                 IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
@@ -183,6 +186,7 @@ namespace CRUX_Renewal.Ex_Form
                     // Check Main PC Task Alive
                     #region SEQ Check
                     Param.ClearOffset();
+                    Param.SetInteger(1);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.MAINPC_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
                                                 IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)

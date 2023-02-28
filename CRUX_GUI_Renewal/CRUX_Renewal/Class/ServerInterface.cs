@@ -181,7 +181,7 @@ namespace CRUX_Renewal.Class
                 {
                     Marshal.Copy(pSndMsgBuff, cMsgBuf, 0, (int)nMsgSize);
                 }
-                if ((int)pSndMsgBuff != 0)
+                if ((long)pSndMsgBuff != 0)
                     Marshal.FreeHGlobal(pSndMsgBuff);
             }
 
