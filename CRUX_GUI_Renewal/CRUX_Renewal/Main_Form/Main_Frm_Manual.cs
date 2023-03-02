@@ -2,6 +2,7 @@
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.ToolGroup;
+using CRUX_Renewal.Class;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,18 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
+                InspectInfo Temp = new InspectInfo();
+                string Time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                Temp.CellID = $"{Time}_CellID";
+                Temp.Direction = "Forward";
+                Temp.Face = "Upper";
+                Temp.InputTime = Time;
+                Temp.InspName = "InspName";
+
+
+                //Systems.Inspector_.StartJob(Temp, 0);
                 Systems.CogJobManager_.Job(0).Run();
+                Systems.CogTemp.Job(0).Run();
                 var Tem = Systems.CogJobManager_.Job(0).State;
             }
             catch (Exception ex)

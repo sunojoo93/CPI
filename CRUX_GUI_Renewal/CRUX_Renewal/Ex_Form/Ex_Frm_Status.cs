@@ -122,8 +122,7 @@ namespace CRUX_Renewal.Ex_Form
         {
             int nRet = Consts.APP_OK;
             CmdMsgParam Param = new CmdMsgParam();
-
-            int nTimeOutCnt = 1000;
+       
             while (true)
             {
                 try
@@ -134,7 +133,7 @@ namespace CRUX_Renewal.Ex_Form
                     Param.ClearOffset();
                     Param.SetInteger(1);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.CAMERA_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
-                                                                 IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
+                                                                 IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
                         Systems.AliveList[Systems.CurDisplayIndex].camrea = true;
                     else
@@ -145,7 +144,7 @@ namespace CRUX_Renewal.Ex_Form
                     Param.ClearOffset();
                     Param.SetInteger(1);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
-                                                IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
+                                                IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
                         Systems.AliveList[Systems.CurDisplayIndex].sequence = true;
                     else
@@ -159,7 +158,7 @@ namespace CRUX_Renewal.Ex_Form
                     Param.ClearOffset();
                     Param.SetInteger(1);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
-                                                IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
+                                                IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
                         Systems.AliveList[Systems.CurDisplayIndex].sequence = true;
                     else
@@ -188,7 +187,7 @@ namespace CRUX_Renewal.Ex_Form
                     Param.ClearOffset();
                     Param.SetInteger(1);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.MAINPC_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
-                                                IpcInterface.CMD_TYPE_RES, nTimeOutCnt, Param.GetByteSize(), Param.GetParam());
+                                                IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
                         Systems.AliveList[Systems.CurDisplayIndex].mainpc = true;
                     else
@@ -199,7 +198,7 @@ namespace CRUX_Renewal.Ex_Form
                         SetState();
                     }));
                   
-                    Thread.Sleep(1000);
+                    Thread.Sleep(Consts.ALIVE_INTERVAL);
                 }
                 catch (Exception ex)
                 {

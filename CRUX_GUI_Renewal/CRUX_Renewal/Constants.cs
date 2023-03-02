@@ -326,6 +326,9 @@ namespace CRUX_Renewal
 
           public const int PG_DUST_INDEX = -100;
 
+        public const int ALIVE_INTERVAL = 200;
+        public const int ALIVE_RESPONSE_TIME = 300;
+
         public static int MAX_INSPECTION_COUNT = 10;
         public static int MAX_FACE_COUNT = 8;
 

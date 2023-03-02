@@ -228,14 +228,8 @@ namespace CRUX_Renewal.User_Controls
         /// <summary>
         /// ColorTimer 관리
         /// </summary>
-        private delegate void DelTimerStart();
         public void TimerStart()
         {
-            if (this.InvokeRequired)
-            {
-                DelTimerStart Temp = new DelTimerStart(TimerStart);
-                Temp.Invoke();
-            }
             while (true)
             {
                 if (TokenSource.Token.IsCancellationRequested == true)
