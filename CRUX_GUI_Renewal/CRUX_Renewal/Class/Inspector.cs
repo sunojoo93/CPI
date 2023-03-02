@@ -2,7 +2,9 @@
 using Cognex.VisionPro.Blob;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ImageProcessing;
+using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.LineMax;
+using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal;
 using System;
 using System.Collections;
@@ -21,11 +23,17 @@ namespace CRUX_Renewal.Class
     {
         private static Inspector Inspector_Object;
 
-        public static Inspector Instance()
+        int MaxInspectionCount = 4;
+        int FaceCount = 8;
+        int Now; // Enumerable 변수
+        List<Inspection> Inspections;
+        RecipeParams Recipe;
+
+        public static Inspector Instance(CogJobManager job_manager)
         {
             if(Inspector_Object == null)
             {
-                Inspector_Object = new Inspector(Consts.MAX_INSPECTION_COUNT, Consts.MAX_FACE_COUNT);
+                Inspector_Object = new Inspector(job_manager, Consts.MAX_INSPECTION_COUNT, Consts.MAX_FACE_COUNT);
             }
             return Inspector_Object;
         }
@@ -38,30 +46,31 @@ namespace CRUX_Renewal.Class
         {
             foreach( var item in Inspections )
             {
-                if ( item.InspParam.InputTime == input_time )
-                    return item;
+                if(item.JobManager.)
             }
             return null;
         }
-
-        int MaxInspectionCount = 10;
-        int FaceCount = 8;
-        int Now; // Enumerable 변수
-        List<Inspection> Inspections;
-        RecipeParams Recipe;
-
         // 영상 처리 스레드 필요
-        private Inspector (int thread_count, int area_count)
+        //private Inspector (int thread_count, int area_count)
+        //{
+        //    MaxInspectionCount = thread_count;
+        //    FaceCount = area_count;
+        //    Inspections = new List<Inspection>();
+        //    Inspections.Capacity = MaxInspectionCount;
+        //    for ( int i = 0; i < MaxInspectionCount; ++i )
+        //        Inspections.Add(new Inspection());
+        //    Recipe = new RecipeParams();
+        //}
+        private Inspector(CogJobManager job_manager, int thread_count, int area_count)
         {
             MaxInspectionCount = thread_count;
             FaceCount = area_count;
             Inspections = new List<Inspection>();
             Inspections.Capacity = MaxInspectionCount;
-            for ( int i = 0; i < MaxInspectionCount; ++i )
-                Inspections.Add(new Inspection());
+            for (int i = 0; i < MaxInspectionCount; ++i)
+                Inspections.Add(new Inspection(job_manager));
             Recipe = new RecipeParams();
         }
-
         public void SetRecipe(RecipeParams recipe)
         {
             Recipe = recipe;
@@ -132,6 +141,122 @@ namespace CRUX_Renewal.Class
             Dispose();
         }
     }
+    /// <summary>
+    /// 셀 객체
+    /// </summary>
+    class Inspection : IDisposable
+    {
+        public bool Busy { get; set; } = false;
+        private bool Finished_;
+
+        public CogJobManager JobManager { get; set; } = null;
+        List<InspectionWorker> Inspection_Thread;
+
+        public InspectInfo InspParam;
+        public Judgement Judge;
+
+        private object LockObj1 = new object();
+
+        public bool Finished
+        {
+            get { return Finished_; }
+            set
+            {
+                Finished_ = value;
+                if (Finished_)
+                {
+                    Judgement();
+                }
+            }
+        }        
+
+        /// <summary>
+        /// 현재 검사가 마지막 검사인지 확인
+        /// </summary>
+        public void SetFinished()
+        {
+            lock (LockObj1)
+            {
+                if (Finished)
+                    return;
+                int Count = 0;
+                foreach (var item in Inspection_Thread)
+                {
+                    if (item.Finished)
+                        ++Count;
+
+                    if (Count == Inspection_Thread.Count)
+                        Finished = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 판정
+        /// </summary>
+        public void Judgement()
+        {
+            Judge = new Judgement();
+
+            /// 판정 알고리즘 ///
+            InspParam.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+            // 기록
+            // 폼 갱신
+            // 판정은 후에 별도 스레드로 진행(택개선)
+
+            Clear_Inspection();
+        }
+
+        public void Clear_Inspection()
+        {
+            Dispose();
+            Busy = false;
+            Finished = false;
+
+        }
+        public Inspection(CogJobManager source, InspectInfo info, RecipeParams recipe, int face_count = 8)
+        {
+            JobManager = new CogJobManager();
+
+            int JobCount = source.JobCount;
+            for (int i = 0; i < JobCount; ++i)
+            {
+                JobManager.JobAdd(new CogJob() { VisionTool = source.Job(i).VisionTool, AcqFifo = source.Job(i).AcqFifo });
+
+                JobManager.Job(i).Stopped += new CogJob.CogJobStoppedEventHandler((sender, e) =>
+                {
+                    var Job = sender as CogJob;
+                    Console.WriteLine((Job.RunStatus as CogRunStatus).TotalTime.ToString());
+                    Console.WriteLine($"Origin 검사 완료, RunState : {Job.RunStatus as CogRunStatus}");
+
+                    var Insp = Systems.Inspector_.FindInspection(Job.Name);
+                    if (Insp != null)
+                        Insp.SetFinished();
+                });
+                JobManager.Job(i).Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
+                {
+                    var tt = sender as CogJob;
+                    Console.WriteLine("Origin 검사 시작");
+                });
+                Inspection_Thread[i] = new InspectionWorker(JobManager.Job(i), info, recipe);
+            }
+            Finished = false;
+        }
+
+        public void StartInspect(InspectInfo insp_param, RecipeParams recipe, int thread_num)
+        {
+            insp_param.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+            Systems.LogWriter.Info($"Inspect Start Time : {insp_param.InputTime}");
+            InspParam = insp_param;
+            Inspection_Thread[thread_num].InspStart();
+        }
+
+        public void Dispose()
+        {
+            InspParam.Dispose();
+            Judge.Dispose();
+        }
+    }
     class InspectionWorker
     {
         string InputTime { get; set; } = string.Empty;
@@ -140,15 +265,17 @@ namespace CRUX_Renewal.Class
         string Position { get; set; } = string.Empty;
         string Direction { get; set; } = string.Empty;
         string Face { get; set; } = string.Empty;
-        Thread Worker;
+        //Thread Worker;
         public bool Finished { get; set; } = false;
         RecipeParams Parameter;
 
         Judgement Judge { get; set; }
         InspectInfo InspectData;
+        CogJob Job;
 
-        public InspectionWorker (InspectInfo param, RecipeParams recipe)
+        public InspectionWorker (CogJob job,InspectInfo param, RecipeParams recipe)
         {
+            Job = job;
             InspectData = param;
             CellID = param.CellID;
             Position = param.Position;
@@ -160,8 +287,9 @@ namespace CRUX_Renewal.Class
         }
         public void InspStart ()
         {
-            Worker = new Thread(new ThreadStart(MainSequence));
-            Worker.Start();
+            InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+
+            Job.Run();
         }
         public void Do_Judge()
         {
@@ -172,11 +300,11 @@ namespace CRUX_Renewal.Class
         {
             try
             {
-                InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
 
                 // 검사 알고리즘
                 //Inspect();               
-                Finished = true;
+                //Systems.CogJobManager_.
+                //Finished = true;
                 var Insp = Systems.Inspector_.FindInspection(InputTime);
                 if ( Insp != null )
                     Insp.SetFinished();
@@ -1502,101 +1630,6 @@ namespace CRUX_Renewal.Class
             return;
         }
         #endregion
-    }
-    /// <summary>
-    /// 셀 객체
-    /// </summary>
-    class Inspection : IDisposable
-    {        
-        public bool Busy { get; set; } = false;
-        private bool Finished_;
-        public bool Finished
-        {
-            get { return Finished_; }
-            set
-            {
-                Finished_ = value;
-                if ( Finished_ )
-                {
-                    Judgement();
-                }
-            }
-        }
-        List<InspectionWorker> Inspection_Thread;
-        
-        public InspectInfo InspParam;
-        public Judgement Judge;
-
-        private object LockObj1 = new object();
-
-
-        /// <summary>
-        /// 현재 검사가 마지막 검사인지 확인
-        /// </summary>
-        public void SetFinished()
-        {
-            lock ( LockObj1 )
-            {
-                if ( Finished )
-                    return;
-                int Count = 0;
-                foreach ( var item in Inspection_Thread )
-                {
-                    if ( item.Finished )
-                        ++Count;
-
-                    if ( Count == Inspection_Thread.Count )
-                        Finished = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 판정
-        /// </summary>
-        public void Judgement()
-        {
-            Judge = new Judgement();
-            
-            /// 판정 알고리즘 ///
-            InspParam.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-            // 기록
-            // 폼 갱신
-            // 판정은 후에 별도 스레드로 진행(택개선)
-            
-            Clear_Inspection();
-        }
-
-        public void Clear_Inspection()
-        {
-            Dispose();
-            Inspection_Thread.Clear();
-            Busy = false;
-            Finished = false;          
-
-        }
-        public Inspection (int face_count = 8)
-        {
-            Inspection_Thread = new List<InspectionWorker>();
-            Inspection_Thread.Capacity = face_count;
-
-            Finished = false;
-        }
-
-        public void StartInspect (InspectInfo insp_param, RecipeParams recipe, int thread_num)
-        {
-            insp_param.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-            Systems.LogWriter.Info($"Inspect Start Time : {insp_param.InputTime}");
-            InspParam = insp_param;
-            Inspection_Thread[thread_num] = new InspectionWorker(insp_param, recipe);
-            Inspection_Thread[thread_num].InspStart();
-        }
-
-        public void Dispose ()
-        {
-            InspParam.Dispose();
-            Judge.Dispose();
-        }
     }
 }
 
