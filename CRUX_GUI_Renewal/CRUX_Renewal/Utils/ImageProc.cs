@@ -9,8 +9,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
 
-namespace CRUX_Renewal.User_Controls
+namespace CRUX_Renewal.Utils
 {
     static class ImageProc
     {
@@ -615,6 +616,38 @@ namespace CRUX_Renewal.User_Controls
             }
 
             return nRet;
+        }
+        public static Bitmap DeepCopyBitmap_Rectangle(Bitmap source)
+        {
+            Bitmap dstBitmap = source.Clone(new Rectangle(0, 0, source.Width, source.Height), source.PixelFormat);
+            return dstBitmap;
+        }
+        public static Bitmap DeepCopyBitmap_Stream(Bitmap source)
+        {
+            try
+            {
+                {
+
+                    Bitmap dstBitmap = null;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        {
+                            BinaryFormatter bf = new BinaryFormatter();
+                            bf.Serialize(ms, source);
+                            ms.Seek(0, SeekOrigin.Begin);
+                            dstBitmap = (Bitmap)bf.Deserialize(ms);
+                            ms.Close();
+                        }
+                    }
+                    return dstBitmap;
+                }
+            }
+            catch (Exception ex)
+            {
+                {          
+                    return null;
+                }
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
-                InspectInfo Temp = new InspectInfo();
+                InspData Temp = new InspData();
                 string Time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
                 Temp.CellID = $"{Time}_CellID";
                 Temp.Direction = "Forward";
@@ -42,8 +42,9 @@ namespace CRUX_Renewal.Main_Form
 
 
                 //Systems.Inspector_.StartJob(Temp, 0);
-                Systems.CogJobManager_.Job(0).Run();
-                Systems.CogTemp.Job(0).Run();
+                Systems.Inspector_.StartJob(Temp, 0);
+                //Systems.CogJobManager_.Job(0).Run();
+                //Systems.CogTemp.Job(0).Run();
                 var Tem = Systems.CogJobManager_.Job(0).State;
             }
             catch (Exception ex)

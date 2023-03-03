@@ -6,6 +6,7 @@ using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.LineMax;
 using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal;
+using CRUX_Renewal.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,17 +24,17 @@ namespace CRUX_Renewal.Class
     {
         private static Inspector Inspector_Object;
 
-        int MaxInspectionCount = 4;
+        int MaxInspectionCount = 5;
         int FaceCount = 8;
         int Now; // Enumerable 변수
         List<Inspection> Inspections;
         RecipeParams Recipe;
 
-        public static Inspector Instance(CogJobManager job_manager)
+        public static Inspector Instance()
         {
-            if(Inspector_Object == null)
+            if (Inspector_Object == null)
             {
-                Inspector_Object = new Inspector(job_manager, Consts.MAX_INSPECTION_COUNT, Consts.MAX_FACE_COUNT);
+                Inspector_Object = new Inspector();
             }
             return Inspector_Object;
         }
@@ -42,41 +43,42 @@ namespace CRUX_Renewal.Class
         {
             FaceCount = num;
         }
-        public Inspection FindInspection(string input_time)
+
+        private Inspector()
         {
-            foreach( var item in Inspections )
-            {
-                if(item.JobManager.)
-            }
-            return null;
+
         }
-        // 영상 처리 스레드 필요
-        //private Inspector (int thread_count, int area_count)
-        //{
-        //    MaxInspectionCount = thread_count;
-        //    FaceCount = area_count;
-        //    Inspections = new List<Inspection>();
-        //    Inspections.Capacity = MaxInspectionCount;
-        //    for ( int i = 0; i < MaxInspectionCount; ++i )
-        //        Inspections.Add(new Inspection());
-        //    Recipe = new RecipeParams();
-        //}
-        private Inspector(CogJobManager job_manager, int thread_count, int area_count)
+
+        public void SetInspection()
         {
-            MaxInspectionCount = thread_count;
-            FaceCount = area_count;
             Inspections = new List<Inspection>();
             Inspections.Capacity = MaxInspectionCount;
-            for (int i = 0; i < MaxInspectionCount; ++i)
-                Inspections.Add(new Inspection(job_manager));
-            Recipe = new RecipeParams();
+
+            //Recipe = new RecipeParams();
         }
+        public List<Inspection> GetInspectionList()
+        {
+            return Inspections;
+        }
+
+        public void SetCogManager(CogJobManager manager)
+        {
+            if(Inspections != null)
+            {
+                foreach (var item in Inspections)
+                    item.Dispose();
+                Inspections.RemoveRange(0, Inspections.Count);
+            }
+            for (int i = 0; i < MaxInspectionCount; ++i)
+                Inspections.Add(new Inspection(manager));
+        }
+            
         public void SetRecipe(RecipeParams recipe)
         {
             Recipe = recipe;
         }
 
-        public void StartJob (InspectInfo insp_param, int ptn_num)
+        public void StartJob (InspData insp_param, int ptn_num)
         {
             try
             {
@@ -85,7 +87,7 @@ namespace CRUX_Renewal.Class
                 if ( Inspections != null && Inspections.Count > MaxInspectionCount )
                     throw new Exception("Over MaxJobCount");
 
-                var Insp = Inspections?.Find(x => x.InspParam.CellID == insp_param.CellID);                
+                var Insp = Inspections?.Find(x => x.CommonData.CellID == insp_param.CellID);                
                 if ( Insp != null)
                     Insp.StartInspect(insp_param, Recipe, ptn_num);
                 else if(Insp == null)
@@ -150,10 +152,10 @@ namespace CRUX_Renewal.Class
         private bool Finished_;
 
         public CogJobManager JobManager { get; set; } = null;
-        List<InspectionWorker> Inspection_Thread;
+        List<InspectionWorker> Inspection_Thread = null;
 
-        public InspectInfo InspParam;
-        public Judgement Judge;
+        public CommonInspData CommonData = new CommonInspData();
+        public Judgement Judge = new Class.Judgement();
 
         private object LockObj1 = new object();
 
@@ -168,30 +170,8 @@ namespace CRUX_Renewal.Class
                     Judgement();
                 }
             }
-        }        
-
-        /// <summary>
-        /// 현재 검사가 마지막 검사인지 확인
-        /// </summary>
-        public void SetFinished()
-        {
-            lock (LockObj1)
-            {
-                if (Finished)
-                    return;
-                int Count = 0;
-                foreach (var item in Inspection_Thread)
-                {
-                    if (item.Finished)
-                        ++Count;
-
-                    if (Count == Inspection_Thread.Count)
-                        Finished = true;
-                }
-            }
         }
 
-        /// <summary>
         /// 판정
         /// </summary>
         public void Judgement()
@@ -199,11 +179,10 @@ namespace CRUX_Renewal.Class
             Judge = new Judgement();
 
             /// 판정 알고리즘 ///
-            InspParam.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+            CommonData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
             // 기록
             // 폼 갱신
-            // 판정은 후에 별도 스레드로 진행(택개선)
-
+            Busy = false;
             Clear_Inspection();
         }
 
@@ -214,107 +193,147 @@ namespace CRUX_Renewal.Class
             Finished = false;
 
         }
-        public Inspection(CogJobManager source, InspectInfo info, RecipeParams recipe, int face_count = 8)
+        public Inspection(CogJobManager source)
         {
             JobManager = new CogJobManager();
 
             int JobCount = source.JobCount;
+            Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
             for (int i = 0; i < JobCount; ++i)
             {
                 JobManager.JobAdd(new CogJob() { VisionTool = source.Job(i).VisionTool, AcqFifo = source.Job(i).AcqFifo });
-
-                JobManager.Job(i).Stopped += new CogJob.CogJobStoppedEventHandler((sender, e) =>
-                {
-                    var Job = sender as CogJob;
-                    Console.WriteLine((Job.RunStatus as CogRunStatus).TotalTime.ToString());
-                    Console.WriteLine($"Origin 검사 완료, RunState : {Job.RunStatus as CogRunStatus}");
-
-                    var Insp = Systems.Inspector_.FindInspection(Job.Name);
-                    if (Insp != null)
-                        Insp.SetFinished();
-                });
-                JobManager.Job(i).Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
-                {
-                    var tt = sender as CogJob;
-                    Console.WriteLine("Origin 검사 시작");
-                });
-                Inspection_Thread[i] = new InspectionWorker(JobManager.Job(i), info, recipe);
+                
+                Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));
             }
             Finished = false;
         }
-
-        public void StartInspect(InspectInfo insp_param, RecipeParams recipe, int thread_num)
+        
+        public bool CheckRunState(CogJob job)
         {
-            insp_param.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+            int Count = 0;
+            if((job.RunStatus as CogRunStatus).Result == CogToolResultConstants.Accept)
+                Systems.LogWriter.Error($"Insp Complete JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");
+            else
+                Systems.LogWriter.Error($"Occured Problem JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");
+            lock (LockObj1)
+            {
+                for (int i = 0; i < JobManager.JobCount; ++i)
+                {
+                    if (((JobManager.Job(i).RunStatus as CogRunStatus).Result == CogToolResultConstants.Accept))
+                    {
+                        Count++;
+                        Systems.LogWriter.Error($"InspComplete JobManager Name : {JobManager.Name} Job Name : {JobManager.Job(i).Name}");
+                    }
+                }
+            }
+            if (Count >= JobManager.JobCount)
+                return true;
+            else
+                return false;
+        }
+
+        public void StartInspect(InspData insp_param, RecipeParams recipe, int thread_num)
+        {
             Systems.LogWriter.Info($"Inspect Start Time : {insp_param.InputTime}");
-            InspParam = insp_param;
-            Inspection_Thread[thread_num].InspStart();
+            CommonData = CommonData ?? new CommonInspData();
+            CommonData.InputTime = CommonData.InputTime ?? insp_param.InputTime;
+            CommonData.CellID = CommonData.CellID ?? insp_param.CellID;
+            CommonData.Face = CommonData.Face ?? insp_param.Face;                     
+          
+            Inspection_Thread[thread_num].InspStart(insp_param);
+        }
+        public void StartInspect(InspData insp_param, RecipeParams recipe, int thread_num, bool initialize)
+        {
+            if(initialize)
+            {
+
+            }
+            Systems.LogWriter.Info($"Inspect Start Time : {insp_param.InputTime}");
+            CommonData = CommonData ?? new CommonInspData();
+            CommonData.InputTime = CommonData.InputTime ?? insp_param.InputTime;
+            CommonData.CellID = CommonData.CellID ?? insp_param.CellID;
+            CommonData.Face = CommonData.Face ?? insp_param.Face;
+
+            Inspection_Thread[thread_num].InspStart(insp_param);
+        }
+        public void Initialize()
+        {
+
         }
 
         public void Dispose()
         {
-            InspParam.Dispose();
+            JobManager.Shutdown();
             Judge.Dispose();
         }
     }
     class InspectionWorker
     {
-        string InputTime { get; set; } = string.Empty;
-        string OutputTime { get; set; } = string.Empty;
-        string CellID { get; set; } = string.Empty;
-        string Position { get; set; } = string.Empty;
-        string Direction { get; set; } = string.Empty;
-        string Face { get; set; } = string.Empty;
+        string MainJobName { get; set; } = string.Empty;
+
         //Thread Worker;
-        public bool Finished { get; set; } = false;
+        private bool Finished_;
+        public bool Finished
+        {
+            get { return Finished_; }
+            set
+            {
+                Finished_ = value;
+                if (Finished_)
+                {
+                    var InspectionTemp = Systems.Inspector_.GetInspectionList().Find(x => x.JobManager.Name == MainJobName);
+                    if (InspectionTemp != null)
+                        InspectionTemp.CheckRunState(Job);
+                    else
+                        Systems.LogWriter.Error($"Not Exist Inspection");
+                }
+            }
+        }
         RecipeParams Parameter;
 
         Judgement Judge { get; set; }
-        InspectInfo InspectData;
-        CogJob Job;
+        InspData InspectData;
+        private CogJob Job { get; set; }
 
-        public InspectionWorker (CogJob job,InspectInfo param, RecipeParams recipe)
+        public InspectionWorker (string job_name, CogJob job)
         {
+            MainJobName = job_name;
             Job = job;
-            InspectData = param;
-            CellID = param.CellID;
-            Position = param.Position;
-            Direction = param.Direction;
-            Face = param.Face;
-            Parameter = recipe;
+            SetEvent();
             Judge = new Judgement();
-            Parameter = recipe;
         }
-        public void InspStart ()
+        public void InspStart (InspData data)
         {
-            InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+            InspectData = InspectData ?? new InspData();
+            InspectData = data.DeepCopy<InspData>();
 
             Job.Run();
+        }
+
+        private void SetEvent()
+        {
+            Job.Stopped += new CogJob.CogJobStoppedEventHandler((sender, e) =>
+            {
+                var Temp = sender as CogJob;
+                Console.WriteLine((Job.RunStatus as CogRunStatus).TotalTime.ToString());
+                InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                Console.WriteLine($"Origin 검사 완료, RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
+                Finished = true;
+            });
+            Job.Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
+            {
+                Finished = false;
+                var Temp = sender as CogJob;
+                Console.WriteLine("Origin 검사 시작");
+                InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+            });
         }
         public void Do_Judge()
         {
             // 작업 후
             Judge = new Judgement();
         }
-        public void MainSequence()
-        {
-            try
-            {
 
-                // 검사 알고리즘
-                //Inspect();               
-                //Systems.CogJobManager_.
-                //Finished = true;
-                var Insp = Systems.Inspector_.FindInspection(InputTime);
-                if ( Insp != null )
-                    Insp.SetFinished();
-                OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-            }
-            catch ( Exception ex)
-            {
-                Systems.LogWriter.Fatal("Occured Exception", ex);
-            }
-        }
         #region 검사
         /// <summary>
         /// 검사 메인 시퀀스

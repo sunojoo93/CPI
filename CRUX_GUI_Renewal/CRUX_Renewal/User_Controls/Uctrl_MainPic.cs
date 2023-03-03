@@ -14,6 +14,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.IO;
 using CRUX_Renewal.Class;
+using CRUX_Renewal.Utils;
 
 namespace CRUX_Renewal.User_Controls
 {
@@ -1154,7 +1155,7 @@ namespace CRUX_Renewal.User_Controls
                                             m_ucPicMiniMap.BeginInvoke(new Action(() =>
                                             {
                                                 this.m_ucPicMiniMap.m_fnSetOringSize();
-                                                this.m_imgMiniMap = ImageProc.Resize(this.m_imgLoaded,
+                                                this.m_imgMiniMap = Utils.ImageProc.Resize(this.m_imgLoaded,
                                                         this.m_ucPicMiniMap.picMinImg.Width,
                                                         this.m_ucPicMiniMap.picMinImg.Height, false);
                                                 this.m_ucPicMiniMap.picMapResize(new Point(this.m_imgMiniMap.Width, this.m_imgMiniMap.Height));
@@ -1295,7 +1296,7 @@ namespace CRUX_Renewal.User_Controls
 
 
                         if (bitTmp == null) return;
-                        Byte[] byteImg = ImageProc.loadBitmap(bitTmp, bitTmp.Width, bitTmp.Height, m_fnGetPixelForamt());
+                        Byte[] byteImg = Utils.ImageProc.loadBitmap(bitTmp, bitTmp.Width, bitTmp.Height, m_fnGetPixelForamt());
                         Param.SetInteger(bitTmp.Width);
                         Param.SetInteger(bitTmp.Height);
                         Param.SetInteger(nMeanStd);
@@ -1443,7 +1444,7 @@ namespace CRUX_Renewal.User_Controls
                 {
                     if (this.m_bUseMiniMap)
                     {
-                        this.m_imgMiniMap = ImageProc.Resize(this.m_imgLoaded,
+                        this.m_imgMiniMap = Utils.ImageProc.Resize(this.m_imgLoaded,
                                     this.m_ucPicMiniMap.picMinImg.Width,
                                     this.m_ucPicMiniMap.picMinImg.Height, false);
                     }
@@ -4318,7 +4319,7 @@ namespace CRUX_Renewal.User_Controls
 
                 //System.Diagnostics.Debug.WriteLine(string.Format ("{0}", (DateTime.Now - dateTime)));
                 if (nRet == Consts.APP_OK && nPicWidth != 0 && nPicHeight != 0)
-                    return (Bitmap)ImageProc.ConvertBitmap(Param.GetParam(), nPicWidth, nPicHeight, m_bIsGrayScale, m_pxlForamt);
+                    return (Bitmap)Utils.ImageProc.ConvertBitmap(Param.GetParam(), nPicWidth, nPicHeight, m_bIsGrayScale, m_pxlForamt);
                 else
                     return m_imgLoaded;
 

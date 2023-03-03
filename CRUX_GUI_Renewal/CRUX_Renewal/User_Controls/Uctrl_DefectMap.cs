@@ -879,7 +879,7 @@ namespace CRUX_Renewal.User_Controls
                 {
                     if (this.m_bUseMiniMap)
                     {
-                        this.m_imgMiniMap = ImageProc.Resize(this.m_imgLoaded,
+                        this.m_imgMiniMap = Utils.ImageProc.Resize(this.m_imgLoaded,
                                     this.m_ucPicMiniMap.picMinImg.Width,
                                     this.m_ucPicMiniMap.picMinImg.Height, false);
                     }                   
@@ -2207,7 +2207,7 @@ namespace CRUX_Renewal.User_Controls
 
                 // 2017.08.07 add by ikm
                 if (fileProc.CreateDirectory(Path.GetDirectoryName(@strSavePath)))
-                ImageProc.fnRotateImage(bitmap, fAngle).Save(@strSavePath, jpgEncoder, myEncoderParameters);
+                Utils.ImageProc.fnRotateImage(bitmap, fAngle).Save(@strSavePath, jpgEncoder, myEncoderParameters);
                                 
                
                // bmp.Save(@strSavePath, jpgEncoder, myEncoderParameters);
@@ -2253,7 +2253,7 @@ namespace CRUX_Renewal.User_Controls
                                                     IpcInterface.CMD_TYPE_RES, IpcInterface.CMD_TIMEOUT, Param.GetByteSize(), Param.GetParam());
 
                 if (nRet == Consts.APP_OK)
-                    bitmapRet = (Bitmap)ImageProc.ConvertBitmap(Param.GetParam(), nPicWidth, nPicHeight);
+                    bitmapRet = (Bitmap)Utils.ImageProc.ConvertBitmap(Param.GetParam(), nPicWidth, nPicHeight);
                 else
                     bitmapRet = m_imgLoaded;
             }

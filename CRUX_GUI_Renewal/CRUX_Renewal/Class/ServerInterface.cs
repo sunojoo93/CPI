@@ -371,7 +371,7 @@ namespace CRUX_Renewal.Class
                         int Stride = ImgWidth;
                         Stride += (ImgWidth * ImgBandWidth) % 4;
                         //Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC1, (IntPtr)Systems.SMem.GetImgAddress(Inspection_Data.ImageNum));
-                        InspectInfo ip = new InspectInfo();
+                        InspData ip = new InspData();
                         ip.OriginImage = new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageNum)).Clone() as Bitmap;
                         
 

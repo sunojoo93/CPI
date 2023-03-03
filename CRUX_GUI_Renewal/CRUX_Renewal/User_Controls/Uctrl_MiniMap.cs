@@ -173,7 +173,7 @@ namespace CRUX_Renewal.User_Controls
                             if (nRet == Consts.APP_OK)
                             {
 
-                                this.m_imgMiniMap = (Bitmap)ImageProc.ConvertBitmap(Param.GetParam(), nWidth, nHeight, m_bIsGrayScale, m_PxlFormat);
+                                this.m_imgMiniMap = (Bitmap)Utils.ImageProc.ConvertBitmap(Param.GetParam(), nWidth, nHeight, m_bIsGrayScale, m_PxlFormat);
                                                                  
                                 picMinImg.BeginInvoke(new Action(() => picMinImg.Invalidate()));
 

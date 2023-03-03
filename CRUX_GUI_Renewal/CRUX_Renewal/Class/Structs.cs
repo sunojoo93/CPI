@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CRUX_Renewal.Utils;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -17,28 +18,40 @@ namespace CRUX_Renewal.Class
     /// <summary>
     /// 검사에 필요한 정보
     /// </summary>
-    class InspectInfo : IDisposable
+    [Serializable]
+    class InspData : IDisposable
     {
         public void Dispose ()
         {
-            OriginImage.Dispose();
-            //Parameter.Dispose();
+            OriginImage.Dispose();   
         }
-        //public InspectInfo DeepCopy()
-        //{
-        //    InspectInfo ii = new InspectInfo();
-        //    ii.OriginImage = OriginImage.DeepCopy();
-        //}
+        public InspData DeepCopy()
+        {
+            InspData Temp = new InspData();
+            Temp = this;
+            Temp.OriginImage = ImageProc.DeepCopyBitmap_Stream(OriginImage);
+            return Temp;
+        }
         public Bitmap OriginImage { get; set; } = null;
-        //public RecipeParams Parameter { get; set; } = null;
-        public string Position { get; set; } = string.Empty;
-        public string Direction { get; set; } = string.Empty;
-        public string Face { get; set; } = string.Empty;
-        public string CellID { get; set; } = string.Empty;
-        public string InputTime { get; set; } = string.Empty;
-        public string OutputTime { get; set; } = string.Empty;
-        public string FinishedTime { get; set; } = string.Empty;
-        public string InspName { get; set; } = string.Empty;
+        public string Position { get; set; } = null;
+        public string Direction { get; set; } = null;
+        public string Face { get; set; } = null;
+        public string CellID { get; set; } = null;
+        public string InputTime { get; set; } = null;
+        public string OutputTime { get; set; } = null;
+        public string FinishedTime { get; set; } = null;
+        public string InspName { get; set; } = null;
+    }
+    /// <summary>
+    /// 검사에 필요한 정보
+    /// </summary>
+    class CommonInspData
+    {
+        public string Face { get; set; } = null;
+        public string CellID { get; set; } = null;
+        public string InputTime { get; set; } = null;
+        public string OutputTime { get; set; } = null;
+        public string ProcessedTime { get; set; } = null;
     }
     /// <summary>
     /// 레시피 파라미터

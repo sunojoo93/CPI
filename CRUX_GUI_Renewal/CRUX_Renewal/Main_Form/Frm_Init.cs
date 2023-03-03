@@ -322,19 +322,6 @@ namespace CRUX_Renewal.Main_Form
         {
             Systems.SetCogJob();
         }
-        private void m_fnInitializeLog ()
-        {
-            try
-            {               
-
-
-            }
-            catch ( Exception ex )
-            {
-                Systems.LogWriter.Error(ex);
-                //m_fnAddLog(0, ex.StackTrace);
-            }
-        }
 
         /// <summary>
         /// 기  능 : IPC 초기화 
