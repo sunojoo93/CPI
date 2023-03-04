@@ -5,6 +5,7 @@ using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.LineMax;
 using Cognex.VisionPro.QuickBuild;
+using Cognex.VisionPro.QuickBuild.Implementation.Internal;
 using CRUX_Renewal;
 using CRUX_Renewal.Utils;
 using System;
@@ -199,9 +200,9 @@ namespace CRUX_Renewal.Class
 
             int JobCount = source.JobCount;
             Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
-            for (int i = 0; i < JobCount; ++i)
+            for (int i = 0; i < 2; ++i)
             {
-                JobManager.JobAdd(new CogJob() { VisionTool = source.Job(i).VisionTool, AcqFifo = source.Job(i).AcqFifo });
+                JobManager.JobAdd(new CogJob() { VisionTool = source.Job(0).VisionTool, AcqFifo = source.Job(0).AcqFifo });
                 
                 Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));
             }
@@ -219,7 +220,7 @@ namespace CRUX_Renewal.Class
             {
                 for (int i = 0; i < JobManager.JobCount; ++i)
                 {
-                    if (((JobManager.Job(i).RunStatus as CogRunStatus).Result == CogToolResultConstants.Accept))
+                    if (((JobManager.Job(i).RunStatus as CogRunStatus)?.Result == CogToolResultConstants.Accept))
                     {
                         Count++;
                         Systems.LogWriter.Error($"InspComplete JobManager Name : {JobManager.Name} Job Name : {JobManager.Job(i).Name}");
@@ -283,9 +284,10 @@ namespace CRUX_Renewal.Class
                 {
                     var InspectionTemp = Systems.Inspector_.GetInspectionList().Find(x => x.JobManager.Name == MainJobName);
                     if (InspectionTemp != null)
-                        InspectionTemp.CheckRunState(Job);
-                    else
-                        Systems.LogWriter.Error($"Not Exist Inspection");
+                        if (InspectionTemp.CheckRunState(Job))
+                            InspectionTemp.Finished = true;
+                        else
+                            Systems.LogWriter.Error($"Not Exist Inspection");
                 }
             }
         }
@@ -307,6 +309,7 @@ namespace CRUX_Renewal.Class
             InspectData = InspectData ?? new InspData();
             InspectData = data.DeepCopy<InspData>();
 
+            (Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
             Job.Run();
         }
 
