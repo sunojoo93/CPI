@@ -65,6 +65,8 @@ namespace CRUX_Renewal
         public static void ProgramExit()
         {
             Program.KillAllTask();
+            Program.Frm_Init_.CircleProgressBar.TimerStop();
+            Program.Frm_Main.Frm_Status.TokenSource.Cancel();
             Systems.LogWriter.Info("Process Exit");
             Systems.CogJobManager_.Shutdown();
             foreach (var item in Frm_MainContent_)
