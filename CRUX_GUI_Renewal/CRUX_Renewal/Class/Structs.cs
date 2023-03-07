@@ -1,4 +1,5 @@
-﻿using CRUX_Renewal.Utils;
+﻿using Cognex.VisionPro;
+using CRUX_Renewal.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,7 +24,7 @@ namespace CRUX_Renewal.Class
     {
         public void Dispose ()
         {
-            OriginImage.Dispose();   
+            //OriginImage.Dispose();   
         }
         public InspData DeepCopy()
         {
@@ -32,7 +33,7 @@ namespace CRUX_Renewal.Class
             Temp.OriginImage = ImageProc.DeepCopyBitmap_Stream(OriginImage);
             return Temp;
         }
-        public Bitmap OriginImage { get; set; } = null;
+        public CogImage8Grey OriginImage { get; set; } = null;
         public string Position { get; set; } = null;
         public string Direction { get; set; } = null;
         public string Face { get; set; } = null;

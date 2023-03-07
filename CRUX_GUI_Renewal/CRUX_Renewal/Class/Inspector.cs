@@ -6,6 +6,8 @@ using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.LineMax;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.QuickBuild.Implementation.Internal;
+using Cognex.VisionPro.ToolBlock;
+using Cognex.VisionPro.ToolGroup;
 using CRUX_Renewal;
 using CRUX_Renewal.Utils;
 using System;
@@ -202,6 +204,10 @@ namespace CRUX_Renewal.Class
             Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
             for (int i = 0; i < 2; ++i)
             {
+                UserAcqFifo Fifo = new CogAcqFifoSynthetic();
+
+                Fifo.
+                
                 JobManager.JobAdd(new CogJob() { VisionTool = source.Job(0).VisionTool, AcqFifo = source.Job(0).AcqFifo });
                 
                 Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));
@@ -213,7 +219,7 @@ namespace CRUX_Renewal.Class
         {
             int Count = 0;
             if((job.RunStatus as CogRunStatus).Result == CogToolResultConstants.Accept)
-                Systems.LogWriter.Error($"Insp Complete JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");
+                Systems.LogWriter.Info($"Insp Complete JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");
             else
                 Systems.LogWriter.Error($"Occured Problem JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");
             lock (LockObj1)
@@ -223,7 +229,7 @@ namespace CRUX_Renewal.Class
                     if (((JobManager.Job(i).RunStatus as CogRunStatus)?.Result == CogToolResultConstants.Accept))
                     {
                         Count++;
-                        Systems.LogWriter.Error($"InspComplete JobManager Name : {JobManager.Name} Job Name : {JobManager.Job(i).Name}");
+                        Systems.LogWriter.Info($"InspComplete JobManager Name : {JobManager.Name} Job Name : {JobManager.Job(i).Name}");
                     }
                 }
             }
@@ -308,9 +314,19 @@ namespace CRUX_Renewal.Class
         {
             InspectData = InspectData ?? new InspData();
             InspectData = data.DeepCopy<InspData>();
+            //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
+            //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = "ABCDEDF";
+            //(Job.AcqFifo as CogAcqFifoSynthetic).ImageFileTool.InputImage = new CogImage8Grey(data.OriginImage);
+            //(Job.AcqFifo as CogAcqFifoSynthetic).ImageFileTool.Run();
 
-            (Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
+            var temp = Job.VisionTool as CogToolGroup;
+            string returned = string.Empty;
+            CogToolResultConstants ttaa = new CogToolResultConstants();
+            temp.RunTool(temp.Tools[0] as CogInputImageTool, ref returned, ref ttaa);
+            
+
             Job.Run();
+    
         }
 
         private void SetEvent()
@@ -320,14 +336,15 @@ namespace CRUX_Renewal.Class
                 var Temp = sender as CogJob;
                 Console.WriteLine((Job.RunStatus as CogRunStatus).TotalTime.ToString());
                 InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                Console.WriteLine($"Origin 검사 완료, RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
+                Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
                 Finished = true;
             });
+
             Job.Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
             {
                 Finished = false;
                 var Temp = sender as CogJob;
-                Console.WriteLine("Origin 검사 시작");
+                Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
                 InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
             });
         }

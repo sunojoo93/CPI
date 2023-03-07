@@ -372,10 +372,11 @@ namespace CRUX_Renewal.Class
                         Stride += (ImgWidth * ImgBandWidth) % 4;
                         //Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC1, (IntPtr)Systems.SMem.GetImgAddress(Inspection_Data.ImageNum));
                         InspData ip = new InspData();
-                        ip.OriginImage = new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageNum)).Clone() as Bitmap;
+                        
+                        Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageNum)).Clone() as Bitmap);
                         
 
-                        ColorPalette cp = ip.OriginImage.Palette;
+                        ColorPalette cp = Temp.Palette;
                         Color[] _entries = cp.Entries;
 
                         for(int i = 0; i < 256; i++)
@@ -384,12 +385,13 @@ namespace CRUX_Renewal.Class
                             b = Color.FromArgb((byte)i, (byte)i, (byte)i);
                             _entries[i] = b;
                         }
-                        ip.OriginImage.Palette = cp;
+                        Temp.Palette = cp;
             
                         Task ImageSaveTask = new Task(delegate
                         {
-                            ImageSave(Path, ip.OriginImage);
+                            ImageSave(Path, Temp);
                         });
+                        ip.OriginImage = new Cognex.VisionPro.CogImage8Grey(Temp);
                         ImageSaveTask.Start();
                         ip.CellID = SampleID;
                         ip.Direction = "AA";

@@ -13,6 +13,7 @@ using Cognex.VisionPro.ToolGroup;
 using Cognex.VisionPro.QuickBuild.Implementation.Internal;
 using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.ImageProcessing;
+using Cognex.VisionPro.Inspection;
 
 namespace CRUX_Renewal
 {
@@ -40,45 +41,12 @@ namespace CRUX_Renewal
             try
             {
                 CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.02.27_New.vpp");
+    
                 //(CogJobManager_.Job(0).AcqFifo as CogAcqFifoSynthetic).Filename = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
                 Systems.Inspector_.SetInspection();
                 Systems.Inspector_.SetCogManager(CogJobManager_);
-                //CogTemp = new CogJobManager();
-
-                //CogTemp.JobAdd(new CogJob() { VisionTool = CogJobManager_.Job(0).VisionTool , AcqFifo = CogJobManager_.Job(0).AcqFifo });
 
 
-               // var Tem = Systems.CogJobManager_.JobsRunningState;
-                //CogJobManager_.Changed += new CogChangedEventHandler((sender, e) =>
-                //  {
-                //      int aa = 0;
-                //  });
-                //CogJobManager_.JobAdded += new CogJobManager.CogJobAddedEventHandler((sender, e) =>
-                //{
-                //    int aa = 0;
-                //});
-                //CogJobManager_.Job(0).Stopped += new CogJob.CogJobStoppedEventHandler((sender, e) =>
-                //{
-                //    var Job = sender as CogJob;
-                //    Console.WriteLine((Job.RunStatus as CogRunStatus).TotalTime.ToString());
-                //    Console.WriteLine($"Origin 검사 완료, RunState : {Job.RunStatus as CogRunStatus}");
-                //});
-                //CogJobManager_.Job(0).Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
-                //{
-                //    var tt = sender as CogJob;
-                //    Console.WriteLine("Origin 검사 시작");
-                //});
-                //CogTemp.Job(0).Stopped += new CogJob.CogJobStoppedEventHandler((sender, e) =>
-                //{
-                //    var Job = sender as CogJob;
-                //    Console.WriteLine((Job.RunStatus as CogRunStatus).TotalTime.ToString());
-                //    Console.WriteLine($"Copy 검사 완료, RunState : {Job.RunStatus as CogRunStatus}");
-                //});
-                //CogTemp.Job(0).Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
-                //{
-                //    var tt = sender as CogJob;
-                //    Console.WriteLine("Copy 검사 시작");
-                //});
             }
             catch (Exception ex)
             {

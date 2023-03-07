@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8D1742C4-4A1F-4E07-9F8D-94506CD75681}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CRUX_Renewal</RootNamespace>
     <AssemblyName>CRUX_Renewal</AssemblyName>
@@ -380,6 +380,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\UserAcqFifo.cs" />
     <Compile Include="Ex_Form\Account\Ex_Frm_Account_Login.cs">
       <SubType>Form</SubType>
     </Compile>

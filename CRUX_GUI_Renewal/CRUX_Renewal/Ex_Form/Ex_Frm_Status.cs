@@ -16,7 +16,7 @@ namespace CRUX_Renewal.Ex_Form
 {
     public partial class Ex_Frm_Status : Form
     {
-        CancellationTokenSource TokenSource;
+        public CancellationTokenSource TokenSource { get; set; }
         public Ex_Frm_Status ()
         {
             InitializeComponent();
@@ -27,6 +27,7 @@ namespace CRUX_Renewal.Ex_Form
             TokenSource = new CancellationTokenSource();
             Show();
             Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));           
+            
         }
 
         private void Ex_Frm_Status_Load(object sender, EventArgs e)

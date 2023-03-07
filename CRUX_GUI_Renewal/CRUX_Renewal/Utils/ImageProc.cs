@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
+using Cognex.VisionPro;
 
 namespace CRUX_Renewal.Utils
 {
@@ -622,20 +623,20 @@ namespace CRUX_Renewal.Utils
             Bitmap dstBitmap = source.Clone(new Rectangle(0, 0, source.Width, source.Height), source.PixelFormat);
             return dstBitmap;
         }
-        public static Bitmap DeepCopyBitmap_Stream(Bitmap source)
+        public static CogImage8Grey DeepCopyBitmap_Stream(CogImage8Grey source)
         {
             try
             {
                 {
 
-                    Bitmap dstBitmap = null;
+                    CogImage8Grey dstBitmap = null;
                     using (MemoryStream ms = new MemoryStream())
                     {
                         {
                             BinaryFormatter bf = new BinaryFormatter();
                             bf.Serialize(ms, source);
                             ms.Seek(0, SeekOrigin.Begin);
-                            dstBitmap = (Bitmap)bf.Deserialize(ms);
+                            dstBitmap = (CogImage8Grey)bf.Deserialize(ms);
                             ms.Close();
                         }
                     }

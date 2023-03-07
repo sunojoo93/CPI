@@ -36,12 +36,6 @@ namespace CRUX_Renewal
         public Frm_MainContent ()
         {
             InitializeComponent();
-            Systems.LogWriter.Info("========== Started Application ==========");
-            Systems.LogWriter.Info("info");
-            Systems.LogWriter.Debug("debug");
-            Systems.LogWriter.Fatal("fatal");
-            Systems.LogWriter.Warn("warn");
-            Systems.LogWriter.Error("error");
             Initialize();
         }
         public void Initialize()
