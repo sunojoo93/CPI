@@ -40,13 +40,10 @@ namespace CRUX_Renewal
 
             try
             {
-                CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.02.27_New.vpp");
-    
-                //(CogJobManager_.Job(0).AcqFifo as CogAcqFifoSynthetic).Filename = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
+                CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.03_06_버그정리_ver3.vpp");
+
                 Systems.Inspector_.SetInspection();
                 Systems.Inspector_.SetCogManager(CogJobManager_);
-
-
             }
             catch (Exception ex)
             {

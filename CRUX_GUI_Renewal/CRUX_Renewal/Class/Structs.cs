@@ -42,7 +42,7 @@ namespace CRUX_Renewal.Class
         public string OutputTime { get; set; } = null;
         public string FinishedTime { get; set; } = null;
         public string InspName { get; set; } = null;
-        public string Path { get; set; } = null;
+        public string Path { get; set; } = "";
     }
     /// <summary>
     /// 검사에 필요한 정보

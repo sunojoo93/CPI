@@ -204,10 +204,6 @@ namespace CRUX_Renewal.Class
             Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
             for (int i = 0; i < 2; ++i)
             {
-                UserAcqFifo Fifo = new CogAcqFifoSynthetic();
-
-                Fifo.
-                
                 JobManager.JobAdd(new CogJob() { VisionTool = source.Job(0).VisionTool, AcqFifo = source.Job(0).AcqFifo });
                 
                 Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));
@@ -315,18 +311,11 @@ namespace CRUX_Renewal.Class
             InspectData = InspectData ?? new InspData();
             InspectData = data.DeepCopy<InspData>();
             //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
-            //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = "ABCDEDF";
-            //(Job.AcqFifo as CogAcqFifoSynthetic).ImageFileTool.InputImage = new CogImage8Grey(data.OriginImage);
-            //(Job.AcqFifo as CogAcqFifoSynthetic).ImageFileTool.Run();
 
-            var temp = Job.VisionTool as CogToolGroup;
-            string returned = string.Empty;
-            CogToolResultConstants ttaa = new CogToolResultConstants();
-            temp.RunTool(temp.Tools[0] as CogInputImageTool, ref returned, ref ttaa);
-            
+            var Temp = Job.VisionTool as CogToolGroup;
+            (Temp.Tools[0] as CogInputImageTool).InputImage = data.OriginImage;            
 
             Job.Run();
-    
         }
 
         private void SetEvent()
