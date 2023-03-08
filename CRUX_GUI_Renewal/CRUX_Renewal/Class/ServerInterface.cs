@@ -14,6 +14,8 @@ using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Imaging;
 using CRUX_Renewal;
+using Cognex.VisionPro;
+using Cognex.VisionPro.ImageFile;
 
 namespace CRUX_Renewal.Class
 {     
@@ -374,8 +376,15 @@ namespace CRUX_Renewal.Class
                         InspData ip = new InspData();
                         
                         Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageNum)).Clone() as Bitmap);
-                        
 
+                        /////// Byte to CogRoot 23-03-08 검증 필요함 ///////
+                        var cogRoot = new CogImage8Root();
+
+                        cogRoot.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageNum), ImgWidth, null);
+
+                        var cogImage = new CogImage8Grey();
+                        cogImage.SetRoot(cogRoot);
+                        ////////////////////////////////////////////////////
                         ColorPalette cp = Temp.Palette;
                         Color[] _entries = cp.Entries;
 
@@ -391,7 +400,10 @@ namespace CRUX_Renewal.Class
                         {
                             ImageSave(Path, Temp);
                         });
-                        ip.OriginImage = new Cognex.VisionPro.CogImage8Grey(Temp);
+                        ip.OriginImage = new CogImage8Grey(Temp); 
+
+
+
                         ImageSaveTask.Start();
                         ip.CellID = SampleID;
                         ip.Direction = "AA";

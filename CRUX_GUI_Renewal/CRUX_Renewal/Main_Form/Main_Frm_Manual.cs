@@ -66,7 +66,7 @@ namespace CRUX_Renewal.Main_Form
                 Temp2.InputTime = Time;
                 Temp2.InspName = "InspName";
                 //Temp2.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
-                Systems.Inspector_.StartJob(Temp2, 1);
+                Systems.Inspector_.StartJob(Temp2, 0);
 
 
                 Temp.CellID = $"{Time}_CellID";
@@ -76,7 +76,7 @@ namespace CRUX_Renewal.Main_Form
                 Temp.InspName = "InspName";
                 //Temp.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
 
-                Systems.Inspector_.StartJob(Temp, 0);
+                Systems.Inspector_.StartJob(Temp, 1);
 
             }
             catch (Exception ex)

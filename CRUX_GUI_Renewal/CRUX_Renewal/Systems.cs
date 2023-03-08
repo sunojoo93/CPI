@@ -51,7 +51,8 @@ namespace CRUX_Renewal
             }
 
         }
-        static private CogImage8Grey Load_Image(string strPath)
+
+        private CogImage8Grey Load_Image(string strPath)
         {
             CogImageFile img = new CogImageFile();
 
