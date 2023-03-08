@@ -48,13 +48,22 @@ namespace CRUX_Renewal.Class
     /// <summary>
     /// 검사에 필요한 정보
     /// </summary>
-    class CommonInspData
+    class CommonInspData : IDisposable
     {
         public string Face { get; set; } = null;
         public string CellID { get; set; } = null;
         public string InputTime { get; set; } = null;
         public string OutputTime { get; set; } = null;
         public string ProcessedTime { get; set; } = null;
+
+        public void Dispose()
+        {
+            CellID = null;
+            Face = null;
+            InputTime = null;
+            OutputTime = null;
+            ProcessedTime = null;
+        }
     }
     /// <summary>
     /// 레시피 파라미터

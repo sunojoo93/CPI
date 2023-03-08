@@ -144,7 +144,7 @@ namespace CRUX_Renewal.Class
     {
         public void Dispose ()
         {
-            Dispose();
+           
         }
     }
     /// <summary>
@@ -160,8 +160,6 @@ namespace CRUX_Renewal.Class
 
         public CommonInspData CommonData = new CommonInspData();
         public Judgement Judge = new Class.Judgement();
-
-        private object LockObj1 = new object();
 
         public bool Finished
         {
@@ -187,7 +185,7 @@ namespace CRUX_Renewal.Class
             // 기록
             // 폼 갱신
 
-            //Clear_Inspection();
+            Clear_Inspection();
         }
 
         public void Clear_Inspection()
@@ -213,23 +211,13 @@ namespace CRUX_Renewal.Class
         
         public bool CheckRunState(CogJob job)
         {
-            int Count = 0;
+            //int Count = 0;
             if((job.RunStatus as CogRunStatus).Result == CogToolResultConstants.Accept)
                 Systems.LogWriter.Info($"Insp Success JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");
             else
                 Systems.LogWriter.Error($"Occured Problem JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");
-            lock (LockObj1)
-            {
-                for (int i = 0; i < JobManager.JobCount; ++i)
-                {
-                    if (((JobManager.Job(i).RunStatus as CogRunStatus)?.Result == CogToolResultConstants.Accept))
-                    {
-                        Count++;
-                        //Systems.LogWriter.Info($"Insp Complete JobManager Name : {JobManager.Name} Job Name : {JobManager.Job(i).Name}");
-                    }
-                }
-            }
-            if (Count >= JobManager.JobCount)
+
+            if (JobManager.JobsRunningState == CogJobsRunningStateConstants.None)
                 return true;
             else
                 return false;
@@ -242,7 +230,7 @@ namespace CRUX_Renewal.Class
             CommonData.InputTime = CommonData.InputTime ?? insp_param.InputTime;
             CommonData.CellID = CommonData.CellID ?? insp_param.CellID;
             CommonData.Face = CommonData.Face ?? insp_param.Face;                     
-          
+      
             Inspection_Thread[thread_num].InspStart(insp_param);
         }
         public void StartInspect(InspData insp_param, RecipeParams recipe, int thread_num, bool initialize)
@@ -266,7 +254,8 @@ namespace CRUX_Renewal.Class
 
         public void Dispose()
         {
-            JobManager.Shutdown();
+            //JobManager.Shutdown();
+            CommonData.Dispose();
             Judge.Dispose();
         }
     }
@@ -284,13 +273,13 @@ namespace CRUX_Renewal.Class
                 Finished_ = value;
                 if (Finished_)
                 {
-                    var InspectionTemp = Systems.Inspector_.GetInspectionList().Find(x => x.JobManager.Name == MainJobName);
+                    var InspectionTemp = Systems.Inspector_.GetInspectionList().Find(x => x.CommonData.CellID == InspectData.CellID);
                     if (InspectionTemp != null)
                     {
                         if (InspectionTemp.CheckRunState(Job))
                         {
                             InspectionTemp.Finished = true;
-                            Systems.LogWriter.Info($"Insp All Complete JobManager Name : {InspectionTemp.JobManager.Name} ");
+                            Systems.LogWriter.Info($"Insp All Complete Cell ID : {InspectData.CellID} ");
                         }
                     }
                     else
@@ -316,10 +305,8 @@ namespace CRUX_Renewal.Class
             InspectData = InspectData ?? new InspData();
             InspectData = data.DeepCopy<InspData>();
             //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
-   
                         
             ((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
-            var rr = Systems.CogJobManager_.Job(0).RunStatus;
             Job.Run();
         }
 
@@ -329,6 +316,7 @@ namespace CRUX_Renewal.Class
             {
                 var Temp = sender as CogJob;
                 Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
+                
                 InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
                 Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
                 Finished = true;
@@ -341,6 +329,8 @@ namespace CRUX_Renewal.Class
                 Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
                 InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
             });
+
+        
         }
         public void Do_Judge()
         {
