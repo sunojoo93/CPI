@@ -45,6 +45,7 @@ namespace CRUX_Renewal.Class
         public string FinishedTime { get; set; } = null;
         public string InspName { get; set; } = null;
         public string Path { get; set; } = "";
+        public int ImageNo { get; set; } = 0;
     }
     /// <summary>
     /// 검사에 필요한 정보

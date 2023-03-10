@@ -408,9 +408,10 @@ namespace CRUX_Renewal.Class
                         ip.CellID = SampleID;
                         ip.Direction = "AA";
                         ip.Face = "UnderSide";
-                        ip.Position = "TOP";                        
+                        ip.Position = "TOP";
+                        ip.ImageNo = Inspection_Data.ImageNum;
                         // ip 채워줘야함.
-                        Systems.Inspector_.StartJob(ip, Inspection_Data.ImageNum);
+                        Systems.Inspector_.StartJob(ip);
 
                     }
 

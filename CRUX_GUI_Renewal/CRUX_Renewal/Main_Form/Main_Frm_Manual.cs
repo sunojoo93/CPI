@@ -48,40 +48,73 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
- 
-
+                InspData Temp0 = new InspData();
+                CogImage8Grey Bit0;
+                InspData Temp1 = new InspData();
+                CogImage8Grey Bit1;
+                InspData Temp2 = new InspData();
+                CogImage8Grey Bit2;
+                InspData Temp3 = new InspData();
+                CogImage8Grey Bit3;
                 string Time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
 
-                InspData Temp2 = new InspData();
-                var Bit1 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
-                Temp2.OriginImage = Bit1;
-                InspData Temp = new InspData();
-                var Bit2 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp");
-                Temp.OriginImage = Bit2;
+                Temp0 = new InspData();
+                Bit0 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
+                Temp0.OriginImage = Bit0;
+                Temp1 = new InspData();
+                Bit1 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp");
+                Temp1.OriginImage = Bit1;
+                Temp2 = new InspData();
+                Bit2 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\3.bmp");
+                Temp2.OriginImage = Bit2;
+                Temp3 = new InspData();
+                Bit3 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\4.bmp");
+                Temp3.OriginImage = Bit3;
 
                 Console.WriteLine("Read Image");
-        
+                Temp0.CellID = $"{Time}_CellID";
+                Temp0.Direction = "Forward";
+                Temp0.Face = "Upper";
+                Temp0.InputTime = $"{Time}_00";
+                Temp0.InspName = "Left";
+                Temp0.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
+
+                Temp1.CellID = $"{Time}_CellID";
+                Temp1.Direction = "Forward";
+                Temp1.Face = "Upper";
+                Temp1.InputTime = $"{Time}_01";
+                Temp1.InspName = "Left2";
+                Temp1.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp";
+
                 Temp2.CellID = $"{Time}_CellID";
                 Temp2.Direction = "Forward";
                 Temp2.Face = "Upper";
-                Temp2.InputTime = Time;
-                Temp2.InspName = "InspName";
-                //Temp2.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
-                Systems.Inspector_.StartJob(Temp2, 0);
+                Temp2.InputTime = $"{Time}_00";
+                Temp2.InspName = "Left3";
+                Temp2.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\3.bmp";
 
-                string Time3 = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                Temp.CellID = $"{Time}_CellID";
-                Temp.Direction = "Forward";
-                Temp.Face = "Upper";
-                Temp.InputTime = Time;
-                Temp.InspName = "InspName";
-                //Temp.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
 
-                Systems.Inspector_.StartJob(Temp, 0);
+                Temp3.CellID = $"{Time}_CellID";
+                Temp3.Direction = "Forward";
+                Temp3.Face = "Upper";
+                Temp3.InputTime = $"{Time}_01";
+                Temp3.InspName = "Left4";
+                Temp3.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\4.bmp";
 
+                //Systems.Inspector_.SetInspection(true, Temp0, Temp1, Temp2, Temp3);  
+                //Systems.Inspector_.StartManager();
+   
+                Systems.Inspector_.StartJob(Temp0);
+
+                Systems.Inspector_.StartJob(Temp1);
+
+                Systems.Inspector_.StartJob(Temp2);
+
+                Systems.Inspector_.StartJob(Temp3);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception Image {ex.Message}");
                 Program.ProgramExit();                
             }
         }

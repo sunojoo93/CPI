@@ -40,7 +40,7 @@ namespace CRUX_Renewal
 
             try
             {
-                Consts.VPP_PATH = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.03_06_버그정리_ver3.vpp";
+                Consts.VPP_PATH = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.03_10_버그정리_ver3.vpp";
                 CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(Consts.VPP_PATH);
                 //CogJobManagerConfiguration tt = new CogJobManagerConfiguration(true, CogJobManager_);
      
