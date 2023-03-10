@@ -1,4 +1,5 @@
-﻿using CRUX_Renewal;
+﻿using Cognex.VisionPro.QuickBuild;
+using CRUX_Renewal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -100,6 +101,33 @@ namespace CRUX_Renewal
                     if (ctl.Controls.Count > 0) // 자식 컨트롤의 자식 컨트롤들이 0보다 많으면
                     {   // Container 이므로
                         controlList.AddRange(GetAllControlsRecursive(ctl)); // container를 재귀호출한다. 
+                                                                            // 그리고 그 값들은 AddRange로 리스트에 추가된다.
+                    }
+                }
+                return controlList.ToArray(); // 콘트롤 리스트를 반환한다.
+            }
+            catch (Exception ex)
+            {
+                Systems.LogWriter.Error(string.Format("Exception Message : {0} Stack : {1} Prev Func Name : {2} }", ex.Message.ToString(), ex.StackTrace.ToString(), $"{new StackFrame(1, true).GetMethod().Name}"));
+                throw ex;
+            }
+        }
+        static public Control[] GetAllControlsRecursive(Control containerControl, string content)  // Main object부터 시작
+        {
+            try
+            {
+                List<Control> controlList = new List<Control>();
+
+                foreach (Control ctl in containerControl.Controls)  // 자식 컨트롤을 하나씩 조회하여
+                {
+                    if (ctl.Name.Contains(content))
+                    {
+                        controlList.Add(ctl);   // list에 넣는다.                        
+                    }
+
+                    if (ctl.Controls.Count > 0) // 자식 컨트롤의 자식 컨트롤들이 0보다 많으면
+                    {   // Container 이므로                        
+                        controlList.AddRange(GetAllControlsRecursive(ctl, content)); // container를 재귀호출한다. 
                                                                             // 그리고 그 값들은 AddRange로 리스트에 추가된다.
                     }
                 }
@@ -215,6 +243,23 @@ namespace CRUX_Renewal
             {
                 Systems.LogWriter.Error(string.Format("Exception Message : {0} Stack : {1} Prev Func Name : {2} }", ex.Message.ToString(), ex.StackTrace.ToString(), $"{new StackFrame(1, true).GetMethod().Name}"));
             }
+        }
+        static public void ChangeJobImageSource(CogJob job, bool flag)
+        {
+            CheckState Checked;
+            if (flag)
+                Checked = CheckState.Checked;
+            else
+                Checked = CheckState.Unchecked;
+
+            CogJobConfiguration Config = new CogJobConfiguration(false, Systems.CogJobManager_.Job(0)) { TopLevel = false };
+
+            var rtn = Utility.GetAllControlsRecursive(Config, "chkNormalRunMode");
+
+            (rtn[0] as CheckBox).CheckState = Checked;       
+            var rtna = Utility.GetAllControlsRecursive(Config, "btnOK");
+            (rtna[0] as Button).PerformClick();
+            Config.CopyAll(Systems.CogJobManager_.Job(0));
         }
         static public void AdjustCoordination (ref RectangleF rect)
         {

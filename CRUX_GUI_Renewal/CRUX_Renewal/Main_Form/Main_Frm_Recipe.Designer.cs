@@ -160,5 +160,6 @@
         private System.Windows.Forms.TabPage tab_judge;
         private System.Windows.Forms.TabPage tab_algorithm;
         private Cognex.VisionPro.QuickBuild.CogJobManagerEdit Cog_JobManagerEdit;
+    
     }
 }

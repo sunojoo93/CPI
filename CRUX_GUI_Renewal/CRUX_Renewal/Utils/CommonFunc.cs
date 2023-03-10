@@ -197,53 +197,81 @@ namespace CRUX_Renewal
           /// /작업일 : 2016.09.29
           /// /작성자 : 임경민 (IKM)        
           /// </summary>  
-          public static T DeepCopy<T>(this T val)
-          {
-              using (MemoryStream memoryStream = new MemoryStream())
-              {
-                  BinaryFormatter binaryFormatter = new BinaryFormatter();
-                  binaryFormatter.Serialize(memoryStream, val);
-                  memoryStream.Seek(0, SeekOrigin.Begin);
-                  return (T)binaryFormatter.Deserialize(memoryStream);
-              }
-          }
-//        
-//           /// <summary>
-//           /// 기  능 :  바이트 배열을 구조체로 변환
-//           /// /반환값 : 
-//           /// /입  력 : 
-//           /// /작업일 : 2016.09.29
-//           /// /작성자 : 임경민 (IKM)   
-//           /// </summary>
-//           /// T ByteToType<T>(this T structure, BinaryReader reader) where T : struct
-//           static public T[] ToStructure<T>(this T[] structure, byte[] byteData) where T : struct
-//           {
-//               T[] theStructure = new T[20];
-//               try
-//               {
-//                   GCHandle gch = GCHandle.Alloc(byteData, GCHandleType.Pinned);
-//                   theStructure = (T[])Marshal.PtrToStructure(gch.AddrOfPinnedObject(), typeof(T[]));
-// 
-// 
-//                   gch.Free();
-//                   return theStructure;
-//               }
-//               catch
-//               {
-//                   //theStructure = new T();
-//               }
-//               return new T[20];
-//              
-//           }
-          /// <summary>
-          /// 기  능 :  바이트 배열을 구조체로 변환
-          /// /반환값 : 
-          /// /입  력 : 
-          /// /작업일 : 2016.09.29
-          /// /작성자 : 임경민 (IKM)   
-          /// </summary>
-          /// T ByteToType<T>(this T structure, BinaryReader reader) where T : struct
-          static public T ToStructure<T>(this T structure, byte[] byteData) where T : struct
+          //public static T DeepCopy<T>(this T val)
+          //{
+          //    using (MemoryStream memoryStream = new MemoryStream())
+          //    {
+          //        BinaryFormatter binaryFormatter = new BinaryFormatter();
+          //        binaryFormatter.Serialize(memoryStream, val);
+          //        memoryStream.Seek(0, SeekOrigin.Begin);
+          //        return (T)binaryFormatter.Deserialize(memoryStream);
+          //    }
+          //}
+        public static T DeepCopy<T>(this T val) where T : new()
+        {
+            if (!typeof(T).IsSerializable)
+            {
+                // fail
+                return val;
+            }
+
+            try
+            {
+                object result = null;
+                using (var ms = new MemoryStream())
+                {
+                    var formatter = new BinaryFormatter();
+                    formatter.Serialize(ms, val);
+                    ms.Position = 0;
+                    result = (T)formatter.Deserialize(ms);
+                    ms.Close();
+                }
+
+                return (T)result;
+            }
+            catch (Exception)
+            {
+                // fail
+                return new T();
+            }
+        }
+        //        
+        //           /// <summary>
+        //           /// 기  능 :  바이트 배열을 구조체로 변환
+        //           /// /반환값 : 
+        //           /// /입  력 : 
+        //           /// /작업일 : 2016.09.29
+        //           /// /작성자 : 임경민 (IKM)   
+        //           /// </summary>
+        //           /// T ByteToType<T>(this T structure, BinaryReader reader) where T : struct
+        //           static public T[] ToStructure<T>(this T[] structure, byte[] byteData) where T : struct
+        //           {
+        //               T[] theStructure = new T[20];
+        //               try
+        //               {
+        //                   GCHandle gch = GCHandle.Alloc(byteData, GCHandleType.Pinned);
+        //                   theStructure = (T[])Marshal.PtrToStructure(gch.AddrOfPinnedObject(), typeof(T[]));
+        // 
+        // 
+        //                   gch.Free();
+        //                   return theStructure;
+        //               }
+        //               catch
+        //               {
+        //                   //theStructure = new T();
+        //               }
+        //               return new T[20];
+        //              
+        //           }
+        /// <summary>
+        /// 기  능 :  바이트 배열을 구조체로 변환
+        /// /반환값 : 
+        /// /입  력 : 
+        /// /작업일 : 2016.09.29
+        /// /작성자 : 임경민 (IKM)   
+        /// </summary>
+        /// T ByteToType<T>(this T structure, BinaryReader reader) where T : struct
+        static public T ToStructure<T>(this T structure, byte[] byteData) where T : struct
           {
               T theStructure;
               try

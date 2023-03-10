@@ -28,7 +28,7 @@ namespace CRUX_Renewal.Class
     {
         private static Inspector Inspector_Object;
 
-        int MaxInspectionCount = 10;
+        int MaxInspectionCount = 2;
         int FaceCount = 8;
         int Now; // Enumerable 변수
         List<Inspection> Inspections;
@@ -74,7 +74,7 @@ namespace CRUX_Renewal.Class
                 Inspections.RemoveRange(0, Inspections.Count);
             }
             for (int i = 0; i < MaxInspectionCount; ++i)
-                Inspections.Add(new Inspection(manager));
+                Inspections.Add(new Inspection(manager, i));
         }
             
         public void SetRecipe(RecipeParams recipe)
@@ -194,17 +194,21 @@ namespace CRUX_Renewal.Class
             Finished = false;
             Dispose();
         }
-        public Inspection(CogJobManager source)
+        public Inspection(CogJobManager source, int idx)
         {
             JobManager = new CogJobManager();
 
             int JobCount = source.JobCount;
             Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < 1; ++i)
             {
-                JobManager.JobAdd(new CogJob() { VisionTool = source.Job(0).VisionTool, AcqFifo = source.Job(0).AcqFifo, JobScript = source.Job(0).JobScript });
-                
+                var Job = source.Job(0).DeepCopy();
+        
+                //JobManager.JobAdd(new CogJob() { VisionTool = (source.Job(0).VisionTool), AcqFifo = source.Job(0).AcqFifo, Name = $"{idx}{i}" });
+                JobManager.JobAdd(Job);
+
                 Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));
+
             }
             Finished = false;
         }
@@ -280,6 +284,7 @@ namespace CRUX_Renewal.Class
                         {
                             InspectionTemp.Finished = true;
                             Systems.LogWriter.Info($"Insp All Complete Cell ID : {InspectData.CellID} ");
+                            Console.WriteLine("-------------------------------------------------------");
                         }
                     }
                     else
@@ -303,10 +308,18 @@ namespace CRUX_Renewal.Class
         public void InspStart (InspData data)
         {
             InspectData = InspectData ?? new InspData();
-            InspectData = data.DeepCopy<InspData>();
+            InspectData.CellID = data.CellID;
+            InspectData.InputTime = data.InputTime;
+            //InspectData. = data.CellID;
+            //InspectData.CellID = data.CellID;
+            //InspectData.CellID = data.CellID;
+            //InspectData.CellID = data.CellID;
+
+            //InspectData = data.DeepCopy<InspData>();
             //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
                         
             ((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
+            Utility.ChangeJobImageSource(Job, false);
             Job.Run();
         }
 
@@ -319,6 +332,7 @@ namespace CRUX_Renewal.Class
                 
                 InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
                 Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
+                //InspectData.Dispose()
                 Finished = true;
             });
 

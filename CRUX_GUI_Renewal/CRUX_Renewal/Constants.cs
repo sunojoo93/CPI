@@ -333,6 +333,7 @@ namespace CRUX_Renewal
         public static int MAX_FACE_COUNT = 8;
 
         public static int MAX_VISION_COUNT = 2;
+        public static string VPP_PATH = "";
     }
 
     /// <summary>

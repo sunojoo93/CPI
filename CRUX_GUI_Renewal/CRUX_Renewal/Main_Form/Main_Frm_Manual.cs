@@ -48,6 +48,8 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
+ 
+
                 string Time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
 
                 InspData Temp2 = new InspData();
@@ -55,11 +57,10 @@ namespace CRUX_Renewal.Main_Form
                 Temp2.OriginImage = Bit1;
                 InspData Temp = new InspData();
                 var Bit2 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp");
-                Temp.OriginImage = Bit2.DeepCopy();
+                Temp.OriginImage = Bit2;
 
                 Console.WriteLine("Read Image");
-
-                string Time2 = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        
                 Temp2.CellID = $"{Time}_CellID";
                 Temp2.Direction = "Forward";
                 Temp2.Face = "Upper";
@@ -68,15 +69,15 @@ namespace CRUX_Renewal.Main_Form
                 //Temp2.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
                 Systems.Inspector_.StartJob(Temp2, 0);
 
-
-                Temp.CellID = $"{Time}_CellID";
+                string Time3 = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                Temp.CellID = $"{Time3}_CellID";
                 Temp.Direction = "Forward";
                 Temp.Face = "Upper";
                 Temp.InputTime = Time;
                 Temp.InspName = "InspName";
                 //Temp.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
 
-                Systems.Inspector_.StartJob(Temp, 1);
+                Systems.Inspector_.StartJob(Temp, 0);
 
             }
             catch (Exception ex)

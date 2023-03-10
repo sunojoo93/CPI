@@ -26,6 +26,7 @@ namespace CRUX_Renewal.Class
         {
             //OriginImage.Dispose();   
             
+            
         }
         public InspData DeepCopy()
         {
