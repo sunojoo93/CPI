@@ -28,7 +28,7 @@ namespace CRUX_Renewal.Class
     {
         private static Inspector Inspector_Object;
 
-        int MaxInspectionCount = 2;
+        int MaxInspectionCount = 10;
         int FaceCount = 8;
         int Now; // Enumerable 변수
         List<Inspection> Inspections;
@@ -202,10 +202,12 @@ namespace CRUX_Renewal.Class
             Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
             for (int i = 0; i < 1; ++i)
             {
-                var Job = source.Job(0).DeepCopy();
-        
-                //JobManager.JobAdd(new CogJob() { VisionTool = (source.Job(0).VisionTool), AcqFifo = source.Job(0).AcqFifo, Name = $"{idx}{i}" });
-                JobManager.JobAdd(Job);
+                //var Job = source.Job(0).DeepCopy();
+                //Job.VisionTool = (source.Job(0).VisionTool);
+                //Job.AcqFifo = source.Job(0).AcqFifo;
+                //Job.Name = $"{idx}{i}";
+                JobManager.JobAdd(new CogJob() { VisionTool = (source.Job(0).VisionTool), AcqFifo = source.Job(0).AcqFifo, Name = $"{idx}{i}" });
+                //JobManager.JobAdd(Job);
 
                 Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));
 
@@ -229,6 +231,7 @@ namespace CRUX_Renewal.Class
 
         public void StartInspect(InspData insp_param, RecipeParams recipe, int thread_num)
         {
+            Busy = true;
             Systems.LogWriter.Info($"Inspect Start Time : {insp_param.InputTime}");
             CommonData = CommonData ?? new CommonInspData();
             CommonData.InputTime = CommonData.InputTime ?? insp_param.InputTime;

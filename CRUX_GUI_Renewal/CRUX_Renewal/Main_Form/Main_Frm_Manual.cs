@@ -70,7 +70,7 @@ namespace CRUX_Renewal.Main_Form
                 Systems.Inspector_.StartJob(Temp2, 0);
 
                 string Time3 = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                Temp.CellID = $"{Time3}_CellID";
+                Temp.CellID = $"{Time}_CellID";
                 Temp.Direction = "Forward";
                 Temp.Face = "Upper";
                 Temp.InputTime = Time;
