@@ -227,9 +227,18 @@ namespace CRUX_Renewal.Class
 
         public void Clear_Inspection()
         {
+  
             Busy = false;
             Finished = false;
             Dispose();
+            JobManager.FailureQueueFlush();
+            JobManager.UserQueueFlush();
+            Console.WriteLine($"JobManager Flush");
+            for (int i = 0; i < JobManager.JobCount; ++i)
+            {
+                JobManager.Job(i).ImageQueueFlush();
+                Console.WriteLine($"Job: {i} Flush");
+            }
         }
         public Inspection(CogJobManager source, int idx)
         {
@@ -319,7 +328,7 @@ namespace CRUX_Renewal.Class
         {
              
                 bool AllComplete = false;
-                if ((job.RunStatus as CogRunStatus).Result == CogToolResultConstants.Accept)
+                if ((job?.RunStatus as CogRunStatus).Result == CogToolResultConstants.Accept)
                     Systems.LogWriter.Info($"Insp Success JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");
                 else
                     Systems.LogWriter.Error($"Occured Problem JobManager Name : {JobManager.Name} Job Name : {job.Name} RunState : {job.RunStatus.Result}");

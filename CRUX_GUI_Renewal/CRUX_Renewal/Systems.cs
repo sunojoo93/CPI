@@ -40,11 +40,21 @@ namespace CRUX_Renewal
 
             try
             {
-                Consts.VPP_PATH = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.03_10_버그정리_ver3.vpp";
-                CogJobManager_ = (CogJobManager)CogSerializer.LoadObjectFromFile(Consts.VPP_PATH);
+                //Consts.VPP_PATH = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.03_10_버그정리_ver3.vpp";
+                Consts.VPP_PATH = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\new.vpp";
+                CogJobManager_ = new CogJobManager();
+                CogJobManager_.JobAdd((CogJob)CogSerializer.LoadObjectFromFile(Consts.VPP_PATH));
                 //CogJobManagerConfiguration tt = new CogJobManagerConfiguration(true, CogJobManager_);
      
                 Systems.Inspector_.SetInspection();
+                CogJobManager_.FailureQueueFlush();
+                CogJobManager_.UserQueueFlush();
+                Console.WriteLine($"JobManager Flush");
+                for (int i = 0; i < CogJobManager_.JobCount; ++i)
+                {
+                    CogJobManager_.Job(i).ImageQueueFlush();
+                    Console.WriteLine($"Job: {i} Flush");
+                }
                 Systems.Inspector_.SetCogManager(CogJobManager_);
             }
             catch (Exception ex)
