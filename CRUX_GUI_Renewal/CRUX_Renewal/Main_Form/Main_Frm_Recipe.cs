@@ -32,28 +32,28 @@ namespace CRUX_Renewal.Main_Form
 
             //string aa = rtn[0].Text.ToString();
             var cc = new CogJobManagerConfiguration(false, Systems.CogJobManager_);
-            var rrtn = Utility.GetAllControlsRecursive(Cog_JobManagerEdit, "b");
+            var rrtn = Utility.GetAllControlsRecursive(cogToolGroupEditV2_Algorithm, "b");
 
         }
 
         public void DisplayJob()
         {
-            Cog_JobManagerEdit.Subject = Systems.GetCogJob();
-            
-            Cog_JobManagerEdit.ToolbarEvents += new CogJobManagerEdit.CogJobManagerEditEventHandler((s, e) =>
-           {           
-               if(e.buttonID.ToString()  == "ContinuousRunButton")
-               {
-                   //for (int i = 0; i < Systems.CogJobManager_.JobCount; ++i)
-                   //    Utility.ChangeJobImageSource(Systems.CogJobManager_.Job(i), true);
-               }
-           });
-        
+            cogToolGroupEditV2_Algorithm.Subject = Systems.GetCogJob().Job(0).VisionTool as CogToolGroup;
 
-            Cog_JobManagerEdit.ShowView(true);
+           // cogToolGroupEditV2_Algorithm.ToolbarEvents += new CogJobManagerEdit.CogJobManagerEditEventHandler((s, e) =>
+           //{           
+           //    if(e.buttonID.ToString()  == "ContinuousRunButton")
+           //    {
+           //        //for (int i = 0; i < Systems.CogJobManager_.JobCount; ++i)
+           //        //    Utility.ChangeJobImageSource(Systems.CogJobManager_.Job(i), true);
+           //    }
+           //});
+
+
+            cogToolGroupEditV2_Algorithm.Show();
 
             var EventHandler = new EventHandlerList();
-            var Temp = Cog_JobManagerEdit.GetType().GetMethod("ToolbarEvents", BindingFlags.NonPublic | BindingFlags.Public);
+           // var Temp = Cog_JobManagerEdit.GetType().GetMethod("ToolbarEvents", BindingFlags.NonPublic | BindingFlags.Public);
 
         }
     }

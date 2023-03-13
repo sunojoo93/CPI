@@ -31,14 +31,15 @@
             this.Tlp_RecipeLayout = new System.Windows.Forms.TableLayoutPanel();
             this.Tab_RecipeMain = new System.Windows.Forms.TabControl();
             this.tab_algorithm = new System.Windows.Forms.TabPage();
-            this.Cog_JobManagerEdit = new Cognex.VisionPro.QuickBuild.CogJobManagerEdit();
             this.tab_roi = new System.Windows.Forms.TabPage();
             this.tab_optic = new System.Windows.Forms.TabPage();
             this.tab_align = new System.Windows.Forms.TabPage();
             this.tab_judge = new System.Windows.Forms.TabPage();
+            this.cogToolGroupEditV2_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
             this.Tlp_RecipeLayout.SuspendLayout();
             this.Tab_RecipeMain.SuspendLayout();
             this.tab_algorithm.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogToolGroupEditV2_Algorithm)).BeginInit();
             this.SuspendLayout();
             // 
             // Tlp_RecipeLayout
@@ -76,23 +77,13 @@
             // 
             // tab_algorithm
             // 
-            this.tab_algorithm.Controls.Add(this.Cog_JobManagerEdit);
+            this.tab_algorithm.Controls.Add(this.cogToolGroupEditV2_Algorithm);
             this.tab_algorithm.Location = new System.Drawing.Point(4, 22);
             this.tab_algorithm.Name = "tab_algorithm";
             this.tab_algorithm.Size = new System.Drawing.Size(1467, 1198);
             this.tab_algorithm.TabIndex = 4;
             this.tab_algorithm.Text = "Algorithm";
             this.tab_algorithm.UseVisualStyleBackColor = true;
-            // 
-            // Cog_JobManagerEdit
-            // 
-            this.Cog_JobManagerEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Cog_JobManagerEdit.Location = new System.Drawing.Point(0, 0);
-            this.Cog_JobManagerEdit.Name = "Cog_JobManagerEdit";
-            this.Cog_JobManagerEdit.ShowLocalizationTab = true;
-            this.Cog_JobManagerEdit.Size = new System.Drawing.Size(1467, 1198);
-            this.Cog_JobManagerEdit.Subject = null;
-            this.Cog_JobManagerEdit.TabIndex = 0;
             // 
             // tab_roi
             // 
@@ -132,6 +123,19 @@
             this.tab_judge.Text = "Judge";
             this.tab_judge.UseVisualStyleBackColor = true;
             // 
+            // cogToolGroupEditV2_Algorithm
+            // 
+            this.cogToolGroupEditV2_Algorithm.AllowDrop = true;
+            this.cogToolGroupEditV2_Algorithm.ContextMenuCustomizer = null;
+            this.cogToolGroupEditV2_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogToolGroupEditV2_Algorithm.Location = new System.Drawing.Point(0, 0);
+            this.cogToolGroupEditV2_Algorithm.MinimumSize = new System.Drawing.Size(489, 0);
+            this.cogToolGroupEditV2_Algorithm.Name = "cogToolGroupEditV2_Algorithm";
+            this.cogToolGroupEditV2_Algorithm.ShowNodeToolTips = true;
+            this.cogToolGroupEditV2_Algorithm.Size = new System.Drawing.Size(1467, 1198);
+            this.cogToolGroupEditV2_Algorithm.SuspendElectricRuns = false;
+            this.cogToolGroupEditV2_Algorithm.TabIndex = 0;
+            // 
             // Main_Frm_Recipe
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -146,6 +150,7 @@
             this.Tlp_RecipeLayout.ResumeLayout(false);
             this.Tab_RecipeMain.ResumeLayout(false);
             this.tab_algorithm.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cogToolGroupEditV2_Algorithm)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -159,7 +164,6 @@
         private System.Windows.Forms.TabPage tab_align;
         private System.Windows.Forms.TabPage tab_judge;
         private System.Windows.Forms.TabPage tab_algorithm;
-        private Cognex.VisionPro.QuickBuild.CogJobManagerEdit Cog_JobManagerEdit;
-    
+        private Cognex.VisionPro.ToolGroup.CogToolGroupEditV2 cogToolGroupEditV2_Algorithm;
     }
 }
