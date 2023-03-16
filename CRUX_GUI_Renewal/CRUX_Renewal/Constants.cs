@@ -36,7 +36,7 @@ namespace CRUX_Renewal
         public const string INIT_DEVICE_PATH = DEFAULT_DRIVE + "CRUX\\DATA\\INI\\Device.cfg";
         public const string INIT_PATH = DEFAULT_DRIVE + "CRUX\\DATA\\INI\\Initialize"   + RECIPE_EXTENS_INI;
         public const string INIT_GUI_PATH = "DATA\\INI\\CRUX_GUI"                       + RECIPE_EXTENS_INI;
-        public const string INIT_GUI_RENEWAL_PATH = "DATA\\INI\\CRUX_GUI_Renewal" + RECIPE_EXTENS_INI;
+        public const string INIT_GUI_RENEWAL_PATH = @"D:\CRUX\DATA\INI\CRUX_GUI_Renewal" + RECIPE_EXTENS_INI;
         public const string INIT_GUIUSER_PATH = "DATA\\INI\\CRUX_GUI_USER"              + RECIPE_EXTENS_INI;
         public const string INIT_PG_PATH = "DATA\\INI\\PGController"                    + RECIPE_EXTENS_INI;
         public const string IMAGE_PATH = DEFAULT_DRIVE + "CRUX\\DATA\\image\\";
@@ -70,7 +70,7 @@ namespace CRUX_Renewal
 
         public const string RECIPE_ALG_SUBFILTER    = "AlgSubFilter" + RECIPE_EXTENS_TXT;
         public const string RECIPE_ALG_SECTION      = "SectionList"  + RECIPE_EXTENS_TXT;
-        public const string RECPIE_PAD_INFO = "PAD_INSP_INFO";
+        public const string RECPIE_PAD_INFO = "PAD_INSP_INFO";        
         
         public static string[] NET_INITIAL_PATH;        
         public static string[] NET_RECIPE_PATH;
@@ -83,6 +83,7 @@ namespace CRUX_Renewal
         public static string[] NET_PANEL_MANUAL_INFO;
         public static string[] MANUAL_RESULT_DATA_DRIVE;
 
+        public static string RECIPE_PATH_RENEWAL = @"D:\CRUX\DATA\Recipes\";
  
     }
     static class Globals

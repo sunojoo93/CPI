@@ -392,6 +392,12 @@
     <Compile Include="Ex_Form\Account\Ex_Frm_Account_Manage.Designer.cs">
       <DependentUpon>Ex_Frm_Account_Manage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Notification\Ex_Frm_Notification_Question.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Notification\Ex_Frm_Notification_Question.Designer.cs">
+      <DependentUpon>Ex_Frm_Notification_Question.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Light_Info.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -477,6 +483,7 @@
     <Compile Include="Utils\FileProc.cs" />
     <Compile Include="Utils\GridData.cs" />
     <Compile Include="Utils\ImageProc.cs" />
+    <Compile Include="Utils\Ini.cs" />
     <Compile Include="Utils\IniProc.cs" />
     <Compile Include="Class\Inspector.cs" />
     <Compile Include="Class\IpcInterface.cs" />
@@ -552,6 +559,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Account\Ex_Frm_Account_Manage.resx">
       <DependentUpon>Ex_Frm_Account_Manage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Notification\Ex_Frm_Notification_Question.resx">
+      <DependentUpon>Ex_Frm_Notification_Question.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Light_Info.resx">
       <DependentUpon>Ex_Frm_Optic_Light_Info.cs</DependentUpon>
@@ -663,6 +673,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) ..\..\..\..\..\EXE\</PostBuildEvent>

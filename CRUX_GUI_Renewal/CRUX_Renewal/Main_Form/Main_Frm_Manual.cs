@@ -133,5 +133,30 @@ namespace CRUX_Renewal.Main_Form
             Console.WriteLine($"Job: 0 Saved");
             //CogSerializer.SaveObjectToFile(myJob, "D:\\save.Rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
         }
+<<<<<<< Updated upstream
+=======
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Console.WriteLine($"Job: 0 Saved");
+                CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, @"D:\CRUX\DATA\Recipes\Test\new1.rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+            }
+            catch (Exception ex)
+            {
+                int aa = 0;
+                throw;
+            }
+            
+
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+>>>>>>> Stashed changes
     }
 }

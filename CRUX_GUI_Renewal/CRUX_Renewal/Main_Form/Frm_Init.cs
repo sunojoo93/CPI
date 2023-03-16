@@ -3,6 +3,7 @@ using CRUX_Renewal.Class;
 using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,7 +21,7 @@ namespace CRUX_Renewal.Main_Form
     public partial class Frm_Init : Form
     {
         Thread thread;
-
+        public bool Finished { get; set; } = false; 
         public Frm_Init ()
         {
             InitializeComponent();
@@ -37,11 +38,16 @@ namespace CRUX_Renewal.Main_Form
             thread.Start(this); 
         }
 
+        private void CreateINIObject()
+        {
+            Systems.Evironment_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
+        }
         private void initialize (object arg)
         {
             int InitFlag = 0;
             int Percent = 0;
             bool Temp;
+            Finished = false;
             StringBuilder SimulMode = new StringBuilder();
             WinApis.GetPrivateProfileString("Common", "SIMULATION Mode", "FALSE", SimulMode, 100, @"‪D:\CRUX\DATA\INI\Initialize.ini");
             try
@@ -77,7 +83,8 @@ namespace CRUX_Renewal.Main_Form
                             Systems.LogWriter.Info("Set Evironment...");
                             break;
                         case (int)Enums.InitFlag.LOG:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Log..."));
+                            setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
+                            CreateINIObject();
                             if ( Systems.LogWriter == null )
                                 throw new Exception("LogWriter 생성 실패");
                             ++InitFlag;
@@ -192,8 +199,13 @@ namespace CRUX_Renewal.Main_Form
                 }
                 CircleProgressBar.TimerStop();
                 Program.KillAllTask();
+<<<<<<< Updated upstream
                 if(Systems.CogJobManager_ != null)
                     Systems.CogJobManager_.Shutdown();
+=======
+                if(Systems.MainRecipe != null)
+                    Systems.MainRecipe?.Manager?.Shutdown();
+>>>>>>> Stashed changes
                 Application.Exit();
             }
         }
@@ -218,7 +230,7 @@ namespace CRUX_Renewal.Main_Form
             }
 
             Program.Frm_Main = new Frm_Main();
-            Program.Frm_Main.SetForm(Program.Frm_MainContent_[0]);
+            Program.Frm_Main?.SetForm(Program.Frm_MainContent_[0]);
            
             //Program.Frm_Main.CurDisplayForm = Program.Frm_MainContent_[0].Name;
             //Program.Frm_MainContent_[0].Show();
@@ -320,7 +332,8 @@ namespace CRUX_Renewal.Main_Form
         
         private void LoadJob()
         {
-            Systems.SetCogJob();
+            ArrayList FileList = fileProc.getFileList(($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Evironment_INI["LastUsedRecipe"]["Name"]}").Replace(" ",""),".rcp");
+            Systems.SetCogJob(FileList[0].ToString());
         }
 
         /// <summary>
@@ -455,7 +468,7 @@ namespace CRUX_Renewal.Main_Form
             }
             else
             {
-                dlg.BringToFront();
+                dlg.BringToFront();        
                 dlg.ShowDialog();
             }
         }
