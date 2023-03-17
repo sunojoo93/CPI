@@ -1,6 +1,5 @@
 ﻿using CRUX_Renewal.Class;
 using CRUX_Renewal.Ex_Form;
-using CRUX_Renewal.Main_Form;
 using CRUX_Renewal.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,6 @@ namespace CRUX_Renewal
 {
     public partial class Frm_Main : Form
     {
-
         Point CurWindowPosition = new Point();
         private string CurDisplayForm_;
         public string CurDisplayForm
@@ -27,7 +25,7 @@ namespace CRUX_Renewal
             {
                 CurDisplayForm_ = value;
                 var Temp = Globals.MAINFORM_NAME?.Find(x => x == CurDisplayForm_) ?? null;
-                if (Temp != null || Temp?.Count() <= 0)
+                if (Temp != null || Temp.Count() <= 0)
                 {
                     Systems.CurDisplayIndex = Globals.MAINFORM_NAME.IndexOf(Temp);
                 }
@@ -111,7 +109,7 @@ namespace CRUX_Renewal
                 ComboBox temp = sender as ComboBox;
                 var SelectedDisplayName = temp.SelectedItem.ToString();
 
-                var Ctrl = Program.Frm_MainContent_?.Find(x => x?.Name == SelectedDisplayName) ?? null;
+                var Ctrl = Program.Frm_MainContent_?.Find(x => x.Name == SelectedDisplayName) ?? null;
                 if (Ctrl == null)
                     throw new Exception("FormChangeErr");
                 else

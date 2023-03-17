@@ -42,7 +42,6 @@ namespace CRUX_Renewal
             }
             
         }
-
         /// <summary>
         /// /기  능 : 폴더 존재 유무 확인
         /// /반환값 : bool
@@ -276,27 +275,7 @@ namespace CRUX_Renewal
             }
             return aryLst;
         }
-        public static ArrayList getDirNameList(string path)
-        {
-            System.IO.DirectoryInfo Info = new System.IO.DirectoryInfo((path));
-
-            ArrayList aryLst = new ArrayList();
-
-            if (Info.Exists)
-            {
-                //int nCnt = 0;
-
-                // System.IO.DirectoryInfo[] CInfo = Info.GetFiles("*", System.IO.SearchOption.AllDirectories);
-                foreach (var info in Info.GetDirectories("*", System.IO.SearchOption.TopDirectoryOnly))
-                {
-                    string[] Temp = info.FullName.ToString().Split(new string[] { "\\" }, StringSplitOptions.None);
-                    string SelectedRecipe = Temp[Temp.Count() - 1];
-                    aryLst.Add(SelectedRecipe);
-                }
-            }
-            return aryLst;
-        }
-
+         
         /// <summary>
         /// /기  능 : 해당 디렉토리 내에서 입력된 키값이 포함되어 있는 디렉토리 명을 반환한다.
         /// /반환값 : string

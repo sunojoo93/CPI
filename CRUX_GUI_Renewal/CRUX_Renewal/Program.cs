@@ -59,7 +59,6 @@ namespace CRUX_Renewal
                 Application.Exit();
                 return;
             }
-            //Program.Frm_Main = new Frm_Main();
             Frm_Init_ = new Frm_Init() { /*TopMost = true */};
             Application.Run(Frm_Init_);
         }
