@@ -121,17 +121,40 @@ namespace CRUX_Renewal.Main_Form
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Systems.CogJobManager_.FailureQueueFlush();
-            Systems.CogJobManager_.UserQueueFlush();
+            Systems.MainRecipe.Manager.FailureQueueFlush();
+            Systems.MainRecipe.Manager.UserQueueFlush();
             Console.WriteLine($"JobManager Flush");
-            for (int i = 0; i < Systems.CogJobManager_.JobCount; ++i)
+            for (int i = 0; i < Systems.MainRecipe.Manager.JobCount; ++i)
             {
-                Systems.CogJobManager_.Job(i).ImageQueueFlush();
+                Systems.MainRecipe.Manager.Job(i).ImageQueueFlush();
                 Console.WriteLine($"Job: {i} Flush");
             }
-            CogSerializer.SaveObjectToFile(Systems.CogJobManager_, @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\new4.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+           
+            CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\new4.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Console.WriteLine($"Job: 0 Saved");
             //CogSerializer.SaveObjectToFile(myJob, "D:\\save.Rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Console.WriteLine($"Job: 0 Saved");
+                CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, @"D:\CRUX\DATA\Recipes\Test\new1.rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+            }
+            catch (Exception ex)
+            {
+                int aa = 0;
+                throw;
+            }
+            
+
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

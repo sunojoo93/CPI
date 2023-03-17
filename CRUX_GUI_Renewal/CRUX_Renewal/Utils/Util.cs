@@ -252,14 +252,14 @@ namespace CRUX_Renewal
             else
                 Checked = CheckState.Unchecked;
 
-            CogJobConfiguration Config = new CogJobConfiguration(false, Systems.CogJobManager_.Job(0)) { TopLevel = false };
+            CogJobConfiguration Config = new CogJobConfiguration(false, Systems.MainRecipe.Manager.Job(0)) { TopLevel = false };
 
             var rtn = Utility.GetAllControlsRecursive(Config, "chkNormalRunMode");
 
             (rtn[0] as CheckBox).CheckState = Checked;       
             var rtna = Utility.GetAllControlsRecursive(Config, "btnOK");
             (rtna[0] as Button).PerformClick();
-            Config.CopyAll(Systems.CogJobManager_.Job(0));
+            Config.CopyAll(Systems.MainRecipe.Manager.Job(0));
         }
         static public void AdjustCoordination (ref RectangleF rect)
         {

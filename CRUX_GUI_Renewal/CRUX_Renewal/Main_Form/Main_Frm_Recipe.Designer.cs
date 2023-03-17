@@ -31,11 +31,11 @@
             this.Tlp_RecipeLayout = new System.Windows.Forms.TableLayoutPanel();
             this.Tab_RecipeMain = new System.Windows.Forms.TabControl();
             this.tab_algorithm = new System.Windows.Forms.TabPage();
+            this.cogToolGroupEditV2_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
             this.tab_roi = new System.Windows.Forms.TabPage();
             this.tab_optic = new System.Windows.Forms.TabPage();
             this.tab_align = new System.Windows.Forms.TabPage();
             this.tab_judge = new System.Windows.Forms.TabPage();
-            this.cogToolGroupEditV2_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
             this.Tlp_RecipeLayout.SuspendLayout();
             this.Tab_RecipeMain.SuspendLayout();
             this.tab_algorithm.SuspendLayout();
@@ -44,10 +44,9 @@
             // 
             // Tlp_RecipeLayout
             // 
-            this.Tlp_RecipeLayout.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.Tlp_RecipeLayout.ColumnCount = 2;
-            this.Tlp_RecipeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.Tlp_RecipeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            this.Tlp_RecipeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.Tlp_RecipeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_RecipeLayout.Controls.Add(this.Tab_RecipeMain, 1, 0);
             this.Tlp_RecipeLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_RecipeLayout.Location = new System.Drawing.Point(0, 0);
@@ -67,12 +66,12 @@
             this.Tab_RecipeMain.Controls.Add(this.tab_align);
             this.Tab_RecipeMain.Controls.Add(this.tab_judge);
             this.Tab_RecipeMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tab_RecipeMain.Location = new System.Drawing.Point(165, 1);
+            this.Tab_RecipeMain.Location = new System.Drawing.Point(180, 0);
             this.Tab_RecipeMain.Margin = new System.Windows.Forms.Padding(0);
             this.Tab_RecipeMain.Name = "Tab_RecipeMain";
             this.Tlp_RecipeLayout.SetRowSpan(this.Tab_RecipeMain, 2);
             this.Tab_RecipeMain.SelectedIndex = 0;
-            this.Tab_RecipeMain.Size = new System.Drawing.Size(1475, 1224);
+            this.Tab_RecipeMain.Size = new System.Drawing.Size(1461, 1226);
             this.Tab_RecipeMain.TabIndex = 0;
             // 
             // tab_algorithm
@@ -80,10 +79,23 @@
             this.tab_algorithm.Controls.Add(this.cogToolGroupEditV2_Algorithm);
             this.tab_algorithm.Location = new System.Drawing.Point(4, 22);
             this.tab_algorithm.Name = "tab_algorithm";
-            this.tab_algorithm.Size = new System.Drawing.Size(1467, 1198);
+            this.tab_algorithm.Size = new System.Drawing.Size(1453, 1200);
             this.tab_algorithm.TabIndex = 4;
             this.tab_algorithm.Text = "Algorithm";
             this.tab_algorithm.UseVisualStyleBackColor = true;
+            // 
+            // cogToolGroupEditV2_Algorithm
+            // 
+            this.cogToolGroupEditV2_Algorithm.AllowDrop = true;
+            this.cogToolGroupEditV2_Algorithm.ContextMenuCustomizer = null;
+            this.cogToolGroupEditV2_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogToolGroupEditV2_Algorithm.Location = new System.Drawing.Point(0, 0);
+            this.cogToolGroupEditV2_Algorithm.MinimumSize = new System.Drawing.Size(489, 0);
+            this.cogToolGroupEditV2_Algorithm.Name = "cogToolGroupEditV2_Algorithm";
+            this.cogToolGroupEditV2_Algorithm.ShowNodeToolTips = true;
+            this.cogToolGroupEditV2_Algorithm.Size = new System.Drawing.Size(1453, 1200);
+            this.cogToolGroupEditV2_Algorithm.SuspendElectricRuns = false;
+            this.cogToolGroupEditV2_Algorithm.TabIndex = 0;
             // 
             // tab_roi
             // 
@@ -122,19 +134,6 @@
             this.tab_judge.TabIndex = 3;
             this.tab_judge.Text = "Judge";
             this.tab_judge.UseVisualStyleBackColor = true;
-            // 
-            // cogToolGroupEditV2_Algorithm
-            // 
-            this.cogToolGroupEditV2_Algorithm.AllowDrop = true;
-            this.cogToolGroupEditV2_Algorithm.ContextMenuCustomizer = null;
-            this.cogToolGroupEditV2_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cogToolGroupEditV2_Algorithm.Location = new System.Drawing.Point(0, 0);
-            this.cogToolGroupEditV2_Algorithm.MinimumSize = new System.Drawing.Size(489, 0);
-            this.cogToolGroupEditV2_Algorithm.Name = "cogToolGroupEditV2_Algorithm";
-            this.cogToolGroupEditV2_Algorithm.ShowNodeToolTips = true;
-            this.cogToolGroupEditV2_Algorithm.Size = new System.Drawing.Size(1467, 1198);
-            this.cogToolGroupEditV2_Algorithm.SuspendElectricRuns = false;
-            this.cogToolGroupEditV2_Algorithm.TabIndex = 0;
             // 
             // Main_Frm_Recipe
             // 

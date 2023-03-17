@@ -59,6 +59,7 @@ namespace CRUX_Renewal
                 Application.Exit();
                 return;
             }
+            //Program.Frm_Main = new Frm_Main();
             Frm_Init_ = new Frm_Init() { /*TopMost = true */};
             Application.Run(Frm_Init_);
         }
@@ -68,7 +69,7 @@ namespace CRUX_Renewal
             Program.Frm_Init_.CircleProgressBar.TimerStop();
             Program.Frm_Main.Frm_Status.TokenSource.Cancel();
             Systems.LogWriter.Info("Process Exit");
-            Systems.CogJobManager_.Shutdown();
+            Systems.MainRecipe.Manager.Shutdown();
             foreach (var item in Frm_MainContent_)
                 item.Close();     
             Application.Exit();

@@ -66,7 +66,7 @@ namespace CRUX_Renewal.Class
             return Inspections;
         }
 
-        public void SetCogManager(CogJobManager manager)
+        public void SetCogManager(Recipe manager)
         {
             if(Inspections != null)
             {
@@ -240,12 +240,12 @@ namespace CRUX_Renewal.Class
                 Console.WriteLine($"Job: {i} Flush");
             }
         }
-        public Inspection(CogJobManager source, int idx)
+        public Inspection(Recipe source, int idx)
         {
             JobManager = new CogJobManager();
             SetJobManagerEvent(JobManager);
 
-            int JobCount = source.JobCount;
+            int JobCount = source.Manager.JobCount;
             Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
             for (int i = 0; i < JobCount; ++i)
             {
@@ -253,7 +253,7 @@ namespace CRUX_Renewal.Class
                 //Job.VisionTool = (source.Job(i).VisionTool);
                 //Job.AcqFifo = source.Job(i).AcqFifo;
                 //Job.Name = $"{idx}{i}";
-                JobManager.JobAdd(new CogJob() { VisionTool = (source.Job(i).VisionTool), AcqFifo = source.Job(i).AcqFifo, Name = $"{idx}{i}" });
+                JobManager.JobAdd(new CogJob() { VisionTool = (source.Manager.Job(i).VisionTool), AcqFifo = source.Manager.Job(i).AcqFifo, Name = $"{idx}{i}" });
                 //JobManager.JobAdd(Job);
 
                 Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));

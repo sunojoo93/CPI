@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.Utils;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,11 @@ namespace CRUX_Renewal.Class
     [Serializable]
     class InspData : IDisposable
     {
-        public void Dispose ()
+        public void Dispose()
         {
             //OriginImage.Dispose();   
-            
-            
+
+
         }
         public InspData DeepCopy()
         {
@@ -72,12 +73,12 @@ namespace CRUX_Renewal.Class
     /// </summary>
     class RecipeParams : IDisposable
     {
-        public RecipeParams ()
+        public RecipeParams()
         {
 
         }
 
-        public void Dispose ()
+        public void Dispose()
         {
             Dispose();
         }
@@ -93,7 +94,7 @@ namespace CRUX_Renewal.Class
         public bool inspect;
         public bool sequence;
         public bool pgcontrol;
-        public void init ()
+        public void init()
         {
             camrea = false;
             light = false;
@@ -107,7 +108,7 @@ namespace CRUX_Renewal.Class
     {
         public Process Proc { get; set; }
         public WINDOWS_STATE State { get; set; } = WINDOWS_STATE.SW_SHOW;
-        public ProcessSet (Process proc, WINDOWS_STATE state)
+        public ProcessSet(Process proc, WINDOWS_STATE state)
         {
             Proc = proc;
             State = state;
@@ -130,7 +131,7 @@ namespace CRUX_Renewal.Class
         public byte[] Position;
         public int GrabLine;
 
-        public PARAM_INSPECT_START_ACI (int n)
+        public PARAM_INSPECT_START_ACI(int n)
         {
             InspType = 0;
             ID = new byte[100];
@@ -148,7 +149,7 @@ namespace CRUX_Renewal.Class
         public int Y;
         public int Width;
         public int Height;
-        public CRect (int nCnt)
+        public CRect(int nCnt)
         {
             X = 0;
             Y = 0;
@@ -167,7 +168,7 @@ namespace CRUX_Renewal.Class
         public int nImageCount;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1048576)]
         byte[] byteReserved;        // 예약 공간 - 위쪽에 변수 추가 시 크기 계산하여 삭제해주어야함.
-        public SMemImageInfo (int n)
+        public SMemImageInfo(int n)
         {
             nImageWidth = 0;
             nImageHeight = 0;
@@ -188,7 +189,7 @@ namespace CRUX_Renewal.Class
         public byte[] strTactName;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] strTactState;
-        public RCV_TACT_TIME_DATA (int nCnt)
+        public RCV_TACT_TIME_DATA(int nCnt)
         {
             strPanelID = new byte[100];
             strTactName = new byte[100];
@@ -198,42 +199,69 @@ namespace CRUX_Renewal.Class
 
     interface ITimerManager
     {
-        void TimerStart ();
-        void TimerStop ();
+        void TimerStart();
+        void TimerStop();
     }
 
     class SafeMalloc : SafeBuffer
     {
-///
+        ///
 
-/// Allocates memory and initialises the SaveBuffer
-///
-///The number of bytes to allocate 
-public SafeMalloc(int size) : base(true)
-{
-this.SetHandle(Marshal.AllocHGlobal(size));
-this.Initialize((ulong)size);
-}
+        /// Allocates memory and initialises the SaveBuffer
+        ///
+        ///The number of bytes to allocate 
+        public SafeMalloc(int size) : base(true)
+        {
+            this.SetHandle(Marshal.AllocHGlobal(size));
+            this.Initialize((ulong)size);
+        }
 
-    ///
+        ///
 
-    /// Called when the object is disposed, ferr the
-    /// memory via FreeHGlobal().
-    ///
-    ///
-    protected override bool ReleaseHandle()
-    {
-        Marshal.FreeHGlobal(this.handle);
-        return true;
+        /// Called when the object is disposed, ferr the
+        /// memory via FreeHGlobal().
+        ///
+        ///
+        protected override bool ReleaseHandle()
+        {
+            Marshal.FreeHGlobal(this.handle);
+            return true;
+        }
+
+        ///
+
+        /// Cast to IntPtr
+        ///
+        public static implicit operator IntPtr(SafeMalloc h)
+        {
+            return h.handle;
+        }
+
+
     }
-
-    ///
-
-    /// Cast to IntPtr
-    ///
-    public static implicit operator IntPtr(SafeMalloc h)
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Recipe
     {
-        return h.handle;
+        public CogJobManager Manager { get; set; } = null;
+        public Optical_Cam Camera;
+        public Optical_Light Light;
+
     }
-}
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Optical_Cam
+    {
+        int aa = 0;
+        int bb = 1;
+        string cc = "테스트";
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Optical_Light
+    {
+        int aa = 0;
+        int bb = 1;
+        string cc = "테스트";
+    }
 }

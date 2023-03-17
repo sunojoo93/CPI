@@ -24,46 +24,47 @@ namespace CRUX_Renewal
         public static Inspector Inspector_ = Inspector.Instance();
         public static ServerInterface g_Ipc;
         public static ALIVE_STATE[] AliveList;
-        public static CogJobManager CogJobManager_;
-        public static CogJobManager CogTemp;
-
-
-
+        public static Recipe MainRecipe = new Recipe();
+        public static bool SaveLoadType = false;
+        public static IniFile Evironment_INI = new IniFile();
+        public static string CurrentRecipe { get; set; } = null;
 
         ////////// Property //////////
         // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;
-        public static void SetCogJob()
+        public static void SetCogJob(string path)
         {
 
             try
             {
-                //Consts.VPP_PATH = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\23.03_10_버그정리_ver3.vpp";
-                Consts.VPP_PATH = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\new.vpp";
-                CogJobManager_ = new CogJobManager();
-                CogJobManager_.JobAdd((CogJob)CogSerializer.LoadObjectFromFile(Consts.VPP_PATH));
-                //CogJobManagerConfiguration tt = new CogJobManagerConfiguration(true, CogJobManager_);
-     
-                Systems.Inspector_.SetInspection();
-                CogJobManager_.FailureQueueFlush();
-                CogJobManager_.UserQueueFlush();
-                Console.WriteLine($"JobManager Flush");
-                for (int i = 0; i < CogJobManager_.JobCount; ++i)
+                if(MainRecipe?.Manager != null)
                 {
-                    CogJobManager_.Job(i).ImageQueueFlush();
-                    Console.WriteLine($"Job: {i} Flush");
+                    MainRecipe?.Manager.Shutdown();
                 }
-                Systems.Inspector_.SetCogManager(CogJobManager_);
+                //Consts.VPP_PATH = @"D:\CRUX\DATA\Recipes\Test\new1.rcp";
+                if (SaveLoadType)
+                {
+                    MainRecipe = ((Recipe)CogSerializer.LoadObjectFromFile(path));
+                }
+                else
+                {
+                    MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
+                    MainRecipe.Camera = new Optical_Cam();
+                    MainRecipe.Light = new Optical_Light();
+                }
+                string[] Temp = path.Split(new string[] { "\\" }, StringSplitOptions.None);
+                CurrentRecipe = Temp[Temp.Count() - 1];
+                Systems.Inspector_.SetInspection();
+                Systems.Inspector_.SetCogManager(MainRecipe);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
         }
-
+        
         private CogImage8Grey Load_Image(string strPath)
         {
             CogImageFile img = new CogImageFile();
@@ -81,9 +82,9 @@ namespace CRUX_Renewal
             throw new NotImplementedException();
         }
 
-        public static CogJobManager GetCogJob()
+        public static Recipe GetCogJob()
         {
-            return CogJobManager_;
+            return MainRecipe;
         }
 
     }
