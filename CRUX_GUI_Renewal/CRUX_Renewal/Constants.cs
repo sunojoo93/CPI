@@ -454,7 +454,7 @@ namespace CRUX_Renewal
             SEQ_TASK,
             //ALG_TASK,
             LIGHT_TASK,
-            Init_Form,
+            //Init_Form,
             //PG_TASK,
             //AUTO_TAB,
             //RECIPE_TAB,

@@ -22,12 +22,18 @@ namespace CRUX_Renewal.Ex_Form
             InitializeComponent();
             TopLevel = false;
             Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;            
+            FormBorderStyle = FormBorderStyle.None;
+        }
+        public void StartCheckStatus()
+        {
             Timer_Time.Start();
             TokenSource = new CancellationTokenSource();
             Show();
-            Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));           
-            
+            Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));
+        }
+        public void StopCheckStatus()
+        {
+            TokenSource.Cancel();
         }
 
         private void Ex_Frm_Status_Load(object sender, EventArgs e)

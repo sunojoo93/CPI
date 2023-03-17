@@ -41,14 +41,39 @@ namespace CRUX_Renewal
         public Frm_Main()
         {
             InitializeComponent();
+
+
+
+            Frm_Init Init = new Frm_Init();
+            Init.ShowDialog();
+
+            InitMainForm();
+
             Frm_Status = new Ex_Frm_Status();
             Frm_AccountManage = new Ex_Frm_Account_Info();
             Tlp_Main.Controls.Add(Frm_Status, 2, 0);
             Tlp_Main.Controls.Add(Frm_AccountManage, 4, 0);
+            Frm_Status.StartCheckStatus();
+
             CurDisplayForm = "Upper";
             Cmb_SelPC.SelectedIndex = 0;
-        }
 
+        }
+        public void InitMainForm()
+        {
+            if (Program.Frm_MainContent_ == null)
+                Program.Frm_MainContent_ = new List<Frm_MainContent>();
+
+            for (int i = 0; i < Consts.MAX_VISION_COUNT; ++i)
+            {
+                Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i] });
+            }
+            SetForm(Program.Frm_MainContent_[0]);
+
+            //Program.Frm_Main.CurDisplayForm = Program.Frm_MainContent_[0].Name;
+            //Program.Frm_MainContent_[0].Show();
+            //
+        }
         public void SetForm(Frm_MainContent form)
         {
             Tlp_Main.Controls.Add(form,0,1);
@@ -57,8 +82,8 @@ namespace CRUX_Renewal
         }
         private void Frm_Main_Shown(object sender, EventArgs e)
         {
-            this.Invoke(new Action(() => { Program.Frm_Init_.Visible = false; }));
-            Program.Frm_Init_.CircleProgressBar.TimerStop();
+            //this.Invoke(new Action(() => { Program.Frm_Init_.Visible = false; }));
+            //Program.Frm_Init_.CircleProgressBar.TimerStop();
             WinApis.SetWindowRgn(Btn_Minimize.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Minimize.Width, Btn_Minimize.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Exit.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Exit.Width, Btn_Exit.Height, 15, 15), true);
         }
@@ -70,6 +95,7 @@ namespace CRUX_Renewal
 
         private void Btn_Exit_Click(object sender, EventArgs e)
         {
+            Frm_Status.StopCheckStatus();
             Program.ProgramExit();
         }
         private new DialogResult ShowDialog()

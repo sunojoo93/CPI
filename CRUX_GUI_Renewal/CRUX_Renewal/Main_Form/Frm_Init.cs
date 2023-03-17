@@ -155,12 +155,6 @@ namespace CRUX_Renewal.Main_Form
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize Light...");
                             break;
-                        case (int)Enums.InitFlag.Init_Form:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Form..."));
-                            InitMainForm();
-                            Systems.LogWriter.Info("Initialize Form...");
-                            ++InitFlag;
-                            break;
                     }
                     this.Invoke(new Action(delegate () {
                         int Per = SetInitCount(ref Percent);
@@ -173,12 +167,18 @@ namespace CRUX_Renewal.Main_Form
                     while ( Temp != true )
                         ;
                 }
-                Percent = (int)Enums.InitFlag.MAX;
+                //Percent = (int)Enums.InitFlag.MAX;
 
                 Systems.LogWriter.Info("Init Finished");
 
                 setControlText(lbl_CurrentState, string.Format("Program Opening ... "));
-                FormOpen(Program.Frm_Main);
+                Thread.Sleep(2000);
+                this.Invoke(new MethodInvoker(delegate ()
+                {
+                    CircleProgressBar.TimerStop();
+                    this.Close();
+                }));
+                //FormOpen(Program.Frm_Main);
             }
             catch ( Exception ex )
             {
@@ -214,23 +214,7 @@ namespace CRUX_Renewal.Main_Form
             nRet = Systems.g_Ipc.SendCommand((ushort)( ( Globals.SelPcNo + 1 ) * 100 + IpcConst.GUI_TASK ), IpcConst.TASK_ALIVE_FUNC, IpcConst.RMS_RCP_CRR_SEND,
                                         IpcInterface.CMD_TYPE_NORES, 2000, Param.GetByteSize(), Param.GetParam());
         }
-        public void InitMainForm ()
-        {
-            if (Program.Frm_MainContent_ == null)
-                Program.Frm_MainContent_ = new List<Frm_MainContent>();
 
-            for (int i = 0; i < Consts.MAX_VISION_COUNT; ++i)
-            {
-                Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i] });                
-            }
-
-            Program.Frm_Main = new Frm_Main();
-            Program.Frm_Main?.SetForm(Program.Frm_MainContent_[0]);
-           
-            //Program.Frm_Main.CurDisplayForm = Program.Frm_MainContent_[0].Name;
-            //Program.Frm_MainContent_[0].Show();
-           //
-        }
 
         private int SetInitCount (ref int nPercent)
         {

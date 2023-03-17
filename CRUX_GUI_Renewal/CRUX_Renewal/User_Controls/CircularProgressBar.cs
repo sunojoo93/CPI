@@ -232,7 +232,7 @@ namespace CRUX_Renewal.User_Controls
         {
             while (true)
             {
-                if (TokenSource.Token.IsCancellationRequested == true)
+                if (TokenSource.Token.IsCancellationRequested == true || Value >= 100)
                     break;
                 if (_ColorTimer)
                 {
