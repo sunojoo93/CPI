@@ -12,43 +12,26 @@ using System.Windows.Forms;
 
 namespace CRUX_Renewal.Ex_Form
 {
-    public partial class Ex_Frm_Notification_Question : Form
+    public partial class Ex_Frm_Others_Input : Form
     {
         Point CurWindowPosition = new Point();
-        public Ex_Frm_Notification_Question()
+        public string ResultName { get; set; } = null;
+        public Ex_Frm_Others_Input()
         {
             InitializeComponent();
-            TopLevel = false;
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
-            Show();
         }
-        public Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION noti, string content)
+        public Ex_Frm_Others_Input(string form_title, string origin_name)
         {
             InitializeComponent();
-            if (noti == Enums.ENUM_NOTIFICAION.INFO)
-            {
-                Pic_Level.BackgroundImage = Properties.Resources.Blue;
-                Lb_ErrorTitle.Text = Enums.ENUM_NOTIFICAION.INFO.DescriptionAttr();
-            }
 
-            else if (noti == Enums.ENUM_NOTIFICAION.CAUTION)
-            {
-                Pic_Level.BackgroundImage = Properties.Resources.Orange;
-                Lb_ErrorTitle.Text = Enums.ENUM_NOTIFICAION.CAUTION.DescriptionAttr();
-            }
+            Pic_Level.BackgroundImage = Properties.Resources.Blue;
+            Lb_ErrorTitle.Text = form_title;
+            Lb_BeforeName.Text = origin_name;
 
-            else if (noti == Enums.ENUM_NOTIFICAION.ERROR)
-            {
-                Pic_Level.BackgroundImage = Properties.Resources.Red;
-                Lb_ErrorTitle.Text = Enums.ENUM_NOTIFICAION.ERROR.DescriptionAttr();
-            }
-            
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
-            
-            Lb_ErrorContent.Text = content;
-            Visible = false;
         }
 
         private void Ex_Frm_Notification_Question_Load(object sender, EventArgs e)
@@ -67,6 +50,7 @@ namespace CRUX_Renewal.Ex_Form
         private void Btn_Confirm_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+            ResultName =  Tb_AfterName.Text;
             return;
         }
 

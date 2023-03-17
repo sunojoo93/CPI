@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Reflection;
 using CRUX_Renewal.Ex_Form;
 using System.Collections.Generic;
+using System;
+using CRUX_Renewal.Utils;
 
 namespace CRUX_Renewal.Main_Form
 {
@@ -20,6 +22,7 @@ namespace CRUX_Renewal.Main_Form
             TopLevel = false;
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;            
+
             Show();
             Frm_RecipeList = Frm_RecipeList ?? new Ex_Frm_Recipe_RecipeList();
             Frm_JobList = Frm_JobList ?? new Ex_Frm_Recipe_JobList();
@@ -42,7 +45,7 @@ namespace CRUX_Renewal.Main_Form
         public void DisplayJob()
         {
             cogToolGroupEditV2_Algorithm.Subject = Systems.GetCogJob().Manager.Job(0).VisionTool as CogToolGroup;
-
+            Systems.CurrentJob = Systems.GetCogJob().Manager.Job(0).Name;
             // cogToolGroupEditV2_Algorithm.ToolbarEvents += new CogJobManagerEdit.CogJobManagerEditEventHandler((s, e) =>
             //{           
             //    if(e.buttonID.ToString()  == "ContinuousRunButton")
@@ -58,11 +61,6 @@ namespace CRUX_Renewal.Main_Form
             Frm_JobList.SetListBox(JobListTemp);
 
             cogToolGroupEditV2_Algorithm.Show();
-
-            var EventHandler = new EventHandlerList();
-            // var Temp = Cog_JobManagerEdit.GetType().GetMethod("ToolbarEvents", BindingFlags.NonPublic | BindingFlags.Public);
-
-
         }
         public void ChangeSubject(string name)
         {
@@ -75,6 +73,32 @@ namespace CRUX_Renewal.Main_Form
             }
         }
 
-        
+        public void ClearSubject()
+        {
+            cogToolGroupEditV2_Algorithm.Subject.Dispose();
+        }
+
+        private void Btn_Save_Click(object sender, System.EventArgs e)
+        {
+            CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+            Console.WriteLine($"Job: 0 Saved");
+        }
+
+        private void Btn_Apply_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void Btn_Revert_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Main_Frm_Recipe_Shown(object sender, EventArgs e)
+        {
+            WinApis.SetWindowRgn(Btn_Save.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Save.Width, Btn_Save.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_Apply.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Apply.Width, Btn_Apply.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_Revert.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Revert.Width, Btn_Revert.Height, 15, 15), true);
+        }
     }
 }

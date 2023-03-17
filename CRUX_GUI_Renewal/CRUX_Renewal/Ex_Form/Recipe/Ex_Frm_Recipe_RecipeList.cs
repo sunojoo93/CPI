@@ -1,4 +1,5 @@
 ﻿using CRUX_Renewal.Class;
+using CRUX_Renewal.Ex_Form;
 using CRUX_Renewal.Utils;
 using System;
 using System.Collections;
@@ -64,15 +65,30 @@ namespace CRUX_Renewal.Ex_Form
                 string[] Temp = LstBoxRecipeList.SelectedItem.ToString().Split(new string[] { "\\" }, StringSplitOptions.None);
                 string SelectedRecipe = $"{Paths.RECIPE_PATH_RENEWAL}{Temp[Temp.Count() - 1]}";
                 ArrayList Rcp = fileProc.getFileList(SelectedRecipe, ".rcp");
-                //Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question("알림", "현재 Recipe를 닫고 선택한 Recipe를 엽니다.");
-                //Noti.ShowDialog();
-                //if(Noti.DialogResult == DialogResult.OK)
-                //{
-                //    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.ClearList();
-                //   // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.
-                //}
+                Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "현재 Recipe를 닫고 선택한 Recipe를 엽니다.\n저장하지 않은 데이터는 삭제됩니다.");
+                Noti.ShowDialog();
+                if (Noti.DialogResult == DialogResult.OK)
+                {
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.ClearList();
+                    // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.
+                }
+                else
+                {
+                    LstBoxRecipeList.SelectedItem = Systems.CurrentRecipe;
+                    return;
+                }
                 if (SelectedRecipe.Count() >= 1)
+                {
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
                     Systems.SetCogJob(Rcp[0]?.ToString());
+
+                    List<string> JobListTemp = new List<string>();
+                    for (int i = 0; i < Systems.GetCogJob().Manager.JobCount; ++i)
+                        JobListTemp.Add(Systems.GetCogJob().Manager.Job(i).Name);
+
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
+                   // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.SetListBox(JobListTemp);
+                }
             }
             catch (Exception ex)
             {
@@ -86,13 +102,14 @@ namespace CRUX_Renewal.Ex_Form
             LstBoxRecipeList.Items.Clear();
         }
 
-        private void LstBoxRecipeList_MouseClick(object sender, MouseEventArgs e)
+        private void LstBoxRecipeList_MouseUp(object sender, MouseEventArgs e)
         {
-            //오른쪽 클릭일 경우
             if (e.Button.Equals(MouseButtons.Right))
             {
                 //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
-                string SelectRecipe = LstBoxRecipeList.SelectedItems.ToString();
+                if (LstBoxRecipeList?.SelectedItem == null)
+                    return;
+                string SelectRecipe = LstBoxRecipeList?.SelectedItem?.ToString();
 
                 //오른쪽 메뉴를 만듭니다
                 ContextMenu m = new ContextMenu();
@@ -110,13 +127,28 @@ namespace CRUX_Renewal.Ex_Form
 
                 m1.Click += (senders, es) =>
                 {
-                    // 이름 변경
+                    Ex_Frm_Others_Input Input = new Ex_Frm_Others_Input("새 이름을 입력해주세요.", SelectRecipe);
+                    Input.ShowDialog();
+                    if (Input.DialogResult == DialogResult.OK)
+                    {
+
+                    }
+                    else
+                        return;
+
                 };
 
 
                 m2.Click += (senders, es) =>
                 {
-                    // 삭제 
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        // 삭제
+                    }
+                    else
+                        return;
                 };
 
                 //메뉴에 메뉴 아이템을 등록해줍니다

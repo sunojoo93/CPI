@@ -243,7 +243,8 @@ namespace CRUX_Renewal.Class
         public Inspection(Recipe source, int idx)
         {
             JobManager = new CogJobManager();
-            SetJobManagerEvent(JobManager);
+            RemoveJobManagerEvent(JobManager);
+            AddJobManagerEvent(JobManager);
 
             int JobCount = source.Manager.JobCount;
             Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
@@ -260,7 +261,7 @@ namespace CRUX_Renewal.Class
             }
             Finished = false;
         }
-        private void SetJobManagerEvent(CogJobManager manager)
+        private void AddJobManagerEvent(CogJobManager manager)
         {
             manager.FailureQueueOverflowed += new CogJobManager.CogFailureQueueOverflowedEventHandler((sender, e) =>
             {
@@ -323,7 +324,70 @@ namespace CRUX_Renewal.Class
                 var Temp = sender as CogJobManager;
             });
         }
-        
+        private void RemoveJobManagerEvent(CogJobManager manager)
+        {
+            manager.FailureQueueOverflowed -= new CogJobManager.CogFailureQueueOverflowedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogFailureQueueOverflowedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.FailureItemAvailable -= new CogJobManager.CogFailureItemAvailableEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogFailureItemAvailableEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.FailureItemRemoved -= new CogJobManager.CogFailureItemRemovedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogFailureItemRemovedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.FailureQueueFlushed -= new CogJobManager.CogFailureQueueFlushedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogFailureQueueFlushedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.JobAdded -= new CogJobManager.CogJobAddedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogJobAddedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.JobRemoved -= new CogJobManager.CogJobRemovedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogJobRemovedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.ResetComplete -= new CogJobManager.CogJobManagerResetCompleteEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogJobManagerResetCompleteEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.Stopped -= new CogJobManager.CogJobManagerStoppedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogJobManagerStoppedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.UserQueueFlushed -= new CogJobManager.CogUserQueueFlushedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogUserQueueFlushedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.UserQueueOverflowed -= new CogJobManager.CogUserQueueOverflowedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogUserQueueOverflowedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.UserResultAvailable -= new CogJobManager.CogUserResultAvailableEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogUserResultAvailableEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+            manager.UserResultRemoved -= new CogJobManager.CogUserResultRemovedEventHandler((sender, e) =>
+            {
+                Console.WriteLine($"CogUserResultRemovedEventHandler");
+                var Temp = sender as CogJobManager;
+            });
+        }
+
         public bool CheckRunState(CogJob job)
         {
              

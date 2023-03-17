@@ -72,10 +72,11 @@
             this.LstBoxRecipeList.Location = new System.Drawing.Point(0, 50);
             this.LstBoxRecipeList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.LstBoxRecipeList.Name = "LstBoxRecipeList";
+            this.LstBoxRecipeList.ScrollAlwaysVisible = true;
             this.LstBoxRecipeList.Size = new System.Drawing.Size(171, 467);
             this.LstBoxRecipeList.TabIndex = 1;
-            this.LstBoxRecipeList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseClick);
             this.LstBoxRecipeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseDoubleClick);
+            this.LstBoxRecipeList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseUp);
             // 
             // Ex_Frm_Recipe_RecipeList
             // 

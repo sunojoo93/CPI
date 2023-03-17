@@ -140,7 +140,7 @@ namespace CRUX_Renewal.Main_Form
             try
             {
                 Console.WriteLine($"Job: 0 Saved");
-                CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, @"D:\CRUX\DATA\Recipes\Test\new1.rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+                CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             }
             catch (Exception ex)
             {

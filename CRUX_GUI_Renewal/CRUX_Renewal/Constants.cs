@@ -498,6 +498,17 @@ namespace CRUX_Renewal
             MAX
         };
 
+        public enum ENUM_NOTIFICAION
+        {
+            [Description("Information")]
+            INFO,
+            [Description("Caution")]
+            CAUTION,
+            [Description("Error")]
+            ERROR,
+            MAX
+        };
+
         public enum ENUM_TACT_STATE : int
         {
             START = 0,

@@ -72,9 +72,11 @@
             this.LstBoxJobList.Location = new System.Drawing.Point(0, 50);
             this.LstBoxJobList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.LstBoxJobList.Name = "LstBoxJobList";
+            this.LstBoxJobList.ScrollAlwaysVisible = true;
             this.LstBoxJobList.Size = new System.Drawing.Size(232, 469);
             this.LstBoxJobList.TabIndex = 1;
             this.LstBoxJobList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxJobList_MouseDoubleClick);
+            this.LstBoxJobList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LstBoxJobList_MouseUp);
             // 
             // Ex_Frm_Recipe_JobList
             // 

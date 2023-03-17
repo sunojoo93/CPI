@@ -27,8 +27,8 @@ namespace CRUX_Renewal
         public static Recipe MainRecipe = new Recipe();
         public static bool SaveLoadType = false;
         public static IniFile Evironment_INI = new IniFile();
+        public static string CurrentJob { get; set; } = null;
         public static string CurrentRecipe { get; set; } = null;
-
         ////////// Property //////////
         // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
@@ -36,12 +36,16 @@ namespace CRUX_Renewal
         public static int CurDisplayIndex { get; set; } = 0;
         public static void SetCogJob(string path)
         {
-
             try
             {
                 if(MainRecipe?.Manager != null)
                 {
-                    MainRecipe?.Manager.Shutdown();
+                    // 레시피 변경 시 메모리 릭 수정 필요
+                    MainRecipe?.Manager?.Shutdown();
+                    for (int i = 0; i < MainRecipe.Manager.JobCount; ++i)
+                        MainRecipe.Manager.Job(i).Shutdown();
+                    MainRecipe.Manager = null;
+                   
                 }
                 //Consts.VPP_PATH = @"D:\CRUX\DATA\Recipes\Test\new1.rcp";
                 if (SaveLoadType)
@@ -55,9 +59,10 @@ namespace CRUX_Renewal
                     MainRecipe.Light = new Optical_Light();
                 }
                 string[] Temp = path.Split(new string[] { "\\" }, StringSplitOptions.None);
-                CurrentRecipe = Temp[Temp.Count() - 1];
+                CurrentRecipe = Temp[Temp.Count() - 2];
                 Systems.Inspector_.SetInspection();
                 Systems.Inspector_.SetCogManager(MainRecipe);
+                GC.Collect();
             }
             catch (Exception ex)
             {

@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.Tlp_Main = new System.Windows.Forms.TableLayoutPanel();
-            this.Pb_Logo = new System.Windows.Forms.PictureBox();
             this.Lb_JobName = new System.Windows.Forms.Label();
             this.Btn_Exit = new System.Windows.Forms.Button();
             this.Btn_Minimize = new System.Windows.Forms.Button();
+            this.Pb_Logo = new System.Windows.Forms.PictureBox();
             this.Cmb_SelPC = new CRUX_Renewal.User_Controls.ColorfulComboBox();
             this.Tlp_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_Logo)).BeginInit();
@@ -63,20 +63,6 @@
             this.Tlp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Main.Size = new System.Drawing.Size(1920, 1030);
             this.Tlp_Main.TabIndex = 1;
-            // 
-            // Pb_Logo
-            // 
-            this.Pb_Logo.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Logo_Ox;
-            this.Pb_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Pb_Logo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pb_Logo.Location = new System.Drawing.Point(4, 4);
-            this.Pb_Logo.Margin = new System.Windows.Forms.Padding(4);
-            this.Pb_Logo.Name = "Pb_Logo";
-            this.Pb_Logo.Size = new System.Drawing.Size(92, 43);
-            this.Pb_Logo.TabIndex = 12;
-            this.Pb_Logo.TabStop = false;
-            this.Pb_Logo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseDown);
-            this.Pb_Logo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseMove);
             // 
             // Lb_JobName
             // 
@@ -124,6 +110,20 @@
             this.Btn_Minimize.Text = "최소화";
             this.Btn_Minimize.UseVisualStyleBackColor = false;
             this.Btn_Minimize.Click += new System.EventHandler(this.Btn_Minimize_Click);
+            // 
+            // Pb_Logo
+            // 
+            this.Pb_Logo.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Logo_Ox;
+            this.Pb_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Pb_Logo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Pb_Logo.Location = new System.Drawing.Point(4, 4);
+            this.Pb_Logo.Margin = new System.Windows.Forms.Padding(4);
+            this.Pb_Logo.Name = "Pb_Logo";
+            this.Pb_Logo.Size = new System.Drawing.Size(92, 43);
+            this.Pb_Logo.TabIndex = 12;
+            this.Pb_Logo.TabStop = false;
+            this.Pb_Logo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseDown);
+            this.Pb_Logo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseMove);
             // 
             // Cmb_SelPC
             // 

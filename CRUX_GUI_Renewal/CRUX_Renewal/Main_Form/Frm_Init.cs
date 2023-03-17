@@ -172,7 +172,7 @@ namespace CRUX_Renewal.Main_Form
                 Systems.LogWriter.Info("Init Finished");
 
                 setControlText(lbl_CurrentState, string.Format("Program Opening ... "));
-                Thread.Sleep(2000);
+                Thread.Sleep(500);
                 this.Invoke(new MethodInvoker(delegate ()
                 {
                     CircleProgressBar.TimerStop();
@@ -311,7 +311,7 @@ namespace CRUX_Renewal.Main_Form
         
         private void LoadJob()
         {
-            ArrayList FileList = fileProc.getFileList(($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Evironment_INI["LastUsedRecipe"]["Name"]}").Replace(" ",""),".rcp");
+            ArrayList FileList = fileProc.getFileList(($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Evironment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ",""),".rcp");
             Systems.SetCogJob(FileList[0].ToString());
         }
 

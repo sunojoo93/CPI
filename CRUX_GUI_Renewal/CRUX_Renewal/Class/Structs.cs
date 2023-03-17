@@ -246,7 +246,6 @@ namespace CRUX_Renewal.Class
         public CogJobManager Manager { get; set; } = null;
         public Optical_Cam Camera;
         public Optical_Light Light;
-
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
