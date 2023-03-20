@@ -318,7 +318,7 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
-                ArrayList FileList = fileProc.getFileList(($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Environment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ", ""), ".rcp");
+                ArrayList FileList = fileProc.getFileList(($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Environment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ", ""), ".vpp");
                 Systems.SetCogJob(FileList[0].ToString());
             }
             catch (Exception ex)

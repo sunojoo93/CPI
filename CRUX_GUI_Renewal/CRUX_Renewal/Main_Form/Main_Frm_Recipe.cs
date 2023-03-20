@@ -89,32 +89,38 @@ namespace CRUX_Renewal.Main_Form
 
         private void Btn_Save_Click(object sender, System.EventArgs e)
         {
-            CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+            CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Console.WriteLine($"Job: 0 Saved");
         }
 
         private void Btn_Apply_Click(object sender, System.EventArgs e)
         {
-            //string path = Systems.path;
-            //MainRecipe = MainRecipe ?? new Recipe();
-            //MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
-            //MainRecipe.Camera = new Optical_Cam();
-            //MainRecipe.Light = new Optical_Light();
+
         }
 
         private void Btn_Revert_Click(object sender, EventArgs e)
         {
-            //cogToolGroupEditV2_Algorithm.Subject = null;
-            //MainRecipe.Dispose();
-            //MainRecipe = null;
-            //GC.Collect();
+
         }
 
         private void Main_Frm_Recipe_Shown(object sender, EventArgs e)
         {
-            WinApis.SetWindowRgn(Btn_Save.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Save.Width, Btn_Save.Height, 15, 15), true);
-            WinApis.SetWindowRgn(Btn_Apply.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Apply.Width, Btn_Apply.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Revert.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Revert.Width, Btn_Revert.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_New.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_New.Width, Btn_New.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_Apply.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Apply.Width, Btn_Apply.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_Save.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Save.Width, Btn_Save.Height, 15, 15), true);
+        }
+
+        private void Btn_New_Click(object sender, EventArgs e)
+        {
+            CogJob Temp = new CogJob();
+            Systems.MainRecipe.Manager.JobAdd(Temp);
+            List<string> JobListTemp = new List<string>();
+            for (int i = 0; i < Systems.GetCogJob().Manager.JobCount; ++i)
+                JobListTemp.Add(Systems.GetCogJob().Manager.Job(i).Name);
+            Frm_JobList.SetListBox(JobListTemp);
+            cogToolGroupEditV2_Algorithm.Refresh();
+
         }
     }
 }

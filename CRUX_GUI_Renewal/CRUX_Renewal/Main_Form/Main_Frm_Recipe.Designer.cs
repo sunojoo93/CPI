@@ -29,6 +29,9 @@
         private void InitializeComponent ()
         {
             this.Tlp_RecipeLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Btn_Apply = new System.Windows.Forms.Button();
+            this.Btn_Save = new System.Windows.Forms.Button();
             this.Tab_RecipeMain = new System.Windows.Forms.TabControl();
             this.tab_algorithm = new System.Windows.Forms.TabPage();
             this.cogToolGroupEditV2_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
@@ -37,10 +40,13 @@
             this.tab_align = new System.Windows.Forms.TabPage();
             this.tab_judge = new System.Windows.Forms.TabPage();
             this.SptCtn_ApplySave = new System.Windows.Forms.SplitContainer();
-            this.Btn_Apply = new System.Windows.Forms.Button();
-            this.Btn_Save = new System.Windows.Forms.Button();
+            this.Btn_New = new System.Windows.Forms.Button();
             this.Btn_Revert = new System.Windows.Forms.Button();
             this.Tlp_RecipeLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.Tab_RecipeMain.SuspendLayout();
             this.tab_algorithm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cogToolGroupEditV2_Algorithm)).BeginInit();
@@ -55,9 +61,9 @@
             this.Tlp_RecipeLayout.ColumnCount = 2;
             this.Tlp_RecipeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.Tlp_RecipeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_RecipeLayout.Controls.Add(this.splitContainer1, 0, 3);
             this.Tlp_RecipeLayout.Controls.Add(this.Tab_RecipeMain, 1, 0);
-            this.Tlp_RecipeLayout.Controls.Add(this.SptCtn_ApplySave, 0, 3);
-            this.Tlp_RecipeLayout.Controls.Add(this.Btn_Revert, 0, 2);
+            this.Tlp_RecipeLayout.Controls.Add(this.SptCtn_ApplySave, 0, 2);
             this.Tlp_RecipeLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_RecipeLayout.Location = new System.Drawing.Point(0, 0);
             this.Tlp_RecipeLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -67,8 +73,60 @@
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_RecipeLayout.Size = new System.Drawing.Size(1641, 1226);
             this.Tlp_RecipeLayout.TabIndex = 0;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Location = new System.Drawing.Point(0, 1191);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.Btn_Apply);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.Btn_Save);
+            this.splitContainer1.Size = new System.Drawing.Size(176, 35);
+            this.splitContainer1.SplitterDistance = 86;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // Btn_Apply
+            // 
+            this.Btn_Apply.AutoSize = true;
+            this.Btn_Apply.BackColor = System.Drawing.Color.Yellow;
+            this.Btn_Apply.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Apply.FlatAppearance.BorderSize = 0;
+            this.Btn_Apply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Apply.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Apply.Location = new System.Drawing.Point(0, 0);
+            this.Btn_Apply.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_Apply.Name = "Btn_Apply";
+            this.Btn_Apply.Size = new System.Drawing.Size(86, 35);
+            this.Btn_Apply.TabIndex = 0;
+            this.Btn_Apply.Text = "적용";
+            this.Btn_Apply.UseVisualStyleBackColor = false;
+            this.Btn_Apply.Click += new System.EventHandler(this.Btn_Apply_Click);
+            // 
+            // Btn_Save
+            // 
+            this.Btn_Save.AutoSize = true;
+            this.Btn_Save.BackColor = System.Drawing.Color.LimeGreen;
+            this.Btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Save.FlatAppearance.BorderSize = 0;
+            this.Btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Save.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Save.Location = new System.Drawing.Point(0, 0);
+            this.Btn_Save.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_Save.Name = "Btn_Save";
+            this.Btn_Save.Size = new System.Drawing.Size(86, 35);
+            this.Btn_Save.TabIndex = 1;
+            this.Btn_Save.Text = "저장";
+            this.Btn_Save.UseVisualStyleBackColor = false;
+            this.Btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // Tab_RecipeMain
             // 
@@ -149,68 +207,51 @@
             // 
             // SptCtn_ApplySave
             // 
-            this.SptCtn_ApplySave.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SptCtn_ApplySave.Location = new System.Drawing.Point(0, 1191);
+            this.SptCtn_ApplySave.Location = new System.Drawing.Point(0, 1156);
             this.SptCtn_ApplySave.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.SptCtn_ApplySave.Name = "SptCtn_ApplySave";
             // 
             // SptCtn_ApplySave.Panel1
             // 
-            this.SptCtn_ApplySave.Panel1.Controls.Add(this.Btn_Apply);
+            this.SptCtn_ApplySave.Panel1.Controls.Add(this.Btn_New);
             // 
             // SptCtn_ApplySave.Panel2
             // 
-            this.SptCtn_ApplySave.Panel2.Controls.Add(this.Btn_Save);
+            this.SptCtn_ApplySave.Panel2.Controls.Add(this.Btn_Revert);
             this.SptCtn_ApplySave.Size = new System.Drawing.Size(176, 35);
             this.SptCtn_ApplySave.SplitterDistance = 86;
             this.SptCtn_ApplySave.TabIndex = 1;
             // 
-            // Btn_Apply
+            // Btn_New
             // 
-            this.Btn_Apply.AutoSize = true;
-            this.Btn_Apply.BackColor = System.Drawing.Color.LightGreen;
-            this.Btn_Apply.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Apply.FlatAppearance.BorderSize = 0;
-            this.Btn_Apply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Apply.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Apply.Location = new System.Drawing.Point(0, 0);
-            this.Btn_Apply.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_Apply.Name = "Btn_Apply";
-            this.Btn_Apply.Size = new System.Drawing.Size(86, 35);
-            this.Btn_Apply.TabIndex = 0;
-            this.Btn_Apply.Text = "적용";
-            this.Btn_Apply.UseVisualStyleBackColor = false;
-            this.Btn_Apply.Click += new System.EventHandler(this.Btn_Apply_Click);
-            // 
-            // Btn_Save
-            // 
-            this.Btn_Save.AutoSize = true;
-            this.Btn_Save.BackColor = System.Drawing.Color.LimeGreen;
-            this.Btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Save.FlatAppearance.BorderSize = 0;
-            this.Btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Save.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Save.Location = new System.Drawing.Point(0, 0);
-            this.Btn_Save.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_Save.Name = "Btn_Save";
-            this.Btn_Save.Size = new System.Drawing.Size(86, 35);
-            this.Btn_Save.TabIndex = 1;
-            this.Btn_Save.Text = "저장";
-            this.Btn_Save.UseVisualStyleBackColor = false;
-            this.Btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
+            this.Btn_New.AutoSize = true;
+            this.Btn_New.BackColor = System.Drawing.Color.PowderBlue;
+            this.Btn_New.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_New.FlatAppearance.BorderSize = 0;
+            this.Btn_New.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_New.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_New.Location = new System.Drawing.Point(0, 0);
+            this.Btn_New.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_New.Name = "Btn_New";
+            this.Btn_New.Size = new System.Drawing.Size(86, 35);
+            this.Btn_New.TabIndex = 0;
+            this.Btn_New.Text = "추가";
+            this.Btn_New.UseVisualStyleBackColor = false;
+            this.Btn_New.Click += new System.EventHandler(this.Btn_New_Click);
             // 
             // Btn_Revert
             // 
-            this.Btn_Revert.BackColor = System.Drawing.Color.SkyBlue;
+            this.Btn_Revert.AutoSize = true;
+            this.Btn_Revert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.Btn_Revert.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Revert.FlatAppearance.BorderSize = 0;
             this.Btn_Revert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Revert.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Revert.Location = new System.Drawing.Point(1, 1157);
-            this.Btn_Revert.Margin = new System.Windows.Forms.Padding(1, 1, 4, 1);
+            this.Btn_Revert.Location = new System.Drawing.Point(0, 0);
+            this.Btn_Revert.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Revert.Name = "Btn_Revert";
-            this.Btn_Revert.Size = new System.Drawing.Size(175, 33);
-            this.Btn_Revert.TabIndex = 2;
+            this.Btn_Revert.Size = new System.Drawing.Size(86, 35);
+            this.Btn_Revert.TabIndex = 1;
             this.Btn_Revert.Text = "Revert";
             this.Btn_Revert.UseVisualStyleBackColor = false;
             this.Btn_Revert.Click += new System.EventHandler(this.Btn_Revert_Click);
@@ -228,6 +269,12 @@
             this.Text = "Main_Frm_Recipe";
             this.Shown += new System.EventHandler(this.Main_Frm_Recipe_Shown);
             this.Tlp_RecipeLayout.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.Tab_RecipeMain.ResumeLayout(false);
             this.tab_algorithm.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cogToolGroupEditV2_Algorithm)).EndInit();
@@ -252,8 +299,10 @@
         private System.Windows.Forms.TabPage tab_algorithm;
         private Cognex.VisionPro.ToolGroup.CogToolGroupEditV2 cogToolGroupEditV2_Algorithm;
         private System.Windows.Forms.SplitContainer SptCtn_ApplySave;
+        private System.Windows.Forms.Button Btn_New;
+        private System.Windows.Forms.Button Btn_Revert;
+        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button Btn_Apply;
         private System.Windows.Forms.Button Btn_Save;
-        private System.Windows.Forms.Button Btn_Revert;
     }
 }

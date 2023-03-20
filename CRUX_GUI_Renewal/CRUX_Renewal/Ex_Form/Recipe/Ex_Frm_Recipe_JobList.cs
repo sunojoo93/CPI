@@ -37,6 +37,7 @@ namespace CRUX_Renewal.Ex_Form
 
         public void SetListBox(List<string> data)
         {
+            LstBoxJobList.Items.Clear();
             LstBoxJobList.Items.AddRange(data.ToArray());
         }
         private void Btn_Login_Click(object sender, EventArgs e)
