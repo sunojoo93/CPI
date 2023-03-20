@@ -9,6 +9,7 @@ using CRUX_Renewal.Ex_Form;
 using System.Collections.Generic;
 using System;
 using CRUX_Renewal.Utils;
+using CRUX_Renewal.Class;
 
 namespace CRUX_Renewal.Main_Form
 {
@@ -16,6 +17,14 @@ namespace CRUX_Renewal.Main_Form
     {
         public Ex_Frm_Recipe_RecipeList Frm_RecipeList { get; set; } = null;
         public Ex_Frm_Recipe_JobList Frm_JobList { get; set; } = null;
+        //public Recipe MainRecipe = new Recipe();
+
+        public void LoadVpp(string path)
+        {
+            //MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
+            //MainRecipe.Camera = new Optical_Cam();
+            //MainRecipe.Light = new Optical_Light();
+        }
         public Main_Frm_Recipe ()
         {
             InitializeComponent();
@@ -75,7 +84,7 @@ namespace CRUX_Renewal.Main_Form
 
         public void ClearSubject()
         {
-            cogToolGroupEditV2_Algorithm.Subject.Dispose();
+            cogToolGroupEditV2_Algorithm.Subject = null;
         }
 
         private void Btn_Save_Click(object sender, System.EventArgs e)
@@ -86,12 +95,19 @@ namespace CRUX_Renewal.Main_Form
 
         private void Btn_Apply_Click(object sender, System.EventArgs e)
         {
-
+            //string path = Systems.path;
+            //MainRecipe = MainRecipe ?? new Recipe();
+            //MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
+            //MainRecipe.Camera = new Optical_Cam();
+            //MainRecipe.Light = new Optical_Light();
         }
 
         private void Btn_Revert_Click(object sender, EventArgs e)
         {
-
+            //cogToolGroupEditV2_Algorithm.Subject = null;
+            //MainRecipe.Dispose();
+            //MainRecipe = null;
+            //GC.Collect();
         }
 
         private void Main_Frm_Recipe_Shown(object sender, EventArgs e)

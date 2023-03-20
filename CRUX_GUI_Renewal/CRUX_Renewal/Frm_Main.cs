@@ -64,10 +64,12 @@ namespace CRUX_Renewal
             if (Program.Frm_MainContent_ == null)
                 Program.Frm_MainContent_ = new List<Frm_MainContent>();
 
-            for (int i = 0; i < Consts.MAX_VISION_COUNT; ++i)
+            for (int i = 0; i < Globals.MaxVisionCnt; ++i)
             {
                 Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i] });
+                Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
             }
+          
             SetForm(Program.Frm_MainContent_[0]);
 
             //Program.Frm_Main.CurDisplayForm = Program.Frm_MainContent_[0].Name;
@@ -96,8 +98,9 @@ namespace CRUX_Renewal
         private void Btn_Exit_Click(object sender, EventArgs e)
         {
             Frm_Status.StopCheckStatus();
-            Program.ProgramExit();
+            Program.ProgramExit();            
         }
+
         private new DialogResult ShowDialog()
         {
             base.ShowDialog();

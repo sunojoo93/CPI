@@ -24,28 +24,28 @@ namespace CRUX_Renewal
         public static Inspector Inspector_ = Inspector.Instance();
         public static ServerInterface g_Ipc;
         public static ALIVE_STATE[] AliveList;
-        public static Recipe MainRecipe = new Recipe();
+        public static Recipe MainRecipe;
         public static bool SaveLoadType = false;
-        public static IniFile Evironment_INI = new IniFile();
+        public static IniFile Environment_INI = new IniFile();
         public static string CurrentJob { get; set; } = null;
         public static string CurrentRecipe { get; set; } = null;
         ////////// Property //////////
         // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
+
+        public static string path;
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;
         public static void SetCogJob(string path)
         {
             try
-            {
-                if(MainRecipe?.Manager != null)
+            {    
+                if (MainRecipe?.Manager != null)
                 {
-                    // 레시피 변경 시 메모리 릭 수정 필요
-                    MainRecipe?.Manager?.Shutdown();
-                    for (int i = 0; i < MainRecipe.Manager.JobCount; ++i)
-                        MainRecipe.Manager.Job(i).Shutdown();
-                    MainRecipe.Manager = null;
-                   
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();                    
+                    MainRecipe.Dispose();
+                    MainRecipe = null;
+                    GC.Collect();
                 }
                 //Consts.VPP_PATH = @"D:\CRUX\DATA\Recipes\Test\new1.rcp";
                 if (SaveLoadType)
@@ -54,6 +54,7 @@ namespace CRUX_Renewal
                 }
                 else
                 {
+                    MainRecipe = new Recipe();
                     MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
                     MainRecipe.Camera = new Optical_Cam();
                     MainRecipe.Light = new Optical_Light();
@@ -62,7 +63,9 @@ namespace CRUX_Renewal
                 CurrentRecipe = Temp[Temp.Count() - 2];
                 Systems.Inspector_.SetInspection();
                 Systems.Inspector_.SetCogManager(MainRecipe);
+
                 GC.Collect();
+
             }
             catch (Exception ex)
             {

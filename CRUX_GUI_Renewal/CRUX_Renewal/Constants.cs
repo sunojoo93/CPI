@@ -90,6 +90,8 @@ namespace CRUX_Renewal
     {        
         public static int SelPcNo = 0;
         public static int MaxVisionCnt = 0;
+        public static int CurrentPCno = 0;
+        public static string CurrentUIName;
         private static string[] SelectRecipe;
         private static int[] SelectRecipeNo;
         private static int[] CurrentRecipeNo;
@@ -327,7 +329,7 @@ namespace CRUX_Renewal
 
           public const int PG_DUST_INDEX = -100;
 
-        public const int ALIVE_INTERVAL = 200;
+        public const int ALIVE_INTERVAL = 1000;
         public const int ALIVE_RESPONSE_TIME = 300;
 
         public static int MAX_INSPECTION_COUNT = 10;
@@ -443,7 +445,7 @@ namespace CRUX_Renewal
             //GUI_DATA = 0, 
             CHK_PROGRAM = 0,
             SET_ENVIRONMENT,
-            LOG,
+            INI,
             DATA,
             CAM_TASK,
             IPC,

@@ -101,16 +101,16 @@ namespace CRUX_Renewal.Main_Form
                 Temp3.InspName = "Left4";
                 Temp3.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\4.bmp";
                 //Utility.ChangeJobImageSource(Job, false);
-                Systems.Inspector_.SetInspection(true, Temp0, Temp1);
-                Systems.Inspector_.StartManager();
+                //Systems.Inspector_.SetInspection(true, Temp0, Temp1);
+                //Systems.Inspector_.StartManager();
 
-                //Systems.Inspector_.StartJob(Temp0);
+                Systems.Inspector_.StartJob(Temp0);
 
-                //Systems.Inspector_.StartJob(Temp1);
+                Systems.Inspector_.StartJob(Temp1);
 
-                //Systems.Inspector_.StartJob(Temp2);
+                Systems.Inspector_.StartJob(Temp2);
 
-                //Systems.Inspector_.StartJob(Temp3);
+                Systems.Inspector_.StartJob(Temp3);
             }
             catch (Exception ex)
             {
@@ -121,18 +121,7 @@ namespace CRUX_Renewal.Main_Form
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Systems.MainRecipe.Manager.FailureQueueFlush();
-            Systems.MainRecipe.Manager.UserQueueFlush();
-            Console.WriteLine($"JobManager Flush");
-            for (int i = 0; i < Systems.MainRecipe.Manager.JobCount; ++i)
-            {
-                Systems.MainRecipe.Manager.Job(i).ImageQueueFlush();
-                Console.WriteLine($"Job: {i} Flush");
-            }
-           
-            CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\new4.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
-            Console.WriteLine($"Job: 0 Saved");
-            //CogSerializer.SaveObjectToFile(myJob, "D:\\save.Rcp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+
         }
 
         private void button3_Click(object sender, EventArgs e)

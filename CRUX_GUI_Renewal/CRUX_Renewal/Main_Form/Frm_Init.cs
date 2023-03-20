@@ -1,5 +1,6 @@
 ﻿using Cognex.VisionPro;
 using CRUX_Renewal.Class;
+using CRUX_Renewal.Ex_Form;
 using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
 using System;
@@ -40,8 +41,14 @@ namespace CRUX_Renewal.Main_Form
 
         private void CreateINIObject()
         {
-            Systems.Evironment_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
+            Systems.Environment_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
+
+            Globals.MaxVisionCnt = Systems.Environment_INI["UI_Property"]["TotalCount"].ToInt();
+            Globals.CurrentPCno = Systems.Environment_INI["UI_Property"]["CurrentUINumber"].ToInt();          
+            Globals.MAINFORM_NAME = Systems.Environment_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
+   
         }
+
         private void initialize (object arg)
         {
             int InitFlag = 0;
@@ -82,7 +89,7 @@ namespace CRUX_Renewal.Main_Form
                             ++InitFlag;
                             Systems.LogWriter.Info("Set Evironment...");
                             break;
-                        case (int)Enums.InitFlag.LOG:
+                        case (int)Enums.InitFlag.INI:
                             setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
                             CreateINIObject();
                             if ( Systems.LogWriter == null )
@@ -249,9 +256,7 @@ namespace CRUX_Renewal.Main_Form
 
             //Globals.DrawRctColor = new Color[5]; // ROI 색은 5개까지
             //for(int i = 0; i < Globals.DrawRctColor.Count(); i++)
-            Globals.MAINFORM_NAME = new List<string>();
-            Globals.MAINFORM_NAME.Add("Upper");
-            Globals.MAINFORM_NAME.Add("Lower");
+            //Globals.MAINFORM_NAME = new List<string>();
             Paths.NET_DRIVE = new string[Globals.MaxVisionCnt];
             Paths.NET_INITIAL_PATH = new string[Globals.MaxVisionCnt];
             Paths.NET_ORIGIN_PATH = new string[Globals.MaxVisionCnt];
@@ -311,8 +316,17 @@ namespace CRUX_Renewal.Main_Form
         
         private void LoadJob()
         {
-            ArrayList FileList = fileProc.getFileList(($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Evironment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ",""),".rcp");
-            Systems.SetCogJob(FileList[0].ToString());
+            try
+            {
+                ArrayList FileList = fileProc.getFileList(($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Environment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ", ""), ".rcp");
+                Systems.SetCogJob(FileList[0].ToString());
+            }
+            catch (Exception ex)
+            {
+                Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.ERROR, $"설정된 레시피가 없습니다. 에러 내용 : {ex.Message}");
+                Noti.ShowDialog();
+                throw;
+            }
         }
 
         /// <summary>

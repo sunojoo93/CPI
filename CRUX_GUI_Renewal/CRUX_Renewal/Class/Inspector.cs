@@ -28,7 +28,7 @@ namespace CRUX_Renewal.Class
     {
         private static Inspector Inspector_Object;
 
-        int MaxInspectionCount = 2;
+        int MaxInspectionCount = 1;
         int FaceCount = 8;
         int Now; // Enumerable 변수
         List<Inspection> Inspections;
@@ -71,13 +71,17 @@ namespace CRUX_Renewal.Class
             if(Inspections != null)
             {
                 foreach (var item in Inspections)
-                    item.Dispose();
+                {
+                    item.Dispose();                    
+                }
                 Inspections.RemoveRange(0, Inspections.Count);
+                GC.Collect();
             }
             Parallel.For(0, MaxInspectionCount, (i) =>
             {
                 Inspections.Add(new Inspection(manager, i));
             });
+            GC.Collect();
         }
             
         public void SetRecipe(RecipeParams recipe)
@@ -100,8 +104,16 @@ namespace CRUX_Renewal.Class
         }
         public void StartManager()
         {
-            List<Inspection> Temp = Inspections?.Where(x => x.Manual == true).Select(x => x).ToList();
-            Temp[0]?.JobManager.Run();
+            try
+            {
+                List<Inspection> Temp = Inspections?.Where(x => x.Manual == true).Select(x => x).ToList();
+                Temp[0]?.JobManager.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
             //Inspections?.Find( x => x.Busy == true && y => y.Manual == true)?.JobManager?.Run();
         }
         public void StartJob (InspData insp_param)
@@ -226,11 +238,12 @@ namespace CRUX_Renewal.Class
         }
 
         public void Clear_Inspection()
-        {
-  
+        {  
             Busy = false;
-            Finished = false;
-            Dispose();
+            Finished = false;          
+            CommonData.Dispose();
+            Judge.Dispose();
+            disposedValue = true;
             JobManager.FailureQueueFlush();
             JobManager.UserQueueFlush();
             Console.WriteLine($"JobManager Flush");
@@ -460,14 +473,47 @@ namespace CRUX_Renewal.Class
 
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false; // 중복 호출을 검색하려면
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: 관리되는 상태(관리되는 개체)를 삭제합니다.
+                }
+
+                // TODO: 관리되지 않는 리소스(관리되지 않는 개체)를 해제하고 아래의 종료자를 재정의합니다.
+                // TODO: 큰 필드를 null로 설정합니다.            
+                for (int i = 0; i < Inspection_Thread.Count; ++i)
+                {
+                    Inspection_Thread[i].Dispose();
+                }
+                JobManager.Shutdown();
+                JobManager = null;
+            }
+        }
+
+        // TODO: 위의 Dispose(bool disposing)에 관리되지 않는 리소스를 해제하는 코드가 포함되어 있는 경우에만 종료자를 재정의합니다.
+        ~Inspection()
+        {
+            // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
+            Dispose(false);
+        }
+
+        // 삭제 가능한 패턴을 올바르게 구현하기 위해 추가된 코드입니다.
         public void Dispose()
         {
-            //JobManager.Shutdown();
-            Busy = false;
-            Manual = false;
-            CommonData.Dispose();
-            Judge.Dispose();
+            // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
+            Dispose(true);
+            // TODO: 위의 종료자가 재정의된 경우 다음 코드 줄의 주석 처리를 제거합니다.
+            // GC.SuppressFinalize(this);
         }
+        #endregion
+
+
     }
     class InspectionWorker :IDisposable
     {
@@ -659,19 +705,19 @@ namespace CRUX_Renewal.Class
                 if (disposing)
                 {
                     // TODO: 관리되는 상태(관리되는 개체)를 삭제합니다.
-                }               
+                }
                 // TODO: 관리되지 않는 리소스(관리되지 않는 개체)를 해제하고 아래의 종료자를 재정의합니다.
                 // TODO: 큰 필드를 null로 설정합니다.
-                InspectData.Dispose();
-                disposedValue = true;
+                Job.Shutdown();               
             }
         }
 
         // TODO: 위의 Dispose(bool disposing)에 관리되지 않는 리소스를 해제하는 코드가 포함되어 있는 경우에만 종료자를 재정의합니다.
-        // ~InspectionWorker() {
-        //   // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
-        //   Dispose(false);
-        // }
+        ~InspectionWorker()
+        {
+            // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
+            Dispose(false);
+        }
 
         // 삭제 가능한 패턴을 올바르게 구현하기 위해 추가된 코드입니다.
         public void Dispose()

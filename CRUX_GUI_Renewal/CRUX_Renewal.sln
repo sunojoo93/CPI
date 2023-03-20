@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUX_Renewal", "CRUX_Renewal\CRUX_Renewal.csproj", "{8D1742C4-4A1F-4E07-9F8D-94506CD75681}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharingFormat_DLL", "SharingFormat_DLL\SharingFormat_DLL.csproj", "{EAC022A0-91C7-472D-9C09-80A759629120}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{8D1742C4-4A1F-4E07-9F8D-94506CD75681}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D1742C4-4A1F-4E07-9F8D-94506CD75681}.Release|x64.ActiveCfg = Release|x64
 		{8D1742C4-4A1F-4E07-9F8D-94506CD75681}.Release|x64.Build.0 = Release|x64
+		{EAC022A0-91C7-472D-9C09-80A759629120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC022A0-91C7-472D-9C09-80A759629120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC022A0-91C7-472D-9C09-80A759629120}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EAC022A0-91C7-472D-9C09-80A759629120}.Debug|x64.Build.0 = Debug|Any CPU
+		{EAC022A0-91C7-472D-9C09-80A759629120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC022A0-91C7-472D-9C09-80A759629120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC022A0-91C7-472D-9C09-80A759629120}.Release|x64.ActiveCfg = Release|Any CPU
+		{EAC022A0-91C7-472D-9C09-80A759629120}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
