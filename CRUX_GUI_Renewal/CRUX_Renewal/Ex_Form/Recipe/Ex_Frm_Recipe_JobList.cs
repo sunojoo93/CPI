@@ -1,4 +1,5 @@
-﻿using CRUX_Renewal.Class;
+﻿using Cognex.VisionPro.QuickBuild;
+using CRUX_Renewal.Class;
 using CRUX_Renewal.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace CRUX_Renewal.Ex_Form
 {
     public partial class Ex_Frm_Recipe_JobList : Form
     {
+        CogJob CopyTemp;
         public Ex_Frm_Recipe_JobList()
         {
             InitializeComponent();
@@ -39,6 +41,7 @@ namespace CRUX_Renewal.Ex_Form
         {
             LstBoxJobList.Items.Clear();
             LstBoxJobList.Items.AddRange(data.ToArray());
+            LstBoxJobList.SelectedItem = Systems.CurrentJob;
         }
         private void Btn_Login_Click(object sender, EventArgs e)
         {
@@ -69,39 +72,45 @@ namespace CRUX_Renewal.Ex_Form
             if (e.Button.Equals(MouseButtons.Right))
             {
                 //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
-                string SelectRecipe = LstBoxJobList.SelectedItem.ToString();
+                string SelectedJobName = LstBoxJobList.SelectedItem.ToString();
 
                 //오른쪽 메뉴를 만듭니다
                 ContextMenu m = new ContextMenu();
 
                 //메뉴에 들어갈 아이템을 만듭니다
+                MenuItem m0 = new MenuItem();
                 MenuItem m1 = new MenuItem();
                 MenuItem m2 = new MenuItem();
+                MenuItem m3 = new MenuItem();
 
+                m0.Text = "새 작업";
                 m1.Text = "이름변경";
                 m2.Text = "삭제";
+                m3.Text = "복사";
 
-                if (Systems.CurrentRecipe == SelectRecipe)
-                    m1.Enabled = false;
 
+
+                //if (Systems.CurrentRecipe == SelectRecipe)
+                //    m1.Enabled = false;
+                m0.Click += (senders, ex) =>
+                {
+                    CogJob Temp = new CogJob();
+                    Systems.MainRecipe.Manager.JobAdd(Temp);
+                    SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(LstBoxJobList.Items.Count - 1);
+                };
                 m1.Click += (senders, es) =>
                 {
-                    Ex_Frm_Others_Input Input = new Ex_Frm_Others_Input("새 이름을 입력해주세요.", SelectRecipe);
+                    Ex_Frm_Others_Input Input = new Ex_Frm_Others_Input("새 이름을 입력해주세요.", SelectedJobName);
                     Input.ShowDialog();
-                    if (Input.DialogResult == DialogResult.OK)
-                    {
-                        for (int i = 0; i < Systems.MainRecipe.Manager.JobCount; ++i)
-                            if (Systems.MainRecipe.Manager.Job(i).Name == SelectRecipe)
-                                Systems.MainRecipe.Manager.Job(i).Name = Input.ResultName;
-                    }
+                    if (Input.DialogResult == DialogResult.OK)                    
+                        Cognex_Helper.ChangeJobName(Systems.MainRecipe.Manager, SelectedJobName, Input.ResultName);
                     else
                         return;
                     LstBoxJobList.Items.Clear();
-                    List<string> JobListTemp = new List<string>();
-                    for (int i = 0; i < Systems.GetCogJob().Manager.JobCount; ++i)
-                        JobListTemp.Add(Systems.GetCogJob().Manager.Job(i).Name);
+                    var Temp = Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager);
 
-                    SetListBox(JobListTemp);
+                    SetListBox(Temp);
                 };
                 m2.Click += (senders, es) =>
                 {
@@ -109,7 +118,19 @@ namespace CRUX_Renewal.Ex_Form
                     Noti.ShowDialog();
                     if (Noti.DialogResult == DialogResult.OK)
                     {
-                        // 삭제
+                        Cognex_Helper.DeleteJob(Systems.MainRecipe.Manager, SelectedJobName);
+                    }
+                    else
+                        return;
+                };
+
+                m3.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        CopyTemp = Cognex_Helper.GetJob(Systems.MainRecipe.Manager, SelectedJobName);
                     }
                     else
                         return;
@@ -118,10 +139,16 @@ namespace CRUX_Renewal.Ex_Form
                 //메뉴에 메뉴 아이템을 등록해줍니다
                 m.MenuItems.Add(m1);
                 m.MenuItems.Add(m2);
+                m.MenuItems.Add(m3);   
 
                 //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
                 m.Show(LstBoxJobList, new Point(e.X, e.Y));
             }
+        }
+
+        private void M0_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

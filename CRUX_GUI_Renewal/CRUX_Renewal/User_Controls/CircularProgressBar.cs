@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace CRUX_Renewal.User_Controls
 {
@@ -15,6 +16,7 @@ namespace CRUX_Renewal.User_Controls
         public enum _ProgressShape
         {
             Round,
+            Infinity,
             Flat
         }
 
@@ -25,6 +27,14 @@ namespace CRUX_Renewal.User_Controls
             Percentage,
             Custom
         }
+        public enum _LineStyle
+        {
+            Solid,
+            Dash,
+            DashDot,
+            DashDotDot,
+            Dot
+        }
 
         #endregion
 
@@ -34,16 +44,23 @@ namespace CRUX_Renewal.User_Controls
         private long _Maximum = 100;
         private int _LineWitdh = 1;
         private float _BarWidth = 14f;
-        private bool _ColorTimer = false;
+        private bool _ProgressAction = false;
 
-        private Color _ProgressColor1 = Color.Orange;
-        private Color _ProgressColor2 = Color.Orange;
+        private Color _ProgressColor1 = Color.Lime;
+        private Color _ProgressColor2 = Color.Aqua;
         private Color _LineColor = Color.Black;
         private LinearGradientMode _GradientMode = LinearGradientMode.ForwardDiagonal;
         private _ProgressShape ProgressShapeVal;
         private _TextMode ProgressTextMode;
+        private _LineStyle _LineStyleVal = _LineStyle.Solid;
         bool Direction;
         CancellationTokenSource TokenSource = new CancellationTokenSource();
+        private int _Delay = 25;
+        private int _Detail = 100;
+        private bool _TextView = true;
+        private bool _Line = true;
+
+        int CurIndex = 1;
 
         #endregion
 
@@ -68,6 +85,7 @@ namespace CRUX_Renewal.User_Controls
             ProgressShape = _ProgressShape.Round;
             TextMode = _TextMode.Percentage;
         }
+        
 
         #endregion
 
@@ -100,7 +118,7 @@ namespace CRUX_Renewal.User_Controls
             }
         }
 
-        [Description("Color Inicial de la Barra de Progreso"), Category("Appearance")]
+        [Description("Initial color of progressive bar"), Category("Appearance")]
         public Color BarColor1
         {
             get { return _ProgressColor1; }
@@ -111,17 +129,17 @@ namespace CRUX_Renewal.User_Controls
             }
         }
         [Description("Realtime Bar Color Change"), Category("Appearance")]
-        public bool ColorTimer
+        public bool ProgressAction
         {
-            get { return _ColorTimer; }
+            get { return _ProgressAction; }
             set
             {
-                _ColorTimer = value;
+                _ProgressAction = value;
                 Invalidate();
             }
         }
 
-        [Description("Color Final de la Barra de Progreso"), Category("Appearance")]
+        [Description("Final color of progressive bar"), Category("Appearance")]
         public Color BarColor2
         {
             get { return _ProgressColor2; }
@@ -150,6 +168,16 @@ namespace CRUX_Renewal.User_Controls
             set
             {
                 _GradientMode = value;
+                Invalidate();
+            }
+        }
+        [Description("DrawLine"), Category("Appearance")]
+        public bool Line
+        {
+            get { return _Line; }
+            set
+            {
+                _Line = value;
                 Invalidate();
             }
         }
@@ -186,6 +214,16 @@ namespace CRUX_Renewal.User_Controls
                 Invalidate();
             }
         }
+        [Description("Line Style."), Category("Appearance")]
+        public _LineStyle LineStyle
+        {
+            get { return _LineStyleVal; }
+            set
+            {
+                _LineStyleVal = value;
+                Invalidate();
+            }
+        }
 
         [Description("Obtiene o Establece el Modo como se muestra el Texto dentro de la barra de Progreso."), Category("Behavior")]
         public _TextMode TextMode
@@ -197,10 +235,44 @@ namespace CRUX_Renewal.User_Controls
                 Invalidate();
             }
         }
+        [Description("Text View."), Category("Behavior")]
+        public bool TextView
+        {
+            get { return _TextView; }
+            set
+            {
+                _TextView = value;
+                Invalidate();
+            }
+        }
 
         [Description("Obtiene el Texto que se muestra dentro del Control"), Category("Behavior")]
         public override string Text { get; set; }
 
+        #region Progress shape is Only Infinity
+        [Description("Highlight Delay"), Category("Behavior")]
+        public int Delay
+        {
+            get { return _Delay; }
+            set
+            {
+                _Delay = value;
+                Invalidate();
+            }
+        }
+
+        [Description("Degree of detail"), Category("Behavior")]
+        public int DegreeOfDetail
+        {
+            get { return _Detail; }
+            set
+            {
+                _Detail = value;
+                Invalidate();
+            }
+        }
+
+        #endregion
         #endregion
 
         #region EventArgs
@@ -221,7 +293,17 @@ namespace CRUX_Renewal.User_Controls
         {
             base.OnPaintBackground(p);
         }
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
 
+            if (Visible && !Disposing)
+                Task.Factory.StartNew(() => TimerStart());
+        }
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            TokenSource.Cancel();
+        }
         #endregion
 
         #region Methods
@@ -232,32 +314,43 @@ namespace CRUX_Renewal.User_Controls
         {
             while (true)
             {
-                if (TokenSource.Token.IsCancellationRequested == true || Value >= 100)
+                if (TokenSource.Token.IsCancellationRequested == true)
                     break;
-                if (_ColorTimer)
+                if (_ProgressShape.Infinity == this.ProgressShapeVal)
                 {
-                    if (BarColor1.A >= 200)
-                        Direction = true;
-                    else if (BarColor1.A <= 50)
-                        Direction = false;
-                    int Bar1 = BarColor1.A;
-                    int Bar2 = BarColor2.A;
-                    if (Direction)
-                    {
-                        Bar1 -= 3;
-                        Bar2 -= 3;
-                        BarColor1 = Color.FromArgb(Bar1, BarColor1.R, BarColor1.G, BarColor1.B);
-                        BarColor2 = Color.FromArgb(Bar2, BarColor2.R, BarColor2.G, BarColor2.B);
-                    }
-                    else
-                    {
-                        Bar1 += 3;
-                        Bar2 += 3;
-                        BarColor1 = Color.FromArgb(Bar1, BarColor1.R, BarColor1.G, BarColor1.B);
-                        BarColor2 = Color.FromArgb(Bar2, BarColor2.R, BarColor2.G, BarColor2.B);
-                    }
+                    //Increment(1);         
+                    Thread.Sleep(_Delay);
+                    //if (Value >= 100)
+                    //    Decrement(99);
+                    Invalidate();
                 }
-                Thread.Sleep(10);
+                else
+                {
+                    if (_ProgressAction)
+                    {
+                        if (BarColor1.A >= 200)
+                            Direction = true;
+                        else if (BarColor1.A <= 50)
+                            Direction = false;
+                        int Bar1 = BarColor1.A;
+                        int Bar2 = BarColor2.A;
+                        if (Direction)
+                        {
+                            Bar1 -= 3;
+                            Bar2 -= 3;
+                            BarColor1 = Color.FromArgb(Bar1, BarColor1.R, BarColor1.G, BarColor1.B);
+                            BarColor2 = Color.FromArgb(Bar2, BarColor2.R, BarColor2.G, BarColor2.B);
+                        }
+                        else
+                        {
+                            Bar1 += 3;
+                            Bar2 += 3;
+                            BarColor1 = Color.FromArgb(Bar1, BarColor1.R, BarColor1.G, BarColor1.B);
+                            BarColor2 = Color.FromArgb(Bar2, BarColor2.R, BarColor2.G, BarColor2.B);
+                        }
+                    }
+                    Thread.Sleep(10);
+                }
             }
 
         }
@@ -276,16 +369,16 @@ namespace CRUX_Renewal.User_Controls
 
         public void Increment(double Val)
         {
-            this._Value += Val;
+            Value += Val;
             // 실시간 갱신으로 변경
-            Refresh();
+            //Refresh();
         }
 
         public void Decrement(int Val)
         {
-            this._Value -= Val;
+            Value -= Val;
             // 실시간 갱신으로 변경
-            Refresh();
+            //Refresh();
         }
         #endregion
 
@@ -294,6 +387,7 @@ namespace CRUX_Renewal.User_Controls
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+  
             using (Bitmap bitmap = new Bitmap(this.Width, this.Height))
             {
                 using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -303,7 +397,7 @@ namespace CRUX_Renewal.User_Controls
                     graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
                     graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                    //graphics.Clear(Color.Transparent); //<-- this.BackColor, SystemColors.Control, Color.Transparent
+                    //graphics.Clear(Color.White); //<-- this.BackColor, SystemColors.Control, Color.Transparent
 
                     PaintTransparentBackground(this, e);
 
@@ -316,12 +410,15 @@ namespace CRUX_Renewal.User_Controls
                                 (this.Height - 0x30) + 12);
                     }
                     // Dibuja la delgada Linea gris del medio:
-                    using (Pen pen2 = new Pen(LineColor, this.LineWidth))
+                    if (_Line == true)
                     {
-                        graphics.DrawEllipse(pen2,
-                            18, 18,
-                          (this.Width - 0x30) + 12,
-                          (this.Height - 0x30) + 12);
+                        using (Pen pen2 = new Pen(LineColor, this.LineWidth) { DashStyle = (DashStyle)_LineStyleVal })
+                        {
+                            graphics.DrawEllipse(pen2,
+                                18, 18,
+                              (this.Width - 0x30) + 12,
+                              (this.Height - 0x30) + 12);
+                        }
                     }
 
                     //Dibuja la Barra de Progreso
@@ -336,20 +433,57 @@ namespace CRUX_Renewal.User_Controls
                                     pen.StartCap = LineCap.Round;
                                     pen.EndCap = LineCap.Round;
                                     break;
-
-                                case _ProgressShape.Flat:
+                                case _ProgressShape.Infinity:
+                                    pen.StartCap = LineCap.Round;
+                                    pen.EndCap = LineCap.Round;
+                                    break;
+                                case _ProgressShape.Flat :
                                     pen.StartCap = LineCap.Flat;
                                     pen.EndCap = LineCap.Flat;
                                     break;
                             }
+                            if (this.ProgressShapeVal == _ProgressShape.Infinity)
+                            {
+                                for (float i = 1; i <= _Detail; ++i)
+                                {
+                                    if (CurIndex == i)
+                                    {
+                                            graphics.DrawArc(pen,
+                                            (float)0x12, (float)0x12,
+                                            ((float)this.Width - (float)0x23) - (float)2,
+                                            ((float)this.Height - (float)0x23) - (float)2,
+                                            (((float)360 / (float)_Detail) * ((float)i - (float)1)),
+                                            ((float)360 / (float)_Detail) * ((float)i - (float)1) - ((float)360 / (float)_Detail) * ((float)i));
+                                        graphics.DrawArc(pen,
+                                            (float)0x12, (float)0x12,
+                                            ((float)this.Width - (float)0x23) - (float)2,
+                                            ((float)this.Height - (float)0x23) - (float)2,
+                                            (((float)360 / (float)_Detail) * ((float)i - (float)1))+120,
+                                            ((float)360 / (float)_Detail) * ((float)i - (float)1) - ((float)360 / (float)_Detail) * ((float)i));
+                                        graphics.DrawArc(pen,
+                                            (float)0x12, (float)0x12,
+                                            ((float)this.Width - (float)0x23) - (float)2,
+                                            ((float)this.Height - (float)0x23) - (float)2,
+                                            (((float)360 / (float)_Detail) * ((float)i - (float)1))+240,
+                                            ((float)360 / (float)_Detail) * ((float)i - (float)1) - ((float)360 / (float)_Detail) * ((float)i));
 
-                            //Aqui se dibuja realmente la Barra de Progreso
-                            graphics.DrawArc(pen,
-                                0x12, 0x12,
-                                (this.Width - 0x23) - 2,
-                                (this.Height - 0x23) - 2,
-                                -90,
-                                (int)Math.Round((double)((360.0 / ((double)this._Maximum)) * this._Value)));
+                                        //graphics.Flush();
+                                    }
+                                }
+                                CurIndex++;
+                                if (CurIndex >= _Detail)
+                                    CurIndex = 1;                                  
+                            }
+                            else
+                            {
+                                //Aqui se dibuja realmente la Barra de Progreso                       
+                                graphics.DrawArc(pen,
+                                    0x12, 0x12,
+                                    (this.Width - 0x23) - 2,
+                                    (this.Height - 0x23) - 2,
+                                    -90,
+                                    (int)Math.Round((double)((360.0 / ((double)this._Maximum)) * this._Value)));
+                            }
                         }
                     }
 
@@ -371,9 +505,9 @@ namespace CRUX_Renewal.User_Controls
 
                         default:
                             break;
-                    }
+                    } 
 
-                    if (this.Text != string.Empty)
+                    if (this.Text != string.Empty && _TextView)
                     {
                         using (Brush FontColor = new SolidBrush(this.ForeColor))
                         {
@@ -397,6 +531,7 @@ namespace CRUX_Renewal.User_Controls
                                 Convert.ToInt32(Height / 2 - MS.Height / 2));
                         }
                     }
+                    
 
                     #endregion
 

@@ -1,5 +1,6 @@
 ﻿using CRUX_Renewal.Class;
 using CRUX_Renewal.Ex_Form;
+using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
 using System;
 using System.Collections;
@@ -46,10 +47,13 @@ namespace CRUX_Renewal.Ex_Form
             Frm_Login.ShowDialog();
         }
 
-        private void SetRecipeList(string path)
+        public void SetRecipeList(string path)
         {
+            LstBoxRecipeList.Items.Clear();
             ArrayList Temp = fileProc.getDirNameList(path);
             LstBoxRecipeList.Items.AddRange(Temp.ToArray());
+            if(LstBoxRecipeList.Items.Count > 0)
+                LstBoxRecipeList.SelectedItem = Systems.CurrentRecipe;
         }
 
         private void Btn_Manage_Click(object sender, EventArgs e)
@@ -63,36 +67,41 @@ namespace CRUX_Renewal.Ex_Form
             try
             {
                 string[] Temp = LstBoxRecipeList.SelectedItem.ToString().Split(new string[] { "\\" }, StringSplitOptions.None);
-                string SelectedRecipe = $"{Paths.RECIPE_PATH_RENEWAL}{Temp[Temp.Count() - 1]}";
-                ArrayList Rcp = fileProc.getFileList(SelectedRecipe, ".rcp");
                 Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "현재 Recipe를 닫고 선택한 Recipe를 엽니다.\n저장하지 않은 데이터는 삭제됩니다.");
                 Noti.ShowDialog();
                 if (Noti.DialogResult == DialogResult.OK)
                 {
-                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.ClearList();
-                    // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.
+                    Ex_Frm_Others_Loading Loading = new Ex_Frm_Others_Loading() { Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (Width)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (Height))) };
+                    Loading.Show();
+
+                      string SelectedRecipe = $"{Paths.RECIPE_PATH_RENEWAL}{Temp[Temp.Count() - 1]}";
+                      ArrayList Rcp = fileProc.getFileList(SelectedRecipe, ".vpp");
+
+                      if (SelectedRecipe.Count() >= 1)
+                      {
+
+                              Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
+                              Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.ClearList();
+                              Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_RecipeList.ClearList();
+
+                          if (Rcp == null && Rcp?.Count < 1)
+                              throw new Exception(Enums.ErrorCode.DO_NOT_FOUND_VPP_FILE.DescriptionAttr());
+                          Systems.SetCogJob(Rcp[0]?.ToString());
+
+                          Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
+                          Loading.Close();
+                          // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.SetListBox(JobListTemp);                   
+                      }             
                 }
                 else
                 {
                     LstBoxRecipeList.SelectedItem = Systems.CurrentRecipe;
                     return;
                 }
-                if (SelectedRecipe.Count() >= 1)
-                {
-                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
-                    Systems.SetCogJob(Rcp[0]?.ToString());
-
-                    List<string> JobListTemp = new List<string>();
-                    for (int i = 0; i < Systems.GetCogJob().Manager.JobCount; ++i)
-                        JobListTemp.Add(Systems.GetCogJob().Manager.Job(i).Name);
-
-                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
-                   // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.SetListBox(JobListTemp);
-                }
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
                 throw;
             }
         }

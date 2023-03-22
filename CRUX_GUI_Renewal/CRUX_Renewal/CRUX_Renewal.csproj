@@ -440,6 +440,12 @@
     <Compile Include="Ex_Form\Ex_Frm_Optic_Area.Designer.cs">
       <DependentUpon>Ex_Frm_Optic_Area.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Loading.Designer.cs">
+      <DependentUpon>Ex_Frm_Others_Loading.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Input.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -497,6 +503,7 @@
     <Compile Include="User_Controls\Uctrl_MiniMap.Designer.cs">
       <DependentUpon>Uctrl_MiniMap.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Cognex_Helper.cs" />
     <Compile Include="Utils\CommonFunc.cs" />
     <Compile Include="Utils\FileProc.cs" />
     <Compile Include="Utils\GridData.cs" />
@@ -604,6 +611,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Ex_Frm_Optic_Area.resx">
       <DependentUpon>Ex_Frm_Optic_Area.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Loading.resx">
+      <DependentUpon>Ex_Frm_Others_Loading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Input.resx">
       <DependentUpon>Ex_Frm_Others_Input.cs</DependentUpon>

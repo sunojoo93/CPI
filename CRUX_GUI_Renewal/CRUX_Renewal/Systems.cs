@@ -37,35 +37,42 @@ namespace CRUX_Renewal
         public static string path;
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;
-        public static void SetCogJob(string path)
+        public static async void SetCogJob(string path)
         {
             try
             {    
                 if (MainRecipe?.Manager != null)
                 {
-                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();                    
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
+           
                     MainRecipe.Dispose();
                     MainRecipe = null;
                     GC.Collect();
                 }
                 //Consts.VPP_PATH = @"D:\CRUX\DATA\Recipes\Test\new1.rcp";
-                if (SaveLoadType)
+                Task t =  Task.Run(() =>
                 {
-                    MainRecipe = ((Recipe)CogSerializer.LoadObjectFromFile(path));
-                }
-                else
-                {
-                    MainRecipe = new Recipe();
-                    MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
-                    MainRecipe.Camera = new Optical_Cam();
-                    MainRecipe.Light = new Optical_Light();
-                }
+                    if (SaveLoadType)
+                    {
+                        MainRecipe = ((Recipe)CogSerializer.LoadObjectFromFile(path));
+                    }
+                    else
+                    {
+                        MainRecipe = new Recipe();
+                        MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
+                        MainRecipe.Camera = new Optical_Cam();
+                        MainRecipe.Light = new Optical_Light();
+                    }
+                
+
                 TempRecipe =  MainRecipe;
                 string[] Temp = path.Split(new string[] { "\\" }, StringSplitOptions.None);
                 CurrentRecipe = Temp[Temp.Count() - 2];
                 Systems.Inspector_.SetInspection();
                 Systems.Inspector_.SetCogManager(MainRecipe);
-
+                   
+                });
+                t.Wait();
                 GC.Collect();
 
             }

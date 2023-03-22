@@ -66,7 +66,7 @@ namespace CRUX_Renewal.Main_Form
             this.CircleProgressBar.BarColor1 = System.Drawing.Color.Lime;
             this.CircleProgressBar.BarColor2 = System.Drawing.Color.DeepSkyBlue;
             this.CircleProgressBar.BarWidth = 32F;
-            this.CircleProgressBar.ColorTimer = true;
+            this.CircleProgressBar.ProgressAction = true;
             this.CircleProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CircleProgressBar.Font = new System.Drawing.Font("맑은 고딕", 72F, System.Drawing.FontStyle.Bold);
             this.CircleProgressBar.ForeColor = System.Drawing.Color.Black;

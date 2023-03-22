@@ -42,7 +42,7 @@ namespace CRUX_Renewal
         {
             this.Dock = DockStyle.Fill;
             this.TopLevel = false;
-            Frm_MenuBar = new Ex_Frm_Menubar();
+            Frm_MenuBar = new Ex_Frm_Menubar() { Owner = this.Owner };
 
             Frm_Auto = new Main_Frm_Auto();
             //Program.Frm_Auto.Parent = Tlp_Main;

@@ -28,8 +28,8 @@ namespace CRUX_Renewal.Main_Form
             InitializeComponent();
             lbl_CurrentState.Parent = CircleProgressBar;
             //타이머 객체 시작 필요
-            if (CircleProgressBar.ColorTimer)
-                Task.Factory.StartNew(() => CircleProgressBar.TimerStart());
+            //if (CircleProgressBar.ColorTimer)
+            //    Task.Factory.StartNew(() => CircleProgressBar.TimerStart());
             Globals.MaxVisionCnt = Convert.ToInt32(iniUtl.GetIniValue("Common", "VISION PC COUNT", Paths.INIT_PATH));
 
             thread = new Thread(new ParameterizedThreadStart(initialize));
@@ -182,7 +182,7 @@ namespace CRUX_Renewal.Main_Form
                 Thread.Sleep(500);
                 this.Invoke(new MethodInvoker(delegate ()
                 {
-                    CircleProgressBar.TimerStop();
+                    //CircleProgressBar.TimerStop();
                     this.Close();
                 }));
                 //FormOpen(Program.Frm_Main);

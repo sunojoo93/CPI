@@ -145,5 +145,9 @@ namespace CRUX_Renewal.Main_Form
         {
 
         }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {    
+        }
     }
 }

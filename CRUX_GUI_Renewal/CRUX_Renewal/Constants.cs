@@ -467,6 +467,31 @@ namespace CRUX_Renewal
             //ERROR_LIST_INFO,
             MAX
         };
+
+        public enum ErrorCode
+        {
+            /// <summary>
+            /// 시스템 에러 1 ~ 150
+            /// </summary>
+            [Description("메모리가 부족합니다.")]
+            NOT_ENOUGH_MEMORY = 1,
+            [Description("초기화에 실패했습니다.")]
+            FAIL_INITIALIZE = 2,
+
+            /// <summary>
+            /// 레시피 에러 151 ~ 250
+            /// </summary>
+            [Description("VPP파일을 찾을 수 없습니다.")]
+            DO_NOT_FOUND_VPP_FILE = 151,
+            [Description("레시피를 찾을 수 없습니다.")]
+            DO_NOT_FOUND_RECIPE = 152,
+            /// <summary>
+            /// 기타 에러 251~400
+            /// </summary>
+            [Description("Error")]
+            ERROR,
+            MAX
+        }
         public enum ENUM_SIGN_OF_INEQUALITY : int
         {
             E_SIGN_EQUAL,	// x == judgment value
