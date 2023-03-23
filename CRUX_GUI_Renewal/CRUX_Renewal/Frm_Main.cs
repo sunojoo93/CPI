@@ -132,7 +132,10 @@ namespace CRUX_Renewal
                 Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
             }
         }
-
+        public void SetRecipeName(string name)
+        {
+            Lb_RecipeName.Text = name;
+        }
         private void Cmb_SelPC_SelectedIndexChanged(object sender, EventArgs e)
         {
             try

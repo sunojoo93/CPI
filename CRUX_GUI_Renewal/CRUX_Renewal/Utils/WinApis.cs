@@ -27,6 +27,8 @@ namespace CRUX_Renewal.Utils
         public static extern long WritePrivateProfileString (string section, string key, string val, string filePath);
         [DllImport("kernel32")]
         public static extern int GetPrivateProfileString (string section, string key, string def, StringBuilder retVal, int size, string filePath);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetParent(IntPtr childWindowHandle, IntPtr parentWindowHandle);
     }
 
 

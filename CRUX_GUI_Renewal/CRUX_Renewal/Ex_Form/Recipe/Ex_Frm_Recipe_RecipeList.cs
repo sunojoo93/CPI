@@ -71,9 +71,9 @@ namespace CRUX_Renewal.Ex_Form
                 Noti.ShowDialog();
                 if (Noti.DialogResult == DialogResult.OK)
                 {
-                    Ex_Frm_Others_Loading Loading = new Ex_Frm_Others_Loading() { Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (Width)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (Height))) };
-                    Loading.Show();
-
+                    //Ex_Frm_Others_Loading Loading = new Ex_Frm_Others_Loading() { Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (Width)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (Height))) };
+                    //Loading.Show();
+                    Utility.LoadingStart();
                       string SelectedRecipe = $"{Paths.RECIPE_PATH_RENEWAL}{Temp[Temp.Count() - 1]}";
                       ArrayList Rcp = fileProc.getFileList(SelectedRecipe, ".vpp");
 
@@ -89,9 +89,11 @@ namespace CRUX_Renewal.Ex_Form
                           Systems.SetCogJob(Rcp[0]?.ToString());
 
                           Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
-                          Loading.Close();
+                        Systems.CurrentRecipe = Rcp[0]?.ToString();
+                        Utility.LoadingStop();
+                          //Loading.Close();
                           // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.SetListBox(JobListTemp);                   
-                      }             
+                    }             
                 }
                 else
                 {

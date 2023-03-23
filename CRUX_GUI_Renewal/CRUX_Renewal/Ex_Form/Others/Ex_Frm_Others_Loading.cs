@@ -38,7 +38,7 @@ namespace CRUX_Renewal.Ex_Form
 
         private void Ex_Frm_Others_Loading_Load(object sender, EventArgs e)
         {
-            Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, this.Width, this.Height));
+            Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 30,30));
         }
     }
 }

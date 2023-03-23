@@ -29,7 +29,13 @@ namespace CRUX_Renewal
         public static bool SaveLoadType = false;
         public static IniFile Environment_INI = new IniFile();
         public static string CurrentJob { get; set; } = null;
-        public static string CurrentRecipe { get; set; } = null;
+        private static string CurrentRecipe_;
+        public static string CurrentRecipe { get
+            { return CurrentRecipe_; }
+            set
+            { CurrentRecipe_ = value;
+                Program.Frm_Main?.SetRecipeName(CurrentRecipe_);
+            } } 
         ////////// Property //////////
         // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
@@ -67,7 +73,7 @@ namespace CRUX_Renewal
 
                 TempRecipe =  MainRecipe;
                 string[] Temp = path.Split(new string[] { "\\" }, StringSplitOptions.None);
-                CurrentRecipe = Temp[Temp.Count() - 2];
+                //CurrentRecipe = Temp[Temp.Count() - 2];
                 Systems.Inspector_.SetInspection();
                 Systems.Inspector_.SetCogManager(MainRecipe);
                    

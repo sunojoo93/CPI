@@ -25,7 +25,9 @@ namespace CRUX_Renewal
         // 메인 폼       
         public static List<Frm_MainContent> Frm_MainContent_;
         public static Frm_Main Frm_Main;
-
+        
+        // For multi ui thread
+        public static Ex_Frm_Others_Loading LoadingForm;
         /// <summary>
         /// 해당 응용 프로그램의 주 진입점입니다.
         /// </summary>

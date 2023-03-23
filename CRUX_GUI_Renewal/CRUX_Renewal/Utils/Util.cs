@@ -1,5 +1,7 @@
 ﻿using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal;
+using CRUX_Renewal.Ex_Form;
+using CRUX_Renewal.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -81,14 +84,47 @@ namespace CRUX_Renewal
                 throw ex;
             }
         }
+        static public void LoadingStart()
+        {
+            Ex_Frm_Others_Loading form = null;
 
-        /// <summary>
-        /// Verify that the same layer name exists
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        static public Control[] GetAllControlsRecursive(Control containerControl)  // Main object부터 시작
+            Thread thread = new Thread(() => {
+                form = new Ex_Frm_Others_Loading();
+                form.Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (form.Width/2)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (form.Height/2)));
+                Program.LoadingForm = form;
+                Application.Run(form);
+            });
+
+            thread.SetApartmentState(ApartmentState.STA);
+
+            thread.Start();
+
+            while (true)
+            {
+                if (form != null && form.IsHandleCreated == true)
+                {
+                    break;
+                }
+            }
+
+            IntPtr handle = Program.Frm_Main.Handle;
+
+            form.Invoke(new Action(delegate { WinApis.SetParent(form.Handle, handle); }));
+        }
+        static public void LoadingStop()
+        {
+            Program.LoadingForm?.Invoke(new Action(delegate ()
+            {
+                Program.LoadingForm?.Close();
+            }));
+        }
+            /// <summary>
+            /// Verify that the same layer name exists
+            /// </summary>
+            /// <param name="name"></param>
+            /// <param name="list"></param>
+            /// <returns></returns>
+            static public Control[] GetAllControlsRecursive(Control containerControl)  // Main object부터 시작
         {
             try
             {

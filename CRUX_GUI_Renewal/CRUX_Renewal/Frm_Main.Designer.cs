@@ -30,7 +30,7 @@
         {
             this.Tlp_Main = new System.Windows.Forms.TableLayoutPanel();
             this.Pb_Logo = new System.Windows.Forms.PictureBox();
-            this.Lb_JobName = new System.Windows.Forms.Label();
+            this.Lb_RecipeName = new System.Windows.Forms.Label();
             this.Btn_Exit = new System.Windows.Forms.Button();
             this.Btn_Minimize = new System.Windows.Forms.Button();
             this.Cmb_SelPC = new CRUX_Renewal.User_Controls.ColorfulComboBox();
@@ -50,7 +50,7 @@
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
             this.Tlp_Main.Controls.Add(this.Pb_Logo, 0, 0);
-            this.Tlp_Main.Controls.Add(this.Lb_JobName, 1, 0);
+            this.Tlp_Main.Controls.Add(this.Lb_RecipeName, 1, 0);
             this.Tlp_Main.Controls.Add(this.Btn_Exit, 6, 0);
             this.Tlp_Main.Controls.Add(this.Btn_Minimize, 5, 0);
             this.Tlp_Main.Controls.Add(this.Cmb_SelPC, 3, 0);
@@ -78,22 +78,22 @@
             this.Pb_Logo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseDown);
             this.Pb_Logo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseMove);
             // 
-            // Lb_JobName
+            // Lb_RecipeName
             // 
-            this.Lb_JobName.AutoSize = true;
-            this.Lb_JobName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.Lb_JobName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_JobName.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Lb_JobName.Font = new System.Drawing.Font("맑은 고딕", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_JobName.Location = new System.Drawing.Point(103, 4);
-            this.Lb_JobName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.Lb_JobName.Name = "Lb_JobName";
-            this.Lb_JobName.Size = new System.Drawing.Size(459, 44);
-            this.Lb_JobName.TabIndex = 13;
-            this.Lb_JobName.Text = "JOB NAME";
-            this.Lb_JobName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Lb_JobName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Lb_JobName_MouseDown);
-            this.Lb_JobName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Lb_JobName_MouseMove);
+            this.Lb_RecipeName.AutoSize = true;
+            this.Lb_RecipeName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.Lb_RecipeName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_RecipeName.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Lb_RecipeName.Font = new System.Drawing.Font("맑은 고딕", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_RecipeName.Location = new System.Drawing.Point(103, 4);
+            this.Lb_RecipeName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.Lb_RecipeName.Name = "Lb_RecipeName";
+            this.Lb_RecipeName.Size = new System.Drawing.Size(459, 44);
+            this.Lb_RecipeName.TabIndex = 13;
+            this.Lb_RecipeName.Text = "JOB NAME";
+            this.Lb_RecipeName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_RecipeName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Lb_JobName_MouseDown);
+            this.Lb_RecipeName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Lb_JobName_MouseMove);
             // 
             // Btn_Exit
             // 
@@ -163,7 +163,7 @@
 
         private System.Windows.Forms.TableLayoutPanel Tlp_Main;
         private System.Windows.Forms.PictureBox Pb_Logo;
-        private System.Windows.Forms.Label Lb_JobName;
+        private System.Windows.Forms.Label Lb_RecipeName;
         private System.Windows.Forms.Button Btn_Exit;
         private System.Windows.Forms.Button Btn_Minimize;
         private User_Controls.ColorfulComboBox Cmb_SelPC;
