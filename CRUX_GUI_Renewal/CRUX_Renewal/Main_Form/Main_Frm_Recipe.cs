@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System;
 using CRUX_Renewal.Utils;
 using CRUX_Renewal.Class;
+using CRUX_Renewal.User_Controls;
 
 namespace CRUX_Renewal.Main_Form
 {
@@ -25,12 +26,12 @@ namespace CRUX_Renewal.Main_Form
             //MainRecipe.Camera = new Optical_Cam();
             //MainRecipe.Light = new Optical_Light();
         }
-        public Main_Frm_Recipe ()
+        public Main_Frm_Recipe()
         {
             InitializeComponent();
             TopLevel = false;
             Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;            
+            FormBorderStyle = FormBorderStyle.None;
 
             Show();
             Frm_RecipeList = Frm_RecipeList ?? new Ex_Frm_Recipe_RecipeList();
@@ -42,6 +43,12 @@ namespace CRUX_Renewal.Main_Form
             Frm_RecipeList.Show();
             Frm_JobList.Show();
             DisplayJob();
+
+            //Uctrl_MainPic MainPic = new Uctrl_MainPic() { Dock = DockStyle.Fill };
+           
+            //Control[] FindTemp = Utility.GetAllControlsRecursive(tab_roi, "Tlp_ROI");
+            //if (FindTemp?.Length >= 1)
+            //    (FindTemp[0] as TableLayoutPanel).Controls.Add(MainPic, 0, 0);
             //var rtn = Utility.GetAllControlsRecursive(ss, "chkNormalRunMode");
             //(rtn[0] as CheckBox).Checked = true;
             //string name = Cog_JobManagerEdit.SavedJobManagerFileName;

@@ -88,6 +88,7 @@ namespace CRUX_Renewal
             //Program.Frm_Init_.CircleProgressBar.TimerStop();
             WinApis.SetWindowRgn(Btn_Minimize.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Minimize.Width, Btn_Minimize.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Exit.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Exit.Width, Btn_Exit.Height, 15, 15), true);
+            Systems.CurrentRecipe = Systems.Environment_INI["LastUsedRecipe"]["RecipeName"].ToString();
         }
 
         private void Btn_Minimize_Click(object sender, EventArgs e)

@@ -306,7 +306,7 @@ namespace CRUX_Renewal.User_Controls
 
         /////////////////////////////////////////
         /// <summary>기  능 : 이미지 처리 클래스 초기화 /작성자 : 임경민 (IKM) </summary>
-        public Uctrl_MainPic(Form Parent, ref Uctrl_MiniMap ucPicMiniMap, ref Label strImageSate, int nImgeID, int nVisionNo, bool bUseMiniMap = false, int nWidth = 870, int nHeight = 700, int nLocX = 9, int nLocY = 47)
+        public Uctrl_MainPic()
         {
 
             InitializeComponent();
@@ -315,6 +315,50 @@ namespace CRUX_Renewal.User_Controls
             //             SetStyle(ControlStyles.ResizeRedraw, true);
             //             SetStyle(ControlStyles.UserPaint, true);
 
+
+
+            //Size sizeImg = new Size(nWidth / 4 * 4, nHeight / 4 * 4);
+            //m_bUseMiniMap = bUseMiniMap;
+            //m_ucPicMiniMap = ucPicMiniMap;// new Uctrl_MiniMap(this);
+
+            //if (m_bUseMiniMap) m_ucPicMiniMap.Visible = true;
+            //else m_ucPicMiniMap.Visible = false;
+
+            //this.Location = new Point(nLocX, nLocY);
+            //this.Size = sizeImg;
+            //picMainImg.Size = sizeImg;
+
+            //LinkStrImageState(ref strImageSate);
+
+            ///////////////////////////////////////////////////////////////////////////////
+            // ruler control
+            //            rulerControl_H.Width = picMainImg.Width;            
+            //            rulerControl_H.MajorInterval = 10;         
+            //            rulerControl_V.Height = picMainImg.Height;
+            //            rulerControl_V.MajorInterval = 10;         
+            ///////////////////////////////////////////////////////////////////////////////
+
+            vScrollBar1.Location = new Point(Width + 1, picMainImg.Location.Y);
+            hScrollBar1.Location = new Point(picMainImg.Location.X, Height + 1);
+            vScrollBar1.Height = Height;
+            hScrollBar1.Width = Width;
+            //pnlBackgrd.Size = picMainImg.Size;
+            //pnlBackgrd.Location = picMainImg.Location;
+            //prbImgLoad.Location = new Point((picMainImg.Width - prbImgLoad.Width) / 2, (picMainImg.Height - prbImgLoad.Height) / 2);
+            //Parent.Controls.Add(this);
+            //pnlBackgrd.Controls.Add(lbImgLoad);
+            //pnlBackgrd.Controls.Add(prbImgLoad);
+            //lbImgLoad.BackColor = Color.Transparent;
+            //lbImgLoad.Parent = this.picMainImg;
+
+            InitRectData();
+            InitPointData();
+            InitGuideLineData(new Color());
+            InitLineProfileData(new Color());
+            InitContrastData(new Color());
+        }
+        public void Initialize(Form Parent, ref Uctrl_MiniMap ucPicMiniMap, ref Label strImageSate, int nImgeID, int nVisionNo, bool bUseMiniMap = false, int nWidth = 870, int nHeight = 700, int nLocX = 9, int nLocY = 47)
+        {
             m_nImgeID = nImgeID;
             m_nVisionNo = nVisionNo;
 
@@ -358,7 +402,6 @@ namespace CRUX_Renewal.User_Controls
             InitLineProfileData(new Color());
             InitContrastData(new Color());
         }
-
         /// 기  능  : 이미지의 현재 상태를 텍스트로 반환
         /// /반환값 : string
         /// /입  력 : 

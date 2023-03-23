@@ -32,7 +32,7 @@ namespace CRUX_Renewal.Main_Form
         {
             this.lbl_CurrentState = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
-            this.CircleProgressBar = new CRUX_Renewal.User_Controls.CPB();
+            this.CircleProgressBar = new CPB();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 

@@ -40,7 +40,7 @@
             this.CircleProgressBar.DegreeOfDetail = 100;
             this.CircleProgressBar.Delay = 25;
             this.CircleProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CircleProgressBar.Font = new System.Drawing.Font("Calibri", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CircleProgressBar.Font = new System.Drawing.Font("맑은 고딕", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.CircleProgressBar.ForeColor = System.Drawing.Color.DimGray;
             this.CircleProgressBar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
             this.CircleProgressBar.Line = true;
@@ -48,7 +48,7 @@
             this.CircleProgressBar.LineStyle = CRUX_Renewal.User_Controls.CPB._LineStyle.Solid;
             this.CircleProgressBar.LineWidth = 2;
             this.CircleProgressBar.Location = new System.Drawing.Point(10, 10);
-            this.CircleProgressBar.Margin = new System.Windows.Forms.Padding(30);
+            this.CircleProgressBar.Margin = new System.Windows.Forms.Padding(0);
             this.CircleProgressBar.Maximum = ((long)(100));
             this.CircleProgressBar.MinimumSize = new System.Drawing.Size(100, 100);
             this.CircleProgressBar.Name = "CircleProgressBar";
@@ -81,9 +81,11 @@
 
         }
 
+        private User_Controls.CPB CircleProgressBar;
+
 
         #endregion
 
-        private User_Controls.CPB CircleProgressBar;
+        //private User_Controls.CPB CircleProgressBar;
     }
 }

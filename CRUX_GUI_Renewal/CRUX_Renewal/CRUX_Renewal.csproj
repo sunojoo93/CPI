@@ -485,6 +485,7 @@
     <Compile Include="User_Controls\ColorfulComboBox.Designer.cs">
       <DependentUpon>ColorfulComboBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="User_Controls\Controls.cs" />
     <Compile Include="User_Controls\Uctrl_DefectMap.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -576,6 +577,12 @@
     <Compile Include="Utils\Snappy\Utilities.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="Utils\WinApis.cs" />
+    <EmbeddedResource Include="User_Controls\Uctrl_MainPic.resx">
+      <DependentUpon>Uctrl_MainPic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User_Controls\Uctrl_MiniMap.resx">
+      <DependentUpon>Uctrl_MiniMap.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Res\Red.png" />
     <None Include="Res\Orange.png" />
     <None Include="Res\Blue.png" />
@@ -629,12 +636,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User_Controls\CircularProgressBar.resx">
       <DependentUpon>CircularProgressBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="User_Controls\Uctrl_MainPic.resx">
-      <DependentUpon>Uctrl_MainPic.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="User_Controls\Uctrl_MiniMap.resx">
-      <DependentUpon>Uctrl_MiniMap.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Res\Logo_Ox.png" />
     <EmbeddedResource Include="Ex_Form\Ex_Frm_Account_Info.resx">
@@ -713,7 +714,43 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenCvSharp4.4.7.0.20230115\lib\net48\OpenCvSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenCvSharp4.Extensions.4.7.0.20230115\lib\net48\OpenCvSharp.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.5.0.3\lib\net461\System.Drawing.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xaml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) ..\..\..\..\..\EXE\</PostBuildEvent>

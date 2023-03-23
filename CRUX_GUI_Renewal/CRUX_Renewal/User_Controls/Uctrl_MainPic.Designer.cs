@@ -81,7 +81,7 @@
             this.lbImgLoad.ForeColor = System.Drawing.SystemColors.Window;
             this.lbImgLoad.Location = new System.Drawing.Point(219, 232);
             this.lbImgLoad.Name = "lbImgLoad";
-            this.lbImgLoad.Size = new System.Drawing.Size(315, 34);
+            this.lbImgLoad.Size = new System.Drawing.Size(255, 27);
             this.lbImgLoad.TabIndex = 8;
             this.lbImgLoad.Text = "NOW LOADING ...";
             this.lbImgLoad.Visible = false;
