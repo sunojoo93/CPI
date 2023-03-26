@@ -34,6 +34,7 @@
             this.cogToolGroupEditV2_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
             this.tab_roi = new System.Windows.Forms.TabPage();
             this.Tlp_ROI = new System.Windows.Forms.TableLayoutPanel();
+            this.uctrl_MainPic1 = new CRUX_Renewal.User_Controls.Uctrl_MainPic();
             this.tab_optic = new System.Windows.Forms.TabPage();
             this.tab_align = new System.Windows.Forms.TabPage();
             this.Btn_Judge = new System.Windows.Forms.Button();
@@ -43,7 +44,7 @@
             this.Btn_Save = new System.Windows.Forms.Button();
             this.Btn_Revert = new System.Windows.Forms.Button();
             this.Lb_UnderLine1 = new System.Windows.Forms.Label();
-            this.uctrl_MainPic1 = new CRUX_Renewal.User_Controls.Uctrl_MainPic();
+            this.button1 = new System.Windows.Forms.Button();
             this.Tlp_RecipeLayout.SuspendLayout();
             this.Tab_RecipeMain.SuspendLayout();
             this.tab_algorithm.SuspendLayout();
@@ -139,6 +140,7 @@
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.25762F));
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.74238F));
             this.Tlp_ROI.Controls.Add(this.uctrl_MainPic1, 0, 0);
+            this.Tlp_ROI.Controls.Add(this.button1, 1, 0);
             this.Tlp_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_ROI.Location = new System.Drawing.Point(3, 3);
             this.Tlp_ROI.Margin = new System.Windows.Forms.Padding(0);
@@ -147,6 +149,14 @@
             this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.Tlp_ROI.Size = new System.Drawing.Size(1447, 747);
             this.Tlp_ROI.TabIndex = 0;
+            // 
+            // uctrl_MainPic1
+            // 
+            this.uctrl_MainPic1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uctrl_MainPic1.Location = new System.Drawing.Point(6, 6);
+            this.uctrl_MainPic1.Name = "uctrl_MainPic1";
+            this.uctrl_MainPic1.Size = new System.Drawing.Size(889, 735);
+            this.uctrl_MainPic1.TabIndex = 0;
             // 
             // tab_optic
             // 
@@ -274,13 +284,15 @@
             this.Lb_UnderLine1.Size = new System.Drawing.Size(174, 1);
             this.Lb_UnderLine1.TabIndex = 6;
             // 
-            // uctrl_MainPic1
+            // button1
             // 
-            this.uctrl_MainPic1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uctrl_MainPic1.Location = new System.Drawing.Point(6, 6);
-            this.uctrl_MainPic1.Name = "uctrl_MainPic1";
-            this.uctrl_MainPic1.Size = new System.Drawing.Size(889, 735);
-            this.uctrl_MainPic1.TabIndex = 0;
+            this.button1.Location = new System.Drawing.Point(904, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Main_Frm_Recipe
             // 
@@ -329,5 +341,6 @@
         private System.Windows.Forms.Label Lb_UnderLine1;
         public System.Windows.Forms.TableLayoutPanel Tlp_ROI;
         private User_Controls.Uctrl_MainPic uctrl_MainPic1;
+        private System.Windows.Forms.Button button1;
     }
 }

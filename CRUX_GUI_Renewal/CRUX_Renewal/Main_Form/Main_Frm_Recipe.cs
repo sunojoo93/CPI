@@ -11,6 +11,7 @@ using System;
 using CRUX_Renewal.Utils;
 using CRUX_Renewal.Class;
 using CRUX_Renewal.User_Controls;
+using OpenCvSharp;
 
 namespace CRUX_Renewal.Main_Form
 {
@@ -132,6 +133,10 @@ namespace CRUX_Renewal.Main_Form
             WinApis.SetWindowRgn(Btn_Judge.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Judge.Width, Btn_Judge.Height, 15, 15), true);
         }
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Mat tt = OpenCvSharp.Cv2.ImRead(@"‪D:\Ma.bmp", OpenCvSharp.ImreadModes.Unchanged);
+            //uctrl_MainPic1.m_fnSetBitmap(@"‪D:\dfd.bmp");
+        }
     }
 }

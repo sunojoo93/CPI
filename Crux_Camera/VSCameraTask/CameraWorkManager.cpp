@@ -457,7 +457,7 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 //#endif
 
 	EXCEPTION_TRY
-		theApp.m_pCamera->CameraExpose(stLineParam);
+		theApp.m_pCamera->CameraExpose(/*stLineParam*/);
 	EXCEPTION_CATCH
 
 	if ( nRet != APP_OK)
@@ -510,22 +510,22 @@ int VSMessageProcessor::VS_SetTirgger(byte* pParam, ULONG& nPrmSize, bool bAlway
 	{
 		//temp->m_Trigger->TriggerInit0(); //트리거 파형 S,W, H 값 적용 "AOI,3,1,1,1,"
 		//temp->m_Trigger->TriggerInit1(); //트리거 파형 S,W, H 값 적용
-		temp->m_Trigger->StopTriggerGen0(); // 트리거 발생 정지 및 트리거 카운터 초기화 "AOI,0,0,"
-		temp->m_Trigger->StopTriggerGen1(); // 트리거 발생 정지 및 트리거 카운터 초기화
+		/////temp->m_Trigger->StopTriggerGen0(); // 트리거 발생 정지 및 트리거 카운터 초기화 "AOI,0,0,"
+		/////temp->m_Trigger->StopTriggerGen1(); // 트리거 발생 정지 및 트리거 카운터 초기화
 
 		//MdigControl(temp->m_milDigitizer, M_ROTARY_ENCODER_DIRECTION, M_FORWARD);
 		//MdigControl(temp->m_milDigitizer, M_ROTARY_ENCODER_POSITION, 0);
 		//MdigControl(temp->m_milDigitizer, M_ROTARY_ENCODER_POSITION_TRIGGER, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodF);
 
 		//temp->m_Trigger->TriggerOrigin1();
-		temp->m_Trigger->TriggerStartPositionChannel1(stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStartF, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStopF, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodF);
-		temp->m_Trigger->TriggerStartPositionChannel0(stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStartF, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStopF, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodF);
-		temp->m_Trigger->StartForwardScan();
+		/////temp->m_Trigger->TriggerStartPositionChannel1(stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStartF, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStopF, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodF);
+		/////temp->m_Trigger->TriggerStartPositionChannel0(stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStartF, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStopF, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodF);
+		//temp->m_Trigger->StartForwardScan();
 
 
-		temp->m_Trigger->TriggerCurrentPosition();
-		temp->m_Trigger->TriggerGenCount0();
-		temp->m_Trigger->TriggerGenCount1();
+		//temp->m_Trigger->TriggerCurrentPosition();
+		//temp->m_Trigger->TriggerGenCount0();
+		//temp->m_Trigger->TriggerGenCount1();
 	}
 	else
 	{
@@ -541,14 +541,14 @@ int VSMessageProcessor::VS_SetTirgger(byte* pParam, ULONG& nPrmSize, bool bAlway
 		MdigControl(temp->m_milDigitizer, M_ROTARY_ENCODER_POSITION_TRIGGER, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodB);*/
 
 
-		temp->m_Trigger->TriggerStartPositionChannel0(stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStartB, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStopB, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodB);
-		temp->m_Trigger->TriggerStartPositionChannel1(stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStartB, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStopB, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodB);
-		temp->m_Trigger->StartBackwardScan();
+		//////temp->m_Trigger->TriggerStartPositionChannel0(stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStartB, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStopB, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodB);
+		//////temp->m_Trigger->TriggerStartPositionChannel1(stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStartB, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nStopB, stLineParam.stLineData[stLineParam.stLineData[0].nCurrentGrab].nPeriodB);
+		//////temp->m_Trigger->StartBackwardScan();
 
 
-		temp->m_Trigger->TriggerCurrentPosition();
-		temp->m_Trigger->TriggerGenCount0();
-		temp->m_Trigger->TriggerGenCount1();
+		//////temp->m_Trigger->TriggerCurrentPosition();
+		//////temp->m_Trigger->TriggerGenCount0();
+		//////temp->m_Trigger->TriggerGenCount1();
 
 
 	
@@ -619,7 +619,7 @@ int VSMessageProcessor::VS_WaitGrabEndSequence( byte* pParam, ULONG& nPrmSize, b
 			
 			theApp.m_pCamera->WaitGrabEnd();
 			if (stWaitGrabEndParam.bUseSMem)
-				theApp.m_pCamera->SetSMemCurBuffer(stWaitGrabEndParam.nTriCountF, stWaitGrabEndParam.nTriCountB, stWaitGrabEndParam.nGrabNum, stWaitGrabEndParam.strPanelID, stWaitGrabEndParam.strGrabStepName, stWaitGrabEndParam.nSeqMode);
+				theApp.m_pCamera->SetSMemCurBuffer(/*stWaitGrabEndParam.nTriCountF, stWaitGrabEndParam.nTriCountB,*/ stWaitGrabEndParam.nGrabNum, stWaitGrabEndParam.strPanelID, stWaitGrabEndParam.strGrabStepName, stWaitGrabEndParam.nSeqMode);
 			if (stWaitGrabEndParam.bUseFileSave)
 			{
 				// 확장자 결정

@@ -71,7 +71,8 @@ public:
 
 	virtual int		GetImageCallBackState()								{	return 0		;};
 	virtual UINT	retryConnect()										{	return 0		;};
-
+	virtual	void	CameraExpose() { };
+	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
 #ifdef _MATROXCAMERA
 	/************************************************************/
 	/*						 Matrox Camera						*/

@@ -129,6 +129,7 @@ copy D:\CRUX\EXE\ClientSockDll.dll $(SolutionDir)\Shared</Command>
       <AdditionalIncludeDirectories>C:\Program Files\Matrox Imaging\odyssey\src\headers\common;C:\Program Files\Matrox Imaging\Mil\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4819;4995;4099</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\SimulationCamera;C:\Program Files\Matrox Imaging\odyssey\src\headers\common;C:\Program Files\Matrox Imaging\Mil\Include;D:\OpenCV\341\x64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
