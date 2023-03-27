@@ -327,5 +327,98 @@ namespace CRUX_Renewal
             if (attributes != null && attributes.Length > 0) return attributes[0].Description;
             else return source.ToString();
         }
+
+        // Percent와 Absolute 인 row, col로 구성되어있다고 가정
+
+        public static Size GetActualPixelSize(TableLayoutPanel panel, int col, int row)
+        {
+
+            if (panel.ColumnCount <= col || col < 0 || panel.RowCount <= row || row < 0) return Size.Empty;
+            int w = panel.Width, h = panel.Height;
+            int nw, nh;
+
+            // 고정 픽셀이면 width를 바로 알수 있다.
+            if (panel.ColumnStyles[col].SizeType == SizeType.Absolute)
+            {
+                nw = (int)panel.ColumnStyles[col].Width;                
+            }
+            // 다른 요소들을 검사후 값을 알아낼 수 있다.
+
+            else
+            {
+                int another = 0;
+                for (int i = 0; i < panel.ColumnCount; ++i)
+                {
+                    if (panel.ColumnStyles[i].SizeType == SizeType.Absolute)
+                        another += (int)panel.ColumnStyles[i].Width;
+                }
+                nw = (int)((w - another) * (panel.ColumnStyles[col].Width / (float)100));
+            }
+            // 고정 픽셀이면 height를 바로 알수있다.
+
+            if (panel.RowStyles[row].SizeType == SizeType.Absolute)
+            {
+                nh = (int)panel.RowStyles[row].Height;
+            }
+            // 다른 요소들을 검사후 값을 알아낼 수 있다.
+
+            else
+            {
+                int another = 0;
+                for (int i = 0; i < panel.RowCount; ++i)
+                {
+                    if (panel.RowStyles[i].SizeType == SizeType.Absolute)
+                        another += (int)panel.RowStyles[i].Height;
+                }
+                nh = (int)((h - another) * (panel.RowStyles[row].Height / (float)100));
+
+            }
+            return new Size(nw, nh);
+        }
+        public static Size GetActualPixelPosition(TableLayoutPanel panel, int col, int row)
+        {
+
+            if (panel.ColumnCount <= col || col < 0 || panel.RowCount <= row || row < 0) return Size.Empty;
+            int w = panel.Width, h = panel.Height;
+            int nw, nh;
+
+            // 고정 픽셀이면 width를 바로 알수 있다.
+            if (panel.ColumnStyles[col].SizeType == SizeType.Absolute)
+            {
+                nw = (int)panel.ColumnStyles[col].Width;
+            }
+            // 다른 요소들을 검사후 값을 알아낼 수 있다.
+
+            else
+            {
+                int another = 0;
+                for (int i = 0; i < panel.ColumnCount; ++i)
+                {
+                    if (panel.ColumnStyles[i].SizeType == SizeType.Absolute)
+                        another += (int)panel.ColumnStyles[i].Width;
+                }
+                nw = (int)((w - another) * (panel.ColumnStyles[col].Width / (float)100));
+            }
+            // 고정 픽셀이면 height를 바로 알수있다.
+
+            if (panel.RowStyles[row].SizeType == SizeType.Absolute)
+            {
+                nh = (int)panel.RowStyles[row].Height;
+            }
+            // 다른 요소들을 검사후 값을 알아낼 수 있다.
+
+            else
+            {
+                int another = 0;
+                for (int i = 0; i < panel.RowCount; ++i)
+                {
+                    if (panel.RowStyles[i].SizeType == SizeType.Absolute)
+                        another += (int)panel.RowStyles[i].Height;
+                }
+                nh = (int)((h - another) * (panel.RowStyles[row].Height / (float)100));
+
+            }
+            return new Size(nw, nh);
+        }
     }
 }
