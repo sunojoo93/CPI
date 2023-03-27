@@ -337,6 +337,7 @@ namespace CRUX_Renewal
 
         public static int MAX_VISION_COUNT = 2;
         public static string VPP_PATH = "";
+        public static int ScrollSize = 50;
     }
 
     /// <summary>

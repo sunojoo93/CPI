@@ -20,7 +20,7 @@ namespace CRUX_Renewal.Main_Form
         public Ex_Frm_Recipe_RecipeList Frm_RecipeList { get; set; } = null;
         public Ex_Frm_Recipe_JobList Frm_JobList { get; set; } = null;
         //public Recipe MainRecipe = new Recipe();
-
+        public Ex_Frm_Recipe_ROI Frm_ROI { get; set; } = null;
         public void LoadVpp(string path)
         {
             //MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
@@ -37,16 +37,26 @@ namespace CRUX_Renewal.Main_Form
             Show();
             Frm_RecipeList = Frm_RecipeList ?? new Ex_Frm_Recipe_RecipeList();
             Frm_JobList = Frm_JobList ?? new Ex_Frm_Recipe_JobList();
+            Frm_ROI = Frm_ROI ?? new Ex_Frm_Recipe_ROI();
+       
+
             Tlp_RecipeLayout.Controls.Add(Frm_RecipeList, 0, 0);
             Tlp_RecipeLayout.Controls.Add(Frm_JobList, 0, 2);
+            //Tlp_ROI.Controls.Add(Frm_ROI, 0, 0);
+      
+            tab_roi.Controls.Add(Frm_ROI);
             Frm_RecipeList.Dock = DockStyle.Fill;
             Frm_JobList.Dock = DockStyle.Fill;
+            Frm_ROI.Dock = DockStyle.Fill;
             Frm_RecipeList.Show();
             Frm_JobList.Show();
+            Frm_ROI.Show();
+            Frm_ROI.FormInitialize(0);
             DisplayJob();
-
+            //Uctrl_MiniMap MiniPic = new Uctrl_MiniMap();
+            //ctrl_MainPic1.Initialize(this, ref MiniPic, 0, 0, false);
             //Uctrl_MainPic MainPic = new Uctrl_MainPic() { Dock = DockStyle.Fill };
-           
+
             //Control[] FindTemp = Utility.GetAllControlsRecursive(tab_roi, "Tlp_ROI");
             //if (FindTemp?.Length >= 1)
             //    (FindTemp[0] as TableLayoutPanel).Controls.Add(MainPic, 0, 0);
@@ -135,8 +145,8 @@ namespace CRUX_Renewal.Main_Form
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Mat tt = OpenCvSharp.Cv2.ImRead(@"‪D:\Ma.bmp", OpenCvSharp.ImreadModes.Unchanged);
-            //uctrl_MainPic1.m_fnSetBitmap(@"‪D:\dfd.bmp");
+            //Mat tt = OpenCvSharp.Cv2.ImRead(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\All-1.bmp", OpenCvSharp.ImreadModes.Unchanged);
+            //uctrl_MainPic1.m_fnSetBitmap(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\All-1.bmp");
         }
     }
 }

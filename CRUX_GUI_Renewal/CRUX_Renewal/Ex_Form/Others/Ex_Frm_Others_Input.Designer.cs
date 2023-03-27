@@ -55,7 +55,7 @@
             this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.20895F));
             this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.79105F));
             this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 91F));
             this.Tlp_Account.Controls.Add(this.Lb_ErrorTitle, 1, 0);
             this.Tlp_Account.Controls.Add(this.Pic_Level, 0, 0);
             this.Tlp_Account.Controls.Add(this.Btn_Cancle, 4, 3);
@@ -112,10 +112,10 @@
             this.Btn_Cancle.FlatAppearance.BorderSize = 0;
             this.Btn_Cancle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Cancle.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Cancle.Location = new System.Drawing.Point(456, 149);
+            this.Btn_Cancle.Location = new System.Drawing.Point(455, 149);
             this.Btn_Cancle.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Cancle.Name = "Btn_Cancle";
-            this.Btn_Cancle.Size = new System.Drawing.Size(91, 41);
+            this.Btn_Cancle.Size = new System.Drawing.Size(92, 41);
             this.Btn_Cancle.TabIndex = 5;
             this.Btn_Cancle.Text = "취소";
             this.Btn_Cancle.UseVisualStyleBackColor = false;
@@ -128,7 +128,7 @@
             this.Btn_Confirm.FlatAppearance.BorderSize = 0;
             this.Btn_Confirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Confirm.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Confirm.Location = new System.Drawing.Point(368, 149);
+            this.Btn_Confirm.Location = new System.Drawing.Point(367, 149);
             this.Btn_Confirm.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Confirm.Name = "Btn_Confirm";
             this.Btn_Confirm.Size = new System.Drawing.Size(88, 41);
@@ -170,7 +170,7 @@
             this.Lb_BeforeName.Location = new System.Drawing.Point(162, 35);
             this.Lb_BeforeName.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_BeforeName.Name = "Lb_BeforeName";
-            this.Lb_BeforeName.Size = new System.Drawing.Size(294, 57);
+            this.Lb_BeforeName.Size = new System.Drawing.Size(293, 57);
             this.Lb_BeforeName.TabIndex = 9;
             this.Lb_BeforeName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -182,7 +182,7 @@
             this.Tb_AfterName.Location = new System.Drawing.Point(165, 107);
             this.Tb_AfterName.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.Tb_AfterName.Name = "Tb_AfterName";
-            this.Tb_AfterName.Size = new System.Drawing.Size(288, 28);
+            this.Tb_AfterName.Size = new System.Drawing.Size(287, 28);
             this.Tb_AfterName.TabIndex = 10;
             // 
             // Ex_Frm_Others_Input

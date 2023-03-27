@@ -42,6 +42,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -453,6 +454,12 @@
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Input.Designer.cs">
       <DependentUpon>Ex_Frm_Others_Input.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.Designer.cs">
+      <DependentUpon>Ex_Frm_Recipe_ROI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_JobList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -487,23 +494,13 @@
       <DependentUpon>ColorfulComboBox.cs</DependentUpon>
     </Compile>
     <Compile Include="User_Controls\Controls.cs" />
-    <Compile Include="User_Controls\Uctrl_DefectMap.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="User_Controls\Uct_main_View.cs" />
+    <Compile Include="User_Controls\Uct_main_View.designer.cs">
+      <DependentUpon>Uct_main_View.cs</DependentUpon>
     </Compile>
-    <Compile Include="User_Controls\Uctrl_DefectMap.Designer.cs">
-      <DependentUpon>Uctrl_DefectMap.cs</DependentUpon>
-    </Compile>
-    <Compile Include="User_Controls\Uctrl_MainPic.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="User_Controls\Uctrl_MainPic.Designer.cs">
-      <DependentUpon>Uctrl_MainPic.cs</DependentUpon>
-    </Compile>
-    <Compile Include="User_Controls\Uctrl_MiniMap.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="User_Controls\Uctrl_MiniMap.Designer.cs">
-      <DependentUpon>Uctrl_MiniMap.cs</DependentUpon>
+    <Compile Include="User_Controls\Uct_Mini_View.cs" />
+    <Compile Include="User_Controls\Uct_Mini_View.designer.cs">
+      <DependentUpon>Uct_Mini_View.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Cognex_Helper.cs" />
     <Compile Include="Utils\CommonFunc.cs" />
@@ -578,14 +575,18 @@
     <Compile Include="Utils\Snappy\Utilities.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="Utils\WinApis.cs" />
+    <Content Include="OpenCvSharp.DebuggerVisualizers.dll" />
     <Content Include="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="User_Controls\Uctrl_MainPic.resx">
-      <DependentUpon>Uctrl_MainPic.cs</DependentUpon>
+    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.resx">
+      <DependentUpon>Ex_Frm_Recipe_ROI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User_Controls\Uctrl_MiniMap.resx">
-      <DependentUpon>Uctrl_MiniMap.cs</DependentUpon>
+    <EmbeddedResource Include="User_Controls\Uct_main_View.resx">
+      <DependentUpon>Uct_main_View.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User_Controls\Uct_Mini_View.resx">
+      <DependentUpon>Uct_Mini_View.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Res\Red.png" />
     <None Include="Res\Orange.png" />
@@ -722,6 +723,10 @@
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenCvSharp4.4.7.0.20230115\lib\net48\OpenCvSharp.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenCvSharp.DebuggerVisualizers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\OpenCvSharp.DebuggerVisualizers.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenCvSharp4.Extensions.4.7.0.20230115\lib\net48\OpenCvSharp.Extensions.dll</HintPath>

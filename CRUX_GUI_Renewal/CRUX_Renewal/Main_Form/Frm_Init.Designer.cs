@@ -32,7 +32,7 @@ namespace CRUX_Renewal.Main_Form
         {
             this.lbl_CurrentState = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
-            this.CircleProgressBar = new CPB();
+            this.CircleProgressBar = new CRUX_Renewal.User_Controls.CPB();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,22 +66,28 @@ namespace CRUX_Renewal.Main_Form
             this.CircleProgressBar.BarColor1 = System.Drawing.Color.Lime;
             this.CircleProgressBar.BarColor2 = System.Drawing.Color.DeepSkyBlue;
             this.CircleProgressBar.BarWidth = 32F;
-            this.CircleProgressBar.ProgressAction = true;
+            this.CircleProgressBar.DegreeOfDetail = 100;
+            this.CircleProgressBar.Delay = 25;
             this.CircleProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CircleProgressBar.Font = new System.Drawing.Font("맑은 고딕", 72F, System.Drawing.FontStyle.Bold);
             this.CircleProgressBar.ForeColor = System.Drawing.Color.Black;
             this.CircleProgressBar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
+            this.CircleProgressBar.Line = true;
             this.CircleProgressBar.LineColor = System.Drawing.Color.Transparent;
+            this.CircleProgressBar.LineStyle = CRUX_Renewal.User_Controls.CPB._LineStyle.Solid;
             this.CircleProgressBar.LineWidth = 0;
             this.CircleProgressBar.Location = new System.Drawing.Point(0, 0);
+            this.CircleProgressBar.Margin = new System.Windows.Forms.Padding(0);
             this.CircleProgressBar.Maximum = ((long)(100));
             this.CircleProgressBar.MinimumSize = new System.Drawing.Size(100, 100);
             this.CircleProgressBar.Name = "CircleProgressBar";
+            this.CircleProgressBar.ProgressAction = true;
             this.CircleProgressBar.ProgressShape = CRUX_Renewal.User_Controls.CPB._ProgressShape.Round;
             this.CircleProgressBar.Size = new System.Drawing.Size(600, 600);
             this.CircleProgressBar.TabIndex = 2;
             this.CircleProgressBar.Text = "0";
             this.CircleProgressBar.TextMode = CRUX_Renewal.User_Controls.CPB._TextMode.Percentage;
+            this.CircleProgressBar.TextView = true;
             this.CircleProgressBar.Value = 0D;
             // 
             // Frm_Init
@@ -96,7 +102,7 @@ namespace CRUX_Renewal.Main_Form
             this.Controls.Add(this.CircleProgressBar);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
+            this.Margin = new System.Windows.Forms.Padding(7);
             this.Name = "Frm_Init";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
