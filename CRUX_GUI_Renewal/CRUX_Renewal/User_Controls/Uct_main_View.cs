@@ -31,10 +31,35 @@ namespace CRUX_Renewal.User_Controls
         private Image m_imgMiniMap;
         public Uct_Mini_View m_ucPicMiniView;
         public Point m_PixelSize = new Point();
-        private float m_dRratio = 1F;
+        private float _m_dRatio = 1F;
+        public float m_dRratio {
+            get
+            {
+                return _m_dRatio;
+            }
+            set
+            {
+                _m_dRatio = value;
+                if(Lb_Ratio != null)
+                    Lb_Ratio.Text = $"Ratio : {value}";
+
+            }
+        }
         private bool m_bImgFocus = false;
         private bool m_bUseZoomInOut = true;
-        private PointF m_pointClick;
+        private PointF _m_pointClick;
+        public PointF m_pointClick
+        {
+            get { return _m_pointClick; }
+            set
+            { _m_pointClick = value;
+                if (Lb_CursorX != null && Lb_CursorY != null)
+                {
+                    Lb_CursorX.Text = value.X.ToString();
+                    Lb_CursorY.Text = value.Y.ToString();
+                }
+            }
+        }
         private Point m_LastPoint;
         private bool m_bUseMiniMap = false;
         private string m_strImgPath = "";
@@ -52,7 +77,7 @@ namespace CRUX_Renewal.User_Controls
         private Point[] m_pntsPolygon = new Point[1];
         bool bMinimapStartFlg = true;
         Thread thread;
-
+        double Sacle = 1;
         public bool MouseMoveEvent { get; set; } = false;
 
         string ImageName = string.Empty;
@@ -123,6 +148,10 @@ namespace CRUX_Renewal.User_Controls
                 m_bUseMiniMap = bUseMiniMap;
                 m_ucPicMiniView = ucPicMiniMap;
 
+                this.MouseWheel += Pic_Main_MouseWheel;
+                this.MouseMove += Pic_Main_MouseMove;
+                this.MouseClick += Pic_Main_MouseClick;
+                this.MouseDown += Pic_Main_MouseDown;
 
                 if (m_bUseMiniMap) m_ucPicMiniView.Visible = true;
                 else m_ucPicMiniView.Visible = false;
@@ -171,6 +200,8 @@ namespace CRUX_Renewal.User_Controls
                     e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
 
                     RectangleF tmp = new Rectangle(0, 0, Pic_Main.Width, Pic_Main.Height);
+
+                    
                     e.Graphics.DrawImage(m_imgLoaded, tmp);
 
                     Passvalue = m_imgRect;
@@ -354,6 +385,16 @@ namespace CRUX_Renewal.User_Controls
                 m_PixelSize.X = m_srcImage.Width;
                 m_PixelSize.Y = m_srcImage.Height;
 
+                double XScale = 1;
+                double YScale = 1;
+                if (m_PixelSize.X >= 22000 || m_PixelSize.Y >= 22000)
+                {
+                    XScale = (double)m_PixelSize.X / (double)22000;
+                    YScale = (double)m_PixelSize.Y / (double)22000;
+                }
+                Sacle = XScale > YScale ? XScale : YScale;
+                //Cv2.Resize(m_srcImage[rect], matResize, OpenSize, 0, 0, InterpolationFlags.Area);
+                //m_imgLoaded = new Bitmap((int)((double)m_PixelSize.X / (double)Sacle), (int)((double)m_PixelSize.Y/ (double)Sacle));
                 m_imgLoaded = new Bitmap(m_PixelSize.X, m_PixelSize.Y);
 
                 m_imgRect.Width = m_PixelSize.X;
@@ -398,7 +439,17 @@ namespace CRUX_Renewal.User_Controls
                 m_PixelSize.X = m_srcImage.Width;
                 m_PixelSize.Y = m_srcImage.Height;
 
-                m_imgLoaded = new Bitmap(m_PixelSize.X, m_PixelSize.Y);
+                double XScale = 1;
+                double YScale = 1;
+                if (m_PixelSize.X >= 22000 || m_PixelSize.Y >= 22000)
+                {
+                    XScale = (double)m_PixelSize.X / (double)22000;
+                    YScale = (double)m_PixelSize.Y / (double)22000;
+                }
+                Sacle = XScale > YScale ? XScale : YScale;
+
+                //m_imgLoaded = new Bitmap((int)((double)m_PixelSize.X / (double)Sacle), (int)((double)m_PixelSize.Y / (double)Sacle));
+                m_imgLoaded = new Bitmap(m_PixelSize.X,m_PixelSize.Y);
 
                 m_imgRect.Width = m_PixelSize.X;
                 m_imgRect.Height = m_PixelSize.Y;
@@ -1162,8 +1213,7 @@ namespace CRUX_Renewal.User_Controls
                     if (m_imgRect.Y > (m_OriginRect.Y - m_imgRect.Height))
                         m_imgRect.Y = m_OriginRect.Y - m_imgRect.Height;
 
-                    m_pointClick.X = e.X;
-                    m_pointClick.Y = e.Y;
+                        m_pointClick = new Point(e.X, e.Y);
 
                     return;
                 }

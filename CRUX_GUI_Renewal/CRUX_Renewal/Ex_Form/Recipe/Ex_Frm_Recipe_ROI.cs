@@ -18,6 +18,8 @@ namespace CRUX_Renewal.Ex_Form
     {
         Uct_main_View MainPic;
         Uct_Mini_View MiniPic;
+        Ex_Frm_Recipe_CursorInfo Frm_CursorInfo;
+        Ex_Frm_Recipe_ViewInfo Frm_ViewInfo;
         int m_nCamPsModeRatio = 1;
         Label m_lbImageState = new Label();
 
@@ -31,13 +33,20 @@ namespace CRUX_Renewal.Ex_Form
         }
         public void FormInitialize(int no)
         {
+            //Frm_CursorInfo = new Ex_Frm_Recipe_CursorInfo();
+            //Frm_ViewInfo = new Ex_Frm_Recipe_ViewInfo();
+
+            //Tlp_ROI.Controls.Add(Frm_CursorInfo, 0, 2);
+            //Tlp_ROI.Controls.Add(Frm_ViewInfo, 0, 3);
+
             MiniPic = new Uct_Mini_View();// m_UcRcpTeachPic.m_ucPicMiniMap;
-            
+            MiniPic.Dock = DockStyle.Fill;
             Tlp_ROI.Controls.Add(MiniPic,1,0);
+        
             MiniPic.miniMapSize(MiniPic.Width, MiniPic.Height, MiniPic.Location.X, MiniPic.Location.Y);
             MiniPic.Location = new Point(MiniPic.Location.X, MiniPic.Location.Y);
             MiniPic.BackColor = Color.Yellow;
-            MiniPic.Dock = DockStyle.Fill;
+       
            
             MainPic = new Uct_main_View(this, ref MiniPic, true/*, pnlMapGuideLine.Width, pnlMapGuideLine.Height, pnlMapGuideLine.Location.X, pnlMapGuideLine.Location.Y*/);
             Tlp_ROI.Controls.Add(MainPic, 0, 0);
@@ -46,7 +55,7 @@ namespace CRUX_Renewal.Ex_Form
             MiniPic.ucRefMainImg(ref MainPic); 
            // MainPic.m_fnSetCameraFovRatio(MainPic.m_fnGetCameraFovSize());
             //m_nCamPsModeRatio = MainPic.m_fnGetCameraFovRatio();
-            MainPic.BackColor = Color.Red;
+            //MainPic.BackColor = Color.Red;
             //MainPic.m_fnLinkCurCoord(ref lbCoordX, ref lbCoordY);
             /////////MainPic.m_fnLinkNowRatio(ref lbRatio);
             //MainPic.m_fnLinkPointCoord(ref lbPntX1, ref lbPntY1);
@@ -107,8 +116,8 @@ namespace CRUX_Renewal.Ex_Form
         private void button1_Click_2(object sender, EventArgs e)
         {
             //Mat tt = OpenCvSharp.Cv2.ImRead(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\All-1.bmp", OpenCvSharp.ImreadModes.Unchanged);
+            //MainPic.OpenImage(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
             MainPic.OpenImage(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\All-1.bmp");
-            //MainPic.OpenImage(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\제목 없음.bmp");
         }
     }
 }

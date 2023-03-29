@@ -1432,7 +1432,7 @@ namespace CRUX_Renewal.User_Controls
             }
 
             int nChannelCnt = Param.GetInteger();
-
+            
             m_fnSetPixelForamt(m_fnBandwidthToPixelformat(nChannelCnt));
             m_bIsGrayScale = (m_fnGetPixelForamt().ToString().ToUpper().Contains("RGB")) ? false : true;
 

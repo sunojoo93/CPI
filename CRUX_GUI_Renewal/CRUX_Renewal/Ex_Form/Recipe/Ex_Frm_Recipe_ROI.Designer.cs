@@ -68,8 +68,7 @@
             this.PropGridEx.Location = new System.Drawing.Point(740, 200);
             this.PropGridEx.Margin = new System.Windows.Forms.Padding(0);
             this.PropGridEx.Name = "PropGridEx";
-            this.Tlp_ROI.SetRowSpan(this.PropGridEx, 3);
-            this.PropGridEx.Size = new System.Drawing.Size(1016, 493);
+            this.PropGridEx.Size = new System.Drawing.Size(1016, 556);
             this.PropGridEx.TabIndex = 122;
             this.PropGridEx.ToolbarVisible = false;
             // 
@@ -93,6 +92,7 @@
             // 
             // Tlp_ROI
             // 
+            this.Tlp_ROI.AutoSize = true;
             this.Tlp_ROI.ColumnCount = 3;
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 740F));
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
@@ -101,13 +101,14 @@
             this.Tlp_ROI.Controls.Add(this.button1, 2, 0);
             this.Tlp_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_ROI.Location = new System.Drawing.Point(0, 0);
+            this.Tlp_ROI.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_ROI.Name = "Tlp_ROI";
-            this.Tlp_ROI.RowCount = 4;
+            this.Tlp_ROI.RowCount = 2;
             this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 455F));
-            this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_ROI.Size = new System.Drawing.Size(1756, 693);
+            this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 435F));
+            this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.Tlp_ROI.Size = new System.Drawing.Size(1756, 756);
             this.Tlp_ROI.TabIndex = 123;
             // 
             // button1
@@ -125,7 +126,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(1756, 693);
+            this.ClientSize = new System.Drawing.Size(1756, 756);
             this.Controls.Add(this.Tlp_ROI);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -135,6 +136,7 @@
             this.Shown += new System.EventHandler(this.Ex_Frm_AccountManage_Shown);
             this.Tlp_ROI.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

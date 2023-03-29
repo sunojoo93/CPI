@@ -147,7 +147,32 @@ namespace CRUX_Renewal.Main_Form
         }
 
         private void button2_Click_1(object sender, EventArgs e)
-        {    
+        {
+            //cogDisplay1.Show();
+            var Temp = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
+            //var Temp2 = Temp.ToBitmap();
+            cogDisplay1.Image = Temp;
+
+            CogCircle mCircle = new CogCircle();
+            CogRectangle mRect = new CogRectangle();
+
+            cogDisplay1.DrawingEnabled = false;
+
+            cogDisplay1.InteractiveGraphics.Add(mCircle, "Circle", false);
+            cogDisplay1.InteractiveGraphics.Add(mRect, "Rect", false);
+
+            mCircle.CenterX = cogDisplay1.Image.Width / 2;
+            mCircle.CenterY = cogDisplay1.Image.Height / 2;
+            mCircle.Radius = cogDisplay1.Image.Height / 4;
+            mRect.SetCenterWidthHeight(mCircle.CenterX, mCircle.CenterY, cogDisplay1.Image.Width / 2, cogDisplay1.Image.Height / 2);
+
+            cogDisplay1.DrawingEnabled = true;
+
+
+
+
+            //cogRecordDisplay1.ColorMapLoad(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp");
+
         }
     }
 }

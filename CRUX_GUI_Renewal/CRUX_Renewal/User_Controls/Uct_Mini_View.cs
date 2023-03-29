@@ -113,18 +113,18 @@ namespace CRUX_Renewal.User_Controls
         {
             try
             {
-                //int nLocX = Math.Abs(Pic_Mini.Width - point.X) / 2;
-                //int nLocY = Math.Abs(Pic_Mini.Height - point.Y) / 2;
+                int nLocX = Math.Abs(Pic_Mini.Width - point.X) / 2;
+                int nLocY = Math.Abs(Pic_Mini.Height - point.Y) / 2;
 
-                //this.Width = point.X;
-                //this.Height = point.Y;
-                //Pic_Mini.BackColor = Color.Black;
-                //Pic_Mini.Width = point.X;
-                //Pic_Mini.Height = point.Y;
+                this.Width = point.X;
+                this.Height = point.Y;
+                Pic_Mini.BackColor = Color.Black;
+                Pic_Mini.Width = point.X;
+                Pic_Mini.Height = point.Y;
 
-                //point.X = Math.Abs(this.Location.X + nLocX);
-                //point.Y = Math.Abs(this.Location.Y + nLocY);
-                //this.Location = point;
+                point.X = Math.Abs(this.Location.X + nLocX);
+                point.Y = Math.Abs(this.Location.Y + nLocY);
+                this.Location = point;
             }
             catch (Exception ex)
             {
@@ -148,7 +148,7 @@ namespace CRUX_Renewal.User_Controls
         {
             try
             {
-                this.Location = new Point((int)m_MiniMapOrgSize.X, (int)m_MiniMapOrgSize.Y);
+                this.Location = new Point(/*(int)m_MiniMapOrgSize.X*/840, (int)m_MiniMapOrgSize.Y);
                 this.Width = (int)m_MiniMapOrgSize.Width;
                 this.Height = (int)m_MiniMapOrgSize.Height;
                 Pic_Mini.Width = (int)m_MiniMapOrgSize.Width;

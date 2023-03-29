@@ -454,6 +454,18 @@
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Input.Designer.cs">
       <DependentUpon>Ex_Frm_Others_Input.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.Designer.cs">
+      <DependentUpon>Ex_Frm_Recipe_ViewInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_CursorInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_CursorInfo.Designer.cs">
+      <DependentUpon>Ex_Frm_Recipe_CursorInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -583,8 +595,15 @@
     <Content Include="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.resx">
+      <DependentUpon>Ex_Frm_Recipe_ViewInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_CursorInfo.resx">
+      <DependentUpon>Ex_Frm_Recipe_CursorInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.resx">
       <DependentUpon>Ex_Frm_Recipe_ROI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="User_Controls\Uct_main_View.resx">
       <DependentUpon>Uct_main_View.cs</DependentUpon>
