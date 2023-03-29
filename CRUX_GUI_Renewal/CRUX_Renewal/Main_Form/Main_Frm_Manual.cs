@@ -26,8 +26,44 @@ namespace CRUX_Renewal.Main_Form
             TopLevel = false;
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
-            Show();           
+            Show();
+
+            MouseWheel += Main_Frm_Manual_MouseWheel;
+            cogDisplay1.MouseDown += CogDisplay1_MouseDown;
+            cogDisplay1.MouseMove += CogDisplay1_MouseMove;
+            cogDisplay1.GridColor = Color.Red;
         }
+
+        private void CogDisplay1_MouseMove(object sender, MouseEventArgs e)
+        {
+            Lb_X.Text = e.X.ToString();
+            Lb_Y.Text = e.Y.ToString();
+        }
+
+        private void CogDisplay1_MouseDown(object sender, MouseEventArgs e)
+        {
+
+            CogCircle mCircle = new CogCircle();
+            CogRectangle mRect = new CogRectangle();
+
+            cogDisplay1.DrawingEnabled = false;
+
+            cogDisplay1.InteractiveGraphics.Add(mCircle, "Circle", false);
+            cogDisplay1.InteractiveGraphics.Add(mRect, "Rect", false);
+
+            mCircle.CenterX = cogDisplay1.Image.Width / 2;
+            mCircle.CenterY = cogDisplay1.Image.Height / 2;
+            mCircle.Radius = cogDisplay1.Image.Height / 4;
+            mRect.SetCenterWidthHeight(mCircle.CenterX, mCircle.CenterY, cogDisplay1.Image.Width, cogDisplay1.Image.Height);
+
+            cogDisplay1.DrawingEnabled = true;
+        }
+
+        private void Main_Frm_Manual_MouseWheel(object sender, MouseEventArgs e)
+        {         
+            Lb_Zoom.Text = (cogDisplay1.Zoom * 100).ToString();
+        }
+
         /// <summary>
         /// 검사 이미지 불러오기 <CogImage8Grey>
         /// </summary>
@@ -153,20 +189,6 @@ namespace CRUX_Renewal.Main_Form
             //var Temp2 = Temp.ToBitmap();
             cogDisplay1.Image = Temp;
 
-            CogCircle mCircle = new CogCircle();
-            CogRectangle mRect = new CogRectangle();
-
-            cogDisplay1.DrawingEnabled = false;
-
-            cogDisplay1.InteractiveGraphics.Add(mCircle, "Circle", false);
-            cogDisplay1.InteractiveGraphics.Add(mRect, "Rect", false);
-
-            mCircle.CenterX = cogDisplay1.Image.Width / 2;
-            mCircle.CenterY = cogDisplay1.Image.Height / 2;
-            mCircle.Radius = cogDisplay1.Image.Height / 4;
-            mRect.SetCenterWidthHeight(mCircle.CenterX, mCircle.CenterY, cogDisplay1.Image.Width / 2, cogDisplay1.Image.Height / 2);
-
-            cogDisplay1.DrawingEnabled = true;
 
 
 

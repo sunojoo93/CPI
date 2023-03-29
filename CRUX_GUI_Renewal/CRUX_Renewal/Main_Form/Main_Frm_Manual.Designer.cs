@@ -36,6 +36,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.cogDisplayStatusBarV21 = new Cognex.VisionPro.CogDisplayStatusBarV2();
             this.cogDisplay1 = new Cognex.VisionPro.Display.CogDisplay();
+            this.Lb_Zoom = new System.Windows.Forms.Label();
+            this.Lb_X = new System.Windows.Forms.Label();
+            this.Lb_Y = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -101,12 +104,42 @@
             this.cogDisplay1.Size = new System.Drawing.Size(846, 521);
             this.cogDisplay1.TabIndex = 7;
             // 
+            // Lb_Zoom
+            // 
+            this.Lb_Zoom.AutoSize = true;
+            this.Lb_Zoom.Location = new System.Drawing.Point(796, 669);
+            this.Lb_Zoom.Name = "Lb_Zoom";
+            this.Lb_Zoom.Size = new System.Drawing.Size(38, 12);
+            this.Lb_Zoom.TabIndex = 8;
+            this.Lb_Zoom.Text = "label1";
+            // 
+            // Lb_X
+            // 
+            this.Lb_X.AutoSize = true;
+            this.Lb_X.Location = new System.Drawing.Point(407, 679);
+            this.Lb_X.Name = "Lb_X";
+            this.Lb_X.Size = new System.Drawing.Size(38, 12);
+            this.Lb_X.TabIndex = 9;
+            this.Lb_X.Text = "label1";
+            // 
+            // Lb_Y
+            // 
+            this.Lb_Y.AutoSize = true;
+            this.Lb_Y.Location = new System.Drawing.Point(483, 679);
+            this.Lb_Y.Name = "Lb_Y";
+            this.Lb_Y.Size = new System.Drawing.Size(38, 12);
+            this.Lb_Y.TabIndex = 10;
+            this.Lb_Y.Text = "label2";
+            // 
             // Main_Frm_Manual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(943, 573);
+            this.ClientSize = new System.Drawing.Size(1331, 869);
+            this.Controls.Add(this.Lb_Y);
+            this.Controls.Add(this.Lb_X);
+            this.Controls.Add(this.Lb_Zoom);
             this.Controls.Add(this.cogDisplay1);
             this.Controls.Add(this.cogDisplayStatusBarV21);
             this.Controls.Add(this.button2);
@@ -118,6 +151,7 @@
             this.Text = "Main_Frm_Manual";
             ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -130,5 +164,8 @@
         private User_Controls.CPB cpb1;
         private Cognex.VisionPro.CogDisplayStatusBarV2 cogDisplayStatusBarV21;
         private Cognex.VisionPro.Display.CogDisplay cogDisplay1;
+        private System.Windows.Forms.Label Lb_Zoom;
+        private System.Windows.Forms.Label Lb_X;
+        private System.Windows.Forms.Label Lb_Y;
     }
 }
