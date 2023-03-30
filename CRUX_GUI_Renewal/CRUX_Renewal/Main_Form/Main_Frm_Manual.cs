@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.ToolGroup;
@@ -19,6 +20,9 @@ namespace CRUX_Renewal.Main_Form
 {
     public partial class Main_Frm_Manual : Form
     {
+        Point StartPos;
+        Point EndPos;
+        PointDouble pd1;
         public Main_Frm_Manual ()
         {
             InitializeComponent();
@@ -32,36 +36,128 @@ namespace CRUX_Renewal.Main_Form
             cogDisplay1.MouseDown += CogDisplay1_MouseDown;
             cogDisplay1.MouseMove += CogDisplay1_MouseMove;
             cogDisplay1.GridColor = Color.Red;
+            cogDisplay1.MouseUp += CogDisplay1_MouseUp;
+            cogDisplay1.ScalingMethod = Cognex.VisionPro.Display.CogDisplayScalingMethodConstants.Integer;
+            cogDisplay1.Click += CogDisplay1_Click;
+            cogDisplay1.MouseWheelMode = CogDisplayMouseWheelModeConstants.Zoom1;
+           
+            cogDisplay1.Fit(true);
+            cogDisplayStatusBarV21.Display = cogDisplay1;
+            
         }
 
+        private void CogDisplay1_Click(object sender, EventArgs e)
+        {
+ 
+        }
+
+        private void CogDisplay1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {              
+                    EndPos = new Point(e.X, e.Y);               
+            }
+            Point Dist = new Point(EndPos.X - StartPos.X, EndPos.Y - StartPos.Y);
+            if (Dist.X == 0 || Dist.Y == 0)
+                return;
+            PointDouble Dist4 = new PointDouble(Dist.X / cogDisplay1.Zoom, Dist.Y / cogDisplay1.Zoom);
+            //PointDouble Start = new PointDouble(((Dist4.X/2) - (StartPos.X / cogDisplay1.Zoom)) - cogDisplay1.PanX, (Dist4.Y/2) - (StartPos.Y / cogDisplay1.Zoom) - cogDisplay1.PanY);
+            PointDouble Start = new PointDouble(cogDisplay1.PanX - (StartPos.X / cogDisplay1.Zoom) /*+ ((double)cogDisplay1.Image.Width / (double)2)*/, cogDisplay1.PanY - (StartPos.Y / cogDisplay1.Zoom)/* + ((double)cogDisplay1.Image.Height / (double)2)*/);
+            CogRectangle mRect = new CogRectangle();
+
+            mRect.Color = CogColorConstants.Yellow;
+      
+            cogDisplay1.DrawingEnabled = false;
+            
+            cogDisplay1.InteractiveGraphics.Add(mRect, "Rect", true);
+            cogDisplay1.InteractiveGraphicTipsEnabled = true;
+           // mRect.SetCenterWidthHeight(pd1.X + (((cogDisplay1.DisplayRectangle.Width / cogDisplay1.Zoom) / 2)- cogDisplay1.PanX), pd1.Y + (((cogDisplay1.DisplayRectangle.Height / cogDisplay1.Zoom) / 2) - cogDisplay1.PanY), Math.Abs(Dist4.X), Math.Abs(Dist4.Y));
+            mRect.SetXYWidthHeight((pd1.X - (cogDisplay1.DisplayRectangle.Width / cogDisplay1.Zoom / 2) - cogDisplay1.PanX),( pd1.Y/* - (cogDisplay1.DisplayRectangle.Height / cogDisplay1.Zoom / 2 )*//*+ cogDisplay1.PanY*/), Math.Abs(Dist4.X), Math.Abs(Dist4.Y));
+            cogDisplay1.DrawingEnabled = true;
+        }
+        class PointDouble
+        {
+            public double X;
+            public double Y;
+            public PointDouble(double x, double y)
+            {
+                X = x;
+                Y = y;
+            }
+        }
         private void CogDisplay1_MouseMove(object sender, MouseEventArgs e)
         {
             Lb_X.Text = e.X.ToString();
             Lb_Y.Text = e.Y.ToString();
+            
+            Lb_ImageCoordX.Text = ((double)e.X / cogDisplay1.Zoom).ToString();
+            Lb_ImageCoordY.Text = ((double)e.Y / cogDisplay1.Zoom).ToString();
+
         }
 
         private void CogDisplay1_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {                
+            
+                    StartPos = new Point(e.X, e.Y);
+                pd1 = new PointDouble(((double)e.X / cogDisplay1.Zoom), ((double)e.Y / cogDisplay1.Zoom));
 
-            CogCircle mCircle = new CogCircle();
-            CogRectangle mRect = new CogRectangle();
+                var Temp = cogDisplay1.Selection;
+                cogDisplay1.RenderEngine = CogRenderEngineConstants.CogGDIRenderEngine;
 
-            cogDisplay1.DrawingEnabled = false;
+                //CogCircle mCircle = new CogCircle();
+                //CogRectangle mRect = new CogRectangle();
+                //mCircle.Color = CogColorConstants.Red;
+                //mRect.Color = CogColorConstants.Yellow;
+                //cogDisplay1.DrawingEnabled = false;
 
-            cogDisplay1.InteractiveGraphics.Add(mCircle, "Circle", false);
-            cogDisplay1.InteractiveGraphics.Add(mRect, "Rect", false);
+                //cogDisplay1.InteractiveGraphics.Add(mCircle, "Circle", false);
+                //cogDisplay1.InteractiveGraphics.Add(mRect, "Rect", false);
 
-            mCircle.CenterX = cogDisplay1.Image.Width / 2;
-            mCircle.CenterY = cogDisplay1.Image.Height / 2;
-            mCircle.Radius = cogDisplay1.Image.Height / 4;
-            mRect.SetCenterWidthHeight(mCircle.CenterX, mCircle.CenterY, cogDisplay1.Image.Width, cogDisplay1.Image.Height);
+                //mCircle.CenterX = cogDisplay1.Image.Width / 2;
+                //mCircle.CenterY = cogDisplay1.Image.Height / 2;
+                //mCircle.Radius = cogDisplay1.Image.Height / 4;
+                //mRect.SetCenterWidthHeight(/*mCircle.CenterX*/0, /*mCircle.CenterY*/0, cogDisplay1.Image.Width, cogDisplay1.Image.Height);
 
-            cogDisplay1.DrawingEnabled = true;
+                //cogDisplay1.DrawingEnabled = true;
+
+                //cogDisplay1.InteractiveGraphicTipsEnabled = true;
+                //cogDisplay1.GridEnabled = true;
+                Lb_PanX.Text = $"PanX : {cogDisplay1.PanX.ToString()}";
+                Lb_PanY.Text   = $"PanY : {cogDisplay1.PanY.ToString()}";
+                Lb_PanXMin.Text   = $"PanXMin : {cogDisplay1.PanXMin.ToString()}";
+                Lb_PanYMin.Text   = $"PanYMin : {cogDisplay1.PanYMin.ToString()}";
+                Lb_PanXMax.Text   = $"PanXMax : {cogDisplay1.PanYMax.ToString()}";
+                Lb_PanYMax.Text  = $"PanYMax : {cogDisplay1.PanYMax.ToString()}";
+            }
+            if(e.Button == MouseButtons.Right)
+            {
+                //CogCircle mCircle = new CogCircle();
+                //CogRectangle mRect = new CogRectangle();
+                //mCircle.Color = CogColorConstants.Red;
+                //mRect.Color = CogColorConstants.Yellow;
+                //cogDisplay1.DrawingEnabled = false;
+
+                //cogDisplay1.InteractiveGraphics.Add(mCircle, "Circle", false);
+                //cogDisplay1.InteractiveGraphics.Add(mRect, "Rect", false);
+
+                //mCircle.CenterX = cogDisplay1.Image.Width / 2;
+                //mCircle.CenterY = cogDisplay1.Image.Height / 2;
+                //mCircle.Radius = cogDisplay1.Image.Height / 4;
+                //mRect.SetCenterWidthHeight(/*mCircle.CenterX*/0, /*mCircle.CenterY*/0, cogDisplay1.Image.Width, cogDisplay1.Image.Height);
+
+                //cogDisplay1.DrawingEnabled = true;
+
+                //cogDisplay1.InteractiveGraphicTipsEnabled = true;
+                //cogDisplay1.GridEnabled = true;
+            }
+         
         }
 
         private void Main_Frm_Manual_MouseWheel(object sender, MouseEventArgs e)
         {         
-            Lb_Zoom.Text = (cogDisplay1.Zoom * 100).ToString();
+            Lb_Zoom.Text = (cogDisplay1.Zoom).ToString();
         }
 
         /// <summary>
@@ -188,6 +284,10 @@ namespace CRUX_Renewal.Main_Form
             var Temp = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
             //var Temp2 = Temp.ToBitmap();
             cogDisplay1.Image = Temp;
+            Lb_ImageX.Text = Temp.Width.ToString();
+            Lb_ImageY.Text = Temp.Height.ToString();
+            Lb_CtrlWidth.Text = cogDisplay1.DisplayRectangle.Width.ToString();
+            Lb_CtrlHeight.Text = cogDisplay1.DisplayRectangle.Height.ToString();
 
 
 
@@ -195,6 +295,36 @@ namespace CRUX_Renewal.Main_Form
 
             //cogRecordDisplay1.ColorMapLoad(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp");
 
+        }
+
+        private void Tb_PanX_TextChanged(object sender, EventArgs e)
+        {
+            cogDisplay1.PanX = Tb_PanX.Text.toDbl();
+        }
+
+        private void Tb_PanY_TextChanged(object sender, EventArgs e)
+        {
+            cogDisplay1.PanY = Tb_PanY.Text.toDbl();
+        }
+
+        private void Tb_PanXMin_TextChanged(object sender, EventArgs e)
+        {
+            //cogDisplay1.PanXMin = Tb_PanX.Text.toDbl();
+        }
+
+        private void Tb_PanYMin_TextChanged(object sender, EventArgs e)
+        {
+            //cogDisplay1.PanX = Tb_PanX.Text.toDbl();
+        }
+
+        private void Tb_PanXMax_TextChanged(object sender, EventArgs e)
+        {
+            //cogDisplay1.PanX = Tb_PanX.Text.toDbl();
+        }
+
+        private void Tb_PanYMax_TextChanged(object sender, EventArgs e)
+        {
+            //cogDisplay1.PanX = Tb_PanX.Text.toDbl();
         }
     }
 }
