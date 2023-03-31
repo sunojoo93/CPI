@@ -23,6 +23,8 @@ namespace CRUX_Renewal.Main_Form
         Point StartPos;
         Point EndPos;
         PointDouble pd1;
+        CogRectangle mRect2;
+        bool _shiftIsDown = false;
         public Main_Frm_Manual ()
         {
             InitializeComponent();
@@ -43,7 +45,17 @@ namespace CRUX_Renewal.Main_Form
            
             cogDisplay1.Fit(true);
             cogDisplayStatusBarV21.Display = cogDisplay1;
-            
+            cogDisplayToolbarV21.Display = cogDisplay1;
+
+            mRect2 = new CogRectangle();
+            mRect2.Dragging += new CogDraggingEventHandler(MRect2_Dragging);
+            mRect2.DraggingStopped += new CogDraggingStoppedEventHandler(MRect2_DraggingStopped);
+      
+            mRect2.Interactive = true;
+            mRect2.GraphicDOFEnable = CogRectangleDOFConstants.All;
+            cogDisplay1.InteractiveGraphics.Add(mRect2, "Rect", true);
+          
+ 
         }
 
         private void CogDisplay1_Click(object sender, EventArgs e)
@@ -51,30 +63,58 @@ namespace CRUX_Renewal.Main_Form
  
         }
 
+
         private void CogDisplay1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {              
                     EndPos = new Point(e.X, e.Y);               
             }
-            Point Dist = new Point(EndPos.X - StartPos.X, EndPos.Y - StartPos.Y);
-            if (Dist.X == 0 || Dist.Y == 0)
-                return;
-            PointDouble Dist4 = new PointDouble(Dist.X / cogDisplay1.Zoom, Dist.Y / cogDisplay1.Zoom);
-            //PointDouble Start = new PointDouble(((Dist4.X/2) - (StartPos.X / cogDisplay1.Zoom)) - cogDisplay1.PanX, (Dist4.Y/2) - (StartPos.Y / cogDisplay1.Zoom) - cogDisplay1.PanY);
-            PointDouble Start = new PointDouble(cogDisplay1.PanX - (StartPos.X / cogDisplay1.Zoom) /*+ ((double)cogDisplay1.Image.Width / (double)2)*/, cogDisplay1.PanY - (StartPos.Y / cogDisplay1.Zoom)/* + ((double)cogDisplay1.Image.Height / (double)2)*/);
-            CogRectangle mRect = new CogRectangle();
 
-            mRect.Color = CogColorConstants.Yellow;
-      
-            cogDisplay1.DrawingEnabled = false;
-            
-            cogDisplay1.InteractiveGraphics.Add(mRect, "Rect", true);
-            cogDisplay1.InteractiveGraphicTipsEnabled = true;
-           // mRect.SetCenterWidthHeight(pd1.X + (((cogDisplay1.DisplayRectangle.Width / cogDisplay1.Zoom) / 2)- cogDisplay1.PanX), pd1.Y + (((cogDisplay1.DisplayRectangle.Height / cogDisplay1.Zoom) / 2) - cogDisplay1.PanY), Math.Abs(Dist4.X), Math.Abs(Dist4.Y));
-            mRect.SetXYWidthHeight((pd1.X - (cogDisplay1.DisplayRectangle.Width / cogDisplay1.Zoom / 2) - cogDisplay1.PanX),( pd1.Y/* - (cogDisplay1.DisplayRectangle.Height / cogDisplay1.Zoom / 2 )*//*+ cogDisplay1.PanY*/), Math.Abs(Dist4.X), Math.Abs(Dist4.Y));
-            cogDisplay1.DrawingEnabled = true;
+            else
+            {
+                Point Dist = new Point(EndPos.X - StartPos.X, EndPos.Y - StartPos.Y);
+                if (Dist.X == 0 || Dist.Y == 0)
+                    return;
+                PointDouble Dist4 = new PointDouble(Dist.X / cogDisplay1.Zoom, Dist.Y / cogDisplay1.Zoom);
+                //PointDouble Start = new PointDouble(((Dist4.X/2) - (StartPos.X / cogDisplay1.Zoom)) - cogDisplay1.PanX, (Dist4.Y/2) - (StartPos.Y / cogDisplay1.Zoom) - cogDisplay1.PanY);
+                PointDouble Start = new PointDouble(cogDisplay1.PanX - (StartPos.X / cogDisplay1.Zoom) /*+ ((double)cogDisplay1.Image.Width / (double)2)*/, cogDisplay1.PanY - (StartPos.Y / cogDisplay1.Zoom)/* + ((double)cogDisplay1.Image.Height / (double)2)*/);
+
+
+                mRect2.Color = CogColorConstants.Yellow;
+
+                cogDisplay1.DrawingEnabled = false;
+
+
+                //cogDisplay1.InteractiveGraphicTipsEnabled = true;
+                mRect2.SetCenterWidthHeight(0,0, Math.Abs(Dist4.X), Math.Abs(Dist4.Y));
+                ////mRect2.SetXYWidthHeight((pd1.X - (cogDisplay1.DisplayRectangle.Width / cogDisplay1.Zoom / 2) - cogDisplay1.PanX), (pd1.Y/* - (cogDisplay1.DisplayRectangle.Height / cogDisplay1.Zoom / 2 )*//*+ cogDisplay1.PanY*/), Math.Abs(Dist4.X), Math.Abs(Dist4.Y));
+                cogDisplay1.DrawingEnabled = true;
+            }
+
         }
+
+        private void MRect2_DraggingStopped(object sender, CogDraggingEventArgs e)
+        {
+            MRect2_Dragging(sender, e);
+
+            int a = 0;
+        }
+
+        private void MRect2_Dragging(object sender, CogDraggingEventArgs e)
+        {
+            CogRectangle dragRect = (CogRectangle)e.DragGraphic;
+
+            if (_shiftIsDown)
+            {
+                mRect2.Width = dragRect.Width;
+                mRect2.Height = dragRect.Height;
+            }
+
+
+            int a = 0;
+        }
+
         class PointDouble
         {
             public double X;
@@ -325,6 +365,18 @@ namespace CRUX_Renewal.Main_Form
         private void Tb_PanYMax_TextChanged(object sender, EventArgs e)
         {
             //cogDisplay1.PanX = Tb_PanX.Text.toDbl();
+        }
+
+        private void cogDisplay1_KeyDown(object sender, KeyEventArgs e)
+        {
+            _shiftIsDown = e.Shift;
+
+        }
+
+        private void cogDisplay1_KeyUp(object sender, KeyEventArgs e)
+        {
+            _shiftIsDown = e.Shift;
+
         }
     }
 }

@@ -58,6 +58,7 @@
             this.Lb_ImageCoordX = new System.Windows.Forms.Label();
             this.Lb_ImageCoordY = new System.Windows.Forms.Label();
             this.cogRectangleEditV21 = new Cognex.VisionPro.CogRectangleEditV2();
+            this.cogDisplayToolbarV21 = new Cognex.VisionPro.CogDisplayToolbarV2();
             ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -122,6 +123,8 @@
             this.cogDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogDisplay1.OcxState")));
             this.cogDisplay1.Size = new System.Drawing.Size(846, 521);
             this.cogDisplay1.TabIndex = 7;
+            this.cogDisplay1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cogDisplay1_KeyDown);
+            this.cogDisplay1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cogDisplay1_KeyUp);
             // 
             // Lb_Zoom
             // 
@@ -315,12 +318,20 @@
             this.cogRectangleEditV21.Size = new System.Drawing.Size(191, 173);
             this.cogRectangleEditV21.TabIndex = 29;
             // 
+            // cogDisplayToolbarV21
+            // 
+            this.cogDisplayToolbarV21.Location = new System.Drawing.Point(80, 535);
+            this.cogDisplayToolbarV21.Name = "cogDisplayToolbarV21";
+            this.cogDisplayToolbarV21.Size = new System.Drawing.Size(214, 26);
+            this.cogDisplayToolbarV21.TabIndex = 30;
+            // 
             // Main_Frm_Manual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(1331, 869);
+            this.Controls.Add(this.cogDisplayToolbarV21);
             this.Controls.Add(this.cogRectangleEditV21);
             this.Controls.Add(this.Lb_ImageCoordY);
             this.Controls.Add(this.Lb_ImageCoordX);
@@ -389,5 +400,6 @@
         private System.Windows.Forms.Label Lb_ImageCoordX;
         private System.Windows.Forms.Label Lb_ImageCoordY;
         private Cognex.VisionPro.CogRectangleEditV2 cogRectangleEditV21;
+        private Cognex.VisionPro.CogDisplayToolbarV2 cogDisplayToolbarV21;
     }
 }
