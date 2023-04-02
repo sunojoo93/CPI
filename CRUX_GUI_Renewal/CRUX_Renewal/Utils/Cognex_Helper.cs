@@ -1,4 +1,6 @@
-﻿using Cognex.VisionPro.QuickBuild;
+﻿using Cognex.VisionPro;
+using Cognex.VisionPro.ImageFile;
+using Cognex.VisionPro.QuickBuild;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +52,17 @@ namespace CRUX_Renewal.Utils
         public static CogJob GetJob(CogJobManager manager, int idx)
         {
             return manager?.Job(idx);
+        }
+        public static CogImage8Grey Load_Image(string strPath)
+        {
+            CogImageFile img = new CogImageFile();
+
+            img.Open(strPath, CogImageFileModeConstants.Read);
+            CogImage8Grey image8Grey = CogImageConvert.GetIntensityImage(img[0], 0, 0, img[0].Width, img[0].Height);
+
+            img.Close();
+
+            return image8Grey;
         }
     }
 }
