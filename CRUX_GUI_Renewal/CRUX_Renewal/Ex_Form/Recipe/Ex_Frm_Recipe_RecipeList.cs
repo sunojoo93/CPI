@@ -86,7 +86,7 @@ namespace CRUX_Renewal.Ex_Form
 
                           if (Rcp == null && Rcp?.Count < 1)
                               throw new Exception(Enums.ErrorCode.DO_NOT_FOUND_VPP_FILE.DescriptionAttr());
-                          Systems.SetCogJob(Rcp[0]?.ToString());
+                          Systems.SetCogJob(Rcp[0]?.ToString(), SelectedRecipe);
 
                           Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
                         Systems.CurrentRecipe = Rcp[0]?.ToString();

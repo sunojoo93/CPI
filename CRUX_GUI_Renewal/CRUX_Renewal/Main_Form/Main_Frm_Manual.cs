@@ -376,7 +376,6 @@ namespace CRUX_Renewal.Main_Form
         private void cogDisplay1_KeyUp(object sender, KeyEventArgs e)
         {
             _shiftIsDown = e.Shift;
-
         }
     }
 }

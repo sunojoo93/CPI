@@ -3,6 +3,7 @@ using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -247,7 +248,31 @@ namespace CRUX_Renewal.Class
         public CogJobManager Manager { get; set; } = null;
         public Optical_Cam Camera;
         public Optical_Light Light;
+        public List<ROI_Property> ROI_List;
 
+        public void Load_ROI(string path)
+        {
+            IniFile Ini = new IniFile();
+            Ini.Load($@"{path}\ROI.lst");
+            if(Ini == null)
+            {
+                Systems.MainRecipe.ROI_List = new List<ROI_Property>();
+                return;
+            }
+            Systems.MainRecipe.ROI_List = new List<ROI_Property>();
+            foreach (var item in Ini.Values)
+            {
+                ROI_Property Temp = new ROI_Property();
+                Temp.Category = item["Category"].ToString();
+                Temp.Name = item["Name"].ToString();
+                Temp.X = item["X"].ToInt();
+                Temp.Y = item["Y"].ToInt();
+                Temp.Width = item["Width"].ToInt();
+                Temp.Height = item["Height"].ToInt();
+                Temp.Color = Color.FromArgb(item["Color"].ToInt());
+                Systems.MainRecipe.ROI_List.Add(Temp);
+            }
+        }
         #region IDisposable Support
         private bool disposedValue = false; // 중복 호출을 검색하려면
 
@@ -304,5 +329,23 @@ namespace CRUX_Renewal.Class
         int aa = 0;
         int bb = 1;
         string cc = "테스트";
+    }
+
+    public class ROI_Property
+    {
+        [Description("Category")]
+        public string Category { get; set; }
+        [Description("이름")]
+        public string Name { get; set; }
+        [Description("시작점 X")]
+        public int X { get; set; }
+        [Description("시작점 Y")]
+        public int Y { get; set; }
+        [Description("길이")]
+        public int Width { get; set; }
+        [Description("높이")]
+        public int Height { get; set; }
+        [Description("ROI 컬러"), Category("Dropdown")]
+        public Color Color { get; set; }
     }
 }

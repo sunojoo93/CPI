@@ -84,6 +84,7 @@ namespace CRUX_Renewal
         public static string[] MANUAL_RESULT_DATA_DRIVE;
 
         public static string RECIPE_PATH_RENEWAL = @"D:\CRUX\DATA\Recipes\";
+
  
     }
     static class Globals
@@ -103,6 +104,7 @@ namespace CRUX_Renewal
       //  public static string[][] PatternName;
         public static int nLanguageFlg = 0;
         private static bool[] bIsSavedRecipe;
+        public static double ROI_RATIO = 0.8;
         public static List<string> MAINFORM_NAME { get; set; }
 
         public static void m_fnInitSelectRecipe(int nCnt)

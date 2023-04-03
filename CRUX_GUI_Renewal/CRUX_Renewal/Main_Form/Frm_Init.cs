@@ -139,7 +139,7 @@ namespace CRUX_Renewal.Main_Form
                             break;
                         case (int)Enums.InitFlag.LoadJOB:
                             setControlText(lbl_CurrentState, string.Format("Initialize Job..."));
-                            LoadJob(); // 모델 적용
+                            LoadRecipe(); // 모델 적용
                             Systems.LogWriter.Info("Initialize Job...");
                             ++InitFlag;
                             break;
@@ -314,12 +314,13 @@ namespace CRUX_Renewal.Main_Form
         /// /클래스 : Form_Init    
         /// </summary>      
         
-        private void LoadJob()
+        private void LoadRecipe()
         {
             try
             {
-                ArrayList FileList = fileProc.getFileList(($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Environment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ", ""), ".vpp");
-                Systems.SetCogJob(FileList[0].ToString());
+                string Path = ($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Environment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ", "");
+                ArrayList FileList = fileProc.getFileList(Path,".vpp");
+                Systems.SetCogJob(FileList[0].ToString(), Path);           
                 Systems.CurrentRecipe = Systems.Environment_INI["LastUsedRecipe"]["RecipeName"].ToString();
             }
             catch (Exception ex)
@@ -329,6 +330,7 @@ namespace CRUX_Renewal.Main_Form
                 throw;
             }
         }
+
 
         /// <summary>
         /// 기  능 : IPC 초기화 

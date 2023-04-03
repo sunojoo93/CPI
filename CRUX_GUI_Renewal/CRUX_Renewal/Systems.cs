@@ -43,7 +43,7 @@ namespace CRUX_Renewal
         public static string path;
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;
-        public static async void SetCogJob(string path)
+        public static async void SetCogJob(string vpp_path, string roi_path)
         {
             try
             {    
@@ -60,19 +60,21 @@ namespace CRUX_Renewal
                 {
                     if (SaveLoadType)
                     {
-                        MainRecipe = ((Recipe)CogSerializer.LoadObjectFromFile(path));
+                        MainRecipe = ((Recipe)CogSerializer.LoadObjectFromFile(vpp_path));
                     }
                     else
                     {
                         MainRecipe = new Recipe();
-                        MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
+                        MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(vpp_path));
                         MainRecipe.Camera = new Optical_Cam();
                         MainRecipe.Light = new Optical_Light();
+                        MainRecipe.Load_ROI(roi_path);
+                        
                     }
                 
 
                 TempRecipe =  MainRecipe;
-                string[] Temp = path.Split(new string[] { "\\" }, StringSplitOptions.None);
+                string[] Temp = vpp_path.Split(new string[] { "\\" }, StringSplitOptions.None);
                 //CurrentRecipe = Temp[Temp.Count() - 2];
                 Systems.Inspector_.SetInspection();
                 Systems.Inspector_.SetCogManager(MainRecipe);
@@ -87,22 +89,14 @@ namespace CRUX_Renewal
                 throw ex;
             }
         }
-        
-        private CogImage8Grey Load_Image(string strPath)
+        public static void LoadROI(string path)
         {
-            CogImageFile img = new CogImageFile();
 
-            img.Open(strPath, CogImageFileModeConstants.Read);
-            CogImage8Grey image8Grey = CogImageConvert.GetIntensityImage(img[0], 0, 0, img[0].Width, img[0].Height);
-
-            img.Close();
-
-            return image8Grey;
         }
-
-        private static void Systems_Changed(object sender, CogChangedEventArgs e)
+        //public static void LinkROI(ref )
+        public static void SetRecipeParams(string path)
         {
-            throw new NotImplementedException();
+
         }
 
         public static Recipe GetCogJob()

@@ -394,6 +394,12 @@
     <Compile Include="Ex_Form\Account\Ex_Frm_Account_Manage.Designer.cs">
       <DependentUpon>Ex_Frm_Account_Manage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Notification\Ex_Frm_Notification_Announce.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Notification\Ex_Frm_Notification_Announce.Designer.cs">
+      <DependentUpon>Ex_Frm_Notification_Announce.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Notification\Ex_Frm_Notification_Question.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -595,6 +601,9 @@
     <Content Include="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Ex_Form\Notification\Ex_Frm_Notification_Announce.resx">
+      <DependentUpon>Ex_Frm_Notification_Announce.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.resx">
       <DependentUpon>Ex_Frm_Recipe_ViewInfo.cs</DependentUpon>
     </EmbeddedResource>

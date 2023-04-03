@@ -4,6 +4,7 @@ using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.Class;
 using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
+using PropertyGridEx;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +19,6 @@ namespace CRUX_Renewal.Ex_Form
 {
     public partial class Ex_Frm_Recipe_ROI : Form
     {
-        //Uct_main_View MainPic;
-        //Uct_Mini_View MiniPic;
-        //Ex_Frm_Recipe_CursorInfo Frm_CursorInfo;
-        //Ex_Frm_Recipe_ViewInfo Frm_ViewInfo;
-        int m_nCamPsModeRatio = 1;
         Label m_lbImageState = new Label();
         CogRectangle mRect2;
         bool _shiftIsDown = false;
@@ -55,13 +51,41 @@ namespace CRUX_Renewal.Ex_Form
             mRect2.Interactive = true;
             mRect2.GraphicDOFEnable = CogRectangleDOFConstants.All;
             Cog_ROI_Display.InteractiveGraphics.Add(mRect2, "Rect", true);
-            Prop_Grid_Ex.Item.Add("Test", "111", true, "TEMP", "ROI", true);
-      
+            Prop_Grid_Ex.ShowCustomProperties = true;
+            MenuItem[] mis = new MenuItem[3];
+            MenuItem mi1 = new MenuItem("추가");
+            MenuItem mi2 = new MenuItem("삭제");
+            MenuItem mi3 = new MenuItem("이동");
+            mis[0] = mi1;
+            mis[1] = mi2;
+            mis[2] = mi3;
+            ContextMenu cm = new ContextMenu(mis);
+
+            Prop_Grid_Ex.ContextMenu = cm;
+
+
         }
 
         private void Cog_ROI_Display_Click(object sender, EventArgs e)
         {
+            if (_shiftIsDown)
+            {
+                CogRectangle Rect = new CogRectangle();
+                Rect.X = (Cog_ROI_Display.Image.Width / 2) - Cog_ROI_Display.PanX;
+                Rect.Y = (Cog_ROI_Display.Image.Height / 2) - Cog_ROI_Display.PanY;
 
+                Rect.Width = (Cog_ROI_Display.DisplayRectangle.Width / Cog_ROI_Display.Zoom * Globals.ROI_RATIO);
+                Rect.Height = (Cog_ROI_Display.DisplayRectangle.Height / Cog_ROI_Display.Zoom * Globals.ROI_RATIO);
+                Rect.X -= (Rect.Width / 2);
+                Rect.Y -= (Rect.Height / 2);
+
+                Cog_ROI_Display.DrawingEnabled = false;
+                Rect.Interactive = true;
+                Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+                Cog_ROI_Display.InteractiveGraphics.Add(Rect, "Rect", true);
+                var tt = Cog_ROI_Display.InteractiveGraphics[0] as CogRectangle;
+                Cog_ROI_Display.DrawingEnabled = true;
+            }
         }
 
         private void Cog_ROI_Display_MouseUp(object sender, MouseEventArgs e)
@@ -94,7 +118,6 @@ namespace CRUX_Renewal.Ex_Form
                 mRect2.Width = dragRect.Width;
                 mRect2.Height = dragRect.Height;
             }
-
 
             int a = 0;
         }
@@ -188,6 +211,77 @@ namespace CRUX_Renewal.Ex_Form
             var Temp = Cognex_Helper.Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
             //var Temp2 = Temp.ToBitmap();
             Cog_ROI_Display.Image = Temp;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            CustomProperty AA = new CustomProperty("ROI1", "111", true, "Non Insp", "ROI", true) { IsBrowsable = true };
+            CustomProperty BB = new CustomProperty("ROI2", "222", true, "Non Insp", "ROI", true) { IsBrowsable = true };
+            CustomProperty CC = new CustomProperty("ROI3", "333", true, "Non Insp", "ROI", true) { IsBrowsable = true };
+            CC.Value = new ROI_Property() {  };
+            Prop_Grid_Ex.Item.Add(AA);
+            Prop_Grid_Ex.Item.Add(BB);
+            Prop_Grid_Ex.Item.Add(CC);
+
+
+
+            Prop_Grid_Ex.Item.Add(new CustomProperty("ROI1", "111", true, "Insp", "ROI", true));
+            //Prop_Grid_Ex.Item.Add("Test22", "111", true, "TEMP", "ROI", true);
+            Prop_Grid_Ex.Refresh();
+        }
+
+        private void Cog_ROI_Display_KeyDown(object sender, KeyEventArgs e)
+        {
+            _shiftIsDown = e.Shift;
+        }
+
+        private void Cog_ROI_Display_KeyUp(object sender, KeyEventArgs e)
+        {
+            _shiftIsDown = e.Shift;
+        }
+
+        private void Btn_ROI_Add_Click(object sender, EventArgs e)
+        {
+            string name = Tb_ROI_Name.Text.ToString();
+            if(name == "")
+            {
+                Ex_Frm_Notification_Announce Frm_Announcement = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "ROI 이름이 입력되지 않았습니다.");
+                Frm_Announcement.ShowDialog();
+                return;
+            }
+
+            if(FindOverlapROIName(name))
+            {
+                Ex_Frm_Notification_Announce Frm_Announcement = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "ROI 이름이 중복입니다.");
+                Frm_Announcement.ShowDialog();
+            }
+            else
+            {
+                LstB_ROI.Items.Add(name);
+            }
+        }
+
+        private void Btn_ROI_Del_Click(object sender, EventArgs e)
+        {
+            string name = LstB_ROI.SelectedItem as string;
+            if (name == "")
+                return;
+            LstB_ROI.Items.Remove(name);
+        }
+        private bool FindOverlapROIName(string name)
+        {
+            var Data = LstB_ROI.Items;
+            foreach(var item in Data)
+            {
+                if ((item as string) == name)
+                    return true;
+            }
+            return false;
+        }
+
+        private void LstB_ROI_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Tb_ROI_Name.Text = (sender as ListBox).SelectedItem as string;
         }
     }
 }
