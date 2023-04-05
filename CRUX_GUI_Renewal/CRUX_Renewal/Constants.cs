@@ -84,7 +84,7 @@ namespace CRUX_Renewal
         public static string[] MANUAL_RESULT_DATA_DRIVE;
 
         public static string RECIPE_PATH_RENEWAL = @"D:\CRUX\DATA\Recipes\";
-
+        public static string ROI_PROPERTY = @"D:\CRUX\DATA\TXT\";
  
     }
     static class Globals

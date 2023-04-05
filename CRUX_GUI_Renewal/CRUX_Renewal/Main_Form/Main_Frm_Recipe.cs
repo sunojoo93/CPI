@@ -51,7 +51,7 @@ namespace CRUX_Renewal.Main_Form
             Frm_RecipeList.Show();
             Frm_JobList.Show();
             Frm_ROI.Show();
-            Frm_ROI.FormInitialize(0);
+         
             DisplayJob();
             //Uctrl_MiniMap MiniPic = new Uctrl_MiniMap();
             //ctrl_MainPic1.Initialize(this, ref MiniPic, 0, 0, false);

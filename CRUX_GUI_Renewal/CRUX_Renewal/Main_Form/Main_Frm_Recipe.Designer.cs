@@ -240,6 +240,7 @@
             this.Btn_Revert.TabIndex = 5;
             this.Btn_Revert.Text = "Revert";
             this.Btn_Revert.UseVisualStyleBackColor = false;
+            this.Btn_Revert.Click += new System.EventHandler(this.Btn_Revert_Click);
             // 
             // Lb_UnderLine1
             // 

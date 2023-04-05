@@ -321,7 +321,7 @@ namespace CRUX_Renewal.Main_Form
                 string Path = ($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Environment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ", "");
                 ArrayList FileList = fileProc.getFileList(Path,".vpp");
                 Systems.SetCogJob(FileList[0].ToString(), Path);           
-                Systems.CurrentRecipe = Systems.Environment_INI["LastUsedRecipe"]["RecipeName"].ToString();
+                Systems.CurrentRecipe = Systems.Environment_INI["LastUsedRecipe"]["RecipeName"].ToString().Replace(" ","");
             }
             catch (Exception ex)
             {

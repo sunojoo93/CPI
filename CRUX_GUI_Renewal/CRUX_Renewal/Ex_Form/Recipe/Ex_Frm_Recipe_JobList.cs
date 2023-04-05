@@ -83,10 +83,11 @@ namespace CRUX_Renewal.Ex_Form
                 MenuItem m2 = new MenuItem();
                 MenuItem m3 = new MenuItem();
 
-                m0.Text = "새 작업";
-                m1.Text = "이름변경";
-                m2.Text = "삭제";
-                m3.Text = "복사";
+                m0.Text = "New Job";
+                m1.Text = "Copy";
+                m2.Text = "Name Change";
+                m3.Text = "Delete";
+
 
 
 
@@ -94,16 +95,20 @@ namespace CRUX_Renewal.Ex_Form
                 //    m1.Enabled = false;
                 m0.Click += (senders, ex) =>
                 {
-                    CogJob Temp = new CogJob();
+                    CogJob Temp = Cognex_Helper.CreateNewJob();                 
                     Systems.MainRecipe.Manager.JobAdd(Temp);
                     SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
                     Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(LstBoxJobList.Items.Count - 1);
                 };
                 m1.Click += (senders, es) =>
                 {
+
+                };
+                m2.Click += (senders, es) =>
+                {
                     Ex_Frm_Others_Input Input = new Ex_Frm_Others_Input("새 이름을 입력해주세요.", SelectedJobName);
                     Input.ShowDialog();
-                    if (Input.DialogResult == DialogResult.OK)                    
+                    if (Input.DialogResult == DialogResult.OK)
                         Cognex_Helper.ChangeJobName(Systems.MainRecipe.Manager, SelectedJobName, Input.ResultName);
                     else
                         return;
@@ -112,7 +117,8 @@ namespace CRUX_Renewal.Ex_Form
 
                     SetListBox(Temp);
                 };
-                m2.Click += (senders, es) =>
+
+                m3.Click += (senders, es) =>
                 {
                     Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
                     Noti.ShowDialog();
@@ -124,19 +130,8 @@ namespace CRUX_Renewal.Ex_Form
                         return;
                 };
 
-                m3.Click += (senders, es) =>
-                {
-                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
-                    Noti.ShowDialog();
-                    if (Noti.DialogResult == DialogResult.OK)
-                    {
-                        CopyTemp = Cognex_Helper.GetJob(Systems.MainRecipe.Manager, SelectedJobName);
-                    }
-                    else
-                        return;
-                };
-
                 //메뉴에 메뉴 아이템을 등록해줍니다
+                m.MenuItems.Add(m0);
                 m.MenuItems.Add(m1);
                 m.MenuItems.Add(m2);
                 m.MenuItems.Add(m3);   

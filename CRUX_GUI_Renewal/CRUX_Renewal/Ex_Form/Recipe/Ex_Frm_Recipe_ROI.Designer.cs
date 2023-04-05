@@ -1,4 +1,6 @@
-﻿namespace CRUX_Renewal.Ex_Form
+﻿using System.ComponentModel;
+
+namespace CRUX_Renewal.Ex_Form
 {
     partial class Ex_Frm_Recipe_ROI
     {
@@ -19,7 +21,8 @@
             }
             base.Dispose(disposing);
         }
-        PropertyGridEx.PropertyGridEx Prop_Grid_Ex;
+        PropertyGridEx.PropertyGridEx PGE_ROIList;
+        PropertyGridEx.PropertyGridEx PGE_ROIProp;
         #region Windows Form Designer generated code
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -28,82 +31,38 @@
         private void InitializeComponent ()
         {
             this.components = new System.ComponentModel.Container();
-   
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ex_Frm_Recipe_ROI));
+
             this.Tlp_ROI = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
             this.Cog_ROI_Display = new Cognex.VisionPro.Display.CogDisplay();
             this.Cog_Display_Status = new Cognex.VisionPro.CogDisplayStatusBarV2();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Cog_Display_Toolbar = new Cognex.VisionPro.CogDisplayToolbarV2();
+            this.Lb_Tooltip = new System.Windows.Forms.Label();
+            this.Gb_ROIs = new System.Windows.Forms.GroupBox();
+            this.Gb_ROIProp = new System.Windows.Forms.GroupBox();
             this.Gb_ROI_CATEGORY = new System.Windows.Forms.GroupBox();
             this.Tlp_ROI_List = new System.Windows.Forms.TableLayoutPanel();
             this.LstB_ROI = new System.Windows.Forms.ListBox();
             this.Btn_ROI_Add = new System.Windows.Forms.Button();
             this.Btn_ROI_Del = new System.Windows.Forms.Button();
             this.Tb_ROI_Name = new System.Windows.Forms.TextBox();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.Cog_Display_Toolbar = new Cognex.VisionPro.CogDisplayToolbarV2();
-            this.Lb_Tooltip = new System.Windows.Forms.Label();
-            Prop_Grid_Ex = new PropertyGridEx.PropertyGridEx();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.Btn_ImageLoad = new System.Windows.Forms.Button();
+            PGE_ROIList = new PropertyGridEx.PropertyGridEx();
+            PGE_ROIProp = new PropertyGridEx.PropertyGridEx();
             this.Tlp_ROI.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).BeginInit();
-            this.Gb_ROI_CATEGORY.SuspendLayout();
-            this.Tlp_ROI_List.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.Gb_ROIs.SuspendLayout();
+            this.Gb_ROIProp.SuspendLayout();
+            this.Gb_ROI_CATEGORY.SuspendLayout();
+            this.Tlp_ROI_List.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // Prop_Grid_Ex
-            // 
-            this.Tlp_ROI.SetColumnSpan(Prop_Grid_Ex, 2);
-            // 
-            // 
-            // 
-            Prop_Grid_Ex.DocCommentDescription.AutoEllipsis = true;
-            Prop_Grid_Ex.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
-            Prop_Grid_Ex.DocCommentDescription.Location = new System.Drawing.Point(3, 19);
-            Prop_Grid_Ex.DocCommentDescription.Name = "";
-            Prop_Grid_Ex.DocCommentDescription.Size = new System.Drawing.Size(1010, 36);
-            Prop_Grid_Ex.DocCommentDescription.TabIndex = 1;
-            Prop_Grid_Ex.DocCommentImage = null;
-            // 
-            // 
-            // 
-            Prop_Grid_Ex.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
-            Prop_Grid_Ex.DocCommentTitle.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold);
-            Prop_Grid_Ex.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
-            Prop_Grid_Ex.DocCommentTitle.Name = "";
-            Prop_Grid_Ex.DocCommentTitle.Size = new System.Drawing.Size(1010, 16);
-            Prop_Grid_Ex.DocCommentTitle.TabIndex = 0;
-            Prop_Grid_Ex.DocCommentTitle.UseMnemonic = false;
-            Prop_Grid_Ex.Dock = System.Windows.Forms.DockStyle.Fill;
-            Prop_Grid_Ex.DrawFlatToolbar = true;
-            Prop_Grid_Ex.Location = new System.Drawing.Point(740, 295);
-            Prop_Grid_Ex.Margin = new System.Windows.Forms.Padding(0);
-            Prop_Grid_Ex.Name = "Prop_Grid_Ex";
-            this.Tlp_ROI.SetRowSpan(Prop_Grid_Ex, 2);
-            Prop_Grid_Ex.Size = new System.Drawing.Size(1016, 461);
-            Prop_Grid_Ex.TabIndex = 122;
-            Prop_Grid_Ex.ToolbarVisible = false;
-            // 
-            // 
-            // 
-            Prop_Grid_Ex.ToolStrip.AccessibleName = "도구 모음";
-            Prop_Grid_Ex.ToolStrip.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar;
-            Prop_Grid_Ex.ToolStrip.AllowMerge = false;
-            Prop_Grid_Ex.ToolStrip.AutoSize = false;
-            Prop_Grid_Ex.ToolStrip.CanOverflow = false;
-            Prop_Grid_Ex.ToolStrip.Dock = System.Windows.Forms.DockStyle.None;
-            Prop_Grid_Ex.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            Prop_Grid_Ex.ToolStrip.Location = new System.Drawing.Point(0, 1);
-            Prop_Grid_Ex.ToolStrip.Name = "";
-            Prop_Grid_Ex.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            Prop_Grid_Ex.ToolStrip.Size = new System.Drawing.Size(1016, 25);
-            Prop_Grid_Ex.ToolStrip.TabIndex = 1;
-            Prop_Grid_Ex.ToolStrip.TabStop = true;
-            Prop_Grid_Ex.ToolStrip.Text = "PropertyGridToolBar";
-            Prop_Grid_Ex.ToolStrip.Visible = false;
             // 
             // Tlp_ROI
             // 
@@ -112,12 +71,13 @@
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 740F));
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_ROI.Controls.Add(this.button1, 2, 0);
             this.Tlp_ROI.Controls.Add(this.Cog_ROI_Display, 0, 1);
             this.Tlp_ROI.Controls.Add(this.Cog_Display_Status, 0, 3);
-            this.Tlp_ROI.Controls.Add(Prop_Grid_Ex, 1, 2);
-            this.Tlp_ROI.Controls.Add(this.Gb_ROI_CATEGORY, 1, 0);
             this.Tlp_ROI.Controls.Add(this.splitContainer1, 0, 0);
+            this.Tlp_ROI.Controls.Add(this.Gb_ROIs, 1, 2);
+            this.Tlp_ROI.Controls.Add(this.Gb_ROIProp, 2, 1);
+            this.Tlp_ROI.Controls.Add(this.Gb_ROI_CATEGORY, 1, 1);
+            this.Tlp_ROI.Controls.Add(this.tableLayoutPanel1, 2, 0);
             this.Tlp_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_ROI.Location = new System.Drawing.Point(0, 0);
             this.Tlp_ROI.Margin = new System.Windows.Forms.Padding(0);
@@ -130,16 +90,6 @@
             this.Tlp_ROI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_ROI.Size = new System.Drawing.Size(1756, 756);
             this.Tlp_ROI.TabIndex = 123;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(943, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 20);
-            this.button1.TabIndex = 123;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_2);
             // 
             // Cog_ROI_Display
             // 
@@ -174,87 +124,6 @@
             this.Cog_Display_Status.Size = new System.Drawing.Size(740, 26);
             this.Cog_Display_Status.TabIndex = 125;
             this.Cog_Display_Status.Use3DCoordinateSpaceTree = false;
-            // 
-            // Gb_ROI_CATEGORY
-            // 
-            this.Gb_ROI_CATEGORY.Controls.Add(this.Tlp_ROI_List);
-            this.Gb_ROI_CATEGORY.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Gb_ROI_CATEGORY.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Gb_ROI_CATEGORY.Location = new System.Drawing.Point(743, 3);
-            this.Gb_ROI_CATEGORY.Name = "Gb_ROI_CATEGORY";
-            this.Gb_ROI_CATEGORY.Padding = new System.Windows.Forms.Padding(0);
-            this.Tlp_ROI.SetRowSpan(this.Gb_ROI_CATEGORY, 2);
-            this.Gb_ROI_CATEGORY.Size = new System.Drawing.Size(194, 289);
-            this.Gb_ROI_CATEGORY.TabIndex = 128;
-            this.Gb_ROI_CATEGORY.TabStop = false;
-            this.Gb_ROI_CATEGORY.Text = "ROI Category";
-            // 
-            // Tlp_ROI_List
-            // 
-            this.Tlp_ROI_List.ColumnCount = 2;
-            this.Tlp_ROI_List.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_ROI_List.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_ROI_List.Controls.Add(this.LstB_ROI, 0, 0);
-            this.Tlp_ROI_List.Controls.Add(this.Btn_ROI_Add, 0, 2);
-            this.Tlp_ROI_List.Controls.Add(this.Btn_ROI_Del, 1, 2);
-            this.Tlp_ROI_List.Controls.Add(this.Tb_ROI_Name, 0, 1);
-            this.Tlp_ROI_List.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_ROI_List.Location = new System.Drawing.Point(0, 18);
-            this.Tlp_ROI_List.Margin = new System.Windows.Forms.Padding(0);
-            this.Tlp_ROI_List.Name = "Tlp_ROI_List";
-            this.Tlp_ROI_List.RowCount = 3;
-            this.Tlp_ROI_List.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_ROI_List.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.Tlp_ROI_List.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.Tlp_ROI_List.Size = new System.Drawing.Size(194, 271);
-            this.Tlp_ROI_List.TabIndex = 0;
-            // 
-            // LstB_ROI
-            // 
-            this.Tlp_ROI_List.SetColumnSpan(this.LstB_ROI, 2);
-            this.LstB_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstB_ROI.FormattingEnabled = true;
-            this.LstB_ROI.ItemHeight = 17;
-            this.LstB_ROI.Location = new System.Drawing.Point(0, 0);
-            this.LstB_ROI.Margin = new System.Windows.Forms.Padding(0);
-            this.LstB_ROI.Name = "LstB_ROI";
-            this.LstB_ROI.Size = new System.Drawing.Size(194, 211);
-            this.LstB_ROI.TabIndex = 2;
-            this.LstB_ROI.SelectedIndexChanged += new System.EventHandler(this.LstB_ROI_SelectedIndexChanged);
-            // 
-            // Btn_ROI_Add
-            // 
-            this.Btn_ROI_Add.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ROI_Add.Location = new System.Drawing.Point(0, 241);
-            this.Btn_ROI_Add.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_ROI_Add.Name = "Btn_ROI_Add";
-            this.Btn_ROI_Add.Size = new System.Drawing.Size(97, 30);
-            this.Btn_ROI_Add.TabIndex = 0;
-            this.Btn_ROI_Add.Text = "ADD";
-            this.Btn_ROI_Add.UseVisualStyleBackColor = true;
-            this.Btn_ROI_Add.Click += new System.EventHandler(this.Btn_ROI_Add_Click);
-            // 
-            // Btn_ROI_Del
-            // 
-            this.Btn_ROI_Del.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ROI_Del.Location = new System.Drawing.Point(97, 241);
-            this.Btn_ROI_Del.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_ROI_Del.Name = "Btn_ROI_Del";
-            this.Btn_ROI_Del.Size = new System.Drawing.Size(97, 30);
-            this.Btn_ROI_Del.TabIndex = 1;
-            this.Btn_ROI_Del.Text = "DELETE";
-            this.Btn_ROI_Del.UseVisualStyleBackColor = true;
-            this.Btn_ROI_Del.Click += new System.EventHandler(this.Btn_ROI_Del_Click);
-            // 
-            // Tb_ROI_Name
-            // 
-            this.Tlp_ROI_List.SetColumnSpan(this.Tb_ROI_Name, 2);
-            this.Tb_ROI_Name.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tb_ROI_Name.Location = new System.Drawing.Point(0, 214);
-            this.Tb_ROI_Name.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.Tb_ROI_Name.Name = "Tb_ROI_Name";
-            this.Tb_ROI_Name.Size = new System.Drawing.Size(194, 25);
-            this.Tb_ROI_Name.TabIndex = 3;
             // 
             // splitContainer1
             // 
@@ -296,6 +165,245 @@
             this.Lb_Tooltip.Text = "Shift + Click으로 ROI 생성할 수 있습니다.";
             this.Lb_Tooltip.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // Gb_ROIs
+            // 
+            this.Tlp_ROI.SetColumnSpan(this.Gb_ROIs, 2);
+            this.Gb_ROIs.Controls.Add(PGE_ROIList);
+            this.Gb_ROIs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Gb_ROIs.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Gb_ROIs.Location = new System.Drawing.Point(743, 298);
+            this.Gb_ROIs.Name = "Gb_ROIs";
+            this.Tlp_ROI.SetRowSpan(this.Gb_ROIs, 2);
+            this.Gb_ROIs.Size = new System.Drawing.Size(1010, 455);
+            this.Gb_ROIs.TabIndex = 130;
+            this.Gb_ROIs.TabStop = false;
+            this.Gb_ROIs.Text = "ROI List";
+            // 
+            // PGE_ROIList
+            // 
+            // 
+            // 
+            // 
+            PGE_ROIList.DocCommentDescription.AccessibleName = "";
+            PGE_ROIList.DocCommentDescription.AutoEllipsis = true;
+            PGE_ROIList.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
+            PGE_ROIList.DocCommentDescription.Location = new System.Drawing.Point(3, 23);
+            PGE_ROIList.DocCommentDescription.Name = "";
+            PGE_ROIList.DocCommentDescription.Size = new System.Drawing.Size(998, 32);
+            PGE_ROIList.DocCommentDescription.TabIndex = 1;
+            PGE_ROIList.DocCommentImage = null;
+            // 
+            // 
+            // 
+            PGE_ROIList.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
+            PGE_ROIList.DocCommentTitle.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
+            PGE_ROIList.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
+            PGE_ROIList.DocCommentTitle.Name = "";
+            PGE_ROIList.DocCommentTitle.Size = new System.Drawing.Size(998, 20);
+            PGE_ROIList.DocCommentTitle.TabIndex = 0;
+            PGE_ROIList.DocCommentTitle.UseMnemonic = false;
+            PGE_ROIList.Dock = System.Windows.Forms.DockStyle.Fill;
+            PGE_ROIList.DrawFlatToolbar = true;
+            PGE_ROIList.Location = new System.Drawing.Point(3, 21);
+            PGE_ROIList.Margin = new System.Windows.Forms.Padding(0);
+            PGE_ROIList.Name = "PGE_ROIList";
+            PGE_ROIList.SelectedObject = ((object)(resources.GetObject("PGE_ROIList.SelectedObject")));
+            PGE_ROIList.ShowCustomProperties = true;
+            PGE_ROIList.Size = new System.Drawing.Size(1004, 431);
+            PGE_ROIList.TabIndex = 0;
+            PGE_ROIList.ToolbarVisible = false;
+            // 
+            // 
+            // 
+            PGE_ROIList.ToolStrip.AccessibleName = "도구 모음";
+            PGE_ROIList.ToolStrip.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar;
+            PGE_ROIList.ToolStrip.AllowMerge = false;
+            PGE_ROIList.ToolStrip.AutoSize = false;
+            PGE_ROIList.ToolStrip.CanOverflow = false;
+            PGE_ROIList.ToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            PGE_ROIList.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            PGE_ROIList.ToolStrip.Location = new System.Drawing.Point(0, 0);
+            PGE_ROIList.ToolStrip.Name = "";
+            PGE_ROIList.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
+            PGE_ROIList.ToolStrip.Size = new System.Drawing.Size(432, 578);
+            PGE_ROIList.ToolStrip.TabIndex = 1;
+            PGE_ROIList.ToolStrip.TabStop = true;
+            PGE_ROIList.ToolStrip.Text = "PropertyGridToolBar";
+            PGE_ROIList.ToolStrip.Visible = false;
+            // 
+            // Gb_ROIProp
+            // 
+            this.Gb_ROIProp.Controls.Add(PGE_ROIProp);
+            this.Gb_ROIProp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Gb_ROIProp.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Gb_ROIProp.Location = new System.Drawing.Point(940, 26);
+            this.Gb_ROIProp.Margin = new System.Windows.Forms.Padding(0);
+            this.Gb_ROIProp.Name = "Gb_ROIProp";
+            this.Gb_ROIProp.Size = new System.Drawing.Size(816, 269);
+            this.Gb_ROIProp.TabIndex = 132;
+            this.Gb_ROIProp.TabStop = false;
+            this.Gb_ROIProp.Text = "ROI Property";
+            // 
+            // PGE_ROIProp
+            // 
+            // 
+            // 
+            // 
+            PGE_ROIProp.DocCommentDescription.AccessibleName = "";
+            PGE_ROIProp.DocCommentDescription.AutoEllipsis = true;
+            PGE_ROIProp.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
+            PGE_ROIProp.DocCommentDescription.Location = new System.Drawing.Point(3, 23);
+            PGE_ROIProp.DocCommentDescription.Name = "";
+            PGE_ROIProp.DocCommentDescription.Size = new System.Drawing.Size(804, 32);
+            PGE_ROIProp.DocCommentDescription.TabIndex = 1;
+            PGE_ROIProp.DocCommentImage = null;
+            // 
+            // 
+            // 
+            PGE_ROIProp.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
+            PGE_ROIProp.DocCommentTitle.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
+            PGE_ROIProp.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
+            PGE_ROIProp.DocCommentTitle.Name = "";
+            PGE_ROIProp.DocCommentTitle.Size = new System.Drawing.Size(804, 20);
+            PGE_ROIProp.DocCommentTitle.TabIndex = 0;
+            PGE_ROIProp.DocCommentTitle.UseMnemonic = false;
+            PGE_ROIProp.Dock = System.Windows.Forms.DockStyle.Fill;
+            PGE_ROIProp.DrawFlatToolbar = true;
+            PGE_ROIProp.Location = new System.Drawing.Point(3, 21);
+            PGE_ROIProp.Margin = new System.Windows.Forms.Padding(0);
+            PGE_ROIProp.Name = "PGE_ROIProp";
+            PGE_ROIProp.SelectedObject = ((object)(resources.GetObject("PGE_ROIProp.SelectedObject")));
+            PGE_ROIProp.ShowCustomProperties = true;
+            PGE_ROIProp.Size = new System.Drawing.Size(810, 245);
+            PGE_ROIProp.TabIndex = 0;
+            PGE_ROIProp.ToolbarVisible = false;
+            // 
+            // 
+            // 
+            PGE_ROIProp.ToolStrip.AccessibleName = "도구 모음";
+            PGE_ROIProp.ToolStrip.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar;
+            PGE_ROIProp.ToolStrip.AllowMerge = false;
+            PGE_ROIProp.ToolStrip.AutoSize = false;
+            PGE_ROIProp.ToolStrip.CanOverflow = false;
+            PGE_ROIProp.ToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            PGE_ROIProp.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            PGE_ROIProp.ToolStrip.Location = new System.Drawing.Point(0, 0);
+            PGE_ROIProp.ToolStrip.Name = "";
+            PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
+            PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(432, 578);
+            PGE_ROIProp.ToolStrip.TabIndex = 1;
+            PGE_ROIProp.ToolStrip.TabStop = true;
+            PGE_ROIProp.ToolStrip.Text = "PropertyGridToolBar";
+            PGE_ROIProp.ToolStrip.Visible = false;
+            // 
+            // Gb_ROI_CATEGORY
+            // 
+            this.Gb_ROI_CATEGORY.Controls.Add(this.Tlp_ROI_List);
+            this.Gb_ROI_CATEGORY.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Gb_ROI_CATEGORY.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Gb_ROI_CATEGORY.Location = new System.Drawing.Point(740, 26);
+            this.Gb_ROI_CATEGORY.Margin = new System.Windows.Forms.Padding(0);
+            this.Gb_ROI_CATEGORY.Name = "Gb_ROI_CATEGORY";
+            this.Gb_ROI_CATEGORY.Padding = new System.Windows.Forms.Padding(0);
+            this.Gb_ROI_CATEGORY.Size = new System.Drawing.Size(200, 269);
+            this.Gb_ROI_CATEGORY.TabIndex = 128;
+            this.Gb_ROI_CATEGORY.TabStop = false;
+            this.Gb_ROI_CATEGORY.Text = "ROI Category";
+            // 
+            // Tlp_ROI_List
+            // 
+            this.Tlp_ROI_List.ColumnCount = 2;
+            this.Tlp_ROI_List.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_ROI_List.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_ROI_List.Controls.Add(this.LstB_ROI, 0, 0);
+            this.Tlp_ROI_List.Controls.Add(this.Btn_ROI_Add, 0, 2);
+            this.Tlp_ROI_List.Controls.Add(this.Btn_ROI_Del, 1, 2);
+            this.Tlp_ROI_List.Controls.Add(this.Tb_ROI_Name, 0, 1);
+            this.Tlp_ROI_List.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_ROI_List.Location = new System.Drawing.Point(0, 18);
+            this.Tlp_ROI_List.Margin = new System.Windows.Forms.Padding(0);
+            this.Tlp_ROI_List.Name = "Tlp_ROI_List";
+            this.Tlp_ROI_List.RowCount = 3;
+            this.Tlp_ROI_List.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_ROI_List.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.Tlp_ROI_List.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.Tlp_ROI_List.Size = new System.Drawing.Size(200, 251);
+            this.Tlp_ROI_List.TabIndex = 0;
+            // 
+            // LstB_ROI
+            // 
+            this.Tlp_ROI_List.SetColumnSpan(this.LstB_ROI, 2);
+            this.LstB_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LstB_ROI.FormattingEnabled = true;
+            this.LstB_ROI.ItemHeight = 17;
+            this.LstB_ROI.Location = new System.Drawing.Point(0, 0);
+            this.LstB_ROI.Margin = new System.Windows.Forms.Padding(0);
+            this.LstB_ROI.Name = "LstB_ROI";
+            this.LstB_ROI.Size = new System.Drawing.Size(200, 191);
+            this.LstB_ROI.TabIndex = 2;
+            this.LstB_ROI.SelectedIndexChanged += new System.EventHandler(this.LstB_ROI_SelectedIndexChanged);
+            // 
+            // Btn_ROI_Add
+            // 
+            this.Btn_ROI_Add.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_ROI_Add.Location = new System.Drawing.Point(0, 221);
+            this.Btn_ROI_Add.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_ROI_Add.Name = "Btn_ROI_Add";
+            this.Btn_ROI_Add.Size = new System.Drawing.Size(100, 30);
+            this.Btn_ROI_Add.TabIndex = 0;
+            this.Btn_ROI_Add.Text = "ADD";
+            this.Btn_ROI_Add.UseVisualStyleBackColor = true;
+            this.Btn_ROI_Add.Click += new System.EventHandler(this.Btn_ROI_Add_Click);
+            // 
+            // Btn_ROI_Del
+            // 
+            this.Btn_ROI_Del.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_ROI_Del.Location = new System.Drawing.Point(100, 221);
+            this.Btn_ROI_Del.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_ROI_Del.Name = "Btn_ROI_Del";
+            this.Btn_ROI_Del.Size = new System.Drawing.Size(100, 30);
+            this.Btn_ROI_Del.TabIndex = 1;
+            this.Btn_ROI_Del.Text = "DELETE";
+            this.Btn_ROI_Del.UseVisualStyleBackColor = true;
+            this.Btn_ROI_Del.Click += new System.EventHandler(this.Btn_ROI_Del_Click);
+            // 
+            // Tb_ROI_Name
+            // 
+            this.Tlp_ROI_List.SetColumnSpan(this.Tb_ROI_Name, 2);
+            this.Tb_ROI_Name.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tb_ROI_Name.Location = new System.Drawing.Point(0, 194);
+            this.Tb_ROI_Name.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.Tb_ROI_Name.Name = "Tb_ROI_Name";
+            this.Tb_ROI_Name.Size = new System.Drawing.Size(200, 25);
+            this.Tb_ROI_Name.TabIndex = 3;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel1.Controls.Add(this.Btn_ImageLoad, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(940, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(816, 26);
+            this.tableLayoutPanel1.TabIndex = 133;
+            // 
+            // Btn_ImageLoad
+            // 
+            this.Btn_ImageLoad.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_ImageLoad.Location = new System.Drawing.Point(616, 0);
+            this.Btn_ImageLoad.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_ImageLoad.Name = "Btn_ImageLoad";
+            this.Btn_ImageLoad.Size = new System.Drawing.Size(200, 26);
+            this.Btn_ImageLoad.TabIndex = 0;
+            this.Btn_ImageLoad.Text = "Image Load";
+            this.Btn_ImageLoad.UseVisualStyleBackColor = true;
+            this.Btn_ImageLoad.Click += new System.EventHandler(this.Btn_ImageLoad_Click);
+            // 
             // Ex_Frm_Recipe_ROI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -311,14 +419,17 @@
             this.Shown += new System.EventHandler(this.Ex_Frm_AccountManage_Shown);
             this.Tlp_ROI.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).EndInit();
-            this.Gb_ROI_CATEGORY.ResumeLayout(false);
-            this.Tlp_ROI_List.ResumeLayout(false);
-            this.Tlp_ROI_List.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.Gb_ROIs.ResumeLayout(false);
+            this.Gb_ROIProp.ResumeLayout(false);
+            this.Gb_ROI_CATEGORY.ResumeLayout(false);
+            this.Tlp_ROI_List.ResumeLayout(false);
+            this.Tlp_ROI_List.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -326,7 +437,6 @@
 
         #endregion
         private System.Windows.Forms.TableLayoutPanel Tlp_ROI;
-        private System.Windows.Forms.Button button1;
         private Cognex.VisionPro.Display.CogDisplay Cog_ROI_Display;
         private Cognex.VisionPro.CogDisplayStatusBarV2 Cog_Display_Status;
         private Cognex.VisionPro.CogDisplayToolbarV2 Cog_Display_Toolbar;
@@ -338,5 +448,9 @@
         private System.Windows.Forms.TextBox Tb_ROI_Name;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label Lb_Tooltip;
+        private System.Windows.Forms.GroupBox Gb_ROIs;
+        private System.Windows.Forms.GroupBox Gb_ROIProp;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button Btn_ImageLoad;
     }
 }

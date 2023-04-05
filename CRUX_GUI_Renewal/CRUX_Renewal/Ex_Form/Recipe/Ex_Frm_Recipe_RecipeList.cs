@@ -128,9 +128,15 @@ namespace CRUX_Renewal.Ex_Form
                 //메뉴에 들어갈 아이템을 만듭니다
                 MenuItem m1 = new MenuItem();
                 MenuItem m2 = new MenuItem();
+                MenuItem m3 = new MenuItem();
+                MenuItem m4 = new MenuItem();
+                MenuItem m5 = new MenuItem();
+                m1.Text = "New Recipe";
+                m2.Text = "Copy";
+                m3.Text = "Paste";
+                m4.Text = "Name Change";
+                m5.Text = "Delete";
 
-                m1.Text = "이름변경";
-                m2.Text = "삭제";
 
                 if (Systems.CurrentRecipe == SelectRecipe)
                     m1.Enabled = false;
@@ -146,11 +152,42 @@ namespace CRUX_Renewal.Ex_Form
                     }
                     else
                         return;
-
                 };
 
-
                 m2.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        // 삭제
+                    }
+                    else
+                        return;
+                };
+                m3.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        // 삭제
+                    }
+                    else
+                        return;
+                };
+                m4.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        // 삭제
+                    }
+                    else
+                        return;
+                };
+                m5.Click += (senders, es) =>
                 {
                     Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
                     Noti.ShowDialog();
@@ -165,6 +202,9 @@ namespace CRUX_Renewal.Ex_Form
                 //메뉴에 메뉴 아이템을 등록해줍니다
                 m.MenuItems.Add(m1);
                 m.MenuItems.Add(m2);
+                m.MenuItems.Add(m3);
+                m.MenuItems.Add(m4);
+                m.MenuItems.Add(m5);
 
                 //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
                 m.Show(LstBoxRecipeList, new Point(e.X, e.Y));

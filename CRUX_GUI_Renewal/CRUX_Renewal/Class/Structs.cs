@@ -248,7 +248,7 @@ namespace CRUX_Renewal.Class
         public CogJobManager Manager { get; set; } = null;
         public Optical_Cam Camera;
         public Optical_Light Light;
-        public List<ROI_Property> ROI_List;
+        public List<ROI_Data> ROI_List;
 
         public void Load_ROI(string path)
         {
@@ -256,20 +256,20 @@ namespace CRUX_Renewal.Class
             Ini.Load($@"{path}\ROI.lst");
             if(Ini == null)
             {
-                Systems.MainRecipe.ROI_List = new List<ROI_Property>();
+                Systems.MainRecipe.ROI_List = new List<ROI_Data>();
                 return;
             }
-            Systems.MainRecipe.ROI_List = new List<ROI_Property>();
+            Systems.MainRecipe.ROI_List = new List<ROI_Data>();
             foreach (var item in Ini.Values)
             {
-                ROI_Property Temp = new ROI_Property();
+                ROI_Data Temp = new ROI_Data();
                 Temp.Category = item["Category"].ToString();
                 Temp.Name = item["Name"].ToString();
                 Temp.X = item["X"].ToInt();
                 Temp.Y = item["Y"].ToInt();
                 Temp.Width = item["Width"].ToInt();
                 Temp.Height = item["Height"].ToInt();
-                Temp.Color = Color.FromArgb(item["Color"].ToInt());
+                //Temp.Color = Color.FromArgb(item["Color"].ToInt());
                 Systems.MainRecipe.ROI_List.Add(Temp);
             }
         }
@@ -331,21 +331,42 @@ namespace CRUX_Renewal.Class
         string cc = "테스트";
     }
 
+    public class ROI_Data
+    {
+        [Description("ROI의 Category입니다.")]
+        public string Category { get; set; }
+        [Description("ROI의 이름입니다.")]
+        public string Name { get; set; }
+        [Description("ROI의 시작점 X입니다.")]
+        public double X { get; set; }
+        [Description("ROI의 시작점 Y입니다.")]
+        public double Y { get; set; }
+        [Description("ROI의 Width 입니다.")]
+        public double Width { get; set; }
+        [Description("ROI의 Height입니다.")]
+        public double Height { get; set; }
+        [Description("Rect의 Object입니다.")]
+        public object Object { get; set; }
+    }
     public class ROI_Property
     {
-        [Description("Category")]
-        public string Category { get; set; }
-        [Description("이름")]
+        [Description("ROI 이름입니다.")]
+        [ReadOnly(true)]
         public string Name { get; set; }
-        [Description("시작점 X")]
-        public int X { get; set; }
-        [Description("시작점 Y")]
-        public int Y { get; set; }
-        [Description("길이")]
-        public int Width { get; set; }
-        [Description("높이")]
-        public int Height { get; set; }
-        [Description("ROI 컬러"), Category("Dropdown")]
-        public Color Color { get; set; }
-    }
+        [Description("Line Style을 설정합니다.")]
+        public int LineStyle { get; set; }
+        [Description("Line Color를 설정합니다.")]
+        public int LineColor { get; set; }
+        [Description("ROI 생성 시 기본 배율입니다.")]
+        public double DefaultScale { get; set; }
+        [Description("Drag할 때 그려지는 GuideLine의 Color입니다.")]
+        public int DragLineColor { get; set; }
+        [Description("Drag할 때 그려지는 GuideLine의 Style입니다.")]
+        public int DragLineStyle { get; set; }
+        [Description("선택된 Line의 Style입니다.")]
+        public int SelectedLineStyle { get; set; }
+        [Description("선택된 Line의 Color입니다.")]
+        public Color SelectedLineColor { get; set; }
+
+    }   
 }

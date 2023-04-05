@@ -42,8 +42,25 @@ namespace PropertyGridEx
 				base.List[index] = value;
 			}
 		}
-		
-		public virtual void Remove(string Name)
+        public virtual CustomProperty this[string index]
+        {
+            get
+            {
+                for(int i = 0; i < InnerList.Count; ++i)
+                {
+                    if ((base.List[i] as CustomProperty).Name == index)
+                        return (CustomProperty)base.List[i];
+                }
+                return null;
+            }
+            set
+            {
+                int idx = base.List.IndexOf(index);
+                base.List[idx] = value;
+            }
+        }
+        
+        public virtual void Remove(string Name)
 		{
 			CustomProperty CustomProp;
 			foreach (CustomProperty tempLoopVar_CustomProp in base.List)
@@ -65,11 +82,19 @@ namespace PropertyGridEx
 		{
 			return TypeDescriptor.GetAttributes(this, true);
 		}
-		
-		public string GetClassName()
+		public CustomProperty FindCategory(string name)
+        {
+            foreach (CustomProperty item in base.List)
+            {
+                if (item.Category == name)
+                    return item;                
+            }
+            return null;
+        }
+        public string GetClassName()
 		{
 			return TypeDescriptor.GetClassName(this, true);
-		}
+		}     
 		
 		public string GetComponentName()
 		{

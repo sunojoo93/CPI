@@ -1,6 +1,8 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.QuickBuild;
+using Cognex.VisionPro.QuickBuild.Implementation.Internal;
+using Cognex.VisionPro.ToolGroup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,6 +65,17 @@ namespace CRUX_Renewal.Utils
             img.Close();
 
             return image8Grey;
+        }
+        public static CogJob CreateNewJob()
+        {
+            CogJob Temp = new CogJob();
+            var Tool = Systems.MainRecipe.Manager.Job(0).VisionTool as CogToolGroup ;
+            //Tool.Tools.Add(new CogImageTool)
+            //Tool. CogInputImageTool
+            Temp.VisionTool = new CogToolGroup();
+            Tool = Temp.VisionTool as CogToolGroup;
+            Tool.Tools.Add(new CogInputImageTool());
+            return Temp;
         }
     }
 }
