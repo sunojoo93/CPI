@@ -315,7 +315,7 @@ public class IniFile : IEnumerable<KeyValuePair<string, IniSection>>, IDictionar
     public IEqualityComparer<string> StringComparer;
 
     public bool SaveEmptySections;
-
+    string IniPath = string.Empty;
     public IniFile() 
         : this(DefaultComparer) {
     }
@@ -396,6 +396,7 @@ public class IniFile : IEnumerable<KeyValuePair<string, IniSection>>, IDictionar
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
+                IniPath = path;
                 Load(stream, ordered);
             }
         }
@@ -405,7 +406,10 @@ public class IniFile : IEnumerable<KeyValuePair<string, IniSection>>, IDictionar
             throw ex;
         }
     }
-
+    public string GetIniPath()
+    {
+        return IniPath;
+    }   
     public void Load(Stream stream, bool ordered = false)
     {
         try

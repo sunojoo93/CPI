@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,8 +22,8 @@ namespace CRUX_Renewal.Ex_Form
     public partial class Ex_Frm_Recipe_ROI : Form
     {
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         Label m_lbImageState = new Label();
-        CogRectangle mRect2;
         bool _shiftIsDown = false;
         public Ex_Frm_Recipe_ROI()
         {
@@ -67,28 +68,62 @@ namespace CRUX_Renewal.Ex_Form
                 Prop.Name = inner_item["Name"].ToString();
                 Prop.LineColor = inner_item["LineColor"].ToInt();
                 Prop.LineStyle = inner_item["LineStyle"].ToInt();
+                Prop.SelectedLineStyle = inner_item["SelectedLineStyle"].ToInt();
+                Prop.SelectedLineColor = inner_item["SelectedColor"].ToInt();
+                Prop.DragLineStyle = inner_item["DragLineStyle"].ToInt();
+                Prop.DragLineColor = inner_item["DragLineColor"].ToInt();
                 Prop.DefaultScale = inner_item["DefaultScale"].ToDouble();
-                Prop.SelectedLineColor = Color.Black;
+
                 CustomProperty Cp = new CustomProperty("Appearance", Prop, true, inner_item["Name"].ToString(), inner_item["Description"].ToString(), true) { IsBrowsable = true };
 
                 PGE_ROIProp.Item.Add(Cp);
             }
 
             PGE_ROIProp.Refresh();
-            MenuItem[] mis = new MenuItem[3];
+            MenuItem[] mis = new MenuItem[4];
             MenuItem mi1 = new MenuItem("추가");
             MenuItem mi2 = new MenuItem("삭제");
-            MenuItem mi3 = new MenuItem("이동");
+            MenuItem mi3 = new MenuItem("복사");
+            MenuItem mi4 = new MenuItem("이동");
             mis[0] = mi1;
             mis[1] = mi2;
             mis[2] = mi3;
+            mis[3] = mi4;
             ContextMenu cm = new ContextMenu(mis);
 
             mi1.Click += Mi1_Click;
             mi2.Click += Mi2_Click;
             mi3.Click += Mi3_Click;
+            mi4.Click += Mi4_Click;
             PGE_ROIList.ContextMenu = cm;
            
+        }
+        public void SaveROIProperty()
+        {
+            CustomPropertyCollection Props = PGE_ROIProp.Item;
+            IniFile Ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"];
+            Ini.Clear();
+            foreach(CustomProperty item in Props)
+            {
+                FieldInfo[] Field = typeof(ROI_Property).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                int i = 0;
+                IniSection Section = new IniSection();
+                Section.Add("Name", (item.Value as ROI_Property).Name);
+                Section.Add("LineColor", (item.Value as ROI_Property).LineColor);
+                Section.Add("LineStyle", (item.Value as ROI_Property).LineStyle);
+                Section.Add("SelectedLineStyle", (item.Value as ROI_Property).SelectedLineStyle);
+                Section.Add("SelectedColor", (item.Value as ROI_Property).SelectedLineColor.ToString());
+                Section.Add("DragLineStyle", (item.Value as ROI_Property).DragLineStyle);
+                Section.Add("DragLineColor", (item.Value as ROI_Property).DragLineColor);
+                Section.Add("DefaultScale", (item.Value as ROI_Property).DefaultScale);
+                Section.Add("Description", (item.Value as ROI_Property).Description);
+                Ini.Add(item.Category, Section);
+            }
+            Ini.Save(Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"].GetIniPath(), System.IO.FileMode.Create);
+        }
+        private void Mi4_Click(object sender, EventArgs e)
+        {
+      
         }
 
         private void Mi3_Click(object sender, EventArgs e)
@@ -99,6 +134,11 @@ namespace CRUX_Renewal.Ex_Form
         private void Mi2_Click(object sender, EventArgs e)
         {
             
+            var T = PGE_ROIList.SelectedGridItem;
+            CustomPropertyCollection T2 = (PGE_ROIList.SelectedObject as CustomPropertyCollection);
+
+       
+ 
         }
 
         private void Mi1_Click(object sender, EventArgs e)
@@ -112,16 +152,27 @@ namespace CRUX_Renewal.Ex_Form
             {
                 if (_shiftIsDown)
                 {
-                    string SelectedROIName = LstB_ROI.SelectedItem as string;
-                    if (SelectedROIName == null)
+                    string SelectedROICategory = LstB_ROI.SelectedItem as string;
+                    if (SelectedROICategory == null)
                     {
                         Ex_Frm_Notification_Announce Ano = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "선택된 ROI가 없습니다.");
                         Ano.ShowDialog();
                         return;
-                    }
+                    }     
+                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("입력", PGE_ROIList.SelectedObjects[0], SelectedROICategory);
+                    Input.ShowDialog();
+                    if(Input.DialogResult == DialogResult.Cancel || Input.ResultName == null)
+                    {
+                        return;
+                    }            
 
+                    CustomPropertyCollection TT = PGE_ROIList.SelectedObjects[0] as CustomPropertyCollection;
+
+                    string ROI_Name = Input.ResultName;
+  
+                    
                     CogRectangle Rect = new CogRectangle();
-                    var ROIProp = PGE_ROIProp.Item.FindCategory(SelectedROIName);
+                    var ROIProp = PGE_ROIProp.Item.FindCategory(SelectedROICategory);
                     ROI_Property Rp = (ROIProp.Value as ROI_Property);
 
 
@@ -138,7 +189,6 @@ namespace CRUX_Renewal.Ex_Form
                     //Rect.LineStyle = CogGraphicLineStyleConstants.Solid;
                     //Rect.DragLineStyle = CogGraphicLineStyleConstants.Solid;
                     //Rect.DragColor = CogColorConstants.Black;
-                    string ROI_Name = LstB_ROI.SelectedItem.ToString();
 
                     double co = CogColorConstants.Cyan.toDbl();
                     Cog_ROI_Display.DrawingEnabled = false;
@@ -152,15 +202,15 @@ namespace CRUX_Renewal.Ex_Form
 
        
                     ROI_Data Data = new ROI_Data();
-                    Data.Name = "ROI";
-                    Data.Category = ROI_Name;
+                    Data.Name = Input.ResultName;
+                    Data.Category = SelectedROICategory;
                     Data.X = Rect.X;
                     Data.Y = Rect.Y;
                     Data.Width = Rect.Width;
                     Data.Height = Rect.Height;
                     Data.Object = Rect;
 
-                    CustomProperty Cp = new CustomProperty("ROI", Data, false, ROI_Name, ROI_Name, true) { IsBrowsable = true };
+                    CustomProperty Cp = new CustomProperty(Input.ResultName, Data, false, SelectedROICategory, SelectedROICategory, true) { IsBrowsable = true };
                     PGE_ROIList.Item.Add(Cp);
                     PGE_ROIList.Refresh();
                 }
@@ -288,6 +338,11 @@ namespace CRUX_Renewal.Ex_Form
                 //var Temp2 = Temp.ToBitmap();
                 Cog_ROI_Display.Image = Temp;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveROIProperty();
         }
     }
 }

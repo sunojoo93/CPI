@@ -270,32 +270,55 @@ namespace CRUX_Renewal.Main_Form
 
 
             Systems.AliveList = new ALIVE_STATE[2];
-            //Systems.Evironment.MAX_LIGHT_CHANNEL_COUNT = 3; // 현재는 고정 
 
+            Systems.Ini_Collection = new List<Dictionary<string, IniFile>>();
 
-            //             Systems.g_frmload = new frm_Loading();
-            //             // Systems.m_fnProgressClose();
             for ( int i = 0; i < Globals.MaxVisionCnt; i++ )
-            {
-                if ( Modes.NET_SIMULATION_MODE )
-                    Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "DRIVE_SIMUL", Paths.INIT_PATH);
+            {        
+                Systems.Ini_Collection.Add(new Dictionary<string, IniFile>());
+                for(int j = 0; j < Globals.Ini_Init_Names.Length; ++j)
+                {
+                    IniFile Ini = new IniFile();
+                    string IniPath = $@"{Paths.INIT_FOLDER_PATH}{Globals.Ini_Init_Names[j]}";
+                    if (fileProc.FileExists(IniPath))
+                    {
+                        Ini.Load($@"{Paths.INIT_FOLDER_PATH}{Globals.Ini_Init_Names[j]}");
+                        Systems.Ini_Collection[i].Add(Globals.Ini_Init_Names[j], Ini);
+                    }
+                    else
+                        continue;
+                }
+                for (int j = 0; j < Globals.Ini_Data_Names.Length; ++j)
+                {
+                    IniFile Ini = new IniFile();
+                    string IniPath = $@"{Paths.TXT_FOLDER_PATH}{Globals.Ini_Data_Names[j]}";
+                    if (fileProc.FileExists(IniPath))
+                    {
+                        Ini.Load($@"{Paths.TXT_FOLDER_PATH}{Globals.Ini_Data_Names[j]}");
+                        Systems.Ini_Collection[i].Add(Globals.Ini_Data_Names[j], Ini);
+                    }
+                    else
+                        continue;
+                }
+
+
+                if (Modes.NET_SIMULATION_MODE)
+                    Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE_SIMUL", Paths.INIT_PATH);
                 else
-                    Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "DRIVE", Paths.INIT_PATH);
+                    Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE", Paths.INIT_PATH);
 
                 //Paths.OPERATION_PATH = iniUtl.GetIniValue("OperationPC", "Address", Paths.INIT_PATH); // 0623 JSO
-                Paths.NET_ORIGIN_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "ORIGIN_PATH", Paths.INIT_PATH);
-                Paths.NET_RESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "RESULT_PATH", Paths.INIT_PATH);
-                Paths.NET_INSPDATA_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "INSPDATA_PATH", Paths.INIT_PATH);
-                Paths.NET_PANEL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "PANELINFO_PATH", Paths.INIT_PATH);
-                Paths.NET_PANEL_MANUAL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "PANELINFO_MANUAL_PATH", Paths.INIT_PATH);
-                Paths.NET_ALGRESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "ALGOLITHM_RESULT_PATH", Paths.INIT_PATH);
-                Paths.NET_RECIPE_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "RECIPE_PATH", Paths.INIT_PATH);
+                Paths.NET_ORIGIN_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ORIGIN_PATH", Paths.INIT_PATH);
+                Paths.NET_RESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RESULT_PATH", Paths.INIT_PATH);
+                Paths.NET_INSPDATA_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INSPDATA_PATH", Paths.INIT_PATH);
+                Paths.NET_PANEL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_PATH", Paths.INIT_PATH);
+                Paths.NET_PANEL_MANUAL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_MANUAL_PATH", Paths.INIT_PATH);
+                Paths.NET_ALGRESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ALGOLITHM_RESULT_PATH", Paths.INIT_PATH);
+                Paths.NET_RECIPE_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RECIPE_PATH", Paths.INIT_PATH);
 
-                string strInitPath = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + ( i + 1 ), "INIT_PATH", Paths.INIT_PATH);
+                string strInitPath = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INIT_PATH", Paths.INIT_PATH);
                 Paths.NET_INITIAL_PATH[i] = Path.Combine(Paths.NET_DRIVE[i], strInitPath);
                 Paths.MANUAL_RESULT_DATA_DRIVE[i] = iniUtl.GetIniValue("DiskInformation", "Simulation Drive", "D", Paths.NET_INITIAL_PATH[i]).ToString().toSplit(0, '_') + Consts.NET_DRIVE_NAME;
-
-
 
                 Systems.AliveList[i].init();
             }

@@ -85,7 +85,10 @@ namespace CRUX_Renewal
 
         public static string RECIPE_PATH_RENEWAL = @"D:\CRUX\DATA\Recipes\";
         public static string ROI_PROPERTY = @"D:\CRUX\DATA\TXT\";
- 
+        public const string INIT_FOLDER_PATH = DEFAULT_DRIVE + @"CRUX\DATA\INI\";
+        public const string TXT_FOLDER_PATH = DEFAULT_DRIVE + @"CRUX\DATA\TXT\";
+
+
     }
     static class Globals
     {        
@@ -106,6 +109,9 @@ namespace CRUX_Renewal
         private static bool[] bIsSavedRecipe;
         public static double ROI_RATIO = 0.8;
         public static List<string> MAINFORM_NAME { get; set; }
+
+        public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
+        public static string[] Ini_Data_Names = { "ROI_Property.dat" };
 
         public static void m_fnInitSelectRecipe(int nCnt)
         {
@@ -582,6 +588,16 @@ namespace CRUX_Renewal
             [StringValue("Btn_SIMCAM_State")]
             [Description("SimulationCameraTask")]
             Sim_Cam = 5,
+            MAX
+        };
+        public enum Ini_Names : int
+        {
+            [StringValue("Initialize.ini")]
+            Initialize = 0,
+            [StringValue("CRUX_GUI_Renewal.ini")]  
+            Gui = 1,
+            [StringValue("CRUX_Sequence.ini")]
+            Sequence = 2,
             MAX
         };
     }

@@ -382,6 +382,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\ColorEditor.cs" />
+    <Compile Include="Class\ColorValuesConverter.cs" />
     <Compile Include="Ex_Form\Account\Ex_Frm_Account_Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -448,6 +450,12 @@
     <Compile Include="Ex_Form\Ex_Frm_Optic_Area.Designer.cs">
       <DependentUpon>Ex_Frm_Optic_Area.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_New_Input.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_New_Input.Designer.cs">
+      <DependentUpon>Ex_Frm_Others_New_Input.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Select_Color.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -460,11 +468,11 @@
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Loading.Designer.cs">
       <DependentUpon>Ex_Frm_Others_Loading.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Input.cs">
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Change_Input.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Input.Designer.cs">
-      <DependentUpon>Ex_Frm_Others_Input.cs</DependentUpon>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Change_Input.Designer.cs">
+      <DependentUpon>Ex_Frm_Others_Change_Input.cs</DependentUpon>
     </Compile>
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.cs">
       <SubType>Form</SubType>
@@ -604,6 +612,9 @@
     <EmbeddedResource Include="Ex_Form\Notification\Ex_Frm_Notification_Announce.resx">
       <DependentUpon>Ex_Frm_Notification_Announce.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_New_Input.resx">
+      <DependentUpon>Ex_Frm_Others_New_Input.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Select_Color.resx">
       <DependentUpon>Ex_Frm_Others_Select_Color.cs</DependentUpon>
     </EmbeddedResource>
@@ -659,8 +670,8 @@
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Loading.resx">
       <DependentUpon>Ex_Frm_Others_Loading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Input.resx">
-      <DependentUpon>Ex_Frm_Others_Input.cs</DependentUpon>
+    <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Change_Input.resx">
+      <DependentUpon>Ex_Frm_Others_Change_Input.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_JobList.resx">
       <DependentUpon>Ex_Frm_Recipe_JobList.cs</DependentUpon>

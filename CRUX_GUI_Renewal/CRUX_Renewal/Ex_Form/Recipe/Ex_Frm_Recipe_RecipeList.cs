@@ -144,7 +144,7 @@ namespace CRUX_Renewal.Ex_Form
 
                 m1.Click += (senders, es) =>
                 {
-                    Ex_Frm_Others_Input Input = new Ex_Frm_Others_Input("새 이름을 입력해주세요.", SelectRecipe);
+                    Ex_Frm_Others_Change_Input Input = new Ex_Frm_Others_Change_Input("새 이름을 입력해주세요.", SelectRecipe);
                     Input.ShowDialog();
                     if (Input.DialogResult == DialogResult.OK)
                     {

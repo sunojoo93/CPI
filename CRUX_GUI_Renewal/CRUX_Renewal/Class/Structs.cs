@@ -1,4 +1,5 @@
-﻿using Cognex.VisionPro;
+﻿using Classes;
+using Cognex.VisionPro;
 using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.Utils;
 using System;
@@ -334,6 +335,7 @@ namespace CRUX_Renewal.Class
     public class ROI_Data
     {
         [Description("ROI의 Category입니다.")]
+        [ReadOnly(true)]
         public string Category { get; set; }
         [Description("ROI의 이름입니다.")]
         public string Name { get; set; }
@@ -352,8 +354,9 @@ namespace CRUX_Renewal.Class
     {
         [Description("ROI 이름입니다.")]
         [ReadOnly(true)]
-        public string Name { get; set; }
-        [Description("Line Style을 설정합니다.")]
+         public string Name { get; set; }
+        [Description("Line Style을 설정합니다.")] 
+        [Editor(typeof(ColorValuesConverter),typeof(ColorEditor))]
         public int LineStyle { get; set; }
         [Description("Line Color를 설정합니다.")]
         public int LineColor { get; set; }
@@ -366,7 +369,9 @@ namespace CRUX_Renewal.Class
         [Description("선택된 Line의 Style입니다.")]
         public int SelectedLineStyle { get; set; }
         [Description("선택된 Line의 Color입니다.")]
-        public Color SelectedLineColor { get; set; }
+        public int SelectedLineColor { get; set; }
+        [Description("설명입니다.")]        
+        public string Description { get; set; }
 
     }   
 }

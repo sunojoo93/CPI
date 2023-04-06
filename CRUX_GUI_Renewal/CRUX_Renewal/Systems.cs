@@ -39,8 +39,9 @@ namespace CRUX_Renewal
         ////////// Property //////////
         // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
+        public static List<Dictionary<string, IniFile>> Ini_Collection;
+        //public static IniFile[] ROI_Property;        
 
-        public static string path;
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;
         public static async void SetCogJob(string vpp_path, string roi_path)

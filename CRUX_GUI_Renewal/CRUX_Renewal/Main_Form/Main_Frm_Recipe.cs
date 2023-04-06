@@ -120,6 +120,7 @@ namespace CRUX_Renewal.Main_Form
 
         private void Btn_Save_Click(object sender, System.EventArgs e)
         {
+ 
             CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Console.WriteLine($"Job: 0 Saved");
         }

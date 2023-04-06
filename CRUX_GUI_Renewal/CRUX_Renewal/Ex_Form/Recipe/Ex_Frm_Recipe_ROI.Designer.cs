@@ -49,6 +49,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Tb_ROI_Name = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_ImageLoad = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             PGE_ROIList = new PropertyGridEx.PropertyGridEx();
             PGE_ROIProp = new PropertyGridEx.PropertyGridEx();
             this.Tlp_ROI.SuspendLayout();
@@ -67,6 +68,7 @@ namespace CRUX_Renewal.Ex_Form
             // Tlp_ROI
             // 
             this.Tlp_ROI.AutoSize = true;
+            this.Tlp_ROI.BackColor = System.Drawing.Color.Transparent;
             this.Tlp_ROI.ColumnCount = 3;
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 740F));
             this.Tlp_ROI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
@@ -127,6 +129,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             // splitContainer1
             // 
+            this.splitContainer1.BackColor = System.Drawing.Color.Transparent;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
@@ -134,10 +137,12 @@ namespace CRUX_Renewal.Ex_Form
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Transparent;
             this.splitContainer1.Panel1.Controls.Add(this.Cog_Display_Toolbar);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.splitContainer1.Panel2.Controls.Add(this.Lb_Tooltip);
             this.splitContainer1.Size = new System.Drawing.Size(740, 26);
             this.splitContainer1.SplitterDistance = 246;
@@ -155,6 +160,7 @@ namespace CRUX_Renewal.Ex_Form
             // Lb_Tooltip
             // 
             this.Lb_Tooltip.AutoSize = true;
+            this.Lb_Tooltip.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Lb_Tooltip.Dock = System.Windows.Forms.DockStyle.Right;
             this.Lb_Tooltip.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_Tooltip.Location = new System.Drawing.Point(193, 0);
@@ -167,6 +173,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             // Gb_ROIs
             // 
+            this.Gb_ROIs.BackColor = System.Drawing.Color.Transparent;
             this.Tlp_ROI.SetColumnSpan(this.Gb_ROIs, 2);
             this.Gb_ROIs.Controls.Add(PGE_ROIList);
             this.Gb_ROIs.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -225,7 +232,7 @@ namespace CRUX_Renewal.Ex_Form
             PGE_ROIList.ToolStrip.Location = new System.Drawing.Point(0, 0);
             PGE_ROIList.ToolStrip.Name = "";
             PGE_ROIList.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            PGE_ROIList.ToolStrip.Size = new System.Drawing.Size(432, 578);
+            PGE_ROIList.ToolStrip.Size = new System.Drawing.Size(843, 3298);
             PGE_ROIList.ToolStrip.TabIndex = 1;
             PGE_ROIList.ToolStrip.TabStop = true;
             PGE_ROIList.ToolStrip.Text = "PropertyGridToolBar";
@@ -233,6 +240,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             // Gb_ROIProp
             // 
+            this.Gb_ROIProp.BackColor = System.Drawing.Color.Transparent;
             this.Gb_ROIProp.Controls.Add(PGE_ROIProp);
             this.Gb_ROIProp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Gb_ROIProp.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -290,7 +298,7 @@ namespace CRUX_Renewal.Ex_Form
             PGE_ROIProp.ToolStrip.Location = new System.Drawing.Point(0, 0);
             PGE_ROIProp.ToolStrip.Name = "";
             PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(432, 578);
+            PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(843, 3298);
             PGE_ROIProp.ToolStrip.TabIndex = 1;
             PGE_ROIProp.ToolStrip.TabStop = true;
             PGE_ROIProp.ToolStrip.Text = "PropertyGridToolBar";
@@ -298,6 +306,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             // Gb_ROI_CATEGORY
             // 
+            this.Gb_ROI_CATEGORY.BackColor = System.Drawing.Color.Transparent;
             this.Gb_ROI_CATEGORY.Controls.Add(this.Tlp_ROI_List);
             this.Gb_ROI_CATEGORY.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Gb_ROI_CATEGORY.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -383,6 +392,7 @@ namespace CRUX_Renewal.Ex_Form
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.Controls.Add(this.Btn_ImageLoad, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button1, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(940, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -395,6 +405,7 @@ namespace CRUX_Renewal.Ex_Form
             // Btn_ImageLoad
             // 
             this.Btn_ImageLoad.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_ImageLoad.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_ImageLoad.Location = new System.Drawing.Point(616, 0);
             this.Btn_ImageLoad.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_ImageLoad.Name = "Btn_ImageLoad";
@@ -404,11 +415,21 @@ namespace CRUX_Renewal.Ex_Form
             this.Btn_ImageLoad.UseVisualStyleBackColor = true;
             this.Btn_ImageLoad.Click += new System.EventHandler(this.Btn_ImageLoad_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 20);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Ex_Frm_Recipe_ROI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gainsboro;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1756, 756);
             this.Controls.Add(this.Tlp_ROI);
             this.DoubleBuffered = true;
@@ -452,5 +473,6 @@ namespace CRUX_Renewal.Ex_Form
         private System.Windows.Forms.GroupBox Gb_ROIProp;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button Btn_ImageLoad;
+        private System.Windows.Forms.Button button1;
     }
 }
