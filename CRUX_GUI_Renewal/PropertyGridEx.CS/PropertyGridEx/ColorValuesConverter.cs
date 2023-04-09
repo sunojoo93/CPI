@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PropertyGridEx
+namespace PropertyGridExt
 {
-    class ColorValuesConverter : EnumConverter
+    public class ColorValuesConverter : EnumConverter
     {
         private Type _enumType;
 

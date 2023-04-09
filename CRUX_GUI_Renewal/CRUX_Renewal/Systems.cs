@@ -108,6 +108,5 @@ namespace CRUX_Renewal
         {
             return TempRecipe;
         }
-
     }
 }

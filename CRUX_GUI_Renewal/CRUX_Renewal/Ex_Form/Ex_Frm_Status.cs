@@ -17,6 +17,7 @@ namespace CRUX_Renewal.Ex_Form
     public partial class Ex_Frm_Status : Form
     {
         public CancellationTokenSource TokenSource { get; set; }
+        public Task Checker = null;
         public Ex_Frm_Status ()
         {
             InitializeComponent();
@@ -29,7 +30,7 @@ namespace CRUX_Renewal.Ex_Form
             Timer_Time.Start();
             TokenSource = new CancellationTokenSource();
             Show();
-            Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));
+            Checker = Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));
         }
         public void StopCheckStatus()
         {
@@ -129,13 +130,13 @@ namespace CRUX_Renewal.Ex_Form
         {
             int nRet = Consts.APP_OK;
             CmdMsgParam Param = new CmdMsgParam();
-       
+
             while (true)
             {
                 try
                 {
                     if (token.IsCancellationRequested == true)
-                        break;
+                        return;
                     #region Camera Check
                     Param.ClearOffset();
                     Param.SetInteger(1);
@@ -200,7 +201,7 @@ namespace CRUX_Renewal.Ex_Form
                     else
                         Systems.AliveList[Systems.CurDisplayIndex].mainpc = false;
                     #endregion
-                    this.Invoke(new MethodInvoker(delegate ()
+                    BeginInvoke(new Action( () =>
                     {
                         SetState();
                     }));

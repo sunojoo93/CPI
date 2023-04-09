@@ -1,4 +1,4 @@
-namespace PropertyGridEx
+namespace PropertyGridExt
 {
     using System;
     using System.ComponentModel;

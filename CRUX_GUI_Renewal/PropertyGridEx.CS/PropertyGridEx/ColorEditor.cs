@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+    using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -7,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PropertyGridEx
+namespace PropertyGridExt
 {
-    class ColorEditor :UITypeEditor
+    public class ColorEditor :UITypeEditor
     {
         public override bool GetPaintValueSupported(ITypeDescriptorContext context)
         {

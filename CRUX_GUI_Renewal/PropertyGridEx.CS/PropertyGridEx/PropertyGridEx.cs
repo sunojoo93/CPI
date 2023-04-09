@@ -1,4 +1,4 @@
-namespace PropertyGridEx
+namespace PropertyGridExt
 {
     using System;
     using System.Collections;
@@ -103,7 +103,6 @@ namespace PropertyGridEx
             method.Invoke(oDocComment, new object[] { title, description });
 			//oDocComment.SetComment(title, description);
 		}
-		
 		#endregion
 		
 		#region "Protected Functions"

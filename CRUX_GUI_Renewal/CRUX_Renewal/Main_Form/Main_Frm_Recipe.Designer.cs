@@ -93,6 +93,7 @@
             this.Tab_RecipeMain.SelectedIndex = 0;
             this.Tab_RecipeMain.Size = new System.Drawing.Size(1461, 779);
             this.Tab_RecipeMain.TabIndex = 0;
+            this.Tab_RecipeMain.SelectedIndexChanged += new System.EventHandler(this.Tab_RecipeMain_SelectedIndexChanged);
             // 
             // tab_algorithm
             // 

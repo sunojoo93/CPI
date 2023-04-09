@@ -600,6 +600,16 @@ namespace CRUX_Renewal
             Sequence = 2,
             MAX
         };
+        public enum Cognex_Colors
+        {
+            [StringValue("Initialize.ini")]
+            Initialize = 0,
+            [StringValue("CRUX_GUI_Renewal.ini")]
+            Gui = 1,
+            [StringValue("CRUX_Sequence.ini")]
+            Sequence = 2,
+            MAX
+        };
     }
 
 class GlobalConstance

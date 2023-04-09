@@ -69,7 +69,7 @@ namespace CRUX_Renewal
                 Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i] });
                 Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
             }
-          
+
             SetForm(Program.Frm_MainContent_[0]);
 
             //Program.Frm_Main.CurDisplayForm = Program.Frm_MainContent_[0].Name;
@@ -78,7 +78,7 @@ namespace CRUX_Renewal
         }
         public void SetForm(Frm_MainContent form)
         {
-            Tlp_Main.Controls.Add(form,0,1);
+            Tlp_Main.Controls.Add(form, 0, 1);
             Tlp_Main.SetColumnSpan(form, 7);
             Program.Frm_MainContent_[0].Show();
         }
@@ -99,7 +99,7 @@ namespace CRUX_Renewal
         private void Btn_Exit_Click(object sender, EventArgs e)
         {
             Frm_Status.StopCheckStatus();
-            Program.ProgramExit();            
+            Program.ProgramExit();
         }
 
         private new DialogResult ShowDialog()
@@ -167,6 +167,5 @@ namespace CRUX_Renewal
                 throw;
             }
         }
-
     }
 }

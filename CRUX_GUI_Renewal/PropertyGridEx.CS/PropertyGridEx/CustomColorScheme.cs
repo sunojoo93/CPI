@@ -1,4 +1,4 @@
-namespace PropertyGridEx
+namespace PropertyGridExt
 {
     using System.Drawing;
     using System.Windows.Forms;

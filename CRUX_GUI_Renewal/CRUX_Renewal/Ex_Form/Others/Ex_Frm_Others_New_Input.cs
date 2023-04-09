@@ -1,6 +1,6 @@
 ﻿using CRUX_Renewal.Class;
 using CRUX_Renewal.Utils;
-using PropertyGridEx;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PropertyGridExt;
 
 namespace CRUX_Renewal.Ex_Form
 {
@@ -107,11 +108,12 @@ namespace CRUX_Renewal.Ex_Form
             if(Obj.GetType() == typeof(CustomPropertyCollection))
             {
                 CustomPropertyCollection Items = Obj as CustomPropertyCollection;
-                if (Tb_AfterName.Text == "")
+                if (Tb_AfterName.Text == "" || Tb_AfterName.Text.ToString().Any( x => Char.IsWhiteSpace(x) == true))
                 {
                     Tb_AfterName.BackColor = Color.Pink;
                     Lb_Memo.Text = "공백은 허용되지 않습니다.";
                     State = false;
+                    return;
                 }
                 else if (Items.Count <= 0)
                 {
@@ -130,7 +132,13 @@ namespace CRUX_Renewal.Ex_Form
                                 Tb_AfterName.BackColor = Color.Pink;
                                 Lb_Memo.Text = "중복된 이름입니다.";
                                 State = false;
-                                return;
+                                break;
+                            }
+                            else
+                            {
+                                Tb_AfterName.BackColor = Color.LightGreen;
+                                Lb_Memo.Text = "생성할 수 있습니다.";
+                                State = true;
                             }
                         }
                         else

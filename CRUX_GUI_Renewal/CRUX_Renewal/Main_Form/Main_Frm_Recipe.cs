@@ -149,5 +149,10 @@ namespace CRUX_Renewal.Main_Form
             //Mat tt = OpenCvSharp.Cv2.ImRead(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\All-1.bmp", OpenCvSharp.ImreadModes.Unchanged);
             //uctrl_MainPic1.m_fnSetBitmap(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\All-1.bmp");
         }
+
+        private void Tab_RecipeMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.Refresh();
+        }
     }
 }

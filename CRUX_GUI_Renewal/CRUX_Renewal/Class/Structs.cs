@@ -1,5 +1,4 @@
-﻿using Classes;
-using Cognex.VisionPro;
+﻿using Cognex.VisionPro;
 using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.Utils;
 using System;
@@ -356,20 +355,20 @@ namespace CRUX_Renewal.Class
         [ReadOnly(true)]
          public string Name { get; set; }
         [Description("Line Style을 설정합니다.")] 
-        [Editor(typeof(ColorValuesConverter),typeof(ColorEditor))]
-        public int LineStyle { get; set; }
+        public CogGraphicLineStyleConstants LineStyle { get; set; }
         [Description("Line Color를 설정합니다.")]
-        public int LineColor { get; set; }
+        //[Editor(typeof(ColorEditor), typeof(ColorValuesConverter))]
+        public CogColorConstants LineColor { get; set; }
         [Description("ROI 생성 시 기본 배율입니다.")]
         public double DefaultScale { get; set; }
         [Description("Drag할 때 그려지는 GuideLine의 Color입니다.")]
-        public int DragLineColor { get; set; }
+        public CogColorConstants DragLineColor { get; set; }
         [Description("Drag할 때 그려지는 GuideLine의 Style입니다.")]
-        public int DragLineStyle { get; set; }
+        public CogGraphicLineStyleConstants DragLineStyle { get; set; }
         [Description("선택된 Line의 Style입니다.")]
-        public int SelectedLineStyle { get; set; }
+        public CogGraphicLineStyleConstants SelectedLineStyle { get; set; }
         [Description("선택된 Line의 Color입니다.")]
-        public int SelectedLineColor { get; set; }
+        public CogColorConstants SelectedLineColor { get; set; }
         [Description("설명입니다.")]        
         public string Description { get; set; }
 

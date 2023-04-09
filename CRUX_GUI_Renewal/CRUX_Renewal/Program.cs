@@ -66,12 +66,28 @@ namespace CRUX_Renewal
         }
         public static void ProgramExit()
         {
+           
+            while (Program.Frm_Main.Frm_Status.Checker.IsCompleted != true)
+            {
+                Thread.Sleep(10);
+            }
+            Systems.MainRecipe.Manager.Shutdown();
+            Systems.TempRecipe.Manager.Shutdown();
+
             Program.KillAllTask();
             Systems.LogWriter.Info("Process Exit");
-            Systems.MainRecipe.Manager.Shutdown();
+
             foreach (var item in Frm_MainContent_)
-                item.Close();     
-            Application.Exit();
+                item.Close();
+
+            Program.Frm_Main.Hide();
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
+   
+           
+            //Application.ExitThread();
+            //Environment.Exit(0);
+            //Application.Exit();
+
         }
         static Process IsExistProcess ()
         {
@@ -234,12 +250,15 @@ namespace CRUX_Renewal
         {
             try
             {
-                foreach ( var proc in ProcessList )
-                {              
+                foreach (var proc in ProcessList)
+                {
                     proc.Proc.Kill();
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
         public static ProcessSet GetProcess(string name)
         {
