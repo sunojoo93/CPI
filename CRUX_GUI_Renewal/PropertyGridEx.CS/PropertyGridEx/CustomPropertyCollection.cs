@@ -86,7 +86,7 @@ namespace PropertyGridExt
         {
             foreach (CustomProperty item in base.List)
             {
-                if (item.Category == name)
+                if (item.Name == name)
                     return item;                
             }
             return null;

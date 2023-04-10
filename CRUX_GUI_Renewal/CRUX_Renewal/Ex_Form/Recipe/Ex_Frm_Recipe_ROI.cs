@@ -5,7 +5,6 @@ using CRUX_Renewal.Class;
 using CRUX_Renewal.Ex_Form;
 using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
-using PropertyGridEx;
 using PropertyGridExt;
 using System;
 using System.Collections.Generic;
@@ -98,7 +97,7 @@ namespace CRUX_Renewal.Ex_Form
                 Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["DragLineStyle"].ToString());
                 Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["DragLineColor"].ToString());
                 Prop.DefaultScale = inner_item["DefaultScale"].ToDouble();
-                CustomProperty Cp = new CustomProperty("Appearance", Prop, true, inner_item["Name"].ToString(), inner_item["Description"].ToString(), true) { IsBrowsable = true };
+                CustomProperty Cp = new CustomProperty(inner_item["Name"].ToString(), Prop, true, "Appearance", inner_item["Description"].ToString(), true) { IsBrowsable = true };
                
 
                 PGE_ROIProp.Item.Add(Cp);
@@ -142,7 +141,7 @@ namespace CRUX_Renewal.Ex_Form
                 Section.Add("DragLineColor", ((int)(item.Value as ROI_Property).DragLineColor).ToString());
                 Section.Add("DefaultScale", (item.Value as ROI_Property).DefaultScale);
                 Section.Add("Description", (item.Value as ROI_Property).Description);
-                Ini.Add(item.Category, Section);
+                Ini.Add((item.Value as ROI_Property).Name, Section);
             }
             Ini.Save(Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"].GetIniPath(), System.IO.FileMode.Create);
         }
@@ -224,9 +223,11 @@ namespace CRUX_Renewal.Ex_Form
                     Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
                     Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
                     Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
-             
-                    Cog_ROI_Display.InteractiveGraphics.Add(Rect, SelectedROICategory, false);
-                    int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROI_Name, CogDisplayZOrderConstants.Front);
+
+                    string ROIName = $"{SelectedROICategory}^{Input.ResultName}";
+
+                    Cog_ROI_Display.InteractiveGraphics.Add(Rect, ROIName, false);
+                    int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
                     Cog_ROI_Display.DrawingEnabled = true;
 
                     ROI_Data Data = new ROI_Data();
@@ -290,7 +291,8 @@ namespace CRUX_Renewal.Ex_Form
                 #region ROI 클릭 시 PGE 하이라이트 기능
                 else
                 {
-                    var Sel = Cog_ROI_Display.Selection[0];
+                    var Sel = Cog_ROI_Display.Selection[0] as CogRectangle;
+
                     // 선택한 객체가 CustomProperty 일 경우
                     if ((PGE_ROIList.SelectedGridItem?.Parent?.Parent != null))
                     {
@@ -323,29 +325,35 @@ namespace CRUX_Renewal.Ex_Form
                     }
                 }
                 #endregion
-                if (Cog_ROI_Display.Selection.Count > 0)
-                {
-                    Cog_ROI_Display.DrawingEnabled = false;
-                    CogRectangle Sel = Cog_ROI_Display.Selection[Cog_ROI_Display.Selection.Count -1] as CogRectangle;
-                    for (int i = 0; i < PGE_ROIList.Item.Count; ++i)
-                    {
-                        if ((PGE_ROIList.Item[i].Value as ROI_Data).Object.Equals(Sel))
-                        {
-                            (PGE_ROIList.Item[i].Value as ROI_Data).X = Sel.X;
-                            (PGE_ROIList.Item[i].Value as ROI_Data).Y = Sel.Y;
-                            (PGE_ROIList.Item[i].Value as ROI_Data).Width = Sel.Width;
-                            (PGE_ROIList.Item[i].Value as ROI_Data).Height = Sel.Height;
-                        }
-                    }
-                    PGE_ROIList.Refresh();
-                    Cog_ROI_Display.DrawingEnabled = true;
-                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
 
+        private void Cog_ROI_Display_MouseUp(object sender, MouseEventArgs e)
+        {
+            LeftMouseDown = e.Button == MouseButtons.Left ? true : false;
+
+            if (Cog_ROI_Display.Selection.Count > 0)
+            {
+                Cog_ROI_Display.DrawingEnabled = false;
+                CogRectangle Sel2 = Cog_ROI_Display.Selection[0] as CogRectangle;
+                for (int i = 0; i < PGE_ROIList.Item.Count; ++i)
+                {
+                    if ((PGE_ROIList.Item[i].Value as ROI_Data).Object.Equals(Sel2))
+                    {
+                        (PGE_ROIList.Item[i].Value as ROI_Data).X = Sel2.X;
+                        (PGE_ROIList.Item[i].Value as ROI_Data).Y = Sel2.Y;
+                        (PGE_ROIList.Item[i].Value as ROI_Data).Width = Sel2.Width;
+                        (PGE_ROIList.Item[i].Value as ROI_Data).Height = Sel2.Height;
+                    }
+                }
+                PGE_ROIList.Refresh();
+
+                Cog_ROI_Display.DrawingEnabled = true;
+            }
         }
 
         private void Cog_ROI_Display_MouseMove(object sender, MouseEventArgs e)
@@ -543,12 +551,18 @@ namespace CRUX_Renewal.Ex_Form
         }
 
         private void PGE_ROIList_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
-        {
-            var Grid = e.NewSelection.Value as ROI_Data;
+        {          
+            GridItem Grid = (sender as PropertyGridEx).SelectedGridItem;
+           
             if (Grid != null)
             {
-                int Idx = Cog_ROI_Display.InteractiveGraphics.FindItem(Grid?.Object as CogRectangle, CogDisplayZOrderConstants.Back);
-                Cog_ROI_Display.InteractiveGraphics[Idx].Selected = true;             
+                var Temp = (Grid?.Value as ROI_Data);
+                if (Temp != null)
+                {
+                    int Idx = Cog_ROI_Display.InteractiveGraphics.FindItem($"{(Grid?.Value as ROI_Data).Category}^{(Grid?.Value as ROI_Data).Name}", CogDisplayZOrderConstants.Back);
+                    Cog_ROI_Display.InteractiveGraphics[Idx].Selected = true;
+                    
+                }
             }
         }
 

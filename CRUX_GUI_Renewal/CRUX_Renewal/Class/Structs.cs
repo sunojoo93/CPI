@@ -1,6 +1,7 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.Utils;
+using PropertyGridExt;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
