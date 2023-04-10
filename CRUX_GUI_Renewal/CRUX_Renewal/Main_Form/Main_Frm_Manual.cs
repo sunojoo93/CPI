@@ -54,8 +54,11 @@ namespace CRUX_Renewal.Main_Form
             mRect2.Interactive = true;
             mRect2.GraphicDOFEnable = CogRectangleDOFConstants.All;
             cogDisplay1.InteractiveGraphics.Add(mRect2, "Rect", true);
-          
- 
+
+
+            //ROI_Property Rp = new ROI_Property();
+            //Rp.Name = "AAA";
+            //Rp.
         }
 
         private void CogDisplay1_Click(object sender, EventArgs e)
