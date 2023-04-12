@@ -3,6 +3,7 @@ using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.QuickBuild.Implementation.Internal;
 using Cognex.VisionPro.ToolGroup;
+using CRUX_Renewal.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;

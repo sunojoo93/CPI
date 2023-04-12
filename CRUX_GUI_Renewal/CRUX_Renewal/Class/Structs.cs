@@ -334,44 +334,231 @@ namespace CRUX_Renewal.Class
 
     public class ROI_Data
     {
+        private string _Category;
+        private string _Name;
+        private double _X;
+        private double _Y;
+        private double _Width;
+        private double _Height;
+        private object _Object;
+
         [Description("ROI의 Category입니다.")]
         [ReadOnly(true)]
-        public string Category { get; set; }
+        public string Category
+        {
+            get
+            {
+                return _Category;
+            }
+            set
+            {
+                _Category = value;
+            }
+        }
         [Description("ROI의 이름입니다.")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                _Name = value;
+            }
+        }
         [Description("ROI의 시작점 X입니다.")]
-        public double X { get; set; }
+        public double X
+        {
+            get
+            {
+                return _X;
+            }
+            set
+            {
+                _X = value;
+            }
+        }
         [Description("ROI의 시작점 Y입니다.")]
-        public double Y { get; set; }
+        public double Y
+        {
+            get
+            {
+                return _Y;
+            }
+            set
+            {
+                _Y = value;
+            }
+        }
         [Description("ROI의 Width 입니다.")]
-        public double Width { get; set; }
+        public double Width
+        {
+            get
+            {
+                return _Width;
+            }
+            set
+            {
+                _Width = value;
+            }
+        }
         [Description("ROI의 Height입니다.")]
-        public double Height { get; set; }
+        public double Height
+        {
+            get
+            {
+                return _Height;
+            }
+            set
+            {
+                _Height = value;
+            }
+        }
         [Description("Rect의 Object입니다.")]
-        public object Object { get; set; }
+        public object Object
+        {
+            get
+            {
+                return _Object;
+            }
+            set
+            {
+                _Object = value;
+            }
+        }
     }
     public class ROI_Property
     {
+        private string _Name { get; set; }
+        private CogGraphicLineStyleConstants _LineStyle = CogGraphicLineStyleConstants.Solid;
+        private CogColorConstants _LineColor = CogColorConstants.Red;
+        private CogColorConstants _DragLineColor = CogColorConstants.Cyan;
+        private CogGraphicLineStyleConstants _DragLineStyle = CogGraphicLineStyleConstants.Solid;
+        private CogColorConstants _SelectedLineColor = CogColorConstants.Yellow;
+        private CogGraphicLineStyleConstants _SelectedLineStyle = CogGraphicLineStyleConstants.Solid;
+        private double _DefaultScale = 0.8;
+        private string _Description;
+
+        public ROI_Property()
+        {
+            int a = 0;
+        }
         [Description("ROI 이름입니다.")]
         [ReadOnly(true)]
-         public string Name { get; set; }
-        [Description("Line Style을 설정합니다.")] 
-        public CogGraphicLineStyleConstants LineStyle { get; set; }
+        public string Name {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                _Name = value;
+            }
+        }
+        [Description("Line Style을 설정합니다.")]
+        [DefaultValue(CogGraphicLineStyleConstants.Solid)]
+        public CogGraphicLineStyleConstants LineStyle
+        {
+            get
+            {
+                return _LineStyle;
+            }
+            set
+            {
+                _LineStyle = value;
+            }
+        }
         [Description("Line Color를 설정합니다.")]
+        [DefaultValue(CogColorConstants.Red)]
         //[Editor(typeof(ColorEditor), typeof(ColorValuesConverter))]
-        public CogColorConstants LineColor { get; set; }
+        public CogColorConstants LineColor
+        {
+            get
+            {
+                return _LineColor;
+            }
+            set
+            {
+                _LineColor = value;
+            }
+        }
         [Description("ROI 생성 시 기본 배율입니다.")]
-        public double DefaultScale { get; set; }
+        [DefaultValue(0.8)]
+        public double DefaultScale
+        {
+            get
+            {
+                return _DefaultScale;
+            }
+            set
+            {
+                _DefaultScale = value;
+            }
+        }
         [Description("Drag할 때 그려지는 GuideLine의 Color입니다.")]
-        public CogColorConstants DragLineColor { get; set; }
+        [DefaultValue(CogColorConstants.Red)]
+        public CogColorConstants DragLineColor
+        {
+            get
+            {
+                return _DragLineColor;
+            }
+            set
+            {
+                _DragLineColor = value;
+            }
+        }
         [Description("Drag할 때 그려지는 GuideLine의 Style입니다.")]
-        public CogGraphicLineStyleConstants DragLineStyle { get; set; }
+        [DefaultValue(CogGraphicLineStyleConstants.Solid)]
+        public CogGraphicLineStyleConstants DragLineStyle
+        {
+            get
+            {
+                return _DragLineStyle;
+            }
+            set
+            {
+                _DragLineStyle = value;
+            }
+        }
         [Description("선택된 Line의 Style입니다.")]
-        public CogGraphicLineStyleConstants SelectedLineStyle { get; set; }
+        [DefaultValue(CogGraphicLineStyleConstants.Solid)]
+        public CogGraphicLineStyleConstants SelectedLineStyle
+        {
+            get
+            {
+                return _SelectedLineStyle;
+            }
+            set
+            {
+                _SelectedLineStyle = value;
+            }
+        }
         [Description("선택된 Line의 Color입니다.")]
-        public CogColorConstants SelectedLineColor { get; set; }
+        [DefaultValue(CogColorConstants.Red)]
+        public CogColorConstants SelectedLineColor
+        {
+            get
+            {
+                return _SelectedLineColor;
+            }
+            set
+            {
+                _SelectedLineColor = value;
+            }
+        }
         [Description("설명입니다.")]        
-        public string Description { get; set; }
-
+        public string Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                _Description = value;
+            }
+        }
     }   
 }

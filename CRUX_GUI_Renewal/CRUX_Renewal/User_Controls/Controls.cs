@@ -175,6 +175,13 @@ namespace CRUX_Renewal.User_Controls
             this.SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
         }
     }
+    public class DoubleBufferdListView: ListView
+    {
+        public DoubleBufferdListView() : base()
+        {
+            this.SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
+        }
+    }
     public class GradientPanel : Panel
 
     {

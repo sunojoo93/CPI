@@ -82,7 +82,7 @@ namespace PropertyGridExt
 		{
 			return TypeDescriptor.GetAttributes(this, true);
 		}
-		public CustomProperty FindCategory(string name)
+		public CustomProperty FindName(string name)
         {
             foreach (CustomProperty item in base.List)
             {

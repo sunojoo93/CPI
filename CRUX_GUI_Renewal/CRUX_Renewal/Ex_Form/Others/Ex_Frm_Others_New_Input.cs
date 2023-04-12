@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PropertyGridExt;
+using static System.Windows.Forms.ListView;
 
 namespace CRUX_Renewal.Ex_Form
 {
@@ -45,6 +46,7 @@ namespace CRUX_Renewal.Ex_Form
             Lb_ErrorTitle.Text = form_title;
             Category = category;
             Obj = obj;
+
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
         }
@@ -108,51 +110,51 @@ namespace CRUX_Renewal.Ex_Form
             Tb_AfterName.BackColor = Color.LightGreen;
             Lb_Memo.Text = "생성할 수 있습니다.";
             State = true;
-            //if(Obj.GetType() == typeof(CustomPropertyCollection))
-            //{
-            //CustomPropertyCollection Items = Obj as CustomPropertyCollection;
-            //if (Tb_AfterName.Text == "" || Tb_AfterName.Text.ToString().Any( x => Char.IsWhiteSpace(x) == true))
-            //{
-            //    Tb_AfterName.BackColor = Color.Pink;
-            //    Lb_Memo.Text = "공백은 허용되지 않습니다.";
-            //    State = false;
-            //    return;
-            //}
-            //else if (Items.Count <= 0)
-            //{
-            //    Tb_AfterName.BackColor = Color.LightGreen;
-            //    Lb_Memo.Text = "생성할 수 있습니다.";
-            //    State = true;
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < Items.Count; ++i)
-            //    {
-            //        if (Items[i].Category == Category)
-            //        {
-            //            if (Items[i].Name == Tb_AfterName.Text)
-            //            {
-            //                Tb_AfterName.BackColor = Color.Pink;
-            //                Lb_Memo.Text = "중복된 이름입니다.";
-            //                State = false;
-            //                break;
-            //            }
-            //            else
-            //            {
-            //                Tb_AfterName.BackColor = Color.LightGreen;
-            //                Lb_Memo.Text = "생성할 수 있습니다.";
-            //                State = true;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            Tb_AfterName.BackColor = Color.LightGreen;
-            //            Lb_Memo.Text = "생성할 수 있습니다.";
-            //            State = true;
-            //        }
-            //    }
-            //}
-            //}
+            if (Obj.GetType() == typeof(ListViewItemCollection))
+            {
+                ListViewItemCollection Items = Obj as ListViewItemCollection;
+                if (Tb_AfterName.Text == "" || Tb_AfterName.Text.ToString().Any(x => Char.IsWhiteSpace(x) == true))
+                {
+                    Tb_AfterName.BackColor = Color.Pink;
+                    Lb_Memo.Text = "공백은 허용되지 않습니다.";
+                    State = false;
+                    return;
+                }
+                else if (Items.Count <= 0)
+                {
+                    Tb_AfterName.BackColor = Color.LightGreen;
+                    Lb_Memo.Text = "생성할 수 있습니다.";
+                    State = true;
+                }
+                else
+                {
+                    for (int i = 0; i < Items.Count; ++i)
+                    {
+                        if (Items[i].Group.Name == Category)
+                        {
+                            if (Items[i].Text == Tb_AfterName.Text)
+                            {
+                                Tb_AfterName.BackColor = Color.Pink;
+                                Lb_Memo.Text = "중복된 이름입니다.";
+                                State = false;
+                                break;
+                            }
+                            else
+                            {
+                                Tb_AfterName.BackColor = Color.LightGreen;
+                                Lb_Memo.Text = "생성할 수 있습니다.";
+                                State = true;
+                            }
+                        }
+                        else
+                        {
+                            Tb_AfterName.BackColor = Color.LightGreen;
+                            Lb_Memo.Text = "생성할 수 있습니다.";
+                            State = true;
+                        }
+                    }
+                }
+            }
         }
     }
 }

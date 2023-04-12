@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using CRUX_Renewal.User_Controls;
+using System.ComponentModel;
 
 namespace CRUX_Renewal.Ex_Form
 {
@@ -38,6 +39,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Cog_Display_Toolbar = new Cognex.VisionPro.CogDisplayToolbarV2();
             this.Lb_Tooltip = new System.Windows.Forms.Label();
             this.Gb_ROIs = new System.Windows.Forms.GroupBox();
+            this.InputBox = new System.Windows.Forms.TextBox();
             this.LstV_ROI = new System.Windows.Forms.ListView();
             this.Gb_ROIProp = new System.Windows.Forms.GroupBox();
             this.PGE_ROIProp = new PropertyGridExt.PropertyGridEx();
@@ -47,7 +49,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Btn_ROI_Add = new System.Windows.Forms.Button();
             this.Btn_ROI_Del = new System.Windows.Forms.Button();
             this.Tb_ROI_Name = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.Tlp_Button = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_ImageLoad = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.Tlp_ROI.SuspendLayout();
@@ -60,7 +62,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Gb_ROIProp.SuspendLayout();
             this.Gb_ROI_CATEGORY.SuspendLayout();
             this.Tlp_ROI_List.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.Tlp_Button.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_ROI
@@ -77,7 +79,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_ROI.Controls.Add(this.Gb_ROIs, 1, 2);
             this.Tlp_ROI.Controls.Add(this.Gb_ROIProp, 2, 1);
             this.Tlp_ROI.Controls.Add(this.Gb_ROI_CATEGORY, 1, 1);
-            this.Tlp_ROI.Controls.Add(this.tableLayoutPanel1, 2, 0);
+            this.Tlp_ROI.Controls.Add(this.Tlp_Button, 2, 0);
             this.Tlp_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_ROI.Location = new System.Drawing.Point(0, 0);
             this.Tlp_ROI.Margin = new System.Windows.Forms.Padding(0);
@@ -171,6 +173,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             this.Gb_ROIs.BackColor = System.Drawing.Color.Transparent;
             this.Tlp_ROI.SetColumnSpan(this.Gb_ROIs, 2);
+            this.Gb_ROIs.Controls.Add(this.InputBox);
             this.Gb_ROIs.Controls.Add(this.LstV_ROI);
             this.Gb_ROIs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Gb_ROIs.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -182,12 +185,18 @@ namespace CRUX_Renewal.Ex_Form
             this.Gb_ROIs.TabStop = false;
             this.Gb_ROIs.Text = "ROI List";
             // 
+            // InputBox
+            // 
+            this.InputBox.Location = new System.Drawing.Point(514, 421);
+            this.InputBox.Name = "InputBox";
+            this.InputBox.Size = new System.Drawing.Size(242, 25);
+            this.InputBox.TabIndex = 1;
+            // 
             // LstV_ROI
             // 
             this.LstV_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LstV_ROI.FullRowSelect = true;
             this.LstV_ROI.GridLines = true;
-            this.LstV_ROI.LabelEdit = true;
             this.LstV_ROI.Location = new System.Drawing.Point(3, 21);
             this.LstV_ROI.Margin = new System.Windows.Forms.Padding(0);
             this.LstV_ROI.MultiSelect = false;
@@ -196,6 +205,10 @@ namespace CRUX_Renewal.Ex_Form
             this.LstV_ROI.TabIndex = 0;
             this.LstV_ROI.UseCompatibleStateImageBehavior = false;
             this.LstV_ROI.View = System.Windows.Forms.View.Details;
+            this.LstV_ROI.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.LstV_ROI_DrawItem);
+            this.LstV_ROI.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.LstV_ROI_DrawSubItem);
+            this.LstV_ROI.SelectedIndexChanged += new System.EventHandler(this.LstV_ROI_SelectedIndexChanged);
+            this.LstV_ROI.MouseClick += new System.Windows.Forms.MouseEventHandler(this.LstV_ROI_MouseClick);
             this.LstV_ROI.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstV_ROI_MouseDoubleClick);
             // 
             // Gb_ROIProp
@@ -260,16 +273,12 @@ namespace CRUX_Renewal.Ex_Form
             this.PGE_ROIProp.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PGE_ROIProp.ToolStrip.Name = "";
             this.PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(78967, 458514875);
+            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(343049, 0);
             this.PGE_ROIProp.ToolStrip.TabIndex = 1;
             this.PGE_ROIProp.ToolStrip.TabStop = true;
             this.PGE_ROIProp.ToolStrip.Text = "PropertyGridToolBar";
             this.PGE_ROIProp.ToolStrip.Visible = false;
             this.PGE_ROIProp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PGE_ROIProp_PropertyValueChanged);
-            this.PGE_ROIProp.SelectedGridItemChanged += new System.Windows.Forms.SelectedGridItemChangedEventHandler(this.PGE_ROIProp_SelectedGridItemChanged);
-            this.PGE_ROIProp.SelectedObjectsChanged += new System.EventHandler(this.PGE_ROIProp_SelectedObjectsChanged);
-            this.PGE_ROIProp.Validating += new System.ComponentModel.CancelEventHandler(this.PGE_ROIProp_Validating);
-            this.PGE_ROIProp.Validated += new System.EventHandler(this.PGE_ROIProp_Validated);
             // 
             // Gb_ROI_CATEGORY
             // 
@@ -353,21 +362,21 @@ namespace CRUX_Renewal.Ex_Form
             this.Tb_ROI_Name.Size = new System.Drawing.Size(200, 25);
             this.Tb_ROI_Name.TabIndex = 3;
             // 
-            // tableLayoutPanel1
+            // Tlp_Button
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.Controls.Add(this.Btn_ImageLoad, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button1, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(940, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(816, 26);
-            this.tableLayoutPanel1.TabIndex = 133;
+            this.Tlp_Button.ColumnCount = 2;
+            this.Tlp_Button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_Button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.Tlp_Button.Controls.Add(this.Btn_ImageLoad, 1, 0);
+            this.Tlp_Button.Controls.Add(this.button1, 0, 0);
+            this.Tlp_Button.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_Button.Location = new System.Drawing.Point(940, 0);
+            this.Tlp_Button.Margin = new System.Windows.Forms.Padding(0);
+            this.Tlp_Button.Name = "Tlp_Button";
+            this.Tlp_Button.RowCount = 1;
+            this.Tlp_Button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_Button.Size = new System.Drawing.Size(816, 26);
+            this.Tlp_Button.TabIndex = 133;
             // 
             // Btn_ImageLoad
             // 
@@ -404,8 +413,8 @@ namespace CRUX_Renewal.Ex_Form
             this.KeyPreview = true;
             this.Name = "Ex_Frm_Recipe_ROI";
             this.Text = "Ex_Frm_AccountManage";
-            this.Load += new System.EventHandler(this.Ex_Frm_AccountManage_Load);
-            this.Shown += new System.EventHandler(this.Ex_Frm_AccountManage_Shown);
+            this.Load += new System.EventHandler(this.Ex_Frm_Recipe_ROI_Load);
+            this.Shown += new System.EventHandler(this.Ex_Frm_Recipe_ROI_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Ex_Frm_Recipe_ROI_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Ex_Frm_Recipe_ROI_KeyUp);
             this.Tlp_ROI.ResumeLayout(false);
@@ -416,11 +425,12 @@ namespace CRUX_Renewal.Ex_Form
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.Gb_ROIs.ResumeLayout(false);
+            this.Gb_ROIs.PerformLayout();
             this.Gb_ROIProp.ResumeLayout(false);
             this.Gb_ROI_CATEGORY.ResumeLayout(false);
             this.Tlp_ROI_List.ResumeLayout(false);
             this.Tlp_ROI_List.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.Tlp_Button.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -441,10 +451,11 @@ namespace CRUX_Renewal.Ex_Form
         private System.Windows.Forms.Label Lb_Tooltip;
         private System.Windows.Forms.GroupBox Gb_ROIs;
         private System.Windows.Forms.GroupBox Gb_ROIProp;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel Tlp_Button;
         private System.Windows.Forms.Button Btn_ImageLoad;
         private System.Windows.Forms.Button button1;
         private PropertyGridExt.PropertyGridEx PGE_ROIProp;
         private System.Windows.Forms.ListView LstV_ROI;
+        private System.Windows.Forms.TextBox InputBox;
     }
 }

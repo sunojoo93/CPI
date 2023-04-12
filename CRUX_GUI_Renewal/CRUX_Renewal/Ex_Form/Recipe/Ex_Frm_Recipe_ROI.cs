@@ -17,6 +17,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.ListView;
 
 namespace CRUX_Renewal.Ex_Form
 {
@@ -27,13 +28,9 @@ namespace CRUX_Renewal.Ex_Form
         bool LeftMouseDown = false;
 
         ListViewItem.ListViewSubItem curSB;
-
         ListViewItem curItem;
-
         bool cancelEdit;
-
-        TextBox InputBox = new TextBox();
-
+        bool Display_Draging = false;
         bool AltIsDown
         {
             get
@@ -68,13 +65,10 @@ namespace CRUX_Renewal.Ex_Form
             InitializeComponent();
             TopLevel = false;
             Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;
-        
-     
+            FormBorderStyle = FormBorderStyle.None;   
             
             Cog_ROI_Display.MouseDown += Cog_ROI_Display_MouseDown;
             Cog_ROI_Display.MouseMove += Cog_ROI_Display_MouseMove;
-            //Cog_ROI_Display.GridColor = Color.Red;
             Cog_ROI_Display.MouseUp += Cog_ROI_Display_MouseUp;
             Cog_ROI_Display.ScalingMethod = Cognex.VisionPro.Display.CogDisplayScalingMethodConstants.Integer;
             Cog_ROI_Display.Click += Cog_ROI_Display_Click;
@@ -84,13 +78,14 @@ namespace CRUX_Renewal.Ex_Form
             Cog_Display_Toolbar.Display = Cog_ROI_Display;
             Cog_Display_Status.Display = Cog_ROI_Display;
             Cog_ROI_Display.MultiSelectionEnabled = false;
-            //Cog_ROI_Display.Refresh();
             Show();
-            InitPGE();
+            InitPGE();        
 
             InputBox.KeyDown += InputBox_KeyDown;
-            //InputBox_Leave += InputBox_Leave;
+            InputBox.Leave += InputBox_Leave;
             InputBox.Hide();
+
+            
 
         }
         private void InitPGE()
@@ -103,15 +98,7 @@ namespace CRUX_Renewal.Ex_Form
             LstV_ROI.Columns.Add("Y", 150);
             LstV_ROI.Columns.Add("Width", 150);
             LstV_ROI.Columns.Add("Height", 150);
-            LstV_ROI.Columns.Add("Object",90);
-            //LstV_ROI.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            //ListView.ColumnHeaderCollection cc = LstV_ROI.Columns;
-            //foreach(ColumnHeader item in cc)
-            //{
-            //    int ColWidth = TextRenderer.MeasureText(item.Text, LstV_ROI.Font).Width + 10;
-            //    if (ColWidth > item.Width)
-            //        item.Width = ColWidth;
-            //}
+            LstV_ROI.Columns.Add("Object",120);
 
             foreach (var inner_item in Ini.Values)
             {
@@ -126,7 +113,6 @@ namespace CRUX_Renewal.Ex_Form
                 Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["DragLineColor"].ToString());
                 Prop.DefaultScale = inner_item["DefaultScale"].ToDouble();
                 CustomProperty Cp = new CustomProperty(inner_item["Name"].ToString(), Prop, true, "Appearance", inner_item["Description"].ToString(), true) { IsBrowsable = true };
-               
 
                 PGE_ROIProp.Item.Add(Cp);
                 ListViewGroup Group = new ListViewGroup(inner_item["Name"].ToString(), HorizontalAlignment.Left) { Header = inner_item["Name"].ToString(), Name = inner_item["Name"].ToString() };
@@ -188,12 +174,8 @@ namespace CRUX_Renewal.Ex_Form
 
         private void Mi2_Click(object sender, EventArgs e)
         {
-            
             //var T = PGE_ROIList.SelectedGridItem;
             //CustomPropertyCollection T2 = (PGE_ROIList.SelectedObject as CustomPropertyCollection);
-
-       
- 
         }
 
         private void Mi1_Click(object sender, EventArgs e)
@@ -215,7 +197,8 @@ namespace CRUX_Renewal.Ex_Form
                         Ano.ShowDialog();
                         return;
                     }
-                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input(/*"입력"*//*, PGE_ROIList.SelectedObjects[0], SelectedROICategory*/);
+  
+                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("입력", LstV_ROI.Items, SelectedROICategory);
                     Input.ShowDialog();
                     if (Input.DialogResult == DialogResult.Cancel || Input.ResultName == null)
                         return;
@@ -223,7 +206,7 @@ namespace CRUX_Renewal.Ex_Form
                     string ROI_Name = Input.ResultName;
 
                     CogRectangle Rect = new CogRectangle();
-                    var ROIProp = PGE_ROIProp.Item.FindCategory(SelectedROICategory);
+                    var ROIProp = PGE_ROIProp.Item.FindName(SelectedROICategory);
                     ROI_Property Rp = (ROIProp.Value as ROI_Property);
 
                     Rect.X = (Cog_ROI_Display.Image.Width / 2) - Cog_ROI_Display.PanX;
@@ -252,7 +235,7 @@ namespace CRUX_Renewal.Ex_Form
                     Cog_ROI_Display.InteractiveGraphics.Add(Rect, ROIName, false);
                     int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
                     Cog_ROI_Display.DrawingEnabled = true;
-
+                    
                     ROI_Data Data = new ROI_Data();
                     Data.Name = Input.ResultName;
                     Data.Category = SelectedROICategory;
@@ -263,18 +246,17 @@ namespace CRUX_Renewal.Ex_Form
                     Data.Object = Rect;
                     LstV_ROI.BeginUpdate();
 
-                    ListViewItem Lvi = new ListViewItem(Input.ResultName, SelectedROICategory);
- 
-                    Lvi.SubItems.Add(Data.Category);
-                    Lvi.SubItems.Add(Data.X.ToString());
-                    Lvi.SubItems.Add(Data.Y.ToString());
-                    Lvi.SubItems.Add(Data.Width.ToString());
-                    Lvi.SubItems.Add(Data.Height.ToString());
+                    ListViewItem Lvi = new ListViewItem(Input.ResultName, SelectedROICategory) { Name = "Name" };
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category"});
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
                     Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object" ,Text = Data.Object.ToString(), Tag = Data.Object });
                     LstV_ROI.Items.Add(Lvi);
+
                     LstV_ROI.Groups[SelectedROICategory].Items.Add(Lvi);
                     LstV_ROI.EndUpdate();
-                    LstV_ROI.Invalidate();
                 }
                 else if(Cog_ROI_Display.Selection.Count > 0)
                 {
@@ -288,132 +270,20 @@ namespace CRUX_Renewal.Ex_Form
                                 item.Items[i].Selected = true;
                             }
                         }
-                       
                     }
+                    LstV_ROI.Invalidate();
+                    LstV_ROI.Focus();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-                    //        CustomProperty Cp = new CustomProperty(Input.ResultName, Data, false, SelectedROICategory, SelectedROICategory, true) { IsBrowsable = true, };
-
-                    //        PGE_ROIList.Item.Add(Cp);
-
-                    //        PGE_ROIList.Refresh();
-                    //        // 선택한 객체가 CustomProperty 일 경우
-                    //        if ((PGE_ROIList.SelectedGridItem?.Parent?.Parent != null))
-                    //        {
-                    //            GridItem Cpcollection = PGE_ROIList.SelectedGridItem.Parent.Parent ?? null;
-                    //            for (int i = 0; i < Cpcollection.GridItems.Count; ++i)
-                    //            {
-                    //                if (Cpcollection.GridItems[i].Label == SelectedROICategory)
-                    //                {
-                    //                    CustomPropertyCollection Temp = Cpcollection.Value as CustomPropertyCollection;
-                    //                    for (int j = 0; j < Temp.Count; ++j)
-                    //                    {
-                    //                        if (Temp[j].Name == Input.ResultName && Temp[j].Category == SelectedROICategory)
-                    //                        {
-                    //                            ((Temp[j].Value as ROI_Data).Object as CogRectangle).Selected = true;
-                    //                            PGE_ROIList.SelectedGridItem = Cpcollection.GridItems[i].GridItems[Input.ResultName];
-                    //                        }
-                    //                    }
-                    //                }
-                    //            }
-                    //        }
-                    //        // 선택한 객체가 Category 일 경우
-                    //        else if ((PGE_ROIList.SelectedGridItem?.Parent != null))
-                    //        {
-                    //            GridItem Cpcollection = PGE_ROIList.SelectedGridItem.Parent ?? null;
-                    //            for (int i = 0; i < Cpcollection.GridItems.Count; ++i)
-                    //            {
-                    //                if (Cpcollection.GridItems[i].Label == SelectedROICategory)
-                    //                {
-                    //                    CustomPropertyCollection Temp = Cpcollection.Value as CustomPropertyCollection;
-                    //                    for (int j = 0; j < Temp.Count; ++j)
-                    //                    {
-                    //                        if (Temp[j].Name == Input.ResultName && Temp[j].Category == SelectedROICategory)
-                    //                        {
-                    //                            ((Temp[j].Value as ROI_Data).Object as CogRectangle).Selected = true;
-                    //                            PGE_ROIList.SelectedGridItem = Cpcollection.GridItems[i].GridItems[Input.ResultName];
-                    //                        }
-                    //                    }
-                    //                }
-                    //            }
-                    //        }
-                    //        PGE_ROIList.Focus();
-                    //        AltIsDown = false;
-                    //    }
-                    //    #endregion
-                    //    #region ROI 클릭 시 PGE 하이라이트 기능
-                    //    else
-                    //    {
-                    //        var Sel = Cog_ROI_Display.Selection[0] as CogRectangle;
-
-                    //        // 선택한 객체가 CustomProperty 일 경우
-                    //        if ((PGE_ROIList.SelectedGridItem?.Parent?.Parent != null))
-                    //        {
-                    //            GridItem Cpcollection = PGE_ROIList.SelectedGridItem.Parent.Parent ?? null;
-                    //            for (int i = 0; i < Cpcollection.GridItems.Count; ++i)
-                    //            {
-                    //                for (int j = 0; j < Cpcollection.GridItems[i].GridItems.Count; ++j)
-                    //                {
-                    //                    if ((Cpcollection.GridItems[i].GridItems[j].Value as ROI_Data).Object.Equals(Sel))
-                    //                    {
-                    //                        //((Temp[j].Value as ROI_Data).Object as CogRectangle).Selected = true;
-                    //                        //PGE_ROIList.SelectedGridItem = Cpcollection.GridItems[i].GridItems[Input.ResultName];
-                    //                        PGE_ROIList.SelectedGridItem = (Cpcollection.GridItems[i].GridItems[j]);
-                    //                    }
-                    //                }
-                    //            }
-                    //        }
-                    //        // 선택한 객체가 Category 일 경우
-                    //        else if ((PGE_ROIList.SelectedGridItem?.Parent != null))
-                    //        {
-                    //            GridItem Cpcollection = PGE_ROIList.SelectedGridItem.Parent ?? null;
-                    //            for (int i = 0; i < Cpcollection.GridItems.Count; ++i)
-                    //            {
-                    //                for (int j = 0; j < Cpcollection.GridItems[i].GridItems.Count; ++j)
-                    //                {
-                    //                    if ((Cpcollection.GridItems[i].GridItems[j].Value as ROI_Data).Object.Equals(Sel))
-                    //                    {
-                    //                        PGE_ROIList.SelectedGridItem = (Cpcollection.GridItems[i].GridItems[j]);
-                    //                    }
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //    #endregion
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    Console.WriteLine(ex.Message);
-                    //}
-                }
+        }
 
         private void Cog_ROI_Display_MouseUp(object sender, MouseEventArgs e)
-        {
-            //LeftMouseDown = e.Button == MouseButtons.Left ? true : false;
+        {            
 
-            //if (Cog_ROI_Display.Selection.Count > 0)
-            //{
-            //    Cog_ROI_Display.DrawingEnabled = false;
-            //    CogRectangle Sel2 = Cog_ROI_Display.Selection[0] as CogRectangle;
-            //    for (int i = 0; i < PGE_ROIList.Item.Count; ++i)
-            //    {
-            //        if ((PGE_ROIList.Item[i].Value as ROI_Data).Object.Equals(Sel2))
-            //        {
-            //            (PGE_ROIList.Item[i].Value as ROI_Data).X = Sel2.X;
-            //            (PGE_ROIList.Item[i].Value as ROI_Data).Y = Sel2.Y;
-            //            (PGE_ROIList.Item[i].Value as ROI_Data).Width = Sel2.Width;
-            //            (PGE_ROIList.Item[i].Value as ROI_Data).Height = Sel2.Height;
-            //        }
-            //    }
-            //    PGE_ROIList.Refresh();
-
-            //    Cog_ROI_Display.DrawingEnabled = true;
-            //}
         }
 
         private void Cog_ROI_Display_MouseMove(object sender, MouseEventArgs e)
@@ -429,57 +299,51 @@ namespace CRUX_Renewal.Ex_Form
         private void MRect_DraggingStopped(object sender, CogDraggingEventArgs e)
         {
             MRect_Dragging(sender, e);
+            //LstV_ROI.EndUpdate();
+            LstV_ROI.Refresh();
+            Display_Draging = false;
         }
 
         private void MRect_Dragging(object sender, CogDraggingEventArgs e)
         {
-            //try
-            //{
+            CogRectangle dragRect = (CogRectangle)e.DragGraphic;           
+            CogRectangle Sel = Cog_ROI_Display.Selection[0] as CogRectangle;
+            CogRectangle FindSelRect = null;
+            if (Display_Draging == false)
+            {
+                //LstV_ROI.BeginUpdate();
+                Display_Draging = true;
+            }
+      
+            for (int i = 0; i < Cog_ROI_Display.InteractiveGraphics.Count; ++i)
+            {
+                if(Cog_ROI_Display.InteractiveGraphics[i].Selected == true)
+                    FindSelRect = (Cog_ROI_Display.InteractiveGraphics[i]) as CogRectangle;                    
+                
+            }
 
-            //    CogRectangle dragRect = (CogRectangle)e.DragGraphic;
-            //    dragRect.Selected = true;
-            //    GridItem Item= PGE_ROIList.SelectedGridItem;
-            //    string Daa = $"{(Item.Value as ROI_Data).Category}^{(Item.Value as ROI_Data).Name}";
-            //    if (Cog_ROI_Display.Selection.Count > 0 && Cog_ROI_Display.Focused)
-            //    {
-            //        CogRectangle Sel = null;
-            //        Cog_ROI_Display.DrawingEnabled = false;
-
-            //        Sel = Cog_ROI_Display.Selection[0] as CogRectangle;
-
-            //        int aa = Cog_ROI_Display.InteractiveGraphics.FindItem(Daa, CogDisplayZOrderConstants.Back);
-                    
-            //        for (int i = 0; i < PGE_ROIList.Item.Count; ++i)
-            //        {
-            //            if (((PGE_ROIList.Item[i].Value as ROI_Data).Object as CogRectangle).Equals(Cog_ROI_Display.InteractiveGraphics[aa] as CogRectangle))
-            //            {
-            //                (PGE_ROIList.Item[i].Value as ROI_Data).X = dragRect.X;
-            //                (PGE_ROIList.Item[i].Value as ROI_Data).Y = dragRect.Y;
-            //                (PGE_ROIList.Item[i].Value as ROI_Data).Width = dragRect.Width;
-            //                (PGE_ROIList.Item[i].Value as ROI_Data).Height = dragRect.Height;
-            //            }
-            //        }
-            //        Cog_ROI_Display.DrawingEnabled = true;
-            //        PGE_ROIList.ExpandAllGridItems();
-            //    }
-            //    Cog_ROI_Display.Selection.Clear();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
-
+            foreach(ListViewItem item in LstV_ROI.Items)
+            {               
+                if ((item.SubItems["Object"].Tag as CogRectangle) == FindSelRect)
+                {
+                    item.SubItems["X"].Text = dragRect.X.ToString();
+                    item.SubItems["Y"].Text = dragRect.Y.ToString();
+                    item.SubItems["Width"].Text = dragRect.Width.ToString();
+                    item.SubItems["Height"].Text = dragRect.Height.ToString();
+                }
+            }
+            LstV_ROI.Invalidate();
         }
         public void FormInitialize(int no)
         {
             
         }
-        private void Ex_Frm_AccountManage_Load(object sender, EventArgs e)
+        private void Ex_Frm_Recipe_ROI_Load(object sender, EventArgs e)
         {
             //Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 15, 15));
+            LstV_ROI.DoubleBuffered(true);
         }
-
-        private void Ex_Frm_AccountManage_Shown(object sender, EventArgs e)
+        private void Ex_Frm_Recipe_ROI_Shown(object sender, EventArgs e)
         {
             //Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 5, 5));
             ////WinApis.SetWindowRgn(Btn_Manage.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Manage.Width, Btn_Manage.Height, 15, 15), true);
@@ -504,24 +368,51 @@ namespace CRUX_Renewal.Ex_Form
             else
             {
                 LstB_ROI.Items.Add(name);
-
+                LstB_ROI.SelectedItem = name;
                 ROI_Property Prop = new ROI_Property();
                 Prop.Name = name;
-                Prop.LineColor = 0;
-                Prop.LineStyle = 0;
-                Prop.DefaultScale = Globals.ROI_RATIO;
-                CustomProperty Cp = new CustomProperty("Appearance", Prop, true, name.ToString(), name, true) { IsBrowsable = true };
+                CustomProperty Cp = new CustomProperty(name, Prop, true, "Appearance", name, true) { IsBrowsable = true };
 
                 PGE_ROIProp.Item.Add(Cp);
+
+                if (LstV_ROI.Groups[name] == null)
+                    LstV_ROI.Groups.Add(new ListViewGroup(name, HorizontalAlignment.Left) { Header = name, Name = name });
+
                 PGE_ROIProp.Refresh();
             }
         }
 
         private void Btn_ROI_Del_Click(object sender, EventArgs e)
         {
+          
             string name = LstB_ROI.SelectedItem as string;
             if (name == "")
                 return;
+            if (LstV_ROI.Groups[name] != null)
+            {
+                Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "ROI 데이터가 존재합니다.\n ROI 데이터와 함께 삭제됩니다.");
+                LstV_ROI.BeginUpdate();
+                if (LstV_ROI.Groups[name].Items.Count > 0)
+                {                   
+                    Noti.ShowDialog();
+
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        foreach (ListViewItem item in LstV_ROI.Items)
+                        {
+                            if (item.Group.Name == name)
+                            {
+                                string RectName = $"{name}^{item.Text}";
+                                Cog_ROI_Display.InteractiveGraphics.Remove(RectName);
+                                LstV_ROI.Items.Remove(item);
+                            }
+                        }
+                    }
+                }
+                LstV_ROI.Groups.Remove(LstV_ROI.Groups[name]);
+                LstV_ROI.EndUpdate();
+                LstV_ROI.Invalidate();
+            }
             LstB_ROI.Items.Remove(name);
         }
         private bool FindOverlapROIName(string name)
@@ -549,38 +440,17 @@ namespace CRUX_Renewal.Ex_Form
             if (Ofd.FileName.Length > 0)
             {
                 var Temp = Cognex_Helper.Load_Image(Ofd.FileName);
-                //var Temp = Cognex_Helper.Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
-                //var Temp2 = Temp.ToBitmap();
+                Cog_ROI_Display.DrawingEnabled = false;
                 Cog_ROI_Display.Image = Temp;
-
                 Cog_ROI_Display.Fit(true);
-            }
+                Cog_ROI_Display.DrawingEnabled = true;
 
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             SaveROIProperty();
-        }
-
-        private void PGE_ROIProp_Validating(object sender, CancelEventArgs e)
-        {
-            int a = 0;
-        }
-
-        private void PGE_ROIProp_Validated(object sender, EventArgs e)
-        {
-            int a = 0;
-        }
-
-        private void PGE_ROIProp_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
-        {
-            int a = 0;
-        }
-
-        private void PGE_ROIProp_SelectedObjectsChanged(object sender, EventArgs e)
-        {
-            int b = 0;
         }
 
         private void PGE_ROIProp_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -598,18 +468,6 @@ namespace CRUX_Renewal.Ex_Form
                 Rect.SelectedLineStyle = Rp.SelectedLineStyle;
                 Rect.DragColor = Rp.DragLineColor;
             }
-            //for (iDragLineStyle = Rp.DragLineStyle;nt j = 0; j < PGE_ROIList.Item.Count; ++j)R
-            //{
-            //    if ((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Category == Rp.Name)
-            //    {
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).Color = Rp.LineColor;
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).LineStyle = Rp.LineStyle;
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).SelectedColor = Rp.SelectedLineColor;
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).SelectedLineStyle = Rp.SelectedLineStyle;
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).DragColor = Rp.DragLineColor;
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).DragLineStyle = Rp.DragLineStyle;
-            //    }
-            //}
             Cog_ROI_Display.DrawingEnabled = true;
         }
 
@@ -622,75 +480,44 @@ namespace CRUX_Renewal.Ex_Form
         {
             AltIsDown = e.Alt;
         }
-
-        private void PGE_ROIList_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
-        {          
-            GridItem Grid = (sender as PropertyGridEx).SelectedGridItem;
-           
-            if (Grid != null)
-            {
-                var Temp = (Grid?.Value as ROI_Data);
-                if (Temp != null)
-                {
-                    int Idx = Cog_ROI_Display.InteractiveGraphics.FindItem($"{(Grid?.Value as ROI_Data).Category}^{(Grid?.Value as ROI_Data).Name}", CogDisplayZOrderConstants.Back);
-                    Cog_ROI_Display.InteractiveGraphics[Idx].Selected = true;
-                    
-                }
-            }
-        }
-
-        private void PGE_ROIList_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            Cog_ROI_Display.DrawingEnabled = false;
-            ROI_Data Rd = (e.ChangedItem.Parent.Value as ROI_Data);
-
-            //for (int j = 0; j < PGE_ROIList.Item.Count; ++j)
-            //{
-            //    if ((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Name == Rd.Name)
-            //    {
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).X = Rd.X;
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).Y = Rd.Y;
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).Width = Rd.Width;
-            //        (((PGE_ROIList.Item[j]?.Value as ROI_Data)?.Object) as CogRectangle).Height = Rd.Height;
-            //    }
-            //}
-            Cog_ROI_Display.DrawingEnabled = true;
-        }
-
         private void LstV_ROI_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            //InputBox.Show();
+            // Name 컬럼의 데이터 더블클릭 시 텍스트 박스 범위 수정 필요
             curItem = LstV_ROI.GetItemAt(e.X, e.Y);
 
             if (curItem == null)
                 return;
             curSB = curItem.GetSubItemAt(e.X, e.Y);
-
+            ToolTip Tip = new ToolTip();
+            Tip.IsBalloon = true;
+            Tip.ToolTipTitle = "Tip";
             int idxSub = curItem.SubItems.IndexOf(curSB);
             switch (idxSub)
             {
-                case 0: // 5번째 subitem 만 수정가능하게
-                case 1:
-                case 2:
-                case 3: // 5번째 subitem 만 수정가능하게
-                case 4: // 5번째 subitem 만 수정가능하게
+                case 0: // 0번째 subitem 만 수정가능하게
+           
+                    Tip.SetToolTip(InputBox, "공백과 '^' 문자는 포함할 수 없습니다.");
+                    break;
+                case 1: // 1번째 subitem 만 수정가능하게
+       
+                    Tip.SetToolTip(InputBox, "공백과 '^' 문자는 포함할 수 없습니다.");
+                    break;
+                case 2: // 2번째 subitem 만 수정가능하게
+                case 3: // 3번째 subitem 만 수정가능하게
+                case 4: // 4번째 subitem 만 수정가능하게
                 case 5: // 5번째 subitem 만 수정가능하게
+         
+                    Tip.SetToolTip(InputBox, "공백과 '^' 문자는 포함할 수 없습니다.");
                     break;
                 default:
                     return;
-
             }
             int lLeft = curSB.Bounds.Left + 2;
-
             int lWidth = curSB.Bounds.Width;
-
-            InputBox.SetBounds(1000 + LstV_ROI.Left, curSB.Bounds.Top + LstV_ROI.Top, lWidth, curSB.Bounds.Height);
-
-
-
+            InputBox.SetBounds(lLeft, curSB.Bounds.Top + LstV_ROI.Top, lWidth, curSB.Bounds.Height);
             InputBox.Text = curSB.Text;
-
             InputBox.Show();
-
             InputBox.Focus();
         }
 
@@ -699,54 +526,303 @@ namespace CRUX_Renewal.Ex_Form
             // 엔터키 수정 ESC키 취소
 
             switch (e.KeyCode)
-
             {
-
                 case System.Windows.Forms.Keys.Enter:
-
                     cancelEdit = false;
-
                     e.Handled = true;
-
                     InputBox.Hide();
-
                     break;
 
                 case System.Windows.Forms.Keys.Escape:
-
                     cancelEdit = true;
-
                     e.Handled = true;
-
                     InputBox.Hide();
-
                     break;
-
             }
         }
 
         private void InputBox_Leave(object sender, EventArgs e)
         {
-            InputBox.Hide();
-
-            if (cancelEdit == false)
-
+            if (InputBox.Visible)
             {
-
-                if (InputBox.Text.Trim() != "")
-
+                if (cancelEdit == false)
                 {
-                    curSB.Text = InputBox.Text;
-                    int idxSub = curItem.SubItems.IndexOf(curSB);
-                    int idx = curItem.Index;
-                    Console.WriteLine(curSB.Text);  // Something To Do
+                    if (InputBox.Text.Trim() != "")
+                    {
+                        if (LstV_ROI.SelectedItems.Count > 0)
+                        {
+                            ListViewItem Item = LstV_ROI.SelectedItems[0];
+
+                            string Col = curSB.Name;
+                            double Num = 0;
+                            bool CoordChange = false;
+                            bool NameChange = false;
+                            string ObjectName = string.Empty;
+                            string NewObjectName = string.Empty;
+                            ROI_Data Rd = new ROI_Data();
+                            if (Col == "Name")
+                            {
+                                if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
+                                {
+                                    NameChange = false;
+                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
+                                    Noti.ShowDialog();
+                                }
+                                else
+                                {
+                                    NameChange = true;
+
+                                    Rd.Name = InputBox.Text;
+                                    Rd.Category = curItem.Group.Name;
+                                    if (curSB.Text == InputBox.Text)
+                                    {
+                                        return;
+                                    }
+                                    foreach (ListViewItem item in LstV_ROI.Items)
+                                    {
+                                        if (item.Group.Name == Rd.Category)
+                                        {
+                                            if (item.Text == Rd.Name)
+                                            {
+                                                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 이름이 존재합니다.");
+                                                Noti.ShowDialog();
+                                                InputBox.Hide();
+                                                LstV_ROI.Focus();
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
+                                    curSB.Text = InputBox.Text;
+                                    NewObjectName = $"{curItem.Group.Name}^{InputBox.Text}";
+
+                                    if (ObjectName == NewObjectName)
+                                    {
+                                        InputBox.Hide();
+                                        LstV_ROI.Focus();
+                                        return;
+                                    }
+                                }
+                            }
+                            else if (Col == "Category")
+                            {
+                                if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
+                                {
+                                    NameChange = false;
+                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
+                                    Noti.ShowDialog();
+                                }
+                                else
+                                {
+                                    NameChange = true;
+
+                                    Rd.Name = curItem.SubItems["Name"].Text;
+                                    Rd.Category = InputBox.Text;
+                                    if (curSB.Text == InputBox.Text)
+                                    {
+                                        InputBox.Hide();
+                                        LstV_ROI.Focus();
+                                        return;
+                                    }
+                                    foreach (ListViewItem item in LstV_ROI.Items)
+                                    {
+                                        if (item.Group.Name == Rd.Category)
+                                        {
+                                            if (item.Text == Rd.Name)
+                                            {
+                                                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 카테고리가 존재합니다.");
+                                                Noti.ShowDialog();
+                                                InputBox.Hide();
+                                                LstV_ROI.Focus();
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
+                                    curSB.Text = InputBox.Text;
+                                    NewObjectName = $"{InputBox.Text}^{curItem.SubItems["Name"].Text}";
+
+                                    if (ObjectName == NewObjectName)
+                                    {
+                                        InputBox.Hide();
+                                        LstV_ROI.Focus();
+                                        return;
+                                    }
+                                }
+                            }
+                            else if (Col == "X")
+                            {
+                                CoordChange = double.TryParse(InputBox.Text, out Num);
+                                if (CoordChange)
+                                    (Item.SubItems["Object"].Tag as CogRectangle).X = Num;
+                            }
+                            else if (Col == "Y")
+                            {
+                                CoordChange = double.TryParse(InputBox.Text, out Num);
+                                if (CoordChange)
+                                    (Item.SubItems["Object"].Tag as CogRectangle).Y = Num;
+                            }
+                            else if (Col == "Width")
+                            {
+                                CoordChange = double.TryParse(InputBox.Text, out Num);
+                                if (CoordChange)
+                                    (Item.SubItems["Object"].Tag as CogRectangle).Width = Num;
+                            }
+                            else if (Col == "Height")
+                            {
+                                CoordChange = double.TryParse(InputBox.Text, out Num);
+                                if (CoordChange)
+                                    (Item.SubItems["Object"].Tag as CogRectangle).Height = Num;
+                            }
+                            if (CoordChange)
+                            {
+                                // int idxSub = curItem.SubItems.IndexOf(curSB);
+                                //int idx = curItem.Index;   
+                            }
+                            else if (NameChange)
+                            {
+                                CogRectangle Rect = new CogRectangle();
+
+                                Rd.X = Item.SubItems["X"].Text.toDbl();
+                                Rd.Y = Item.SubItems["Y"].Text.toDbl();
+                                Rd.Width = Item.SubItems["Width"].Text.toDbl();
+                                Rd.Height = Item.SubItems["Height"].Text.toDbl(); ;
+
+                                Rect.X = Rd.X;
+                                Rect.Y = Rd.Y;
+                                Rect.Width = Rd.Width;
+                                Rect.Height = Rd.Height;
+
+                                var ROIProp = PGE_ROIProp.Item.FindName(Rd.Category);
+                                ROI_Property Rp = (ROIProp.Value as ROI_Property);
+
+                                Rect.X = (Cog_ROI_Display.Image.Width / 2) - Cog_ROI_Display.PanX;
+                                Rect.Y = (Cog_ROI_Display.Image.Height / 2) - Cog_ROI_Display.PanY;
+
+                                Rect.Width = (Cog_ROI_Display.DisplayRectangle.Width / Cog_ROI_Display.Zoom * Rp.DefaultScale);
+                                Rect.Height = (Cog_ROI_Display.DisplayRectangle.Height / Cog_ROI_Display.Zoom * Rp.DefaultScale);
+                                Rect.X -= (Rect.Width / 2);
+                                Rect.Y -= (Rect.Height / 2);
+
+                                Rect.SelectedLineStyle = Rp.SelectedLineStyle;
+                                Rect.SelectedColor = Rp.SelectedLineColor;
+                                Rect.LineStyle = Rp.LineStyle;
+                                Rect.DragLineStyle = Rp.DragLineStyle;
+                                Rect.DragColor = Rp.DragLineColor;
+                                Rect.Color = Rp.LineColor;
+
+                                Cog_ROI_Display.DrawingEnabled = false;
+                                Rect.Interactive = true;
+                                Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+                                Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+                                Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+                                Cog_ROI_Display.InteractiveGraphics.Remove(ObjectName);
+                                Cog_ROI_Display.InteractiveGraphics.Add(Rect, NewObjectName, false);
+                                Cog_ROI_Display.DrawingEnabled = true;
+
+                                Rd.Object = Rect;
+
+                                LstV_ROI.BeginUpdate();
+                                LstV_ROI.Items.Remove(curItem);
+                                ListViewItem Lvi = new ListViewItem(Rd.Name, Rd.Category) { Name = "Name" };
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Category, Name = "Category" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.X.ToString(), Name = "X" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Y.ToString(), Name = "Y" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Width.ToString(), Name = "Width" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Height.ToString(), Name = "Height" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Rd.Object.ToString(), Tag = Rd.Object });
+                                LstV_ROI.Items.Add(Lvi);
+
+                                LstV_ROI.Groups[Rd.Category].Items.Add(Lvi);
+                                LstV_ROI.EndUpdate();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cancelEdit = false;
+                    }
                 }
+            }
+            InputBox.Hide();
+            LstV_ROI.Focus();
+        }
+
+        private void LstV_ROI_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            if (this.LstV_ROI.SelectedIndices.Contains(e.ItemIndex))
+            {
+                e.SubItem.BackColor = Color.Black;
+                e.SubItem.ForeColor = Color.White;
             }
             else
             {
-                cancelEdit = false;
+                e.SubItem.BackColor = Color.White;
+                e.SubItem.ForeColor = Color.Black;
             }
-            LstV_ROI.Focus();
+
+            e.DrawBackground();
+
+            e.DrawText();
+        }
+
+        private void LstV_ROI_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            if (this.LstV_ROI.SelectedIndices.Contains(e.ItemIndex))
+            {
+                e.Item.BackColor = Color.Black;
+                e.Item.ForeColor = Color.White;
+            }
+            else
+            {
+                e.Item.BackColor = Color.White;
+                e.Item.ForeColor = Color.Black;
+            }
+            e.DrawBackground();
+
+            e.DrawText();
+        }
+
+        private void LstV_ROI_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListView Obj = sender as ListView;
+            if(Obj.SelectedItems.Count > 0)
+            {
+                ListViewItem Item = Obj.SelectedItems[0];
+                (Item.SubItems["Object"].Tag as CogRectangle).Selected = true;
+            }            
+        }
+
+        private void LstV_ROI_MouseClick(object sender, MouseEventArgs e)
+        {
+            //오른쪽 클릭일 경우
+            if (e.Button.Equals(MouseButtons.Right))
+            {
+                ContextMenu m = new ContextMenu();
+
+                MenuItem m1 = new MenuItem();
+                MenuItem m2 = new MenuItem();
+
+                m1.Text = "복사";
+                m2.Text = "삭제";
+
+                m1.Click += (senders, es) =>
+                {
+
+                };
+                m2.Click += (senders, es) =>
+                {
+                    ListViewItem Item = LstV_ROI.SelectedItems[0];
+                    string RectName = $"{Item.SubItems["Category"].Text}^{Item.Text}";
+                    Cog_ROI_Display.InteractiveGraphics.Remove(RectName);
+                    LstV_ROI.Items.Remove(Item);
+                };
+
+                m.MenuItems.Add(m1);
+                m.MenuItems.Add(m2);
+
+                m.Show(LstV_ROI, new Point(e.X, e.Y));
+            }
         }
     }
 }

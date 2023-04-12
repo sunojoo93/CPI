@@ -422,10 +422,40 @@ namespace CRUX_Renewal
         }
         public static class EnumUtil<T>
         {
+            /// <summary>
+            /// Enum 문자열을 Object로 반환한다.
+            /// </summary>
+            /// <param name="s"></param>
+            /// <returns></returns>
             public static T Parse(string s)
             {
                 return (T)Enum.Parse(typeof(T), s);
             }
+            /// <summary>
+            /// Enum 값을 Object로 반환한다.
+            /// </summary>
+            /// <param name="n"></param>
+            /// <returns></returns>
+            public static T Parse(int n)
+            {
+                return (T)Enum.ToObject(typeof(T), n);
+            }
+        }
+        public static int GetRandomNum(int min, int max)
+        {
+            Random Obj = new Random();
+            return Obj.Next(min, max);
+        }
+
+        //public static bool CheckStringValidity
+    }
+    public static class Ctrl_DoubleBuffer // Control DoubleBufferd
+    {
+        public static void DoubleBuffered(this Control control, bool enabled)
+        {
+            var prop = control.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            prop.SetValue(control, enabled, null);
         }
     }
+
 }
