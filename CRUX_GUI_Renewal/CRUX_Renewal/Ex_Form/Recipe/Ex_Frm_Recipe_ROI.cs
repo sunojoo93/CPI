@@ -31,6 +31,8 @@ namespace CRUX_Renewal.Ex_Form
         ListViewItem curItem;
         bool cancelEdit;
         bool Display_Draging = false;
+        ToolTip Tip = new ToolTip();
+
         bool AltIsDown
         {
             get
@@ -103,6 +105,7 @@ namespace CRUX_Renewal.Ex_Form
             foreach (var inner_item in Ini.Values)
             {
                 LstB_ROI.Items.Add(inner_item["Name"].ToString());
+                LstB_Category.Items.Add(inner_item["Name"].ToString());
                 ROI_Property Prop = new ROI_Property();
                 Prop.Name = inner_item["Name"].ToString();
                 Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["LineColor"].ToString()) ;
@@ -116,9 +119,9 @@ namespace CRUX_Renewal.Ex_Form
 
                 PGE_ROIProp.Item.Add(Cp);
                 ListViewGroup Group = new ListViewGroup(inner_item["Name"].ToString(), HorizontalAlignment.Left) { Header = inner_item["Name"].ToString(), Name = inner_item["Name"].ToString() };
-                LstV_ROI.Groups.Add(Group);
-                
+                LstV_ROI.Groups.Add(Group);                
             }
+            LstB_Category.Hide();
             LstV_ROI.Refresh();
             PGE_ROIProp.Refresh();
             MenuItem[] mis = new MenuItem[4];
@@ -140,6 +143,38 @@ namespace CRUX_Renewal.Ex_Form
 
             if(LstB_ROI.Items.Count > 0)
                 LstB_ROI.SelectedIndex = 0;           
+        }
+        public void SaveROIList()
+        {
+            List<string> SectionList = new List<string>();
+            Dictionary<string, IniSection> Sections = new Dictionary<string, IniSection>();
+
+            foreach (ListViewGroup item in LstV_ROI.Groups)
+            {
+                SectionList.Add(item.Name);
+                Sections.Add(item.Name, new IniSection());
+            }
+
+            foreach(ListViewItem item in LstV_ROI.Items)
+            {
+                string GroupName = item.Group.Name;
+                for(int i =0; i < Sections.Count; ++i)
+                {
+                    if(SectionList[i] == GroupName)
+                    {
+                        Sections[GroupName].Add("Name", item.SubItems["Name"].Text);
+                        Sections[GroupName].Add("Category", item.SubItems["Category"].Text);
+                        Sections[GroupName].Add("X", item.SubItems["X"].Text);
+                        Sections[GroupName].Add("Y", item.SubItems["Y"].Text);
+                        Sections[GroupName].Add("Width", item.SubItems["Width"].Text);
+                        Sections[GroupName].Add("Height", item.SubItems["Height"].Text);
+                       
+                    }
+                }
+                
+            }         
+            
+            //Ini.Save(Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"].GetIniPath(), System.IO.FileMode.Create);
         }
         public void SaveROIProperty()
         {
@@ -450,7 +485,8 @@ namespace CRUX_Renewal.Ex_Form
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SaveROIProperty();
+            //SaveROIProperty();
+            SaveROIList();
         }
 
         private void PGE_ROIProp_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -488,37 +524,56 @@ namespace CRUX_Renewal.Ex_Form
 
             if (curItem == null)
                 return;
-            curSB = curItem.GetSubItemAt(e.X, e.Y);
-            ToolTip Tip = new ToolTip();
+            curSB = curItem.GetSubItemAt(e.X, e.Y);   
             Tip.IsBalloon = true;
             Tip.ToolTipTitle = "Tip";
             int idxSub = curItem.SubItems.IndexOf(curSB);
+
+            int lLeft = curSB.Bounds.Left + 2;
+            int lWidth = curSB.Bounds.Width;
+            Tip.InitialDelay =200;
             switch (idxSub)
             {
                 case 0: // 0번째 subitem 만 수정가능하게
-           
+
+                    if (Tip.GetToolTip(InputBox) != "")
+                    {
+                        Tip.RemoveAll();                        
+                    }
+                    
                     Tip.SetToolTip(InputBox, "공백과 '^' 문자는 포함할 수 없습니다.");
+                    InputBox.SetBounds(lLeft, curSB.Bounds.Top + LstV_ROI.Top, lWidth, curSB.Bounds.Height);                    
+                    InputBox.Text = curSB.Text;
+                    InputBox.Show();
+                    InputBox.Focus();
                     break;
                 case 1: // 1번째 subitem 만 수정가능하게
-       
-                    Tip.SetToolTip(InputBox, "공백과 '^' 문자는 포함할 수 없습니다.");
+                    if (Tip.GetToolTip(InputBox) != "")
+                        Tip.RemoveAll();
+                    LstB_Category.BringToFront();
+                    //LstB_Category.SetBounds(lLeft, curSB.Bounds.Top + LstV_ROI.Top, lWidth, curSB.Bounds.Height);
+                    LstB_Category.Location = new Point(lLeft, curSB.Bounds.Top + LstV_ROI.Top);
+                    LstB_Category.Size = new Size(lWidth, 30);
+                    LstB_Category.SelectedItem = curSB.Text;
+                    LstB_Category.Show();
+                    LstB_Category.Focus();
+                    Tip.SetToolTip(LstB_Category, "카테고리를 변경합니다.");
                     break;
                 case 2: // 2번째 subitem 만 수정가능하게
                 case 3: // 3번째 subitem 만 수정가능하게
                 case 4: // 4번째 subitem 만 수정가능하게
-                case 5: // 5번째 subitem 만 수정가능하게
-         
-                    Tip.SetToolTip(InputBox, "공백과 '^' 문자는 포함할 수 없습니다.");
+                case 5: // 5번째 subitem 만 수정가능하게         
+                    if (Tip.GetToolTip(InputBox) != "")
+                        Tip.RemoveAll();
+                    Tip.SetToolTip(InputBox, "숫자만 입력해주세요.");
+                    InputBox.SetBounds(lLeft, curSB.Bounds.Top + LstV_ROI.Top, lWidth, curSB.Bounds.Height);
+                    InputBox.Text = curSB.Text;
+                    InputBox.Show();
+                    InputBox.Focus();
                     break;
                 default:
                     return;
             }
-            int lLeft = curSB.Bounds.Left + 2;
-            int lWidth = curSB.Bounds.Width;
-            InputBox.SetBounds(lLeft, curSB.Bounds.Top + LstV_ROI.Top, lWidth, curSB.Bounds.Height);
-            InputBox.Text = curSB.Text;
-            InputBox.Show();
-            InputBox.Focus();
         }
 
         private void InputBox_KeyDown(object sender, KeyEventArgs e)
@@ -530,6 +585,8 @@ namespace CRUX_Renewal.Ex_Form
                 case System.Windows.Forms.Keys.Enter:
                     cancelEdit = false;
                     e.Handled = true;
+                    Tip.RemoveAll();
+ 
                     InputBox.Hide();
                     break;
 
@@ -606,49 +663,49 @@ namespace CRUX_Renewal.Ex_Form
                             }
                             else if (Col == "Category")
                             {
-                                if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
-                                {
-                                    NameChange = false;
-                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
-                                    Noti.ShowDialog();
-                                }
-                                else
-                                {
-                                    NameChange = true;
+                                //if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
+                                //{
+                                //    NameChange = false;
+                                //    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
+                                //    Noti.ShowDialog();
+                                //}
+                                //else
+                                //{
+                                //    NameChange = true;
 
-                                    Rd.Name = curItem.SubItems["Name"].Text;
-                                    Rd.Category = InputBox.Text;
-                                    if (curSB.Text == InputBox.Text)
-                                    {
-                                        InputBox.Hide();
-                                        LstV_ROI.Focus();
-                                        return;
-                                    }
-                                    foreach (ListViewItem item in LstV_ROI.Items)
-                                    {
-                                        if (item.Group.Name == Rd.Category)
-                                        {
-                                            if (item.Text == Rd.Name)
-                                            {
-                                                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 카테고리가 존재합니다.");
-                                                Noti.ShowDialog();
-                                                InputBox.Hide();
-                                                LstV_ROI.Focus();
-                                                return;
-                                            }
-                                        }
-                                    }
-                                    ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
-                                    curSB.Text = InputBox.Text;
-                                    NewObjectName = $"{InputBox.Text}^{curItem.SubItems["Name"].Text}";
+                                //    Rd.Name = curItem.SubItems["Name"].Text;
+                                //    Rd.Category = InputBox.Text;
+                                //    if (curSB.Text == InputBox.Text)
+                                //    {
+                                //        InputBox.Hide();
+                                //        LstV_ROI.Focus();
+                                //        return;
+                                //    }
+                                //    foreach (ListViewItem item in LstV_ROI.Items)
+                                //    {
+                                //        if (item.Group.Name == Rd.Category)
+                                //        {
+                                //            if (item.Text == Rd.Name)
+                                //            {
+                                //                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 카테고리가 존재합니다.");
+                                //                Noti.ShowDialog();
+                                //                InputBox.Hide();
+                                //                LstV_ROI.Focus();
+                                //                return;
+                                //            }
+                                //        }
+                                //    }
+                                //    ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
+                                //    curSB.Text = InputBox.Text;
+                                //    NewObjectName = $"{InputBox.Text}^{curItem.SubItems["Name"].Text}";
 
-                                    if (ObjectName == NewObjectName)
-                                    {
-                                        InputBox.Hide();
-                                        LstV_ROI.Focus();
-                                        return;
-                                    }
-                                }
+                                //    if (ObjectName == NewObjectName)
+                                //    {
+                                //        InputBox.Hide();
+                                //        LstV_ROI.Focus();
+                                //        return;
+                                //    }
+                                //}
                             }
                             else if (Col == "X")
                             {
@@ -671,13 +728,13 @@ namespace CRUX_Renewal.Ex_Form
                             else if (Col == "Height")
                             {
                                 CoordChange = double.TryParse(InputBox.Text, out Num);
-                                if (CoordChange)
+                                if (CoordChange)                                
                                     (Item.SubItems["Object"].Tag as CogRectangle).Height = Num;
+                                
                             }
                             if (CoordChange)
                             {
-                                // int idxSub = curItem.SubItems.IndexOf(curSB);
-                                //int idx = curItem.Index;   
+                                curSB.Text = Num.ToString();
                             }
                             else if (NameChange)
                             {
@@ -695,14 +752,6 @@ namespace CRUX_Renewal.Ex_Form
 
                                 var ROIProp = PGE_ROIProp.Item.FindName(Rd.Category);
                                 ROI_Property Rp = (ROIProp.Value as ROI_Property);
-
-                                Rect.X = (Cog_ROI_Display.Image.Width / 2) - Cog_ROI_Display.PanX;
-                                Rect.Y = (Cog_ROI_Display.Image.Height / 2) - Cog_ROI_Display.PanY;
-
-                                Rect.Width = (Cog_ROI_Display.DisplayRectangle.Width / Cog_ROI_Display.Zoom * Rp.DefaultScale);
-                                Rect.Height = (Cog_ROI_Display.DisplayRectangle.Height / Cog_ROI_Display.Zoom * Rp.DefaultScale);
-                                Rect.X -= (Rect.Width / 2);
-                                Rect.Y -= (Rect.Height / 2);
 
                                 Rect.SelectedLineStyle = Rp.SelectedLineStyle;
                                 Rect.SelectedColor = Rp.SelectedLineColor;
@@ -823,6 +872,170 @@ namespace CRUX_Renewal.Ex_Form
 
                 m.Show(LstV_ROI, new Point(e.X, e.Y));
             }
+        }
+
+        private void InputBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void LstB_Category_Leave(object sender, EventArgs e)
+        {
+            if (LstB_Category.Visible)
+            {
+                if (cancelEdit == false)
+                {
+                    if (LstB_Category.Text.Trim() != "")
+                    {
+                        if (LstV_ROI.SelectedItems.Count > 0)
+                        {
+                            ListViewItem Item = LstV_ROI.SelectedItems[0];
+
+                            string Col = curSB.Name;
+                            double Num = 0;
+                            bool CoordChange = false;
+                            bool NameChange = false;
+                            string ObjectName = string.Empty;
+                            string NewObjectName = string.Empty;
+                            ROI_Data Rd = new ROI_Data();
+                            if (Col == "Name")
+                            {
+
+                            }
+                            else if (Col == "Category")
+                            {
+                                if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
+                                {
+                                    NameChange = false;
+                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
+                                    Noti.ShowDialog();
+                                }
+                                else
+                                {
+                                    NameChange = true;
+
+                                    string Category = LstB_Category.SelectedItem as string;
+                                    if (Category != null)
+                                    {
+                                        Rd.Name = curItem.SubItems["Name"].Text;
+                                        Rd.Category = Category;
+                                        if (curSB.Text == Category)
+                                        {
+                                            LstB_Category.Hide();
+                                            LstV_ROI.Focus();
+                                            return;
+                                        }
+                                        foreach (ListViewItem item in LstV_ROI.Items)
+                                        {
+                                            if (item.Group.Name == Rd.Category)
+                                            {
+                                                if (item.Text == Rd.Name)
+                                                {
+                                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 카테고리가 존재합니다.");
+                                                    Noti.ShowDialog();
+                                                    LstB_Category.Hide();
+                                                    LstV_ROI.Focus();
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                        ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
+                                        curSB.Text = Category;
+                                        NewObjectName = $"{Category}^{curItem.SubItems["Name"].Text}";
+
+                                        if (ObjectName == NewObjectName)
+                                        {
+                                            LstB_Category.Hide();
+                                            LstV_ROI.Focus();
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                            else if (Col == "X")
+                            {
+
+                            }
+                            else if (Col == "Y")
+                            {
+
+                            }
+                            else if (Col == "Width")
+                            {
+
+                            }
+                            else if (Col == "Height")
+                            {
+
+                            }
+                            if (CoordChange)
+                            {
+
+                            }
+                            else if (NameChange)
+                            {
+                                CogRectangle Rect = new CogRectangle();
+
+                                Rd.X = Item.SubItems["X"].Text.toDbl();
+                                Rd.Y = Item.SubItems["Y"].Text.toDbl();
+                                Rd.Width = Item.SubItems["Width"].Text.toDbl();
+                                Rd.Height = Item.SubItems["Height"].Text.toDbl(); ;
+
+                                Rect.X = Rd.X;
+                                Rect.Y = Rd.Y;
+                                Rect.Width = Rd.Width;
+                                Rect.Height = Rd.Height;
+
+                                var ROIProp = PGE_ROIProp.Item.FindName(Rd.Category);
+                                ROI_Property Rp = (ROIProp.Value as ROI_Property);
+
+                                Rect.SelectedLineStyle = Rp.SelectedLineStyle;
+                                Rect.SelectedColor = Rp.SelectedLineColor;
+                                Rect.LineStyle = Rp.LineStyle;
+                                Rect.DragLineStyle = Rp.DragLineStyle;
+                                Rect.DragColor = Rp.DragLineColor;
+                                Rect.Color = Rp.LineColor;
+
+                                Cog_ROI_Display.DrawingEnabled = false;
+                                Rect.Interactive = true;
+                                Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+                                Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+                                Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+                                Cog_ROI_Display.InteractiveGraphics.Remove(ObjectName);
+                                Cog_ROI_Display.InteractiveGraphics.Add(Rect, NewObjectName, false);
+                                Cog_ROI_Display.DrawingEnabled = true;
+
+                                Rd.Object = Rect;
+
+                                LstV_ROI.BeginUpdate();
+                                LstV_ROI.Items.Remove(curItem);
+                                ListViewItem Lvi = new ListViewItem(Rd.Name, Rd.Category) { Name = "Name" };
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Category, Name = "Category" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.X.ToString(), Name = "X" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Y.ToString(), Name = "Y" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Width.ToString(), Name = "Width" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Height.ToString(), Name = "Height" });
+                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Rd.Object.ToString(), Tag = Rd.Object });
+                                LstV_ROI.Items.Add(Lvi);
+
+                                LstV_ROI.Groups[Rd.Category].Items.Add(Lvi);
+                                LstV_ROI.EndUpdate();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cancelEdit = false;
+                    }
+                }
+            }
+            LstB_Category.Hide();
+            LstV_ROI.Focus();
+        }
+
+        private void LstB_Category_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

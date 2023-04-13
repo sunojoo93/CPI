@@ -406,6 +406,10 @@ public class IniFile : IEnumerable<KeyValuePair<string, IniSection>>, IDictionar
             throw ex;
         }
     }
+    public void SetIniPath(string path)
+    {
+        IniPath = path;
+    }
     public string GetIniPath()
     {
         return IniPath;
