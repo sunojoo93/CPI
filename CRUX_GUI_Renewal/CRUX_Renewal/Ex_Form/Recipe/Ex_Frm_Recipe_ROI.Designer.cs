@@ -39,6 +39,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Cog_Display_Toolbar = new Cognex.VisionPro.CogDisplayToolbarV2();
             this.Lb_Tooltip = new System.Windows.Forms.Label();
             this.Gb_ROIs = new System.Windows.Forms.GroupBox();
+            this.LstB_Category = new System.Windows.Forms.ListBox();
             this.InputBox = new System.Windows.Forms.TextBox();
             this.LstV_ROI = new System.Windows.Forms.ListView();
             this.Gb_ROIProp = new System.Windows.Forms.GroupBox();
@@ -52,7 +53,6 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Button = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_ImageLoad = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.LstB_Category = new System.Windows.Forms.ListBox();
             this.Tlp_ROI.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -187,6 +187,18 @@ namespace CRUX_Renewal.Ex_Form
             this.Gb_ROIs.TabStop = false;
             this.Gb_ROIs.Text = "ROI List";
             // 
+            // LstB_Category
+            // 
+            this.LstB_Category.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstB_Category.FormattingEnabled = true;
+            this.LstB_Category.ItemHeight = 20;
+            this.LstB_Category.Location = new System.Drawing.Point(251, 442);
+            this.LstB_Category.Name = "LstB_Category";
+            this.LstB_Category.Size = new System.Drawing.Size(120, 4);
+            this.LstB_Category.TabIndex = 2;
+            this.LstB_Category.SelectedIndexChanged += new System.EventHandler(this.LstB_Category_SelectedIndexChanged);
+            this.LstB_Category.Leave += new System.EventHandler(this.LstB_Category_Leave);
+            // 
             // InputBox
             // 
             this.InputBox.Location = new System.Drawing.Point(3, 427);
@@ -276,7 +288,7 @@ namespace CRUX_Renewal.Ex_Form
             this.PGE_ROIProp.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PGE_ROIProp.ToolStrip.Name = "";
             this.PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(392056, 0);
+            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(585226, 0);
             this.PGE_ROIProp.ToolStrip.TabIndex = 1;
             this.PGE_ROIProp.ToolStrip.TabStop = true;
             this.PGE_ROIProp.ToolStrip.Text = "PropertyGridToolBar";
@@ -403,18 +415,6 @@ namespace CRUX_Renewal.Ex_Form
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // LstB_Category
-            // 
-            this.LstB_Category.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LstB_Category.FormattingEnabled = true;
-            this.LstB_Category.ItemHeight = 20;
-            this.LstB_Category.Location = new System.Drawing.Point(251, 442);
-            this.LstB_Category.Name = "LstB_Category";
-            this.LstB_Category.Size = new System.Drawing.Size(120, 4);
-            this.LstB_Category.TabIndex = 2;
-            this.LstB_Category.SelectedIndexChanged += new System.EventHandler(this.LstB_Category_SelectedIndexChanged);
-            this.LstB_Category.Leave += new System.EventHandler(this.LstB_Category_Leave);
             // 
             // Ex_Frm_Recipe_ROI
             // 

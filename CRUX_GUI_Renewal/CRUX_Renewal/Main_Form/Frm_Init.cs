@@ -341,10 +341,10 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
-                string Path = ($@"{Paths.RECIPE_PATH_RENEWAL}{Systems.Environment_INI["LastUsedRecipe"]["RecipeName"]}").Replace(" ", "");
-                ArrayList FileList = fileProc.getFileList(Path,".vpp");
-                Systems.SetCogJob(FileList[0].ToString(), Path);           
-                Systems.CurrentRecipe = Systems.Environment_INI["LastUsedRecipe"]["RecipeName"].ToString().Replace(" ","");
+                string Path = (Systems.Ini_Collection[0]["CRUX_GUI_Renewal.ini"])["LastUsedRecipe"]["RecipeName"].ToString().Replace(" ", "");
+                ArrayList FileList = fileProc.getFileList($@"{Paths.RECIPE_PATH_RENEWAL}{Path}",".vpp");
+                Systems.SetCogJob(FileList[0].ToString(), Path);
+                Systems.CurrentRecipe = Path;
             }
             catch (Exception ex)
             {

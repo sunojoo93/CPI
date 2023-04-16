@@ -35,6 +35,7 @@ namespace CRUX_Renewal.Main_Form
             FormBorderStyle = FormBorderStyle.None;
 
             Show();
+            SetRecipeData();
             Frm_RecipeList = Frm_RecipeList ?? new Ex_Frm_Recipe_RecipeList();
             Frm_JobList = Frm_JobList ?? new Ex_Frm_Recipe_JobList();
             Frm_ROI = Frm_ROI ?? new Ex_Frm_Recipe_ROI();
@@ -53,6 +54,7 @@ namespace CRUX_Renewal.Main_Form
             Frm_ROI.Show();
          
             DisplayJob();
+
             //Uctrl_MiniMap MiniPic = new Uctrl_MiniMap();
             //ctrl_MainPic1.Initialize(this, ref MiniPic, 0, 0, false);
             //Uctrl_MainPic MainPic = new Uctrl_MainPic() { Dock = DockStyle.Fill };
@@ -68,7 +70,35 @@ namespace CRUX_Renewal.Main_Form
             //string aa = rtn[0].Text.ToString(); 
 
         }
+        public void SetRecipeData()
+        {
+            IniFile ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"];
+            Systems.MainRecipe.ROI_List = new List<ROI_Data>();
+            foreach (var item in ini.Values)
+            {
+                ROI_Data Rd = new ROI_Data();
+                Rd.Name = item["Name"].ToString();
+                Rd.Category = item["Category"].ToString();
 
+                double X = -999999;
+                if (Double.TryParse(item["X"].ToString(), out X))
+                    Rd.X = X;
+
+                double Y = -999999;
+                if (Double.TryParse(item["Y"].ToString(), out Y))
+                    Rd.Y = Y;
+
+                double Width = -999999;
+                if (Double.TryParse(item["Width"].ToString(), out Width))
+                    Rd.Width = Width;
+
+                double Height = -999999;
+                if (Double.TryParse(item["Height"].ToString(), out Height))
+                    Rd.Height = Height;
+
+                Systems.MainRecipe.ROI_List.Add(Rd);
+            }
+        }
         public void DisplayJob()
         {
             this.Invoke(new Action(() =>

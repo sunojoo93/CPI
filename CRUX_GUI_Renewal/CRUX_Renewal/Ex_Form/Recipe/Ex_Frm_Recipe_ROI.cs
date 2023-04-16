@@ -87,8 +87,66 @@ namespace CRUX_Renewal.Ex_Form
             InputBox.Leave += InputBox_Leave;
             InputBox.Hide();
 
-            
+            SetRecipeROI();
+        }
+        public void SetRecipeROI()
+        {
+            if(Systems.MainRecipe.ROI_List.Count > 0)
+            {
+                foreach (ROI_Data item in Systems.MainRecipe.ROI_List)
+                {
+                    string Category = item.Category;
+                    CogRectangle Rect = new CogRectangle();
+                    var ROIProp = PGE_ROIProp.Item.FindName(Category);
+                    ROI_Property Rp = (ROIProp.Value as ROI_Property);
 
+                    Rect.X = item.X;
+                    Rect.Y = item.Y;
+                    Rect.Width = item.Width;
+                    Rect.Height = item.Height;
+
+                    Rect.SelectedLineStyle = Rp.SelectedLineStyle;
+                    Rect.SelectedColor = Rp.SelectedLineColor;
+                    Rect.LineStyle = Rp.LineStyle;
+                    Rect.DragLineStyle = Rp.DragLineStyle;
+                    Rect.DragColor = Rp.DragLineColor;
+                    Rect.Color = Rp.LineColor;
+
+                    Cog_ROI_Display.DrawingEnabled = false;
+                    Rect.Interactive = true;
+                    Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+                    Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+                    Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+
+                    string ROIName = $"{Category}^{item.Name}";
+
+                    Cog_ROI_Display.InteractiveGraphics.Add(Rect, ROIName, false);
+                    int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
+                    Cog_ROI_Display.DrawingEnabled = true;
+
+                    ROI_Data Data = new ROI_Data();
+                    Data.Name = item.Name;
+                    Data.Category = Category;
+                    Data.X = Rect.X;
+                    Data.Y = Rect.Y;
+                    Data.Width = Rect.Width;
+                    Data.Height = Rect.Height;
+                    Data.Object = Rect;
+                    LstV_ROI.BeginUpdate();
+
+                    ListViewItem Lvi = new ListViewItem(item.Name, Category) { Name = "Name" };
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category" });
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
+                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Data.Object.ToString(), Tag = Data.Object });
+                    LstV_ROI.Items.Add(Lvi);
+
+                    LstV_ROI.Groups[Category].Items.Add(Lvi);
+                    LstV_ROI.EndUpdate();
+                }
+            }
         }
         private void InitPGE()
         {
@@ -146,36 +204,31 @@ namespace CRUX_Renewal.Ex_Form
         }
         public void SaveROIList()
         {
-            List<string> SectionList = new List<string>();
-            Dictionary<string, IniSection> Sections = new Dictionary<string, IniSection>();
-
-            foreach (ListViewGroup item in LstV_ROI.Groups)
+            try
             {
-                SectionList.Add(item.Name);
-                Sections.Add(item.Name, new IniSection());
-            }
-
-            foreach(ListViewItem item in LstV_ROI.Items)
-            {
-                string GroupName = item.Group.Name;
-                for(int i =0; i < Sections.Count; ++i)
+                Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Clear();
+                for (int i = 0; i < LstV_ROI.Items.Count; ++i)
                 {
-                    if(SectionList[i] == GroupName)
-                    {
-                        Sections[GroupName].Add("Name", item.SubItems["Name"].Text);
-                        Sections[GroupName].Add("Category", item.SubItems["Category"].Text);
-                        Sections[GroupName].Add("X", item.SubItems["X"].Text);
-                        Sections[GroupName].Add("Y", item.SubItems["Y"].Text);
-                        Sections[GroupName].Add("Width", item.SubItems["Width"].Text);
-                        Sections[GroupName].Add("Height", item.SubItems["Height"].Text);
-                       
-                    }
+                    IniSection IniSec = new IniSection();
+
+                    IniSec.Add("Name", LstV_ROI.Items[i].SubItems["Name"].Text);
+                    IniSec.Add("Category", LstV_ROI.Items[i].SubItems["Category"].Text);
+                    IniSec.Add("X", LstV_ROI.Items[i].SubItems["X"].Text);
+                    IniSec.Add("Y", LstV_ROI.Items[i].SubItems["Y"].Text);
+                    IniSec.Add("Width", LstV_ROI.Items[i].SubItems["Width"].Text);
+                    IniSec.Add("Height", LstV_ROI.Items[i].SubItems["Height"].Text);
+                    Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Add(i.ToString(), IniSec);
                 }
-                
-            }         
-            
+
+                Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Save(Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].GetIniPath());
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             //Ini.Save(Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"].GetIniPath(), System.IO.FileMode.Create);
         }
+
         public void SaveROIProperty()
         {
             CustomPropertyCollection Props = PGE_ROIProp.Item;
@@ -280,7 +333,7 @@ namespace CRUX_Renewal.Ex_Form
                     Data.Height = Rect.Height;
                     Data.Object = Rect;
                     LstV_ROI.BeginUpdate();
-
+                    Systems.MainRecipe.ROI_List.Add(Data);
                     ListViewItem Lvi = new ListViewItem(Input.ResultName, SelectedROICategory) { Name = "Name" };
                     Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category"});
                     Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
@@ -485,7 +538,7 @@ namespace CRUX_Renewal.Ex_Form
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //SaveROIProperty();
+            SaveROIProperty();
             SaveROIList();
         }
 

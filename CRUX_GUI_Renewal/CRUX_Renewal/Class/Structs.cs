@@ -1,5 +1,6 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.QuickBuild;
+using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
 using PropertyGridExt;
 using System;
@@ -249,38 +250,36 @@ namespace CRUX_Renewal.Class
         public CogJobManager Manager { get; set; } = null;
         public Optical_Cam Camera;
         public Optical_Light Light;
-        public List<ROI_Data> ROI_List;
+        public SmartList<ROI_Data> ROI_List;
 
         public void Load_RecipeData(string path)
         {
-            //IniFile Ini = new IniFile();
-            //Ini.Load($@"{path}\ROI.list");
-            //if(Ini == null)
-            //{
-            //    Systems.MainRecipe.ROI_List = new List<ROI_Data>();
-            //    return;
-            //}
-            //Systems.MainRecipe.ROI_List = new List<ROI_Data>();
-            //foreach (var item in Ini.Values)
-            //{
-            //    ROI_Data Temp = new ROI_Data();
-            //    Temp.Category = item["Category"].ToString();
-            //    Temp.Name = item["Name"].ToString();
-            //    Temp.X = item["X"].ToInt();
-            //    Temp.Y = item["Y"].ToInt();
-            //    Temp.Width = item["Width"].ToInt();
-            //    Temp.Height = item["Height"].ToInt();
-            //    //Temp.Color = Color.FromArgb(item["Color"].ToInt());
-            //    Systems.MainRecipe.ROI_List.Add(Temp);
                 for(int i = 0; i <Globals.Ini_RecipeItem_Names.Length; ++i)
                 {
                     IniFile Ini = new IniFile();
-                    Ini.Load($@"{path}\{Globals.Ini_RecipeItem_Names[i]}");
+                    Ini.Load($@"{Paths.RECIPE_PATH_RENEWAL}{path}\{Globals.Ini_RecipeItem_Names[i]}");
                     Systems.Ini_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
-                }
-                
-       
-            //}
+                }  
+        }
+        public void SetSmartListAddEvent()
+        {
+            
+        }
+        public void SetSmartListRemoveEvent()
+        {
+
+        }
+        public void SetSmartListInsertEvent()
+        {
+
+        }
+        public void SetRecipeData()
+        {
+            IniFile ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"];
+            foreach(var item in ini.Values)
+            {
+
+            }
         }
         #region IDisposable Support
         private bool disposedValue = false; // 중복 호출을 검색하려면
