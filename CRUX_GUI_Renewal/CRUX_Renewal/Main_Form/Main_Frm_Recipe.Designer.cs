@@ -42,6 +42,10 @@
             this.Btn_Save = new System.Windows.Forms.Button();
             this.Btn_Revert = new System.Windows.Forms.Button();
             this.Lb_UnderLine1 = new System.Windows.Forms.Label();
+            this.Cagb_Jobs = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
+            this.LstBoxJobList = new System.Windows.Forms.ListBox();
+            this.Cagb_Recipe = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
+            this.LstBoxRecipeList = new System.Windows.Forms.ListBox();
             this.Tlp_RecipeLayout.SuspendLayout();
             this.Tab_RecipeMain.SuspendLayout();
             this.tab_algorithm.SuspendLayout();
@@ -50,6 +54,8 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.Cagb_Jobs.SuspendLayout();
+            this.Cagb_Recipe.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_RecipeLayout
@@ -63,6 +69,8 @@
             this.Tlp_RecipeLayout.Controls.Add(this.splitContainer1, 0, 4);
             this.Tlp_RecipeLayout.Controls.Add(this.Btn_Revert, 0, 3);
             this.Tlp_RecipeLayout.Controls.Add(this.Lb_UnderLine1, 0, 1);
+            this.Tlp_RecipeLayout.Controls.Add(this.Cagb_Jobs, 0, 2);
+            this.Tlp_RecipeLayout.Controls.Add(this.Cagb_Recipe, 0, 0);
             this.Tlp_RecipeLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_RecipeLayout.Location = new System.Drawing.Point(0, 0);
             this.Tlp_RecipeLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -255,6 +263,61 @@
             this.Lb_UnderLine1.Size = new System.Drawing.Size(174, 1);
             this.Lb_UnderLine1.TabIndex = 6;
             // 
+            // Cagb_Jobs
+            // 
+            this.Cagb_Jobs.Controls.Add(this.LstBoxJobList);
+            this.Cagb_Jobs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Cagb_Jobs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Cagb_Jobs.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Cagb_Jobs.Location = new System.Drawing.Point(0, 171);
+            this.Cagb_Jobs.Margin = new System.Windows.Forms.Padding(0);
+            this.Cagb_Jobs.Name = "Cagb_Jobs";
+            this.Cagb_Jobs.Size = new System.Drawing.Size(180, 498);
+            this.Cagb_Jobs.TabIndex = 7;
+            this.Cagb_Jobs.TabStop = false;
+            this.Cagb_Jobs.Text = "Jobs";
+            // 
+            // LstBoxJobList
+            // 
+            this.LstBoxJobList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LstBoxJobList.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstBoxJobList.FormattingEnabled = true;
+            this.LstBoxJobList.ItemHeight = 20;
+            this.LstBoxJobList.Location = new System.Drawing.Point(3, 21);
+            this.LstBoxJobList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.LstBoxJobList.Name = "LstBoxJobList";
+            this.LstBoxJobList.ScrollAlwaysVisible = true;
+            this.LstBoxJobList.Size = new System.Drawing.Size(174, 474);
+            this.LstBoxJobList.TabIndex = 3;
+            this.LstBoxJobList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxJobList_MouseDoubleClick);
+            // 
+            // Cagb_Recipe
+            // 
+            this.Cagb_Recipe.Controls.Add(this.LstBoxRecipeList);
+            this.Cagb_Recipe.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Cagb_Recipe.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Cagb_Recipe.Location = new System.Drawing.Point(0, 0);
+            this.Cagb_Recipe.Margin = new System.Windows.Forms.Padding(0);
+            this.Cagb_Recipe.Name = "Cagb_Recipe";
+            this.Cagb_Recipe.Size = new System.Drawing.Size(180, 166);
+            this.Cagb_Recipe.TabIndex = 8;
+            this.Cagb_Recipe.TabStop = false;
+            this.Cagb_Recipe.Text = "Recipe";
+            // 
+            // LstBoxRecipeList
+            // 
+            this.LstBoxRecipeList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LstBoxRecipeList.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstBoxRecipeList.FormattingEnabled = true;
+            this.LstBoxRecipeList.ItemHeight = 20;
+            this.LstBoxRecipeList.Location = new System.Drawing.Point(3, 21);
+            this.LstBoxRecipeList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.LstBoxRecipeList.Name = "LstBoxRecipeList";
+            this.LstBoxRecipeList.ScrollAlwaysVisible = true;
+            this.LstBoxRecipeList.Size = new System.Drawing.Size(174, 142);
+            this.LstBoxRecipeList.TabIndex = 3;
+            this.LstBoxRecipeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseDoubleClick);
+            // 
             // Main_Frm_Recipe
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -278,6 +341,8 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.Cagb_Jobs.ResumeLayout(false);
+            this.Cagb_Recipe.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -298,5 +363,9 @@
         private System.Windows.Forms.Label Lb_UnderLine2;
         private System.Windows.Forms.Button Btn_Revert;
         private System.Windows.Forms.Label Lb_UnderLine1;
+        private User_Controls.CenterAlignedGroupBox Cagb_Jobs;
+        private User_Controls.CenterAlignedGroupBox Cagb_Recipe;
+        private System.Windows.Forms.ListBox LstBoxJobList;
+        private System.Windows.Forms.ListBox LstBoxRecipeList;
     }
 }

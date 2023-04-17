@@ -84,11 +84,27 @@ namespace CRUX_Renewal
                 t.Wait();
                 GC.Collect();
 
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+        public static void RefreshRecipeData_Control()
+        {
+            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentRecipe);
+            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SetRecipeData();
+            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentJob);
+            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.Frm_ROI?.SetRecipeROI();
+        }
+        public static void ClearRecipe()
+        {
+            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentRecipe);
+            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.ClearRecipeData();
+            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentJob);
+            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.Frm_ROI?.ClearRecipeROI();
+            Systems.RefreshRecipeData_Control();
         }
         public static void LoadROI(string path)
         {

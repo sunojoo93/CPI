@@ -250,16 +250,21 @@ namespace CRUX_Renewal.Class
         public CogJobManager Manager { get; set; } = null;
         public Optical_Cam Camera;
         public Optical_Light Light;
-        public SmartList<ROI_Data> ROI_List;
+        public Dictionary<string,List<ROI_Data>> ROI_List;
 
         public void Load_RecipeData(string path)
         {
-                for(int i = 0; i <Globals.Ini_RecipeItem_Names.Length; ++i)
+            for (int i = 0; i < Globals.Ini_RecipeItem_Names.Length; ++i)
+            {
+                if (Systems.Ini_Collection[Systems.CurDisplayIndex].ContainsKey(Globals.Ini_RecipeItem_Names[i]))
                 {
-                    IniFile Ini = new IniFile();
-                    Ini.Load($@"{Paths.RECIPE_PATH_RENEWAL}{path}\{Globals.Ini_RecipeItem_Names[i]}");
-                    Systems.Ini_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
-                }  
+                    Systems.Ini_Collection[Systems.CurDisplayIndex].Remove(Globals.Ini_RecipeItem_Names[i]);
+                }
+
+                IniFile Ini = new IniFile();
+                Ini.Load($@"{Paths.RECIPE_PATH_RENEWAL}{path}\{Globals.Ini_RecipeItem_Names[i]}");
+                Systems.Ini_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
+            }
         }
         public void SetSmartListAddEvent()
         {
@@ -341,6 +346,7 @@ namespace CRUX_Renewal.Class
 
     public class ROI_Data
     {
+        private string _JobName;
         private string _Category;
         private string _Name;
         private double _X;
@@ -349,6 +355,19 @@ namespace CRUX_Renewal.Class
         private double _Height;
         private object _Object;
 
+        [Description("포함된 Job의 이름입니다.")]
+        [ReadOnly(true)]
+        public string JobName
+        {
+            get
+            {
+                return _JobName;
+            }
+            set
+            {
+                _JobName = value;
+            }
+        }
         [Description("ROI의 Category입니다.")]
         [ReadOnly(true)]
         public string Category

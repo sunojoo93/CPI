@@ -111,8 +111,8 @@ namespace CRUX_Renewal
         public static List<string> MAINFORM_NAME { get; set; }
 
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
-        public static string[] Ini_Data_Names = { "ROI_Property.dat" };
-        public static string[] Ini_RecipeItem_Names = { "ROI.list" };
+        public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
+        public static string[] Ini_RecipeItem_Names = { "ROI.list", "ROI_Property.dat" };
 
         public static void m_fnInitSelectRecipe(int nCnt)
         {

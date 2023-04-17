@@ -87,66 +87,85 @@ namespace CRUX_Renewal.Ex_Form
             InputBox.Leave += InputBox_Leave;
             InputBox.Hide();
 
-            SetRecipeROI();
+            //SetRecipeROI();
         }
         public void SetRecipeROI()
         {
-            if(Systems.MainRecipe.ROI_List.Count > 0)
+          if(Systems.MainRecipe.ROI_List.Count > 0)
             {
-                foreach (ROI_Data item in Systems.MainRecipe.ROI_List)
+                Cog_ROI_Display.InteractiveGraphics.Clear();
+                LstV_ROI.Items.Clear();
+                List<ROI_Data> Temp = Systems.MainRecipe.ROI_List[Systems.CurrentJob];
+                if (Temp != null && Temp.Count > 0)
                 {
-                    string Category = item.Category;
-                    CogRectangle Rect = new CogRectangle();
-                    var ROIProp = PGE_ROIProp.Item.FindName(Category);
-                    ROI_Property Rp = (ROIProp.Value as ROI_Property);
+                    foreach (ROI_Data item in Temp)
+                    {
+                        string Category = item.Category;
+                        CogRectangle Rect = new CogRectangle();
+                        var ROIProp = PGE_ROIProp.Item.FindName(Category);
+                        ROI_Property Rp = (ROIProp.Value as ROI_Property);
 
-                    Rect.X = item.X;
-                    Rect.Y = item.Y;
-                    Rect.Width = item.Width;
-                    Rect.Height = item.Height;
+                        Rect.X = item.X;
+                        Rect.Y = item.Y;
+                        Rect.Width = item.Width;
+                        Rect.Height = item.Height;
 
-                    Rect.SelectedLineStyle = Rp.SelectedLineStyle;
-                    Rect.SelectedColor = Rp.SelectedLineColor;
-                    Rect.LineStyle = Rp.LineStyle;
-                    Rect.DragLineStyle = Rp.DragLineStyle;
-                    Rect.DragColor = Rp.DragLineColor;
-                    Rect.Color = Rp.LineColor;
+                        Rect.SelectedLineStyle = Rp.SelectedLineStyle;
+                        Rect.SelectedColor = Rp.SelectedLineColor;
+                        Rect.LineStyle = Rp.LineStyle;
+                        Rect.DragLineStyle = Rp.DragLineStyle;
+                        Rect.DragColor = Rp.DragLineColor;
+                        Rect.Color = Rp.LineColor;
 
-                    Cog_ROI_Display.DrawingEnabled = false;
-                    Rect.Interactive = true;
-                    Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
-                    Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
-                    Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+                        Cog_ROI_Display.DrawingEnabled = false;
+                        Rect.Interactive = true;
+                        Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+                        Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+                        Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
 
-                    string ROIName = $"{Category}^{item.Name}";
+                        string ROIName = $"{Category}^{item.Name}";
 
-                    Cog_ROI_Display.InteractiveGraphics.Add(Rect, ROIName, false);
-                    int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
-                    Cog_ROI_Display.DrawingEnabled = true;
+                        Cog_ROI_Display.InteractiveGraphics.Add(Rect, ROIName, false);
+                        int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
+                        Cog_ROI_Display.DrawingEnabled = true;
 
-                    ROI_Data Data = new ROI_Data();
-                    Data.Name = item.Name;
-                    Data.Category = Category;
-                    Data.X = Rect.X;
-                    Data.Y = Rect.Y;
-                    Data.Width = Rect.Width;
-                    Data.Height = Rect.Height;
-                    Data.Object = Rect;
-                    LstV_ROI.BeginUpdate();
+                        ROI_Data Data = new ROI_Data();
+                        Data.Name = item.Name;
+                        Data.Category = Category;
+                        Data.X = Rect.X;
+                        Data.Y = Rect.Y;
+                        Data.Width = Rect.Width;
+                        Data.Height = Rect.Height;
+                        Data.Object = Rect;
+                        LstV_ROI.BeginUpdate();
 
-                    ListViewItem Lvi = new ListViewItem(item.Name, Category) { Name = "Name" };
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Data.Object.ToString(), Tag = Data.Object });
-                    LstV_ROI.Items.Add(Lvi);
+                        ListViewItem Lvi = new ListViewItem(item.Name, Category) { Name = "Name" };
+                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category" });
+                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
+                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
+                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
+                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
+                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Data.Object.ToString(), Tag = Data.Object });
+                        LstV_ROI.Items.Add(Lvi);
 
-                    LstV_ROI.Groups[Category].Items.Add(Lvi);
-                    LstV_ROI.EndUpdate();
+                        LstV_ROI.Groups[Category].Items.Add(Lvi);
+                        LstV_ROI.EndUpdate();
+                    }
                 }
             }
+        }
+        public void ClearRecipeROI()
+        {
+            LstV_ROI.Items.Clear();
+            LstV_ROI.Groups.Clear();
+            Cog_ROI_Display.Image = null;
+        }
+        public void ClearROIDisplay()
+        {
+            Cog_ROI_Display.Image = null;
+            LstV_ROI.Items.Clear();
+            //LstV_ROI.Groups.Clear();
+            Systems.MainRecipe.ROI_List?.Clear();
         }
         private void InitPGE()
         {
@@ -333,7 +352,8 @@ namespace CRUX_Renewal.Ex_Form
                     Data.Height = Rect.Height;
                     Data.Object = Rect;
                     LstV_ROI.BeginUpdate();
-                    Systems.MainRecipe.ROI_List.Add(Data);
+                    
+                    Systems.MainRecipe.ROI_List[Systems.CurrentJob].Add(Data);
                     ListViewItem Lvi = new ListViewItem(Input.ResultName, SelectedROICategory) { Name = "Name" };
                     Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category"});
                     Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
@@ -533,6 +553,7 @@ namespace CRUX_Renewal.Ex_Form
                 Cog_ROI_Display.Fit(true);
                 Cog_ROI_Display.DrawingEnabled = true;
 
+                Systems.RefreshRecipeData_Control();
             }
         }
 

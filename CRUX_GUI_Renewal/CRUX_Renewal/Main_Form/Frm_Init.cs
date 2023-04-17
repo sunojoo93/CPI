@@ -288,14 +288,14 @@ namespace CRUX_Renewal.Main_Form
                     else
                         continue;
                 }
-                for (int j = 0; j < Globals.Ini_Data_Names.Length; ++j)
+                for (int j = 0; j < Globals.Ini_DefaultData_Names.Length; ++j)
                 {
                     IniFile Ini = new IniFile();
-                    string IniPath = $@"{Paths.TXT_FOLDER_PATH}{Globals.Ini_Data_Names[j]}";
+                    string IniPath = $@"{Paths.TXT_FOLDER_PATH}{Globals.Ini_DefaultData_Names[j]}";
                     if (fileProc.FileExists(IniPath))
                     {
-                        Ini.Load($@"{Paths.TXT_FOLDER_PATH}{Globals.Ini_Data_Names[j]}");
-                        Systems.Ini_Collection[i].Add(Globals.Ini_Data_Names[j], Ini);
+                        Ini.Load($@"{Paths.TXT_FOLDER_PATH}{Globals.Ini_DefaultData_Names[j]}");
+                        Systems.Ini_Collection[i].Add(Globals.Ini_DefaultData_Names[j], Ini);
                     }
                     else
                         continue;

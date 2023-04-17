@@ -12,13 +12,12 @@ using CRUX_Renewal.Utils;
 using CRUX_Renewal.Class;
 using CRUX_Renewal.User_Controls;
 using OpenCvSharp;
+using System.Collections;
 
 namespace CRUX_Renewal.Main_Form
 {
     public partial class Main_Frm_Recipe : Form
     {
-        public Ex_Frm_Recipe_RecipeList Frm_RecipeList { get; set; } = null;
-        public Ex_Frm_Recipe_JobList Frm_JobList { get; set; } = null;
         //public Recipe MainRecipe = new Recipe();
         public Ex_Frm_Recipe_ROI Frm_ROI { get; set; } = null;
         public void LoadVpp(string path)
@@ -35,22 +34,16 @@ namespace CRUX_Renewal.Main_Form
             FormBorderStyle = FormBorderStyle.None;
 
             Show();
-            SetRecipeData();
-            Frm_RecipeList = Frm_RecipeList ?? new Ex_Frm_Recipe_RecipeList();
-            Frm_JobList = Frm_JobList ?? new Ex_Frm_Recipe_JobList();
+           // SetRecipeData();
             Frm_ROI = Frm_ROI ?? new Ex_Frm_Recipe_ROI();
        
 
-            Tlp_RecipeLayout.Controls.Add(Frm_RecipeList, 0, 0);
-            Tlp_RecipeLayout.Controls.Add(Frm_JobList, 0, 2);
+            //Tlp_RecipeLayout.Controls.Add(Frm_RecipeList, 0, 0);
+            //Tlp_RecipeLayout.Controls.Add(Frm_JobList, 0, 2);
             //Tlp_ROI.Controls.Add(Frm_ROI, 0, 0);
       
             tab_roi.Controls.Add(Frm_ROI);
-            Frm_RecipeList.Dock = DockStyle.Fill;
-            Frm_JobList.Dock = DockStyle.Fill;
             Frm_ROI.Dock = DockStyle.Fill;
-            Frm_RecipeList.Show();
-            Frm_JobList.Show();
             Frm_ROI.Show();
          
             DisplayJob();
@@ -73,9 +66,17 @@ namespace CRUX_Renewal.Main_Form
         public void SetRecipeData()
         {
             IniFile ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"];
-            Systems.MainRecipe.ROI_List = new List<ROI_Data>();
+            
+            Systems.MainRecipe.ROI_List = new Dictionary<string, List<ROI_Data>>();
             foreach (var item in ini.Values)
             {
+                string JobName = item["JobName"].ToString();
+                if(JobName == null)
+                {
+                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "Job List와 ROI List가 매칭되지 않습니다.");
+                    Noti.ShowDialog();
+                    return;
+                }
                 ROI_Data Rd = new ROI_Data();
                 Rd.Name = item["Name"].ToString();
                 Rd.Category = item["Category"].ToString();
@@ -96,8 +97,22 @@ namespace CRUX_Renewal.Main_Form
                 if (Double.TryParse(item["Height"].ToString(), out Height))
                     Rd.Height = Height;
 
-                Systems.MainRecipe.ROI_List.Add(Rd);
+                if (!Systems.MainRecipe.ROI_List.ContainsKey(JobName))
+                {
+                    List<ROI_Data> Temp = new List<ROI_Data>();
+                    Temp.Add(Rd);
+                    Systems.MainRecipe.ROI_List.Add(JobName, Temp);
+                }
+                else
+                {
+                    Systems.MainRecipe.ROI_List[JobName].Add(Rd);
+                }
             }
+        }
+        public void ClearRecipeData()
+        {
+            Systems.MainRecipe.ROI_List?.Clear();
+            
         }
         public void DisplayJob()
         {
@@ -113,11 +128,25 @@ namespace CRUX_Renewal.Main_Form
                 //        //    Utility.ChangeJobImageSource(Systems.CogJobManager_.Job(i), true);
                 //    }
                 //});
-                Frm_RecipeList.SetRecipeList(Paths.RECIPE_PATH_RENEWAL);
-                Frm_JobList.SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
+                SetRecipeList(Paths.RECIPE_PATH_RENEWAL);
+                SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
 
                 cogToolGroupEditV2_Algorithm.Show();
             }));
+        }
+        public void SetRecipeList(string path)
+        {
+            LstBoxRecipeList.Items.Clear();
+            ArrayList Temp = fileProc.getDirNameList(path);
+            LstBoxRecipeList.Items.AddRange(Temp.ToArray());
+            if (LstBoxRecipeList.Items.Count > 0)
+                LstBoxRecipeList.SelectedItem = Systems.CurrentRecipe;
+        }
+        public void SetJobListBox(List<string> data)
+        {
+            LstBoxJobList.Items.Clear();
+            LstBoxJobList.Items.AddRange(data.ToArray());
+            LstBoxJobList.SelectedItem = Systems.CurrentJob;
         }
         public void ChangeSubject(string name)
         {
@@ -130,6 +159,13 @@ namespace CRUX_Renewal.Main_Form
                         cogToolGroupEditV2_Algorithm.Subject = Systems.GetCogJob().Manager.Job(i).VisionTool as CogToolGroup;
                     }
                 }
+            }));
+        }
+        public void ClearROIDisplay()
+        {
+            this.Invoke(new Action(() =>
+            {
+                Frm_ROI.ClearROIDisplay();
             }));
         }
         public void ChangeSubject(int idx)
@@ -183,6 +219,256 @@ namespace CRUX_Renewal.Main_Form
         private void Tab_RecipeMain_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.Refresh();
+        }
+
+        private void LstBoxJobList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            string Temp = LstBoxJobList.SelectedItem?.ToString();
+            Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
+            Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearROIDisplay();
+            Systems.ClearRecipe();
+        }
+
+        private void LstBoxRecipeList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                string[] Temp = LstBoxRecipeList.SelectedItem.ToString().Split(new string[] { "\\" }, StringSplitOptions.None);
+                Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "현재 Recipe를 닫고 선택한 Recipe를 엽니다.\n저장하지 않은 데이터는 삭제됩니다.");
+                Noti.ShowDialog();
+                if (Noti.DialogResult == DialogResult.OK)
+                {
+                    //Ex_Frm_Others_Loading Loading = new Ex_Frm_Others_Loading() { Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (Width)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (Height))) };
+                    //Loading.Show();
+                    Utility.LoadingStart();
+                    string SelectedRecipe = $"{Paths.RECIPE_PATH_RENEWAL}{Temp[Temp.Length - 1]}";
+                    ArrayList Rcp = fileProc.getFileList(SelectedRecipe, ".vpp");
+
+                    if (Rcp.Count >= 1)
+                    {
+
+                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
+                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.LstBoxRecipeList.Items.Clear();
+                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.LstBoxJobList.Items.Clear();
+
+                        if (Rcp == null && Rcp?.Count < 1)
+                            throw new Exception(Enums.ErrorCode.DO_NOT_FOUND_VPP_FILE.DescriptionAttr());
+                        Systems.SetCogJob(Rcp[0]?.ToString(), Temp[Temp.Length - 1]);
+
+                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
+                        Systems.CurrentRecipe = Temp[Temp.Length - 1]?.ToString();
+                        Systems.ClearRecipe();
+                        Utility.LoadingStop();
+                        //Loading.Close();
+                        // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.SetListBox(JobListTemp);                   
+                    }
+                }
+                else
+                {
+                    LstBoxRecipeList.SelectedItem = Systems.CurrentRecipe;
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+        public void SelectRecipe(string name)
+        {
+            LstBoxRecipeList.SelectedItem = name;
+        }
+        public void ClearRecipeList()
+        {
+            LstBoxRecipeList.Items.Clear();
+        }
+        public void SelectJob(string name)
+        {
+            LstBoxJobList.SelectedItem = name;
+        }
+        public void ClearJobList()
+        {
+            LstBoxJobList.Items.Clear();
+        }
+        private void LstBoxRecipeList_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button.Equals(MouseButtons.Right))
+            {
+                //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
+                if (LstBoxRecipeList?.SelectedItem == null)
+                    return;
+                string SelectRecipe = LstBoxRecipeList?.SelectedItem?.ToString();
+
+                //오른쪽 메뉴를 만듭니다
+                ContextMenu m = new ContextMenu();
+
+                //메뉴에 들어갈 아이템을 만듭니다
+                MenuItem m1 = new MenuItem();
+                MenuItem m2 = new MenuItem();
+                MenuItem m3 = new MenuItem();
+                MenuItem m4 = new MenuItem();
+                MenuItem m5 = new MenuItem();
+                m1.Text = "New Recipe";
+                m2.Text = "Copy";
+                m3.Text = "Paste";
+                m4.Text = "Name Change";
+                m5.Text = "Delete";
+
+
+                if (Systems.CurrentRecipe == SelectRecipe)
+                    m1.Enabled = false;
+
+
+                m1.Click += (senders, es) =>
+                {
+                    Ex_Frm_Others_Change_Input Input = new Ex_Frm_Others_Change_Input("새 이름을 입력해주세요.", SelectRecipe);
+                    Input.ShowDialog();
+                    if (Input.DialogResult == DialogResult.OK)
+                    {
+
+                    }
+                    else
+                        return;
+                };
+
+                m2.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        // 삭제
+                    }
+                    else
+                        return;
+                };
+                m3.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        // 삭제
+                    }
+                    else
+                        return;
+                };
+                m4.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        // 삭제
+                    }
+                    else
+                        return;
+                };
+                m5.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        // 삭제
+                    }
+                    else
+                        return;
+                };
+
+                //메뉴에 메뉴 아이템을 등록해줍니다
+                m.MenuItems.Add(m1);
+                m.MenuItems.Add(m2);
+                m.MenuItems.Add(m3);
+                m.MenuItems.Add(m4);
+                m.MenuItems.Add(m5);
+
+                //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
+                m.Show(LstBoxRecipeList, new System.Drawing.Point(e.X, e.Y));
+            }
+        }
+
+        private void LstBoxJobList_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (LstBoxJobList?.SelectedItem == null)
+                return;
+            if (e.Button.Equals(MouseButtons.Right))
+            {
+                //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
+                string SelectedJobName = LstBoxJobList.SelectedItem.ToString();
+
+                //오른쪽 메뉴를 만듭니다
+                ContextMenu m = new ContextMenu();
+
+                //메뉴에 들어갈 아이템을 만듭니다
+                MenuItem m0 = new MenuItem();
+                MenuItem m1 = new MenuItem();
+                MenuItem m2 = new MenuItem();
+                MenuItem m3 = new MenuItem();
+
+                m0.Text = "New Job";
+                m1.Text = "Copy";
+                m2.Text = "Name Change";
+                m3.Text = "Delete";
+
+
+
+
+                //if (Systems.CurrentRecipe == SelectRecipe)
+                //    m1.Enabled = false;
+                m0.Click += (senders, ex) =>
+                {
+                    CogJob Temp = Cognex_Helper.CreateNewJob();
+                    Systems.MainRecipe.Manager.JobAdd(Temp);
+                    SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(LstBoxJobList.Items.Count - 1);
+                };
+                m1.Click += (senders, es) =>
+                {
+
+                };
+                m2.Click += (senders, es) =>
+                {
+                    Ex_Frm_Others_Change_Input Input = new Ex_Frm_Others_Change_Input("새 이름을 입력해주세요.", SelectedJobName);
+                    Input.ShowDialog();
+                    if (Input.DialogResult == DialogResult.OK)
+                        Cognex_Helper.ChangeJobName(Systems.MainRecipe.Manager, SelectedJobName, Input.ResultName);
+                    else
+                        return;
+                    LstBoxJobList.Items.Clear();
+                    var Temp = Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager);
+
+                    SetListBox(Temp);
+                };
+
+                m3.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        Cognex_Helper.DeleteJob(Systems.MainRecipe.Manager, SelectedJobName);
+                    }
+                    else
+                        return;
+                };
+
+                //메뉴에 메뉴 아이템을 등록해줍니다
+                m.MenuItems.Add(m0);
+                m.MenuItems.Add(m1);
+                m.MenuItems.Add(m2);
+                m.MenuItems.Add(m3);
+
+                //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
+                m.Show(LstBoxJobList, new System.Drawing.Point(e.X, e.Y));
+            }
+        }
+        public void SetListBox(List<string> data)
+        {
+            LstBoxJobList.Items.Clear();
+            LstBoxJobList.Items.AddRange(data.ToArray());
+            LstBoxJobList.SelectedItem = Systems.CurrentJob;
         }
     }
 }

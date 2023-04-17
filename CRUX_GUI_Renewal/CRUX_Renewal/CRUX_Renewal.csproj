@@ -493,18 +493,6 @@
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.Designer.cs">
       <DependentUpon>Ex_Frm_Recipe_ROI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_JobList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_JobList.Designer.cs">
-      <DependentUpon>Ex_Frm_Recipe_JobList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_RecipeList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_RecipeList.Designer.cs">
-      <DependentUpon>Ex_Frm_Recipe_RecipeList.cs</DependentUpon>
-    </Compile>
     <Compile Include="Frm_Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -680,12 +668,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Change_Input.resx">
       <DependentUpon>Ex_Frm_Others_Change_Input.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_JobList.resx">
-      <DependentUpon>Ex_Frm_Recipe_JobList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_RecipeList.resx">
-      <DependentUpon>Ex_Frm_Recipe_RecipeList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Main.resx">
       <DependentUpon>Frm_Main.cs</DependentUpon>

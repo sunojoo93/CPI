@@ -84,6 +84,21 @@ namespace CRUX_Renewal
                 throw ex;
             }
         }
+        /// <summary>
+        /// Dictionary Key 변경
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dic"></param>
+        /// <param name="fromKey"></param>
+        /// <param name="toKey"></param>
+        public static void RenameKey<TKey, TValue>(this IDictionary<TKey, TValue> dic,
+                                      TKey fromKey, TKey toKey)
+        {
+            TValue value = dic[fromKey];
+            dic.Remove(fromKey);
+            dic[toKey] = value;
+        }
         static public void LoadingStart()
         {
             Ex_Frm_Others_Loading form = null;
@@ -457,5 +472,6 @@ namespace CRUX_Renewal
             prop.SetValue(control, enabled, null);
         }
     }
+
 
 }

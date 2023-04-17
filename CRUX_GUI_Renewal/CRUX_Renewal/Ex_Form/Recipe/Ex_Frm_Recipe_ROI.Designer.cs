@@ -43,7 +43,6 @@ namespace CRUX_Renewal.Ex_Form
             this.InputBox = new System.Windows.Forms.TextBox();
             this.LstV_ROI = new System.Windows.Forms.ListView();
             this.Gb_ROIProp = new System.Windows.Forms.GroupBox();
-            this.PGE_ROIProp = new PropertyGridExt.PropertyGridEx();
             this.Gb_ROI_CATEGORY = new System.Windows.Forms.GroupBox();
             this.Tlp_ROI_List = new System.Windows.Forms.TableLayoutPanel();
             this.LstB_ROI = new System.Windows.Forms.ListBox();
@@ -53,6 +52,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Button = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_ImageLoad = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.PGE_ROIProp = new PropertyGridExt.PropertyGridEx();
             this.Tlp_ROI.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -240,61 +240,6 @@ namespace CRUX_Renewal.Ex_Form
             this.Gb_ROIProp.TabStop = false;
             this.Gb_ROIProp.Text = "ROI Property";
             // 
-            // PGE_ROIProp
-            // 
-            // 
-            // 
-            // 
-            this.PGE_ROIProp.DocCommentDescription.AccessibleName = "";
-            this.PGE_ROIProp.DocCommentDescription.AutoEllipsis = true;
-            this.PGE_ROIProp.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PGE_ROIProp.DocCommentDescription.Location = new System.Drawing.Point(3, 23);
-            this.PGE_ROIProp.DocCommentDescription.Name = "";
-            this.PGE_ROIProp.DocCommentDescription.Size = new System.Drawing.Size(804, 32);
-            this.PGE_ROIProp.DocCommentDescription.TabIndex = 1;
-            this.PGE_ROIProp.DocCommentImage = null;
-            // 
-            // 
-            // 
-            this.PGE_ROIProp.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PGE_ROIProp.DocCommentTitle.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
-            this.PGE_ROIProp.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
-            this.PGE_ROIProp.DocCommentTitle.Name = "";
-            this.PGE_ROIProp.DocCommentTitle.Size = new System.Drawing.Size(804, 20);
-            this.PGE_ROIProp.DocCommentTitle.TabIndex = 0;
-            this.PGE_ROIProp.DocCommentTitle.UseMnemonic = false;
-            this.PGE_ROIProp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PGE_ROIProp.DrawFlatToolbar = true;
-            this.PGE_ROIProp.Location = new System.Drawing.Point(3, 21);
-            this.PGE_ROIProp.Margin = new System.Windows.Forms.Padding(0);
-            this.PGE_ROIProp.Name = "PGE_ROIProp";
-            this.PGE_ROIProp.SelectedItemWithFocusBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.PGE_ROIProp.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
-            this.PGE_ROIProp.SelectedObject = ((object)(resources.GetObject("PGE_ROIProp.SelectedObject")));
-            this.PGE_ROIProp.ShowCustomProperties = true;
-            this.PGE_ROIProp.Size = new System.Drawing.Size(810, 245);
-            this.PGE_ROIProp.TabIndex = 0;
-            this.PGE_ROIProp.ToolbarVisible = false;
-            // 
-            // 
-            // 
-            this.PGE_ROIProp.ToolStrip.AccessibleName = "도구 모음";
-            this.PGE_ROIProp.ToolStrip.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar;
-            this.PGE_ROIProp.ToolStrip.AllowMerge = false;
-            this.PGE_ROIProp.ToolStrip.AutoSize = false;
-            this.PGE_ROIProp.ToolStrip.CanOverflow = false;
-            this.PGE_ROIProp.ToolStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this.PGE_ROIProp.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.PGE_ROIProp.ToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.PGE_ROIProp.ToolStrip.Name = "";
-            this.PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(585226, 0);
-            this.PGE_ROIProp.ToolStrip.TabIndex = 1;
-            this.PGE_ROIProp.ToolStrip.TabStop = true;
-            this.PGE_ROIProp.ToolStrip.Text = "PropertyGridToolBar";
-            this.PGE_ROIProp.ToolStrip.Visible = false;
-            this.PGE_ROIProp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PGE_ROIProp_PropertyValueChanged);
-            // 
             // Gb_ROI_CATEGORY
             // 
             this.Gb_ROI_CATEGORY.BackColor = System.Drawing.Color.Transparent;
@@ -415,6 +360,61 @@ namespace CRUX_Renewal.Ex_Form
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // PGE_ROIProp
+            // 
+            // 
+            // 
+            // 
+            this.PGE_ROIProp.DocCommentDescription.AccessibleName = "";
+            this.PGE_ROIProp.DocCommentDescription.AutoEllipsis = true;
+            this.PGE_ROIProp.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
+            this.PGE_ROIProp.DocCommentDescription.Location = new System.Drawing.Point(3, 23);
+            this.PGE_ROIProp.DocCommentDescription.Name = "";
+            this.PGE_ROIProp.DocCommentDescription.Size = new System.Drawing.Size(804, 32);
+            this.PGE_ROIProp.DocCommentDescription.TabIndex = 1;
+            this.PGE_ROIProp.DocCommentImage = null;
+            // 
+            // 
+            // 
+            this.PGE_ROIProp.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
+            this.PGE_ROIProp.DocCommentTitle.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
+            this.PGE_ROIProp.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
+            this.PGE_ROIProp.DocCommentTitle.Name = "";
+            this.PGE_ROIProp.DocCommentTitle.Size = new System.Drawing.Size(804, 20);
+            this.PGE_ROIProp.DocCommentTitle.TabIndex = 0;
+            this.PGE_ROIProp.DocCommentTitle.UseMnemonic = false;
+            this.PGE_ROIProp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PGE_ROIProp.DrawFlatToolbar = true;
+            this.PGE_ROIProp.Location = new System.Drawing.Point(3, 21);
+            this.PGE_ROIProp.Margin = new System.Windows.Forms.Padding(0);
+            this.PGE_ROIProp.Name = "PGE_ROIProp";
+            this.PGE_ROIProp.SelectedItemWithFocusBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.PGE_ROIProp.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
+            this.PGE_ROIProp.SelectedObject = ((object)(resources.GetObject("PGE_ROIProp.SelectedObject")));
+            this.PGE_ROIProp.ShowCustomProperties = true;
+            this.PGE_ROIProp.Size = new System.Drawing.Size(810, 245);
+            this.PGE_ROIProp.TabIndex = 0;
+            this.PGE_ROIProp.ToolbarVisible = false;
+            // 
+            // 
+            // 
+            this.PGE_ROIProp.ToolStrip.AccessibleName = "도구 모음";
+            this.PGE_ROIProp.ToolStrip.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar;
+            this.PGE_ROIProp.ToolStrip.AllowMerge = false;
+            this.PGE_ROIProp.ToolStrip.AutoSize = false;
+            this.PGE_ROIProp.ToolStrip.CanOverflow = false;
+            this.PGE_ROIProp.ToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.PGE_ROIProp.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.PGE_ROIProp.ToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.PGE_ROIProp.ToolStrip.Name = "";
+            this.PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
+            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(764377, 0);
+            this.PGE_ROIProp.ToolStrip.TabIndex = 1;
+            this.PGE_ROIProp.ToolStrip.TabStop = true;
+            this.PGE_ROIProp.ToolStrip.Text = "PropertyGridToolBar";
+            this.PGE_ROIProp.ToolStrip.Visible = false;
+            this.PGE_ROIProp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PGE_ROIProp_PropertyValueChanged);
             // 
             // Ex_Frm_Recipe_ROI
             // 
