@@ -67,8 +67,8 @@ namespace CRUX_Renewal.Ex_Form
             InitializeComponent();
             TopLevel = false;
             Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;   
-            
+            FormBorderStyle = FormBorderStyle.None;
+
             Cog_ROI_Display.MouseDown += Cog_ROI_Display_MouseDown;
             Cog_ROI_Display.MouseMove += Cog_ROI_Display_MouseMove;
             Cog_ROI_Display.MouseUp += Cog_ROI_Display_MouseUp;
@@ -76,26 +76,29 @@ namespace CRUX_Renewal.Ex_Form
             Cog_ROI_Display.Click += Cog_ROI_Display_Click;
             Cog_ROI_Display.MouseWheelMode = CogDisplayMouseWheelModeConstants.Zoom1;
 
-    
+
             Cog_Display_Toolbar.Display = Cog_ROI_Display;
             Cog_Display_Status.Display = Cog_ROI_Display;
             Cog_ROI_Display.MultiSelectionEnabled = false;
             Show();
-            InitPGE();        
+            InitPGE();
 
             InputBox.KeyDown += InputBox_KeyDown;
             InputBox.Leave += InputBox_Leave;
             InputBox.Hide();
 
-            //SetRecipeROI();
+            SetRecipeROI();
         }
         public void SetRecipeROI()
         {
-          if(Systems.MainRecipe.ROI_List.Count > 0)
+            if (Systems.MainRecipe.ROI_List.Count > 0)
             {
                 Cog_ROI_Display.InteractiveGraphics.Clear();
+                LstV_ROI.Groups.Clear();
                 LstV_ROI.Items.Clear();
                 List<ROI_Data> Temp = Systems.MainRecipe.ROI_List[Systems.CurrentJob];
+                foreach(string item in LstB_Category.Items)
+                    LstV_ROI.Groups.Add(new ListViewGroup(item, item));
                 if (Temp != null && Temp.Count > 0)
                 {
                     foreach (ROI_Data item in Temp)
@@ -109,47 +112,51 @@ namespace CRUX_Renewal.Ex_Form
                         Rect.Y = item.Y;
                         Rect.Width = item.Width;
                         Rect.Height = item.Height;
+                        RegistROI(Rp, Rect,Systems.CurrentJob, Category, item.Name);
+                        //Rect.SelectedLineStyle = Rp.SelectedLineStyle;
+                        //Rect.SelectedColor = Rp.SelectedLineColor;
+                        //Rect.LineStyle = Rp.LineStyle;
+                        //Rect.DragLineStyle = Rp.DragLineStyle;
+                        //Rect.DragColor = Rp.DragLineColor;
+                        //Rect.Color = Rp.LineColor;
 
-                        Rect.SelectedLineStyle = Rp.SelectedLineStyle;
-                        Rect.SelectedColor = Rp.SelectedLineColor;
-                        Rect.LineStyle = Rp.LineStyle;
-                        Rect.DragLineStyle = Rp.DragLineStyle;
-                        Rect.DragColor = Rp.DragLineColor;
-                        Rect.Color = Rp.LineColor;
+                        //Cog_ROI_Display.DrawingEnabled = false;
+                        //Rect.Interactive = true;
+                        //Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+                        //Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+                        //Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
 
-                        Cog_ROI_Display.DrawingEnabled = false;
-                        Rect.Interactive = true;
-                        Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
-                        Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
-                        Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+                        //string ROIName = $"{Category}^{item.Name}";
 
-                        string ROIName = $"{Category}^{item.Name}";
+                        //Cog_ROI_Display.InteractiveGraphics.Add(Rect, ROIName, false);
+                        //int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
+                        //Cog_ROI_Display.DrawingEnabled = true;
 
-                        Cog_ROI_Display.InteractiveGraphics.Add(Rect, ROIName, false);
-                        int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
-                        Cog_ROI_Display.DrawingEnabled = true;
+                        //ROI_Data Data = new ROI_Data();
+                        //Data.Name = item.Name;
+                        //Data.Category = Category;
+                        //Data.X = Rect.X;
+                        //Data.Y = Rect.Y;
+                        //Data.Width = Rect.Width;
+                        //Data.Height = Rect.Height;
+                        //Data.Object = Rect;
+                        //LstV_ROI.BeginUpdate();
 
-                        ROI_Data Data = new ROI_Data();
-                        Data.Name = item.Name;
-                        Data.Category = Category;
-                        Data.X = Rect.X;
-                        Data.Y = Rect.Y;
-                        Data.Width = Rect.Width;
-                        Data.Height = Rect.Height;
-                        Data.Object = Rect;
-                        LstV_ROI.BeginUpdate();
-
-                        ListViewItem Lvi = new ListViewItem(item.Name, Category) { Name = "Name" };
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Data.Object.ToString(), Tag = Data.Object });
-                        LstV_ROI.Items.Add(Lvi);
-
-                        LstV_ROI.Groups[Category].Items.Add(Lvi);
-                        LstV_ROI.EndUpdate();
+                        //ListViewItem Lvi = new ListViewItem(item.Name, Category) { Name = "Name" };
+                        //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.JobName, Name = "JobName" });
+                        //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category" });
+                        //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
+                        //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
+                        //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
+                        //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
+                        //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Data.Object.ToString(), Tag = Data.Object });
+                        //LstV_ROI.Items.Add(Lvi);
+                        //if (LstV_ROI.Groups[Category] == null)
+                        //{
+                        //    LstV_ROI.Groups.Add(new ListViewGroup(Category, Category));
+                        //}
+                        //LstV_ROI.Groups[Category].Items.Add(Lvi);
+                        //LstV_ROI.EndUpdate();
                     }
                 }
             }
@@ -160,24 +167,18 @@ namespace CRUX_Renewal.Ex_Form
             LstV_ROI.Groups.Clear();
             Cog_ROI_Display.Image = null;
         }
-        public void ClearROIDisplay()
-        {
-            Cog_ROI_Display.Image = null;
-            LstV_ROI.Items.Clear();
-            //LstV_ROI.Groups.Clear();
-            Systems.MainRecipe.ROI_List?.Clear();
-        }
+
         private void InitPGE()
         {
             IniFile Ini = new IniFile();
             Ini.Load($@"{Paths.ROI_PROPERTY}ROI_Property.dat");
-            LstV_ROI.Columns.Add("Name",90);
-            LstV_ROI.Columns.Add("Category",120);
-            LstV_ROI.Columns.Add("X",150);
+            LstV_ROI.Columns.Add("Name", 90);
+            LstV_ROI.Columns.Add("Category", 120);
+            LstV_ROI.Columns.Add("X", 150);
             LstV_ROI.Columns.Add("Y", 150);
             LstV_ROI.Columns.Add("Width", 150);
             LstV_ROI.Columns.Add("Height", 150);
-            LstV_ROI.Columns.Add("Object",120);
+            LstV_ROI.Columns.Add("Object", 120);
 
             foreach (var inner_item in Ini.Values)
             {
@@ -185,7 +186,7 @@ namespace CRUX_Renewal.Ex_Form
                 LstB_Category.Items.Add(inner_item["Name"].ToString());
                 ROI_Property Prop = new ROI_Property();
                 Prop.Name = inner_item["Name"].ToString();
-                Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["LineColor"].ToString()) ;
+                Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["LineColor"].ToString());
                 Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["LineStyle"].ToString());
                 Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["SelectedLineStyle"].ToString());
                 Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["SelectedColor"].ToString());
@@ -196,7 +197,7 @@ namespace CRUX_Renewal.Ex_Form
 
                 PGE_ROIProp.Item.Add(Cp);
                 ListViewGroup Group = new ListViewGroup(inner_item["Name"].ToString(), HorizontalAlignment.Left) { Header = inner_item["Name"].ToString(), Name = inner_item["Name"].ToString() };
-                LstV_ROI.Groups.Add(Group);                
+                LstV_ROI.Groups.Add(Group);
             }
             LstB_Category.Hide();
             LstV_ROI.Refresh();
@@ -218,8 +219,8 @@ namespace CRUX_Renewal.Ex_Form
             mi4.Click += Mi4_Click;
             //PGE_ROIList.ContextMenu = cm;
 
-            if(LstB_ROI.Items.Count > 0)
-                LstB_ROI.SelectedIndex = 0;           
+            if (LstB_ROI.Items.Count > 0)
+                LstB_ROI.SelectedIndex = 0;
         }
         public void SaveROIList()
         {
@@ -229,8 +230,8 @@ namespace CRUX_Renewal.Ex_Form
                 for (int i = 0; i < LstV_ROI.Items.Count; ++i)
                 {
                     IniSection IniSec = new IniSection();
-
-                    IniSec.Add("Name", LstV_ROI.Items[i].SubItems["Name"].Text);
+                    IniSec.Add("JobName", LstV_ROI.Items[i].SubItems["JobName"].Text);
+                    IniSec.Add("Name", LstV_ROI.Items[i].SubItems["Name"].Text);                 
                     IniSec.Add("Category", LstV_ROI.Items[i].SubItems["Category"].Text);
                     IniSec.Add("X", LstV_ROI.Items[i].SubItems["X"].Text);
                     IniSec.Add("Y", LstV_ROI.Items[i].SubItems["Y"].Text);
@@ -241,7 +242,7 @@ namespace CRUX_Renewal.Ex_Form
 
                 Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Save(Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].GetIniPath());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -253,7 +254,7 @@ namespace CRUX_Renewal.Ex_Form
             CustomPropertyCollection Props = PGE_ROIProp.Item;
             IniFile Ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"];
             Ini.Clear();
-            foreach(CustomProperty item in Props)
+            foreach (CustomProperty item in Props)
             {
                 IniSection Section = new IniSection();
                 Section.Add("Name", (item.Value as ROI_Property).Name);
@@ -271,12 +272,12 @@ namespace CRUX_Renewal.Ex_Form
         }
         private void Mi4_Click(object sender, EventArgs e)
         {
-      
+
         }
 
         private void Mi3_Click(object sender, EventArgs e)
         {
-        
+
         }
 
         private void Mi2_Click(object sender, EventArgs e)
@@ -287,7 +288,7 @@ namespace CRUX_Renewal.Ex_Form
 
         private void Mi1_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void Cog_ROI_Display_Click(object sender, EventArgs e)
@@ -304,7 +305,7 @@ namespace CRUX_Renewal.Ex_Form
                         Ano.ShowDialog();
                         return;
                     }
-  
+
                     Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("입력", LstV_ROI.Items, SelectedROICategory);
                     Input.ShowDialog();
                     if (Input.DialogResult == DialogResult.Cancel || Input.ResultName == null)
@@ -324,56 +325,16 @@ namespace CRUX_Renewal.Ex_Form
                     Rect.X -= (Rect.Width / 2);
                     Rect.Y -= (Rect.Height / 2);
 
-                    Rect.SelectedLineStyle = Rp.SelectedLineStyle;
-                    Rect.SelectedColor = Rp.SelectedLineColor;
-                    Rect.LineStyle = Rp.LineStyle;
-                    Rect.DragLineStyle = Rp.DragLineStyle;
-                    Rect.DragColor = Rp.DragLineColor;
-                    Rect.Color = Rp.LineColor;
-
-                    Cog_ROI_Display.DrawingEnabled = false;
-                    Rect.Interactive = true;
-                    Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
-                    Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
-                    Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
-
-                    string ROIName = $"{SelectedROICategory}^{Input.ResultName}";
-
-                    Cog_ROI_Display.InteractiveGraphics.Add(Rect, ROIName, false);
-                    int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
-                    Cog_ROI_Display.DrawingEnabled = true;
-                    
-                    ROI_Data Data = new ROI_Data();
-                    Data.Name = Input.ResultName;
-                    Data.Category = SelectedROICategory;
-                    Data.X = Rect.X;
-                    Data.Y = Rect.Y;
-                    Data.Width = Rect.Width;
-                    Data.Height = Rect.Height;
-                    Data.Object = Rect;
-                    LstV_ROI.BeginUpdate();
-                    
-                    Systems.MainRecipe.ROI_List[Systems.CurrentJob].Add(Data);
-                    ListViewItem Lvi = new ListViewItem(Input.ResultName, SelectedROICategory) { Name = "Name" };
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category"});
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object" ,Text = Data.Object.ToString(), Tag = Data.Object });
-                    LstV_ROI.Items.Add(Lvi);
-
-                    LstV_ROI.Groups[SelectedROICategory].Items.Add(Lvi);
-                    LstV_ROI.EndUpdate();
+                    RegistROI(Rp, Rect, Systems.CurrentJob, SelectedROICategory, Input.ResultName);
                 }
-                else if(Cog_ROI_Display.Selection.Count > 0)
+                else if (Cog_ROI_Display.Selection.Count > 0)
                 {
                     CogRectangle Rect = Cog_ROI_Display.Selection[0] as CogRectangle;
                     foreach (ListViewGroup item in LstV_ROI.Groups)
                     {
-                        for(int i = 0; i < item.Items.Count; ++i)
+                        for (int i = 0; i < item.Items.Count; ++i)
                         {
-                            if(item.Items[i].SubItems["Object"].Tag as CogRectangle == Rect)
+                            if (item.Items[i].SubItems["Object"].Tag as CogRectangle == Rect)
                             {
                                 item.Items[i].Selected = true;
                             }
@@ -388,9 +349,103 @@ namespace CRUX_Renewal.Ex_Form
                 Console.WriteLine(ex.Message);
             }
         }
+        public void RegistROI(ROI_Property prop, CogRectangle rect, string jobname, string category, string name)
+        {
+            rect.SelectedLineStyle = prop.SelectedLineStyle;
+            rect.SelectedColor = prop.SelectedLineColor;
+            rect.LineStyle = prop.LineStyle;
+            rect.DragLineStyle = prop.DragLineStyle;
+            rect.DragColor = prop.DragLineColor;
+            rect.Color = prop.LineColor;
+
+            Cog_ROI_Display.DrawingEnabled = false;
+            rect.Interactive = true;
+            rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+            rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+            rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+
+            string ROIName = $"{category}^{name}";
+
+            Cog_ROI_Display.InteractiveGraphics.Add(rect, ROIName, false);
+            int ROICount = Cog_ROI_Display.InteractiveGraphics.FindItem(ROIName, CogDisplayZOrderConstants.Front);
+            Cog_ROI_Display.DrawingEnabled = true;
+
+            ROI_Data Data = new ROI_Data();
+            Data.Name = name;
+            Data.JobName = jobname;
+            Data.Category = category;
+            Data.X = rect.X;
+            Data.Y = rect.Y;
+            Data.Width = rect.Width;
+            Data.Height = rect.Height;
+            Data.Object = rect;
+            LstV_ROI.BeginUpdate();
+
+            //Systems.MainRecipe.ROI_List[Systems.CurrentJob].Add(Data);
+            ListViewItem Lvi = new ListViewItem(name, category) { Name = "Name" };
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.JobName, Name = "JobName" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Data.Object.ToString(), Tag = Data.Object });
+            LstV_ROI.Items.Add(Lvi);
+            if (LstV_ROI.Groups[category] == null)
+            {
+                LstV_ROI.Groups.Add(new ListViewGroup(category, category));
+            }
+            LstV_ROI.Groups[category].Items.Add(Lvi);
+            LstV_ROI.EndUpdate();
+        }
+        public void ConvertListFromListView()
+        {
+            //Dictionary<string, List<ROI_Data>> Data = Systems.MainRecipe.ROI_List;
+        }
+        
+        public void RegistROI(ROI_Property prop, CogRectangle rect, ROI_Data rd, string origin_name, string new_name)
+        {
+            rd.X = rect.X;
+            rd.Y = rect.Y;
+            rd.Width = rect.Width;
+            rd.Height = rect.Height;
+
+            rect.SelectedLineStyle = prop.SelectedLineStyle;
+            rect.SelectedColor = prop.SelectedLineColor;
+            rect.LineStyle = prop.LineStyle;
+            rect.DragLineStyle = prop.DragLineStyle;
+            rect.DragColor = prop.DragLineColor;
+            rect.Color = prop.LineColor;
+
+            Cog_ROI_Display.DrawingEnabled = false;
+            rect.Interactive = true;
+            rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+            rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+            rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+            Cog_ROI_Display.InteractiveGraphics.Remove(origin_name);
+            Cog_ROI_Display.InteractiveGraphics.Add(rect, new_name, false);
+            Cog_ROI_Display.DrawingEnabled = true;
+
+            rd.Object = rect;
+
+            LstV_ROI.BeginUpdate();
+            LstV_ROI.Items.Remove(curItem);
+            ListViewItem Lvi = new ListViewItem(rd.Name, rd.Category) { Name = "Name" };
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = rd.Category, Name = "Category" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = rd.JobName, Name = "JobName" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = rd.X.ToString(), Name = "X" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = rd.Y.ToString(), Name = "Y" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = rd.Width.ToString(), Name = "Width" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = rd.Height.ToString(), Name = "Height" });
+            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = rd.Object.ToString(), Tag = rd.Object });
+            LstV_ROI.Items.Add(Lvi);
+
+            LstV_ROI.Groups[rd.Category].Items.Add(Lvi);
+            LstV_ROI.EndUpdate();
+        }
 
         private void Cog_ROI_Display_MouseUp(object sender, MouseEventArgs e)
-        {            
+        {
 
         }
 
@@ -414,7 +469,7 @@ namespace CRUX_Renewal.Ex_Form
 
         private void MRect_Dragging(object sender, CogDraggingEventArgs e)
         {
-            CogRectangle dragRect = (CogRectangle)e.DragGraphic;           
+            CogRectangle dragRect = (CogRectangle)e.DragGraphic;
             CogRectangle Sel = Cog_ROI_Display.Selection[0] as CogRectangle;
             CogRectangle FindSelRect = null;
             if (Display_Draging == false)
@@ -422,16 +477,16 @@ namespace CRUX_Renewal.Ex_Form
                 //LstV_ROI.BeginUpdate();
                 Display_Draging = true;
             }
-      
+
             for (int i = 0; i < Cog_ROI_Display.InteractiveGraphics.Count; ++i)
             {
-                if(Cog_ROI_Display.InteractiveGraphics[i].Selected == true)
-                    FindSelRect = (Cog_ROI_Display.InteractiveGraphics[i]) as CogRectangle;                    
-                
+                if (Cog_ROI_Display.InteractiveGraphics[i].Selected == true)
+                    FindSelRect = (Cog_ROI_Display.InteractiveGraphics[i]) as CogRectangle;
+
             }
 
-            foreach(ListViewItem item in LstV_ROI.Items)
-            {               
+            foreach (ListViewItem item in LstV_ROI.Items)
+            {
                 if ((item.SubItems["Object"].Tag as CogRectangle) == FindSelRect)
                 {
                     item.SubItems["X"].Text = dragRect.X.ToString();
@@ -444,7 +499,7 @@ namespace CRUX_Renewal.Ex_Form
         }
         public void FormInitialize(int no)
         {
-            
+
         }
         private void Ex_Frm_Recipe_ROI_Load(object sender, EventArgs e)
         {
@@ -461,14 +516,14 @@ namespace CRUX_Renewal.Ex_Form
         private void Btn_ROI_Add_Click(object sender, EventArgs e)
         {
             string name = Tb_ROI_Name.Text.ToString();
-            if(name == "")
+            if (name == "")
             {
                 Ex_Frm_Notification_Announce Frm_Announcement = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "ROI 이름이 입력되지 않았습니다.");
                 Frm_Announcement.ShowDialog();
                 return;
             }
 
-            if(FindOverlapROIName(name))
+            if (FindOverlapROIName(name))
             {
                 Ex_Frm_Notification_Announce Frm_Announcement = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "ROI 이름이 중복입니다.");
                 Frm_Announcement.ShowDialog();
@@ -492,7 +547,7 @@ namespace CRUX_Renewal.Ex_Form
 
         private void Btn_ROI_Del_Click(object sender, EventArgs e)
         {
-          
+
             string name = LstB_ROI.SelectedItem as string;
             if (name == "")
                 return;
@@ -501,7 +556,7 @@ namespace CRUX_Renewal.Ex_Form
                 Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "ROI 데이터가 존재합니다.\n ROI 데이터와 함께 삭제됩니다.");
                 LstV_ROI.BeginUpdate();
                 if (LstV_ROI.Groups[name].Items.Count > 0)
-                {                   
+                {
                     Noti.ShowDialog();
 
                     if (Noti.DialogResult == DialogResult.OK)
@@ -526,7 +581,7 @@ namespace CRUX_Renewal.Ex_Form
         private bool FindOverlapROIName(string name)
         {
             var Data = LstB_ROI.Items;
-            foreach(var item in Data)
+            foreach (var item in Data)
             {
                 if ((item as string) == name)
                     return true;
@@ -543,7 +598,7 @@ namespace CRUX_Renewal.Ex_Form
         {
             OpenFileDialog Ofd = new OpenFileDialog();
             Ofd.DefaultExt = "bmp";
-            Ofd.Filter = "BMP File(*.bmp)|*bmp|PNG File(*.png)|*png";         
+            Ofd.Filter = "BMP File(*.bmp)|*bmp|PNG File(*.png)|*png";
             Ofd.ShowDialog();
             if (Ofd.FileName.Length > 0)
             {
@@ -552,12 +607,17 @@ namespace CRUX_Renewal.Ex_Form
                 Cog_ROI_Display.Image = Temp;
                 Cog_ROI_Display.Fit(true);
                 Cog_ROI_Display.DrawingEnabled = true;
-
+                //Systems.ClearRecipe();
                 Systems.RefreshRecipeData_Control();
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            SaveROIProperty();
+            SaveROIList();
+        }
+        public void SaveROIData()
         {
             SaveROIProperty();
             SaveROIList();
@@ -813,51 +873,50 @@ namespace CRUX_Renewal.Ex_Form
                             else if (NameChange)
                             {
                                 CogRectangle Rect = new CogRectangle();
-
-                                Rd.X = Item.SubItems["X"].Text.toDbl();
-                                Rd.Y = Item.SubItems["Y"].Text.toDbl();
-                                Rd.Width = Item.SubItems["Width"].Text.toDbl();
-                                Rd.Height = Item.SubItems["Height"].Text.toDbl(); ;
-
-                                Rect.X = Rd.X;
-                                Rect.Y = Rd.Y;
-                                Rect.Width = Rd.Width;
-                                Rect.Height = Rd.Height;
-
                                 var ROIProp = PGE_ROIProp.Item.FindName(Rd.Category);
                                 ROI_Property Rp = (ROIProp.Value as ROI_Property);
+                                Rect.X = Item.SubItems["X"].Text.toDbl();
+                                Rect.Y = Item.SubItems["Y"].Text.toDbl();
+                                Rect.Width = Item.SubItems["Width"].Text.toDbl();
+                                Rect.Height = Item.SubItems["Height"].Text.toDbl(); ;
 
-                                Rect.SelectedLineStyle = Rp.SelectedLineStyle;
-                                Rect.SelectedColor = Rp.SelectedLineColor;
-                                Rect.LineStyle = Rp.LineStyle;
-                                Rect.DragLineStyle = Rp.DragLineStyle;
-                                Rect.DragColor = Rp.DragLineColor;
-                                Rect.Color = Rp.LineColor;
+                                RegistROI(Rp, Rect, Rd, ObjectName, NewObjectName);
+                                //Rd.X = Rect.X;
+                                //Rd.Y = Rect.Y;
+                                //Rd.Width = Rect.Width;
+                                //Rd.Height = Rect.Height;  
 
-                                Cog_ROI_Display.DrawingEnabled = false;
-                                Rect.Interactive = true;
-                                Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
-                                Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
-                                Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
-                                Cog_ROI_Display.InteractiveGraphics.Remove(ObjectName);
-                                Cog_ROI_Display.InteractiveGraphics.Add(Rect, NewObjectName, false);
-                                Cog_ROI_Display.DrawingEnabled = true;
+                                //Rect.SelectedLineStyle = Rp.SelectedLineStyle;
+                                //Rect.SelectedColor = Rp.SelectedLineColor;
+                                //Rect.LineStyle = Rp.LineStyle;
+                                //Rect.DragLineStyle = Rp.DragLineStyle;
+                                //Rect.DragColor = Rp.DragLineColor;
+                                //Rect.Color = Rp.LineColor;
 
-                                Rd.Object = Rect;
+                                //Cog_ROI_Display.DrawingEnabled = false;
+                                //Rect.Interactive = true;
+                                //Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+                                //Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+                                //Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+                                //Cog_ROI_Display.InteractiveGraphics.Remove(ObjectName);
+                                //Cog_ROI_Display.InteractiveGraphics.Add(Rect, NewObjectName, false);
+                                //Cog_ROI_Display.DrawingEnabled = true;
 
-                                LstV_ROI.BeginUpdate();
-                                LstV_ROI.Items.Remove(curItem);
-                                ListViewItem Lvi = new ListViewItem(Rd.Name, Rd.Category) { Name = "Name" };
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Category, Name = "Category" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.X.ToString(), Name = "X" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Y.ToString(), Name = "Y" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Width.ToString(), Name = "Width" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Height.ToString(), Name = "Height" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Rd.Object.ToString(), Tag = Rd.Object });
-                                LstV_ROI.Items.Add(Lvi);
+                                //Rd.Object = Rect;
 
-                                LstV_ROI.Groups[Rd.Category].Items.Add(Lvi);
-                                LstV_ROI.EndUpdate();
+                                //LstV_ROI.BeginUpdate();
+                                //LstV_ROI.Items.Remove(curItem);
+                                //ListViewItem Lvi = new ListViewItem(Rd.Name, Rd.Category) { Name = "Name" };
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Category, Name = "Category" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.X.ToString(), Name = "X" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Y.ToString(), Name = "Y" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Width.ToString(), Name = "Width" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Height.ToString(), Name = "Height" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Rd.Object.ToString(), Tag = Rd.Object });
+                                //LstV_ROI.Items.Add(Lvi);
+
+                                //LstV_ROI.Groups[Rd.Category].Items.Add(Lvi);
+                                //LstV_ROI.EndUpdate();
                             }
                         }
                     }
@@ -1050,50 +1109,51 @@ namespace CRUX_Renewal.Ex_Form
                             {
                                 CogRectangle Rect = new CogRectangle();
 
-                                Rd.X = Item.SubItems["X"].Text.toDbl();
-                                Rd.Y = Item.SubItems["Y"].Text.toDbl();
-                                Rd.Width = Item.SubItems["Width"].Text.toDbl();
-                                Rd.Height = Item.SubItems["Height"].Text.toDbl(); ;
-
-                                Rect.X = Rd.X;
-                                Rect.Y = Rd.Y;
-                                Rect.Width = Rd.Width;
-                                Rect.Height = Rd.Height;
-
                                 var ROIProp = PGE_ROIProp.Item.FindName(Rd.Category);
                                 ROI_Property Rp = (ROIProp.Value as ROI_Property);
 
-                                Rect.SelectedLineStyle = Rp.SelectedLineStyle;
-                                Rect.SelectedColor = Rp.SelectedLineColor;
-                                Rect.LineStyle = Rp.LineStyle;
-                                Rect.DragLineStyle = Rp.DragLineStyle;
-                                Rect.DragColor = Rp.DragLineColor;
-                                Rect.Color = Rp.LineColor;
+                                Rect.X = Item.SubItems["X"].Text.toDbl();
+                                Rect.Y = Item.SubItems["Y"].Text.toDbl();
+                                Rect.Width = Item.SubItems["Width"].Text.toDbl();
+                                Rect.Height = Item.SubItems["Height"].Text.toDbl(); ;
 
-                                Cog_ROI_Display.DrawingEnabled = false;
-                                Rect.Interactive = true;
-                                Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
-                                Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
-                                Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
-                                Cog_ROI_Display.InteractiveGraphics.Remove(ObjectName);
-                                Cog_ROI_Display.InteractiveGraphics.Add(Rect, NewObjectName, false);
-                                Cog_ROI_Display.DrawingEnabled = true;
+                                Rd.X = Rect.X;
+                                Rd.Y = Rect.Y;
+                                Rd.Width = Rect.Width;
+                                Rd.Height = Rect.Height;
 
-                                Rd.Object = Rect;
+                                RegistROI(Rp, Rect, Rd, ObjectName, NewObjectName);
+                                //Rect.SelectedLineStyle = Rp.SelectedLineStyle;
+                                //Rect.SelectedColor = Rp.SelectedLineColor;
+                                //Rect.LineStyle = Rp.LineStyle;
+                                //Rect.DragLineStyle = Rp.DragLineStyle;
+                                //Rect.DragColor = Rp.DragLineColor;
+                                //Rect.Color = Rp.LineColor;
 
-                                LstV_ROI.BeginUpdate();
-                                LstV_ROI.Items.Remove(curItem);
-                                ListViewItem Lvi = new ListViewItem(Rd.Name, Rd.Category) { Name = "Name" };
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Category, Name = "Category" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.X.ToString(), Name = "X" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Y.ToString(), Name = "Y" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Width.ToString(), Name = "Width" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Height.ToString(), Name = "Height" });
-                                Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Rd.Object.ToString(), Tag = Rd.Object });
-                                LstV_ROI.Items.Add(Lvi);
+                                //Cog_ROI_Display.DrawingEnabled = false;
+                                //Rect.Interactive = true;
+                                //Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+                                //Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+                                //Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+                                //Cog_ROI_Display.InteractiveGraphics.Remove(ObjectName);
+                                //Cog_ROI_Display.InteractiveGraphics.Add(Rect, NewObjectName, false);
+                                //Cog_ROI_Display.DrawingEnabled = true;
 
-                                LstV_ROI.Groups[Rd.Category].Items.Add(Lvi);
-                                LstV_ROI.EndUpdate();
+                                //Rd.Object = Rect;
+
+                                //LstV_ROI.BeginUpdate();
+                                //LstV_ROI.Items.Remove(curItem);
+                                //ListViewItem Lvi = new ListViewItem(Rd.Name, Rd.Category) { Name = "Name" };
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Category, Name = "Category" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.X.ToString(), Name = "X" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Y.ToString(), Name = "Y" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Width.ToString(), Name = "Width" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Rd.Height.ToString(), Name = "Height" });
+                                //Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Rd.Object.ToString(), Tag = Rd.Object });
+                                //LstV_ROI.Items.Add(Lvi);
+
+                                //LstV_ROI.Groups[Rd.Category].Items.Add(Lvi);
+                                //LstV_ROI.EndUpdate();
                             }
                         }
                     }

@@ -268,7 +268,7 @@
             this.Cagb_Jobs.Controls.Add(this.LstBoxJobList);
             this.Cagb_Jobs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cagb_Jobs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Cagb_Jobs.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Cagb_Jobs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Cagb_Jobs.Location = new System.Drawing.Point(0, 171);
             this.Cagb_Jobs.Margin = new System.Windows.Forms.Padding(0);
             this.Cagb_Jobs.Name = "Cagb_Jobs";
@@ -283,19 +283,20 @@
             this.LstBoxJobList.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstBoxJobList.FormattingEnabled = true;
             this.LstBoxJobList.ItemHeight = 20;
-            this.LstBoxJobList.Location = new System.Drawing.Point(3, 21);
+            this.LstBoxJobList.Location = new System.Drawing.Point(3, 20);
             this.LstBoxJobList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.LstBoxJobList.Name = "LstBoxJobList";
             this.LstBoxJobList.ScrollAlwaysVisible = true;
-            this.LstBoxJobList.Size = new System.Drawing.Size(174, 474);
+            this.LstBoxJobList.Size = new System.Drawing.Size(174, 475);
             this.LstBoxJobList.TabIndex = 3;
+            this.LstBoxJobList.SelectedIndexChanged += new System.EventHandler(this.LstBoxJobList_SelectedIndexChanged);
             this.LstBoxJobList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxJobList_MouseDoubleClick);
             // 
             // Cagb_Recipe
             // 
             this.Cagb_Recipe.Controls.Add(this.LstBoxRecipeList);
             this.Cagb_Recipe.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Cagb_Recipe.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Cagb_Recipe.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Cagb_Recipe.Location = new System.Drawing.Point(0, 0);
             this.Cagb_Recipe.Margin = new System.Windows.Forms.Padding(0);
             this.Cagb_Recipe.Name = "Cagb_Recipe";
@@ -310,12 +311,13 @@
             this.LstBoxRecipeList.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstBoxRecipeList.FormattingEnabled = true;
             this.LstBoxRecipeList.ItemHeight = 20;
-            this.LstBoxRecipeList.Location = new System.Drawing.Point(3, 21);
+            this.LstBoxRecipeList.Location = new System.Drawing.Point(3, 20);
             this.LstBoxRecipeList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.LstBoxRecipeList.Name = "LstBoxRecipeList";
             this.LstBoxRecipeList.ScrollAlwaysVisible = true;
-            this.LstBoxRecipeList.Size = new System.Drawing.Size(174, 142);
+            this.LstBoxRecipeList.Size = new System.Drawing.Size(174, 143);
             this.LstBoxRecipeList.TabIndex = 3;
+            this.LstBoxRecipeList.SelectedIndexChanged += new System.EventHandler(this.LstBoxRecipeList_SelectedIndexChanged);
             this.LstBoxRecipeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseDoubleClick);
             // 
             // Main_Frm_Recipe

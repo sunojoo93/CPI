@@ -28,14 +28,30 @@ namespace CRUX_Renewal
         public static Recipe TempRecipe;
         public static bool SaveLoadType = false;
         public static IniFile Environment_INI = new IniFile();
-        public static string CurrentJob { get; set; } = null;
+        private static string CurrentJob_;
+        public static string CurrentJob
+        {
+            get { return CurrentJob_; }
+          
+            set
+            {
+                CurrentJob_ = value;
+                if (Program.Frm_MainContent_ != null && Program.Frm_MainContent_.Count > 0)
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(value); }
+        }
         private static string CurrentRecipe_;
-        public static string CurrentRecipe { get
+        public static string CurrentRecipe
+        {
+            get
             { return CurrentRecipe_; }
             set
-            { CurrentRecipe_ = value;
+            {
+                CurrentRecipe_ = value;
                 Program.Frm_Main?.SetRecipeName(CurrentRecipe_);
-            } } 
+                if(Program.Frm_MainContent_ != null && Program.Frm_MainContent_.Count > 0)
+                 Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(value);
+            }
+        }
         ////////// Property //////////
         // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
@@ -94,17 +110,19 @@ namespace CRUX_Renewal
         public static void RefreshRecipeData_Control()
         {
             Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentRecipe);
-            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SetRecipeData();
+            //Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SetRecipeData();
             Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentJob);
             Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.Frm_ROI?.SetRecipeROI();
         }
+        
+
         public static void ClearRecipe()
         {
-            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentRecipe);
-            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.ClearRecipeData();
-            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentJob);
-            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.Frm_ROI?.ClearRecipeROI();
-            Systems.RefreshRecipeData_Control();
+            //Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentRecipe);
+            //Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.ClearRecipeData();
+            //Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentJob);
+            //Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.Frm_ROI?.ClearRecipeROI();
+            //Systems.RefreshRecipeData_Control();
         }
         public static void LoadROI(string path)
         {

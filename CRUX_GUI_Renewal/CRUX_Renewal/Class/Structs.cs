@@ -254,16 +254,67 @@ namespace CRUX_Renewal.Class
 
         public void Load_RecipeData(string path)
         {
-            for (int i = 0; i < Globals.Ini_RecipeItem_Names.Length; ++i)
+            try
             {
-                if (Systems.Ini_Collection[Systems.CurDisplayIndex].ContainsKey(Globals.Ini_RecipeItem_Names[i]))
+                for (int i = 0; i < Globals.Ini_RecipeItem_Names.Length; ++i)
                 {
-                    Systems.Ini_Collection[Systems.CurDisplayIndex].Remove(Globals.Ini_RecipeItem_Names[i]);
-                }
+                    if (Systems.Ini_Collection[Systems.CurDisplayIndex].ContainsKey(Globals.Ini_RecipeItem_Names[i]))
+                    {
+                        Systems.Ini_Collection[Systems.CurDisplayIndex].Remove(Globals.Ini_RecipeItem_Names[i]);
+                    }
 
-                IniFile Ini = new IniFile();
-                Ini.Load($@"{Paths.RECIPE_PATH_RENEWAL}{path}\{Globals.Ini_RecipeItem_Names[i]}");
-                Systems.Ini_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
+                    IniFile Ini = new IniFile();
+                    Ini.Load($@"{Paths.RECIPE_PATH_RENEWAL}{path}\{Globals.Ini_RecipeItem_Names[i]}");
+                    Systems.Ini_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
+                }
+                IniFile ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"];
+
+                Systems.MainRecipe.ROI_List = new Dictionary<string, List<ROI_Data>>();
+                foreach (var item in ini.Values)
+                {
+                    string JobName = item["JobName"].ToString();
+                    if (JobName == null)
+                    {
+                        throw new Exception("Job is null");
+                    }
+                    ROI_Data Rd = new ROI_Data();
+                    Rd.Name = item["Name"].ToString();
+                    Rd.Category = item["Category"].ToString();
+                    Rd.JobName = item["JobName"].ToString();
+
+                    double X = -999999;
+                    if (Double.TryParse(item["X"].ToString(), out X))
+                        Rd.X = X;
+
+                    double Y = -999999;
+                    if (Double.TryParse(item["Y"].ToString(), out Y))
+                        Rd.Y = Y;
+
+                    double Width = -999999;
+                    if (Double.TryParse(item["Width"].ToString(), out Width))
+                        Rd.Width = Width;
+
+                    double Height = -999999;
+                    if (Double.TryParse(item["Height"].ToString(), out Height))
+                        Rd.Height = Height;
+
+                    if (!Systems.MainRecipe.ROI_List.ContainsKey(JobName))
+                    {
+                        List<ROI_Data> Temp = new List<ROI_Data>();
+                        Temp.Add(Rd);
+                        Systems.MainRecipe.ROI_List.Add(JobName, Temp);
+                    }
+                    else
+                    {
+                        Systems.MainRecipe.ROI_List[JobName].Add(Rd);
+                    }
+                }
+                if (Systems.MainRecipe.ROI_List.Count > 0)
+                   Systems.CurrentJob = Systems.MainRecipe.ROI_List.Keys.ElementAt(0).ToString();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
             }
         }
         public void SetSmartListAddEvent()
