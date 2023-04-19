@@ -408,7 +408,7 @@ namespace CRUX_Renewal.Main_Form
                 //    m1.Enabled = false;
                 m0.Click += (senders, ex) =>
                 {
-                    CogJob Temp = Cognex_Helper.CreateNewJob();
+                    CogJob Temp = Cognex_Helper.CreateNewJob(Systems.MainRecipe);
                     Systems.MainRecipe.Manager.JobAdd(Temp);
                     SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
                     Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(LstBoxJobList.Items.Count - 1);

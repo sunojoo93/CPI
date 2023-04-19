@@ -98,6 +98,8 @@ namespace CRUX_Renewal.Ex_Form
                 Cog_ROI_Display.InteractiveGraphics.Clear();
                 LstV_ROI.Groups.Clear();
                 LstV_ROI.Items.Clear();
+                if (!Systems.MainRecipe.ROI_List.ContainsKey(Systems.CurrentJob))
+                    return;
                 List<ROI_Data> Temp = Systems.MainRecipe.ROI_List[Systems.CurrentJob];
                 foreach(string item in LstB_Category.Items)
                     LstV_ROI.Groups.Add(new ListViewGroup(item, item));

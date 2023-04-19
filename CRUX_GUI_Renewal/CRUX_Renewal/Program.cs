@@ -72,7 +72,7 @@ namespace CRUX_Renewal
                 Thread.Sleep(10);
             }
             Systems.MainRecipe.Manager.Shutdown();
-            Systems.TempRecipe.Manager.Shutdown();
+            Systems.ViewRecipe.Manager.Shutdown();
 
             Program.KillAllTask();
             Systems.LogWriter.Info("Process Exit");

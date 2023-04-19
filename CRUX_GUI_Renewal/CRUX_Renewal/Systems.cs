@@ -25,7 +25,7 @@ namespace CRUX_Renewal
         public static ServerInterface g_Ipc;
         public static ALIVE_STATE[] AliveList;
         public static Recipe MainRecipe;
-        public static Recipe TempRecipe;
+        public static Recipe ViewRecipe;
         public static bool SaveLoadType = false;
         public static IniFile Environment_INI = new IniFile();
         private static string CurrentJob_;
@@ -90,7 +90,7 @@ namespace CRUX_Renewal
                     }
                 
 
-                TempRecipe =  MainRecipe;
+                ViewRecipe =  MainRecipe;
                 string[] Temp = vpp_path.Split(new string[] { "\\" }, StringSplitOptions.None);
                 //CurrentRecipe = Temp[Temp.Count() - 2];
                 Systems.Inspector_.SetInspection();
@@ -140,7 +140,7 @@ namespace CRUX_Renewal
         }
         public static Recipe GetCogTempJob()
         {
-            return TempRecipe;
+            return ViewRecipe;
         }
     }
 }
