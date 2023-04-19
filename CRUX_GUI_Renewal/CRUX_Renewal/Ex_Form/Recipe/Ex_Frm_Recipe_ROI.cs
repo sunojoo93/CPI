@@ -177,12 +177,13 @@ namespace CRUX_Renewal.Ex_Form
             IniFile Ini = new IniFile();
             Ini.Load($@"{Paths.ROI_PROPERTY}ROI_Property.dat");
             LstV_ROI.Columns.Add("Name", 90);
+            LstV_ROI.Columns.Add("JobName", 90);
             LstV_ROI.Columns.Add("Category", 120);
             LstV_ROI.Columns.Add("X", 150);
             LstV_ROI.Columns.Add("Y", 150);
             LstV_ROI.Columns.Add("Width", 150);
             LstV_ROI.Columns.Add("Height", 150);
-            LstV_ROI.Columns.Add("Object", 120);
+            LstV_ROI.Columns.Add("Object", 100);
 
             foreach (var inner_item in Ini.Values)
             {
@@ -230,18 +231,23 @@ namespace CRUX_Renewal.Ex_Form
         {
             try
             {
+                int TotalIndex = 0;
                 Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Clear();
-                for (int i = 0; i < LstV_ROI.Items.Count; ++i)
+                foreach(KeyValuePair<string, List<ROI_Data>> job_item in Systems.MainRecipe.ROI_List)
                 {
-                    IniSection IniSec = new IniSection();
-                    IniSec.Add("JobName", LstV_ROI.Items[i].SubItems["JobName"].Text);
-                    IniSec.Add("Name", LstV_ROI.Items[i].SubItems["Name"].Text);                 
-                    IniSec.Add("Category", LstV_ROI.Items[i].SubItems["Category"].Text);
-                    IniSec.Add("X", LstV_ROI.Items[i].SubItems["X"].Text);
-                    IniSec.Add("Y", LstV_ROI.Items[i].SubItems["Y"].Text);
-                    IniSec.Add("Width", LstV_ROI.Items[i].SubItems["Width"].Text);
-                    IniSec.Add("Height", LstV_ROI.Items[i].SubItems["Height"].Text);
-                    Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Add(i.ToString(), IniSec);
+                    for(int i = 0; i < job_item.Value.Count; ++i)
+                    {
+                        IniSection IniSec = new IniSection();
+                        IniSec.Add("Name", job_item.Value[i].Name);
+                        IniSec.Add("JobName", job_item.Value[i].JobName);
+                        IniSec.Add("Category", job_item.Value[i].Category);
+                        IniSec.Add("X", job_item.Value[i].X);
+                        IniSec.Add("Y", job_item.Value[i].Y);
+                        IniSec.Add("Width", job_item.Value[i].Width);
+                        IniSec.Add("Height", job_item.Value[i].Height);
+                        Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Add(TotalIndex.ToString(), IniSec);
+                        ++TotalIndex;
+                    }                    
                 }
 
                 Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Save(Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].GetIniPath());
@@ -672,7 +678,7 @@ namespace CRUX_Renewal.Ex_Form
             Tip.InitialDelay =200;
             switch (idxSub)
             {
-                case 0: // 0번째 subitem 만 수정가능하게
+                case 0: // Name
 
                     if (Tip.GetToolTip(InputBox) != "")
                     {
@@ -684,8 +690,8 @@ namespace CRUX_Renewal.Ex_Form
                     InputBox.Text = curSB.Text;
                     InputBox.Show();
                     InputBox.Focus();
-                    break;
-                case 1: // 1번째 subitem 만 수정가능하게
+                    break;            
+                case 2: // Category
                     if (Tip.GetToolTip(InputBox) != "")
                         Tip.RemoveAll();
                     LstB_Category.BringToFront();
@@ -697,10 +703,10 @@ namespace CRUX_Renewal.Ex_Form
                     LstB_Category.Focus();
                     Tip.SetToolTip(LstB_Category, "카테고리를 변경합니다.");
                     break;
-                case 2: // 2번째 subitem 만 수정가능하게
-                case 3: // 3번째 subitem 만 수정가능하게
-                case 4: // 4번째 subitem 만 수정가능하게
-                case 5: // 5번째 subitem 만 수정가능하게         
+                case 3: // X
+                case 4: // Y
+                case 5: // W
+                case 6: // H
                     if (Tip.GetToolTip(InputBox) != "")
                         Tip.RemoveAll();
                     Tip.SetToolTip(InputBox, "숫자만 입력해주세요.");
@@ -798,6 +804,10 @@ namespace CRUX_Renewal.Ex_Form
                                         return;
                                     }
                                 }
+                            }
+                            else if (Col == "JobName")
+                            {
+
                             }
                             else if (Col == "Category")
                             {
