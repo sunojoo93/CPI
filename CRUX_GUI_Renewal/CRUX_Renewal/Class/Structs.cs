@@ -394,7 +394,8 @@ namespace CRUX_Renewal.Class
         int bb = 1;
         string cc = "테스트";
     }
-
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ROI_Data
     {
         private string _JobName;

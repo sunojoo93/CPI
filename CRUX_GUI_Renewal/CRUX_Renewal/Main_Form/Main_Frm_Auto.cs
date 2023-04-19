@@ -12,6 +12,8 @@ namespace CRUX_Renewal.Main_Form
 {
     public partial class Main_Frm_Auto : Form
     {
+        public string CurrentFormName = string.Empty;
+        public int CurFormIndex { get; set; }
         public Main_Frm_Auto ()
         {
             InitializeComponent();

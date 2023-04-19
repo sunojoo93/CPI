@@ -23,6 +23,8 @@ namespace CRUX_Renewal.Ex_Form
 {
     public partial class Ex_Frm_Recipe_ROI : Form
     {
+        public string CurrentFormName = string.Empty;
+        public int CurFormIndex { get; set; }
         Label m_lbImageState = new Label();
         bool _AltIsDown = false;
         bool LeftMouseDown = false;

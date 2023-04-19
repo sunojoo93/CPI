@@ -20,6 +20,8 @@ namespace CRUX_Renewal.Main_Form
 {
     public partial class Main_Frm_Manual : Form
     {
+        public string CurrentFormName = string.Empty;
+        public int CurFormIndex { get; set; }
         Point StartPos;
         Point EndPos;
         PointDouble pd1;
@@ -304,7 +306,7 @@ namespace CRUX_Renewal.Main_Form
             try
             {
                 Console.WriteLine($"Job: 0 Saved");
-                CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+                //CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             }
             catch (Exception ex)
             {

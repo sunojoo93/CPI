@@ -18,7 +18,8 @@ namespace CRUX_Renewal
     public partial class Frm_MainContent : Form
     {
         
-        string CurrentFormName = string.Empty;
+        public string CurrentFormName = string.Empty;
+        public int CurFormIndex { get; set; }
         bool LoadingComplete = false;
 
         // 메뉴 바 폼
@@ -44,13 +45,13 @@ namespace CRUX_Renewal
             this.TopLevel = false;
             Frm_MenuBar = new Ex_Frm_Menubar() { Owner = this.Owner };
 
-            Frm_Auto = new Main_Frm_Auto();
+            Frm_Auto = new Main_Frm_Auto() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             //Program.Frm_Auto.Parent = Tlp_Main;
-            Frm_Manual = new Main_Frm_Manual();
+            Frm_Manual = new Main_Frm_Manual() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             //Program.Frm_Manual.Parent = Tlp_Main;
-            Frm_Recipe = new Main_Frm_Recipe();
+            Frm_Recipe = new Main_Frm_Recipe() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             //Program.Frm_Recipe.Parent = Tlp_Main;
-            Frm_Optical = new Main_Frm_Optical();
+            Frm_Optical = new Main_Frm_Optical() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             //Program.Frm_Optical.Parent = Tlp_Main;
 
             Tlp_Main.Controls.Add(Frm_MenuBar, 0, 1);

@@ -18,6 +18,8 @@ namespace CRUX_Renewal.Main_Form
 {
     public partial class Main_Frm_Recipe : Form
     {
+        public string CurrentFormName = string.Empty;
+        public int CurFormIndex { get; set; }
         //public Recipe MainRecipe = new Recipe();
         public Ex_Frm_Recipe_ROI Frm_ROI { get; set; } = null;
         public void LoadVpp(string path)
@@ -35,7 +37,7 @@ namespace CRUX_Renewal.Main_Form
 
             Show();
            
-            Frm_ROI = Frm_ROI ?? new Ex_Frm_Recipe_ROI();
+            Frm_ROI = Frm_ROI ?? new Ex_Frm_Recipe_ROI() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
       
             tab_roi.Controls.Add(Frm_ROI);
             Frm_ROI.Dock = DockStyle.Fill;
@@ -234,15 +236,17 @@ namespace CRUX_Renewal.Main_Form
 
                         if (Rcp == null && Rcp?.Count < 1)
                             throw new Exception(Enums.ErrorCode.DO_NOT_FOUND_VPP_FILE.DescriptionAttr());
+
+                        Frm_ROI.ClearRecipeROI();
+
                         Systems.SetCogJob(Rcp[0]?.ToString(), Temp[Temp.Length - 1]);
 
                         Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
                         Systems.CurrentRecipe = Temp[Temp.Length - 1]?.ToString();
                         SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
-                        
-                        Frm_ROI.ClearRecipeROI();
-                        SetRecipeData();
+                        //SetRecipeData();
                         Frm_ROI.SetRecipeROI();
+                        Systems.ViewRecipe = Utility.DeepCopy(Systems.MainRecipe);
                         Utility.LoadingStop();
                         //Loading.Close();
                         // Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.Frm_JobList.SetListBox(JobListTemp);                   

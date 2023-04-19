@@ -58,6 +58,7 @@ namespace CRUX_Renewal
             CurDisplayForm = "Upper";
             Cmb_SelPC.SelectedIndex = 0;
 
+            Systems.ViewRecipe = Utility.DeepCopy(Systems.MainRecipe);
         }
         public void InitMainForm()
         {
@@ -66,7 +67,7 @@ namespace CRUX_Renewal
 
             for (int i = 0; i < Globals.MaxVisionCnt; ++i)
             {
-                Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i] });
+                Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i], CurFormIndex = i});
                 Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
             }
 

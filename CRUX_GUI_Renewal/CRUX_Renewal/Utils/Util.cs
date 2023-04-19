@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -99,6 +101,9 @@ namespace CRUX_Renewal
             dic.Remove(fromKey);
             dic[toKey] = value;
         }
+        /// <summary>
+        /// 로딩 시작
+        /// </summary>
         static public void LoadingStart()
         {
             Ex_Frm_Others_Loading form = null;
@@ -126,6 +131,9 @@ namespace CRUX_Renewal
 
             form.Invoke(new Action(delegate { WinApis.SetParent(form.Handle, handle); }));
         }
+        /// <summary>
+        /// 로딩 종료
+        /// </summary>
         static public void LoadingStop()
         {
             Program.LoadingForm?.Invoke(new Action(delegate ()
@@ -133,13 +141,13 @@ namespace CRUX_Renewal
                 Program.LoadingForm?.Close();
             }));
         }
-            /// <summary>
-            /// Verify that the same layer name exists
-            /// </summary>
-            /// <param name="name"></param>
-            /// <param name="list"></param>
-            /// <returns></returns>
-            static public Control[] GetAllControlsRecursive(Control containerControl)  // Main object부터 시작
+        /// <summary>
+        /// Verify that the same layer name exists
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        static public Control[] GetAllControlsRecursive(Control containerControl)  // Main object부터 시작
         {
             try
             {
@@ -221,6 +229,41 @@ namespace CRUX_Renewal
             {
                 Systems.LogWriter.Error(string.Format("Exception Message : {0} Stack : {1} Prev Func Name : {2} }", ex.Message.ToString(), ex.StackTrace.ToString(), $"{new StackFrame(1, true).GetMethod().Name}"));
                 throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 직렬화 Deep Copy
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        static public T DeepCopy<T>(this T source) where T : new()
+        {
+            if (!typeof(T).IsSerializable)
+            {
+                // fail
+                return source;
+            }
+
+            try
+            {
+                object result = null;
+                using (var ms = new MemoryStream())
+                {
+                    var formatter = new BinaryFormatter();
+                    formatter.Serialize(ms, source);
+                    ms.Position = 0;
+                    result = (T)formatter.Deserialize(ms);
+                    ms.Close();
+                }
+
+                return (T)result;
+            }
+            catch (Exception ex)
+            {
+                // fail
+                return new T();
             }
         }
         /// <summary>
