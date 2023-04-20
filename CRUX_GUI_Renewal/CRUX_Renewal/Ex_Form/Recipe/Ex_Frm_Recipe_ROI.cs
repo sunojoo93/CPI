@@ -63,7 +63,11 @@ namespace CRUX_Renewal.Ex_Form
                 }
             }
         }
-
+        public void SetFormNameIndex(ref string name, ref int index)
+        {
+            CurrentFormName = name;
+            CurFormIndex = index;
+        }
         public Ex_Frm_Recipe_ROI()
         {
             InitializeComponent();
@@ -88,19 +92,19 @@ namespace CRUX_Renewal.Ex_Form
             InputBox.KeyDown += InputBox_KeyDown;
             InputBox.Leave += InputBox_Leave;
             InputBox.Hide();
-
+            
             SetRecipeROI();
         }
         public void SetRecipeROI()
         {
-            if (Systems.MainRecipe.ROI_List.Count > 0)
+            if (Systems.MainRecipe[CurFormIndex].ROI_List.Count > 0)
             {
                 Cog_ROI_Display.InteractiveGraphics.Clear();
                 LstV_ROI.Groups.Clear();
                 LstV_ROI.Items.Clear();
-                if (!Systems.MainRecipe.ROI_List.ContainsKey(Systems.CurrentJob))
+                if (!Systems.MainRecipe[CurFormIndex].ROI_List.ContainsKey(Systems.CurrentJobName[CurFormIndex]))
                     return;
-                List<ROI_Data> Temp = Systems.MainRecipe.ROI_List[Systems.CurrentJob];
+                List<ROI_Data> Temp = Systems.MainRecipe[CurFormIndex].ROI_List[Systems.CurrentJobName[CurFormIndex]];
                 foreach(string item in LstB_Category.Items)
                     LstV_ROI.Groups.Add(new ListViewGroup(item, item));
                 if (Temp != null && Temp.Count > 0)
@@ -116,7 +120,7 @@ namespace CRUX_Renewal.Ex_Form
                         Rect.Y = item.Y;
                         Rect.Width = item.Width;
                         Rect.Height = item.Height;
-                        RegistROI(Rp, Rect,Systems.CurrentJob, Category, item.Name);
+                        RegistROI(Rp, Rect,Systems.CurrentJobName[CurFormIndex], Category, item.Name);
                         //Rect.SelectedLineStyle = Rp.SelectedLineStyle;
                         //Rect.SelectedColor = Rp.SelectedLineColor;
                         //Rect.LineStyle = Rp.LineStyle;
@@ -174,8 +178,8 @@ namespace CRUX_Renewal.Ex_Form
 
         private void InitPGE()
         {
-            IniFile Ini = new IniFile();
-            Ini.Load($@"{Paths.ROI_PROPERTY}ROI_Property.dat");
+            IniFile Ini = Systems.RecipeData_Collection[CurFormIndex]["ROI_Property.dat"];
+
             LstV_ROI.Columns.Add("Name", 90);
             LstV_ROI.Columns.Add("JobName", 90);
             LstV_ROI.Columns.Add("Category", 120);
@@ -232,8 +236,8 @@ namespace CRUX_Renewal.Ex_Form
             try
             {
                 int TotalIndex = 0;
-                Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Clear();
-                foreach(KeyValuePair<string, List<ROI_Data>> job_item in Systems.MainRecipe.ROI_List)
+                Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"].Clear();
+                foreach(KeyValuePair<string, List<ROI_Data>> job_item in Systems.MainRecipe[CurFormIndex].ROI_List)
                 {
                     for(int i = 0; i < job_item.Value.Count; ++i)
                     {
@@ -245,7 +249,7 @@ namespace CRUX_Renewal.Ex_Form
                         IniSec.Add("Y", job_item.Value[i].Y);
                         IniSec.Add("Width", job_item.Value[i].Width);
                         IniSec.Add("Height", job_item.Value[i].Height);
-                        Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"].Add(TotalIndex.ToString(), IniSec);
+                        Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"].Add(TotalIndex.ToString(), IniSec);
                         ++TotalIndex;
                     }                    
                 }
@@ -262,7 +266,7 @@ namespace CRUX_Renewal.Ex_Form
         public void SaveROIProperty()
         {
             CustomPropertyCollection Props = PGE_ROIProp.Item;
-            IniFile Ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"];
+            IniFile Ini = Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"];
             Ini.Clear();
             foreach (CustomProperty item in Props)
             {
@@ -335,7 +339,7 @@ namespace CRUX_Renewal.Ex_Form
                     Rect.X -= (Rect.Width / 2);
                     Rect.Y -= (Rect.Height / 2);
 
-                    RegistROI(Rp, Rect, Systems.CurrentJob, SelectedROICategory, Input.ResultName);
+                    RegistROI(Rp, Rect, Systems.CurrentJobName[CurFormIndex], SelectedROICategory, Input.ResultName);
                 }
                 else if (Cog_ROI_Display.Selection.Count > 0)
                 {
@@ -618,6 +622,10 @@ namespace CRUX_Renewal.Ex_Form
                 Cog_ROI_Display.Fit(true);
                 Cog_ROI_Display.DrawingEnabled = true;
                 //Systems.ClearRecipe();
+
+                SetRecipeROI();
+                Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentRecipeName[Systems.CurDisplayIndex]);
+                Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentRecipeName[Systems.CurDisplayIndex]);
                 Systems.RefreshRecipeData_Control();
             }
         }

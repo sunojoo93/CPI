@@ -19,7 +19,7 @@ namespace CRUX_Renewal
     {
         
         public string CurrentFormName = string.Empty;
-        public int CurFormIndex { get; set; }
+        public int CurFormIndex = 0;
         bool LoadingComplete = false;
 
         // 메뉴 바 폼
@@ -44,14 +44,19 @@ namespace CRUX_Renewal
             this.Dock = DockStyle.Fill;
             this.TopLevel = false;
             Frm_MenuBar = new Ex_Frm_Menubar() { Owner = this.Owner };
-
+            if (Systems.MainRecipe[CurFormIndex].Manager.JobCount > 0)
+                Systems.CurrentJobName[CurFormIndex] = Systems.MainRecipe[CurFormIndex].Manager.Job(0).Name;
             Frm_Auto = new Main_Frm_Auto() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            Frm_Auto.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             //Program.Frm_Auto.Parent = Tlp_Main;
             Frm_Manual = new Main_Frm_Manual() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            Frm_Manual.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             //Program.Frm_Manual.Parent = Tlp_Main;
             Frm_Recipe = new Main_Frm_Recipe() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            Frm_Recipe.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             //Program.Frm_Recipe.Parent = Tlp_Main;
             Frm_Optical = new Main_Frm_Optical() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            Frm_Optical.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             //Program.Frm_Optical.Parent = Tlp_Main;
 
             Tlp_Main.Controls.Add(Frm_MenuBar, 0, 1);
@@ -62,6 +67,7 @@ namespace CRUX_Renewal
 
             CurrentFormName = Frm_Auto.Name;
             LoadingComplete = true;
+           
         }
 
         private void Frm_MainContent_Load (object sender, EventArgs e)

@@ -6,7 +6,7 @@ namespace CRUX_Renewal.Main_Form
     public partial class Main_Frm_Optical : Form
     {
         public string CurrentFormName = string.Empty;
-        public int CurFormIndex { get; set; }
+        public int CurFormIndex = 0;
         Ex_Frm_Optic_Line LineCamForm;
         Ex_Frm_Optic_Area AreaCamForm;
         public Main_Frm_Optical ()
@@ -18,12 +18,18 @@ namespace CRUX_Renewal.Main_Form
             Initialize();
             Show();
         }
-
+        public void SetFormNameIndex(ref string name, ref int index)
+        {
+            CurrentFormName = name;
+            CurFormIndex = index;
+        }
         private void Initialize()
         {
             LineCamForm = new Ex_Frm_Optic_Line() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             AreaCamForm = new Ex_Frm_Optic_Area() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
 
+            LineCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            AreaCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             tab_CAM_1.Controls.Add(LineCamForm);            
             //LineCamForm.Show();
             tab_CAM_2.Controls.Add(AreaCamForm);

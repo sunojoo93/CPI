@@ -207,7 +207,12 @@ namespace CRUX_Renewal.Main_Form
                 CircleProgressBar.TimerStop();
                 Program.KillAllTask();
                 if(Systems.MainRecipe != null)
-                    Systems.MainRecipe?.Manager?.Shutdown();
+                    foreach(Recipe item in Systems.MainRecipe)
+                        item?.Manager?.Shutdown();
+
+                if(Systems.ViewRecipe != null)
+                    foreach (Recipe item in Systems.ViewRecipe)
+                        item?.Manager?.Shutdown();
                 Application.Exit();
             }
         }
@@ -272,7 +277,7 @@ namespace CRUX_Renewal.Main_Form
             Systems.AliveList = new ALIVE_STATE[2];
 
             Systems.Ini_Collection = new List<Dictionary<string, IniFile>>();
-
+            Systems.RecipeData_Collection = new List<Dictionary<string, IniFile>>();
             for ( int i = 0; i < Globals.MaxVisionCnt; i++ )
             {        
                 Systems.Ini_Collection.Add(new Dictionary<string, IniFile>());
@@ -288,19 +293,6 @@ namespace CRUX_Renewal.Main_Form
                     else
                         continue;
                 }
-                for (int j = 0; j < Globals.Ini_DefaultData_Names.Length; ++j)
-                {
-                    IniFile Ini = new IniFile();
-                    string IniPath = $@"{Paths.TXT_FOLDER_PATH}{Globals.Ini_DefaultData_Names[j]}";
-                    if (fileProc.FileExists(IniPath))
-                    {
-                        Ini.Load($@"{Paths.TXT_FOLDER_PATH}{Globals.Ini_DefaultData_Names[j]}");
-                        Systems.Ini_Collection[i].Add(Globals.Ini_DefaultData_Names[j], Ini);
-                    }
-                    else
-                        continue;
-                }
-
 
                 if (Modes.NET_SIMULATION_MODE)
                     Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE_SIMUL", Paths.INIT_PATH);
@@ -341,10 +333,25 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
-                string Path = (Systems.Ini_Collection[0]["CRUX_GUI_Renewal.ini"])["LastUsedRecipe"]["RecipeName"].ToString().Replace(" ", "");
-                ArrayList FileList = fileProc.getFileList($@"{Paths.RECIPE_PATH_RENEWAL}{Path}",".vpp");
-                Systems.SetCogJob(FileList[0].ToString(), Path);
-                Systems.CurrentRecipe = Path;
+                Systems.MainRecipe = new List<Recipe>();
+                Systems.ViewRecipe = new List<Recipe>();
+                Systems.CurrentRecipeName = new List<string>();
+                Systems.CurrentJobName = new List<string>();
+                for (int i = 0; i < Globals.MaxVisionCnt; i++)
+                {
+                    Systems.CurrentRecipeName.Add("");
+                    Systems.CurrentJobName.Add("");
+                    Systems.RecipeData_Collection.Add(new Dictionary<string, IniFile>());
+                    Systems.MainRecipe.Add(new Recipe());
+                    Systems.ViewRecipe.Add(new Recipe());
+                    string RecipeName = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipeName"].ToString().Replace(" ", "");
+                    string Path = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
+                    ArrayList FileList = fileProc.getFileList($@"{Paths.RECIPE_PATH_RENEWAL}{RecipeName}", ".vpp");
+                    Systems.SetCogJob(Path, Systems.MainRecipe[i], FileList[0].ToString(), RecipeName);
+                    Systems.CurrentRecipeName[i] = RecipeName;
+     
+                    Systems.ViewRecipe[i] = Utility.DeepCopy(Systems.MainRecipe[i]);
+                }
             }
             catch (Exception ex)
             {

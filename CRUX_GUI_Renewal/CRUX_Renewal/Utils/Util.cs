@@ -340,20 +340,20 @@ namespace CRUX_Renewal
         }
         static public void ChangeJobImageSource(CogJob job, bool flag)
         {
-            CheckState Checked;
-            if (flag)
-                Checked = CheckState.Checked;
-            else
-                Checked = CheckState.Unchecked;
+            //CheckState Checked;
+            //if (flag)
+            //    Checked = CheckState.Checked;
+            //else
+            //    Checked = CheckState.Unchecked;
 
-            CogJobConfiguration Config = new CogJobConfiguration(false, Systems.MainRecipe.Manager.Job(0)) { TopLevel = false };
+            //CogJobConfiguration Config = new CogJobConfiguration(false, Systems.MainRecipe[CurFormIndex].Manager.Job(0)) { TopLevel = false };
 
-            var rtn = Utility.GetAllControlsRecursive(Config, "chkNormalRunMode");
+            //var rtn = Utility.GetAllControlsRecursive(Config, "chkNormalRunMode");
 
-            (rtn[0] as CheckBox).CheckState = Checked;       
-            var rtna = Utility.GetAllControlsRecursive(Config, "btnOK");
-            (rtna[0] as Button).PerformClick();
-            Config.CopyAll(Systems.MainRecipe.Manager.Job(0));
+            //(rtn[0] as CheckBox).CheckState = Checked;       
+            //var rtna = Utility.GetAllControlsRecursive(Config, "btnOK");
+            //(rtna[0] as Button).PerformClick();
+            //Config.CopyAll(Systems.MainRecipe.Manager.Job(0));
         }
         static public void AdjustCoordination (ref RectangleF rect)
         {

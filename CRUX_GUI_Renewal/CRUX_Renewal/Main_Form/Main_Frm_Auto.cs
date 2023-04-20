@@ -22,5 +22,10 @@ namespace CRUX_Renewal.Main_Form
             FormBorderStyle = FormBorderStyle.None;
             Show();
         }
+        public void SetFormNameIndex(ref string name, ref int index)
+        {
+            CurrentFormName = name;
+            CurFormIndex = index;
+        }
     }
 }

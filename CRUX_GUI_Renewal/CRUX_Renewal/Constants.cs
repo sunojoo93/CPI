@@ -88,6 +88,8 @@ namespace CRUX_Renewal
         public const string INIT_FOLDER_PATH = DEFAULT_DRIVE + @"CRUX\DATA\INI\";
         public const string TXT_FOLDER_PATH = DEFAULT_DRIVE + @"CRUX\DATA\TXT\";
 
+        //public static List<string> 
+
 
     }
     static class Globals

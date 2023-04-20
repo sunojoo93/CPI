@@ -252,24 +252,24 @@ namespace CRUX_Renewal.Class
         public Optical_Light Light;
         public Dictionary<string,List<ROI_Data>> ROI_List;
 
-        public void Load_RecipeData(string path)
+        public void Load_RecipeData(string path, string rcp_name)
         {
             try
             {
                 for (int i = 0; i < Globals.Ini_RecipeItem_Names.Length; ++i)
                 {
-                    if (Systems.Ini_Collection[Systems.CurDisplayIndex].ContainsKey(Globals.Ini_RecipeItem_Names[i]))
+                    if (Systems.RecipeData_Collection[Systems.CurDisplayIndex].ContainsKey(Globals.Ini_RecipeItem_Names[i]))
                     {
-                        Systems.Ini_Collection[Systems.CurDisplayIndex].Remove(Globals.Ini_RecipeItem_Names[i]);
+                        Systems.RecipeData_Collection[Systems.CurDisplayIndex].Remove(Globals.Ini_RecipeItem_Names[i]);
                     }
 
                     IniFile Ini = new IniFile();
-                    Ini.Load($@"{Paths.RECIPE_PATH_RENEWAL}{path}\{Globals.Ini_RecipeItem_Names[i]}");
-                    Systems.Ini_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
+                    Ini.Load($@"{path}{rcp_name}\{Globals.Ini_RecipeItem_Names[i]}");
+                    Systems.RecipeData_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
                 }
-                IniFile ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"];
+                IniFile ini = Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"];
 
-                Systems.MainRecipe.ROI_List = new Dictionary<string, List<ROI_Data>>();
+                ROI_List = new Dictionary<string, List<ROI_Data>>();
                 foreach (var item in ini.Values)
                 {
                     string JobName = item["JobName"].ToString();
@@ -298,19 +298,20 @@ namespace CRUX_Renewal.Class
                     if (Double.TryParse(item["Height"].ToString(), out Height))
                         Rd.Height = Height;
 
-                    if (!Systems.MainRecipe.ROI_List.ContainsKey(JobName))
+                    if (!ROI_List.ContainsKey(JobName))
                     {
                         List<ROI_Data> Temp = new List<ROI_Data>();
                         Temp.Add(Rd);
-                        Systems.MainRecipe.ROI_List.Add(JobName, Temp);
+                        ROI_List.Add(JobName, Temp);
                     }
                     else
                     {
-                        Systems.MainRecipe.ROI_List[JobName].Add(Rd);
+                        ROI_List[JobName].Add(Rd);
                     }
                 }
-                if (Systems.MainRecipe.ROI_List.Count > 0)
-                   Systems.CurrentJob = Systems.MainRecipe.ROI_List.Keys.ElementAt(0).ToString();
+                //if (ROI_List.Count > 0)
+                //   Systems.CurrentJob = ROI_List.Keys.ElementAt(0).ToString();
+         
             }
             catch(Exception ex)
             {
@@ -352,7 +353,7 @@ namespace CRUX_Renewal.Class
                 // TODO: 관리되지 않는 리소스(관리되지 않는 개체)를 해제하고 아래의 종료자를 재정의합니다.
                 // TODO: 큰 필드를 null로 설정합니다.
 
-                Manager.Shutdown();
+                Manager?.Shutdown();
                 Manager = null;
                 disposedValue = true;             
             }

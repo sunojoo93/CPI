@@ -19,7 +19,7 @@ namespace CRUX_Renewal.Main_Form
     public partial class Main_Frm_Recipe : Form
     {
         public string CurrentFormName = string.Empty;
-        public int CurFormIndex { get; set; }
+        public int CurFormIndex = 0;
         //public Recipe MainRecipe = new Recipe();
         public Ex_Frm_Recipe_ROI Frm_ROI { get; set; } = null;
         public void LoadVpp(string path)
@@ -27,6 +27,11 @@ namespace CRUX_Renewal.Main_Form
             //MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
             //MainRecipe.Camera = new Optical_Cam();
             //MainRecipe.Light = new Optical_Light();
+        }
+        public void SetFormNameIndex(ref string name, ref int index)
+        {
+            CurrentFormName = name;
+            CurFormIndex = index;
         }
         public Main_Frm_Recipe()
         {
@@ -38,7 +43,7 @@ namespace CRUX_Renewal.Main_Form
             Show();
            
             Frm_ROI = Frm_ROI ?? new Ex_Frm_Recipe_ROI() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
-      
+            Frm_ROI.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             tab_roi.Controls.Add(Frm_ROI);
             Frm_ROI.Dock = DockStyle.Fill;
             Frm_ROI.Show();
@@ -52,7 +57,7 @@ namespace CRUX_Renewal.Main_Form
         {
             IniFile ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"];
             
-            Systems.MainRecipe.ROI_List = new Dictionary<string, List<ROI_Data>>();
+            Systems.MainRecipe[CurFormIndex].ROI_List = new Dictionary<string, List<ROI_Data>>();
             foreach (var item in ini.Values)
             {
                 string JobName = item["JobName"].ToString();
@@ -82,29 +87,29 @@ namespace CRUX_Renewal.Main_Form
                 if (Double.TryParse(item["Height"].ToString(), out Height))
                     Rd.Height = Height;
 
-                if (!Systems.MainRecipe.ROI_List.ContainsKey(JobName))
+                if (!Systems.MainRecipe[CurFormIndex].ROI_List.ContainsKey(JobName))
                 {
                     List<ROI_Data> Temp = new List<ROI_Data>();
                     Temp.Add(Rd);
-                    Systems.MainRecipe.ROI_List.Add(JobName, Temp);
+                    Systems.MainRecipe[CurFormIndex].ROI_List.Add(JobName, Temp);
                 }
                 else
                 {
-                    Systems.MainRecipe.ROI_List[JobName].Add(Rd);
+                    Systems.MainRecipe[CurFormIndex].ROI_List[JobName].Add(Rd);
                 }
             }
         }
         public void ClearRecipeData()
         {
-            Systems.MainRecipe.ROI_List?.Clear();
+            Systems.MainRecipe[CurFormIndex].ROI_List?.Clear();
             
         }
         public void DisplayJob()
         {
             this.Invoke(new Action(() =>
             {
-                cogToolGroupEditV2_Algorithm.Subject = Systems.GetCogJob().Manager.Job(0).VisionTool as CogToolGroup;
-                Systems.CurrentJob = Systems.GetCogJob().Manager.Job(0).Name;
+                cogToolGroupEditV2_Algorithm.Subject = Systems.MainRecipe[CurFormIndex].Manager.Job(0).VisionTool as CogToolGroup;
+                Systems.CurrentJobName[CurFormIndex] = Systems.MainRecipe[CurFormIndex].Manager.Job(0).Name;
                 // cogToolGroupEditV2_Algorithm.ToolbarEvents += new CogJobManagerEdit.CogJobManagerEditEventHandler((s, e) =>
                 //{           
                 //    if(e.buttonID.ToString()  == "ContinuousRunButton")
@@ -114,7 +119,7 @@ namespace CRUX_Renewal.Main_Form
                 //    }
                 //});
                 SetRecipeList(Paths.RECIPE_PATH_RENEWAL);
-                SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
+                SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe[CurFormIndex].Manager));
 
                 cogToolGroupEditV2_Algorithm.Show();
             }));
@@ -125,23 +130,23 @@ namespace CRUX_Renewal.Main_Form
             ArrayList Temp = fileProc.getDirNameList(path);
             LstBoxRecipeList.Items.AddRange(Temp.ToArray());
             if (LstBoxRecipeList.Items.Count > 0)
-                LstBoxRecipeList.SelectedItem = Systems.CurrentRecipe;
+                LstBoxRecipeList.SelectedItem = Systems.CurrentRecipeName;
         }
         public void SetJobListBox(List<string> data)
         {
             LstBoxJobList.Items.Clear();
             LstBoxJobList.Items.AddRange(data.ToArray());
-            LstBoxJobList.SelectedItem = Systems.CurrentJob;
+            LstBoxJobList.SelectedItem = Systems.CurrentJobName;
         }
         public void ChangeSubject(string name)
         {
             this.Invoke(new Action(() =>
             {
-                for (int i = 0; i < Systems.GetCogJob().Manager.JobCount; ++i)
+                for (int i = 0; i < Systems.MainRecipe[CurFormIndex].Manager.JobCount; ++i)
                 {
-                    if (Systems.GetCogJob().Manager.Job(i).Name == name)
+                    if (Systems.MainRecipe[CurFormIndex].Manager.Job(i).Name == name)
                     {
-                        cogToolGroupEditV2_Algorithm.Subject = Systems.GetCogJob().Manager.Job(i).VisionTool as CogToolGroup;
+                        cogToolGroupEditV2_Algorithm.Subject = Systems.MainRecipe[CurFormIndex].Manager.Job(i).VisionTool as CogToolGroup;
                     }
                 }
             }));
@@ -150,7 +155,7 @@ namespace CRUX_Renewal.Main_Form
         {
             this.Invoke(new Action(() =>
             {
-                cogToolGroupEditV2_Algorithm.Subject = Systems.GetCogJob().Manager.Job(idx).VisionTool as CogToolGroup;
+                cogToolGroupEditV2_Algorithm.Subject = Systems.MainRecipe[CurFormIndex].Manager.Job(idx).VisionTool as CogToolGroup;
             }));
         }
 
@@ -165,7 +170,7 @@ namespace CRUX_Renewal.Main_Form
         private void Btn_Save_Click(object sender, System.EventArgs e)
         {
             Frm_ROI.SaveROIData();
-            CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+            CogSerializer.SaveObjectToFile(Systems.MainRecipe[CurFormIndex].Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipeName}\{Systems.CurrentRecipeName}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Console.WriteLine($"Job: 0 Saved");
         }
 
@@ -204,7 +209,7 @@ namespace CRUX_Renewal.Main_Form
             string Temp = LstBoxJobList.SelectedItem?.ToString();
             LstBoxJobList.SelectedItem = Temp;
             Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
-            Systems.CurrentJob = Temp;
+            Systems.CurrentJobName[CurFormIndex] = Temp;
 
 
             Frm_ROI.ClearRecipeROI();
@@ -239,11 +244,11 @@ namespace CRUX_Renewal.Main_Form
 
                         Frm_ROI.ClearRecipeROI();
 
-                        Systems.SetCogJob(Rcp[0]?.ToString(), Temp[Temp.Length - 1]);
+                        Systems.SetCogJob("aa", Systems.MainRecipe[CurFormIndex],Rcp[0]?.ToString(), Temp[Temp.Length - 1]);
 
                         Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
-                        Systems.CurrentRecipe = Temp[Temp.Length - 1]?.ToString();
-                        SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
+                        Systems.CurrentRecipeName[CurFormIndex] = Temp[Temp.Length - 1]?.ToString();
+                        SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe[CurFormIndex].Manager));
                         //SetRecipeData();
                         Frm_ROI.SetRecipeROI();
                         Systems.ViewRecipe = Utility.DeepCopy(Systems.MainRecipe);
@@ -254,7 +259,7 @@ namespace CRUX_Renewal.Main_Form
                 }
                 else
                 {
-                    LstBoxRecipeList.SelectedItem = Systems.CurrentRecipe;
+                    LstBoxRecipeList.SelectedItem = Systems.CurrentRecipeName;
                     return;
                 }
             }
@@ -305,7 +310,7 @@ namespace CRUX_Renewal.Main_Form
                 m5.Text = "Delete";
 
 
-                if (Systems.CurrentRecipe == SelectRecipe)
+                if (Systems.CurrentRecipeName[CurFormIndex] == SelectRecipe)
                     m1.Enabled = false;
 
 
@@ -408,9 +413,9 @@ namespace CRUX_Renewal.Main_Form
                 //    m1.Enabled = false;
                 m0.Click += (senders, ex) =>
                 {
-                    CogJob Temp = Cognex_Helper.CreateNewJob(Systems.MainRecipe);
-                    Systems.MainRecipe.Manager.JobAdd(Temp);
-                    SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager));
+                    CogJob Temp = Cognex_Helper.CreateNewJob(Systems.MainRecipe[CurFormIndex]);
+                    Systems.MainRecipe[CurFormIndex].Manager.JobAdd(Temp);
+                    SetListBox(Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe[CurFormIndex].Manager));
                     Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(LstBoxJobList.Items.Count - 1);
                 };
                 m1.Click += (senders, es) =>
@@ -422,11 +427,11 @@ namespace CRUX_Renewal.Main_Form
                     Ex_Frm_Others_Change_Input Input = new Ex_Frm_Others_Change_Input("새 이름을 입력해주세요.", SelectedJobName);
                     Input.ShowDialog();
                     if (Input.DialogResult == DialogResult.OK)
-                        Cognex_Helper.ChangeJobName(Systems.MainRecipe.Manager, SelectedJobName, Input.ResultName);
+                        Cognex_Helper.ChangeJobName(Systems.MainRecipe[CurFormIndex].Manager, SelectedJobName, Input.ResultName);
                     else
                         return;
                     LstBoxJobList.Items.Clear();
-                    var Temp = Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe.Manager);
+                    var Temp = Cognex_Helper.GetJobList<List<string>>(Systems.MainRecipe[CurFormIndex].Manager);
 
                     SetListBox(Temp);
                 };
@@ -437,7 +442,7 @@ namespace CRUX_Renewal.Main_Form
                     Noti.ShowDialog();
                     if (Noti.DialogResult == DialogResult.OK)
                     {
-                        Cognex_Helper.DeleteJob(Systems.MainRecipe.Manager, SelectedJobName);
+                        Cognex_Helper.DeleteJob(Systems.MainRecipe[CurFormIndex].Manager, SelectedJobName);
                     }
                     else
                         return;

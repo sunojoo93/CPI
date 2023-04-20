@@ -14,6 +14,11 @@ namespace CRUX_Renewal.Ex_Form
     {
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
+        public void SetFormNameIndex(ref string name, ref int index)
+        {
+            CurrentFormName = name;
+            CurFormIndex = index;
+        }
         public Ex_Frm_Optic_Line ()
         {
             InitializeComponent();
