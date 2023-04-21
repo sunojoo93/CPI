@@ -104,9 +104,9 @@ namespace CRUX_Renewal.Ex_Form
                 LstV_ROI.Groups.Clear();
                 LstV_ROI.Items.Clear();
 
-                if (!Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List.ContainsKey(Systems.CurrentApplyJobName[CurFormIndex]))
+                if (!Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List.ContainsKey(Systems.CurrentSelectedJobName[CurFormIndex]))
                     return;
-                List<ROI_Data> Temp = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[Systems.CurrentApplyJobName[CurFormIndex]];
+                List<ROI_Data> Temp = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[Systems.CurrentSelectedJobName[CurFormIndex]];
 
                 foreach (string item in LstB_Category.Items)
                     LstV_ROI.Groups.Add(new ListViewGroup(item, item));
@@ -170,7 +170,7 @@ namespace CRUX_Renewal.Ex_Form
                         }
                         LstV_ROI.Groups[item.Category].Items.Add(Lvi);
                         LstV_ROI.EndUpdate();
-                        //RefeshROI(Rp, Rect, Systems.CurrentApplyJobName[CurFormIndex], Category, item.Name, true);
+                        //RefeshROI(Rp, Rect, Systems.CurrentSelectedJobName[CurFormIndex], Category, item.Name, true);
                     }
                 }
             }
@@ -323,13 +323,17 @@ namespace CRUX_Renewal.Ex_Form
                     {
                         Ex_Frm_Notification_Announce Ano = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "선택된 ROI가 없습니다.");
                         Ano.ShowDialog();
+                        AltIsDown = false;
                         return;
                     }
 
                     Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("입력", LstV_ROI.Items, SelectedROICategory);
                     Input.ShowDialog();
                     if (Input.DialogResult == DialogResult.Cancel || Input.ResultName == null)
+                    {
+                        AltIsDown = false;
                         return;
+                    }
 
                     string ROI_Name = Input.ResultName;
 
@@ -372,6 +376,7 @@ namespace CRUX_Renewal.Ex_Form
 
                     Systems.RecipeContent.ViewRecipe[CurFormIndex].AddRoi(JobName, Data);
                     RefeshRoiDataView();
+                    AltIsDown = false;
                 }
                 else if (Cog_ROI_Display.Selection.Count > 0)
                 {
@@ -566,17 +571,38 @@ namespace CRUX_Renewal.Ex_Form
                 Cog_ROI_Display.DrawingEnabled = true;
                 //Systems.ClearRecipe();
                 RefeshRoiDataView();
-                //SetRecipeROI();
-                Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex]);
-                Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex]);
-                Systems.RefreshRecipeData_Control();
+                //SetRecipeROI();          
+                Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+                Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+
+
             }
         }
-
+        private string CurrentRecipe_;
+        public string CurrentRecipe
+        {
+            get
+            { return CurrentRecipe_; }
+            set
+            {
+                CurrentRecipe_ = value;
+                Program.Frm_Main?.SetRecipeName(CurrentRecipe_);
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            SaveROIProperty();
-            SaveROIList();
+            CurrentRecipe = "aaa";
+            List<PropertyString> aaaa = new List<PropertyString>();
+            
+            aaaa.Add(new PropertyString(new Action( () =>
+            {
+                Program.Frm_Main?.SetRecipeName(aaaa[Systems.CurDisplayIndex].GetString());
+            })));
+            aaaa[0].SetString("aadd");
+        }
+        public void Rund()
+        {
+      
         }
         public void SaveROIData()
         { 

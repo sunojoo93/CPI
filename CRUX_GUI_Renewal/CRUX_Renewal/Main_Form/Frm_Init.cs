@@ -335,25 +335,28 @@ namespace CRUX_Renewal.Main_Form
             {
                 Systems.RecipeContent.MainRecipe = new List<Recipe>();
                 Systems.RecipeContent.ViewRecipe = new List<Recipe>();
-                Systems.CurrentApplyRecipeName = new List<string>();
-                Systems.CurrentApplyJobName = new List<string>();
-
+                Systems.CurrentApplyRecipeName = new List<PropertyString>();
+                Systems.CurrentSelectedJobName = new List<string>();
+                Systems.OpendRecipe = new List<string>();
 
                 for (int i = 0; i < Globals.MaxVisionCnt; i++)
                 {
-                    Systems.CurrentApplyRecipeName.Add("");
-                    Systems.CurrentApplyJobName.Add("");
+                    Systems.CurrentApplyRecipeName.Add(new PropertyString(new Action(()=>
+                    {
+                        Program.Frm_Main?.SetRecipeName(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+                    })));
+                    Systems.CurrentSelectedJobName.Add("");
                     Systems.RecipeData_Collection.Add(new Dictionary<string, IniFile>());
                     Systems.RecipeContent.MainRecipe.Add(new Recipe());
                     Systems.RecipeContent.ViewRecipe.Add(new Recipe());
-
+                    Systems.OpendRecipe.Add("");
                     string RecipeName = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipeName"].ToString().Replace(" ", "");
                     string Path = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
                     ArrayList FileList = fileProc.getFileList($@"{Paths.RECIPE_PATH_RENEWAL}{RecipeName}", ".vpp");
 
                     Systems.RecipeContent.ReadRecipe(Path, Systems.RecipeContent.MainRecipe[i], FileList[0].ToString(), RecipeName);
 
-                    Systems.CurrentApplyRecipeName[i] = RecipeName;
+                    Systems.CurrentApplyRecipeName[i].SetString(RecipeName);
      
                     Systems.RecipeContent.ViewRecipe[i] = Utility.DeepCopy(Systems.RecipeContent.MainRecipe[i]);
                 }

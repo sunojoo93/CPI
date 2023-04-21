@@ -30,29 +30,19 @@ namespace CRUX_Renewal
         //public static string CurrentJob
         //{
         //    get { return CurrentJob_; }
-          
+
         //    set
         //    {
         //        CurrentJob_ = value;
         //        if (Program.Frm_MainContent_ != null && Program.Frm_MainContent_.Count > 0)
         //            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(value); }
         //}
-        private static string CurrentRecipe_;
-        public static string CurrentRecipe
-        {
-            get
-            { return CurrentRecipe_; }
-            set
-            {
-                //CurrentRecipe_ = value;
-                //Program.Frm_Main?.SetRecipeName(CurrentRecipe_);
-                //if(Program.Frm_MainContent_ != null && Program.Frm_MainContent_.Count > 0)
-                // Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(value);
-            }
-        }
 
-        public static List<string> CurrentApplyRecipeName;
-        public static List<string> CurrentApplyJobName;
+        public static List<string> OpendRecipe;
+
+
+        public static List<PropertyString> CurrentApplyRecipeName;
+        public static List<string> CurrentSelectedJobName;
         public Recipes GetRecipes()
         {
             return RecipeContent;
@@ -145,6 +135,7 @@ namespace CRUX_Renewal
                         recipe.Load_RecipeData(rcp_path, rcp_name);
                         recipe.Name = rcp_name;
                         recipe.Path = rcp_path;
+                        recipe.Opend = true;
 
                     }
                     string[] Temp = vpp_path.Split(new string[] { "\\" }, StringSplitOptions.None);

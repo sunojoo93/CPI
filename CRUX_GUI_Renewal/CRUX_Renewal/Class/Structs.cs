@@ -248,6 +248,7 @@ namespace CRUX_Renewal.Class
     {
         public string Name { get; set; }
         public string Path { get; set; }
+        public bool Opend { get; set; }
         public CogJobManager Manager { get; set; } = null;
         public Optical_Cam Camera;
         public Optical_Light Light;
@@ -640,6 +641,25 @@ namespace CRUX_Renewal.Class
             {
                 _Description = value;
             }
+        }
+    }
+    public class PropertyString
+    {
+        private string Data { get; set; }
+        Action Func;
+
+        public void SetString(string data)
+        {
+            Data = data;
+            Func();
+        }
+        public string GetString()
+        {
+            return Data;
+        }
+        public PropertyString(Action func)
+        {
+            Func = func;
         }
     }   
 }
