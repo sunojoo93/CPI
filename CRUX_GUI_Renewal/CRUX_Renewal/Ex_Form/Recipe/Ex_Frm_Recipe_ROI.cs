@@ -99,6 +99,7 @@ namespace CRUX_Renewal.Ex_Form
         {
             if (Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List.Count > 0)
             {
+                Cog_ROI_Display.DrawingEnabled = false;
                 Dictionary<string, List<ROI_Data>> ROI_List = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List;
                 Cog_ROI_Display.InteractiveGraphics.Clear();
                 LstV_ROI.Groups.Clear();
@@ -132,7 +133,7 @@ namespace CRUX_Renewal.Ex_Form
                         Rect.DragColor = Rp.DragLineColor;
                         Rect.Color = Rp.LineColor;
 
-                        Cog_ROI_Display.DrawingEnabled = false;
+                        //Cog_ROI_Display.DrawingEnabled = false;
                         Rect.Interactive = true;
                         Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
                         Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
@@ -141,7 +142,7 @@ namespace CRUX_Renewal.Ex_Form
                         string RectROIName = $"{Category}^{ROIName}";
 
                         Cog_ROI_Display.InteractiveGraphics.Add(Rect, RectROIName, false);                        
-                        Cog_ROI_Display.DrawingEnabled = true;
+              
 
                         ROI_Data Data = new ROI_Data();
                         Data.Name = ROIName;
@@ -173,6 +174,7 @@ namespace CRUX_Renewal.Ex_Form
                         //RefeshROI(Rp, Rect, Systems.CurrentSelectedJobName[CurFormIndex], Category, item.Name, true);
                     }
                 }
+                Cog_ROI_Display.DrawingEnabled = true;
             }
         }
         public void ClearRecipeROI()
