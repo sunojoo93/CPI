@@ -246,7 +246,8 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Recipe : IDisposable
     {
-        
+        public string Name { get; set; }
+        public string Path { get; set; }
         public CogJobManager Manager { get; set; } = null;
         public Optical_Cam Camera;
         public Optical_Light Light;
@@ -309,14 +310,15 @@ namespace CRUX_Renewal.Class
                         ROI_List[JobName].Add(Rd);
                     }
                 }
-                //if (ROI_List.Count > 0)
-                //   Systems.CurrentJob = ROI_List.Keys.ElementAt(0).ToString();
-         
             }
             catch(Exception ex)
             {
                 throw ex;
             }
+        }
+        public void AddRoi(string jobname, ROI_Data roi)
+        {
+            ROI_List[jobname].Add(roi);
         }
         public void SetSmartListAddEvent()
         {

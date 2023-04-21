@@ -206,12 +206,12 @@ namespace CRUX_Renewal.Main_Form
                 }
                 CircleProgressBar.TimerStop();
                 Program.KillAllTask();
-                if(Systems.MainRecipe != null)
-                    foreach(Recipe item in Systems.MainRecipe)
+                if(Systems.RecipeContent.MainRecipe != null)
+                    foreach(Recipe item in Systems.RecipeContent.MainRecipe)
                         item?.Manager?.Shutdown();
 
-                if(Systems.ViewRecipe != null)
-                    foreach (Recipe item in Systems.ViewRecipe)
+                if(Systems.RecipeContent.ViewRecipe != null)
+                    foreach (Recipe item in Systems.RecipeContent.ViewRecipe)
                         item?.Manager?.Shutdown();
                 Application.Exit();
             }
@@ -333,24 +333,29 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
-                Systems.MainRecipe = new List<Recipe>();
-                Systems.ViewRecipe = new List<Recipe>();
-                Systems.CurrentRecipeName = new List<string>();
-                Systems.CurrentJobName = new List<string>();
+                Systems.RecipeContent.MainRecipe = new List<Recipe>();
+                Systems.RecipeContent.ViewRecipe = new List<Recipe>();
+                Systems.CurrentApplyRecipeName = new List<string>();
+                Systems.CurrentApplyJobName = new List<string>();
+
+
                 for (int i = 0; i < Globals.MaxVisionCnt; i++)
                 {
-                    Systems.CurrentRecipeName.Add("");
-                    Systems.CurrentJobName.Add("");
+                    Systems.CurrentApplyRecipeName.Add("");
+                    Systems.CurrentApplyJobName.Add("");
                     Systems.RecipeData_Collection.Add(new Dictionary<string, IniFile>());
-                    Systems.MainRecipe.Add(new Recipe());
-                    Systems.ViewRecipe.Add(new Recipe());
+                    Systems.RecipeContent.MainRecipe.Add(new Recipe());
+                    Systems.RecipeContent.ViewRecipe.Add(new Recipe());
+
                     string RecipeName = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipeName"].ToString().Replace(" ", "");
                     string Path = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
                     ArrayList FileList = fileProc.getFileList($@"{Paths.RECIPE_PATH_RENEWAL}{RecipeName}", ".vpp");
-                    Systems.SetCogJob(Path, Systems.MainRecipe[i], FileList[0].ToString(), RecipeName);
-                    Systems.CurrentRecipeName[i] = RecipeName;
+
+                    Systems.RecipeContent.ReadRecipe(Path, Systems.RecipeContent.MainRecipe[i], FileList[0].ToString(), RecipeName);
+
+                    Systems.CurrentApplyRecipeName[i] = RecipeName;
      
-                    Systems.ViewRecipe[i] = Utility.DeepCopy(Systems.MainRecipe[i]);
+                    Systems.RecipeContent.ViewRecipe[i] = Utility.DeepCopy(Systems.RecipeContent.MainRecipe[i]);
                 }
             }
             catch (Exception ex)

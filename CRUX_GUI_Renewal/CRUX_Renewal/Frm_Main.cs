@@ -42,8 +42,6 @@ namespace CRUX_Renewal
         {
             InitializeComponent();
 
-
-
             Frm_Init Init = new Frm_Init();
             Init.ShowDialog();
 
@@ -58,7 +56,7 @@ namespace CRUX_Renewal
             CurDisplayForm = "Upper";
             Cmb_SelPC.SelectedIndex = 0;
 
-            Systems.ViewRecipe = Utility.DeepCopy(Systems.MainRecipe);
+            //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
         }
         public void InitMainForm()
         {

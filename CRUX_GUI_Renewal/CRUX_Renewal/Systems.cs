@@ -24,9 +24,7 @@ namespace CRUX_Renewal
         public static Inspector Inspector_ = Inspector.Instance();
         public static ServerInterface g_Ipc;
         public static ALIVE_STATE[] AliveList;
-        public static List<Recipe> MainRecipe;
-        public static List<Recipe> ViewRecipe;
-        public static bool SaveLoadType = false;
+        public static Recipes RecipeContent = Recipes.Instance();
         public static IniFile Environment_INI = new IniFile();
         private static string CurrentJob_;
         //public static string CurrentJob
@@ -40,20 +38,29 @@ namespace CRUX_Renewal
         //            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(value); }
         //}
         private static string CurrentRecipe_;
-        //public static string CurrentRecipe
-        //{
-        //    get
-        //    { return CurrentRecipe_; }
-        //    set
-        //    {
-        //        //CurrentRecipe_ = value;
-        //        //Program.Frm_Main?.SetRecipeName(CurrentRecipe_);
-        //        //if(Program.Frm_MainContent_ != null && Program.Frm_MainContent_.Count > 0)
-        //        // Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(value);
-        //    }
-        //}
-        public static List<string> CurrentRecipeName;
-        public static List<string> CurrentJobName;
+        public static string CurrentRecipe
+        {
+            get
+            { return CurrentRecipe_; }
+            set
+            {
+                //CurrentRecipe_ = value;
+                //Program.Frm_Main?.SetRecipeName(CurrentRecipe_);
+                //if(Program.Frm_MainContent_ != null && Program.Frm_MainContent_.Count > 0)
+                // Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(value);
+            }
+        }
+
+        public static List<string> CurrentApplyRecipeName;
+        public static List<string> CurrentApplyJobName;
+        public Recipes GetRecipes()
+        {
+            return RecipeContent;
+        }
+        public void SetRecipes(Recipes data)
+        {
+            RecipeContent = Utility.DeepCopy(data);
+        }
         ////////// Property //////////
         // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
@@ -63,49 +70,9 @@ namespace CRUX_Renewal
 
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;
-        public static async void SetCogJob(string rcp_path, Recipe recipe,  string vpp_path, string rcp_name)
-        {
-            try
-            {    
-                if (recipe?.Manager != null)
-                {
-                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
 
-                    recipe.Dispose();
-                    MainRecipe = null;
-                    GC.Collect();
-                }
-                //Consts.VPP_PATH = @"D:\CRUX\DATA\Recipes\Test\new1.rcp";
-                Task t =  Task.Run(() =>
-                {
-                    if (SaveLoadType)
-                    {
-                        recipe = ((Recipe)CogSerializer.LoadObjectFromFile(vpp_path));
-                    }
-                    else
-                    {
-                        recipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(vpp_path));
-                        recipe.Camera = new Optical_Cam();
-                        recipe.Light = new Optical_Light();
-                        recipe.Load_RecipeData(rcp_path, rcp_name);
-                        
-                    }
-                string[] Temp = vpp_path.Split(new string[] { "\\" }, StringSplitOptions.None);
-                //CurrentRecipe = Temp[Temp.Count() - 2];
-                Systems.Inspector_.SetInspection();
-                Systems.Inspector_.SetCogManager(recipe);
-                   
-                });
-                t.Wait();
-                GC.Collect();
-                var tt = Systems.MainRecipe;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        
+        
         public static void RefreshRecipeData_Control()
         {
             //Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentRecipe);
@@ -131,6 +98,70 @@ namespace CRUX_Renewal
         public static void SetRecipeParams(string path)
         {
 
+        }
+    }
+    // 싱글톤 
+    public class Recipes
+    {
+        private static Recipes Recipes_Object;
+        public static Recipes Instance()
+        {
+            if (Recipes_Object == null)
+            {
+                Recipes_Object = new Recipes();
+            }
+            return Recipes_Object;
+        }
+        public List<Recipe> MainRecipe = new List<Recipe>();
+        public List<Recipe> ViewRecipe = new List<Recipe>();
+
+        public static bool SaveLoadType = false;
+
+        public async void ReadRecipe(string rcp_path, Recipe recipe, string vpp_path, string rcp_name)
+        {
+            try
+            {
+                if (recipe?.Manager != null)
+                {
+                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
+                    recipe.Manager.Shutdown();
+                    recipe.Dispose();
+                    //recipe = null;
+                    GC.Collect();
+                }
+                //Consts.VPP_PATH = @"D:\CRUX\DATA\Recipes\Test\new1.rcp";
+                Task t = Task.Run(() =>
+                {
+                    if (SaveLoadType)
+                    {
+                        recipe = ((Recipe)CogSerializer.LoadObjectFromFile(vpp_path));
+                    }
+                    else
+                    {
+                        //recipe = new Recipe();
+                        recipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(vpp_path));
+                        recipe.Camera = new Optical_Cam();
+                        recipe.Light = new Optical_Light();
+                        recipe.Load_RecipeData(rcp_path, rcp_name);
+                        recipe.Name = rcp_name;
+                        recipe.Path = rcp_path;
+
+                    }
+                    string[] Temp = vpp_path.Split(new string[] { "\\" }, StringSplitOptions.None);
+                    //CurrentRecipe = Temp[Temp.Count() - 2];
+                    Systems.Inspector_.SetInspection();
+                    Systems.Inspector_.SetCogManager(recipe);
+
+                });
+                t.Wait();
+                GC.Collect();
+                //var tt = Systems.MainRecipe;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

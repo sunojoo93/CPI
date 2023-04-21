@@ -21,7 +21,6 @@ namespace CRUX_Renewal
         /// System 관련 기능 클래스는 Systems 클래스에 전역으로 둔다.
         /// </summary> 
         private static List<ProcessSet> ProcessList = new List<ProcessSet>();
-        public static Frm_Init Frm_Init_;
         // 메인 폼       
         public static List<Frm_MainContent> Frm_MainContent_;
         public static Frm_Main Frm_Main;
@@ -71,14 +70,14 @@ namespace CRUX_Renewal
             {
                 Thread.Sleep(10);
             }
-            if(Systems.MainRecipe != null)
+            if(Systems.RecipeContent.MainRecipe != null)
             {
-                foreach (Recipe item in Systems.MainRecipe)
+                foreach (Recipe item in Systems.RecipeContent.MainRecipe)
                     item.Manager.Shutdown();
             }
-            if(Systems.ViewRecipe != null)
+            if(Systems.RecipeContent.ViewRecipe != null)
             {
-                foreach (Recipe item in Systems.ViewRecipe)
+                foreach (Recipe item in Systems.RecipeContent.ViewRecipe)
                     item.Manager.Shutdown();
             }
 
