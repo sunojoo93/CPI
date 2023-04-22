@@ -579,16 +579,25 @@ namespace CRUX_Renewal.Class
                 Utility.ChangeJobImageSource(Job, false);
                 ((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
                 //Job.UserData["One"] = new object();
-                Job.VisionTool.UserData?.Add("One", new SharedClass());
-
-                foreach(ICogTool item in (Job.VisionTool as CogToolGroup).Tools)
+                SharedClass Data = new SharedClass();
+                Data.ROI_List.Add("InspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 1000, Y = 2000, Width = 3000, Height = 4000 }));
+                Data.ROI_List.Add("NonInspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 2000, Y = 4000, Width = 6000, Height = 8000 }));
+                Data.Parameters.Add("Th", "0");
+                Job.VisionTool.UserData?.Add("One", Data);
+                //SharedClass Data = new SharedClass();
+                //Data.ROI_List.Add("InspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 1000, Y = 2000, Width = 3000, Height = 4000 }));
+                //Data.ROI_List.Add("NonInspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 2000, Y = 4000, Width = 6000, Height = 8000 }));
+                //Data.Parameters.Add("Th","0");
+                foreach (ICogTool item in (Job.VisionTool as CogToolGroup).Tools)
                 {
                     CogToolCollection Colection = (item as CogToolBlock)?.Tools;
                     if (Colection == null)
                         continue;
                     foreach (ICogTool item2 in Colection)
-
-                        item2?.UserData.Add("One", new SharedClass());
+                    {
+                        
+                        item2?.UserData.Add("One", Data);
+                    }
                 }
                 //(Job.VisionTool as CogToolGroup).Tools[3].UserData?.Add("One", new SharedClass());
                 //(Job.VisionTool as CogToolGroup).Tools[4].UserData?.Add("One", new SharedClass());
