@@ -241,16 +241,16 @@ namespace CRUX_Renewal.Main_Form
                 string Time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
 
                 Temp0 = new InspData();
-                Bit0 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
+                Bit0 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\11.bmp");
                 Temp0.OriginImage = Bit0;
                 Temp1 = new InspData();
-                Bit1 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp");
+                Bit1 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\22.bmp");
                 Temp1.OriginImage = Bit1;
                 Temp2 = new InspData();
-                Bit2 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\3.bmp");
+                Bit2 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\33.bmp");
                 Temp2.OriginImage = Bit2;
                 Temp3 = new InspData();
-                Bit3 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\4.bmp");
+                Bit3 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\44.bmp");
                 Temp3.OriginImage = Bit3;
 
                 Console.WriteLine("Read Image");
@@ -259,21 +259,21 @@ namespace CRUX_Renewal.Main_Form
                 Temp0.Face = "Upper";
                 Temp0.InputTime = $"{Time}_00";
                 Temp0.InspName = "Left";
-                Temp0.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp";
+                Temp0.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\11.bmp";
 
                 Temp1.CellID = $"{Time}_CellID";
                 Temp1.Direction = "Forward";
                 Temp1.Face = "Upper";
                 Temp1.InputTime = $"{Time}_01";
                 Temp1.InspName = "Left2";
-                Temp1.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp";
+                Temp1.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\22.bmp";
 
                 Temp2.CellID = $"{Time}_CellID";
                 Temp2.Direction = "Forward";
                 Temp2.Face = "Upper";
                 Temp2.InputTime = $"{Time}_00";
                 Temp2.InspName = "Left3";
-                Temp2.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\3.bmp";
+                Temp2.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\33.bmp";
 
 
                 Temp3.CellID = $"{Time}_CellID";
@@ -281,14 +281,14 @@ namespace CRUX_Renewal.Main_Form
                 Temp3.Face = "Upper";
                 Temp3.InputTime = $"{Time}_01";
                 Temp3.InspName = "Left4";
-                Temp3.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\4.bmp";
+                Temp3.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\44.bmp";
                 //Utility.ChangeJobImageSource(Job, false);
-                //Systems.Inspector_.SetInspection(true, Temp0, Temp1);
+                //Systems.Inspector_.SetInspection(true, Temp0, Temp1/*, Temp2, Temp3*/);
                 //Systems.Inspector_.StartManager();
 
                 Systems.Inspector_.StartJob(Temp0);
 
-                Systems.Inspector_.StartJob(Temp1);
+                //Systems.Inspector_.StartJob(Temp1);
 
                 //Systems.Inspector_.StartJob(Temp2);
 
@@ -297,7 +297,7 @@ namespace CRUX_Renewal.Main_Form
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception Image {ex.Message}");
-                Program.ProgramExit();                
+                //Program.ProgramExit();                
             }
         }
 

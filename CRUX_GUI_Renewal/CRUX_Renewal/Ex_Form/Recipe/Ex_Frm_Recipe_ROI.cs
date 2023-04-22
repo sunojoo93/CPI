@@ -574,9 +574,9 @@ namespace CRUX_Renewal.Ex_Form
                 //Systems.ClearRecipe();
                 RefeshRoiDataView();
                 //SetRecipeROI();          
-                Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
-                Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
-
+                //Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectRecipe(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+                //Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+                //Systems.CurrentApplyRecipeName[CurFormIndex].SetString(
 
             }
         }
@@ -593,14 +593,7 @@ namespace CRUX_Renewal.Ex_Form
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            CurrentRecipe = "aaa";
-            List<PropertyString> aaaa = new List<PropertyString>();
-            
-            aaaa.Add(new PropertyString(new Action( () =>
-            {
-                Program.Frm_Main?.SetRecipeName(aaaa[Systems.CurDisplayIndex].GetString());
-            })));
-            aaaa[0].SetString("aadd");
+            Systems.Inspector_.StartJob(new InspData());
         }
         public void Rund()
         {

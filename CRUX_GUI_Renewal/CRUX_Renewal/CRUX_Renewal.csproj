@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8D1742C4-4A1F-4E07-9F8D-94506CD75681}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CRUX_Renewal</RootNamespace>
     <AssemblyName>CRUX_Renewal</AssemblyName>
@@ -796,6 +796,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharingFormat_DLL\SharingFormat_DLL.csproj">
+      <Project>{EAC022A0-91C7-472D-9C09-80A759629120}</Project>
+      <Name>SharingFormat_DLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

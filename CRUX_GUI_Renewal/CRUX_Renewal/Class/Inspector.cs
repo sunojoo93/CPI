@@ -11,6 +11,7 @@ using Cognex.VisionPro.ToolBlock;
 using Cognex.VisionPro.ToolGroup;
 using CRUX_Renewal;
 using CRUX_Renewal.Utils;
+using SharingFormat_DLL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -575,9 +576,26 @@ namespace CRUX_Renewal.Class
 
                 //InspectData = data.DeepCopy<InspData>();
                 //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
-
+                Utility.ChangeJobImageSource(Job, false);
                 ((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
-                //Utility.ChangeJobImageSource(Job, false);
+                //Job.UserData["One"] = new object();
+                Job.VisionTool.UserData?.Add("One", new SharedClass());
+
+                foreach(ICogTool item in (Job.VisionTool as CogToolGroup).Tools)
+                {
+                    CogToolCollection Colection = (item as CogToolBlock)?.Tools;
+                    if (Colection == null)
+                        continue;
+                    foreach (ICogTool item2 in Colection)
+
+                        item2?.UserData.Add("One", new SharedClass());
+                }
+                //(Job.VisionTool as CogToolGroup).Tools[3].UserData?.Add("One", new SharedClass());
+                //(Job.VisionTool as CogToolGroup).Tools[4].UserData?.Add("One", new SharedClass());
+                //(Job.VisionTool as CogToolGroup).Tools[5].UserData?.Add("One", new SharedClass());
+                //(Job.VisionTool as CogToolGroup).Tools[6].UserData?.Add("One", new SharedClass());
+                //(Job.VisionTool as CogToolGroup).Tools[7].UserData?.Add("One", new SharedClass());
+
                 Job.Run();
             }
             catch(Exception ex)
