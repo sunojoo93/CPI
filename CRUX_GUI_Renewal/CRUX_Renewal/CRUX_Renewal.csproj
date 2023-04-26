@@ -481,6 +481,12 @@
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Change_Input.Designer.cs">
       <DependentUpon>Ex_Frm_Others_Change_Input.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_Link.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_Link.Designer.cs">
+      <DependentUpon>Ex_Frm_Recipe_Link.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -504,6 +510,12 @@
     </Compile>
     <Compile Include="Main_Form\Frm_Init.Designer.cs">
       <DependentUpon>Frm_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main_Form\Main_Frm_Algorithm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_Form\Main_Frm_Algorithm.Designer.cs">
+      <DependentUpon>Main_Frm_Algorithm.cs</DependentUpon>
     </Compile>
     <Compile Include="User_Controls\CircularProgressBar.cs">
       <SubType>Component</SubType>
@@ -613,12 +625,18 @@
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Select_Color.resx">
       <DependentUpon>Ex_Frm_Others_Select_Color.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_Link.resx">
+      <DependentUpon>Ex_Frm_Recipe_Link.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.resx">
       <DependentUpon>Ex_Frm_Recipe_ViewInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.resx">
       <DependentUpon>Ex_Frm_Recipe_ROI.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_Form\Main_Frm_Algorithm.resx">
+      <DependentUpon>Main_Frm_Algorithm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User_Controls\Uct_main_View.resx">
       <DependentUpon>Uct_main_View.cs</DependentUpon>

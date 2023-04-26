@@ -64,6 +64,14 @@ namespace CRUX_Renewal.Ex_Form
             WinApis.SetWindowRgn(Btn_Job.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Job.Width, Btn_Job.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Optical.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Optical.Width, Btn_Optical.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Advance.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Advance.Width, Btn_Advance.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_Alg.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Alg.Width, Btn_Alg.Height, 15, 15), true);
+        }
+
+        private void Btn_Alg_Click(object sender, EventArgs e)
+        {
+            var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
+            if (Temp != null)
+                Temp.ChangeMainForm(Temp.Frm_Algorithm);
         }
     }
 }

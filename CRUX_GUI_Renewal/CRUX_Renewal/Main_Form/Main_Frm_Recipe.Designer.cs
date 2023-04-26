@@ -35,6 +35,7 @@
             this.tab_roi = new System.Windows.Forms.TabPage();
             this.tab_optic = new System.Windows.Forms.TabPage();
             this.tab_align = new System.Windows.Forms.TabPage();
+            this.tab_Link = new System.Windows.Forms.TabPage();
             this.Btn_Judge = new System.Windows.Forms.Button();
             this.Lb_UnderLine2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -46,11 +47,6 @@
             this.LstBoxJobList = new System.Windows.Forms.ListBox();
             this.Cagb_Recipe = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.LstBoxRecipeList = new System.Windows.Forms.ListBox();
-            this.tab_Algorithm = new System.Windows.Forms.TabPage();
-            this.Tlp_Algorithm = new System.Windows.Forms.TableLayoutPanel();
-            this.Grb_Algorithm = new System.Windows.Forms.GroupBox();
-            this.Tlp_AlgorithmList = new System.Windows.Forms.TableLayoutPanel();
-            this.LstB_Algorithm = new System.Windows.Forms.ListBox();
             this.Tlp_RecipeLayout.SuspendLayout();
             this.Tab_RecipeMain.SuspendLayout();
             this.tab_job.SuspendLayout();
@@ -61,10 +57,6 @@
             this.splitContainer1.SuspendLayout();
             this.Cagb_Jobs.SuspendLayout();
             this.Cagb_Recipe.SuspendLayout();
-            this.tab_Algorithm.SuspendLayout();
-            this.Tlp_Algorithm.SuspendLayout();
-            this.Grb_Algorithm.SuspendLayout();
-            this.Tlp_AlgorithmList.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_RecipeLayout
@@ -101,7 +93,7 @@
             this.Tab_RecipeMain.Controls.Add(this.tab_roi);
             this.Tab_RecipeMain.Controls.Add(this.tab_optic);
             this.Tab_RecipeMain.Controls.Add(this.tab_align);
-            this.Tab_RecipeMain.Controls.Add(this.tab_Algorithm);
+            this.Tab_RecipeMain.Controls.Add(this.tab_Link);
             this.Tab_RecipeMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tab_RecipeMain.HotTrack = true;
             this.Tab_RecipeMain.Location = new System.Drawing.Point(180, 0);
@@ -164,6 +156,16 @@
             this.tab_align.TabIndex = 2;
             this.tab_align.Text = "Align";
             this.tab_align.UseVisualStyleBackColor = true;
+            // 
+            // tab_Link
+            // 
+            this.tab_Link.Location = new System.Drawing.Point(4, 22);
+            this.tab_Link.Name = "tab_Link";
+            this.tab_Link.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_Link.Size = new System.Drawing.Size(1453, 753);
+            this.tab_Link.TabIndex = 5;
+            this.tab_Link.Text = "Link";
+            this.tab_Link.UseVisualStyleBackColor = true;
             // 
             // Btn_Judge
             // 
@@ -330,68 +332,6 @@
             this.LstBoxRecipeList.SelectedIndexChanged += new System.EventHandler(this.LstBoxRecipeList_SelectedIndexChanged);
             this.LstBoxRecipeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseDoubleClick);
             // 
-            // tab_Algorithm
-            // 
-            this.tab_Algorithm.Controls.Add(this.Tlp_Algorithm);
-            this.tab_Algorithm.Location = new System.Drawing.Point(4, 22);
-            this.tab_Algorithm.Name = "tab_Algorithm";
-            this.tab_Algorithm.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Algorithm.Size = new System.Drawing.Size(1453, 753);
-            this.tab_Algorithm.TabIndex = 5;
-            this.tab_Algorithm.Text = "Algorithm";
-            this.tab_Algorithm.UseVisualStyleBackColor = true;
-            // 
-            // Tlp_Algorithm
-            // 
-            this.Tlp_Algorithm.ColumnCount = 2;
-            this.Tlp_Algorithm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.2405F));
-            this.Tlp_Algorithm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 83.75951F));
-            this.Tlp_Algorithm.Controls.Add(this.Grb_Algorithm, 0, 0);
-            this.Tlp_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Algorithm.Location = new System.Drawing.Point(3, 3);
-            this.Tlp_Algorithm.Name = "Tlp_Algorithm";
-            this.Tlp_Algorithm.RowCount = 1;
-            this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_Algorithm.Size = new System.Drawing.Size(1447, 747);
-            this.Tlp_Algorithm.TabIndex = 0;
-            // 
-            // Grb_Algorithm
-            // 
-            this.Grb_Algorithm.Controls.Add(this.Tlp_AlgorithmList);
-            this.Grb_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_Algorithm.Location = new System.Drawing.Point(3, 3);
-            this.Grb_Algorithm.Name = "Grb_Algorithm";
-            this.Grb_Algorithm.Size = new System.Drawing.Size(229, 741);
-            this.Grb_Algorithm.TabIndex = 0;
-            this.Grb_Algorithm.TabStop = false;
-            this.Grb_Algorithm.Text = "Algorithm\'s";
-            // 
-            // Tlp_AlgorithmList
-            // 
-            this.Tlp_AlgorithmList.ColumnCount = 2;
-            this.Tlp_AlgorithmList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_AlgorithmList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_AlgorithmList.Controls.Add(this.LstB_Algorithm, 0, 0);
-            this.Tlp_AlgorithmList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_AlgorithmList.Location = new System.Drawing.Point(3, 17);
-            this.Tlp_AlgorithmList.Name = "Tlp_AlgorithmList";
-            this.Tlp_AlgorithmList.RowCount = 2;
-            this.Tlp_AlgorithmList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.59778F));
-            this.Tlp_AlgorithmList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.40222F));
-            this.Tlp_AlgorithmList.Size = new System.Drawing.Size(223, 721);
-            this.Tlp_AlgorithmList.TabIndex = 0;
-            // 
-            // LstB_Algorithm
-            // 
-            this.Tlp_AlgorithmList.SetColumnSpan(this.LstB_Algorithm, 2);
-            this.LstB_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstB_Algorithm.FormattingEnabled = true;
-            this.LstB_Algorithm.ItemHeight = 12;
-            this.LstB_Algorithm.Location = new System.Drawing.Point(3, 3);
-            this.LstB_Algorithm.Name = "LstB_Algorithm";
-            this.LstB_Algorithm.Size = new System.Drawing.Size(217, 639);
-            this.LstB_Algorithm.TabIndex = 0;
-            // 
             // Main_Frm_Recipe
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -417,10 +357,6 @@
             this.splitContainer1.ResumeLayout(false);
             this.Cagb_Jobs.ResumeLayout(false);
             this.Cagb_Recipe.ResumeLayout(false);
-            this.tab_Algorithm.ResumeLayout(false);
-            this.Tlp_Algorithm.ResumeLayout(false);
-            this.Grb_Algorithm.ResumeLayout(false);
-            this.Tlp_AlgorithmList.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -445,10 +381,6 @@
         private User_Controls.CenterAlignedGroupBox Cagb_Recipe;
         private System.Windows.Forms.ListBox LstBoxJobList;
         private System.Windows.Forms.ListBox LstBoxRecipeList;
-        private System.Windows.Forms.TabPage tab_Algorithm;
-        private System.Windows.Forms.TableLayoutPanel Tlp_Algorithm;
-        private System.Windows.Forms.GroupBox Grb_Algorithm;
-        private System.Windows.Forms.TableLayoutPanel Tlp_AlgorithmList;
-        private System.Windows.Forms.ListBox LstB_Algorithm;
+        private System.Windows.Forms.TabPage tab_Link;
     }
 }

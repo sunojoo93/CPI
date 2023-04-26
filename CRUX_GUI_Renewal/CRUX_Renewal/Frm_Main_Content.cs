@@ -33,7 +33,7 @@ namespace CRUX_Renewal
         public Main_Frm_Recipe Frm_Recipe;
         // 광학 폼
         public Main_Frm_Optical Frm_Optical;
-
+        public Main_Frm_Algorithm Frm_Algorithm;
         public Frm_MainContent ()
         {
             InitializeComponent();
@@ -57,6 +57,9 @@ namespace CRUX_Renewal
 
             Frm_Optical = new Main_Frm_Optical() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Optical.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+
+            Frm_Algorithm = new Main_Frm_Algorithm() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            Frm_Algorithm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
 
             Tlp_Main.Controls.Add(Frm_MenuBar, 0, 1);
             Tlp_Main.Controls.Add(Frm_Auto, 0, 0);

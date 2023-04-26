@@ -22,6 +22,7 @@ namespace CRUX_Renewal.Main_Form
         public int CurFormIndex = 0;
         //public Recipe MainRecipe = new Recipe();
         public Ex_Frm_Recipe_ROI Frm_ROI { get; set; } = null;
+        public Ex_Frm_Recipe_Link Frm_Link { get; set; } = null;
         public void LoadVpp(string path)
         {
             //MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
@@ -47,6 +48,13 @@ namespace CRUX_Renewal.Main_Form
             tab_roi.Controls.Add(Frm_ROI);
             Frm_ROI.Dock = DockStyle.Fill;
             Frm_ROI.Show();
+
+            Frm_Link = Frm_Link ?? new Ex_Frm_Recipe_Link() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            Frm_Link.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            tab_Link.Controls.Add(Frm_Link);
+            Frm_Link.Dock = DockStyle.Fill;
+            Frm_Link.Show();
+
             SetRecipeList(Systems.CurrentApplyRecipeName[CurFormIndex].GetString());
             SetJobListBox(Cognex_Helper.GetJobList<List<string>>(Systems.RecipeContent.MainRecipe[CurFormIndex].Manager));
             DisplayJob();
@@ -149,7 +157,7 @@ namespace CRUX_Renewal.Main_Form
         public void SetRecipeList(string recipe)
         {            
             LstBoxRecipeList.Items.Clear();
-            ArrayList RecipeList = FindRecipeList((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", ""));
+            ArrayList RecipeList = FindRecipeList(((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString() + @"Recipes\").Replace(" ", ""));
             LstBoxRecipeList.Items.AddRange(RecipeList.ToArray());
             if (LstBoxRecipeList.Items.Count > 0)
             {

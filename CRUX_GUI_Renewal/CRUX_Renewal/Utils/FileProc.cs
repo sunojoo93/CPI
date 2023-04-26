@@ -211,7 +211,37 @@ namespace CRUX_Renewal
             }
             return aryLst;
         }
+        public static ArrayList GetFileNames(string path, string ext ="", string key ="")
+        {
+            System.IO.DirectoryInfo Info = new System.IO.DirectoryInfo((path));
 
+            ArrayList aryLst = new ArrayList();
+
+            if (Info.Exists)
+            {
+                // int nCnt = 0;
+                try
+                {
+                    // System.IO.DirectoryInfo[] CInfo = Info.GetFiles("*", System.IO.SearchOption.AllDirectories);
+                    foreach (var info in Info.GetFiles("*"/*, System.IO.SearchOption.AllDirectories*/))
+                    {
+
+                        if ((ext == "" || (Path.GetExtension(info.FullName.ToString()) == ext))
+                            && (key == "" || (Path.GetFileName(info.FullName.ToString()) == key)))
+                        {
+                            aryLst.Add(info.Name.ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    //Systems.m_fnAddLog(Globals.SelPcNo, ex.StackTrace, ex.Message);
+                    ////Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
+                }
+            }
+            return aryLst;
+        }
         /// <summary>
         /// /기  능 : 해당 경로의 모든 파일에 대한 정보를 취득한다.
         /// /반환값 : List<ArrayList>

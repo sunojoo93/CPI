@@ -78,5 +78,13 @@ namespace CRUX_Renewal.Utils
             Tool.Tools.Add(new CogInputImageTool());
             return Temp;
         }
+        public static void ClearJobMnager(CogJobManager manager)
+        {
+            if(manager != null)
+            {
+                manager.Shutdown();
+                manager = null;
+            }
+        }
     }
 }
