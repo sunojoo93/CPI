@@ -132,7 +132,7 @@ namespace CRUX_Renewal
                         recipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(vpp_path));
                         recipe.Camera = new Optical_Cam();
                         recipe.Light = new Optical_Light();
-                        recipe.Load_RecipeData(rcp_path, rcp_name);
+                        recipe.Load_RecipeData(rcp_path + @"Recipes\", rcp_name);
                         recipe.Name = rcp_name;
                         recipe.Path = rcp_path;
                         recipe.Opend = true;

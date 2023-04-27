@@ -59,6 +59,17 @@ namespace CRUX_Renewal
             return en.ToString();
         }
     }
+    public static class RecipeSerializer
+    {
+        public static void RecipeSerialize(Recipes recipe)
+        {
+
+        }
+        public static Recipes RecipeDeserialize()
+        {
+            return new Recipes();
+        }
+    }
     static class Utility
     {
         /// <summary>

@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using static CRUX_Renewal.Enums;
 
 namespace CRUX_Renewal.Class
@@ -252,7 +253,7 @@ namespace CRUX_Renewal.Class
         public CogJobManager Manager { get; set; } = null;
         public Optical_Cam Camera;
         public Optical_Light Light;
-        public Dictionary<string,List<ROI_Data>> ROI_List;
+        public Dictionary<string, List<ROI_Data>> ROI_List;
 
         public void Load_RecipeData(string path, string rcp_name)
         {
@@ -312,7 +313,7 @@ namespace CRUX_Renewal.Class
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -323,7 +324,7 @@ namespace CRUX_Renewal.Class
         }
         public void SetSmartListAddEvent()
         {
-            
+
         }
         public void SetSmartListRemoveEvent()
         {
@@ -336,7 +337,7 @@ namespace CRUX_Renewal.Class
         public void SetRecipeData()
         {
             IniFile ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"];
-            foreach(var item in ini.Values)
+            foreach (var item in ini.Values)
             {
 
             }
@@ -358,7 +359,7 @@ namespace CRUX_Renewal.Class
 
                 Manager?.Shutdown();
                 Manager = null;
-                disposedValue = true;             
+                disposedValue = true;
             }
         }
 
@@ -377,7 +378,7 @@ namespace CRUX_Renewal.Class
             // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
             Dispose(true);
             // TODO: 위의 종료자가 재정의된 경우 다음 코드 줄의 주석 처리를 제거합니다.
-             //GC.SuppressFinalize(this);
+            //GC.SuppressFinalize(this);
             //GC.WaitForPendingFinalizers();
         }
         #endregion
@@ -528,7 +529,8 @@ namespace CRUX_Renewal.Class
         }
         [Description("ROI 이름입니다.")]
         [ReadOnly(true)]
-        public string Name {
+        public string Name
+        {
             get
             {
                 return _Name;
@@ -630,7 +632,7 @@ namespace CRUX_Renewal.Class
                 _SelectedLineColor = value;
             }
         }
-        [Description("설명입니다.")]        
+        [Description("설명입니다.")]
         public string Description
         {
             get
@@ -661,7 +663,7 @@ namespace CRUX_Renewal.Class
         {
             Func = func;
         }
-    }   
+    }
 
     public class ROI_Property_Data
     {
@@ -670,5 +672,66 @@ namespace CRUX_Renewal.Class
         public double Y { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
+    }
+    [XmlRoot("RecipeInfo")]
+    public class Patterns
+    {
+        [XmlArray("Patterns")]
+        [XmlArrayItem("Pattern")]
+        public List<Pattern> PtnList { get; set; }
+    }
+    public class Pattern
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        [XmlArray("ROI_List")]
+        [XmlArrayItem("ROI")]
+        public List<ROI> Roi_List { get; set; }
+    }
+    public class ROI
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        public Coordinate Coord { get; set; }
+        public List<Algorithm> Algo_List { get; set; }
+    }
+    public class Coordinate
+    {
+        [XmlArray("X")]
+        [XmlAttribute("Name")]
+        public string X { get; set; }
+        [XmlArray("Y")]
+        [XmlAttribute("Name")]
+        public string Y { get; set; }
+        [XmlArray("Width")]
+        [XmlAttribute("Name")]
+        public string Width { get; set; }
+        [XmlArray("Height")]
+        [XmlAttribute("Name")]
+        public string Height { get; set; }
+    }
+    public class Algorithm
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        [XmlAttribute("Path")]
+        public string Path { get; set; }
+        [XmlAttribute("Use")]
+        public string Use { get; set; }
+        [XmlAttribute("Name")]
+        public Parameter Param { get; set; }
+    }
+    public class Parameter
+    {
+        [XmlArray("Params")]
+        [XmlArrayItem("Param")]
+        public List<Param> Param_List { get; set; }
+    }
+    public class Param
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        [XmlAttribute("Value")]
+        public string Value { get; set; }
     }
 }

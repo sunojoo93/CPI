@@ -217,7 +217,7 @@ namespace CRUX_Renewal.Main_Form
             Frm_ROI.SaveROIData();
             string RecipePath = Systems.RecipeContent.ViewRecipe[CurFormIndex].Path;
             string RecipeName = Systems.RecipeContent.ViewRecipe[CurFormIndex].Name;
-            CogSerializer.SaveObjectToFile(Systems.RecipeContent.ViewRecipe[CurFormIndex].Manager, $@"{RecipePath}\{RecipeName}\{RecipeName}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+            CogSerializer.SaveObjectToFile(Systems.RecipeContent.ViewRecipe[CurFormIndex].Manager, $@"{RecipePath}Recipes\{RecipeName}\{RecipeName}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
             Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
             Console.WriteLine($"Job: 0 Saved");
@@ -286,7 +286,7 @@ namespace CRUX_Renewal.Main_Form
                     //Ex_Frm_Others_Loading Loading = new Ex_Frm_Others_Loading() { Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (Width)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (Height))) };
                     //Loading.Show();
                     Utility.LoadingStart();
-                    string SelectedRecipe = $"{(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "")}{Temp[Temp.Length - 1]}";
+                    string SelectedRecipe = $"{(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString()+@"Recipes\".Replace(" ", "")}{Temp[Temp.Length - 1]}";
                     ArrayList Rcp = fileProc.getFileList(SelectedRecipe, ".vpp");
 
                     if (Rcp.Count >= 1)
@@ -319,11 +319,13 @@ namespace CRUX_Renewal.Main_Form
                 else
                 {
                     //LstBoxRecipeList.SelectedItem = Systems.CurrentApplyRecipeName;
+                    Utility.LoadingStop();
                     return;
                 }
             }
             catch (Exception ex)
             {
+                Utility.LoadingStop();
                 Console.WriteLine(ex.Message);
                 throw;
             }
