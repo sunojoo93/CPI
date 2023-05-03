@@ -254,7 +254,17 @@ namespace CRUX_Renewal.Class
         public Optical_Cam Camera;
         public Optical_Light Light;
         public Dictionary<string, List<ROI_Data>> ROI_List;
+        public Patterns Recipe_Pattern;
 
+        public void SetRecipe_Pattern(Patterns patterns)
+        {
+            Recipe_Pattern = patterns;
+        }
+
+        public Patterns GetRecipe_Patterns()
+        {
+            return Recipe_Pattern;
+        }
         public void Load_RecipeData(string path, string rcp_name)
         {
             try
@@ -334,13 +344,10 @@ namespace CRUX_Renewal.Class
         {
 
         }
-        public void SetRecipeData()
+        public void SetRecipeData(string path, string name)
         {
-            IniFile ini = Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI.list"];
-            foreach (var item in ini.Values)
-            {
-
-            }
+            Recipe Temp = Systems.RecipeContent.MainRecipe[Systems.CurDisplayIndex];
+            RecipeManager.RecipeDeserialize(path, name, ref Temp);
         }
         #region IDisposable Support
         private bool disposedValue = false; // 중복 호출을 검색하려면
@@ -673,43 +680,63 @@ namespace CRUX_Renewal.Class
         public double Width { get; set; }
         public double Height { get; set; }
     }
+
+
+
+    /// <summary>
+    /// Patterns Struct
+    /// </summary>
+    /// 
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     [XmlRoot("RecipeInfo")]
     public class Patterns
     {
         [XmlArray("Patterns")]
         [XmlArrayItem("Pattern")]
-        public List<Pattern> PtnList { get; set; }
+        public List<Pattern> Pattern { get; set; }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Pattern
     {
         [XmlAttribute("Name")]
         public string Name { get; set; }
         [XmlArray("ROI_List")]
         [XmlArrayItem("ROI")]
-        public List<ROI> Roi_List { get; set; }
+        public List<ROI> ROI_Coord { get; set; }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ROI
     {
         [XmlAttribute("Name")]
         public string Name { get; set; }
+        [XmlElement("Coordinate")]
         public Coordinate Coord { get; set; }
+        [XmlArray("Algorithms")]
+        [XmlArrayItem("Algorithm")]
         public List<Algorithm> Algo_List { get; set; }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Coordinate
     {
-        [XmlArray("X")]
-        [XmlAttribute("Name")]
+        [XmlElement("X")]
+        //[XmlAttribute("Name")]
         public string X { get; set; }
-        [XmlArray("Y")]
-        [XmlAttribute("Name")]
+        [XmlElement("Y")]
+        //[XmlAttribute("Name")]
         public string Y { get; set; }
-        [XmlArray("Width")]
-        [XmlAttribute("Name")]
+        [XmlElement("Width")]
+       // [XmlAttribute("Name")]
         public string Width { get; set; }
-        [XmlArray("Height")]
-        [XmlAttribute("Name")]
+        [XmlElement("Height")]
+        //[XmlAttribute("Name")]
         public string Height { get; set; }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Algorithm
     {
         [XmlAttribute("Name")]
@@ -718,15 +745,21 @@ namespace CRUX_Renewal.Class
         public string Path { get; set; }
         [XmlAttribute("Use")]
         public string Use { get; set; }
-        [XmlAttribute("Name")]
-        public Parameter Param { get; set; }
+        [XmlArray("Parameters")]
+        [XmlArrayItem("Param")]
+        public List<Param> Param { get; set; }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Parameter
     {
-        [XmlArray("Params")]
-        [XmlArrayItem("Param")]
-        public List<Param> Param_List { get; set; }
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        [XmlAttribute("Value")]
+        public string Value { get; set; }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Param
     {
         [XmlAttribute("Name")]

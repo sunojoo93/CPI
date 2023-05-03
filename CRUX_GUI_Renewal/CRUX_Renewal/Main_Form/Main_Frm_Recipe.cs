@@ -68,7 +68,8 @@ namespace CRUX_Renewal.Main_Form
         }
         private void InitializeROIData()
         {
-            foreach (KeyValuePair<string, List<ROI_Data>> item in Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List)
+            if(Systems.RecipeContent.ViewRecipe[CurFormIndex]?.ROI_List != null)
+            foreach (KeyValuePair<string, List<ROI_Data>> item in Systems.RecipeContent.ViewRecipe[CurFormIndex]?.ROI_List)
             {
                 foreach (ROI_Data inner in item.Value)
                 {

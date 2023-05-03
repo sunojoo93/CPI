@@ -97,7 +97,7 @@ namespace CRUX_Renewal.Ex_Form
 
         public void RefeshRoiDataView()
         {
-            if (Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List.Count > 0)
+            if (Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List?.Count > 0)
             {
                 Cog_ROI_Display.DrawingEnabled = false;
                 Dictionary<string, List<ROI_Data>> ROI_List = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List;

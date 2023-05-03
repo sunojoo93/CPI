@@ -1,5 +1,6 @@
 ﻿using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal;
+using CRUX_Renewal.Class;
 using CRUX_Renewal.Ex_Form;
 using CRUX_Renewal.Utils;
 using System;
@@ -15,6 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace CRUX_Renewal
 {
@@ -59,15 +61,42 @@ namespace CRUX_Renewal
             return en.ToString();
         }
     }
-    public static class RecipeSerializer
+    public static class RecipeManager
     {
-        public static void RecipeSerialize(Recipes recipe)
+        public static void RecipeSerialize(Recipe recipe)
         {
+            string path = @"D:\CRUX\DATA\Recipes\Test\Patterns11.xml";
+            var ns = new XmlSerializerNamespaces();
+            ns.Add(string.Empty, string.Empty);
 
+            var xs = new XmlSerializer(typeof(Patterns));
+            using (var sw = new StreamWriter(path))
+            {
+                var info = recipe.Recipe_Pattern;
+                xs.Serialize(sw, info, ns);
+            }
         }
-        public static Recipes RecipeDeserialize()
+        public static void RecipeDeserialize(string path, string file_name, ref Recipe recipe)
         {
-            return new Recipes();
+            string FullPath = $@"{path}\{file_name}";
+            if (File.Exists(FullPath))
+            {
+                try
+                {
+                    using (var sr = new StreamReader(FullPath))
+                    {
+                        var xs = new XmlSerializer(typeof(Patterns));
+                        recipe.Recipe_Pattern = (Patterns)xs.Deserialize(sr);
+                        
+                        //this.project.Set(prj);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    MessageBox.Show("프로젝트 파일 로딩 실패 : " + FullPath);
+                }
+            }
         }
     }
     static class Utility

@@ -133,6 +133,8 @@ namespace CRUX_Renewal
                         recipe.Camera = new Optical_Cam();
                         recipe.Light = new Optical_Light();
                         recipe.Load_RecipeData(rcp_path + @"Recipes\", rcp_name);
+                        
+                        recipe.SetRecipeData(rcp_path + @"Recipes\"+rcp_name, "Patterns.xml");
                         recipe.Name = rcp_name;
                         recipe.Path = rcp_path;
                         recipe.Opend = true;
@@ -146,6 +148,7 @@ namespace CRUX_Renewal
                 });
                 t.Wait();
                 GC.Collect();
+                Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex] = Utility.DeepCopy(recipe);
                 //var tt = Systems.MainRecipe;
 
             }

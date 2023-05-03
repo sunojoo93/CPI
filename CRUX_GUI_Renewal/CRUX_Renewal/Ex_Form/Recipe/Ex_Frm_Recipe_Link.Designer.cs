@@ -31,6 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ex_Frm_Recipe_Link));
             this.Tlp_Link = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.cogDisplay1 = new Cognex.VisionPro.Display.CogDisplay();
+            this.cogDisplayToolbarV21 = new Cognex.VisionPro.CogDisplayToolbarV2();
+            this.cogDisplayStatusBarV21 = new Cognex.VisionPro.CogDisplayStatusBarV2();
+            this.button1 = new System.Windows.Forms.Button();
             this.Grb_Params = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.PGE_ROIProp = new PropertyGridExt.PropertyGridEx();
             this.Grb_Algorithm = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
@@ -39,17 +44,14 @@
             this.LstB_ROI = new System.Windows.Forms.ListBox();
             this.Grb_Pattern = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.LstB_Pattern = new System.Windows.Forms.ListBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.cogDisplay1 = new Cognex.VisionPro.Display.CogDisplay();
-            this.cogDisplayToolbarV21 = new Cognex.VisionPro.CogDisplayToolbarV2();
-            this.cogDisplayStatusBarV21 = new Cognex.VisionPro.CogDisplayStatusBarV2();
+            this.button2 = new System.Windows.Forms.Button();
             this.Tlp_Link.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).BeginInit();
             this.Grb_Params.SuspendLayout();
             this.Grb_Algorithm.SuspendLayout();
             this.Grb_ROI.SuspendLayout();
             this.Grb_Pattern.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).BeginInit();
             this.SuspendLayout();
             // 
             // Tlp_Link
@@ -65,6 +67,8 @@
             this.Tlp_Link.Controls.Add(this.Grb_ROI, 2, 0);
             this.Tlp_Link.Controls.Add(this.Grb_Pattern, 0, 0);
             this.Tlp_Link.Controls.Add(this.tableLayoutPanel1, 1, 0);
+            this.Tlp_Link.Controls.Add(this.button1, 1, 1);
+            this.Tlp_Link.Controls.Add(this.button2, 0, 1);
             this.Tlp_Link.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Link.Location = new System.Drawing.Point(0, 0);
             this.Tlp_Link.Name = "Tlp_Link";
@@ -73,6 +77,74 @@
             this.Tlp_Link.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Link.Size = new System.Drawing.Size(1532, 840);
             this.Tlp_Link.TabIndex = 1;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.cogDisplay1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.cogDisplayToolbarV21, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.cogDisplayStatusBarV21, 0, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(191, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(678, 574);
+            this.tableLayoutPanel1.TabIndex = 9;
+            // 
+            // cogDisplay1
+            // 
+            this.cogDisplay1.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cogDisplay1.ColorMapLowerRoiLimit = 0D;
+            this.cogDisplay1.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cogDisplay1.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cogDisplay1.ColorMapUpperRoiLimit = 1D;
+            this.cogDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogDisplay1.DoubleTapZoomCycleLength = 2;
+            this.cogDisplay1.DoubleTapZoomSensitivity = 2.5D;
+            this.cogDisplay1.Location = new System.Drawing.Point(0, 28);
+            this.cogDisplay1.Margin = new System.Windows.Forms.Padding(0);
+            this.cogDisplay1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cogDisplay1.MouseWheelSensitivity = 1D;
+            this.cogDisplay1.Name = "cogDisplay1";
+            this.cogDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogDisplay1.OcxState")));
+            this.cogDisplay1.Size = new System.Drawing.Size(678, 518);
+            this.cogDisplay1.TabIndex = 0;
+            // 
+            // cogDisplayToolbarV21
+            // 
+            this.cogDisplayToolbarV21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogDisplayToolbarV21.Location = new System.Drawing.Point(0, 0);
+            this.cogDisplayToolbarV21.Margin = new System.Windows.Forms.Padding(0);
+            this.cogDisplayToolbarV21.Name = "cogDisplayToolbarV21";
+            this.cogDisplayToolbarV21.Size = new System.Drawing.Size(678, 28);
+            this.cogDisplayToolbarV21.TabIndex = 1;
+            // 
+            // cogDisplayStatusBarV21
+            // 
+            this.cogDisplayStatusBarV21.CoordinateSpaceName = "*\\#";
+            this.cogDisplayStatusBarV21.CoordinateSpaceName3D = "*\\#";
+            this.cogDisplayStatusBarV21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogDisplayStatusBarV21.Location = new System.Drawing.Point(0, 546);
+            this.cogDisplayStatusBarV21.Margin = new System.Windows.Forms.Padding(0);
+            this.cogDisplayStatusBarV21.Name = "cogDisplayStatusBarV21";
+            this.cogDisplayStatusBarV21.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cogDisplayStatusBarV21.Size = new System.Drawing.Size(678, 28);
+            this.cogDisplayStatusBarV21.TabIndex = 2;
+            this.cogDisplayStatusBarV21.Use3DCoordinateSpaceTree = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(191, 583);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Grb_Params
             // 
@@ -97,7 +169,7 @@
             this.PGE_ROIProp.DocCommentDescription.AutoEllipsis = true;
             this.PGE_ROIProp.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
             this.PGE_ROIProp.DocCommentDescription.Location = new System.Drawing.Point(3, 22);
-            this.PGE_ROIProp.DocCommentDescription.Margin = new System.Windows.Forms.Padding(13, 0, 13, 0);
+            this.PGE_ROIProp.DocCommentDescription.Margin = new System.Windows.Forms.Padding(80, 0, 80, 0);
             this.PGE_ROIProp.DocCommentDescription.Name = "";
             this.PGE_ROIProp.DocCommentDescription.Size = new System.Drawing.Size(271, 33);
             this.PGE_ROIProp.DocCommentDescription.TabIndex = 1;
@@ -108,7 +180,7 @@
             this.PGE_ROIProp.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
             this.PGE_ROIProp.DocCommentTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
             this.PGE_ROIProp.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
-            this.PGE_ROIProp.DocCommentTitle.Margin = new System.Windows.Forms.Padding(13, 0, 13, 0);
+            this.PGE_ROIProp.DocCommentTitle.Margin = new System.Windows.Forms.Padding(80, 0, 80, 0);
             this.PGE_ROIProp.DocCommentTitle.Name = "";
             this.PGE_ROIProp.DocCommentTitle.Size = new System.Drawing.Size(271, 19);
             this.PGE_ROIProp.DocCommentTitle.TabIndex = 0;
@@ -137,8 +209,8 @@
             this.PGE_ROIProp.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.PGE_ROIProp.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PGE_ROIProp.ToolStrip.Name = "";
-            this.PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(9, 0, 1, 0);
-            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(18063885, 0);
+            this.PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(56, 0, 1, 0);
+            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(107478334, 0);
             this.PGE_ROIProp.ToolStrip.TabIndex = 1;
             this.PGE_ROIProp.ToolStrip.TabStop = true;
             this.PGE_ROIProp.ToolStrip.Text = "PropertyGridToolBar";
@@ -225,63 +297,15 @@
             this.LstB_Pattern.Size = new System.Drawing.Size(182, 557);
             this.LstB_Pattern.TabIndex = 3;
             // 
-            // tableLayoutPanel1
+            // button2
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.cogDisplay1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.cogDisplayToolbarV21, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.cogDisplayStatusBarV21, 0, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(191, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(678, 574);
-            this.tableLayoutPanel1.TabIndex = 9;
-            // 
-            // cogDisplay1
-            // 
-            this.cogDisplay1.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cogDisplay1.ColorMapLowerRoiLimit = 0D;
-            this.cogDisplay1.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cogDisplay1.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cogDisplay1.ColorMapUpperRoiLimit = 1D;
-            this.cogDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cogDisplay1.DoubleTapZoomCycleLength = 2;
-            this.cogDisplay1.DoubleTapZoomSensitivity = 2.5D;
-            this.cogDisplay1.Location = new System.Drawing.Point(0, 28);
-            this.cogDisplay1.Margin = new System.Windows.Forms.Padding(0);
-            this.cogDisplay1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cogDisplay1.MouseWheelSensitivity = 1D;
-            this.cogDisplay1.Name = "cogDisplay1";
-            this.cogDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogDisplay1.OcxState")));
-            this.cogDisplay1.Size = new System.Drawing.Size(678, 518);
-            this.cogDisplay1.TabIndex = 0;
-            // 
-            // cogDisplayToolbarV21
-            // 
-            this.cogDisplayToolbarV21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cogDisplayToolbarV21.Location = new System.Drawing.Point(0, 0);
-            this.cogDisplayToolbarV21.Margin = new System.Windows.Forms.Padding(0);
-            this.cogDisplayToolbarV21.Name = "cogDisplayToolbarV21";
-            this.cogDisplayToolbarV21.Size = new System.Drawing.Size(678, 28);
-            this.cogDisplayToolbarV21.TabIndex = 1;
-            // 
-            // cogDisplayStatusBarV21
-            // 
-            this.cogDisplayStatusBarV21.CoordinateSpaceName = "*\\#";
-            this.cogDisplayStatusBarV21.CoordinateSpaceName3D = "*\\#";
-            this.cogDisplayStatusBarV21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cogDisplayStatusBarV21.Location = new System.Drawing.Point(0, 546);
-            this.cogDisplayStatusBarV21.Margin = new System.Windows.Forms.Padding(0);
-            this.cogDisplayStatusBarV21.Name = "cogDisplayStatusBarV21";
-            this.cogDisplayStatusBarV21.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cogDisplayStatusBarV21.Size = new System.Drawing.Size(678, 28);
-            this.cogDisplayStatusBarV21.TabIndex = 2;
-            this.cogDisplayStatusBarV21.Use3DCoordinateSpaceTree = false;
+            this.button2.Location = new System.Drawing.Point(3, 583);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Ex_Frm_Recipe_Link
             // 
@@ -295,12 +319,12 @@
             this.Name = "Ex_Frm_Recipe_Link";
             this.Text = "Ex_Frm_AccountManage";
             this.Tlp_Link.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).EndInit();
             this.Grb_Params.ResumeLayout(false);
             this.Grb_Algorithm.ResumeLayout(false);
             this.Grb_ROI.ResumeLayout(false);
             this.Grb_Pattern.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -320,5 +344,7 @@
         private Cognex.VisionPro.CogDisplayToolbarV2 cogDisplayToolbarV21;
         private Cognex.VisionPro.CogDisplayStatusBarV2 cogDisplayStatusBarV21;
         private PropertyGridExt.PropertyGridEx PGE_ROIProp;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
