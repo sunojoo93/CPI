@@ -256,24 +256,24 @@ namespace CRUX_Renewal.Class
         }
         public Inspection(Recipe source, int idx)
         {
-            JobManager = new CogJobManager();
-            RemoveJobManagerEvent(JobManager);
-            AddJobManagerEvent(JobManager);
+            //JobManager = new CogJobManager();
+            //RemoveJobManagerEvent(JobManager);
+            //AddJobManagerEvent(JobManager);
 
-            int JobCount = source.Manager.JobCount;
-            Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
-            for (int i = 0; i < JobCount; ++i)
-            {
-                //var Job = source.Job(i).DeepCopy();
-                //Job.VisionTool = (source.Job(i).VisionTool);
-                //Job.AcqFifo = source.Job(i).AcqFifo;
-                //Job.Name = $"{idx}{i}";
-                JobManager.JobAdd(new CogJob() { VisionTool = (source.Manager.Job(i).VisionTool), AcqFifo = source.Manager.Job(i).AcqFifo, Name = $"{idx}{i}" });
-                //JobManager.JobAdd(Job);
+            //int JobCount = source.Manager.JobCount;
+            //Inspection_Thread = Inspection_Thread ?? new List<InspectionWorker>();
+            //for (int i = 0; i < JobCount; ++i)
+            //{
+            //    //var Job = source.Job(i).DeepCopy();
+            //    //Job.VisionTool = (source.Job(i).VisionTool);
+            //    //Job.AcqFifo = source.Job(i).AcqFifo;
+            //    //Job.Name = $"{idx}{i}";
+            //    JobManager.JobAdd(new CogJob() { VisionTool = (source.Manager.Job(i).VisionTool), AcqFifo = source.Manager.Job(i).AcqFifo, Name = $"{idx}{i}" });
+            //    //JobManager.JobAdd(Job);
 
-                Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));
-            }
-            Finished = false;
+            //    Inspection_Thread.Add(new InspectionWorker(JobManager.Name,JobManager.Job(i)));
+            //}
+            //Finished = false;
         }
         private void AddJobManagerEvent(CogJobManager manager)
         {

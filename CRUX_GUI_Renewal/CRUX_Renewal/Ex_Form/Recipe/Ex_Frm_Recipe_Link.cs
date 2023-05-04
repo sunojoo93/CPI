@@ -26,7 +26,8 @@ namespace CRUX_Renewal.Ex_Form
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
             Show();
-            SetPatterns();
+            InitializeLinkTab();
+            //SetPatterns();
         }
         public void SetFormNameIndex(ref string name, ref int index)
         {
@@ -69,52 +70,106 @@ namespace CRUX_Renewal.Ex_Form
                 xs.Serialize(sw, info, ns);
             }
         }
-        public void SetPatterns()
+        public void InitializeLinkTab()
         {
-            ClearPattern();
-            Patterns Ptn = Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Recipe_Pattern;
-            List<string> PtnNames = new List<string>();
-            foreach(Pattern item in Ptn.Pattern)
-            {
-                PtnNames.Add(item.Name);
-            }
-            LstB_Pattern.Items.AddRange(PtnNames.ToArray());            
+            ClearRecipeControl();
+
+            UpdateROI();
+            UpdateAlgorithm();
+            UpdateParameter();
+            //LstB_Pattern.Items.AddRange(PtnNames.ToArray());
+            //if(LstB_Pattern.Items.Count > 0)
+            //{
+            //    LstB_Pattern.SelectedIndex = 0;
+            //}
         }
         public void UpdateROI()
         {
-            Patterns Ptn = Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Recipe_Pattern;
-            string SelectedPtn = LstB_Pattern.SelectedItem as string;
+            ClearRecipeControl();
+            Patterns Ptn = Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Patterns_Data;
+            string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
+            string SelectedPattern = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
             Pattern Temp = null;
             List<string> RoiNames = new List<string>();
             foreach (Pattern item in Ptn.Pattern)
             {
-                if(item.Name == SelectedPtn)
+                if (item.Name == SelectedPattern)
                 {
                     Temp = item;
                 }
-            }
-            if(Temp != null)
+            }        
+            if (Temp != null)
             {
-                if(Temp.ROI_Coord.Count > 0)
+                if (Temp.ROI_Coord.Count > 0)
                 {
-                    foreach(ROI item in Temp.ROI_Coord)
+                    foreach (ROI item in Temp.ROI_Coord)
                     {
                         RoiNames.Add(item.Name);
                     }
                     LstB_ROI.Items.AddRange(RoiNames.ToArray());
+                    LstB_ROI.SelectedItem = LstB_ROI.Items[0];
+                    UpdateAlgorithm();
+                    UpdateParameter();
                 }
-                            }
+            }
         }
         public void UpdateAlgorithm()
         {
+            Patterns Ptn = Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Patterns_Data;
+            string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
+            string SelectedPattern = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
+            string SelectedROI = LstB_ROI.SelectedItem as string;
+            List<Algorithm> Algo = Ptn.Pattern.Find(x => x.Name == SelectedPattern)?.ROI_Coord.Find(x => x.Name == SelectedROI)?.Algo_List;
+            List<string> Algo_List = new List<string>();
+
+            if (Algo != null && Algo.Count > 0)
+            {
+                foreach(Algorithm item in Algo)
+                {
+                    Algo_List.Add(item.Name); 
+                }
+                LstB_Algorithm.Items.AddRange(Algo_List.ToArray());
+            }
+     
+ 
+           
+        }
+        public void UpdateParameter()
+        {
 
         }
-        public void ClearPattern()
+        public void ClearRecipeControl()
         {
-            LstB_Pattern.Items.Clear();
+            //LstB_Pattern.Items.Clear();
             LstB_ROI.Items.Clear();
             LstB_Algorithm.Items.Clear();
             PGE_ROIProp.Item.Clear();
+        }
+
+        private void LstB_Pattern_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LstB_ROI_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LstB_Algorithm_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LstB_ROI_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            UpdateAlgorithm();
+            UpdateParameter();
+        }
+
+        private void LstB_Algorithm_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            UpdateParameter();
         }
     }
 }

@@ -44,8 +44,8 @@ namespace CRUX_Renewal
             this.Dock = DockStyle.Fill;
             this.TopLevel = false;
             Frm_MenuBar = new Ex_Frm_Menubar() { Owner = this.Owner };
-            if (Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.JobCount > 0)
-                Systems.CurrentSelectedJobName[CurFormIndex] = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).Name;
+            //if (Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.JobCount > 0)
+           //     Systems.CurrentSelectedPtnName[CurFormIndex] = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).Name;
             Frm_Auto = new Main_Frm_Auto() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Auto.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
 

@@ -29,13 +29,6 @@
         private void InitializeComponent ()
         {
             this.Tlp_RecipeLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.Tab_RecipeMain = new System.Windows.Forms.TabControl();
-            this.tab_job = new System.Windows.Forms.TabPage();
-            this.cogToolGroupEditV2_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
-            this.tab_roi = new System.Windows.Forms.TabPage();
-            this.tab_optic = new System.Windows.Forms.TabPage();
-            this.tab_align = new System.Windows.Forms.TabPage();
-            this.tab_Link = new System.Windows.Forms.TabPage();
             this.Btn_Judge = new System.Windows.Forms.Button();
             this.Lb_UnderLine2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -43,18 +36,21 @@
             this.Btn_Save = new System.Windows.Forms.Button();
             this.Btn_Revert = new System.Windows.Forms.Button();
             this.Lb_UnderLine1 = new System.Windows.Forms.Label();
+            this.tab_Link = new System.Windows.Forms.TabPage();
+            this.tab_align = new System.Windows.Forms.TabPage();
+            this.tab_optic = new System.Windows.Forms.TabPage();
+            this.tab_roi = new System.Windows.Forms.TabPage();
+            this.Tab_RecipeMain = new System.Windows.Forms.TabControl();
             this.Cagb_Jobs = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
-            this.LstBoxJobList = new System.Windows.Forms.ListBox();
+            this.LstBoxPtnList = new System.Windows.Forms.ListBox();
             this.Cagb_Recipe = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.LstBoxRecipeList = new System.Windows.Forms.ListBox();
             this.Tlp_RecipeLayout.SuspendLayout();
-            this.Tab_RecipeMain.SuspendLayout();
-            this.tab_job.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cogToolGroupEditV2_Algorithm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.Tab_RecipeMain.SuspendLayout();
             this.Cagb_Jobs.SuspendLayout();
             this.Cagb_Recipe.SuspendLayout();
             this.SuspendLayout();
@@ -86,86 +82,6 @@
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.Tlp_RecipeLayout.Size = new System.Drawing.Size(1641, 779);
             this.Tlp_RecipeLayout.TabIndex = 0;
-            // 
-            // Tab_RecipeMain
-            // 
-            this.Tab_RecipeMain.Controls.Add(this.tab_job);
-            this.Tab_RecipeMain.Controls.Add(this.tab_roi);
-            this.Tab_RecipeMain.Controls.Add(this.tab_optic);
-            this.Tab_RecipeMain.Controls.Add(this.tab_align);
-            this.Tab_RecipeMain.Controls.Add(this.tab_Link);
-            this.Tab_RecipeMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tab_RecipeMain.HotTrack = true;
-            this.Tab_RecipeMain.Location = new System.Drawing.Point(180, 0);
-            this.Tab_RecipeMain.Margin = new System.Windows.Forms.Padding(0);
-            this.Tab_RecipeMain.Name = "Tab_RecipeMain";
-            this.Tlp_RecipeLayout.SetRowSpan(this.Tab_RecipeMain, 7);
-            this.Tab_RecipeMain.SelectedIndex = 0;
-            this.Tab_RecipeMain.Size = new System.Drawing.Size(1461, 779);
-            this.Tab_RecipeMain.TabIndex = 0;
-            this.Tab_RecipeMain.SelectedIndexChanged += new System.EventHandler(this.Tab_RecipeMain_SelectedIndexChanged);
-            // 
-            // tab_job
-            // 
-            this.tab_job.Controls.Add(this.cogToolGroupEditV2_Algorithm);
-            this.tab_job.Location = new System.Drawing.Point(4, 22);
-            this.tab_job.Name = "tab_job";
-            this.tab_job.Size = new System.Drawing.Size(1453, 753);
-            this.tab_job.TabIndex = 4;
-            this.tab_job.Text = "Algorithm";
-            this.tab_job.UseVisualStyleBackColor = true;
-            // 
-            // cogToolGroupEditV2_Algorithm
-            // 
-            this.cogToolGroupEditV2_Algorithm.AllowDrop = true;
-            this.cogToolGroupEditV2_Algorithm.ContextMenuCustomizer = null;
-            this.cogToolGroupEditV2_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cogToolGroupEditV2_Algorithm.Location = new System.Drawing.Point(0, 0);
-            this.cogToolGroupEditV2_Algorithm.MinimumSize = new System.Drawing.Size(489, 0);
-            this.cogToolGroupEditV2_Algorithm.Name = "cogToolGroupEditV2_Algorithm";
-            this.cogToolGroupEditV2_Algorithm.ShowNodeToolTips = true;
-            this.cogToolGroupEditV2_Algorithm.Size = new System.Drawing.Size(1453, 753);
-            this.cogToolGroupEditV2_Algorithm.SuspendElectricRuns = false;
-            this.cogToolGroupEditV2_Algorithm.TabIndex = 0;
-            // 
-            // tab_roi
-            // 
-            this.tab_roi.Location = new System.Drawing.Point(4, 22);
-            this.tab_roi.Name = "tab_roi";
-            this.tab_roi.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_roi.Size = new System.Drawing.Size(1453, 753);
-            this.tab_roi.TabIndex = 0;
-            this.tab_roi.Text = "ROI";
-            this.tab_roi.UseVisualStyleBackColor = true;
-            // 
-            // tab_optic
-            // 
-            this.tab_optic.Location = new System.Drawing.Point(4, 22);
-            this.tab_optic.Name = "tab_optic";
-            this.tab_optic.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_optic.Size = new System.Drawing.Size(1453, 753);
-            this.tab_optic.TabIndex = 1;
-            this.tab_optic.Text = "Optic";
-            this.tab_optic.UseVisualStyleBackColor = true;
-            // 
-            // tab_align
-            // 
-            this.tab_align.Location = new System.Drawing.Point(4, 22);
-            this.tab_align.Name = "tab_align";
-            this.tab_align.Size = new System.Drawing.Size(1453, 753);
-            this.tab_align.TabIndex = 2;
-            this.tab_align.Text = "Align";
-            this.tab_align.UseVisualStyleBackColor = true;
-            // 
-            // tab_Link
-            // 
-            this.tab_Link.Location = new System.Drawing.Point(4, 22);
-            this.tab_Link.Name = "tab_Link";
-            this.tab_Link.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Link.Size = new System.Drawing.Size(1453, 753);
-            this.tab_Link.TabIndex = 5;
-            this.tab_Link.Text = "Link";
-            this.tab_Link.UseVisualStyleBackColor = true;
             // 
             // Btn_Judge
             // 
@@ -275,9 +191,65 @@
             this.Lb_UnderLine1.Size = new System.Drawing.Size(174, 1);
             this.Lb_UnderLine1.TabIndex = 6;
             // 
+            // tab_Link
+            // 
+            this.tab_Link.Location = new System.Drawing.Point(4, 22);
+            this.tab_Link.Name = "tab_Link";
+            this.tab_Link.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_Link.Size = new System.Drawing.Size(1453, 753);
+            this.tab_Link.TabIndex = 5;
+            this.tab_Link.Text = "Link";
+            this.tab_Link.UseVisualStyleBackColor = true;
+            // 
+            // tab_align
+            // 
+            this.tab_align.Location = new System.Drawing.Point(4, 22);
+            this.tab_align.Name = "tab_align";
+            this.tab_align.Size = new System.Drawing.Size(1453, 753);
+            this.tab_align.TabIndex = 2;
+            this.tab_align.Text = "Align";
+            this.tab_align.UseVisualStyleBackColor = true;
+            // 
+            // tab_optic
+            // 
+            this.tab_optic.Location = new System.Drawing.Point(4, 22);
+            this.tab_optic.Name = "tab_optic";
+            this.tab_optic.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_optic.Size = new System.Drawing.Size(1453, 753);
+            this.tab_optic.TabIndex = 1;
+            this.tab_optic.Text = "Optic";
+            this.tab_optic.UseVisualStyleBackColor = true;
+            // 
+            // tab_roi
+            // 
+            this.tab_roi.Location = new System.Drawing.Point(4, 22);
+            this.tab_roi.Name = "tab_roi";
+            this.tab_roi.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_roi.Size = new System.Drawing.Size(1453, 753);
+            this.tab_roi.TabIndex = 0;
+            this.tab_roi.Text = "ROI";
+            this.tab_roi.UseVisualStyleBackColor = true;
+            // 
+            // Tab_RecipeMain
+            // 
+            this.Tab_RecipeMain.Controls.Add(this.tab_roi);
+            this.Tab_RecipeMain.Controls.Add(this.tab_optic);
+            this.Tab_RecipeMain.Controls.Add(this.tab_align);
+            this.Tab_RecipeMain.Controls.Add(this.tab_Link);
+            this.Tab_RecipeMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tab_RecipeMain.HotTrack = true;
+            this.Tab_RecipeMain.Location = new System.Drawing.Point(180, 0);
+            this.Tab_RecipeMain.Margin = new System.Windows.Forms.Padding(0);
+            this.Tab_RecipeMain.Name = "Tab_RecipeMain";
+            this.Tlp_RecipeLayout.SetRowSpan(this.Tab_RecipeMain, 7);
+            this.Tab_RecipeMain.SelectedIndex = 0;
+            this.Tab_RecipeMain.Size = new System.Drawing.Size(1461, 779);
+            this.Tab_RecipeMain.TabIndex = 0;
+            this.Tab_RecipeMain.SelectedIndexChanged += new System.EventHandler(this.Tab_RecipeMain_SelectedIndexChanged);
+            // 
             // Cagb_Jobs
             // 
-            this.Cagb_Jobs.Controls.Add(this.LstBoxJobList);
+            this.Cagb_Jobs.Controls.Add(this.LstBoxPtnList);
             this.Cagb_Jobs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cagb_Jobs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Cagb_Jobs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -287,22 +259,22 @@
             this.Cagb_Jobs.Size = new System.Drawing.Size(180, 498);
             this.Cagb_Jobs.TabIndex = 7;
             this.Cagb_Jobs.TabStop = false;
-            this.Cagb_Jobs.Text = "Jobs";
+            this.Cagb_Jobs.Text = "Pattern";
             // 
-            // LstBoxJobList
+            // LstBoxPtnList
             // 
-            this.LstBoxJobList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstBoxJobList.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LstBoxJobList.FormattingEnabled = true;
-            this.LstBoxJobList.ItemHeight = 20;
-            this.LstBoxJobList.Location = new System.Drawing.Point(3, 20);
-            this.LstBoxJobList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.LstBoxJobList.Name = "LstBoxJobList";
-            this.LstBoxJobList.ScrollAlwaysVisible = true;
-            this.LstBoxJobList.Size = new System.Drawing.Size(174, 475);
-            this.LstBoxJobList.TabIndex = 3;
-            this.LstBoxJobList.SelectedIndexChanged += new System.EventHandler(this.LstBoxJobList_SelectedIndexChanged);
-            this.LstBoxJobList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxJobList_MouseDoubleClick);
+            this.LstBoxPtnList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LstBoxPtnList.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstBoxPtnList.FormattingEnabled = true;
+            this.LstBoxPtnList.ItemHeight = 20;
+            this.LstBoxPtnList.Location = new System.Drawing.Point(3, 20);
+            this.LstBoxPtnList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.LstBoxPtnList.Name = "LstBoxPtnList";
+            this.LstBoxPtnList.ScrollAlwaysVisible = true;
+            this.LstBoxPtnList.Size = new System.Drawing.Size(174, 475);
+            this.LstBoxPtnList.TabIndex = 3;
+            this.LstBoxPtnList.SelectedIndexChanged += new System.EventHandler(this.LstBoxJobList_SelectedIndexChanged);
+            this.LstBoxPtnList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxJobList_MouseDoubleClick);
             // 
             // Cagb_Recipe
             // 
@@ -346,15 +318,13 @@
             this.Shown += new System.EventHandler(this.Main_Frm_Recipe_Shown);
             this.Tlp_RecipeLayout.ResumeLayout(false);
             this.Tlp_RecipeLayout.PerformLayout();
-            this.Tab_RecipeMain.ResumeLayout(false);
-            this.tab_job.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cogToolGroupEditV2_Algorithm)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.Tab_RecipeMain.ResumeLayout(false);
             this.Cagb_Jobs.ResumeLayout(false);
             this.Cagb_Recipe.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -364,12 +334,6 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel Tlp_RecipeLayout;
-        private System.Windows.Forms.TabControl Tab_RecipeMain;
-        private System.Windows.Forms.TabPage tab_roi;
-        private System.Windows.Forms.TabPage tab_optic;
-        private System.Windows.Forms.TabPage tab_align;
-        private System.Windows.Forms.TabPage tab_job;
-        private Cognex.VisionPro.ToolGroup.CogToolGroupEditV2 cogToolGroupEditV2_Algorithm;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button Btn_Apply;
         private System.Windows.Forms.Button Btn_Save;
@@ -379,8 +343,12 @@
         private System.Windows.Forms.Label Lb_UnderLine1;
         private User_Controls.CenterAlignedGroupBox Cagb_Jobs;
         private User_Controls.CenterAlignedGroupBox Cagb_Recipe;
-        private System.Windows.Forms.ListBox LstBoxJobList;
+        private System.Windows.Forms.ListBox LstBoxPtnList;
         private System.Windows.Forms.ListBox LstBoxRecipeList;
+        private System.Windows.Forms.TabControl Tab_RecipeMain;
+        private System.Windows.Forms.TabPage tab_roi;
+        private System.Windows.Forms.TabPage tab_optic;
+        private System.Windows.Forms.TabPage tab_align;
         private System.Windows.Forms.TabPage tab_Link;
     }
 }

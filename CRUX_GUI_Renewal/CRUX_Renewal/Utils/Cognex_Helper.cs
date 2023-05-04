@@ -70,12 +70,12 @@ namespace CRUX_Renewal.Utils
         public static CogJob CreateNewJob(Recipe recipe)
         {
             CogJob Temp = new CogJob();
-            var Tool = recipe.Manager.Job(0).VisionTool as CogToolGroup ;
-            //Tool.Tools.Add(new CogImageTool)
-            //Tool. CogInputImageTool
-            Temp.VisionTool = new CogToolGroup();
-            Tool = Temp.VisionTool as CogToolGroup;
-            Tool.Tools.Add(new CogInputImageTool());
+            //var Tool = recipe.Manager.Job(0).VisionTool as CogToolGroup ;
+            ////Tool.Tools.Add(new CogImageTool)
+            ////Tool. CogInputImageTool
+            //Temp.VisionTool = new CogToolGroup();
+            //Tool = Temp.VisionTool as CogToolGroup;
+            //Tool.Tools.Add(new CogInputImageTool());
             return Temp;
         }
         public static void ClearJobMnager(CogJobManager manager)

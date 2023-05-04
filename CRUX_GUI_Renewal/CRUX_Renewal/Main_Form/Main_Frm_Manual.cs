@@ -394,50 +394,50 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
-                CogJobManager Manager1 = (CogJobManager)CogSerializer.DeepCopyObject(Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Manager);
-                CogJobManager Manager2 = (CogJobManager)CogSerializer.DeepCopyObject(Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Manager);
-                CogJobManager Manager3 = (CogJobManager)CogSerializer.DeepCopyObject(Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Manager);
-                AddJobManagerEvent(Manager1);
-                AddJobManagerEvent(Manager2);
-                AddJobManagerEvent(Manager3);
-                (Manager1.Job(0).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp";
-                (Manager1.Job(1).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\TOP.bmp";
-                Manager1.Job(0).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
-                Manager1.Job(1).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
-                //Manager1.Job(2).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
-                (Manager2.Job(0).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\RIGHT.bmp";
-                (Manager2.Job(1).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\BOTTOM.bmp";
-                Manager2.Job(0).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
-                Manager2.Job(1).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
-                //..(Manager3.Job(0).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\원본\1.bmp";
-                //(Manager3.Job(1).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\원본\2.bmp";
-                //Manager3.Job(0).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
-                //Manager3.Job(1).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
-                //Manager2.Job(2).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
-                //Manager1.Run();
-                //Manager2.Run();
-                Task t1 = new Task( () =>
-                    {
-                        //Manager1.Job(0).Run();
-                        //Manager1.Job(1).Run();
-                        Manager1.Run();
-                    });
-                Task t2 = new Task(() =>
-                {
-                    //Manager2.Job(0).Run();
-                    //Manager2.Job(1).Run();
-                    Manager2.Run();
-                });
-                Task t3 = new Task(() =>
-                {
-                    //Manager2.Job(0).Run();
-                    //Manager2.Job(1).Run();
-                    //Manager3.Job(0).Run();
-                });
-                t1.Start();
-                t2.Start();
-                //t3.Start();
-                //Manager2.Job(0).Run();
+                //CogJobManager Manager1 = (CogJobManager)CogSerializer.DeepCopyObject(Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Manager);
+                //CogJobManager Manager2 = (CogJobManager)CogSerializer.DeepCopyObject(Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Manager);
+                //CogJobManager Manager3 = (CogJobManager)CogSerializer.DeepCopyObject(Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Manager);
+                //AddJobManagerEvent(Manager1);
+                //AddJobManagerEvent(Manager2);
+                //AddJobManagerEvent(Manager3);
+                //(Manager1.Job(0).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp";
+                //(Manager1.Job(1).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\TOP.bmp";
+                //Manager1.Job(0).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
+                //Manager1.Job(1).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
+                ////Manager1.Job(2).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
+                //(Manager2.Job(0).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\RIGHT.bmp";
+                //(Manager2.Job(1).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\BOTTOM.bmp";
+                //Manager2.Job(0).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
+                //Manager2.Job(1).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
+                ////..(Manager3.Job(0).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\원본\1.bmp";
+                ////(Manager3.Job(1).AcqFifo as CogAcqFifoSynthetic).Filename = $@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\원본\2.bmp";
+                ////Manager3.Job(0).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
+                ////Manager3.Job(1).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
+                ////Manager2.Job(2).RunMode = CogJobRunModeConstants.AcquisitionAndImageProcessing;
+                ////Manager1.Run();
+                ////Manager2.Run();
+                //Task t1 = new Task( () =>
+                //    {
+                //        //Manager1.Job(0).Run();
+                //        //Manager1.Job(1).Run();
+                //        Manager1.Run();
+                //    });
+                //Task t2 = new Task(() =>
+                //{
+                //    //Manager2.Job(0).Run();
+                //    //Manager2.Job(1).Run();
+                //    Manager2.Run();
+                //});
+                //Task t3 = new Task(() =>
+                //{
+                //    //Manager2.Job(0).Run();
+                //    //Manager2.Job(1).Run();
+                //    //Manager3.Job(0).Run();
+                //});
+                //t1.Start();
+                //t2.Start();
+                ////t3.Start();
+                ////Manager2.Job(0).Run();
             }
             catch(Exception ex)
             {

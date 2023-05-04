@@ -250,78 +250,95 @@ namespace CRUX_Renewal.Class
         public string Name { get; set; }
         public string Path { get; set; }
         public bool Opend { get; set; }
-        public CogJobManager Manager { get; set; } = null;
-        public Optical_Cam Camera;
-        public Optical_Light Light;
-        public Dictionary<string, List<ROI_Data>> ROI_List;
-        public Patterns Recipe_Pattern;
+        //public CogJobManager Manager { get; set; } = null;
+        public Optical_Cam Camera = new Optical_Cam();
+        public Optical_Light Light = new Optical_Light();
+        //public Dictionary<string, List<ROI_Data>> ROI_List;
+        public Patterns Patterns_Data = new Patterns();
+        public List<ROI_Property> ROI_Prop = new List<ROI_Property>();
 
-        public void SetRecipe_Pattern(Patterns patterns)
+        public void SaveROI_Property()
         {
-            Recipe_Pattern = patterns;
+
+        }
+        public void SavePatterns()
+        {
+
         }
 
-        public Patterns GetRecipe_Patterns()
+        public void SaveOptics()
         {
-            return Recipe_Pattern;
+
+        }
+        public void SetPatterns_Data(Patterns patterns)
+        {
+            Patterns_Data = patterns;
+        }
+
+        public Patterns GetPatterns_Datas()
+        {
+            return Patterns_Data;
         }
         public void Load_RecipeData(string path, string rcp_name)
         {
             try
             {
-                for (int i = 0; i < Globals.Ini_RecipeItem_Names.Length; ++i)
-                {
-                    if (Systems.RecipeData_Collection[Systems.CurDisplayIndex].ContainsKey(Globals.Ini_RecipeItem_Names[i]))
-                    {
-                        Systems.RecipeData_Collection[Systems.CurDisplayIndex].Remove(Globals.Ini_RecipeItem_Names[i]);
-                    }
 
-                    IniFile Ini = new IniFile();
-                    Ini.Load($@"{path}{rcp_name}\{Globals.Ini_RecipeItem_Names[i]}");
-                    Systems.RecipeData_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
-                }
-                IniFile ini = Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"];
 
-                ROI_List = new Dictionary<string, List<ROI_Data>>();
-                foreach (var item in ini.Values)
-                {
-                    string JobName = item["JobName"].ToString();
-                    if (JobName == null)
-                    {
-                        throw new Exception("Job is null");
-                    }
-                    ROI_Data Rd = new ROI_Data();
-                    Rd.Name = item["Name"].ToString();
-                    Rd.Category = item["Category"].ToString();
-                    Rd.JobName = item["JobName"].ToString();
 
-                    double X = -999999;
-                    if (Double.TryParse(item["X"].ToString(), out X))
-                        Rd.X = X;
+                //for (int i = 0; i < Globals.Ini_RecipeItem_Names.Length; ++i)
+                //{
+                //    if (Systems.RecipeData_Collection[Systems.CurDisplayIndex].ContainsKey(Globals.Ini_RecipeItem_Names[i]))
+                //    {
+                //        Systems.RecipeData_Collection[Systems.CurDisplayIndex].Remove(Globals.Ini_RecipeItem_Names[i]);
+                //    }
 
-                    double Y = -999999;
-                    if (Double.TryParse(item["Y"].ToString(), out Y))
-                        Rd.Y = Y;
+                //    IniFile Ini = new IniFile();
+                //    Ini.Load($@"{path}{rcp_name}\{Globals.Ini_RecipeItem_Names[i]}");
+                //    Systems.RecipeData_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
+                //}
+                //IniFile ini = Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"];
 
-                    double Width = -999999;
-                    if (Double.TryParse(item["Width"].ToString(), out Width))
-                        Rd.Width = Width;
+                ////ROI_List = new Dictionary<string, List<ROI_Data>>();
+                //foreach (var item in ini.Values)
+                //{
+                //    string JobName = item["JobName"].ToString();
+                //    if (JobName == null)
+                //    {
+                //        throw new Exception("Job is null");
+                //    }
+                //    ROI_Data Rd = new ROI_Data();
+                //    Rd.Name = item["Name"].ToString();
+                //    Rd.Category = item["Category"].ToString();
+                //    Rd.JobName = item["JobName"].ToString();
 
-                    double Height = -999999;
-                    if (Double.TryParse(item["Height"].ToString(), out Height))
-                        Rd.Height = Height;
+                //    double X = -999999;
+                //    if (Double.TryParse(item["X"].ToString(), out X))
+                //        Rd.X = X;
 
-                    if (!ROI_List.ContainsKey(JobName))
-                    {
-                        List<ROI_Data> Temp = new List<ROI_Data>();
-                        Temp.Add(Rd);
-                        ROI_List.Add(JobName, Temp);
-                    }
-                    else
-                    {
-                        ROI_List[JobName].Add(Rd);
-                    }
-                }
+                //    double Y = -999999;
+                //    if (Double.TryParse(item["Y"].ToString(), out Y))
+                //        Rd.Y = Y;
+
+                //    double Width = -999999;
+                //    if (Double.TryParse(item["Width"].ToString(), out Width))
+                //        Rd.Width = Width;
+
+                //    double Height = -999999;
+                //    if (Double.TryParse(item["Height"].ToString(), out Height))
+                //        Rd.Height = Height;
+
+                    //if (!ROI_List.ContainsKey(JobName))
+                    //{
+                    //    List<ROI_Data> Temp = new List<ROI_Data>();
+                    //    Temp.Add(Rd);
+                    //    ROI_List.Add(JobName, Temp);
+                    //}
+                    //else
+                    //{
+                    //    ROI_List[JobName].Add(Rd);
+                    //}
+                //}
             }
             catch (Exception ex)
             {
@@ -330,7 +347,7 @@ namespace CRUX_Renewal.Class
         }
         public void AddRoi(string jobname, ROI_Data roi)
         {
-            ROI_List[jobname].Add(roi);
+            //ROI_List[jobname].Add(roi);
         }
         public void SetSmartListAddEvent()
         {
@@ -347,7 +364,7 @@ namespace CRUX_Renewal.Class
         public void SetRecipeData(string path, string name)
         {
             Recipe Temp = Systems.RecipeContent.MainRecipe[Systems.CurDisplayIndex];
-            RecipeManager.RecipeDeserialize(path, name, ref Temp);
+            //RecipeManager.RecipeDeserialize(path, name);
         }
         #region IDisposable Support
         private bool disposedValue = false; // 중복 호출을 검색하려면
@@ -364,8 +381,8 @@ namespace CRUX_Renewal.Class
                 // TODO: 관리되지 않는 리소스(관리되지 않는 개체)를 해제하고 아래의 종료자를 재정의합니다.
                 // TODO: 큰 필드를 null로 설정합니다.
 
-                Manager?.Shutdown();
-                Manager = null;
+                //Manager?.Shutdown();
+                //Manager = null;
                 disposedValue = true;
             }
         }
@@ -381,7 +398,7 @@ namespace CRUX_Renewal.Class
         // 삭제 가능한 패턴을 올바르게 구현하기 위해 추가된 코드입니다.
         public void Dispose()
         {
-            int Gen = GC.GetGeneration(Manager);
+            //int Gen = GC.GetGeneration(Manager);
             // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
             Dispose(true);
             // TODO: 위의 종료자가 재정의된 경우 다음 코드 줄의 주석 처리를 제거합니다.
@@ -518,6 +535,9 @@ namespace CRUX_Renewal.Class
             }
         }
     }
+
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ROI_Property
     {
         private string _Name { get; set; }

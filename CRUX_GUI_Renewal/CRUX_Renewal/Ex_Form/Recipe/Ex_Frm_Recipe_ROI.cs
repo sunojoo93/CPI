@@ -97,85 +97,85 @@ namespace CRUX_Renewal.Ex_Form
 
         public void RefeshRoiDataView()
         {
-            if (Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List?.Count > 0)
-            {
-                Cog_ROI_Display.DrawingEnabled = false;
-                Dictionary<string, List<ROI_Data>> ROI_List = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List;
-                Cog_ROI_Display.InteractiveGraphics.Clear();
-                LstV_ROI.Groups.Clear();
-                LstV_ROI.Items.Clear();
+            //if (Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List?.Count > 0)
+            //{
+            //    Cog_ROI_Display.DrawingEnabled = false;
+            //    Dictionary<string, List<ROI_Data>> ROI_List = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List;
+            //    Cog_ROI_Display.InteractiveGraphics.Clear();
+            //    LstV_ROI.Groups.Clear();
+            //    LstV_ROI.Items.Clear();
 
-                if (!Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List.ContainsKey(Systems.CurrentSelectedJobName[CurFormIndex]))
-                    return;
-                List<ROI_Data> Temp = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[Systems.CurrentSelectedJobName[CurFormIndex]];
+            //    if (!Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List.ContainsKey(Systems.CurrentSelectedPtnName[CurFormIndex]))
+            //        return;
+            //    List<ROI_Data> Temp = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[Systems.CurrentSelectedPtnName[CurFormIndex]];
 
-                foreach (string item in LstB_Category.Items)
-                    LstV_ROI.Groups.Add(new ListViewGroup(item, item));
+            //    foreach (string item in LstB_Category.Items)
+            //        LstV_ROI.Groups.Add(new ListViewGroup(item, item));
 
-                if (Temp != null && Temp.Count > 0)
-                {
-                    foreach (ROI_Data item in Temp)
-                    {
-                        string Category = item.Category;
-                        CogRectangle Rect = new CogRectangle();
-                        var ROIProp = PGE_ROIProp.Item.FindName(Category);
-                        ROI_Property Rp = (ROIProp.Value as ROI_Property);
+            //    if (Temp != null && Temp.Count > 0)
+            //    {
+            //        foreach (ROI_Data item in Temp)
+            //        {
+            //            string Category = item.Category;
+            //            CogRectangle Rect = new CogRectangle();
+            //            var ROIProp = PGE_ROIProp.Item.FindName(Category);
+            //            ROI_Property Rp = (ROIProp.Value as ROI_Property);
 
-                        Rect.X = item.X;
-                        Rect.Y = item.Y;
-                        Rect.Width = item.Width;
-                        Rect.Height = item.Height;
+            //            Rect.X = item.X;
+            //            Rect.Y = item.Y;
+            //            Rect.Width = item.Width;
+            //            Rect.Height = item.Height;
 
-                        Rect.SelectedLineStyle = Rp.SelectedLineStyle;
-                        Rect.SelectedColor = Rp.SelectedLineColor;
-                        Rect.LineStyle = Rp.LineStyle;
-                        Rect.DragLineStyle = Rp.DragLineStyle;
-                        Rect.DragColor = Rp.DragLineColor;
-                        Rect.Color = Rp.LineColor;
+            //            Rect.SelectedLineStyle = Rp.SelectedLineStyle;
+            //            Rect.SelectedColor = Rp.SelectedLineColor;
+            //            Rect.LineStyle = Rp.LineStyle;
+            //            Rect.DragLineStyle = Rp.DragLineStyle;
+            //            Rect.DragColor = Rp.DragLineColor;
+            //            Rect.Color = Rp.LineColor;
 
-                        //Cog_ROI_Display.DrawingEnabled = false;
-                        Rect.Interactive = true;
-                        Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
-                        Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
-                        Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
-                        string ROIName = item.Name;
-                        string RectROIName = $"{Category}^{ROIName}";
+            //            //Cog_ROI_Display.DrawingEnabled = false;
+            //            Rect.Interactive = true;
+            //            Rect.Dragging += new CogDraggingEventHandler(MRect_Dragging);
+            //            Rect.DraggingStopped += new CogDraggingStoppedEventHandler(MRect_DraggingStopped);
+            //            Rect.GraphicDOFEnable = CogRectangleDOFConstants.All;
+            //            string ROIName = item.Name;
+            //            string RectROIName = $"{Category}^{ROIName}";
 
-                        Cog_ROI_Display.InteractiveGraphics.Add(Rect, RectROIName, false);                        
+            //            Cog_ROI_Display.InteractiveGraphics.Add(Rect, RectROIName, false);                        
               
 
-                        ROI_Data Data = new ROI_Data();
-                        Data.Name = ROIName;
-                        Data.JobName = item.JobName;
-                        Data.Category = item.Category;
-                        Data.X = Rect.X;
-                        Data.Y = Rect.Y;
-                        Data.Width = Rect.Width;
-                        Data.Height = Rect.Height;
-                        Data.Object = Rect;
+            //            ROI_Data Data = new ROI_Data();
+            //            Data.Name = ROIName;
+            //            Data.JobName = item.JobName;
+            //            Data.Category = item.Category;
+            //            Data.X = Rect.X;
+            //            Data.Y = Rect.Y;
+            //            Data.Width = Rect.Width;
+            //            Data.Height = Rect.Height;
+            //            Data.Object = Rect;
 
-                        LstV_ROI.BeginUpdate();
+            //            LstV_ROI.BeginUpdate();
 
-                        ListViewItem Lvi = new ListViewItem(ROIName, item.Category) { Name = "Name" };
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.JobName, Name = "JobName" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
-                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Data.Object.ToString(), Tag = Data.Object });
-                        LstV_ROI.Items.Add(Lvi);
-                        if (LstV_ROI.Groups[item.Category] == null)
-                        {
-                            LstV_ROI.Groups.Add(new ListViewGroup(item.Category, item.Category));
-                        }
-                        LstV_ROI.Groups[item.Category].Items.Add(Lvi);
-                        LstV_ROI.EndUpdate();
-                        //RefeshROI(Rp, Rect, Systems.CurrentSelectedJobName[CurFormIndex], Category, item.Name, true);
-                    }
-                }
-                Cog_ROI_Display.DrawingEnabled = true;
-            }
+            //            ListViewItem Lvi = new ListViewItem(ROIName, item.Category) { Name = "Name" };
+            //            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.JobName, Name = "JobName" });
+            //            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Category, Name = "Category" });
+            //            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.X.ToString(), Name = "X" });
+            //            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Y.ToString(), Name = "Y" });
+            //            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Width.ToString(), Name = "Width" });
+            //            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = Data.Height.ToString(), Name = "Height" });
+            //            Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "Object", Text = Data.Object.ToString(), Tag = Data.Object });
+            //            LstV_ROI.Items.Add(Lvi);
+            //            if (LstV_ROI.Groups[item.Category] == null)
+            //            {
+            //                LstV_ROI.Groups.Add(new ListViewGroup(item.Category, item.Category));
+            //            }
+            //            LstV_ROI.Groups[item.Category].Items.Add(Lvi);
+            //            LstV_ROI.EndUpdate();
+            //            //RefeshROI(Rp, Rect, Systems.CurrentSelectedPtnName[CurFormIndex], Category, item.Name, true);
+            //        }
+            //    }
+            //    Cog_ROI_Display.DrawingEnabled = true;
+            //}
         }
         public void ClearRecipeROI()
         {
@@ -186,58 +186,58 @@ namespace CRUX_Renewal.Ex_Form
 
         private void InitPGE()
         {
-            IniFile Ini = Systems.RecipeData_Collection[CurFormIndex]["ROI_Property.dat"];
+            //IniFile Ini = Systems.RecipeData_Collection[CurFormIndex]["ROI_Property.dat"];
 
-            LstV_ROI.Columns.Add("Name", 90);
-            LstV_ROI.Columns.Add("JobName", 90);
-            LstV_ROI.Columns.Add("Category", 120);
-            LstV_ROI.Columns.Add("X", 150);
-            LstV_ROI.Columns.Add("Y", 150);
-            LstV_ROI.Columns.Add("Width", 150);
-            LstV_ROI.Columns.Add("Height", 150);
-            LstV_ROI.Columns.Add("Object", 100);
+            //LstV_ROI.Columns.Add("Name", 90);
+            //LstV_ROI.Columns.Add("JobName", 90);
+            //LstV_ROI.Columns.Add("Category", 120);
+            //LstV_ROI.Columns.Add("X", 150);
+            //LstV_ROI.Columns.Add("Y", 150);
+            //LstV_ROI.Columns.Add("Width", 150);
+            //LstV_ROI.Columns.Add("Height", 150);
+            //LstV_ROI.Columns.Add("Object", 100);
 
-            foreach (var inner_item in Ini.Values)
-            {
-                LstB_ROI.Items.Add(inner_item["Name"].ToString());
-                LstB_Category.Items.Add(inner_item["Name"].ToString());
-                ROI_Property Prop = new ROI_Property();
-                Prop.Name = inner_item["Name"].ToString();
-                Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["LineColor"].ToString());
-                Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["LineStyle"].ToString());
-                Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["SelectedLineStyle"].ToString());
-                Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["SelectedColor"].ToString());
-                Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["DragLineStyle"].ToString());
-                Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["DragLineColor"].ToString());
-                Prop.DefaultScale = inner_item["DefaultScale"].ToDouble();
-                CustomProperty Cp = new CustomProperty(inner_item["Name"].ToString(), Prop, true, "Appearance", inner_item["Description"].ToString(), true) { IsBrowsable = true };
+            //foreach (var inner_item in Ini.Values)
+            //{
+            //    LstB_ROI.Items.Add(inner_item["Name"].ToString());
+            //    LstB_Category.Items.Add(inner_item["Name"].ToString());
+            //    ROI_Property Prop = new ROI_Property();
+            //    Prop.Name = inner_item["Name"].ToString();
+            //    Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["LineColor"].ToString());
+            //    Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["LineStyle"].ToString());
+            //    Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["SelectedLineStyle"].ToString());
+            //    Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["SelectedColor"].ToString());
+            //    Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(inner_item["DragLineStyle"].ToString());
+            //    Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(inner_item["DragLineColor"].ToString());
+            //    Prop.DefaultScale = inner_item["DefaultScale"].ToDouble();
+            //    CustomProperty Cp = new CustomProperty(inner_item["Name"].ToString(), Prop, true, "Appearance", inner_item["Description"].ToString(), true) { IsBrowsable = true };
 
-                PGE_ROIProp.Item.Add(Cp);
-                ListViewGroup Group = new ListViewGroup(inner_item["Name"].ToString(), HorizontalAlignment.Left) { Header = inner_item["Name"].ToString(), Name = inner_item["Name"].ToString() };
-                LstV_ROI.Groups.Add(Group);
-            }
-            LstB_Category.Hide();
-            LstV_ROI.Refresh();
-            PGE_ROIProp.Refresh();
-            MenuItem[] mis = new MenuItem[4];
-            MenuItem mi1 = new MenuItem("추가");
-            MenuItem mi2 = new MenuItem("삭제");
-            MenuItem mi3 = new MenuItem("복사");
-            MenuItem mi4 = new MenuItem("이동");
-            mis[0] = mi1;
-            mis[1] = mi2;
-            mis[2] = mi3;
-            mis[3] = mi4;
-            ContextMenu cm = new ContextMenu(mis);
+            //    PGE_ROIProp.Item.Add(Cp);
+            //    ListViewGroup Group = new ListViewGroup(inner_item["Name"].ToString(), HorizontalAlignment.Left) { Header = inner_item["Name"].ToString(), Name = inner_item["Name"].ToString() };
+            //    LstV_ROI.Groups.Add(Group);
+            //}
+            //LstB_Category.Hide();
+            //LstV_ROI.Refresh();
+            //PGE_ROIProp.Refresh();
+            //MenuItem[] mis = new MenuItem[4];
+            //MenuItem mi1 = new MenuItem("추가");
+            //MenuItem mi2 = new MenuItem("삭제");
+            //MenuItem mi3 = new MenuItem("복사");
+            //MenuItem mi4 = new MenuItem("이동");
+            //mis[0] = mi1;
+            //mis[1] = mi2;
+            //mis[2] = mi3;
+            //mis[3] = mi4;
+            //ContextMenu cm = new ContextMenu(mis);
 
-            mi1.Click += Mi1_Click;
-            mi2.Click += Mi2_Click;
-            mi3.Click += Mi3_Click;
-            mi4.Click += Mi4_Click;
-            //PGE_ROIList.ContextMenu = cm;
+            //mi1.Click += Mi1_Click;
+            //mi2.Click += Mi2_Click;
+            //mi3.Click += Mi3_Click;
+            //mi4.Click += Mi4_Click;
+            ////PGE_ROIList.ContextMenu = cm;
 
-            if (LstB_ROI.Items.Count > 0)
-                LstB_ROI.SelectedIndex = 0;
+            //if (LstB_ROI.Items.Count > 0)
+            //    LstB_ROI.SelectedIndex = 0;
         }
         public void SaveROIList()
         {
@@ -245,22 +245,22 @@ namespace CRUX_Renewal.Ex_Form
             {
                 int TotalIndex = 0;
                 Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"].Clear();
-                foreach(KeyValuePair<string, List<ROI_Data>> job_item in Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List)
-                {
-                    for(int i = 0; i < job_item.Value.Count; ++i)
-                    {
-                        IniSection IniSec = new IniSection();
-                        IniSec.Add("Name", job_item.Value[i].Name);
-                        IniSec.Add("JobName", job_item.Value[i].JobName);
-                        IniSec.Add("Category", job_item.Value[i].Category);
-                        IniSec.Add("X", job_item.Value[i].X);
-                        IniSec.Add("Y", job_item.Value[i].Y);
-                        IniSec.Add("Width", job_item.Value[i].Width);
-                        IniSec.Add("Height", job_item.Value[i].Height);
-                        Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"].Add(TotalIndex.ToString(), IniSec);
-                        ++TotalIndex;
-                    }                    
-                }
+                //foreach(KeyValuePair<string, List<ROI_Data>> job_item in Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List)
+                //{
+                //    for(int i = 0; i < job_item.Value.Count; ++i)
+                //    {
+                //        IniSection IniSec = new IniSection();
+                //        IniSec.Add("Name", job_item.Value[i].Name);
+                //        IniSec.Add("JobName", job_item.Value[i].JobName);
+                //        IniSec.Add("Category", job_item.Value[i].Category);
+                //        IniSec.Add("X", job_item.Value[i].X);
+                //        IniSec.Add("Y", job_item.Value[i].Y);
+                //        IniSec.Add("Width", job_item.Value[i].Width);
+                //        IniSec.Add("Height", job_item.Value[i].Height);
+                //        Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"].Add(TotalIndex.ToString(), IniSec);
+                //        ++TotalIndex;
+                //    }                    
+                //}
 
                 Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"].Save(Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"].GetIniPath());
             }
@@ -376,7 +376,7 @@ namespace CRUX_Renewal.Ex_Form
                     Data.Height = Rect.Height;
                     Data.Object = Rect;
 
-                    Systems.RecipeContent.ViewRecipe[CurFormIndex].AddRoi(JobName, Data);
+                    //Systems.RecipeContent.ViewRecipe[CurFormIndex].AddRoi(JobName, Data);
                     RefeshRoiDataView();
                     AltIsDown = false;
                 }
@@ -703,174 +703,174 @@ namespace CRUX_Renewal.Ex_Form
 
         private void InputBox_Leave(object sender, EventArgs e)
         {
-            if (InputBox.Visible)
-            {
-                if (cancelEdit == false)
-                {
-                    if (InputBox.Text.Trim() != "")
-                    {
-                        if (LstV_ROI.SelectedItems.Count > 0)
-                        {
-                            ListViewItem Item = LstV_ROI.SelectedItems[0];
+            //if (InputBox.Visible)
+            //{
+            //    if (cancelEdit == false)
+            //    {
+            //        if (InputBox.Text.Trim() != "")
+            //        {
+            //            if (LstV_ROI.SelectedItems.Count > 0)
+            //            {
+            //                ListViewItem Item = LstV_ROI.SelectedItems[0];
 
-                            string Col = curSB.Name;
-                            double Num = 0;
-                            bool CoordChange = false;
-                            bool NameChange = false;
-                            string ObjectName = string.Empty;
-                            string NewObjectName = string.Empty;
-                            string SelectedJobName = Program.Frm_MainContent_[CurFormIndex].Frm_Recipe.GetSelectedJob();
+            //                string Col = curSB.Name;
+            //                double Num = 0;
+            //                bool CoordChange = false;
+            //                bool NameChange = false;
+            //                string ObjectName = string.Empty;
+            //                string NewObjectName = string.Empty;
+            //                string SelectedJobName = Program.Frm_MainContent_[CurFormIndex].Frm_Recipe.GetSelectedJob();
 
-                            ROI_Data OriginItem = new ROI_Data();
-                            ROI_Data FindItem = new ROI_Data();
+            //                ROI_Data OriginItem = new ROI_Data();
+            //                ROI_Data FindItem = new ROI_Data();
 
-                            OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
+            //                OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
 
-                            if (Col == "Name")
-                            {
-                                if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
-                                {
-                                    NameChange = false;
-                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
-                                    Noti.ShowDialog();
-                                }
-                                else
-                                {
-                                    NameChange = true;
+            //                if (Col == "Name")
+            //                {
+            //                    if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
+            //                    {
+            //                        NameChange = false;
+            //                        Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
+            //                        Noti.ShowDialog();
+            //                    }
+            //                    else
+            //                    {
+            //                        NameChange = true;
 
-                                    FindItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == InputBox.Text && x.Category == curItem.SubItems["Category"].Text);
-                                    if (curSB.Text == InputBox.Text)
-                                    {
-                                        return;
-                                    }
-                                    if (FindItem != null)
-                                    {
-                                        Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 이름이 존재합니다.");
-                                        Noti.ShowDialog();
-                                        InputBox.Hide();
-                                        LstV_ROI.Focus();
-                                        return;
-                                    }
+            //                        FindItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == InputBox.Text && x.Category == curItem.SubItems["Category"].Text);
+            //                        if (curSB.Text == InputBox.Text)
+            //                        {
+            //                            return;
+            //                        }
+            //                        if (FindItem != null)
+            //                        {
+            //                            Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 이름이 존재합니다.");
+            //                            Noti.ShowDialog();
+            //                            InputBox.Hide();
+            //                            LstV_ROI.Focus();
+            //                            return;
+            //                        }
                                     
-                                    ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
-                                    curSB.Text = InputBox.Text;
-                                    NewObjectName = $"{curItem.Group.Name}^{InputBox.Text}";
+            //                        ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
+            //                        curSB.Text = InputBox.Text;
+            //                        NewObjectName = $"{curItem.Group.Name}^{InputBox.Text}";
 
-                                    if (ObjectName == NewObjectName)
-                                    {
-                                        InputBox.Hide();
-                                        LstV_ROI.Focus();
-                                        return;
-                                    }
-                                }
-                            }
-                            else if (Col == "JobName")
-                            {
+            //                        if (ObjectName == NewObjectName)
+            //                        {
+            //                            InputBox.Hide();
+            //                            LstV_ROI.Focus();
+            //                            return;
+            //                        }
+            //                    }
+            //                }
+            //                else if (Col == "JobName")
+            //                {
 
-                            }
-                            else if (Col == "Category")
-                            {
-                                #region Hide
-                                //if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
-                                //{
-                                //    NameChange = false;
-                                //    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
-                                //    Noti.ShowDialog();
-                                //}
-                                //else
-                                //{
-                                //    NameChange = true;
+            //                }
+            //                else if (Col == "Category")
+            //                {
+            //                    #region Hide
+            //                    //if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
+            //                    //{
+            //                    //    NameChange = false;
+            //                    //    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
+            //                    //    Noti.ShowDialog();
+            //                    //}
+            //                    //else
+            //                    //{
+            //                    //    NameChange = true;
 
-                                //    Rd.Name = curItem.SubItems["Name"].Text;
-                                //    Rd.Category = InputBox.Text;
-                                //    if (curSB.Text == InputBox.Text)
-                                //    {
-                                //        InputBox.Hide();
-                                //        LstV_ROI.Focus();
-                                //        return;
-                                //    }
-                                //    foreach (ListViewItem item in LstV_ROI.Items)
-                                //    {
-                                //        if (item.Group.Name == Rd.Category)
-                                //        {
-                                //            if (item.Text == Rd.Name)
-                                //            {
-                                //                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 카테고리가 존재합니다.");
-                                //                Noti.ShowDialog();
-                                //                InputBox.Hide();
-                                //                LstV_ROI.Focus();
-                                //                return;
-                                //            }
-                                //        }
-                                //    }
-                                //    ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
-                                //    curSB.Text = InputBox.Text;
-                                //    NewObjectName = $"{InputBox.Text}^{curItem.SubItems["Name"].Text}";
+            //                    //    Rd.Name = curItem.SubItems["Name"].Text;
+            //                    //    Rd.Category = InputBox.Text;
+            //                    //    if (curSB.Text == InputBox.Text)
+            //                    //    {
+            //                    //        InputBox.Hide();
+            //                    //        LstV_ROI.Focus();
+            //                    //        return;
+            //                    //    }
+            //                    //    foreach (ListViewItem item in LstV_ROI.Items)
+            //                    //    {
+            //                    //        if (item.Group.Name == Rd.Category)
+            //                    //        {
+            //                    //            if (item.Text == Rd.Name)
+            //                    //            {
+            //                    //                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 카테고리가 존재합니다.");
+            //                    //                Noti.ShowDialog();
+            //                    //                InputBox.Hide();
+            //                    //                LstV_ROI.Focus();
+            //                    //                return;
+            //                    //            }
+            //                    //        }
+            //                    //    }
+            //                    //    ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
+            //                    //    curSB.Text = InputBox.Text;
+            //                    //    NewObjectName = $"{InputBox.Text}^{curItem.SubItems["Name"].Text}";
 
-                                //    if (ObjectName == NewObjectName)
-                                //    {
-                                //        InputBox.Hide();
-                                //        LstV_ROI.Focus();
-                                //        return;
-                                //    }
-                                //}
-                                #endregion
-                            }
-                            else if (Col == "X")
-                            {
-                                CoordChange = double.TryParse(InputBox.Text, out Num);
-                                if (CoordChange)
-                                {
-                                    OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
-                                    OriginItem.X = Num;
-                                }
-                            }
-                            else if (Col == "Y")
-                            {
-                                CoordChange = double.TryParse(InputBox.Text, out Num);
-                                if (CoordChange)
-                                {
-                                    OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
-                                    OriginItem.Y = Num;
-                                }
-                            }
-                            else if (Col == "Width")
-                            {
-                                CoordChange = double.TryParse(InputBox.Text, out Num);
-                                if (CoordChange)
-                                {
-                                    OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
-                                    OriginItem.Width = Num;
-                                }
-                            }
-                            else if (Col == "Height")
-                            {
-                                CoordChange = double.TryParse(InputBox.Text, out Num);
-                                if (CoordChange)
-                                {
-                                    OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
-                                    OriginItem.Height = Num;
-                                }
-                            }
-                            if (CoordChange)
-                            {
-                                RefeshRoiDataView();
-                            }
-                            else if (NameChange)
-                            {
-                                OriginItem.Name = InputBox.Text;
-                                RefeshRoiDataView();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        cancelEdit = false;
-                    }
-                }
-            }
-            InputBox.Hide();
-            LstV_ROI.Focus();
+            //                    //    if (ObjectName == NewObjectName)
+            //                    //    {
+            //                    //        InputBox.Hide();
+            //                    //        LstV_ROI.Focus();
+            //                    //        return;
+            //                    //    }
+            //                    //}
+            //                    #endregion
+            //                }
+            //                else if (Col == "X")
+            //                {
+            //                    CoordChange = double.TryParse(InputBox.Text, out Num);
+            //                    if (CoordChange)
+            //                    {
+            //                        OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
+            //                        OriginItem.X = Num;
+            //                    }
+            //                }
+            //                else if (Col == "Y")
+            //                {
+            //                    CoordChange = double.TryParse(InputBox.Text, out Num);
+            //                    if (CoordChange)
+            //                    {
+            //                        OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
+            //                        OriginItem.Y = Num;
+            //                    }
+            //                }
+            //                else if (Col == "Width")
+            //                {
+            //                    CoordChange = double.TryParse(InputBox.Text, out Num);
+            //                    if (CoordChange)
+            //                    {
+            //                        OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
+            //                        OriginItem.Width = Num;
+            //                    }
+            //                }
+            //                else if (Col == "Height")
+            //                {
+            //                    CoordChange = double.TryParse(InputBox.Text, out Num);
+            //                    if (CoordChange)
+            //                    {
+            //                        OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
+            //                        OriginItem.Height = Num;
+            //                    }
+            //                }
+            //                if (CoordChange)
+            //                {
+            //                    RefeshRoiDataView();
+            //                }
+            //                else if (NameChange)
+            //                {
+            //                    OriginItem.Name = InputBox.Text;
+            //                    RefeshRoiDataView();
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            cancelEdit = false;
+            //        }
+            //    }
+            //}
+            //InputBox.Hide();
+            //LstV_ROI.Focus();
         }
 
         private void LstV_ROI_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
@@ -921,40 +921,40 @@ namespace CRUX_Renewal.Ex_Form
         private void LstV_ROI_MouseClick(object sender, MouseEventArgs e)
         {
             //오른쪽 클릭일 경우
-            if (e.Button.Equals(MouseButtons.Right))
-            {
-                ContextMenu m = new ContextMenu();
+            //if (e.Button.Equals(MouseButtons.Right))
+            //{
+            //    ContextMenu m = new ContextMenu();
 
-                MenuItem m1 = new MenuItem();
-                MenuItem m2 = new MenuItem();
+            //    MenuItem m1 = new MenuItem();
+            //    MenuItem m2 = new MenuItem();
 
-                m1.Text = "복사";
-                m2.Text = "삭제";
+            //    m1.Text = "복사";
+            //    m2.Text = "삭제";
 
-                m1.Click += (senders, es) =>
-                {
+            //    m1.Click += (senders, es) =>
+            //    {
 
-                };
-                m2.Click += (senders, es) =>
-                {
-                    ListViewItem Item = LstV_ROI.SelectedItems[0];
-                    string Name = Item.SubItems["Name"].Text;
-                    string Category = Item.SubItems["Category"].Text;
-                    string JobName = Item.SubItems["JobName"].Text;
+            //    };
+            //    m2.Click += (senders, es) =>
+            //    {
+            //        ListViewItem Item = LstV_ROI.SelectedItems[0];
+            //        string Name = Item.SubItems["Name"].Text;
+            //        string Category = Item.SubItems["Category"].Text;
+            //        string JobName = Item.SubItems["JobName"].Text;
 
-                    var FindItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[JobName].Find(x => x.Name == Name && x.Category == Category);
-                    if (FindItem != null)
-                    {
-                        Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[JobName].Remove(FindItem);
-                        RefeshRoiDataView();
-                    }
-                };
+            //        var FindItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[JobName].Find(x => x.Name == Name && x.Category == Category);
+            //        if (FindItem != null)
+            //        {
+            //            Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[JobName].Remove(FindItem);
+            //            RefeshRoiDataView();
+            //        }
+            //    };
 
-                m.MenuItems.Add(m1);
-                m.MenuItems.Add(m2);
+            //    m.MenuItems.Add(m1);
+            //    m.MenuItems.Add(m2);
 
-                m.Show(LstV_ROI, new Point(e.X, e.Y));
-            }
+            //    m.Show(LstV_ROI, new Point(e.X, e.Y));
+            //}
         }
 
         private void InputBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -964,111 +964,111 @@ namespace CRUX_Renewal.Ex_Form
 
         private void LstB_Category_Leave(object sender, EventArgs e)
         {
-            if (LstB_Category.Visible)
-            {
-                if (cancelEdit == false)
-                {
-                    if (LstB_Category.Text.Trim() != "")
-                    {
-                        if (LstV_ROI.SelectedItems.Count > 0)
-                        {
-                            ListViewItem Item = LstV_ROI.SelectedItems[0];
+            //if (LstB_Category.Visible)
+            //{
+            //    if (cancelEdit == false)
+            //    {
+            //        if (LstB_Category.Text.Trim() != "")
+            //        {
+            //            if (LstV_ROI.SelectedItems.Count > 0)
+            //            {
+            //                ListViewItem Item = LstV_ROI.SelectedItems[0];
 
-                            string Col = curSB.Name;
-                            bool CoordChange = false;
-                            bool NameChange = false;
-                            string ObjectName = string.Empty;
-                            string NewObjectName = string.Empty;
+            //                string Col = curSB.Name;
+            //                bool CoordChange = false;
+            //                bool NameChange = false;
+            //                string ObjectName = string.Empty;
+            //                string NewObjectName = string.Empty;
 
-                            string SelectedJobName = Program.Frm_MainContent_[CurFormIndex].Frm_Recipe.GetSelectedJob();
-                            ROI_Data OriginItem = new ROI_Data();
-                            ROI_Data FindItem = new ROI_Data();
-                            string Category = string.Empty;
-                            OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
+            //                string SelectedJobName = Program.Frm_MainContent_[CurFormIndex].Frm_Recipe.GetSelectedJob();
+            //                ROI_Data OriginItem = new ROI_Data();
+            //                ROI_Data FindItem = new ROI_Data();
+            //                string Category = string.Empty;
+            //                OriginItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == curItem.SubItems["Name"].Text && x.Category == curItem.SubItems["Category"].Text);
 
-                            if (Col == "Name")
-                            {
+            //                if (Col == "Name")
+            //                {
 
-                            }
-                            else if (Col == "Category")
-                            {
+            //                }
+            //                else if (Col == "Category")
+            //                {
 
-                                if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
-                                {
-                                    NameChange = false;
-                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
-                                    Noti.ShowDialog();
-                                }
-                                else
-                                {
-                                    NameChange = true;
-                                    Category = LstB_Category.SelectedItem as string;
-                                    if (Category != null)
-                                    {
-                                        FindItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == InputBox.Text && x.Category == curItem.SubItems["Category"].Text);
-                                        if (curSB.Text == Category)
-                                        {
-                                            LstB_Category.Hide();
-                                            LstV_ROI.Focus();
-                                            return;
-                                        }
-                                        if (FindItem != null)
-                                        {
-                                            Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 카테고리가 존재합니다.");
-                                            Noti.ShowDialog();
-                                            LstB_Category.Hide();
-                                            LstV_ROI.Focus();
-                                            return;
-                                        }
+            //                    if (InputBox.Text.Contains("^") || InputBox.Text.Contains(" "))
+            //                    {
+            //                        NameChange = false;
+            //                        Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
+            //                        Noti.ShowDialog();
+            //                    }
+            //                    else
+            //                    {
+            //                        NameChange = true;
+            //                        Category = LstB_Category.SelectedItem as string;
+            //                        if (Category != null)
+            //                        {
+            //                            FindItem = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List[SelectedJobName].Find(x => x.Name == InputBox.Text && x.Category == curItem.SubItems["Category"].Text);
+            //                            if (curSB.Text == Category)
+            //                            {
+            //                                LstB_Category.Hide();
+            //                                LstV_ROI.Focus();
+            //                                return;
+            //                            }
+            //                            if (FindItem != null)
+            //                            {
+            //                                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 카테고리가 존재합니다.");
+            //                                Noti.ShowDialog();
+            //                                LstB_Category.Hide();
+            //                                LstV_ROI.Focus();
+            //                                return;
+            //                            }
 
-                                        ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
-                                        curSB.Text = Category;
-                                        NewObjectName = $"{Category}^{curItem.SubItems["Name"].Text}";
+            //                            ObjectName = $"{curItem.Group.Name}^{curItem.SubItems["Name"].Text}";
+            //                            curSB.Text = Category;
+            //                            NewObjectName = $"{Category}^{curItem.SubItems["Name"].Text}";
 
-                                        if (ObjectName == NewObjectName)
-                                        {
-                                            LstB_Category.Hide();
-                                            LstV_ROI.Focus();
-                                            return;
-                                        }
-                                    }
-                                }                              
-                            }
-                            else if (Col == "X")
-                            {
+            //                            if (ObjectName == NewObjectName)
+            //                            {
+            //                                LstB_Category.Hide();
+            //                                LstV_ROI.Focus();
+            //                                return;
+            //                            }
+            //                        }
+            //                    }                              
+            //                }
+            //                else if (Col == "X")
+            //                {
 
-                            }
-                            else if (Col == "Y")
-                            {
+            //                }
+            //                else if (Col == "Y")
+            //                {
 
-                            }
-                            else if (Col == "Width")
-                            {
+            //                }
+            //                else if (Col == "Width")
+            //                {
 
-                            }
-                            else if (Col == "Height")
-                            {
+            //                }
+            //                else if (Col == "Height")
+            //                {
 
-                            }
-                            if (CoordChange)
-                            {
+            //                }
+            //                if (CoordChange)
+            //                {
 
-                            }
-                            else if (NameChange)
-                            {
-                                OriginItem.Category = Category;
-                                RefeshRoiDataView();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        cancelEdit = false;
-                    }
-                }
-            }
-            LstB_Category.Hide();
-            LstV_ROI.Focus();
+            //                }
+            //                else if (NameChange)
+            //                {
+            //                    OriginItem.Category = Category;
+            //                    RefeshRoiDataView();
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            cancelEdit = false;
+            //        }
+            //    }
+            //}
+            //LstB_Category.Hide();
+            //LstV_ROI.Focus();
         }
 
         private void LstB_Category_SelectedIndexChanged(object sender, EventArgs e)

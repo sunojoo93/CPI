@@ -1,9 +1,11 @@
-﻿using Cognex.VisionPro.QuickBuild;
+﻿using Cognex.VisionPro;
+using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal;
 using CRUX_Renewal.Class;
 using CRUX_Renewal.Ex_Form;
 using CRUX_Renewal.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -63,33 +65,34 @@ namespace CRUX_Renewal
     }
     public static class RecipeManager
     {
-        public static void RecipeSerialize(Recipe recipe)
+        public static void RecipeSerialize<T>(string path,string name, T recipe)
         {
-            string path = @"D:\CRUX\DATA\Recipes\Test\Patterns11.xml";
+            string FullPath = path + name;
+            //string path = @"D:\CRUX\DATA\Recipes\Test\Patterns11.xml";
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
 
-            var xs = new XmlSerializer(typeof(Patterns));
+            var xs = new XmlSerializer(typeof(T));
             using (var sw = new StreamWriter(path))
             {
-                var info = recipe.Recipe_Pattern;
+                var info = recipe;
                 xs.Serialize(sw, info, ns);
             }
         }
-        public static void RecipeDeserialize(string path, string file_name, ref Recipe recipe)
+        public static T RecipeDeserialize<T>(string path, string file_name)
         {
-            string FullPath = $@"{path}\{file_name}";
+            string FullPath = $@"{path}{file_name}";
             if (File.Exists(FullPath))
             {
                 try
                 {
                     using (var sr = new StreamReader(FullPath))
                     {
-                        var xs = new XmlSerializer(typeof(Patterns));
-                        recipe.Recipe_Pattern = (Patterns)xs.Deserialize(sr);
-                        
+                        var xs = new XmlSerializer(typeof(T));
+                        var Temp = (T)xs.Deserialize(sr);
+                        return Temp;
                         //this.project.Set(prj);
-                    }
+                    }                 
                 }
                 catch (Exception ex)
                 {
@@ -97,8 +100,55 @@ namespace CRUX_Renewal
                     MessageBox.Show("프로젝트 파일 로딩 실패 : " + FullPath);
                 }
             }
+            return default(T);
         }
+        public static void ReadRecipe(string path, Recipe recipe, string name)
+        {
+            string FullPath = $@"{path}Recipes\{name}";
+            ArrayList FileList = fileProc.GetFileNames(FullPath);
+            ArrayList FullPathList = fileProc.getFileList(FullPath);
+            recipe.Path = FullPath;
+            recipe.Name = name;
+            for (int t = 0; t < FullPathList.Count; ++t)
+            {
+                for (int i = 0; i < Globals.RecipeItem_Names.Length; ++i)
+                {
+                    string[] SplitTemp = (FullPathList[t] as string).Split(new string[] { "\\" }, StringSplitOptions.None);
+                    string FineName = SplitTemp[SplitTemp.Length - 1];
+                    if (FineName == Globals.RecipeItem_Names[i])
+                    {
+                        switch (FineName)
+                        {
+                            case "ROI_Property.dat":
+                                IniFile Temp = new IniFile();
+                                Temp.Load(($@"{path}Recipes\{name}\ROI_Property.dat"));
+   
+                                foreach (IniSection item in Temp.Values)
+                                {
+                                    ROI_Property Prop = new ROI_Property();
+                                    Prop.Name = item["Name"].ToString();
+                                    Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["LineColor"].ToString());
+                                    Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["LineStyle"].ToString());
+                                    Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["SelectedLineStyle"].ToString());
+                                    Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["SelectedColor"].ToString());
+                                    Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["DragLineStyle"].ToString());
+                                    Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["DragLineColor"].ToString());
+                                    Prop.DefaultScale = item["DefaultScale"].ToDouble();
+                                    recipe.ROI_Prop.Add(Prop);
+                                }
+                                break;
+
+                            case "Patterns.xml":
+                                recipe.Patterns_Data = null;
+                                recipe.Patterns_Data = RecipeManager.RecipeDeserialize<Patterns>($@"{path}Recipes\{name}\", "Patterns.xml");
+                                break;
+                        }
+                    }
+                }
+            }
+        }    
     }
+
     static class Utility
     {
         /// <summary>

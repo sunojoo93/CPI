@@ -38,11 +38,11 @@ namespace CRUX_Renewal
         //            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(value); }
         //}
 
-        public static List<string> OpendRecipe;
+        public static List<string> CurrentSelectedRecipe;
 
 
         public static List<PropertyString> CurrentApplyRecipeName;
-        public static List<string> CurrentSelectedJobName;
+        public static List<string> CurrentSelectedPtnName;
         public Recipes GetRecipes()
         {
             return RecipeContent;
@@ -111,51 +111,55 @@ namespace CRUX_Renewal
         {
             try
             {
-                if (recipe?.Manager != null)
-                {
-                    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
-                    recipe.Manager.Shutdown();
-                    recipe.Dispose();
-                    //recipe = null;
-                    GC.Collect();
-                }
-                //Consts.VPP_PATH = @"D:\CRUX\DATA\Recipes\Test\new1.rcp";
-                Task t = Task.Run(() =>
-                {
-                    if (SaveLoadType)
-                    {
-                        recipe = ((Recipe)CogSerializer.LoadObjectFromFile(vpp_path));
-                    }
-                    else
-                    {
-                        //recipe = new Recipe();
-                        recipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(vpp_path));
-                        recipe.Camera = new Optical_Cam();
-                        recipe.Light = new Optical_Light();
-                        recipe.Load_RecipeData(rcp_path + @"Recipes\", rcp_name);
+                //if (recipe?.Manager != null)
+                //{
+                //    Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
+                //    recipe.Manager.Shutdown();
+                //    recipe.Dispose();
+                //    //recipe = null;
+                //    GC.Collect();
+                //}
+                ////Consts.VPP_PATH = @"D:\CRUX\DATA\Recipes\Test\new1.rcp";
+                //Task t = Task.Run(() =>
+                //{
+                //    if (SaveLoadType)
+                //    {
+                //        recipe = ((Recipe)CogSerializer.LoadObjectFromFile(vpp_path));
+                //    }
+                //    else
+                //    {
+                //        //recipe = new Recipe();
+                //        recipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(vpp_path));
+                //        recipe.Camera = new Optical_Cam();
+                //        recipe.Light = new Optical_Light();
+                //        recipe.Load_RecipeData(rcp_path + @"Recipes\", rcp_name);
                         
-                        recipe.SetRecipeData(rcp_path + @"Recipes\"+rcp_name, "Patterns.xml");
-                        recipe.Name = rcp_name;
-                        recipe.Path = rcp_path;
-                        recipe.Opend = true;
+                //        recipe.SetRecipeData(rcp_path + @"Recipes\"+rcp_name, "Patterns.xml");
+                //        recipe.Name = rcp_name;
+                //        recipe.Path = rcp_path;
+                //        recipe.Opend = true;
 
-                    }
-                    string[] Temp = vpp_path.Split(new string[] { "\\" }, StringSplitOptions.None);
-                    //CurrentRecipe = Temp[Temp.Count() - 2];
-                    Systems.Inspector_.SetInspection();
-                    Systems.Inspector_.SetCogManager(recipe);
+                //    }
+                //    string[] Temp = vpp_path.Split(new string[] { "\\" }, StringSplitOptions.None);
+                //    //CurrentRecipe = Temp[Temp.Count() - 2];
+                //    Systems.Inspector_.SetInspection();
+                //    Systems.Inspector_.SetCogManager(recipe);
 
-                });
-                t.Wait();
-                GC.Collect();
-                Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex] = Utility.DeepCopy(recipe);
-                //var tt = Systems.MainRecipe;
+                //});
+                //t.Wait();
+                //GC.Collect();
+                //Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex] = Utility.DeepCopy(recipe);
+                ////var tt = Systems.MainRecipe;
 
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+        public async void ReadRecipe(string rcp_path, Recipe recipe, string rcp_name)
+        {
+
         }
     }
 }

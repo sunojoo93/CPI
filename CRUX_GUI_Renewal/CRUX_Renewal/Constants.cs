@@ -98,7 +98,7 @@ namespace CRUX_Renewal
         public static int MaxVisionCnt = 0;
         public static int CurrentPCno = 0;
         public static string CurrentUIName;
-        private static string[] SelectRecipe;
+        //private static string[] SelectRecipe;
         private static int[] SelectRecipeNo;
         private static int[] CurrentRecipeNo;
         private static string[] CurGrabVersion;
@@ -114,79 +114,20 @@ namespace CRUX_Renewal
 
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
-        public static string[] Ini_RecipeItem_Names = { "ROI.list", "ROI_Property.dat" };
+        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "Patterns.xml" };
+        public static List<string> SelectRecipe = new List<string>();
 
-        public static void m_fnInitSelectRecipe(int nCnt)
-        {
-            SelectRecipe = new string[nCnt];
-        }
-        public static void m_fnInitSelectRecipeNo(int nCnt)
-        {
-            SelectRecipeNo = new int[nCnt];
-        }
-        public static void m_fnInitCurrentRecipeNo(int nCnt)
-        {
-            CurrentRecipeNo = new int[nCnt];
-        }
-        public static void m_fnInitGrabVersion(int nCnt)
-        {
-            Globals.CurGrabVersion = new string[nCnt];
-        }
-        public static void m_fnInitSavedRecipe(int nCnt)
-        {
-            bIsSavedRecipe = new bool[nCnt];
-            for (int i = 0; i < nCnt; i++ )
-                bIsSavedRecipe[i] = true;
-        }
+       
         public static void m_fnSetCurGrabVersion(int nVisionNo, string strGrabVer)
         {
             Globals.CurGrabVersion[nVisionNo] = strGrabVer;
         }
-        public static string m_fnGetCurGrabVersion(int nVisionNo)
-        {
-            return Globals.CurGrabVersion[nVisionNo];
-        }
-        public static void m_fnInitInspVersion(int nCnt)
-        {
-            Globals.CurInspVersion = new string[nCnt];
-        }
+        
         public static void m_fnSetCurInspVersion(int nVisionNo, string strInspVer)
         {
             Globals.CurInspVersion[nVisionNo] = strInspVer;
         }
-        public static string m_fnGetCurInspVersion(int nVisionNo)
-        {
-            return Globals.CurInspVersion[nVisionNo];
-        }
-        public static void m_fnSetCurRcpNo(int nVisionNo, int nSelRcp)
-        {
-            Globals.CurrentRecipeNo[nVisionNo] = nSelRcp;
-        }
-        public static int m_fnGetCurRcpNo(int nVisionNo)
-        {
-            return Globals.CurrentRecipeNo[nVisionNo];
-        }
-        public static void m_fnSetSelRcpNo(int nVisionNo, int nSelRcp)
-        {
-            Globals.SelectRecipeNo[nVisionNo] = nSelRcp;
-        }
-        public static int m_fnGetSelRcpNo(int nVisionNo)
-        {
-            return Globals.SelectRecipeNo[nVisionNo];
-        }
-        public static void m_fnSetSelRcpName(int nVisionNo, string strRcpName)
-        {
-            Globals.SelectRecipe[nVisionNo] = strRcpName;
-        }
-        public static string m_fnGetSelRcpName(int nVisionNo)
-        {
-            return Globals.SelectRecipe[nVisionNo];
-        }
-        // 현재 PC에 선택된 레시피 저장 여부 (휘발성 Recipe 인지 저장된 Recipe 인지)
-        public static void m_fnSetSelRcpSaved(int nVisionNo, bool bSavedFlag)
-        {
-            Globals.bIsSavedRecipe[nVisionNo] = bSavedFlag;
-        }
+        
         public static bool m_fnGetSelRcpSaved(int nVisionNo)
         {
             return Globals.bIsSavedRecipe[nVisionNo];
@@ -414,43 +355,10 @@ namespace CRUX_Renewal
     }
     public static class Enums
     {
-        //         public void GetColorFromString(string color)
-        //         {
-        // 
-        //             string c = EnumUtil<string>.Parse("Black");
-        // 
-        //         }
-        //         public enum DgvGrab
-        //         {
-        //             [StringValue("FORMS")]
-        //             FORMS = 1,
-        //             [StringValue("WINDOWS")]
-        //             WINDOWSAUTHENTICATION = 2,
-        //             [StringValue("SSO")]
-        //             SINGLESIGNON = 3
-        //         }
-        //         public enum DgvGrab : int { USE = "USE", NO = "NO", NAME = "NAME", Vacuum = "VAC"};
-        public enum MainView : int { AUTO = 0, MANUAL, RECIPE, CAMERA, SETUP, REPORT, MAX };
-        public enum SetupTab : int { EQP_PARAM = 0, XML_Editor, SOURCE_RESTORE, Max };
-        public enum Analyze : int { LIVE = 0, LOG, CLASSIFY/*, PARAM, ETC*/, MAX };
-        public enum ImageLoadFlag : int { MANUAL_LOAD_IMG, MANUAL_INSP_IMG, RECIPE_LOAD_IMG, CAMERA_LOAD_IMG, CAMERA_MINI_MAP, PIXEL_PATTERN_LOAD_IMG, MAX };
-        public enum LogLevel : int { JUST_LOG_UI = 0, JUST_LOG_FILE, ALL, MAX };
-        public enum LogView : int { AUTO = 0, MANUAL, ALL };
-        public enum shImageInfo : int { OffSetX = 0, OffSetY = 1, CropSizeX = 2, CropSizeY = 3, ShImgInfoMax };
+       
         public enum CompressLevel : int { NONE = 0, COMPRESS, AUTO };
-        public enum Eqp_Type : int { AVI = 0, SVI, APP, AMT };      // AMT 모듈 타입 추가         180801 YSS
-        public enum JudgeFileType : int { PanelJudge = 1, DefectClassify, UserDefinedFilter, DefSumGrade };
-        public enum Language : int { Korean = 0, Chinese, English, MAX };
-        public enum DrawRct : int { INSP = 0, RND, NON, PAD, FDC_MARK, ALIGN_MARK, PAD_INSP, PAD_NONE, HOLE, MAX }; //2019.02.20 for Hole ROI
-        public enum DrawPnt : int { WORK_ORIGN = 0, GD_ORIGIN, FDC_POINT, POLYGON_PAD_INSP, POLYGON_PAD_NONE, MAX };
-        public enum DrawFocusROI : int { LEFT_TOP = 0, LEFT_BOTTOM, RIGHT_TOP, RIGHT_BOTTOM, RIGHT_CENTER, MAX }; //2021.11.01 KYH
-
-        // 2018.12.12 MDJ Control Kinds
-        public enum Controls : int { TEXT = 0, CHECKBOX, COMBOBOX };
-
-        public enum E_PNT_VIEW_KIND : int { CROSS = 0, POINT, POLYGON, MAX };
-
-        public enum Site_Type : int { DEFAULT = 0, B7, B11, GVO, CSOT };      //2019.01.31 for CSOT
+        
+        public enum Language : int { Korean = 0, Chinese, English, MAX };        
 
         public enum InitFlag : int
         {
@@ -504,16 +412,6 @@ namespace CRUX_Renewal
             ERROR,
             MAX
         }
-        public enum ENUM_SIGN_OF_INEQUALITY : int
-        {
-            E_SIGN_EQUAL,	// x == judgment value
-            E_SIGN_NOT_EQUAL,	// x != judgment value
-            E_SIGN_GREATER,	// x >  judgment value
-            E_SIGN_LESS,	// x <  judgment value
-            E_SIGN_GREATER_OR_EQUAL,	// x >= judgment value
-            E_SIGN_LESS_OR_EQUAL,						// x <= judgment value };
-            E_SIGN_MAX
-        };
 
         public enum WINDOWS_STATE : int
         {
@@ -529,14 +427,6 @@ namespace CRUX_Renewal
             MAX
         };
 
-        public enum ENUM_TACT_NAME : int
-        {
-            GRAB = 0,
-            INSP,
-            TOTAL,
-            MAX
-        };
-
         public enum ENUM_NOTIFICAION
         {
             [Description("Information")]
@@ -548,32 +438,6 @@ namespace CRUX_Renewal
             MAX
         };
 
-        public enum ENUM_TACT_STATE : int
-        {
-            START = 0,
-            END
-        };
-
-        public enum ENUM_PIXEL_PATTERN : int
-        {
-            R = 0,
-            G,
-            B,
-            MAX
-        };
-
-        public enum BtnMsgType : int
-        {
-            CONFIRM = 0,
-            YES_NO,
-            MAX
-        };
-
-        public enum AlarmCode : int
-        {
-            Overlap = 1200,
-            InspRate = 1300,
-        };
         public enum ProcessNames
         {           
             [StringValue("Btn_VSS_State")] 
@@ -592,27 +456,7 @@ namespace CRUX_Renewal
             [Description("SimulationCameraTask")]
             Sim_Cam = 5,
             MAX
-        };
-        public enum Ini_Names : int
-        {
-            [StringValue("Initialize.ini")]
-            Initialize = 0,
-            [StringValue("CRUX_GUI_Renewal.ini")]  
-            Gui = 1,
-            [StringValue("CRUX_Sequence.ini")]
-            Sequence = 2,
-            MAX
-        };
-        public enum Cognex_Colors
-        {
-            [StringValue("Initialize.ini")]
-            Initialize = 0,
-            [StringValue("CRUX_GUI_Renewal.ini")]
-            Gui = 1,
-            [StringValue("CRUX_Sequence.ini")]
-            Sequence = 2,
-            MAX
-        };
+        };        
     }
 
 class GlobalConstance

@@ -72,13 +72,13 @@ namespace CRUX_Renewal
             }
             if(Systems.RecipeContent.MainRecipe != null)
             {
-                foreach (Recipe item in Systems.RecipeContent.MainRecipe)
-                    item.Manager.Shutdown();
+                //foreach (Recipe item in Systems.RecipeContent.MainRecipe)
+               //     item.Manager.Shutdown();
             }
             if(Systems.RecipeContent.ViewRecipe != null)
             {
-                foreach (Recipe item in Systems.RecipeContent.ViewRecipe)
-                    item.Manager.Shutdown();
+                //foreach (Recipe item in Systems.RecipeContent.ViewRecipe)
+                //    item.Manager.Shutdown();
             }
 
             Program.KillAllTask();
