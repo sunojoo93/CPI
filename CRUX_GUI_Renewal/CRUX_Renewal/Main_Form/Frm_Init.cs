@@ -41,11 +41,11 @@ namespace CRUX_Renewal.Main_Form
 
         private void CreateINIObject()
         {
-            Systems.Environment_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
+            //Systems.Environment_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
 
-            Globals.MaxVisionCnt = Systems.Environment_INI["UI_Property"]["TotalCount"].ToInt();
-            Globals.CurrentPCno = Systems.Environment_INI["UI_Property"]["CurrentUINumber"].ToInt();          
-            Globals.MAINFORM_NAME = Systems.Environment_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
+            //Globals.MaxVisionCnt = Systems.Environment_INI["UI_Property"]["VisionTotalCount"].ToInt();
+            //Globals.CurrentPCno = Systems.Environment_INI["UI_Property"]["CurrentUINumber"].ToInt();          
+            //Globals.MAINFORM_NAME = Systems.Environment_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
    
         }
 
@@ -248,16 +248,22 @@ namespace CRUX_Renewal.Main_Form
         private void m_fnLoadInitInfo ()
         {
             //m_fnAddLog(0, string.Format("{0}_Start", MethodBase.GetCurrentMethod().Name));
-            Globals.MaxVisionCnt = Convert.ToInt32(iniUtl.GetIniValue("Common", "VISION PC COUNT", Paths.INIT_PATH));
+            //Globals.MaxVisionCnt = Convert.ToInt32(iniUtl.GetIniValue("Common", "VISION PC COUNT", Paths.INIT_PATH));
             Modes.NET_SIMULATION_MODE = Convert.ToBoolean(iniUtl.GetIniValue("Common", "SIMULATION Mode", Paths.INIT_PATH));
 
             //Globals.LIGHT_CHANNEL = iniUtl.GetIniValue("Light Controller", "Max Channel Count", Paths.INIT_DEVICE_PATH).toInt();
-            StringBuilder sb = new StringBuilder();
-            iniUtl.GetPrivateProfileString("DiskInformation", "Last Used Drive", @"E:\", sb, 10, Paths.INIT_PATH);
+           // StringBuilder sb = new StringBuilder();
+            //iniUtl.GetPrivateProfileString("DiskInformation", "Last Used Drive", @"E:\", sb, 10, Paths.INIT_PATH);
             //Globals.CurrentDrive = sb.ToString();
             //Globals.DriveLimitSize = iniUtl.GetIniValue("DiskInformation", "DriveLimitSize", Paths.INIT_PATH).toInt();
 
-            Globals.Insp_Type = iniUtl.GetIniValue("Common", "TYPE", Paths.INIT_PATH).toInt();
+            //Globals.Insp_Type = iniUtl.GetIniValue("Common", "TYPE", Paths.INIT_PATH).toInt();
+            IniFile Default_INI = new IniFile();
+            Default_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
+
+            Globals.MaxVisionCnt = Default_INI["UI_Property"]["VisionTotalCount"].ToInt();
+            Globals.CurrentPCno = Default_INI["UI_Property"]["CurrentUINumber"].ToInt();
+            Globals.MAINFORM_NAME = Default_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
 
             //Globals.DrawRctColor = new Color[5]; // ROI 색은 5개까지
             //for(int i = 0; i < Globals.DrawRctColor.Count(); i++)
@@ -313,9 +319,26 @@ namespace CRUX_Renewal.Main_Form
                 Paths.MANUAL_RESULT_DATA_DRIVE[i] = iniUtl.GetIniValue("DiskInformation", "Simulation Drive", "D", Paths.NET_INITIAL_PATH[i]).ToString().toSplit(0, '_') + Consts.NET_DRIVE_NAME;
 
                 Systems.AliveList[i].init();
+
+                string AlgorithmPath = Default_INI[$@"PC{i+1}_AlgorithmPath"]["Path"].ToString();
+                ArrayList FileList = fileProc.getFileList(AlgorithmPath, ".vpp");
+                foreach(string item in FileList)
+                {
+                    string[] Temp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
+                    Algorithm_Infomation Info = new Algorithm_Infomation();
+                    
+                    string FileName = Temp[Temp.Length - 1];
+                    string[] Name = FileName.Split('.');
+                    Info.Name = Name[0];
+                    Info.Path = item;
+                    Info.FileName = FileName;
+                    Systems.Algo_Info.Add(Info);
+                }
             }
 
             Globals.nLanguageFlg = iniUtl.GetIniValue("common", "Language", Paths.INIT_PATH).toInt();
+
+
 
             //m_fnAddLog(0, string.Format("{0}_End", MethodBase.GetCurrentMethod().Name));
         }

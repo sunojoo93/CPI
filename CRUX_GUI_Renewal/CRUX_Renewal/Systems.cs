@@ -26,18 +26,7 @@ namespace CRUX_Renewal
         public static ALIVE_STATE[] AliveList;
         public static Recipes RecipeContent = Recipes.Instance();
         public static IniFile Environment_INI = new IniFile();
-        private static string CurrentJob_;
-        //public static string CurrentJob
-        //{
-        //    get { return CurrentJob_; }
-
-        //    set
-        //    {
-        //        CurrentJob_ = value;
-        //        if (Program.Frm_MainContent_ != null && Program.Frm_MainContent_.Count > 0)
-        //            Program.Frm_MainContent_[Systems.CurDisplayIndex]?.Frm_Recipe?.SelectJob(value); }
-        //}
-
+        public static List<Algorithm_Infomation> Algo_Info = new List<Algorithm_Infomation>();
         public static List<string> CurrentSelectedRecipe;
 
 

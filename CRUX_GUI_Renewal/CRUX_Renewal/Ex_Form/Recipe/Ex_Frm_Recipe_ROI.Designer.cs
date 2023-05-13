@@ -288,7 +288,7 @@ namespace CRUX_Renewal.Ex_Form
             this.PGE_ROIProp.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PGE_ROIProp.ToolStrip.Name = "";
             this.PGE_ROIProp.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(9663957, 0);
+            this.PGE_ROIProp.ToolStrip.Size = new System.Drawing.Size(11044523, 0);
             this.PGE_ROIProp.ToolStrip.TabIndex = 1;
             this.PGE_ROIProp.ToolStrip.TabStop = true;
             this.PGE_ROIProp.ToolStrip.Text = "PropertyGridToolBar";

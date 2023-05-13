@@ -1,7 +1,9 @@
 ﻿using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.Class;
 using CRUX_Renewal.Utils;
+using PropertyGridExt;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -59,7 +61,7 @@ namespace CRUX_Renewal.Ex_Form
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string path = @"D:\CRUX\DATA\Recipes\Test\Patterns11.xml";
+            string path = @"D:\CRUX\DATA\Recipes\Test\Patterns.xml";
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
 
@@ -77,6 +79,7 @@ namespace CRUX_Renewal.Ex_Form
             UpdateROI();
             UpdateAlgorithm();
             UpdateParameter();
+            UpdateTotalAlgorithm();
             //LstB_Pattern.Items.AddRange(PtnNames.ToArray());
             //if(LstB_Pattern.Items.Count > 0)
             //{
@@ -115,6 +118,7 @@ namespace CRUX_Renewal.Ex_Form
         }
         public void UpdateAlgorithm()
         {
+            LstB_RegistedAlgorithm.Items.Clear();
             Patterns Ptn = Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Patterns_Data;
             string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
             string SelectedPattern = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
@@ -128,7 +132,8 @@ namespace CRUX_Renewal.Ex_Form
                 {
                     Algo_List.Add(item.Name); 
                 }
-                LstB_Algorithm.Items.AddRange(Algo_List.ToArray());
+                LstB_RegistedAlgorithm.Items.AddRange(Algo_List.ToArray());
+                LstB_RegistedAlgorithm.SelectedItem = LstB_RegistedAlgorithm.Items[0];
             }
      
  
@@ -136,14 +141,46 @@ namespace CRUX_Renewal.Ex_Form
         }
         public void UpdateParameter()
         {
+            PGE_Params.Item.Clear();
+            Patterns Ptn = Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Patterns_Data;
+            string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
+            string SelectedPattern = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
+            string SelectedROI = LstB_ROI.SelectedItem as string;
+            string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
+            Algorithm Algo = Ptn.Pattern.Find(x => x.Name == SelectedPattern)?.ROI_Coord.Find(x => x.Name == SelectedROI)?.Algo_List?.Find(x=>x.Name == SelectedAlgo);
 
+            List<Param> AlgoParam = Algo.Param;
+            foreach(Param item in AlgoParam)
+            {
+                CustomProperty Cp = new CustomProperty();
+                Cp.Name = item.Name;
+                Cp.Value = item.Value;
+                Cp.Category = "Parameters";
+                PGE_Params.Item.Add(Cp);
+            }
+
+            PGE_Params.Refresh();
+
+        }
+        public void UpdateTotalAlgorithm()
+        {
+            string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString() + @"Algorithm\").Replace(" ", "");
+            LoadVppFile(AlgorithmPath);
+        }
+        public void LoadVppFile(string path)
+        {
+            ArrayList VppList = fileProc.GetFileNames(path, ".vpp");
+            if (VppList.Count > 0)
+            {
+               // Lstb_AvailableAlgo.Items.AddRange(VppList.ToArray());
+            }
         }
         public void ClearRecipeControl()
         {
             //LstB_Pattern.Items.Clear();
             LstB_ROI.Items.Clear();
-            LstB_Algorithm.Items.Clear();
-            PGE_ROIProp.Item.Clear();
+            LstB_RegistedAlgorithm.Items.Clear();
+            PGE_Params.Item.Clear();
         }
 
         private void LstB_Pattern_SelectedIndexChanged(object sender, EventArgs e)
@@ -170,6 +207,65 @@ namespace CRUX_Renewal.Ex_Form
         private void LstB_Algorithm_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             UpdateParameter();
+        }
+
+        private void LstB_RegistedAlgorithm_MouseClick(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private void LstB_RegistedAlgorithm_MouseMove(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private void LstB_RegistedAlgorithm_MouseUp(object sender, MouseEventArgs e)
+        {
+            //if (e.Button.Equals(MouseButtons.Right))
+            //{
+            //    ContextMenu m = new ContextMenu();
+
+            //    MenuItem m1 = new MenuItem();
+
+            //    m1.Text = "관리";
+       
+            //    m1.Click += (senders, es) =>
+            //    {
+                    
+            //    };
+
+            //    m.MenuItems.Add(m1);
+
+            //    m.Show(LstB_RegistedAlgorithm, new Point(e.X, e.Y));
+            //}
+        }
+
+        private void Btn_AlgorithmManage_Click(object sender, EventArgs e)
+        {
+            Ex_Frm_Others_Algorithm_Select Selector = new Ex_Frm_Others_Algorithm_Select();
+            List<string> RegistedAlgo = new List<string>();
+            List<string> TotalAlgo = new List<string>();
+            foreach (string item in LstB_RegistedAlgorithm.Items)
+            {
+                RegistedAlgo.Add(item);
+            }
+            foreach (Algorithm_Infomation item in Systems.Algo_Info)
+            {
+                TotalAlgo.Add(item.Name);
+            }
+            string CurSelPtn = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
+            string CurSelROI = LstB_ROI.SelectedItem as string;
+            ROI RoiData = Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Patterns_Data.Pattern.Find(x => x.Name == CurSelPtn)?.ROI_Coord?.Find(x => x.Name == CurSelROI);
+
+            Selector.Init(RoiData.Algo_List, Systems.Algo_Info, LstB_ROI.SelectedItem as string);
+            Selector.ShowDialog();
+            if (Selector.DialogResult == DialogResult.OK)
+            {
+                RoiData.Algo_List = Selector.CurrentAlgoList;
+            }
+            UpdateAlgorithm();
+            UpdateParameter();
+
         }
     }
 }

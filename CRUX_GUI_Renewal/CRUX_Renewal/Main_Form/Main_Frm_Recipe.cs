@@ -223,9 +223,12 @@ namespace CRUX_Renewal.Main_Form
 
         private void Btn_Save_Click(object sender, System.EventArgs e)
         {
+            
+            
             Frm_ROI.SaveROIData();
             string RecipePath = Systems.RecipeContent.ViewRecipe[CurFormIndex].Path;
             string RecipeName = Systems.RecipeContent.ViewRecipe[CurFormIndex].Name;
+            RecipeManager.RecipeSerialize(RecipePath, "Patterns.xml",Systems.RecipeContent.ViewRecipe[CurFormIndex].Patterns_Data);
             //CogSerializer.SaveObjectToFile(Systems.RecipeContent.ViewRecipe[CurFormIndex].Manager, $@"{RecipePath}Recipes\{RecipeName}\{RecipeName}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
             Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());

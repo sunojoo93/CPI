@@ -65,15 +65,15 @@ namespace CRUX_Renewal
     }
     public static class RecipeManager
     {
-        public static void RecipeSerialize<T>(string path,string name, T recipe)
+        public static void RecipeSerialize<T>(string path, string name, T recipe)
         {
-            string FullPath = path + name;
+            string FullPath = $@"{path}\{name}";
             //string path = @"D:\CRUX\DATA\Recipes\Test\Patterns11.xml";
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
 
             var xs = new XmlSerializer(typeof(T));
-            using (var sw = new StreamWriter(path))
+            using (var sw = new StreamWriter(FullPath))
             {
                 var info = recipe;
                 xs.Serialize(sw, info, ns);

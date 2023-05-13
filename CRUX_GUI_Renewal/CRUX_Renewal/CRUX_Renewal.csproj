@@ -457,6 +457,12 @@
     <Compile Include="Ex_Form\Ex_Frm_Optic_Area.Designer.cs">
       <DependentUpon>Ex_Frm_Optic_Area.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Algorithm_Select.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Algorithm_Select.Designer.cs">
+      <DependentUpon>Ex_Frm_Others_Algorithm_Select.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_New_Input.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -618,6 +624,9 @@
     </Content>
     <EmbeddedResource Include="Ex_Form\Notification\Ex_Frm_Notification_Announce.resx">
       <DependentUpon>Ex_Frm_Notification_Announce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Algorithm_Select.resx">
+      <DependentUpon>Ex_Frm_Others_Algorithm_Select.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_New_Input.resx">
       <DependentUpon>Ex_Frm_Others_New_Input.cs</DependentUpon>

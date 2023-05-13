@@ -1,6 +1,7 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.ToolGroup;
+using CRUX_Renewal.Class;
 using CRUX_Renewal.Utils;
 using System;
 using System.Collections;
@@ -29,8 +30,11 @@ namespace CRUX_Renewal.Main_Form
             FormBorderStyle = FormBorderStyle.None;
             Show();
 
-            string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString() + @"Algorithm\").Replace(" ", "");
-            LoadVppFile(AlgorithmPath);
+            foreach(Algorithm_Infomation item in Systems.Algo_Info)
+            {
+                LstB_Algorithm.Items.Add(item.FileName);
+            }
+
             if (LstB_Algorithm.Items.Count > 0)
             {
                 LstB_Algorithm.SelectedItem = LstB_Algorithm.Items[0];
@@ -57,6 +61,7 @@ namespace CRUX_Renewal.Main_Form
         public void LoadVppFile(string path)
         {            
             ArrayList VppList = fileProc.GetFileNames(path, ".vpp");
+
             if (VppList.Count > 0)
             {
                 LstB_Algorithm.Items.AddRange(VppList.ToArray());

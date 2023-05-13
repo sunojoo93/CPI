@@ -691,6 +691,14 @@ namespace CRUX_Renewal.Class
             Func = func;
         }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Algorithm_Infomation
+    {
+        public string Name { get; set; } = null;
+        public string Path { get; set; } = null;
+        public string FileName { get; set; } = null;
+    }
 
     public class ROI_Property_Data
     {

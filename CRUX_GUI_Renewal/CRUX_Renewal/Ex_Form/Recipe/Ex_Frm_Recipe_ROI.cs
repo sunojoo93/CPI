@@ -239,6 +239,10 @@ namespace CRUX_Renewal.Ex_Form
             //if (LstB_ROI.Items.Count > 0)
             //    LstB_ROI.SelectedIndex = 0;
         }
+        public void SaveRecipe()
+        {
+            Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].SavePatterns();
+        }
         public void SaveROIList()
         {
             try
