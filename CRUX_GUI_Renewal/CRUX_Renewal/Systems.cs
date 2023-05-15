@@ -24,7 +24,7 @@ namespace CRUX_Renewal
         public static Inspector Inspector_ = Inspector.Instance();
         public static ServerInterface g_Ipc;
         public static ALIVE_STATE[] AliveList;
-        public static Recipes RecipeContent = Recipes.Instance();
+        //public static Recipes RecipeContent = Recipes.Instance();
         public static IniFile Environment_INI = new IniFile();
         public static List<Algorithm_Infomation> Algo_Info = new List<Algorithm_Infomation>();
         public static List<string> CurrentSelectedRecipe;
@@ -32,14 +32,14 @@ namespace CRUX_Renewal
 
         public static List<PropertyString> CurrentApplyRecipeName;
         public static List<string> CurrentSelectedPtnName;
-        public Recipes GetRecipes()
-        {
-            return RecipeContent;
-        }
-        public void SetRecipes(Recipes data)
-        {
-            RecipeContent = Utility.DeepCopy(data);
-        }
+        //public Recipes GetRecipes()
+        //{
+        //    return RecipeContent;
+        //}
+        //public void SetRecipes(Recipes data)
+        //{
+        //    RecipeContent = Utility.DeepCopy(data);
+        //}
         ////////// Property //////////
         // 시뮬레이션 여부
         public static bool Simulation { get; set; } = true;
@@ -78,6 +78,17 @@ namespace CRUX_Renewal
         {
 
         }
+
+        public static void SetIniEnvironment()
+        {
+            IniFile Default_INI = new IniFile();
+            Default_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
+
+            Globals.MaxVisionCnt = Default_INI["UI_Property"]["VisionTotalCount"].ToInt();
+            Globals.CurrentPCno = Default_INI["UI_Property"]["CurrentUINumber"].ToInt();
+            Globals.MAINFORM_NAME = Default_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
+           
+        }
     }
     // 싱글톤 
     public class Recipes
@@ -91,8 +102,8 @@ namespace CRUX_Renewal
             }
             return Recipes_Object;
         }
-        public List<Recipe> MainRecipe = new List<Recipe>();
-        public List<Recipe> ViewRecipe = new List<Recipe>();
+        public Recipe MainRecipe = new Recipe();
+        public Recipe ViewRecipe = new Recipe();
 
         public static bool SaveLoadType = false;
 

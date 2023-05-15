@@ -353,6 +353,19 @@ namespace CRUX_Renewal
             get { return _value; }
         }
     }
+    public class Obj_Type : System.Attribute
+    {
+        private Type _value { get; set; }
+        public Obj_Type(Type type)
+        {
+            _value = type;
+        }
+        public Type Value
+        {
+            get { return _value; }
+        }
+
+    }
     public static class Enums
     {
        
@@ -405,6 +418,8 @@ namespace CRUX_Renewal
             DO_NOT_FOUND_VPP_FILE = 151,
             [Description("레시피를 찾을 수 없습니다.")]
             DO_NOT_FOUND_RECIPE = 152,
+            [Description("Patterns.xml을 찾을 수 없습니다.")]
+            DO_NOT_FOUND_PATTERN_DATA = 153,
             /// <summary>
             /// 기타 에러 251~400
             /// </summary>

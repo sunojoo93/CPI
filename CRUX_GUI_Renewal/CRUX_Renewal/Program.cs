@@ -70,16 +70,16 @@ namespace CRUX_Renewal
             {
                 Thread.Sleep(10);
             }
-            if(Systems.RecipeContent.MainRecipe != null)
-            {
-                //foreach (Recipe item in Systems.RecipeContent.MainRecipe)
-               //     item.Manager.Shutdown();
-            }
-            if(Systems.RecipeContent.ViewRecipe != null)
-            {
-                //foreach (Recipe item in Systems.RecipeContent.ViewRecipe)
-                //    item.Manager.Shutdown();
-            }
+            //if(Systems.RecipeContent.MainRecipe != null)
+            //{
+            //    //foreach (Recipe item in Systems.RecipeContent.MainRecipe)
+            //   //     item.Manager.Shutdown();
+            //}
+            //if(Systems.RecipeContent.ViewRecipe != null)
+            //{
+            //    //foreach (Recipe item in Systems.RecipeContent.ViewRecipe)
+            //    //    item.Manager.Shutdown();
+            //}
 
             Program.KillAllTask();
             Systems.LogWriter.Info("Process Exit");

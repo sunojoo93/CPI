@@ -102,12 +102,16 @@ namespace CRUX_Renewal
             }
             return default(T);
         }
+        public static void SaveRecipe(Recipe recipe)
+        {
+            RecipeManager.RecipeSerialize($"{ recipe.Path}{recipe.Name}", "Patterns.xml", recipe.Patterns_Data);
+        }
         public static void ReadRecipe(string path, Recipe recipe, string name)
         {
-            string FullPath = $@"{path}Recipes\{name}";
+            string FullPath = $@"{path}{name}";
             ArrayList FileList = fileProc.GetFileNames(FullPath);
             ArrayList FullPathList = fileProc.getFileList(FullPath);
-            recipe.Path = FullPath;
+            recipe.Path = path;
             recipe.Name = name;
             for (int t = 0; t < FullPathList.Count; ++t)
             {
@@ -125,22 +129,22 @@ namespace CRUX_Renewal
    
                                 foreach (IniSection item in Temp.Values)
                                 {
-                                    ROI_Property Prop = new ROI_Property();
-                                    Prop.Name = item["Name"].ToString();
-                                    Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["LineColor"].ToString());
-                                    Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["LineStyle"].ToString());
-                                    Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["SelectedLineStyle"].ToString());
-                                    Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["SelectedColor"].ToString());
-                                    Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["DragLineStyle"].ToString());
-                                    Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["DragLineColor"].ToString());
-                                    Prop.DefaultScale = item["DefaultScale"].ToDouble();
-                                    recipe.ROI_Prop.Add(Prop);
+                                    //ROI_Property Prop = new ROI_Property();
+                                    //Prop.Name = item["Name"].ToString();
+                                    //Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["LineColor"].ToString());
+                                    //Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["LineStyle"].ToString());
+                                    //Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["SelectedLineStyle"].ToString());
+                                    //Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["SelectedColor"].ToString());
+                                    //Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["DragLineStyle"].ToString());
+                                    //Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["DragLineColor"].ToString());
+                                    //Prop.DefaultScale = item["DefaultScale"].ToDouble();
+                                    //recipe.ROI_Prop.Add(Prop);
                                 }
                                 break;
 
                             case "Patterns.xml":
                                 recipe.Patterns_Data = null;
-                                recipe.Patterns_Data = RecipeManager.RecipeDeserialize<Patterns>($@"{path}Recipes\{name}\", "Patterns.xml");
+                                recipe.Patterns_Data = RecipeManager.RecipeDeserialize<Patterns>($@"{FullPath}\", "Patterns.xml");
                                 break;
                         }
                     }
@@ -436,7 +440,7 @@ namespace CRUX_Renewal
             else
                 Checked = CheckState.Unchecked;
 
-            // CogJobConfiguration Config = new CogJobConfiguration(false, Systems.RecipeContent.MainRecipe[Systems.CurDisplayIndex].Manager.Job(0)) { TopLevel = false };
+            // CogJobConfiguration Config = new CogJobConfiguration(false, Recipe.MainRecipe[Systems.CurDisplayIndex].Manager.Job(0)) { TopLevel = false };
             CogJobConfiguration Config = new CogJobConfiguration(false, job) { TopLevel = false };
             var rtn = Utility.GetAllControlsRecursive(Config, "chkNormalRunMode");
 

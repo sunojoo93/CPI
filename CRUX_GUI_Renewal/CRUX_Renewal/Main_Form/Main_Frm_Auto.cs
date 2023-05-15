@@ -14,6 +14,7 @@ namespace CRUX_Renewal.Main_Form
     {
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
+        public Recipes Shared_Recipe;
         public Main_Frm_Auto ()
         {
             InitializeComponent();
@@ -26,6 +27,10 @@ namespace CRUX_Renewal.Main_Form
         {
             CurrentFormName = name;
             CurFormIndex = index;
+        }
+        public void SetRecipe(ref Recipes recipe)
+        {
+            Shared_Recipe = recipe;
         }
     }
 }

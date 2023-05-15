@@ -34,11 +34,15 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.Tlp_Display = new System.Windows.Forms.TableLayoutPanel();
-            this.cogDisplayToolbarV21 = new Cognex.VisionPro.CogDisplayToolbarV2();
             this.cogDisplayStatusBarV21 = new Cognex.VisionPro.CogDisplayStatusBarV2();
-            this.cogDisplay1 = new Cognex.VisionPro.Display.CogDisplay();
+            this.Cog_ROI_Display = new Cognex.VisionPro.Display.CogDisplay();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cogDisplayToolbarV21 = new Cognex.VisionPro.CogDisplayToolbarV2();
+            this.Btn_ImageLoad = new System.Windows.Forms.Button();
             this.Grb_ROI = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.LstB_ROI = new System.Windows.Forms.ListBox();
+            this.Btn_ROIManager = new System.Windows.Forms.Button();
             this.Grb_Algorithm = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.Tlp_Algorithm = new System.Windows.Forms.TableLayoutPanel();
             this.LstB_RegistedAlgorithm = new System.Windows.Forms.ListBox();
@@ -47,8 +51,10 @@
             this.PGE_Params = new PropertyGridExt.PropertyGridEx();
             this.Tlp_Link.SuspendLayout();
             this.Tlp_Display.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
             this.Grb_ROI.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.Grb_Algorithm.SuspendLayout();
             this.Tlp_Algorithm.SuspendLayout();
             this.Grb_Params.SuspendLayout();
@@ -100,17 +106,65 @@
             // 
             this.Tlp_Display.ColumnCount = 1;
             this.Tlp_Display.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Display.Controls.Add(this.cogDisplayToolbarV21, 0, 0);
             this.Tlp_Display.Controls.Add(this.cogDisplayStatusBarV21, 0, 2);
-            this.Tlp_Display.Controls.Add(this.cogDisplay1, 0, 1);
+            this.Tlp_Display.Controls.Add(this.Cog_ROI_Display, 0, 1);
+            this.Tlp_Display.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.Tlp_Display.Location = new System.Drawing.Point(3, 3);
             this.Tlp_Display.Name = "Tlp_Display";
             this.Tlp_Display.RowCount = 3;
-            this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.Tlp_Display.Size = new System.Drawing.Size(630, 574);
             this.Tlp_Display.TabIndex = 9;
+            // 
+            // cogDisplayStatusBarV21
+            // 
+            this.cogDisplayStatusBarV21.CoordinateSpaceName = "*\\#";
+            this.cogDisplayStatusBarV21.CoordinateSpaceName3D = "*\\#";
+            this.cogDisplayStatusBarV21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogDisplayStatusBarV21.Location = new System.Drawing.Point(0, 548);
+            this.cogDisplayStatusBarV21.Margin = new System.Windows.Forms.Padding(0);
+            this.cogDisplayStatusBarV21.Name = "cogDisplayStatusBarV21";
+            this.cogDisplayStatusBarV21.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cogDisplayStatusBarV21.Size = new System.Drawing.Size(630, 26);
+            this.cogDisplayStatusBarV21.TabIndex = 2;
+            this.cogDisplayStatusBarV21.Use3DCoordinateSpaceTree = false;
+            // 
+            // Cog_ROI_Display
+            // 
+            this.Cog_ROI_Display.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.Cog_ROI_Display.ColorMapLowerRoiLimit = 0D;
+            this.Cog_ROI_Display.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.Cog_ROI_Display.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.Cog_ROI_Display.ColorMapUpperRoiLimit = 1D;
+            this.Cog_ROI_Display.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Cog_ROI_Display.DoubleTapZoomCycleLength = 2;
+            this.Cog_ROI_Display.DoubleTapZoomSensitivity = 2.5D;
+            this.Cog_ROI_Display.Location = new System.Drawing.Point(0, 26);
+            this.Cog_ROI_Display.Margin = new System.Windows.Forms.Padding(0);
+            this.Cog_ROI_Display.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.Cog_ROI_Display.MouseWheelSensitivity = 1D;
+            this.Cog_ROI_Display.Name = "Cog_ROI_Display";
+            this.Cog_ROI_Display.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Cog_ROI_Display.OcxState")));
+            this.Cog_ROI_Display.Size = new System.Drawing.Size(630, 522);
+            this.Cog_ROI_Display.TabIndex = 0;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel2.Controls.Add(this.cogDisplayToolbarV21, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.Btn_ImageLoad, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(630, 26);
+            this.tableLayoutPanel2.TabIndex = 3;
             // 
             // cogDisplayToolbarV21
             // 
@@ -118,44 +172,25 @@
             this.cogDisplayToolbarV21.Location = new System.Drawing.Point(0, 0);
             this.cogDisplayToolbarV21.Margin = new System.Windows.Forms.Padding(0);
             this.cogDisplayToolbarV21.Name = "cogDisplayToolbarV21";
-            this.cogDisplayToolbarV21.Size = new System.Drawing.Size(630, 28);
+            this.cogDisplayToolbarV21.Size = new System.Drawing.Size(430, 26);
             this.cogDisplayToolbarV21.TabIndex = 1;
             // 
-            // cogDisplayStatusBarV21
+            // Btn_ImageLoad
             // 
-            this.cogDisplayStatusBarV21.CoordinateSpaceName = "*\\#";
-            this.cogDisplayStatusBarV21.CoordinateSpaceName3D = "*\\#";
-            this.cogDisplayStatusBarV21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cogDisplayStatusBarV21.Location = new System.Drawing.Point(0, 546);
-            this.cogDisplayStatusBarV21.Margin = new System.Windows.Forms.Padding(0);
-            this.cogDisplayStatusBarV21.Name = "cogDisplayStatusBarV21";
-            this.cogDisplayStatusBarV21.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cogDisplayStatusBarV21.Size = new System.Drawing.Size(630, 28);
-            this.cogDisplayStatusBarV21.TabIndex = 2;
-            this.cogDisplayStatusBarV21.Use3DCoordinateSpaceTree = false;
-            // 
-            // cogDisplay1
-            // 
-            this.cogDisplay1.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cogDisplay1.ColorMapLowerRoiLimit = 0D;
-            this.cogDisplay1.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cogDisplay1.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cogDisplay1.ColorMapUpperRoiLimit = 1D;
-            this.cogDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cogDisplay1.DoubleTapZoomCycleLength = 2;
-            this.cogDisplay1.DoubleTapZoomSensitivity = 2.5D;
-            this.cogDisplay1.Location = new System.Drawing.Point(0, 28);
-            this.cogDisplay1.Margin = new System.Windows.Forms.Padding(0);
-            this.cogDisplay1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cogDisplay1.MouseWheelSensitivity = 1D;
-            this.cogDisplay1.Name = "cogDisplay1";
-            this.cogDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogDisplay1.OcxState")));
-            this.cogDisplay1.Size = new System.Drawing.Size(630, 518);
-            this.cogDisplay1.TabIndex = 0;
+            this.Btn_ImageLoad.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_ImageLoad.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_ImageLoad.Location = new System.Drawing.Point(430, 0);
+            this.Btn_ImageLoad.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_ImageLoad.Name = "Btn_ImageLoad";
+            this.Btn_ImageLoad.Size = new System.Drawing.Size(200, 26);
+            this.Btn_ImageLoad.TabIndex = 2;
+            this.Btn_ImageLoad.Text = "ImageLoad";
+            this.Btn_ImageLoad.UseVisualStyleBackColor = true;
+            this.Btn_ImageLoad.Click += new System.EventHandler(this.Btn_ImageLoad_Click);
             // 
             // Grb_ROI
             // 
-            this.Grb_ROI.Controls.Add(this.LstB_ROI);
+            this.Grb_ROI.Controls.Add(this.tableLayoutPanel1);
             this.Grb_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_ROI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Grb_ROI.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -167,20 +202,48 @@
             this.Grb_ROI.TabStop = false;
             this.Grb_ROI.Text = "ROI";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.LstB_ROI, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.Btn_ROIManager, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 20);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(294, 557);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
             // LstB_ROI
             // 
+            this.LstB_ROI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LstB_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LstB_ROI.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstB_ROI.FormattingEnabled = true;
             this.LstB_ROI.ItemHeight = 20;
-            this.LstB_ROI.Location = new System.Drawing.Point(3, 20);
+            this.LstB_ROI.Location = new System.Drawing.Point(0, 0);
             this.LstB_ROI.Margin = new System.Windows.Forms.Padding(0);
             this.LstB_ROI.Name = "LstB_ROI";
             this.LstB_ROI.ScrollAlwaysVisible = true;
-            this.LstB_ROI.Size = new System.Drawing.Size(294, 557);
+            this.LstB_ROI.Size = new System.Drawing.Size(294, 482);
             this.LstB_ROI.TabIndex = 3;
             this.LstB_ROI.SelectedIndexChanged += new System.EventHandler(this.LstB_ROI_SelectedIndexChanged);
             this.LstB_ROI.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstB_ROI_MouseDoubleClick);
+            // 
+            // Btn_ROIManager
+            // 
+            this.Btn_ROIManager.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_ROIManager.Location = new System.Drawing.Point(0, 482);
+            this.Btn_ROIManager.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_ROIManager.Name = "Btn_ROIManager";
+            this.Btn_ROIManager.Size = new System.Drawing.Size(294, 75);
+            this.Btn_ROIManager.TabIndex = 0;
+            this.Btn_ROIManager.Text = "ROI 관리";
+            this.Btn_ROIManager.UseVisualStyleBackColor = true;
+            this.Btn_ROIManager.Click += new System.EventHandler(this.Btn_ROIManager_Click);
             // 
             // Grb_Algorithm
             // 
@@ -209,12 +272,14 @@
             this.Tlp_Algorithm.RowCount = 2;
             this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Algorithm.Size = new System.Drawing.Size(294, 557);
             this.Tlp_Algorithm.TabIndex = 0;
             // 
             // LstB_RegistedAlgorithm
             // 
             this.LstB_RegistedAlgorithm.AllowDrop = true;
+            this.LstB_RegistedAlgorithm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LstB_RegistedAlgorithm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LstB_RegistedAlgorithm.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstB_RegistedAlgorithm.FormattingEnabled = true;
@@ -266,8 +331,8 @@
             this.PGE_Params.DocCommentDescription.AutoEllipsis = true;
             this.PGE_Params.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
             this.PGE_Params.DocCommentDescription.Location = new System.Drawing.Point(3, 22);
-            this.PGE_Params.DocCommentDescription.Margin = new System.Windows.Forms.Padding(5776, 0, 5776, 0);
-            this.PGE_Params.DocCommentDescription.Name = "";
+            this.PGE_Params.DocCommentDescription.Margin = new System.Windows.Forms.Padding(5066972, 0, 5066972, 0);
+            this.PGE_Params.DocCommentDescription.Name = "공백을 포함할 수 없습니다.";
             this.PGE_Params.DocCommentDescription.Size = new System.Drawing.Size(284, 33);
             this.PGE_Params.DocCommentDescription.TabIndex = 1;
             this.PGE_Params.DocCommentImage = null;
@@ -277,8 +342,8 @@
             this.PGE_Params.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
             this.PGE_Params.DocCommentTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
             this.PGE_Params.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
-            this.PGE_Params.DocCommentTitle.Margin = new System.Windows.Forms.Padding(5776, 0, 5776, 0);
-            this.PGE_Params.DocCommentTitle.Name = "";
+            this.PGE_Params.DocCommentTitle.Margin = new System.Windows.Forms.Padding(5066972, 0, 5066972, 0);
+            this.PGE_Params.DocCommentTitle.Name = "공백을 포함할 수 없습니다.";
             this.PGE_Params.DocCommentTitle.Size = new System.Drawing.Size(284, 19);
             this.PGE_Params.DocCommentTitle.TabIndex = 0;
             this.PGE_Params.DocCommentTitle.UseMnemonic = false;
@@ -306,12 +371,17 @@
             this.PGE_Params.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.PGE_Params.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PGE_Params.ToolStrip.Name = "";
-            this.PGE_Params.ToolStrip.Padding = new System.Windows.Forms.Padding(4043, 0, 1, 0);
+            this.PGE_Params.ToolStrip.Padding = new System.Windows.Forms.Padding(3546880, 0, 1, 0);
             this.PGE_Params.ToolStrip.Size = new System.Drawing.Size(0, 0);
             this.PGE_Params.ToolStrip.TabIndex = 1;
             this.PGE_Params.ToolStrip.TabStop = true;
             this.PGE_Params.ToolStrip.Text = "PropertyGridToolBar";
             this.PGE_Params.ToolStrip.Visible = false;
+            this.PGE_Params.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PGE_Params_PropertyValueChanged);
+            this.PGE_Params.SelectedGridItemChanged += new System.Windows.Forms.SelectedGridItemChangedEventHandler(this.PGE_Params_SelectedGridItemChanged);
+            this.PGE_Params.SelectedObjectsChanged += new System.EventHandler(this.PGE_Params_SelectedObjectsChanged);
+            this.PGE_Params.Leave += new System.EventHandler(this.Tlp_ROI_Leave);
+            this.PGE_Params.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PGE_Params_PreviewKeyDown);
             // 
             // Ex_Frm_Recipe_Link
             // 
@@ -322,12 +392,15 @@
             this.Controls.Add(this.Tlp_Link);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Name = "Ex_Frm_Recipe_Link";
             this.Text = "Ex_Frm_AccountManage";
             this.Tlp_Link.ResumeLayout(false);
             this.Tlp_Display.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cogDisplay1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.Grb_ROI.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.Grb_Algorithm.ResumeLayout(false);
             this.Tlp_Algorithm.ResumeLayout(false);
             this.Grb_Params.ResumeLayout(false);
@@ -344,7 +417,7 @@
         private User_Controls.CenterAlignedGroupBox Grb_ROI;
         private System.Windows.Forms.ListBox LstB_ROI;
         private System.Windows.Forms.TableLayoutPanel Tlp_Display;
-        private Cognex.VisionPro.Display.CogDisplay cogDisplay1;
+        private Cognex.VisionPro.Display.CogDisplay Cog_ROI_Display;
         private Cognex.VisionPro.CogDisplayToolbarV2 cogDisplayToolbarV21;
         private Cognex.VisionPro.CogDisplayStatusBarV2 cogDisplayStatusBarV21;
         private PropertyGridExt.PropertyGridEx PGE_Params;
@@ -352,5 +425,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TableLayoutPanel Tlp_Algorithm;
         private System.Windows.Forms.Button Btn_AlgorithmManage;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button Btn_ROIManager;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button Btn_ImageLoad;
     }
 }

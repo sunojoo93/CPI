@@ -24,6 +24,7 @@ namespace CRUX_Renewal.Main_Form
     {
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
+        public Recipes Shared_Recipe;
         Point StartPos;
         Point EndPos;
         PointDouble pd1;
@@ -33,6 +34,10 @@ namespace CRUX_Renewal.Main_Form
         {
             CurrentFormName = name;
             CurFormIndex = index;
+        }
+        public void SetRecipe(ref Recipes recipe)
+        {
+            Shared_Recipe = recipe;
         }
         public Main_Frm_Manual ()
         {

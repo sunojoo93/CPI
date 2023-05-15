@@ -255,7 +255,7 @@ namespace CRUX_Renewal.Class
         public Optical_Light Light = new Optical_Light();
         //public Dictionary<string, List<ROI_Data>> ROI_List;
         public Patterns Patterns_Data = new Patterns();
-        public List<ROI_Property> ROI_Prop = new List<ROI_Property>();
+        //public List<ROI_Property> ROI_Prop = new List<ROI_Property>();
 
         public void SaveROI_Property()
         {
@@ -361,11 +361,11 @@ namespace CRUX_Renewal.Class
         {
 
         }
-        public void SetRecipeData(string path, string name)
-        {
-            Recipe Temp = Systems.RecipeContent.MainRecipe[Systems.CurDisplayIndex];
-            //RecipeManager.RecipeDeserialize(path, name);
-        }
+        //public void SetRecipeData(string path, string name)
+        //{
+        //    Recipe Temp = Systems.RecipeContent.MainRecipe[Systems.CurDisplayIndex];
+        //    //RecipeManager.RecipeDeserialize(path, name);
+        //}
         #region IDisposable Support
         private bool disposedValue = false; // 중복 호출을 검색하려면
 
@@ -742,6 +742,8 @@ namespace CRUX_Renewal.Class
         public string Name { get; set; }
         [XmlElement("Coordinate")]
         public Coordinate Coord { get; set; }
+        [XmlElement("Property")]
+        public ROI_PropertyData ROI_Property { get; set; }
         [XmlArray("Algorithms")]
         [XmlArrayItem("Algorithm")]
         public List<Algorithm> Algo_List { get; set; }
@@ -752,16 +754,160 @@ namespace CRUX_Renewal.Class
     {
         [XmlElement("X")]
         //[XmlAttribute("Name")]
-        public string X { get; set; }
+        public double X { get; set; }
         [XmlElement("Y")]
         //[XmlAttribute("Name")]
-        public string Y { get; set; }
+        public double Y { get; set; }
         [XmlElement("Width")]
        // [XmlAttribute("Name")]
-        public string Width { get; set; }
+        public double Width { get; set; }
         [XmlElement("Height")]
         //[XmlAttribute("Name")]
-        public string Height { get; set; }
+        public double Height { get; set; }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class ROI_PropertyData
+    {
+        //[Obj_Type(typeof(CogGraphicLineStyleConstants))]
+        [Description("Line Style을 설정합니다.")]
+        [XmlElement("LineStyle")]
+        public string LineStyle { get; set; } = "0";
+        //[Obj_Type(typeof(CogColorConstants))]
+        [Description("Line Color를 설정합니다.")]
+        [XmlElement("LineColor")]
+        public string LineColor { get; set; } = "33023";
+        //[Obj_Type(typeof(CogColorConstants))]
+        [Description("Drag할 때 그려지는 GuideLine의 Color입니다.")]
+        [XmlElement("DragLineColor")]
+        public string DragLineColor { get; set; } = "16711680";
+        //[Obj_Type(typeof(CogGraphicLineStyleConstants))]
+        [Description("Drag할 때 그려지는 GuideLine의 Style입니다.")]
+        [XmlElement("DragLineStyle")]
+        public string DragLineStyle { get; set; } = "0";
+        //[Obj_Type(typeof(CogColorConstants))]
+        [Description("선택된 Line의 Style입니다.")]
+        [XmlElement("SelectedLineColor")]
+        public string SelectedLineColor { get; set; } = "65280";
+        //[Obj_Type(typeof(CogGraphicLineStyleConstants))]
+        [Description("선택된 Line의 Style입니다.")]
+        [XmlElement("SelectedLineStyle")]
+        public string SelectedLineStyle { get; set; } = "0";
+        [Description("ROI 생성 시 기본 배율입니다.")]
+        [XmlElement("DefaultScale")]
+        public double DefaultScale { get; set; } = 0.8;
+ 
+
+        //[Description("Line Style을 설정합니다.")]
+        //[DefaultValue(CogGraphicLineStyleConstants.Solid)]
+        //public CogGraphicLineStyleConstants LineStyle
+        //{
+        //    get
+        //    {
+        //        return CRUX_Renewal.EnumUtil<CogGraphicLineStyleConstants>.Parse(_LineStyle);
+        //    }
+        //    set
+        //    {
+        //        CogGraphicLineStyleConstants Temp = value;             
+        //        _LineStyle = Temp.ToString();
+        //    }
+        //}
+        //[Description("Line Color를 설정합니다.")]
+        //[DefaultValue(CogColorConstants.Red)]
+        ////[Editor(typeof(ColorEditor), typeof(ColorValuesConverter))]
+        //public CogColorConstants LineColor
+        //{
+        //    get
+        //    {
+        //        return CRUX_Renewal.EnumUtil<CogColorConstants>.Parse(_LineColor);
+        //    }
+        //    set
+        //    {
+        //        CogColorConstants Temp = value;
+        //        _LineColor = Temp.ToString();
+        //    }
+        //}
+        //[Description("ROI 생성 시 기본 배율입니다.")]
+        //[DefaultValue(0.8)]
+        //public double DefaultScale
+        //{
+        //    get
+        //    {
+        //        return _DefaultScale;
+        //    }
+        //    set
+        //    {
+        //        _DefaultScale = value;
+        //    }
+        //}
+        //[Description("Drag할 때 그려지는 GuideLine의 Color입니다.")]
+        //[DefaultValue(CogColorConstants.Red)]
+        //public CogColorConstants DragLineColor
+        //{
+        //    get
+        //    {
+        //        return CRUX_Renewal.EnumUtil<CogColorConstants>.Parse(_DragLineColor);
+        //    }
+        //    set
+        //    {
+        //        CogColorConstants Temp = value;
+        //        _DragLineColor = Temp.ToString();
+        //    }
+        //}
+        //[Description("Drag할 때 그려지는 GuideLine의 Style입니다.")]
+        //[DefaultValue(CogGraphicLineStyleConstants.Solid)]
+        //public CogGraphicLineStyleConstants DragLineStyle
+        //{
+        //    get
+        //    {
+        //        return CRUX_Renewal.EnumUtil<CogGraphicLineStyleConstants>.Parse(_DragLineStyle);
+        //    }
+        //    set
+        //    {
+        //        CogGraphicLineStyleConstants Temp = value;
+        //        _DragLineStyle = Temp.ToString();
+        //    }
+        //}
+        //[Description("선택된 Line의 Style입니다.")]
+        //[DefaultValue(CogGraphicLineStyleConstants.Solid)]
+        //public CogGraphicLineStyleConstants SelectedLineStyle
+        //{
+        //    get
+        //    {
+        //        return CRUX_Renewal.EnumUtil<CogGraphicLineStyleConstants>.Parse(_SelectedLineStyle);
+        //    }
+        //    set
+        //    {
+        //        CogGraphicLineStyleConstants Temp = value;
+        //        _SelectedLineStyle = Temp.ToString();
+        //    }
+        //}
+        //[Description("선택된 Line의 Color입니다.")]
+        //[DefaultValue(CogColorConstants.Red)]
+        //public CogColorConstants SelectedLineColor
+        //{
+        //    get
+        //    {
+        //        return CRUX_Renewal.EnumUtil<CogColorConstants>.Parse(_SelectedLineColor);
+        //    }
+        //    set
+        //    {
+        //        CogColorConstants Temp = value;
+        //        _SelectedLineColor = Temp.ToString();
+        //    }
+        //}
+        //[Description("설명입니다.")]
+        //public string Description
+        //{
+        //    get
+        //    {
+        //        return _Description;
+        //    }
+        //    set
+        //    {
+        //        _Description = value;
+        //    }
+        //}
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

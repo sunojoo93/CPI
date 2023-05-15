@@ -21,6 +21,7 @@ namespace CRUX_Renewal.Main_Form
 {
     public partial class Frm_Init : Form
     {
+        List<Recipes> RecipeList = new List<Recipes>();
         Thread thread;
         public bool Finished { get; set; } = false; 
         public Frm_Init ()
@@ -38,7 +39,10 @@ namespace CRUX_Renewal.Main_Form
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start(this); 
         }
-
+        public List<Recipes> GetLoadedRecipe()
+        {
+            return RecipeList.Count > 0 ? RecipeList : null;
+        }
         private void CreateINIObject()
         {
             //Systems.Environment_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
@@ -252,18 +256,13 @@ namespace CRUX_Renewal.Main_Form
             Modes.NET_SIMULATION_MODE = Convert.ToBoolean(iniUtl.GetIniValue("Common", "SIMULATION Mode", Paths.INIT_PATH));
 
             //Globals.LIGHT_CHANNEL = iniUtl.GetIniValue("Light Controller", "Max Channel Count", Paths.INIT_DEVICE_PATH).toInt();
-           // StringBuilder sb = new StringBuilder();
+            // StringBuilder sb = new StringBuilder();
             //iniUtl.GetPrivateProfileString("DiskInformation", "Last Used Drive", @"E:\", sb, 10, Paths.INIT_PATH);
             //Globals.CurrentDrive = sb.ToString();
             //Globals.DriveLimitSize = iniUtl.GetIniValue("DiskInformation", "DriveLimitSize", Paths.INIT_PATH).toInt();
 
             //Globals.Insp_Type = iniUtl.GetIniValue("Common", "TYPE", Paths.INIT_PATH).toInt();
-            IniFile Default_INI = new IniFile();
-            Default_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
-
-            Globals.MaxVisionCnt = Default_INI["UI_Property"]["VisionTotalCount"].ToInt();
-            Globals.CurrentPCno = Default_INI["UI_Property"]["CurrentUINumber"].ToInt();
-            Globals.MAINFORM_NAME = Default_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
+            Systems.SetIniEnvironment();
 
             //Globals.DrawRctColor = new Color[5]; // ROI 색은 5개까지
             //for(int i = 0; i < Globals.DrawRctColor.Count(); i++)
@@ -320,7 +319,7 @@ namespace CRUX_Renewal.Main_Form
 
                 Systems.AliveList[i].init();
 
-                string AlgorithmPath = Default_INI[$@"PC{i+1}_AlgorithmPath"]["Path"].ToString();
+                string AlgorithmPath = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i+1}_AlgorithmPath"]["Path"].ToString();
                 ArrayList FileList = fileProc.getFileList(AlgorithmPath, ".vpp");
                 foreach(string item in FileList)
                 {
@@ -335,6 +334,8 @@ namespace CRUX_Renewal.Main_Form
                     Systems.Algo_Info.Add(Info);
                 }
             }
+
+
 
             Globals.nLanguageFlg = iniUtl.GetIniValue("common", "Language", Paths.INIT_PATH).toInt();
 
@@ -356,8 +357,8 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
-                Systems.RecipeContent.MainRecipe = new List<Recipe>();
-                Systems.RecipeContent.ViewRecipe = new List<Recipe>();
+                //Systems.RecipeContent.MainRecipe = new List<Recipe>();
+                //Systems.RecipeContent.ViewRecipe = new List<Recipe>();
                 Systems.CurrentApplyRecipeName = new List<PropertyString>();
                 Systems.CurrentSelectedPtnName = new List<string>();
                 Systems.CurrentSelectedRecipe = new List<string>();
@@ -370,18 +371,20 @@ namespace CRUX_Renewal.Main_Form
                     })));
                     Systems.CurrentSelectedPtnName.Add("");
                     Systems.RecipeData_Collection.Add(new Dictionary<string, IniFile>());
-                    Systems.RecipeContent.MainRecipe.Add(new Recipe());
-                    Systems.RecipeContent.ViewRecipe.Add(new Recipe());
+                    //Systems.RecipeContent.MainRecipe.Add(new Recipe());
+                    //Systems.RecipeContent.ViewRecipe.Add(new Recipe());
                     Systems.CurrentSelectedRecipe.Add("");
                     string RecipeName = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipeName"].ToString().Replace(" ", "");
                     string Path = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
                     ArrayList FileList = fileProc.getFileList($@"{Paths.RECIPE_PATH_RENEWAL}{RecipeName}");
 
-                    //Systems.RecipeContent.ReadRecipe(Path, Systems.RecipeContent.MainRecipe[i], FileList[0].ToString(), RecipeName);
-                    RecipeManager.ReadRecipe(Path, Systems.RecipeContent.MainRecipe[i], RecipeName);
+                    //Program.Frm_MainContent_[i].SetRecipe().ReadRecipe(Path, Systems.RecipeContent.MainRecipe[i], FileList[0].ToString(), RecipeName);
+                    RecipeList.Add(new Recipes());
+                    RecipeManager.ReadRecipe(Path, RecipeList[i].MainRecipe, RecipeName);
                     Systems.CurrentApplyRecipeName[i].SetString(RecipeName);
+                    RecipeList[i].ViewRecipe = Utility.DeepCopy(RecipeList[i].MainRecipe);
      
-                    Systems.RecipeContent.ViewRecipe[i] = Utility.DeepCopy(Systems.RecipeContent.MainRecipe[i]);
+                    //Systems.RecipeContent.ViewRecipe[i] = Utility.DeepCopy(Systems.RecipeContent.MainRecipe[i]);
                 }
             }
             catch (Exception ex)

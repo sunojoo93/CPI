@@ -21,7 +21,7 @@ namespace CRUX_Renewal
         public string CurrentFormName = string.Empty;
         public int CurFormIndex = 0;
         bool LoadingComplete = false;
-
+        public Recipes Recipe;
         // 메뉴 바 폼
         public Ex_Frm_Menubar Frm_MenuBar;
 
@@ -39,6 +39,23 @@ namespace CRUX_Renewal
             InitializeComponent();
             Initialize();
         }
+        public Recipes GetRecipe()
+        {
+            return Recipe;
+        }
+        public void SetRecipe(Recipes recipe)
+        {
+            Recipe = recipe;
+        }
+        public void LinkRecipe(ref Recipes recipe)
+        {
+            Frm_Auto.SetRecipe(ref recipe);
+            Frm_Manual.SetRecipe(ref recipe);
+            Frm_Recipe.SetRecipe(ref recipe);
+            Frm_Optical.SetRecipe(ref recipe);
+            Frm_Algorithm.SetRecipe(ref Recipe);
+            Frm_Recipe.RefeshRecipe();
+        }
         public void Initialize()
         {
             this.Dock = DockStyle.Fill;
@@ -48,18 +65,23 @@ namespace CRUX_Renewal
            //     Systems.CurrentSelectedPtnName[CurFormIndex] = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).Name;
             Frm_Auto = new Main_Frm_Auto() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Auto.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            //Frm_Auto.SetRecipe(ref Recipe);
 
             Frm_Manual = new Main_Frm_Manual() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Manual.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            Frm_Manual.SetRecipe(ref Recipe);
 
             Frm_Recipe = new Main_Frm_Recipe() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Recipe.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            //Frm_Recipe.SetRecipe(ref Recipe);
 
             Frm_Optical = new Main_Frm_Optical() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Optical.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            //Frm_Optical.SetRecipe(ref Recipe);
 
             Frm_Algorithm = new Main_Frm_Algorithm() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Algorithm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            //Frm_Algorithm.SetRecipe(ref Recipe);
 
             Tlp_Main.Controls.Add(Frm_MenuBar, 0, 1);
             Tlp_Main.Controls.Add(Frm_Auto, 0, 0);

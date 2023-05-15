@@ -42,10 +42,16 @@ namespace CRUX_Renewal
         {
             InitializeComponent();
 
+            Systems.SetIniEnvironment();
+  
             Frm_Init Init = new Frm_Init();
             Init.ShowDialog();
-
-            InitMainForm();
+            List<Recipes> Temp = Init.GetLoadedRecipe();
+            if(Temp.Count <= 0)
+            {
+                return;
+            }
+            InitMainForm(Temp);
 
             Frm_Status = new Ex_Frm_Status();
             Frm_AccountManage = new Ex_Frm_Account_Info();
@@ -58,7 +64,7 @@ namespace CRUX_Renewal
    
             //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
         }
-        public void InitMainForm()
+        public void InitMainForm(List<Recipes> recipe)
         {
             if (Program.Frm_MainContent_ == null)
                 Program.Frm_MainContent_ = new List<Frm_MainContent>();
@@ -66,14 +72,12 @@ namespace CRUX_Renewal
             for (int i = 0; i < Globals.MaxVisionCnt; ++i)
             {
                 Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i], CurFormIndex = i});
+                Recipes Temp = recipe[i];
+                Program.Frm_MainContent_[i].LinkRecipe(ref Temp);
                 Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
             }
 
             SetForm(Program.Frm_MainContent_[0]);
-
-            //Program.Frm_Main.CurDisplayForm = Program.Frm_MainContent_[0].Name;
-            //Program.Frm_MainContent_[0].Show();
-            //
         }
         public void SetForm(Frm_MainContent form)
         {

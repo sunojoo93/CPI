@@ -90,7 +90,15 @@ namespace CRUX_Renewal.Ex_Form
             if (SelectedItem == null || SelectedItem == "")
                 return;
 
-            Algorithm Algo = new Algorithm() { Name = SelectedItem, Param = new List<Param>(), Use = "false", Path ="Path" };
+            Algorithm_Infomation AlgoInfo = Systems.Algo_Info?.Find(x => x.Name == SelectedItem);
+            if(AlgoInfo == null)
+            {
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "선택하신 알고리즘이 존재하지 않습니다.");
+                Noti.ShowDialog();
+                return;
+            }
+            
+            Algorithm Algo = new Algorithm() { Name = SelectedItem, Param = new List<Param>(), Use = "false", Path = AlgoInfo.Path };
             CurrentAlgoList_Temp.Add(Algo);
             UpdateDisplay();
         }
@@ -123,6 +131,21 @@ namespace CRUX_Renewal.Ex_Form
         {
             DialogResult = DialogResult.OK;
             CurrentAlgoList = Utility.DeepCopy(CurrentAlgoList_Temp);
+        }
+
+        private void Lb_Title_MouseDown(object sender, MouseEventArgs e)
+        {
+            CurWindowPosition = new Point(e.X, e.Y);
+        }
+
+        private void Lb_Title_MouseMove(object sender, MouseEventArgs e)
+        {
+            {
+                if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+                {
+                    this.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
+                }
+            }
         }
     }
 }

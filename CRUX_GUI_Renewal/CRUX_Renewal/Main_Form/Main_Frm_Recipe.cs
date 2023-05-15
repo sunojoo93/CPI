@@ -20,8 +20,9 @@ namespace CRUX_Renewal.Main_Form
     {
         public string CurrentFormName = string.Empty;
         public int CurFormIndex = 0;
+        public Recipes Shared_Recipe;
         //public Recipe MainRecipe = new Recipe();
-        public Ex_Frm_Recipe_ROI Frm_ROI { get; set; } = null;
+        //public Ex_Frm_Recipe_ROI Frm_ROI { get; set; } = null;
         public Ex_Frm_Recipe_Link Frm_Link { get; set; } = null;
         public void LoadVpp(string path)
         {
@@ -34,6 +35,11 @@ namespace CRUX_Renewal.Main_Form
             CurrentFormName = name;
             CurFormIndex = index;
         }
+        public void SetRecipe(ref Recipes recipe)
+        {
+            Shared_Recipe = recipe;
+            Frm_Link.SetRecipe(ref Shared_Recipe);
+        }
         public Main_Frm_Recipe()
         {
             InitializeComponent();
@@ -44,20 +50,13 @@ namespace CRUX_Renewal.Main_Form
             Show();
 
 
-            List<string> PatternNames = new List<string>();
+            SetRecipeList();
 
-            foreach (Pattern item in Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Patterns_Data.Pattern)
-            {
-                PatternNames.Add(item.Name);
-            }
-            SetRecipeList(Systems.CurrentApplyRecipeName[CurFormIndex].GetString());
-            SetJobListBox(PatternNames);
-
-            Frm_ROI = Frm_ROI ?? new Ex_Frm_Recipe_ROI() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
-            Frm_ROI.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
-            tab_roi.Controls.Add(Frm_ROI);
-            Frm_ROI.Dock = DockStyle.Fill;
-            Frm_ROI.Show();
+            //Frm_ROI = Frm_ROI ?? new Ex_Frm_Recipe_ROI() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            //Frm_ROI.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            //tab_roi.Controls.Add(Frm_ROI);
+            //Frm_ROI.Dock = DockStyle.Fill;
+            //Frm_ROI.Show();
 
             Frm_Link = Frm_Link ?? new Ex_Frm_Recipe_Link() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Link.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
@@ -67,9 +66,23 @@ namespace CRUX_Renewal.Main_Form
 
 
 
-            DisplayJob();
-            InitializeROIData();
+            //DisplayJob();
+            //InitializeROIData();
 
+        }
+        public void RefeshRecipe()
+        {
+            List<string> PatternNames = new List<string>();
+            //List<string> RecipeNames = new List<string>();
+            foreach (Pattern item in Shared_Recipe.ViewRecipe.Patterns_Data.Pattern)
+            {
+                PatternNames.Add(item.Name);
+            }
+            
+            SetRecipeList(Systems.CurrentSelectedRecipe[CurFormIndex]);
+            SetJobListBox(PatternNames);
+
+            Frm_Link.InitializeLinkTab();
         }
         private void InitializeROIData()
         {
@@ -165,7 +178,7 @@ namespace CRUX_Renewal.Main_Form
         public void SetRecipeList(string recipe)
         {            
             LstBoxRecipeList.Items.Clear();
-            ArrayList RecipeList = FindRecipeList(((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString() + @"Recipes\").Replace(" ", ""));
+            ArrayList RecipeList = FindRecipeList(((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString()).Replace(" ", ""));
             LstBoxRecipeList.Items.AddRange(RecipeList.ToArray());
             if (LstBoxRecipeList.Items.Count > 0)
             {
@@ -178,7 +191,32 @@ namespace CRUX_Renewal.Main_Form
                         return;
                     }
                 }
-                LstBoxRecipeList.SelectedItem = LstBoxRecipeList.Items[0];
+                //LstBoxRecipeList.SelectedItem = LstBoxRecipeList.Items[0];
+            }
+            else
+            {
+                // 레시피가 존재하지 않음
+            }
+
+        }
+        public void SetRecipeList()
+        {
+            LstBoxRecipeList.Items.Clear();
+            ArrayList RecipeList = FindRecipeList(((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString()).Replace(" ", ""));
+            string LastRecipeName = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipeName"].ToString()).Replace(" ", "");
+            LstBoxRecipeList.Items.AddRange(RecipeList.ToArray());
+            if (LstBoxRecipeList.Items.Count > 0)
+            {
+                if (RecipeList.IndexOf(LastRecipeName) >= 0)
+                {
+                    LstBoxRecipeList.SelectedItem = LastRecipeName;
+                    Systems.CurrentSelectedRecipe[CurFormIndex] = LstBoxRecipeList.SelectedItem as string;
+                }
+                else
+                {
+                    LstBoxRecipeList.SelectedItem = LstBoxRecipeList.Items[0];
+                    Systems.CurrentSelectedRecipe[CurFormIndex] = LstBoxRecipeList.SelectedItem as string;
+                }
             }
             else
             {
@@ -223,12 +261,13 @@ namespace CRUX_Renewal.Main_Form
 
         private void Btn_Save_Click(object sender, System.EventArgs e)
         {
-            
-            
-            Frm_ROI.SaveROIData();
-            string RecipePath = Systems.RecipeContent.ViewRecipe[CurFormIndex].Path;
-            string RecipeName = Systems.RecipeContent.ViewRecipe[CurFormIndex].Name;
-            RecipeManager.RecipeSerialize(RecipePath, "Patterns.xml",Systems.RecipeContent.ViewRecipe[CurFormIndex].Patterns_Data);
+
+
+            //SaveROIData();
+            string RecipePath = Shared_Recipe.ViewRecipe.Path;
+            string RecipeName = Shared_Recipe.ViewRecipe.Name;
+            RecipeManager.SaveRecipe(Shared_Recipe.ViewRecipe);
+            RecipeManager.RecipeSerialize(RecipePath, "Patterns.xml", Shared_Recipe.ViewRecipe.Patterns_Data);
             //CogSerializer.SaveObjectToFile(Systems.RecipeContent.ViewRecipe[CurFormIndex].Manager, $@"{RecipePath}Recipes\{RecipeName}\{RecipeName}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
             Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
@@ -239,18 +278,19 @@ namespace CRUX_Renewal.Main_Form
         {
             Systems.CurrentApplyRecipeName[CurFormIndex].SetString(Systems.CurrentSelectedRecipe[CurFormIndex]);
 
-            Systems.RecipeContent.MainRecipe = Utility.DeepCopy(Systems.RecipeContent.ViewRecipe);
-            Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"][$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"] = Systems.RecipeContent.MainRecipe[CurFormIndex].Path;
-            Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"][$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipeName"] = Systems.RecipeContent.MainRecipe[CurFormIndex].Name;
-
+            Shared_Recipe.MainRecipe = Utility.DeepCopy(Shared_Recipe.ViewRecipe);
+            Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"][$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"] = Shared_Recipe.MainRecipe.Path;
+            Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"][$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipeName"] = Shared_Recipe.MainRecipe.Name;
+            Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
+            Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
             Btn_Save.PerformClick();
         }
 
         private void Btn_Revert_Click(object sender, EventArgs e)
         {
-            Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
+            Shared_Recipe.ViewRecipe = Utility.DeepCopy(Shared_Recipe.MainRecipe);
             DisplayJob();
-            Frm_ROI.RefeshRoiDataView();
+            //Frm_ROI.RefeshRoiDataView();
         }
 
         private void Main_Frm_Recipe_Shown(object sender, EventArgs e)
@@ -278,7 +318,7 @@ namespace CRUX_Renewal.Main_Form
             string SelPattern = LstBoxPtnList.SelectedItem?.ToString();
             //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
             Systems.CurrentSelectedPtnName[CurFormIndex] = SelPattern;
-            Patterns CurRecipe = Systems.RecipeContent.ViewRecipe[Systems.CurDisplayIndex].Patterns_Data;
+            Patterns CurRecipe = Shared_Recipe.ViewRecipe.Patterns_Data;
 
             Frm_Link.UpdateROI();
             Frm_Link.UpdateAlgorithm();
@@ -301,34 +341,41 @@ namespace CRUX_Renewal.Main_Form
                     //Ex_Frm_Others_Loading Loading = new Ex_Frm_Others_Loading() { Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (Width)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (Height))) };
                     //Loading.Show();
                     Utility.LoadingStart();
-                    string SelectedRecipe = $"{(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString()+@"Recipes\".Replace(" ", "")}{Temp[Temp.Length - 1]}";
-                    ArrayList Rcp = fileProc.getFileList(SelectedRecipe, ".vpp");
+                    string SelectedRecipe = $"{(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "")}{Temp[Temp.Length - 1]}";
+                    bool FileExist = fileProc.FileExists($@"{SelectedRecipe}\Patterns.xml");
+                    ArrayList PatternData = fileProc.getFileList($@"{SelectedRecipe}","","Patterns.xml");
 
-                    if (Rcp.Count >= 1)
+                    if (PatternData.Count > 0)
                     {
                         string RecipeName = Temp[Temp.Length - 1];
-                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
+                        if (PatternData == null && PatternData?.Count < 1)
+                            throw new Exception(Enums.ErrorCode.DO_NOT_FOUND_PATTERN_DATA.DescriptionAttr());
+                        //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
                         //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.LstBoxRecipeList.Items.Clear();
-                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.LstBoxPtnList.Items.Clear();
+                        LstBoxPtnList.Items.Clear();
 
-                        if (Rcp == null && Rcp?.Count < 1)
-                            throw new Exception(Enums.ErrorCode.DO_NOT_FOUND_VPP_FILE.DescriptionAttr());
 
-                        Frm_ROI.ClearRecipeROI();
+
+                        //Frm_ROI.ClearRecipeROI();
                         string RecipePath = (Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
 
-                        Systems.RecipeContent.ReadRecipe(RecipePath, Systems.RecipeContent.ViewRecipe[CurFormIndex],Rcp[0]?.ToString(), RecipeName);
+                        RecipeManager.ReadRecipe(RecipePath, Shared_Recipe.ViewRecipe, RecipeName);
+                        //Shared_Recipe.ReadRecipe(RecipePath, Shared_Recipe.ViewRecipe,Rcp[0]?.ToString(), RecipeName);
 
-                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
+                        //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
                         //Systems.CurrentApplyRecipeName[CurFormIndex] = Temp[Temp.Length - 1]?.ToString();
                         //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
-                        InitializeROIData();
-                        Frm_ROI.RefeshRoiDataView();
+                        //InitializeROIData();
+                        // Frm_ROI.RefeshRoiDataView();
                         //Systems.CurrentApplyRecipeName[CurFormIndex].SetString(RecipeName);
                         //SetRecipeList(Systems.CurrentApplyRecipeName[CurFormIndex].GetString());
                         //SetJobListBox(Cognex_Helper.GetJobList<List<string>>(Systems.RecipeContent.MainRecipe[CurFormIndex].Manager));
+                  
                         Systems.CurrentSelectedRecipe[CurFormIndex] = RecipeName;
+                        RefeshRecipe();
+                        //LstBoxRecipeList.SelectedItem = RecipeName;
                         Utility.LoadingStop();
+
                     }
                 }
                 else
@@ -489,7 +536,7 @@ namespace CRUX_Renewal.Main_Form
                 //    m1.Enabled = false;
                 m0.Click += (senders, ex) =>
                 {
-                    CogJob Temp = Cognex_Helper.CreateNewJob(Systems.RecipeContent.MainRecipe[CurFormIndex]);
+                    CogJob Temp = Cognex_Helper.CreateNewJob(Shared_Recipe.MainRecipe);
                     //Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.JobAdd(Temp);
                     //SetJobListBox(Cognex_Helper.GetJobList<List<string>>(Systems.RecipeContent.MainRecipe[CurFormIndex].Manager));
                     Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(LstBoxPtnList.Items.Count - 1);

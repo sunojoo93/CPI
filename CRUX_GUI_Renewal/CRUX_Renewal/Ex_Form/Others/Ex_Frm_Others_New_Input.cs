@@ -130,8 +130,7 @@ namespace CRUX_Renewal.Ex_Form
                 {
                     for (int i = 0; i < Items.Count; ++i)
                     {
-                        if (Items[i].Group.Name == Category)
-                        {
+
                             if (Items[i].Text == Tb_AfterName.Text)
                             {
                                 Tb_AfterName.BackColor = Color.Pink;
@@ -145,13 +144,7 @@ namespace CRUX_Renewal.Ex_Form
                                 Lb_Memo.Text = "생성할 수 있습니다.";
                                 State = true;
                             }
-                        }
-                        else
-                        {
-                            Tb_AfterName.BackColor = Color.LightGreen;
-                            Lb_Memo.Text = "생성할 수 있습니다.";
-                            State = true;
-                        }
+                       
                     }
                 }
             }

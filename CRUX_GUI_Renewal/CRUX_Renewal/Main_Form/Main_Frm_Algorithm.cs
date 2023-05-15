@@ -22,6 +22,7 @@ namespace CRUX_Renewal.Main_Form
         private CogJobManager JobManager;
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
+        public Recipes Shared_Recipe;
         public Main_Frm_Algorithm()
         {
             InitializeComponent();
@@ -41,6 +42,10 @@ namespace CRUX_Renewal.Main_Form
                 ChangeJob(LstB_Algorithm.SelectedItem as string);
                 CTGE_Algorithm.Subject = JobManager.Job(0).VisionTool as CogToolGroup;
             }
+        }
+        public void SetRecipe(ref Recipes recipe)
+        {
+            Shared_Recipe = recipe;
         }
         public void SetFormNameIndex(ref string name, ref int index)
         {
@@ -70,9 +75,9 @@ namespace CRUX_Renewal.Main_Form
 
         public void ChangeJob(string name)
         {
-            string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString() + @"Algorithm\").Replace(" ", "");
+            string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
 
-            string TotalPath = AlgorithmPath + name;
+            string TotalPath = $@"{AlgorithmPath}\{name}";
             if (JobManager != null)                
                 Cognex_Helper.ClearJobMnager(JobManager);
 

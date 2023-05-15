@@ -7,6 +7,7 @@ namespace CRUX_Renewal.Main_Form
     {
         public string CurrentFormName = string.Empty;
         public int CurFormIndex = 0;
+        public Recipes Shared_Recipe;
         Ex_Frm_Optic_Line LineCamForm;
         Ex_Frm_Optic_Area AreaCamForm;
         public Main_Frm_Optical ()
@@ -17,6 +18,10 @@ namespace CRUX_Renewal.Main_Form
             FormBorderStyle = FormBorderStyle.None;
             Initialize();
             Show();
+        }
+        public void SetRecipe(ref Recipes recipe)
+        {
+            Shared_Recipe = recipe;
         }
         public void SetFormNameIndex(ref string name, ref int index)
         {

@@ -86,5 +86,14 @@ namespace CRUX_Renewal.Utils
                 manager = null;
             }
         }
+        public static CogColorConstants GetColorFromString(string data)
+        {
+            return EnumUtil<CogColorConstants>.Parse(data);
+        }
+        public static CogGraphicLineStyleConstants GetLineStyleFromString(string data)
+        {
+            return EnumUtil<CogGraphicLineStyleConstants>.Parse(data);
+        }
+
     }
 }
