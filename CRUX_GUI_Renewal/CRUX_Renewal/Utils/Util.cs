@@ -104,51 +104,65 @@ namespace CRUX_Renewal
         }
         public static void SaveRecipe(Recipe recipe)
         {
-            RecipeManager.RecipeSerialize($"{ recipe.Path}{recipe.Name}", "Patterns.xml", recipe.Patterns_Data);
+            try
+            {
+                RecipeManager.RecipeSerialize($"{ recipe.Path}{recipe.Name}", "Patterns.xml", recipe.Patterns_Data);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
         public static void ReadRecipe(string path, Recipe recipe, string name)
         {
-            string FullPath = $@"{path}{name}";
-            ArrayList FileList = fileProc.GetFileNames(FullPath);
-            ArrayList FullPathList = fileProc.getFileList(FullPath);
-            recipe.Path = path;
-            recipe.Name = name;
-            for (int t = 0; t < FullPathList.Count; ++t)
+            try
             {
-                for (int i = 0; i < Globals.RecipeItem_Names.Length; ++i)
+                string FullPath = $@"{path}{name}";
+                ArrayList FileList = fileProc.GetFileNames(FullPath);
+                ArrayList FullPathList = fileProc.getFileList(FullPath);
+                recipe.Path = path;
+                recipe.Name = name;
+                for (int t = 0; t < FullPathList.Count; ++t)
                 {
-                    string[] SplitTemp = (FullPathList[t] as string).Split(new string[] { "\\" }, StringSplitOptions.None);
-                    string FineName = SplitTemp[SplitTemp.Length - 1];
-                    if (FineName == Globals.RecipeItem_Names[i])
+                    for (int i = 0; i < Globals.RecipeItem_Names.Length; ++i)
                     {
-                        switch (FineName)
+                        string[] SplitTemp = (FullPathList[t] as string).Split(new string[] { "\\" }, StringSplitOptions.None);
+                        string FineName = SplitTemp[SplitTemp.Length - 1];
+                        if (FineName == Globals.RecipeItem_Names[i])
                         {
-                            case "ROI_Property.dat":
-                                IniFile Temp = new IniFile();
-                                Temp.Load(($@"{path}Recipes\{name}\ROI_Property.dat"));
-   
-                                foreach (IniSection item in Temp.Values)
-                                {
-                                    //ROI_Property Prop = new ROI_Property();
-                                    //Prop.Name = item["Name"].ToString();
-                                    //Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["LineColor"].ToString());
-                                    //Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["LineStyle"].ToString());
-                                    //Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["SelectedLineStyle"].ToString());
-                                    //Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["SelectedColor"].ToString());
-                                    //Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["DragLineStyle"].ToString());
-                                    //Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["DragLineColor"].ToString());
-                                    //Prop.DefaultScale = item["DefaultScale"].ToDouble();
-                                    //recipe.ROI_Prop.Add(Prop);
-                                }
-                                break;
+                            switch (FineName)
+                            {
+                                case "ROI_Property.dat":
+                                    IniFile Temp = new IniFile();
+                                    Temp.Load(($@"{path}Recipes\{name}\ROI_Property.dat"));
 
-                            case "Patterns.xml":
-                                recipe.Patterns_Data = null;
-                                recipe.Patterns_Data = RecipeManager.RecipeDeserialize<Patterns>($@"{FullPath}\", "Patterns.xml");
-                                break;
+                                    foreach (IniSection item in Temp.Values)
+                                    {
+                                        //ROI_Property Prop = new ROI_Property();
+                                        //Prop.Name = item["Name"].ToString();
+                                        //Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["LineColor"].ToString());
+                                        //Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["LineStyle"].ToString());
+                                        //Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["SelectedLineStyle"].ToString());
+                                        //Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["SelectedColor"].ToString());
+                                        //Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["DragLineStyle"].ToString());
+                                        //Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["DragLineColor"].ToString());
+                                        //Prop.DefaultScale = item["DefaultScale"].ToDouble();
+                                        //recipe.ROI_Prop.Add(Prop);
+                                    }
+                                    break;
+
+                                case "Patterns.xml":
+                                    recipe.Patterns_Data = null;
+                                    recipe.Patterns_Data = RecipeManager.RecipeDeserialize<Patterns>($@"{FullPath}\", "Patterns.xml");
+                                    break;
+                            }
                         }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }    
     }

@@ -22,7 +22,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CRUX_Renewal.Class
+namespace CRUX_Renewal.Class.InspVer1
 {
     // Inspector 객체는 싱글톤으로 생성
     class Inspector : IEnumerable, IEnumerator
@@ -208,7 +208,7 @@ namespace CRUX_Renewal.Class
         List<InspectionWorker> Inspection_Thread = null;
 
         public CommonInspData CommonData = new CommonInspData();
-        public Judgement Judge = new Class.Judgement();
+        public Judgement Judge = new Class.InspVer1.Judgement();
         private object Locker1 = new object();
         public bool Finished
         {
@@ -528,25 +528,25 @@ namespace CRUX_Renewal.Class
             get { return Finished_; }
             set
             {
-                Finished_ = value;
-                if (Finished_)
-                {
-                    var InspectionTemp = Systems.Inspector_.GetInspectionList().Find(x => x.CommonData.CellID == InspectData.CellID);
+                //Finished_ = value;
+                //if (Finished_)
+                //{
+                //    var InspectionTemp = Systems.Inspector_.GetInspectionList().Find(x => x.CommonData.CellID == InspectData.CellID);
 
-                        if (InspectionTemp != null)
-                        {
+                //        if (InspectionTemp != null)
+                //        {
 
-                            if (InspectionTemp.CheckRunState(Job))
-                            {
-                                InspectionTemp.Finished = true;
-                                Systems.LogWriter.Info($"Insp All Complete Cell ID : {InspectData.CellID} ");
-                                Console.WriteLine("-------------------------------------------------------");
-                            }
-                        }
-                        else
-                            Systems.LogWriter.Error($"Not Exist Inspection");
+                //            if (InspectionTemp.CheckRunState(Job))
+                //            {
+                //                InspectionTemp.Finished = true;
+                //                Systems.LogWriter.Info($"Insp All Complete Cell ID : {InspectData.CellID} ");
+                //                Console.WriteLine("-------------------------------------------------------");
+                //            }
+                //        }
+                //        else
+                //            Systems.LogWriter.Error($"Not Exist Inspection");
                     
-                }
+                //}
             }
         }
         RecipeParams Parameter;

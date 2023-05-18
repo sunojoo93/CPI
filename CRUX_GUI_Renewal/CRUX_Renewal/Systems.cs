@@ -1,4 +1,5 @@
 ﻿using CRUX_Renewal.Class;
+using CRUX_Renewal.Class.InspVer2;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace CRUX_Renewal
     {
         public static SharedMem SharedMemory;
         public static readonly ILog LogWriter = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        public static Inspector Inspector_ = Inspector.Instance();
+        public static Inspector_Ver2 Inspector_;
         public static ServerInterface g_Ipc;
         public static ALIVE_STATE[] AliveList;
         //public static Recipes RecipeContent = Recipes.Instance();

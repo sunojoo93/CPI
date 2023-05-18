@@ -293,7 +293,7 @@ namespace CRUX_Renewal.Main_Form
                 //Systems.Inspector_.SetInspection(true, Temp0, Temp1/*, Temp2, Temp3*/);
                 //Systems.Inspector_.StartManager();
 
-                Systems.Inspector_.StartJob(Temp0);
+                //Systems.Inspector_.StartJob(Temp0);
 
                 //Systems.Inspector_.StartJob(Temp1);
 

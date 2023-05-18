@@ -391,6 +391,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\Inspector_Ver2.cs" />
     <Compile Include="Ex_Form\Account\Ex_Frm_Account_Login.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -406,12 +406,12 @@ namespace CRUX_Renewal.Class
 
                         ImageSaveTask.Start();
                         ip.CellID = SampleID;
-                        ip.Direction = "AA";
+                        ip.Direction = ip.Direction == "" ? "null" : ip.Direction;
                         ip.Face = "UnderSide";
-                        ip.Position = "TOP";
+                        ip.Position = ip.Position == "" ? "null" : ip.Position;
                         ip.ImageNo = Inspection_Data.ImageNum;
                         // ip 채워줘야함.
-                        Systems.Inspector_.StartJob(ip);
+                        Systems.Inspector_.Start_Insp(ip);
 
                     }
 
@@ -454,6 +454,7 @@ namespace CRUX_Renewal.Class
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(50, 20, rcvAlgorithmParamReq);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 04, rcvAlgorithmRecipeInfo);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 05, rcvThetaAuto);
+            m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 20, CreateInspectorFromRecipe);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 10, InspectionStart);
             m_nRcvTaskCnt = taskNumber;
         }
@@ -1228,6 +1229,21 @@ namespace CRUX_Renewal.Class
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
+        private static int CreateInspectorFromRecipe(ref CmdMsgParam param)
+        {
+            string RecipePath = string.Empty;
+            RecipePath = param.GetStr(1000);
+            Recipe RcvRecipe = new Recipe();
+            RcvRecipe = param.GetStruct(typeof(Recipe), Marshal.SizeOf(RcvRecipe)) as Recipe;
+
+
+            int nPcNo = param.GetInteger();
+            int nOnOff = param.GetInteger();
+            bool bOnOff = Convert.ToBoolean(nOnOff);
+
+            //Systems.g_frmAuto[nPcNo].ThetaChecked(bOnOff);
+            return 0;
+        }
         private static int rcvThetaAuto(ref CmdMsgParam param)
         {
             int nPcNo = param.GetInteger();

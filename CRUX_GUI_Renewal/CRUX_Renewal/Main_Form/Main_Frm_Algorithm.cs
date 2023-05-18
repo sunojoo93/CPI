@@ -80,8 +80,8 @@ namespace CRUX_Renewal.Main_Form
             string TotalPath = $@"{AlgorithmPath}\{name}";
             if (JobManager != null)                
                 Cognex_Helper.ClearJobMnager(JobManager);
-
-            JobManager = (CogJobManager)CogSerializer.LoadObjectFromFile(TotalPath); 
+            JobManager = new CogJobManager();
+            JobManager.JobAdd((CogJob)CogSerializer.LoadObjectFromFile(TotalPath)); 
         }
 
         private async void LstB_Algorithm_MouseDoubleClick(object sender, MouseEventArgs e)

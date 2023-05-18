@@ -135,17 +135,27 @@ namespace CRUX_Renewal.Main_Form
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize Shared Mem...");
                             break;
-                        case (int)Enums.InitFlag.Inspector:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
-                            ++InitFlag;
-                            Systems.Inspector_ = Class.Inspector.Instance();
-                            Systems.LogWriter.Info("Initialize Inspector...");
-                            break;
                         case (int)Enums.InitFlag.LoadJOB:
                             setControlText(lbl_CurrentState, string.Format("Initialize Job..."));
                             LoadRecipe(); // 모델 적용
                             Systems.LogWriter.Info("Initialize Job...");
                             ++InitFlag;
+                            break;
+                        case (int)Enums.InitFlag.Inspector:
+                            setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
+                            ++InitFlag;
+                            Systems.Inspector_ = Class.InspVer2.Inspector_Ver2.Instance();
+                            for(int i = 0; i < Globals.MaxVisionCnt; ++i)
+                            {
+                                //CmdMsgParam Param = new CmdMsgParam();
+                                //Param.ClearOffset();
+                                //Param.SetInteger(1);
+                                //nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
+                                //                            IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
+                                Systems.Inspector_.ConvertInspectorFromRecipe(RecipeList[0].MainRecipe); // 다중 피씨 고려해서 추후에 수정 필요함
+                            }
+                    
+                            Systems.LogWriter.Info("Initialize Inspector...");
                             break;
                         case (int)Enums.InitFlag.MAINPC_TASK:
                             setControlText(lbl_CurrentState, string.Format("Initialize Main Program..."));

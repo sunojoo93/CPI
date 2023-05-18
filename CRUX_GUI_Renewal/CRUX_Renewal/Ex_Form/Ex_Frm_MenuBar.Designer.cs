@@ -29,11 +29,11 @@
         private void InitializeComponent ()
         {
             this.Tlp_Tabs = new System.Windows.Forms.TableLayoutPanel();
+            this.Btn_Job = new System.Windows.Forms.Button();
+            this.Btn_Simulation = new System.Windows.Forms.Button();
+            this.Btn_Auto = new System.Windows.Forms.Button();
             this.Btn_Advance = new System.Windows.Forms.Button();
             this.Btn_Optical = new System.Windows.Forms.Button();
-            this.Btn_Job = new System.Windows.Forms.Button();
-            this.Btn_Manual = new System.Windows.Forms.Button();
-            this.Btn_Auto = new System.Windows.Forms.Button();
             this.Btn_Alg = new System.Windows.Forms.Button();
             this.Tlp_Tabs.SuspendLayout();
             this.SuspendLayout();
@@ -49,7 +49,7 @@
             this.Tlp_Tabs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.Tlp_Tabs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.Tlp_Tabs.Controls.Add(this.Btn_Job, 2, 0);
-            this.Tlp_Tabs.Controls.Add(this.Btn_Manual, 1, 0);
+            this.Tlp_Tabs.Controls.Add(this.Btn_Simulation, 1, 0);
             this.Tlp_Tabs.Controls.Add(this.Btn_Auto, 0, 0);
             this.Tlp_Tabs.Controls.Add(this.Btn_Advance, 5, 0);
             this.Tlp_Tabs.Controls.Add(this.Btn_Optical, 4, 0);
@@ -62,6 +62,51 @@
             this.Tlp_Tabs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Tabs.Size = new System.Drawing.Size(1172, 385);
             this.Tlp_Tabs.TabIndex = 0;
+            // 
+            // Btn_Job
+            // 
+            this.Btn_Job.BackColor = System.Drawing.Color.Lavender;
+            this.Btn_Job.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Job.FlatAppearance.BorderSize = 0;
+            this.Btn_Job.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Job.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Job.Location = new System.Drawing.Point(393, 3);
+            this.Btn_Job.Name = "Btn_Job";
+            this.Btn_Job.Size = new System.Drawing.Size(189, 379);
+            this.Btn_Job.TabIndex = 2;
+            this.Btn_Job.Text = "Job";
+            this.Btn_Job.UseVisualStyleBackColor = false;
+            this.Btn_Job.Click += new System.EventHandler(this.Btn_Job_Click);
+            // 
+            // Btn_Simulation
+            // 
+            this.Btn_Simulation.BackColor = System.Drawing.Color.Lavender;
+            this.Btn_Simulation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Simulation.FlatAppearance.BorderSize = 0;
+            this.Btn_Simulation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Simulation.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Simulation.Location = new System.Drawing.Point(198, 3);
+            this.Btn_Simulation.Name = "Btn_Simulation";
+            this.Btn_Simulation.Size = new System.Drawing.Size(189, 379);
+            this.Btn_Simulation.TabIndex = 1;
+            this.Btn_Simulation.Text = "Simulation";
+            this.Btn_Simulation.UseVisualStyleBackColor = false;
+            this.Btn_Simulation.Click += new System.EventHandler(this.Btn_Manual_Click);
+            // 
+            // Btn_Auto
+            // 
+            this.Btn_Auto.BackColor = System.Drawing.Color.Lavender;
+            this.Btn_Auto.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Auto.FlatAppearance.BorderSize = 0;
+            this.Btn_Auto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Auto.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Auto.Location = new System.Drawing.Point(3, 3);
+            this.Btn_Auto.Name = "Btn_Auto";
+            this.Btn_Auto.Size = new System.Drawing.Size(189, 379);
+            this.Btn_Auto.TabIndex = 0;
+            this.Btn_Auto.Text = "Auto";
+            this.Btn_Auto.UseVisualStyleBackColor = false;
+            this.Btn_Auto.Click += new System.EventHandler(this.Btn_Auto_Click);
             // 
             // Btn_Advance
             // 
@@ -92,51 +137,6 @@
             this.Btn_Optical.Text = "Optical";
             this.Btn_Optical.UseVisualStyleBackColor = false;
             this.Btn_Optical.Click += new System.EventHandler(this.Btn_Optical_Click);
-            // 
-            // Btn_Job
-            // 
-            this.Btn_Job.BackColor = System.Drawing.Color.Lavender;
-            this.Btn_Job.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Job.FlatAppearance.BorderSize = 0;
-            this.Btn_Job.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Job.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Job.Location = new System.Drawing.Point(393, 3);
-            this.Btn_Job.Name = "Btn_Job";
-            this.Btn_Job.Size = new System.Drawing.Size(189, 379);
-            this.Btn_Job.TabIndex = 2;
-            this.Btn_Job.Text = "Job";
-            this.Btn_Job.UseVisualStyleBackColor = false;
-            this.Btn_Job.Click += new System.EventHandler(this.Btn_Job_Click);
-            // 
-            // Btn_Manual
-            // 
-            this.Btn_Manual.BackColor = System.Drawing.Color.Lavender;
-            this.Btn_Manual.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Manual.FlatAppearance.BorderSize = 0;
-            this.Btn_Manual.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Manual.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Manual.Location = new System.Drawing.Point(198, 3);
-            this.Btn_Manual.Name = "Btn_Manual";
-            this.Btn_Manual.Size = new System.Drawing.Size(189, 379);
-            this.Btn_Manual.TabIndex = 1;
-            this.Btn_Manual.Text = "Manual";
-            this.Btn_Manual.UseVisualStyleBackColor = false;
-            this.Btn_Manual.Click += new System.EventHandler(this.Btn_Manual_Click);
-            // 
-            // Btn_Auto
-            // 
-            this.Btn_Auto.BackColor = System.Drawing.Color.Lavender;
-            this.Btn_Auto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Auto.FlatAppearance.BorderSize = 0;
-            this.Btn_Auto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Auto.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Auto.Location = new System.Drawing.Point(3, 3);
-            this.Btn_Auto.Name = "Btn_Auto";
-            this.Btn_Auto.Size = new System.Drawing.Size(189, 379);
-            this.Btn_Auto.TabIndex = 0;
-            this.Btn_Auto.Text = "Auto";
-            this.Btn_Auto.UseVisualStyleBackColor = false;
-            this.Btn_Auto.Click += new System.EventHandler(this.Btn_Auto_Click);
             // 
             // Btn_Alg
             // 
@@ -176,7 +176,7 @@
         private System.Windows.Forms.Button Btn_Advance;
         private System.Windows.Forms.Button Btn_Optical;
         private System.Windows.Forms.Button Btn_Job;
-        private System.Windows.Forms.Button Btn_Manual;
+        private System.Windows.Forms.Button Btn_Simulation;
         private System.Windows.Forms.Button Btn_Auto;
         private System.Windows.Forms.Button Btn_Alg;
     }

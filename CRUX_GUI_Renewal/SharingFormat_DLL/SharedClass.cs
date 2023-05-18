@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cognex.VisionPro;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -32,5 +33,13 @@ namespace SharingFormat_DLL
         public double Y { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
+    }
+    public class CommonParam
+    {
+        public Dictionary<string, string> Params = new Dictionary<string, string>();
+    }
+    public class Insp_Images
+    {
+        public Dictionary<string, CogImage8Grey> Images;
     }
 }

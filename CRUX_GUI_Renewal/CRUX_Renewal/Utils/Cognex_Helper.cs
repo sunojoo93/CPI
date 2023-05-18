@@ -78,6 +78,11 @@ namespace CRUX_Renewal.Utils
             //Tool.Tools.Add(new CogInputImageTool());
             return Temp;
         }
+        public static CogJob LoadJob(string path)
+        {
+            CogJob Job = (CogJob)CogSerializer.LoadObjectFromFile(path);
+            return Job;
+        }
         public static void ClearJobMnager(CogJobManager manager)
         {
             if(manager != null)

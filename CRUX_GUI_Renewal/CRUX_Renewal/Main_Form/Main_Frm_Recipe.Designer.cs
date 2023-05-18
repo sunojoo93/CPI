@@ -1,4 +1,6 @@
-﻿namespace CRUX_Renewal.Main_Form
+﻿using CRUX_Renewal.User_Controls;
+
+namespace CRUX_Renewal.Main_Form
 {
     partial class Main_Frm_Recipe
     {
@@ -41,7 +43,7 @@
             this.Btn_Revert = new System.Windows.Forms.Button();
             this.Lb_UnderLine1 = new System.Windows.Forms.Label();
             this.Cagb_Jobs = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
-            this.LstBoxPtnList = new System.Windows.Forms.ListBox();
+            this.Dgv_Pattern = new System.Windows.Forms.DataGridView();
             this.Cagb_Recipe = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.LstBoxRecipeList = new System.Windows.Forms.ListBox();
             this.Tlp_RecipeLayout.SuspendLayout();
@@ -51,6 +53,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.Cagb_Jobs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pattern)).BeginInit();
             this.Cagb_Recipe.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -237,7 +240,7 @@
             // 
             // Cagb_Jobs
             // 
-            this.Cagb_Jobs.Controls.Add(this.LstBoxPtnList);
+            this.Cagb_Jobs.Controls.Add(this.Dgv_Pattern);
             this.Cagb_Jobs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cagb_Jobs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Cagb_Jobs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -249,20 +252,27 @@
             this.Cagb_Jobs.TabStop = false;
             this.Cagb_Jobs.Text = "Pattern";
             // 
-            // LstBoxPtnList
+            // Dgv_Pattern
             // 
-            this.LstBoxPtnList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstBoxPtnList.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LstBoxPtnList.FormattingEnabled = true;
-            this.LstBoxPtnList.ItemHeight = 20;
-            this.LstBoxPtnList.Location = new System.Drawing.Point(3, 20);
-            this.LstBoxPtnList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.LstBoxPtnList.Name = "LstBoxPtnList";
-            this.LstBoxPtnList.ScrollAlwaysVisible = true;
-            this.LstBoxPtnList.Size = new System.Drawing.Size(174, 475);
-            this.LstBoxPtnList.TabIndex = 3;
-            this.LstBoxPtnList.SelectedIndexChanged += new System.EventHandler(this.LstBoxJobList_SelectedIndexChanged);
-            this.LstBoxPtnList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxJobList_MouseDoubleClick);
+            this.Dgv_Pattern.AllowUserToAddRows = false;
+            this.Dgv_Pattern.AllowUserToDeleteRows = false;
+            this.Dgv_Pattern.AllowUserToResizeColumns = false;
+            this.Dgv_Pattern.AllowUserToResizeRows = false;
+            this.Dgv_Pattern.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_Pattern.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_Pattern.Location = new System.Drawing.Point(3, 20);
+            this.Dgv_Pattern.MultiSelect = false;
+            this.Dgv_Pattern.Name = "Dgv_Pattern";
+            this.Dgv_Pattern.RowHeadersVisible = false;
+            this.Dgv_Pattern.RowTemplate.Height = 23;
+            this.Dgv_Pattern.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_Pattern.Size = new System.Drawing.Size(174, 475);
+            this.Dgv_Pattern.TabIndex = 0;
+            this.Dgv_Pattern.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellEndEdit);
+            this.Dgv_Pattern.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseUp);
+            this.Dgv_Pattern.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellValueChanged);
+            this.Dgv_Pattern.CurrentCellDirtyStateChanged += new System.EventHandler(this.Dgv_Pattern_CurrentCellDirtyStateChanged);
+            this.Dgv_Pattern.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_Pattern_EditingControlShowing);
             // 
             // Cagb_Recipe
             // 
@@ -315,6 +325,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.Cagb_Jobs.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pattern)).EndInit();
             this.Cagb_Recipe.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -332,11 +343,11 @@
         private System.Windows.Forms.Label Lb_UnderLine1;
         private User_Controls.CenterAlignedGroupBox Cagb_Jobs;
         private User_Controls.CenterAlignedGroupBox Cagb_Recipe;
-        private System.Windows.Forms.ListBox LstBoxPtnList;
         private System.Windows.Forms.ListBox LstBoxRecipeList;
         private System.Windows.Forms.TabControl Tab_RecipeMain;
         private System.Windows.Forms.TabPage tab_optic;
         private System.Windows.Forms.TabPage tab_align;
         private System.Windows.Forms.TabPage tab_Link;
+        private System.Windows.Forms.DataGridView Dgv_Pattern;
     }
 }

@@ -637,10 +637,6 @@ namespace CRUX_Renewal.Ex_Form
                 Program.Frm_Main?.SetRecipeName(CurrentRecipe_);
             }
         }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Systems.Inspector_.StartJob(new InspData());
-        }
         public void Rund()
         {
       
@@ -799,6 +795,8 @@ namespace CRUX_Renewal.Ex_Form
                                     FindItem = CurPattern.ROI_Coord.Find(x => x.Name == InputBox.Text);
                                     if (curSB.Text == InputBox.Text)
                                     {
+                                        InputBox.Hide();
+                                        LstV_ROI.Focus();
                                         return;
                                     }
                                     if (FindItem != null)

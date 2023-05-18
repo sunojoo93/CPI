@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ex_Frm_Recipe_Link));
             this.Tlp_Link = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.Tlp_Display = new System.Windows.Forms.TableLayoutPanel();
             this.cogDisplayStatusBarV21 = new Cognex.VisionPro.CogDisplayStatusBarV2();
             this.Cog_ROI_Display = new Cognex.VisionPro.Display.CogDisplay();
@@ -40,8 +38,8 @@
             this.cogDisplayToolbarV21 = new Cognex.VisionPro.CogDisplayToolbarV2();
             this.Btn_ImageLoad = new System.Windows.Forms.Button();
             this.Grb_ROI = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.LstB_ROI = new System.Windows.Forms.ListBox();
+            this.Tlp_Roi = new System.Windows.Forms.TableLayoutPanel();
+            this.Dgv_Roi = new System.Windows.Forms.DataGridView();
             this.Btn_ROIManager = new System.Windows.Forms.Button();
             this.Grb_Algorithm = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.Tlp_Algorithm = new System.Windows.Forms.TableLayoutPanel();
@@ -54,7 +52,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.Grb_ROI.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.Tlp_Roi.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Roi)).BeginInit();
             this.Grb_Algorithm.SuspendLayout();
             this.Tlp_Algorithm.SuspendLayout();
             this.Grb_Params.SuspendLayout();
@@ -67,8 +66,6 @@
             this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Link.Controls.Add(this.button1, 1, 1);
-            this.Tlp_Link.Controls.Add(this.button2, 0, 1);
             this.Tlp_Link.Controls.Add(this.Tlp_Display, 0, 0);
             this.Tlp_Link.Controls.Add(this.Grb_ROI, 1, 0);
             this.Tlp_Link.Controls.Add(this.Grb_Algorithm, 2, 0);
@@ -81,26 +78,6 @@
             this.Tlp_Link.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Link.Size = new System.Drawing.Size(1532, 840);
             this.Tlp_Link.TabIndex = 1;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(639, 583);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(3, 583);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Tlp_Display
             // 
@@ -190,7 +167,7 @@
             // 
             // Grb_ROI
             // 
-            this.Grb_ROI.Controls.Add(this.tableLayoutPanel1);
+            this.Grb_ROI.Controls.Add(this.Tlp_Roi);
             this.Grb_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_ROI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Grb_ROI.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -202,36 +179,44 @@
             this.Grb_ROI.TabStop = false;
             this.Grb_ROI.Text = "ROI";
             // 
-            // tableLayoutPanel1
+            // Tlp_Roi
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.LstB_ROI, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.Btn_ROIManager, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 20);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(294, 557);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.Tlp_Roi.ColumnCount = 1;
+            this.Tlp_Roi.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_Roi.Controls.Add(this.Dgv_Roi, 0, 0);
+            this.Tlp_Roi.Controls.Add(this.Btn_ROIManager, 0, 1);
+            this.Tlp_Roi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_Roi.Location = new System.Drawing.Point(3, 20);
+            this.Tlp_Roi.Name = "Tlp_Roi";
+            this.Tlp_Roi.RowCount = 2;
+            this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.Tlp_Roi.Size = new System.Drawing.Size(294, 557);
+            this.Tlp_Roi.TabIndex = 0;
             // 
-            // LstB_ROI
+            // Dgv_Roi
             // 
-            this.LstB_ROI.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LstB_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstB_ROI.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LstB_ROI.FormattingEnabled = true;
-            this.LstB_ROI.ItemHeight = 20;
-            this.LstB_ROI.Location = new System.Drawing.Point(0, 0);
-            this.LstB_ROI.Margin = new System.Windows.Forms.Padding(0);
-            this.LstB_ROI.Name = "LstB_ROI";
-            this.LstB_ROI.ScrollAlwaysVisible = true;
-            this.LstB_ROI.Size = new System.Drawing.Size(294, 482);
-            this.LstB_ROI.TabIndex = 3;
-            this.LstB_ROI.SelectedIndexChanged += new System.EventHandler(this.LstB_ROI_SelectedIndexChanged);
-            this.LstB_ROI.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstB_ROI_MouseDoubleClick);
+            this.Dgv_Roi.AllowUserToAddRows = false;
+            this.Dgv_Roi.AllowUserToDeleteRows = false;
+            this.Dgv_Roi.AllowUserToResizeColumns = false;
+            this.Dgv_Roi.AllowUserToResizeRows = false;
+            this.Dgv_Roi.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_Roi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_Roi.Location = new System.Drawing.Point(3, 3);
+            this.Dgv_Roi.MultiSelect = false;
+            this.Dgv_Roi.Name = "Dgv_Roi";
+            this.Dgv_Roi.RowHeadersVisible = false;
+            this.Dgv_Roi.RowTemplate.Height = 23;
+            this.Dgv_Roi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_Roi.Size = new System.Drawing.Size(288, 476);
+            this.Dgv_Roi.TabIndex = 15;
+            this.Dgv_Roi.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Roi_CellEndEdit);
+            this.Dgv_Roi.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Roi_CellMouseDoubleClick);
+            this.Dgv_Roi.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Roi_CellMouseUp);
+            this.Dgv_Roi.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Roi_CellValueChanged);
+            this.Dgv_Roi.CurrentCellDirtyStateChanged += new System.EventHandler(this.Dgv_Roi_CurrentCellDirtyStateChanged);
+            this.Dgv_Roi.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_Roi_EditingControlShowing);
             // 
             // Btn_ROIManager
             // 
@@ -331,7 +316,7 @@
             this.PGE_Params.DocCommentDescription.AutoEllipsis = true;
             this.PGE_Params.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
             this.PGE_Params.DocCommentDescription.Location = new System.Drawing.Point(3, 22);
-            this.PGE_Params.DocCommentDescription.Margin = new System.Windows.Forms.Padding(5066972, 0, 5066972, 0);
+            this.PGE_Params.DocCommentDescription.Margin = new System.Windows.Forms.Padding(0);
             this.PGE_Params.DocCommentDescription.Name = "공백을 포함할 수 없습니다.";
             this.PGE_Params.DocCommentDescription.Size = new System.Drawing.Size(284, 33);
             this.PGE_Params.DocCommentDescription.TabIndex = 1;
@@ -342,7 +327,7 @@
             this.PGE_Params.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
             this.PGE_Params.DocCommentTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
             this.PGE_Params.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
-            this.PGE_Params.DocCommentTitle.Margin = new System.Windows.Forms.Padding(5066972, 0, 5066972, 0);
+            this.PGE_Params.DocCommentTitle.Margin = new System.Windows.Forms.Padding(0);
             this.PGE_Params.DocCommentTitle.Name = "공백을 포함할 수 없습니다.";
             this.PGE_Params.DocCommentTitle.Size = new System.Drawing.Size(284, 19);
             this.PGE_Params.DocCommentTitle.TabIndex = 0;
@@ -371,7 +356,6 @@
             this.PGE_Params.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.PGE_Params.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PGE_Params.ToolStrip.Name = "";
-            this.PGE_Params.ToolStrip.Padding = new System.Windows.Forms.Padding(3546880, 0, 1, 0);
             this.PGE_Params.ToolStrip.Size = new System.Drawing.Size(0, 0);
             this.PGE_Params.ToolStrip.TabIndex = 1;
             this.PGE_Params.ToolStrip.TabStop = true;
@@ -400,7 +384,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.Grb_ROI.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.Tlp_Roi.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Roi)).EndInit();
             this.Grb_Algorithm.ResumeLayout(false);
             this.Tlp_Algorithm.ResumeLayout(false);
             this.Grb_Params.ResumeLayout(false);
@@ -415,19 +400,17 @@
         private User_Controls.CenterAlignedGroupBox Grb_Algorithm;
         private System.Windows.Forms.ListBox LstB_RegistedAlgorithm;
         private User_Controls.CenterAlignedGroupBox Grb_ROI;
-        private System.Windows.Forms.ListBox LstB_ROI;
         private System.Windows.Forms.TableLayoutPanel Tlp_Display;
         private Cognex.VisionPro.Display.CogDisplay Cog_ROI_Display;
         private Cognex.VisionPro.CogDisplayToolbarV2 cogDisplayToolbarV21;
         private Cognex.VisionPro.CogDisplayStatusBarV2 cogDisplayStatusBarV21;
         private PropertyGridExt.PropertyGridEx PGE_Params;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TableLayoutPanel Tlp_Algorithm;
         private System.Windows.Forms.Button Btn_AlgorithmManage;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel Tlp_Roi;
         private System.Windows.Forms.Button Btn_ROIManager;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button Btn_ImageLoad;
+        private System.Windows.Forms.DataGridView Dgv_Roi;
     }
 }

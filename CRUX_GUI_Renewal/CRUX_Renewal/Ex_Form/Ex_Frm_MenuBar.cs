@@ -60,7 +60,7 @@ namespace CRUX_Renewal.Ex_Form
         private void Ex_Frm_Menubar_Shown(object sender, EventArgs e)
         {
             WinApis.SetWindowRgn(Btn_Auto.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Auto.Width, Btn_Auto.Height, 15, 15), true);
-            WinApis.SetWindowRgn(Btn_Manual.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Manual.Width, Btn_Manual.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Btn_Simulation.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Simulation.Width, Btn_Simulation.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Job.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Job.Width, Btn_Job.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Optical.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Optical.Width, Btn_Optical.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Advance.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Advance.Width, Btn_Advance.Height, 15, 15), true);

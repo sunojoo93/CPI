@@ -710,7 +710,6 @@ namespace CRUX_Renewal.Class
     }
 
 
-
     /// <summary>
     /// Patterns Struct
     /// </summary>
@@ -730,6 +729,8 @@ namespace CRUX_Renewal.Class
     {
         [XmlAttribute("Name")]
         public string Name { get; set; }
+        [XmlAttribute("Use")]
+        public bool Use { get; set; }
         [XmlArray("ROI_List")]
         [XmlArrayItem("ROI")]
         public List<ROI> ROI_Coord { get; set; }
@@ -740,6 +741,8 @@ namespace CRUX_Renewal.Class
     {
         [XmlAttribute("Name")]
         public string Name { get; set; }
+        [XmlAttribute("Use")]
+        public bool Use { get; set; }
         [XmlElement("Coordinate")]
         public Coordinate Coord { get; set; }
         [XmlElement("Property")]
@@ -921,20 +924,11 @@ namespace CRUX_Renewal.Class
         public string Use { get; set; }
         [XmlArray("Parameters")]
         [XmlArrayItem("Param")]
-        public List<Param> Param { get; set; }
+        public List<InspParam> Param { get; set; }
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public class Parameter
-    {
-        [XmlAttribute("Name")]
-        public string Name { get; set; }
-        [XmlAttribute("Value")]
-        public string Value { get; set; }
-    }
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public class Param
+    public class InspParam
     {
         [XmlAttribute("Name")]
         public string Name { get; set; }

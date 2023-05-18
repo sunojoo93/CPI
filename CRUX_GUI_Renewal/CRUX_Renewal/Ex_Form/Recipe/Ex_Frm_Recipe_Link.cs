@@ -1,6 +1,7 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.Class;
+using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
 using PropertyGridExt;
 using System;
@@ -16,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using static System.Windows.Forms.ListView;
 
 namespace CRUX_Renewal.Ex_Form
 {
@@ -24,16 +26,39 @@ namespace CRUX_Renewal.Ex_Form
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
         public Recipes Shared_Recipe;
+
+        string CurROIName = string.Empty;
+        DataGridViewCell previousCell;
+        bool resetting = false;
+
         public Ex_Frm_Recipe_Link()
         {
             InitializeComponent();
             TopLevel = false;
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
+        
             Show();
+            DrawDgvRoi();
             //InitializeLinkTab();
             //SetPatterns();
+            //DrawListView();
+
         }
+
+        private void DrawDgvRoi()
+        {
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add("Use", typeof(bool));
+            Dt.Columns.Add("Name");
+
+            Dgv_Roi.DataSource = Dt;
+
+            Dgv_Roi.Columns[0].Width = 45;
+            Dgv_Roi.Columns[1].Width = 250;
+        }
+
+
         public void SetRecipe(ref Recipes recipe)
         {
             Shared_Recipe = recipe;
@@ -43,48 +68,11 @@ namespace CRUX_Renewal.Ex_Form
             CurrentFormName = name;
             CurFormIndex = index;
         }
-        Patterns prj;
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string path = @"D:\CRUX\DATA\Recipes\Test\Patterns.xml";
-            if (File.Exists(path))
-            {
-                try
-                {
-                    using (var sr = new StreamReader(path))
-                    {
-                        var xs = new XmlSerializer(typeof(Patterns));
-                        prj = (Patterns)xs.Deserialize(sr);
-                        //this.project.Set(prj);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    MessageBox.Show("프로젝트 파일 로딩 실패 : " + path);
-                }
-            }
-        }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            string path = @"D:\CRUX\DATA\Recipes\Test\Patterns.xml";
-            var ns = new XmlSerializerNamespaces();
-            ns.Add(string.Empty, string.Empty);
-
-            var xs = new XmlSerializer(typeof(Patterns));
-            using (var sw = new StreamWriter(path))
-            {
-                var info = prj;
-                xs.Serialize(sw, info, ns);
-            }
-        }
         public void InitializeLinkTab()
         {
             ClearRecipeControl();
-
             UpdateROI();
-            UpdateAlgorithm();
             UpdateParameter();
             UpdateTotalAlgorithm();
         }
@@ -106,17 +94,14 @@ namespace CRUX_Renewal.Ex_Form
             }
             if (Temp != null)
             {
-                if (Temp.ROI_Coord.Count > 0)
+                DataTable Dt = Dgv_Roi.DataSource as DataTable;
+                Dt.Rows.Clear();
+                foreach (ROI item in Temp.ROI_Coord)
                 {
-                    foreach (ROI item in Temp.ROI_Coord)
-                    {
-                        RoiNames.Add(item.Name);
-                    }
-                    LstB_ROI.Items.AddRange(RoiNames.ToArray());
-                    LstB_ROI.SelectedItem = LstB_ROI.Items[0];
-                    UpdateAlgorithm();
-                    UpdateParameter();
+                    Dt.Rows.Add(item.Use, item.Name);
                 }
+                UpdateAlgorithm();
+                UpdateParameter();
             }
         }
         public void UpdateAlgorithm()
@@ -125,7 +110,7 @@ namespace CRUX_Renewal.Ex_Form
             Patterns Ptn = Shared_Recipe.ViewRecipe.Patterns_Data;
             string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
             string SelectedPattern = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
-            string SelectedROI = LstB_ROI.SelectedItem as string;
+            string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
             List<Algorithm> Algo = Ptn.Pattern.Find(x => x.Name == SelectedPattern)?.ROI_Coord.Find(x => x.Name == SelectedROI)?.Algo_List;
             List<string> Algo_List = new List<string>();
 
@@ -145,18 +130,20 @@ namespace CRUX_Renewal.Ex_Form
             Patterns Ptn = Shared_Recipe.ViewRecipe.Patterns_Data;
             string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
             string SelectedPattern = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
-            string SelectedROI = LstB_ROI.SelectedItem as string;
+            string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
             string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
             Algorithm Algo = Ptn.Pattern.Find(x => x.Name == SelectedPattern)?.ROI_Coord.Find(x => x.Name == SelectedROI)?.Algo_List?.Find(x => x.Name == SelectedAlgo);
-
-            List<Param> AlgoParam = Algo.Param;
-            foreach (Param item in AlgoParam)
+            if (Algo != null)
             {
-                CustomProperty Cp = new CustomProperty();
-                Cp.Name = item.Name;
-                Cp.Value = item.Value;
-                Cp.Category = "Parameters";
-                PGE_Params.Item.Add(Cp);
+                List<InspParam> AlgoParam = Algo.Param;
+                foreach (InspParam item in AlgoParam)
+                {
+                    CustomProperty Cp = new CustomProperty();
+                    Cp.Name = item.Name;
+                    Cp.Value = item.Value;
+                    Cp.Category = "Parameters";
+                    PGE_Params.Item.Add(Cp);
+                }
             }
             PGE_Params.Refresh();
         }
@@ -176,19 +163,11 @@ namespace CRUX_Renewal.Ex_Form
         public void ClearRecipeControl()
         {
             //LstB_Pattern.Items.Clear();
-            LstB_ROI.Items.Clear();
+            DataTable RoiTable = Dgv_Roi.DataSource as DataTable;
+            RoiTable.Rows.Clear();
+            Dgv_Roi.DataSource = RoiTable;
             LstB_RegistedAlgorithm.Items.Clear();
             PGE_Params.Item.Clear();
-        }
-
-        private void LstB_Pattern_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void LstB_ROI_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void LstB_Algorithm_SelectedIndexChanged(object sender, EventArgs e)
@@ -196,14 +175,6 @@ namespace CRUX_Renewal.Ex_Form
 
         }
 
-        private void LstB_ROI_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            ListBox Temp = sender as ListBox;
-            string SelectedItem = Temp.SelectedItem as string;
-            ROI_PreView(SelectedItem); ;
-            UpdateAlgorithm();
-            UpdateParameter();
-        }
         private void ROI_PreView(string roi_name)
         {
             Cog_ROI_Display.DrawingEnabled = false;
@@ -245,6 +216,7 @@ namespace CRUX_Renewal.Ex_Form
 
         private void LstB_RegistedAlgorithm_MouseUp(object sender, MouseEventArgs e)
         {
+            UpdateParameter();
             //if (e.Button.Equals(MouseButtons.Right))
             //{
             //    ContextMenu m = new ContextMenu();
@@ -278,10 +250,10 @@ namespace CRUX_Renewal.Ex_Form
                 TotalAlgo.Add(item.Name);
             }
             string CurSelPtn = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
-            string CurSelROI = LstB_ROI.SelectedItem as string;
+            string CurSelROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
             ROI RoiData = Shared_Recipe.ViewRecipe.Patterns_Data.Pattern.Find(x => x.Name == CurSelPtn)?.ROI_Coord?.Find(x => x.Name == CurSelROI);
     
-            Selector.Init(RoiData.Algo_List, Systems.Algo_Info, LstB_ROI.SelectedItem as string);
+            Selector.Init(RoiData.Algo_List, Systems.Algo_Info, Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString());
             Selector.ShowDialog();
             if (Selector.DialogResult == DialogResult.OK)
             {
@@ -309,7 +281,7 @@ namespace CRUX_Renewal.Ex_Form
                 UpdateROI();
                 UpdateAlgorithm();
                 UpdateParameter();
-                string SelROI = LstB_ROI.SelectedItem == null ? string.Empty : LstB_ROI.SelectedItem as string;
+                string SelROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString() == null ? string.Empty : Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
 
                 if (SelROI != string.Empty)
                 {
@@ -333,11 +305,12 @@ namespace CRUX_Renewal.Ex_Form
                 Cog_ROI_Display.Fit(true);
                 Cog_ROI_Display.DrawingEnabled = true;
 
-                string SelROI = LstB_ROI.SelectedItem == null ? string.Empty : LstB_ROI.SelectedItem as string;
+                string SelROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString() == null ? string.Empty : Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
 
                 if(SelROI != string.Empty)
                 {
-                    ROI_PreView(SelROI);
+                    if(!Dgv_Roi.IsCurrentCellInEditMode)
+                        ROI_PreView(SelROI);
                 }
             }
         }
@@ -387,15 +360,79 @@ namespace CRUX_Renewal.Ex_Form
 
                 }
                 string CurPtnName = Systems.CurrentSelectedPtnName[Systems.CurDisplayIndex];
-                string CurRoiName = LstB_ROI.SelectedItem as string;
+                string CurRoiName = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
                 string CurAlgoName = LstB_RegistedAlgorithm.SelectedItem as string;
                 string Label = e.ChangedItem.Label;
-                Param CurParam = Shared_Recipe.ViewRecipe.Patterns_Data.Pattern.Find(x => x.Name == CurPtnName).ROI_Coord.Find(x => x.Name == CurRoiName).Algo_List.Find(x => x.Name == CurAlgoName).Param.Find(x => x.Name == Label);
+                InspParam CurParam = Shared_Recipe.ViewRecipe.Patterns_Data.Pattern.Find(x => x.Name == CurPtnName).ROI_Coord.Find(x => x.Name == CurRoiName).Algo_List.Find(x => x.Name == CurAlgoName).Param.Find(x => x.Name == Label);
                 CurParam.Value = ChangedValue;
                 UpdateParameter();
             }
 
         }
 
+        private void Dgv_Roi_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (Dgv_Roi.SelectedRows.Count <= 0)
+
+                return;
+            DataGridViewRow Row = Dgv_Roi.SelectedRows[0];
+            if (e.Button == MouseButtons.Left)
+            {
+  
+                    //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
+                    string CurRoi = Row.Cells["Name"].Value.ToString();
+                    ROI_PreView(CurRoi);
+
+                    UpdateAlgorithm();
+                    UpdateParameter();
+                
+            }
+        }
+
+        private void Dgv_Roi_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            //Dgv_Roi.Selected
+            if (e.ColumnIndex == 0)
+            {
+                DataGridViewRow SelItem = Dgv_Roi.Rows[e.RowIndex];
+                ROI Temp = Shared_Recipe?.ViewRecipe?.Patterns_Data.Pattern?.Find(x => x.Name == Systems.CurrentSelectedPtnName[CurFormIndex])?.ROI_Coord?.Find(x => x.Name == SelItem.Cells["Name"].Value.ToString());
+                Temp.Use = SelItem.Cells["USE"].Value.toBool();
+                Temp.Name = SelItem.Cells["Name"].Value.ToString();
+            }
+        }
+
+        private void Dgv_Roi_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            Dgv_Roi.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
+
+        private void Dgv_Roi_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (Dgv_Roi.SelectedRows.Count > 0)
+            {
+                DataGridViewRow Rows = Dgv_Roi.SelectedRows[0];
+                CurROIName= Rows.Cells["Name"].Value.ToString();
+            }
+        }
+
+        private void Dgv_Roi_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (CurROIName != "")
+            {
+                DataGridViewRow SelItem = Dgv_Roi.Rows[e.RowIndex];
+                ROI Temp = Shared_Recipe?.ViewRecipe?.Patterns_Data.Pattern?.Find(x => x.Name == Systems.CurrentSelectedPtnName[CurFormIndex])?.ROI_Coord?.Find(x => x.Name == CurROIName);
+                if (Temp != null)
+                {
+                    Temp.Use = SelItem.Cells["USE"].Value.toBool();
+                    Temp.Name = SelItem.Cells["Name"].Value.ToString();
+                }
+                CurROIName = "";
+            }
+        }
+
+        private void Dgv_Roi_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+        }
     }
 }
