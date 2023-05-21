@@ -22,7 +22,7 @@ namespace CRUX_Renewal
     {
         public static SharedMem SharedMemory;
         public static readonly ILog LogWriter = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        public static Inspector_Ver2 Inspector_;
+        public static Inspector_Collection Inspector_;
         public static ServerInterface g_Ipc;
         public static ALIVE_STATE[] AliveList;
         //public static Recipes RecipeContent = Recipes.Instance();

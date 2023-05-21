@@ -708,7 +708,13 @@ namespace CRUX_Renewal.Class
         public double Width { get; set; }
         public double Height { get; set; }
     }
-
+    public class ManualnspImage
+    {
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public CogImage8Grey Image { get; set; }
+        public bool Opend = false;
+    }
 
     /// <summary>
     /// Patterns Struct
@@ -799,118 +805,6 @@ namespace CRUX_Renewal.Class
         [Description("ROI 생성 시 기본 배율입니다.")]
         [XmlElement("DefaultScale")]
         public double DefaultScale { get; set; } = 0.8;
- 
-
-        //[Description("Line Style을 설정합니다.")]
-        //[DefaultValue(CogGraphicLineStyleConstants.Solid)]
-        //public CogGraphicLineStyleConstants LineStyle
-        //{
-        //    get
-        //    {
-        //        return CRUX_Renewal.EnumUtil<CogGraphicLineStyleConstants>.Parse(_LineStyle);
-        //    }
-        //    set
-        //    {
-        //        CogGraphicLineStyleConstants Temp = value;             
-        //        _LineStyle = Temp.ToString();
-        //    }
-        //}
-        //[Description("Line Color를 설정합니다.")]
-        //[DefaultValue(CogColorConstants.Red)]
-        ////[Editor(typeof(ColorEditor), typeof(ColorValuesConverter))]
-        //public CogColorConstants LineColor
-        //{
-        //    get
-        //    {
-        //        return CRUX_Renewal.EnumUtil<CogColorConstants>.Parse(_LineColor);
-        //    }
-        //    set
-        //    {
-        //        CogColorConstants Temp = value;
-        //        _LineColor = Temp.ToString();
-        //    }
-        //}
-        //[Description("ROI 생성 시 기본 배율입니다.")]
-        //[DefaultValue(0.8)]
-        //public double DefaultScale
-        //{
-        //    get
-        //    {
-        //        return _DefaultScale;
-        //    }
-        //    set
-        //    {
-        //        _DefaultScale = value;
-        //    }
-        //}
-        //[Description("Drag할 때 그려지는 GuideLine의 Color입니다.")]
-        //[DefaultValue(CogColorConstants.Red)]
-        //public CogColorConstants DragLineColor
-        //{
-        //    get
-        //    {
-        //        return CRUX_Renewal.EnumUtil<CogColorConstants>.Parse(_DragLineColor);
-        //    }
-        //    set
-        //    {
-        //        CogColorConstants Temp = value;
-        //        _DragLineColor = Temp.ToString();
-        //    }
-        //}
-        //[Description("Drag할 때 그려지는 GuideLine의 Style입니다.")]
-        //[DefaultValue(CogGraphicLineStyleConstants.Solid)]
-        //public CogGraphicLineStyleConstants DragLineStyle
-        //{
-        //    get
-        //    {
-        //        return CRUX_Renewal.EnumUtil<CogGraphicLineStyleConstants>.Parse(_DragLineStyle);
-        //    }
-        //    set
-        //    {
-        //        CogGraphicLineStyleConstants Temp = value;
-        //        _DragLineStyle = Temp.ToString();
-        //    }
-        //}
-        //[Description("선택된 Line의 Style입니다.")]
-        //[DefaultValue(CogGraphicLineStyleConstants.Solid)]
-        //public CogGraphicLineStyleConstants SelectedLineStyle
-        //{
-        //    get
-        //    {
-        //        return CRUX_Renewal.EnumUtil<CogGraphicLineStyleConstants>.Parse(_SelectedLineStyle);
-        //    }
-        //    set
-        //    {
-        //        CogGraphicLineStyleConstants Temp = value;
-        //        _SelectedLineStyle = Temp.ToString();
-        //    }
-        //}
-        //[Description("선택된 Line의 Color입니다.")]
-        //[DefaultValue(CogColorConstants.Red)]
-        //public CogColorConstants SelectedLineColor
-        //{
-        //    get
-        //    {
-        //        return CRUX_Renewal.EnumUtil<CogColorConstants>.Parse(_SelectedLineColor);
-        //    }
-        //    set
-        //    {
-        //        CogColorConstants Temp = value;
-        //        _SelectedLineColor = Temp.ToString();
-        //    }
-        //}
-        //[Description("설명입니다.")]
-        //public string Description
-        //{
-        //    get
-        //    {
-        //        return _Description;
-        //    }
-        //    set
-        //    {
-        //        _Description = value;
-        //    }
-        //}
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

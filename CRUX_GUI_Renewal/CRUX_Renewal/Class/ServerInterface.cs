@@ -411,6 +411,7 @@ namespace CRUX_Renewal.Class
                         ip.Position = ip.Position == "" ? "null" : ip.Position;
                         ip.ImageNo = Inspection_Data.ImageNum;
                         // ip 채워줘야함.
+                        
                         Systems.Inspector_.Start_Insp(ip);
 
                     }

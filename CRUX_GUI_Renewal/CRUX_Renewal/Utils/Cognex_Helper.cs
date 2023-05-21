@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.QuickBuild.Implementation.Internal;
@@ -100,5 +101,25 @@ namespace CRUX_Renewal.Utils
             return EnumUtil<CogGraphicLineStyleConstants>.Parse(data);
         }
 
+        //public static CogDisplay CreateCogDisplay(System.Drawing.Size size)
+        //{
+        //    CogDisplay NewDisplay = new CogDisplay();
+        //    NewDisplay.ColorMapLowerClipColor = System.Drawing.Color.Black;
+        //    NewDisplay.ColorMapLowerRoiLimit = 0D;
+        //    NewDisplay.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+        //    NewDisplay.ColorMapUpperClipColor = System.Drawing.Color.Black;
+        //    NewDisplay.ColorMapUpperRoiLimit = 1D;
+        //    NewDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+        //    NewDisplay.DoubleTapZoomCycleLength = 2;
+        //    NewDisplay.DoubleTapZoomSensitivity = 2.5D;
+        //    NewDisplay.Location = new System.Drawing.Point(0, 0);
+        //    NewDisplay.Margin = new System.Windows.Forms.Padding(0);
+        //    NewDisplay.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+        //    NewDisplay.MouseWheelSensitivity = 1D;
+        //    NewDisplay.Name = "Cog_ROI_Display";
+        //    NewDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Cog_ROI_Display.OcxState")));
+        //    NewDisplay.Size = new System.Drawing.Size(630, 522);
+        //    NewDisplay.TabIndex = 0;
+        //}
     }
 }

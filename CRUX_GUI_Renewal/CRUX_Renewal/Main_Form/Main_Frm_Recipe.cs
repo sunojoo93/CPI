@@ -274,8 +274,8 @@ namespace CRUX_Renewal.Main_Form
             Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
             Btn_Save.PerformClick();
             //Systems.Inspector_.Dispose();
-            Systems.Inspector_ = Inspector_Ver2.Instance();
-            Systems.Inspector_.ConvertInspectorFromRecipe(Shared_Recipe.MainRecipe);
+            //Systems.Inspector_ = Inspector_Ver2.Instance();
+            Systems.Inspector_.CreateInspectorFromRecipe(Shared_Recipe.MainRecipe);
             Utility.LoadingStop();
         }
 

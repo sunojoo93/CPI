@@ -1,17 +1,23 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Blob;
 using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ImageFile;
+using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.QuickBuild.Implementation.Internal;
 using Cognex.VisionPro.ToolGroup;
 using CRUX_Renewal.Class;
+using CRUX_Renewal.Ex_Form;
 using CRUX_Renewal.Utils;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,11 +31,10 @@ namespace CRUX_Renewal.Main_Form
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
         public Recipes Shared_Recipe;
-        Point StartPos;
-        Point EndPos;
-        PointDouble pd1;
         CogRectangle mRect2;
         bool _shiftIsDown = false;
+
+        List<ManualnspImage> InspImages = new List<ManualnspImage>();
         public void SetFormNameIndex(ref string name, ref int index)
         {
             CurrentFormName = name;
@@ -47,7 +52,8 @@ namespace CRUX_Renewal.Main_Form
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
             Show();
-
+            Cog_Display_Toolbar.Display = Cog_Display;
+            Cog_Display_Status.Display = Cog_Display;
             MouseWheel += Main_Frm_Manual_MouseWheel;
             //cogDisplay1.MouseDown += CogDisplay1_MouseDown;
             //cogDisplay1.MouseMove += CogDisplay1_MouseMove;
@@ -354,36 +360,6 @@ namespace CRUX_Renewal.Main_Form
 
         }
 
-        private void Tb_PanX_TextChanged(object sender, EventArgs e)
-        {
-            //cogDisplay1.PanX = Tb_PanX.Text.toDbl();
-        }
-
-        private void Tb_PanY_TextChanged(object sender, EventArgs e)
-        {
-            //cogDisplay1.PanY = Tb_PanY.Text.toDbl();
-        }
-
-        private void Tb_PanXMin_TextChanged(object sender, EventArgs e)
-        {
-            //cogDisplay1.PanXMin = Tb_PanX.Text.toDbl();
-        }
-
-        private void Tb_PanYMin_TextChanged(object sender, EventArgs e)
-        {
-            //cogDisplay1.PanX = Tb_PanX.Text.toDbl();
-        }
-
-        private void Tb_PanXMax_TextChanged(object sender, EventArgs e)
-        {
-            //cogDisplay1.PanX = Tb_PanX.Text.toDbl();
-        }
-
-        private void Tb_PanYMax_TextChanged(object sender, EventArgs e)
-        {
-            //cogDisplay1.PanX = Tb_PanX.Text.toDbl();
-        }
-
         private void cogDisplay1_KeyDown(object sender, KeyEventArgs e)
         {
             _shiftIsDown = e.Shift;
@@ -515,6 +491,136 @@ namespace CRUX_Renewal.Main_Form
                 Console.WriteLine($"CogUserResultRemovedEventHandler");
                 var Temp = sender as CogJobManager;
             });
+        }
+
+        private void Btn_LoadImage_Click(object sender, EventArgs e)
+        {
+            Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog();
+            dialog.IsFolderPicker = false; // true : 폴더 선택 / false : 파일 선택
+            CommonFileDialogFilterCollection DialogFilter = dialog.Filters;
+            DialogFilter.Add(new CommonFileDialogFilter("Bitmap", ".bmp"));
+            Cog_Display.AutoFit = true;
+            string FolderPath = string.Empty;
+            if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
+            {                
+                Tb_Path.Text = dialog.FileName;
+                int idx = dialog.FileName.LastIndexOf("\\");
+                FolderPath = dialog.FileName.Remove(++idx);
+                if (InspImages.Count > 0)
+                    InspImages.Clear();
+            }
+            else            
+                return;
+            Utility.LoadingStart();
+            ArrayList FileList = fileProc.getFileList(FolderPath, ".bmp");
+            string[] NameTemp;
+            foreach (string item in FileList)
+            {
+                CogImage8Grey ImageTemp = Cognex_Helper.Load_Image(item.ToString());
+                ManualnspImage Image = new ManualnspImage();
+                Image.Image = ImageTemp;
+                Image.Path = item.ToString();
+                NameTemp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
+                Image.Name = NameTemp[NameTemp.Length - 1];
+                InspImages.Add(Image);
+            }
+
+            ManualnspImage FindImage =  InspImages?.Find(x => x.Path == dialog.FileName);
+            if(FindImage != null)
+            {
+                FindImage.Opend = true;
+                Cog_Display.Image = FindImage.Image;
+                Btn_ImageSelect.Text = FindImage.Name;
+            }
+            Lb_CurImageNum.Text = $"{InspImages.FindIndex(x => x.Opend) + 1}/{InspImages.Count}";
+            string[] CellIDTemp = FolderPath.Split(new string[] { "\\" }, StringSplitOptions.None);
+            string CellID = CellIDTemp[CellIDTemp.Length - 2];
+            Tb_CellID.Text = CellID;
+            Utility.LoadingStop();
+        }
+
+        private void Btn_Left_Click(object sender, EventArgs e)
+        {
+            {
+                try
+                {
+                    if (InspImages.Count >= 0)
+                        SetManualImageSeq(true);
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        private void Btn_Right_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (InspImages.Count >= 0)
+                    SetManualImageSeq(false);
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+        private void SetManualImageSeq(bool dir)
+        {
+            int FindIdx = InspImages.FindIndex(x => x.Opend);
+            InspImages[FindIdx].Opend = false;
+            int NextIdx = dir == true ? FindIdx - 1 : FindIdx + 1;
+            Cog_Display.Image = InspImages[NextIdx].Image;
+            InspImages[NextIdx].Opend = true;
+            Btn_ImageSelect.Text = InspImages[NextIdx].Name;
+            int ListCount = InspImages.Count;
+
+            if (NextIdx >= ListCount - 1)
+            {
+                Btn_Right.Enabled = false;
+            }
+            else if (NextIdx <= 0)
+            {
+                Btn_Left.Enabled = false;
+            }
+            else
+            {
+                Btn_Right.Enabled = true;
+                Btn_Left.Enabled = true;
+            }
+            Lb_CurImageNum.Text = $"{InspImages.FindIndex(x => x.Opend) + 1}/{InspImages.Count}";
+        }
+
+        private void Btn_ImageSelect_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Btn_StartInsp_Click(object sender, EventArgs e)
+        {
+            InspData Data = new InspData();
+            Data.Position = "Left";
+            CogImage8Grey Image = Cognex_Helper.Load_Image($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
+            Data.OriginImage = Image;
+
+            Systems.Inspector_.Start_Insp(Data);
+        }
+
+        private void button2_Click_2(object sender, EventArgs e)
+        {
+            CogImage8Grey Image = Cognex_Helper.Load_Image($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
+            CogCopyRegionTool RegionCopyTool = new CogCopyRegionTool();
+            RegionCopyTool.InputImage = Image;
+            CogRectangle Rect = new CogRectangle() { X = 2000, Y = 50000, Width = 2000, Height = 50000 };
+
+            RegionCopyTool.Region = Rect;
+            RegionCopyTool.Run();
+            CogImage8Grey Output = RegionCopyTool.OutputImage as CogImage8Grey;
+
+            Bitmap Temp = Output.ToBitmap();
+            Temp.Save($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT123.bmp");
+
         }
     }
 }

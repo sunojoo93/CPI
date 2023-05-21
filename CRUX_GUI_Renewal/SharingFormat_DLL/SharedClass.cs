@@ -40,6 +40,6 @@ namespace SharingFormat_DLL
     }
     public class Insp_Images
     {
-        public Dictionary<string, CogImage8Grey> Images;
+        public Dictionary<string, CogImage8Grey> Images = new Dictionary<string, CogImage8Grey>();
     }
 }

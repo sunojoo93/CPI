@@ -28,29 +28,22 @@
         /// </summary>
         private void InitializeComponent ()
         {
-            this.Tlp_Main = new System.Windows.Forms.TableLayoutPanel();
+            this.Tlp_MainForm = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
-            // Tlp_Main
+            // Tlp_MainForm
             // 
-            this.Tlp_Main.ColumnCount = 7;
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.43431F));
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.67057F));
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.89512F));
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
-            this.Tlp_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Main.Location = new System.Drawing.Point(0, 0);
-            this.Tlp_Main.Margin = new System.Windows.Forms.Padding(0);
-            this.Tlp_Main.Name = "Tlp_Main";
-            this.Tlp_Main.RowCount = 2;
-            this.Tlp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 67F));
-            this.Tlp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Main.Size = new System.Drawing.Size(1920, 1000);
-            this.Tlp_Main.TabIndex = 0;
+            this.Tlp_MainForm.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Tlp_MainForm.ColumnCount = 1;
+            this.Tlp_MainForm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_MainForm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_MainForm.Location = new System.Drawing.Point(0, 0);
+            this.Tlp_MainForm.Name = "Tlp_MainForm";
+            this.Tlp_MainForm.RowCount = 2;
+            this.Tlp_MainForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_MainForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            this.Tlp_MainForm.Size = new System.Drawing.Size(1920, 1000);
+            this.Tlp_MainForm.TabIndex = 0;
             // 
             // Frm_MainContent
             // 
@@ -58,11 +51,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(1920, 1000);
-            this.Controls.Add(this.Tlp_Main);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
+            this.Controls.Add(Tlp_MainForm);
             this.Name = "Frm_MainContent";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "CRUX";
@@ -71,10 +64,9 @@
             this.ResumeLayout(false);
 
         }
-
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel Tlp_Main;
+        private System.Windows.Forms.TableLayoutPanel Tlp_MainForm;
     }
 }
 

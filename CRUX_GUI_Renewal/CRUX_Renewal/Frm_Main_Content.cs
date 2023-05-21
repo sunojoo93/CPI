@@ -83,11 +83,8 @@ namespace CRUX_Renewal
             Frm_Algorithm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             //Frm_Algorithm.SetRecipe(ref Recipe);
 
-            Tlp_Main.Controls.Add(Frm_MenuBar, 0, 1);
-            Tlp_Main.Controls.Add(Frm_Auto, 0, 0);
-
-            Tlp_Main.SetColumnSpan(Frm_Auto, 7);
-            Tlp_Main.SetColumnSpan(Frm_MenuBar, 7);
+            Tlp_MainForm.Controls.Add(Frm_MenuBar, 0, 1);
+            Tlp_MainForm.Controls.Add(Frm_Auto, 0, 0);
 
             CurrentFormName = Frm_Auto.Name;
             LoadingComplete = true;
@@ -101,13 +98,13 @@ namespace CRUX_Renewal
 
         public void ChangeMainForm(Form name)
         {            
-            var Result = Tlp_Main.Controls.Find(name.Name, false);
+            var Result = Tlp_MainForm.Controls.Find(name.Name, false);
             if ( Result.Count() == 0)
             {
                 name.Hide();
-                Tlp_Main.Controls.Remove(Tlp_Main.Controls.Find(CurrentFormName, false)[0]);
-                Tlp_Main.Controls.Add(name, 0, 0);
-                Tlp_Main.SetColumnSpan(name, 7);                
+                Tlp_MainForm.Controls.Remove(Tlp_MainForm.Controls.Find(CurrentFormName, false)[0]);
+                Tlp_MainForm.Controls.Add(name, 0, 0);
+                //Tlp_Main_.SetColumnSpan(name, 7);                
                 CurrentFormName = name.Name;
                 name.Show();
             }
