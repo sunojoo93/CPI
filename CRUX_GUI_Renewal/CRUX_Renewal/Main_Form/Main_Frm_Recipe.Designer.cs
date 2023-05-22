@@ -87,9 +87,9 @@ namespace CRUX_Renewal.Main_Form
             // 
             // Tab_RecipeMain
             // 
+            this.Tab_RecipeMain.Controls.Add(this.tab_Link);
             this.Tab_RecipeMain.Controls.Add(this.tab_optic);
             this.Tab_RecipeMain.Controls.Add(this.tab_align);
-            this.Tab_RecipeMain.Controls.Add(this.tab_Link);
             this.Tab_RecipeMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tab_RecipeMain.HotTrack = true;
             this.Tab_RecipeMain.Location = new System.Drawing.Point(180, 0);

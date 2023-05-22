@@ -62,6 +62,7 @@ namespace CRUX_Renewal.Class.InspVer2
                     if (item.Busy == false)
                     {
                         item.Start_Insp(data);
+                        break;
                     }
                 }
             }
@@ -76,9 +77,8 @@ namespace CRUX_Renewal.Class.InspVer2
         // Inspector 객체는 싱글톤으로 생성
         class Inspector_Ver2 : IDisposable
         {
-
             private string RecipeName = string.Empty;
-
+            
             List<Inspection> Pattern_Inspector = new List<Inspection>();
             public bool Busy = false;
 
@@ -102,12 +102,16 @@ namespace CRUX_Renewal.Class.InspVer2
                 if (Pattern_Inspector != null && Pattern_Inspector.Count > 0)
                 {
                         foreach (Inspection item in Pattern_Inspector)
+                    {
+                        if (data.Position == item.Name)
                         {
-                            if (data.Position == item.Name)
+                            Thread t = new Thread(delegate ()
                             {
-                                item.Start_Insp(data.OriginImage);
-                            }
-                        }                    
+                                item.Start_Insp(data.OriginImage); ;
+                            });
+                            t.Start();
+                        }
+                    }
                 }
             }
 
@@ -123,10 +127,11 @@ namespace CRUX_Renewal.Class.InspVer2
                 Pattern_Inspector = null;
             }
 
-            class Inspection : IDisposable
+            class Inspection : Inspector_Ver2, IDisposable
             {
                 //public bool Busy { get; set; } = false;
-                bool Finished = false;
+                private bool Finished = false;
+                
                 public string Name { get; set; } = string.Empty;
                 List<Region_Inspector> Region_Insp = new List<Region_Inspector>();
 
@@ -149,10 +154,29 @@ namespace CRUX_Renewal.Class.InspVer2
                 {
                     if (Region_Insp != null)
                     {
-                        foreach (Region_Inspector item in Region_Insp)
+                        Task[] TaskList = new Task[Region_Insp.Count];
+                        for (int i = 0; i < Region_Insp.Count; ++i)
                         {
-                            item.Start_Insp(image);
+                            Region_Insp[i].Start_Insp(image);
+                            TaskList[i] = Region_Insp[i].Thread_Insp;
                         }
+                        //if(Region_Insp.Count > 0)
+
+                        //do
+                        //{
+                        //    int TotalCount = Region_Insp.Count;
+                        //    int CheckCount = 0;
+                        //    foreach (Region_Inspector item in Region_Insp)
+                        //    {
+                        //        if (item.Region_Finished)
+                        //            ++CheckCount;
+                        //    }
+                        //    if(CheckCount >= TotalCount)
+
+
+                        //} while(TotalCount > CheckCount)
+                        Console.WriteLine("All Worker End");
+                        
                     }
                 }
                 public void Clear_Inspection()
@@ -404,12 +428,13 @@ namespace CRUX_Renewal.Class.InspVer2
                 }
                 #endregion
 
-                class Region_Inspector : IDisposable
+                class Region_Inspector : Inspection, IDisposable
                 {
                     public string Name;
+                    public Task Thread_Insp;
                     public Coordinate ROI;
                     private Algorithm_Inspection AlgoInsp;
-                    public bool Finished;
+                    private bool Finished;
 
                     public Region_Inspector(ROI roi)
                     {
@@ -420,20 +445,42 @@ namespace CRUX_Renewal.Class.InspVer2
                             if (AlgoInsp == null)
                                 AlgoInsp = new Algorithm_Inspection();
                             AlgoInsp.SetInspector(item);
+         
                         }
                     }
                     public void Start_Insp(CogImage8Grey image)
                     {
+                        Thread_Insp = new Task(delegate ()
+                       {
+                           try
+                           {
+                               //Utility.ChangeJobImageSource(Job, false);
+                               for(int i = 0; i < AlgoInsp.Algorithm_Job.JobCount; ++i)
+                               {
+                                   ((AlgoInsp.Algorithm_Job.Job(i).VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = image;
+                               }
+                          
+
+                               CogCopyRegionTool RegionCopyTool = new CogCopyRegionTool();
+                               RegionCopyTool.InputImage = image;
+                               CogRectangle Rect = new CogRectangle() { X = ROI.X, Y = ROI.Y, Width = ROI.Width, Height = ROI.Height };
+
+                               RegionCopyTool.Region = Rect;
+                               RegionCopyTool.Run();
+                               CogImage8Grey Output = RegionCopyTool.OutputImage as CogImage8Grey;
+                               AlgoInsp.Start_Insp(Output);
+                           }
+                           catch(Exception ex)
+                           {
+                               string ErrorMessage = $"Thread Start Error, ROI Name : {Name} ErrorMessage : {ex.Message}";
+                               Console.WriteLine(ErrorMessage);
+                           }
+                       });
+
+                        Thread_Insp.Start();
                         // 원본 영상에서 크롭
                         // 크롭한 이미지를 Job_List에 넣어줌
-                        CogCopyRegionTool RegionCopyTool = new CogCopyRegionTool();
-                        RegionCopyTool.InputImage = image;
-                        CogRectangle Rect = new CogRectangle() { X = ROI.X, Y = ROI.Y, Width = ROI.Width, Height = ROI.Height };
 
-                        RegionCopyTool.Region = Rect;
-                        RegionCopyTool.Run();
-                        CogImage8Grey Output = RegionCopyTool.OutputImage as CogImage8Grey;                     
-                        AlgoInsp.Start_Insp(Output);
                     }
                     public void Dispose()
                     {
@@ -442,10 +489,21 @@ namespace CRUX_Renewal.Class.InspVer2
                             AlgoInsp.Dispose();
                         }
                     }
-                    class Algorithm_Inspection
+                    class Algorithm_Inspection : Region_Inspector
                     {
                         public CogJobManager Algorithm_Job = new CogJobManager();
-                        public bool Busy = false;
+                        private bool Busy_ = false;
+                        public bool Busy {
+                            get
+                            {
+                                return Busy_;
+
+                            }
+                        set
+                            {
+
+                            }
+                        }
                         public bool Finishe;
                         public Algorithm_Inspection()
                         {
@@ -468,39 +526,51 @@ namespace CRUX_Renewal.Class.InspVer2
                         }
                         public void Start_Insp(CogImage8Grey image)
                         {
-                            Insp_Images ImagesList = new Insp_Images();
-                            ImagesList.Images.Add("Origin",image);
-                            //CogCopyRegion CopyRegionObj = new CogCopyRegion();
-                            //CopyRegionObj.
+                            try
+                            {
+                                Insp_Images ImagesList = new Insp_Images();
+                                ImagesList.Images.Add("Origin", image);
+                                //CogCopyRegion CopyRegionObj = new CogCopyRegion();
+                                //CopyRegionObj.
 
-                            //foreach (CogImage8Grey item in image)
-                            //    ImagesList.Images.Add("Temp", item);
+                                //foreach (CogImage8Grey item in image)
+                                //    ImagesList.Images.Add("Temp", item);
 
-                            for (int i = 0; i < Algorithm_Job.JobCount; ++i)
-                                Algorithm_Job.Job(i).UserData.Add("Images", ImagesList);
+                                for (int i = 0; i < Algorithm_Job.JobCount; ++i)
+                                    Algorithm_Job.Job(i).VisionTool.UserData.Add("Images", ImagesList);
 
-                            Algorithm_Job.Run();
-                            Busy = true;
+                                Algorithm_Job.Run();
+                                Busy = true;                        
+                                 Finishe = false;
+                            }
+                            catch(Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                Busy = false;                               
+                            }
                         }
                         private void AddJobEvent(CogJob Job)
                         {
                             Job.Stopped += new CogJob.CogJobStoppedEventHandler((sender, e) =>
                             {
                                 var Temp = sender as CogJob;
+                                Finishe = true;
+                                Busy = false;
                                 Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
 
-                            //InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                            Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
-                            //InspectData.Dispose()
-                            Finishe = true;
-                            //Set = false;
-                            Job.Image();
+                                //InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                                Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
+                                //InspectData.Dispose()
 
+                                //Set = false;
+                                Job.Image();
+                                //Systems.Inspector_.Inspectors.Find
                             });
 
                             Job.Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
                             {
                                 Finishe = false;
+                                Busy = true;
                                 var Temp = sender as CogJob;
                                 Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
                             //InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
