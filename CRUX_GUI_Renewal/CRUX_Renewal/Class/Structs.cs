@@ -251,8 +251,7 @@ namespace CRUX_Renewal.Class
         public string Path { get; set; }
         public bool Opend { get; set; }
         //public CogJobManager Manager { get; set; } = null;
-        public Optical_Cam Camera = new Optical_Cam();
-        public Optical_Light Light = new Optical_Light();
+        public OpticsData Optics_Data = new OpticsData();
         //public Dictionary<string, List<ROI_Data>> ROI_List;
         public Patterns Patterns_Data = new Patterns();
         //public List<ROI_Property> ROI_Prop = new List<ROI_Property>();
@@ -278,72 +277,6 @@ namespace CRUX_Renewal.Class
         public Patterns GetPatterns_Datas()
         {
             return Patterns_Data;
-        }
-        public void Load_RecipeData(string path, string rcp_name)
-        {
-            try
-            {
-
-
-
-                //for (int i = 0; i < Globals.Ini_RecipeItem_Names.Length; ++i)
-                //{
-                //    if (Systems.RecipeData_Collection[Systems.CurDisplayIndex].ContainsKey(Globals.Ini_RecipeItem_Names[i]))
-                //    {
-                //        Systems.RecipeData_Collection[Systems.CurDisplayIndex].Remove(Globals.Ini_RecipeItem_Names[i]);
-                //    }
-
-                //    IniFile Ini = new IniFile();
-                //    Ini.Load($@"{path}{rcp_name}\{Globals.Ini_RecipeItem_Names[i]}");
-                //    Systems.RecipeData_Collection[Systems.CurDisplayIndex].Add(Globals.Ini_RecipeItem_Names[i], Ini);
-                //}
-                //IniFile ini = Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ROI.list"];
-
-                ////ROI_List = new Dictionary<string, List<ROI_Data>>();
-                //foreach (var item in ini.Values)
-                //{
-                //    string JobName = item["JobName"].ToString();
-                //    if (JobName == null)
-                //    {
-                //        throw new Exception("Job is null");
-                //    }
-                //    ROI_Data Rd = new ROI_Data();
-                //    Rd.Name = item["Name"].ToString();
-                //    Rd.Category = item["Category"].ToString();
-                //    Rd.JobName = item["JobName"].ToString();
-
-                //    double X = -999999;
-                //    if (Double.TryParse(item["X"].ToString(), out X))
-                //        Rd.X = X;
-
-                //    double Y = -999999;
-                //    if (Double.TryParse(item["Y"].ToString(), out Y))
-                //        Rd.Y = Y;
-
-                //    double Width = -999999;
-                //    if (Double.TryParse(item["Width"].ToString(), out Width))
-                //        Rd.Width = Width;
-
-                //    double Height = -999999;
-                //    if (Double.TryParse(item["Height"].ToString(), out Height))
-                //        Rd.Height = Height;
-
-                    //if (!ROI_List.ContainsKey(JobName))
-                    //{
-                    //    List<ROI_Data> Temp = new List<ROI_Data>();
-                    //    Temp.Add(Rd);
-                    //    ROI_List.Add(JobName, Temp);
-                    //}
-                    //else
-                    //{
-                    //    ROI_List[JobName].Add(Rd);
-                    //}
-                //}
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
         public void AddRoi(string jobname, ROI_Data roi)
         {
@@ -716,6 +649,126 @@ namespace CRUX_Renewal.Class
         public bool Opend = false;
     }
 
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_RECIPE_INFO
+    {
+        int GrabCount;
+        ST_GRAB_INFO[] Grab_Info;
+        ST_PG_INFO PG_Info;
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_GRAB_INFO
+    {
+        int GrabCount;
+        string GrabStepName;
+        bool Vacuum;
+        ST_CAM_COND[] Cam_Condition;
+        ST_LIGHT_COND[] Light_Condition;
+        ST_LINE_INFO[] Line_Info;
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_CAM_COND
+    {
+
+        int GrabCount;
+
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_LIGHT_COND
+    {
+        int GrabCount;
+
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_PG_INFO
+    {
+        int GrabCount;
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_LINE_INFO
+    {
+        int GrabCount;
+    }
+
+
+
+
+
+
+
+
+
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [XmlRoot("GrabInfo")]
+    public class OpticsData
+    {
+        [XmlArray("GrabPatterns")]
+        [XmlArrayItem("GrabPattern")]
+        public List<GrabPattern> Pattern { get; set; }
+    };
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class GrabPattern
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        [XmlArray("Cameras")]
+        [XmlArrayItem("Camera")]  
+        public List<CameraInfo> CamConditions { get; set; }
+        [XmlArray("Lights")]
+        [XmlArrayItem("Light")]
+        public List<LightInfo> LightConditions { get; set; }
+    }
+
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class CameraInfo
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        [XmlAttribute("Use")]
+        public bool Use { get; set; }
+        [XmlElement("Expose")]
+        public string Expose { get; set; }
+        [XmlElement("Gain")]
+        public string Gain { get; set; }
+        [XmlElement("PS")]
+        public string PS { get; set; }
+        [XmlElement("Delay")]
+        public string Delay { get; set; }
+    }
+
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class LightInfo
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        [XmlAttribute("Use")]
+        public bool Use { get; set; }
+        [XmlArray("Lights")]
+        [XmlArrayItem("Light")]
+        public List<Light_Controller> LightConditions { get; set; }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Light_Controller
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
+        [XmlAttribute("Use")]
+        public bool Use { get; set; }
+        [XmlArray("Channels")]
+        [XmlArrayItem("Ch")]
+        public List<string> Channels { get; set; }
+    }
     /// <summary>
     /// Patterns Struct
     /// </summary>

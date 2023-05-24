@@ -199,6 +199,10 @@ struct ST_MODEL_INFO
 	}
 };
 
+struct ST_MODEL_INFO_AOT
+{
+
+};
 struct ST_PROC_INFO
 {
 	BOOL bFindModel;

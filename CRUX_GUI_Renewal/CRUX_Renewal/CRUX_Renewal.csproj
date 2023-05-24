@@ -414,24 +414,6 @@
     <Compile Include="Ex_Form\Notification\Ex_Frm_Notification_Question.Designer.cs">
       <DependentUpon>Ex_Frm_Notification_Question.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Light_Info.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Light_Info.Designer.cs">
-      <DependentUpon>Ex_Frm_Optic_Light_Info.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Trigger_Info.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Trigger_Info.Designer.cs">
-      <DependentUpon>Ex_Frm_Optic_Trigger_Info.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Cam_Info.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Cam_Info.Designer.cs">
-      <DependentUpon>Ex_Frm_Optic_Cam_Info.cs</DependentUpon>
-    </Compile>
     <Compile Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Area_Content.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -669,15 +651,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Notification\Ex_Frm_Notification_Question.resx">
       <DependentUpon>Ex_Frm_Notification_Question.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Light_Info.resx">
-      <DependentUpon>Ex_Frm_Optic_Light_Info.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Trigger_Info.resx">
-      <DependentUpon>Ex_Frm_Optic_Trigger_Info.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Cam_Info.resx">
-      <DependentUpon>Ex_Frm_Optic_Cam_Info.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Optic_Content\Ex_Frm_Optic_Area_Content.resx">
       <DependentUpon>Ex_Frm_Optic_Area_Content.cs</DependentUpon>

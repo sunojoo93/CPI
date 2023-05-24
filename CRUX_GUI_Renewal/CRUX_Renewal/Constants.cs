@@ -117,7 +117,7 @@ namespace CRUX_Renewal
 
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
-        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "Patterns.xml" };
+        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "Patterns.xml", "Grab_Optics_Info.xml" };
         public static List<string> SelectRecipe = new List<string>();
 
        

@@ -622,5 +622,10 @@ namespace CRUX_Renewal.Main_Form
             Temp.Save($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT123.bmp");
 
         }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

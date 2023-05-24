@@ -155,6 +155,12 @@ namespace CRUX_Renewal
                                     recipe.Patterns_Data = null;
                                     recipe.Patterns_Data = RecipeManager.RecipeDeserialize<Patterns>($@"{FullPath}\", "Patterns.xml");
                                     break;
+                                case "Grab_Optics_Info.xml":
+                                    recipe.Optics_Data = null;
+                                    recipe.Optics_Data = RecipeManager.RecipeDeserialize<OpticsData>($@"{FullPath}\", "Grab_Optics_Info.xml");
+                                    break;
+
+                                
                             }
                         }
                     }

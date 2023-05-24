@@ -146,11 +146,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1920, 1030);
+            this.Controls.Add(this.Tlp_Main);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
             this.Name = "Frm_Main";
-            this.Controls.Add(Tlp_Main);
             this.Shown += new System.EventHandler(this.Frm_Main_Shown);
             this.Tlp_Main.ResumeLayout(false);
             this.Tlp_Main.PerformLayout();
