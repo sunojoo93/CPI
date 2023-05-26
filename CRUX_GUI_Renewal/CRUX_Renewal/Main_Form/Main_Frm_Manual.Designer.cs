@@ -56,6 +56,7 @@
             this.tab_Page_ImageSimul = new System.Windows.Forms.TabPage();
             this.tab_Page_TotalSimul = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.Tlp_Simul.SuspendLayout();
             this.Grb_ImageInfo.SuspendLayout();
             this.Tlp_ImageInfo.SuspendLayout();
@@ -78,6 +79,7 @@
             this.Tlp_Simul.Controls.Add(this.Grb_ImageInfo, 0, 1);
             this.Tlp_Simul.Controls.Add(this.Tlp_Images, 0, 0);
             this.Tlp_Simul.Controls.Add(this.button2, 1, 1);
+            this.Tlp_Simul.Controls.Add(this.button4, 1, 0);
             this.Tlp_Simul.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Simul.Location = new System.Drawing.Point(3, 3);
             this.Tlp_Simul.Name = "Tlp_Simul";
@@ -149,7 +151,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 1F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(535, 1);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
@@ -406,6 +408,16 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(703, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
+            // 
             // Main_Frm_Manual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -464,5 +476,6 @@
         private System.Windows.Forms.TabPage tab_Page_ImageSimul;
         private System.Windows.Forms.TabPage tab_Page_TotalSimul;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }

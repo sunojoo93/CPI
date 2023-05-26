@@ -106,7 +106,7 @@ namespace CRUX_Renewal
         {
             try
             {
-                RecipeManager.RecipeSerialize($"{ recipe.Path}{recipe.Name}", "Patterns.xml", recipe.Patterns_Data);
+                RecipeManager.RecipeSerialize($"{ recipe.Path}{recipe.Name}", "Patterns.xml", recipe.InspArea_Data);
             }
             catch(Exception ex)
             {
@@ -151,16 +151,14 @@ namespace CRUX_Renewal
                                     }
                                     break;
 
-                                case "Patterns.xml":
-                                    recipe.Patterns_Data = null;
-                                    recipe.Patterns_Data = RecipeManager.RecipeDeserialize<Patterns>($@"{FullPath}\", "Patterns.xml");
+                                case "InspAreas.xml":
+                                    recipe.InspArea_Data = null;
+                                    recipe.InspArea_Data = RecipeManager.RecipeDeserialize<InspAreas>($@"{FullPath}\", "InspAreas.xml");
                                     break;
-                                case "Grab_Optics_Info.xml":
+                                case "GrabOpticsInfo.xml":
                                     recipe.Optics_Data = null;
-                                    recipe.Optics_Data = RecipeManager.RecipeDeserialize<OpticsData>($@"{FullPath}\", "Grab_Optics_Info.xml");
-                                    break;
-
-                                
+                                    recipe.Optics_Data = RecipeManager.RecipeDeserialize<OpticsData>($@"{FullPath}\", "GrabOpticsInfo.xml");
+                                    break;                                
                             }
                         }
                     }
@@ -171,6 +169,27 @@ namespace CRUX_Renewal
                 Console.WriteLine(ex.Message);
             }
         }    
+        public static ST_RECIPE_INFO CreateSeqRecipeFromRecipe(Recipe recipe)
+        {
+            ST_RECIPE_INFO NewRecipe = new ST_RECIPE_INFO();
+            NewRecipe.RecipeName = recipe.Name;
+            NewRecipe.GrabCount = recipe.Optics_Data.Area.Count;
+            //for (int i = 0; i < recipe.Optics_Data.Area.Count; ++i)
+            //{
+            //    ST_GRAB_AREA_INFO NewGrabInfo = new ST_GRAB_AREA_INFO();
+            //    NewGrabInfo.Name =  recipe.Optics_Data.Area[i].Name;
+            //    for (int j = 0; j < recipe.Optics_Data.Area[i].Patterns
+            //        NewGrabInfo.Name
+            //    NewRecipe.GrabArea[i] = recipe.Optics_Data.Area[i];
+            //}
+            //foreach(GrabArea item in recipe.Optics_Data.Area)
+            //{
+            //    item.Name = recipe.
+            //}
+            //NewRecipe.GrabAre 
+            //NewRecipe.GrabArea =
+            return NewRecipe;
+        }
     }
 
     static class Utility

@@ -36,8 +36,8 @@ namespace CRUX_Renewal.Ex_Form
         bool Display_Draging = false;
         ToolTip Tip = new ToolTip();
         Recipes Recipe;
-        public Pattern CurPattern;
-        Pattern Origin_Pattern;
+        public InspArea CurPattern;
+        InspArea Origin_Pattern;
         string CurPtnName;
         bool AltIsDown
         {
@@ -102,7 +102,7 @@ namespace CRUX_Renewal.Ex_Form
             InputBox.Hide();
             //RefeshRoiDataView();      
         }
-        public void Init(ICogImage image, Pattern ptn)
+        public void Init(ICogImage image, InspArea ptn)
         {
             Cog_ROI_Display.Image = image;
             Cog_ROI_Display.AutoFit = true;

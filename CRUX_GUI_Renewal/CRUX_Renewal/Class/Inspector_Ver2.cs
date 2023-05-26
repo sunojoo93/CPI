@@ -86,7 +86,7 @@ namespace CRUX_Renewal.Class.InspVer2
             {
                 Dispose();
                 RecipeName = recipe.Name;
-                foreach (Pattern item in recipe.Patterns_Data.Pattern)
+                foreach (InspArea item in recipe.InspArea_Data.Area)
                 {
                     if (Pattern_Inspector == null)
                         Pattern_Inspector = new List<Inspection>();
@@ -138,7 +138,7 @@ namespace CRUX_Renewal.Class.InspVer2
                 public Judgement Judge = new Judgement();
                 private object Locker1 = new object();
 
-                public Inspection(Pattern pattern)
+                public Inspection(InspArea pattern)
                 {
                     Name = pattern.Name;
                     foreach (ROI item in pattern.ROI_Coord)

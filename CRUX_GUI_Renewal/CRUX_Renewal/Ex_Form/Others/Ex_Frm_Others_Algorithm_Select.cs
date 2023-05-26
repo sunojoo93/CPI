@@ -98,7 +98,7 @@ namespace CRUX_Renewal.Ex_Form
                 return;
             }
             
-            Algorithm Algo = new Algorithm() { Name = SelectedItem, Param = new List<InspParam>(), Use = "false", Path = AlgoInfo.Path };
+            Algorithm Algo = new Algorithm() { Name = SelectedItem, Param = new List<InspParam>(), Use = false, Path = AlgoInfo.Path };
             CurrentAlgoList_Temp.Add(Algo);
             UpdateDisplay();
         }

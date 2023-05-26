@@ -627,5 +627,10 @@ namespace CRUX_Renewal.Main_Form
         {
 
         }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
+        }
     }
 }

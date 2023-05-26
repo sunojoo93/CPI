@@ -28,6 +28,13 @@ namespace CRUX_Renewal.Ex_Form
             Dock = DockStyle.Fill;
             FormBorderStyle = FormBorderStyle.None;
         }
+        public Ex_Frm_Others_New_Input(string title)
+        {
+            InitializeComponent();
+            Dock = DockStyle.Fill;
+            FormBorderStyle = FormBorderStyle.None;
+            Lb_ErrorTitle.Text = title;
+        }
         public Ex_Frm_Others_New_Input(string form_title, object obj)
         {
             InitializeComponent();
@@ -110,7 +117,7 @@ namespace CRUX_Renewal.Ex_Form
             Tb_AfterName.BackColor = Color.LightGreen;
             Lb_Memo.Text = "생성할 수 있습니다.";
             State = true;
-            if (Obj.GetType() == typeof(ListViewItemCollection))
+            if (Obj?.GetType() == typeof(ListViewItemCollection))
             {
                 ListViewItemCollection Items = Obj as ListViewItemCollection;
                 if (Tb_AfterName.Text == "" || Tb_AfterName.Text.ToString().Any(x => Char.IsWhiteSpace(x) == true))
@@ -145,6 +152,45 @@ namespace CRUX_Renewal.Ex_Form
                                 State = true;
                             }
                        
+                    }
+                }
+            }
+
+            if (Obj?.GetType() == typeof(DataGridViewRowCollection))
+            {
+                DataGridViewRowCollection Items = Obj as DataGridViewRowCollection;
+                if (Tb_AfterName.Text == "" || Tb_AfterName.Text.ToString().Any(x => Char.IsWhiteSpace(x) == true))
+                {
+                    Tb_AfterName.BackColor = Color.Pink;
+                    Lb_Memo.Text = "공백은 허용되지 않습니다.";
+                    State = false;
+                    return;
+                }
+                else if (Items.Count <= 0)
+                {
+                    Tb_AfterName.BackColor = Color.LightGreen;
+                    Lb_Memo.Text = "생성할 수 있습니다.";
+                    State = true;
+                }
+                else
+                {
+                    for (int i = 0; i < Items.Count; ++i)
+                    {
+
+                        if (Items[i].Cells["Name"].Value.ToString() == Tb_AfterName.Text)
+                        {
+                            Tb_AfterName.BackColor = Color.Pink;
+                            Lb_Memo.Text = "중복된 이름입니다.";
+                            State = false;
+                            break;
+                        }
+                        else
+                        {
+                            Tb_AfterName.BackColor = Color.LightGreen;
+                            Lb_Memo.Text = "생성할 수 있습니다.";
+                            State = true;
+                        }
+
                     }
                 }
             }

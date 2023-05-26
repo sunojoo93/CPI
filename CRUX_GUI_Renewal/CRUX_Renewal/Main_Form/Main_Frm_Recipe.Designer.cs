@@ -32,9 +32,9 @@ namespace CRUX_Renewal.Main_Form
         {
             this.Tlp_RecipeLayout = new System.Windows.Forms.TableLayoutPanel();
             this.Tab_RecipeMain = new System.Windows.Forms.TabControl();
+            this.tab_Link = new System.Windows.Forms.TabPage();
             this.tab_optic = new System.Windows.Forms.TabPage();
             this.tab_align = new System.Windows.Forms.TabPage();
-            this.tab_Link = new System.Windows.Forms.TabPage();
             this.Btn_Judge = new System.Windows.Forms.Button();
             this.Lb_UnderLine2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -101,6 +101,16 @@ namespace CRUX_Renewal.Main_Form
             this.Tab_RecipeMain.TabIndex = 0;
             this.Tab_RecipeMain.SelectedIndexChanged += new System.EventHandler(this.Tab_RecipeMain_SelectedIndexChanged);
             // 
+            // tab_Link
+            // 
+            this.tab_Link.Location = new System.Drawing.Point(4, 22);
+            this.tab_Link.Name = "tab_Link";
+            this.tab_Link.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_Link.Size = new System.Drawing.Size(1453, 753);
+            this.tab_Link.TabIndex = 5;
+            this.tab_Link.Text = "Link";
+            this.tab_Link.UseVisualStyleBackColor = true;
+            // 
             // tab_optic
             // 
             this.tab_optic.Location = new System.Drawing.Point(4, 22);
@@ -119,16 +129,6 @@ namespace CRUX_Renewal.Main_Form
             this.tab_align.TabIndex = 2;
             this.tab_align.Text = "Align";
             this.tab_align.UseVisualStyleBackColor = true;
-            // 
-            // tab_Link
-            // 
-            this.tab_Link.Location = new System.Drawing.Point(4, 22);
-            this.tab_Link.Name = "tab_Link";
-            this.tab_Link.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Link.Size = new System.Drawing.Size(1453, 753);
-            this.tab_Link.TabIndex = 5;
-            this.tab_Link.Text = "Link";
-            this.tab_Link.UseVisualStyleBackColor = true;
             // 
             // Btn_Judge
             // 
@@ -250,7 +250,7 @@ namespace CRUX_Renewal.Main_Form
             this.Cagb_Jobs.Size = new System.Drawing.Size(180, 498);
             this.Cagb_Jobs.TabIndex = 7;
             this.Cagb_Jobs.TabStop = false;
-            this.Cagb_Jobs.Text = "Pattern";
+            this.Cagb_Jobs.Text = "Grab Area";
             // 
             // Dgv_Pattern
             // 
@@ -301,6 +301,7 @@ namespace CRUX_Renewal.Main_Form
             this.LstBoxRecipeList.TabIndex = 3;
             this.LstBoxRecipeList.SelectedIndexChanged += new System.EventHandler(this.LstBoxRecipeList_SelectedIndexChanged);
             this.LstBoxRecipeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseDoubleClick);
+            this.LstBoxRecipeList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseUp);
             // 
             // Main_Frm_Recipe
             // 

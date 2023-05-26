@@ -86,13 +86,13 @@ namespace CRUX_Renewal.Main_Form
             Dgv_Pattern.Columns[0].Width = 45;
             Dgv_Pattern.Columns[1].Width = 130;
         }
-        private void PtnListRefresh(Patterns data)
+        private void PtnListRefresh(InspAreas data)
         {          
-            if (data.Pattern.Count > 0)
+            if (data.Area.Count > 0)
             {
                 DataTable Dt = Dgv_Pattern.DataSource as DataTable;
                 Dt.Rows.Clear();
-                foreach (Pattern item in data.Pattern)
+                foreach (InspArea item in data.Area)
                 {
                     Dt.Rows.Add(item.Use, item.Name);
                 }
@@ -114,7 +114,7 @@ namespace CRUX_Renewal.Main_Form
 
             SetRecipeList(Systems.CurrentSelectedRecipe[CurFormIndex]);
             //InitPtnListView(Shared_Recipe.ViewRecipe.Patterns_Data);
-            PtnListRefresh(Shared_Recipe.ViewRecipe.Patterns_Data);
+            PtnListRefresh(Shared_Recipe.ViewRecipe.InspArea_Data);
             Frm_Link.InitializeLinkTab();
         }
         private void InitializeROIData()
@@ -255,7 +255,8 @@ namespace CRUX_Renewal.Main_Form
             string RecipePath = Shared_Recipe.ViewRecipe.Path;
             string RecipeName = Shared_Recipe.ViewRecipe.Name;
             RecipeManager.SaveRecipe(Shared_Recipe.ViewRecipe);
-            RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "Patterns.xml", Shared_Recipe.ViewRecipe.Patterns_Data);
+            RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "InspAreas.xml", Shared_Recipe.ViewRecipe.InspArea_Data);
+            RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "GrabOpticsInfo.xml", Shared_Recipe.ViewRecipe.Optics_Data);
             //CogSerializer.SaveObjectToFile(Systems.RecipeContent.ViewRecipe[CurFormIndex].Manager, $@"{RecipePath}Recipes\{RecipeName}\{RecipeName}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
             Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
@@ -286,9 +287,11 @@ namespace CRUX_Renewal.Main_Form
                                                       IpcInterface.CMD_TYPE_RES, 1000, SendParam.GetByteSize(), SendParam.GetParam());
 
 
+
+
             Utility.LoadingStop();
         }
-
+        
         private void Btn_Revert_Click(object sender, EventArgs e)
         {
             Shared_Recipe.ViewRecipe = Utility.DeepCopy(Shared_Recipe.MainRecipe);
@@ -331,42 +334,29 @@ namespace CRUX_Renewal.Main_Form
                     Utility.LoadingStart();
                     string SelectedRecipe = $"{(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "")}{Temp[Temp.Length - 1]}";
                     bool FileExist = fileProc.FileExists($@"{SelectedRecipe}\Patterns.xml");
-                    ArrayList PatternData = fileProc.getFileList($@"{SelectedRecipe}", "", "Patterns.xml");
-
-                    if (PatternData.Count > 0)
+                    ArrayList InspArea = fileProc.getFileList($@"{SelectedRecipe}", "", "InspAreas.xml");
+                    ArrayList GrabArea = fileProc.getFileList($@"{SelectedRecipe}", "", "GrabOpticsInfo.xml");
+                    if (InspArea.Count > 0 && GrabArea.Count > 0)
                     {
                         string RecipeName = Temp[Temp.Length - 1];
-                        if (PatternData == null && PatternData?.Count < 1)
+                        if (InspArea == null && InspArea?.Count < 1)
                             throw new Exception(Enums.ErrorCode.DO_NOT_FOUND_PATTERN_DATA.DescriptionAttr());
-                        //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ClearSubject();
-                        //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.LstBoxRecipeList.Items.Clear();
 
-                        //LstV_Pattern.Items.Clear();
-                        //Dgv_Pattern.Rows.Clear();
                         DataTable Dt = Dgv_Pattern.DataSource as DataTable;
                         Dt.Rows.Clear();
-
-                        //Frm_ROI.ClearRecipeROI();
+        
                         string RecipePath = (Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
 
                         RecipeManager.ReadRecipe(RecipePath, Shared_Recipe.ViewRecipe, RecipeName);
-                        //Shared_Recipe.ReadRecipe(RecipePath, Shared_Recipe.ViewRecipe,Rcp[0]?.ToString(), RecipeName);
 
-                        //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.DisplayJob();
-                        //Systems.CurrentApplyRecipeName[CurFormIndex] = Temp[Temp.Length - 1]?.ToString();
-                        //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
-                        //InitializeROIData();
-                        // Frm_ROI.RefeshRoiDataView();
-                        //Systems.CurrentApplyRecipeName[CurFormIndex].SetString(RecipeName);
-                        //SetRecipeList(Systems.CurrentApplyRecipeName[CurFormIndex].GetString());
-                        //SetJobListBox(Cognex_Helper.GetJobList<List<string>>(Systems.RecipeContent.MainRecipe[CurFormIndex].Manager));
 
                         Systems.CurrentSelectedRecipe[CurFormIndex] = RecipeName;
                         RefeshRecipe();
-                        //LstBoxRecipeList.SelectedItem = RecipeName;
-                        Utility.LoadingStop();
+          
+                        //Utility.LoadingStop();
 
                     }
+                    Utility.LoadingStop();
                 }
                 else
                 {
@@ -415,12 +405,11 @@ namespace CRUX_Renewal.Main_Form
                 MenuItem m2 = new MenuItem();
                 MenuItem m3 = new MenuItem();
                 MenuItem m4 = new MenuItem();
-                MenuItem m5 = new MenuItem();
+                //MenuItem m5 = new MenuItem();
                 m1.Text = "New Recipe";
                 m2.Text = "Copy";
                 m3.Text = "Paste";
-                m4.Text = "Name Change";
-                m5.Text = "Delete";
+                m4.Text = "Delete";
 
 
                 if (Systems.CurrentApplyRecipeName[CurFormIndex].GetString() == SelectRecipe)
@@ -429,59 +418,49 @@ namespace CRUX_Renewal.Main_Form
 
                 m1.Click += (senders, es) =>
                 {
-                    Ex_Frm_Others_Change_Input Input = new Ex_Frm_Others_Change_Input("새 이름을 입력해주세요.", SelectRecipe);
-                    Input.ShowDialog();
-                    if (Input.DialogResult == DialogResult.OK)
-                    {
+                    //Ex_Frm_Others_Change_Input Input = new Ex_Frm_Others_Change_Input("새 이름을 입력해주세요.", SelectRecipe);
+                    //Input.ShowDialog();
+                    //if (Input.DialogResult == DialogResult.OK)
+                    //{
 
-                    }
-                    else
-                        return;
+                    //}
+                    //else
+                    //    return;
                 };
 
                 m2.Click += (senders, es) =>
                 {
-                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
-                    Noti.ShowDialog();
-                    if (Noti.DialogResult == DialogResult.OK)
-                    {
-                        // 삭제
-                    }
-                    else
-                        return;
+                    //Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "복사되었습니다.");
+                    //Noti.ShowDialog();
+                    //if (Noti.DialogResult == DialogResult.OK)
+                    //{
+                    //    // 복사
+                    //}
+                    //else
+                    //    return;
                 };
                 m3.Click += (senders, es) =>
                 {
-                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
-                    Noti.ShowDialog();
-                    if (Noti.DialogResult == DialogResult.OK)
-                    {
-                        // 삭제
-                    }
-                    else
-                        return;
+                    //Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.INFO, "붙여넣었습니다.");
+                    //Noti.ShowDialog();
+                    //if (Noti.DialogResult == DialogResult.OK)
+                    //{
+                    //    // 붙여넣기
+                    //    return;
+                    //}
+                    //else
+                    //    return;
                 };
                 m4.Click += (senders, es) =>
                 {
-                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
-                    Noti.ShowDialog();
-                    if (Noti.DialogResult == DialogResult.OK)
-                    {
-                        // 삭제
-                    }
-                    else
-                        return;
-                };
-                m5.Click += (senders, es) =>
-                {
-                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
-                    Noti.ShowDialog();
-                    if (Noti.DialogResult == DialogResult.OK)
-                    {
-                        // 삭제
-                    }
-                    else
-                        return;
+                    //Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.INFO, "정말 삭제하시겠습니까?");
+                    //Noti.ShowDialog();
+                    //if (Noti.DialogResult == DialogResult.OK)
+                    //{
+                    //    // 삭제
+                    //}
+                    //else
+                    //    return;
                 };
 
                 //메뉴에 메뉴 아이템을 등록해줍니다
@@ -489,7 +468,7 @@ namespace CRUX_Renewal.Main_Form
                 m.MenuItems.Add(m2);
                 m.MenuItems.Add(m3);
                 m.MenuItems.Add(m4);
-                m.MenuItems.Add(m5);
+                //m.MenuItems.Add(m5);
 
                 //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
                 m.Show(LstBoxRecipeList, new System.Drawing.Point(e.X, e.Y));
@@ -500,7 +479,7 @@ namespace CRUX_Renewal.Main_Form
         {
 
         }
-        public void InitPtnListView(Patterns data)
+        public void InitPtnListView(InspAreas data)
         {
             //LstV_Pattern.Items.Clear();
             //Dgv_Pattern.Rows.Clear();
@@ -522,7 +501,7 @@ namespace CRUX_Renewal.Main_Form
             //    Systems.CurrentSelectedPtnName[CurFormIndex] = LstV_Pattern.SelectedItems[0].Name as string;
             //}
         }
-        public void SetJobListBox(Patterns data, string sel_ptn)
+        public void SetJobListBox(InspAreas data, string sel_ptn)
         {
             //LstV_Pattern.Items.Clear();
             //if (data.Pattern.Count > 0)
@@ -605,79 +584,64 @@ namespace CRUX_Renewal.Main_Form
                 
                 
             }
-            //else if (e.Button == MouseButtons.Right)
-            //{
-            //    if (LstV_Pattern?.SelectedItems == null && LstV_Pattern?.SelectedItems.Count > 0)
-            //        return;
+            else if (e.Button == MouseButtons.Right)
+            {
+                if (Dgv_Pattern.SelectedRows == null && Dgv_Pattern?.SelectedRows.Count <= 0)
+                    return;
 
-            //    //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
-            //    string SelectedJobName = LstV_Pattern.SelectedItems[0].ToString();
+                //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
+                string SelectedJobName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
 
-            //    //오른쪽 메뉴를 만듭니다
-            //    ContextMenu m = new ContextMenu();
+                //오른쪽 메뉴를 만듭니다
+                ContextMenu m = new ContextMenu();
 
-            //    //메뉴에 들어갈 아이템을 만듭니다
-            //    MenuItem m0 = new MenuItem();
-            //    MenuItem m1 = new MenuItem();
-            //    MenuItem m2 = new MenuItem();
-            //    MenuItem m3 = new MenuItem();
+                //메뉴에 들어갈 아이템을 만듭니다
+                MenuItem m0 = new MenuItem();
+                MenuItem m1 = new MenuItem();
 
-            //    m0.Text = "New Job";
-            //    m1.Text = "Copy";
-            //    m2.Text = "Name Change";
-            //    m3.Text = "Delete";
+                m0.Text = "New Area";
+                m1.Text = "Delete";
 
+                m0.Click += (senders, ex) =>
+                {
+                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("새 영역 생성", Dgv_Pattern.Rows);
+                    Input.ShowDialog();
+                    if(Input.DialogResult == DialogResult.OK)
+                    {
+                        InspArea NewInspArea = new InspArea();
+                        NewInspArea.Name = Input.ResultName;
+                        GrabArea NewGrabArea = new GrabArea();
+                        NewGrabArea.Name = Input.ResultName;
+                        Shared_Recipe.ViewRecipe.InspArea_Data.Area.Add(NewInspArea);
+                        Shared_Recipe.ViewRecipe.Optics_Data.Area.Add(NewGrabArea);
+                        RefeshRecipe();
+                    }
+                };
+                m1.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        InspArea FindInspArea= Shared_Recipe.ViewRecipe.InspArea_Data.Area.Find(x => x.Name == SelectedJobName);
+                        Shared_Recipe.ViewRecipe.InspArea_Data.Area.Remove(FindInspArea);
 
+                        GrabArea FindGrabArea = Shared_Recipe.ViewRecipe.Optics_Data.Area.Find(x => x.Name == SelectedJobName);
+                        Shared_Recipe.ViewRecipe.Optics_Data.Area.Remove(FindGrabArea);
 
+                        RefeshRecipe();
+                    }
+                    else
+                        return;
+                };
 
-            //    //if (Systems.CurrentRecipe == SelectRecipe)
-            //    //    m1.Enabled = false;
-            //    m0.Click += (senders, ex) =>
-            //    {
-            //        CogJob Temp = Cognex_Helper.CreateNewJob(Shared_Recipe.MainRecipe);
-            //            //Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.JobAdd(Temp);
-            //            //SetJobListBox(Cognex_Helper.GetJobList<List<string>>(Systems.RecipeContent.MainRecipe[CurFormIndex].Manager));
-            //            Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(LstV_Pattern.Items.Count - 1);
-            //    };
-            //    m1.Click += (senders, es) =>
-            //    {
+                //메뉴에 메뉴 아이템을 등록해줍니다
+                m.MenuItems.Add(m0);
+                m.MenuItems.Add(m1);
 
-            //    };
-            //    m2.Click += (senders, es) =>
-            //    {
-            //        Ex_Frm_Others_Change_Input Input = new Ex_Frm_Others_Change_Input("새 이름을 입력해주세요.", SelectedJobName);
-            //        Input.ShowDialog();
-            //            //if (Input.DialogResult == DialogResult.OK)
-            //            //    Cognex_Helper.ChangeJobName(Systems.RecipeContent.MainRecipe[CurFormIndex].Manager, SelectedJobName, Input.ResultName);
-            //            //else
-            //            //    return;
-            //            //LstBoxJobList.Items.Clear();
-            //            //var Temp = Cognex_Helper.GetJobList<List<string>>(Systems.RecipeContent.MainRecipe[CurFormIndex].Manager);
-
-            //            //SetJobListBox(Temp);
-            //        };
-
-            //    m3.Click += (senders, es) =>
-            //    {
-            //            //Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
-            //            //Noti.ShowDialog();
-            //            //if (Noti.DialogResult == DialogResult.OK)
-            //            //{
-            //            //    Cognex_Helper.DeleteJob(Systems.RecipeContent.MainRecipe[CurFormIndex].Manager, SelectedJobName);
-            //            //}
-            //            //else
-            //            //    return;
-            //        };
-
-            //    //메뉴에 메뉴 아이템을 등록해줍니다
-            //    m.MenuItems.Add(m0);
-            //    m.MenuItems.Add(m1);
-            //    m.MenuItems.Add(m2);
-            //    m.MenuItems.Add(m3);
-
-            //    //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
-            //    m.Show(LstV_Pattern, new System.Drawing.Point(e.X, e.Y));
-            //}
+                //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
+                m.Show(Dgv_Pattern, new System.Drawing.Point(e.X, e.Y));
+            }
         }
 
         private void Dgv_Pattern_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -685,7 +649,7 @@ namespace CRUX_Renewal.Main_Form
             if (e.ColumnIndex == 0)
             {
                 DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                Pattern Temp = Shared_Recipe?.ViewRecipe?.Patterns_Data.Pattern?.Find(x => x.Name == SelItem.Cells["Name"].Value.ToString());
+                InspArea Temp = Shared_Recipe?.ViewRecipe?.InspArea_Data.Area?.Find(x => x.Name == SelItem.Cells["Name"].Value.ToString());
                 Temp.Use = SelItem.Cells["USE"].Value.toBool();
                 Temp.Name = SelItem.Cells["Name"].Value.ToString();
             }
@@ -696,7 +660,7 @@ namespace CRUX_Renewal.Main_Form
             if (SelectedPattern != "")
             {
                 DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                Pattern Temp = Shared_Recipe?.ViewRecipe?.Patterns_Data.Pattern?.Find(x => x.Name == SelectedPattern);
+                InspArea Temp = Shared_Recipe?.ViewRecipe?.InspArea_Data.Area?.Find(x => x.Name == SelectedPattern);
                 if (Temp != null)
                 {
                     Temp.Use = SelItem.Cells["USE"].Value.toBool();
