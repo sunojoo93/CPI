@@ -32,7 +32,9 @@
 #define TYPE_SVI							1
 #define TYPE_APP							2
 #define TYPE_AMT							3		// AMT Ãß°¡ 180801 YSS
-#define TYPE_BUMP							4		
+#define TYPE_BUMP							4	
+#define TYPE_AOT_CHIPPING					5
+#define TYPE_ALM							6
 
 #define PG_RECIPE							_T("PG_RECIPE")
 #define RGB_CH								_T("RGB_CH")//_T("RGB_CH_INDEX")
