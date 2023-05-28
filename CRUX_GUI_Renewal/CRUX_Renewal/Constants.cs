@@ -105,7 +105,7 @@ namespace CRUX_Renewal
         private static int[] SelectRecipeNo;
         private static int[] CurrentRecipeNo;
         private static string[] CurGrabVersion;
-        private static string[] CurInspVersion;
+        //private static string[] CurInspVersion;
         public static int CurLogView = 0;
         public static Point[] Cam_Res;
         public static int Insp_Type;
@@ -117,7 +117,7 @@ namespace CRUX_Renewal
 
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
-        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "InspAreas.xml", "GrabOpticsInfo.xml" };
+        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "GrabOpticsInfo.xml" };
         public static List<string> SelectRecipe = new List<string>();
 
        
@@ -126,10 +126,10 @@ namespace CRUX_Renewal
             Globals.CurGrabVersion[nVisionNo] = strGrabVer;
         }
         
-        public static void m_fnSetCurInspVersion(int nVisionNo, string strInspVer)
-        {
-            Globals.CurInspVersion[nVisionNo] = strInspVer;
-        }
+        //public static void m_fnSetCurInspVersion(int nVisionNo, string strInspVer)
+        //{
+        //    Globals.CurInspVersion[nVisionNo] = strInspVer;
+        //}
         
         public static bool m_fnGetSelRcpSaved(int nVisionNo)
         {
@@ -205,6 +205,8 @@ namespace CRUX_Renewal
         public static ushort TASK_ALIVE_FUNC = (ushort)(10);
         public static ushort TASK_ALIVE_SIGNAL = (ushort)(1);
         public static ushort GUI_TASK = (ushort)10;
+
+
     }
 
     static class Consts
@@ -254,8 +256,8 @@ namespace CRUX_Renewal
 
           public const int MAX_LIGHT_PORT_COUNT = 4;
           public const int MAX_CONTROLLER_COUNT = 4;
-          public const int MAX_LIGHT_CHANNEL_COUNT = 24;
-          public const int MAX_CAMERA_COUNT = 4;
+          //public const int MAX_LIGHT_CHANNEL_COUNT = 24;
+
           public const int MAX_PAD_ROI_COUNT = 20;
           public const int MAX_GRAB_COUNT = 150;
 
@@ -293,6 +295,13 @@ namespace CRUX_Renewal
         public static int MAX_VISION_COUNT = 2;
         public static string VPP_PATH = "";
         public static int ScrollSize = 50;
+
+        public const int MAX_AREA_COUNT = 10;
+        public const int MAX_PATTERN_COUNT = 10;
+        public const int MAX_CAMERA_COUNT = 4;
+        public const int MAX_LIGHT_COUNT = 4;
+        public const int MAX_LIGHT_CHANNEL_COUNT = 50;
+
     }
 
     /// <summary>
@@ -421,7 +430,7 @@ namespace CRUX_Renewal
             DO_NOT_FOUND_VPP_FILE = 151,
             [Description("레시피를 찾을 수 없습니다.")]
             DO_NOT_FOUND_RECIPE = 152,
-            [Description("Patterns.xml을 찾을 수 없습니다.")]
+            [Description("MainRecipe.xml을 찾을 수 없습니다.")]
             DO_NOT_FOUND_PATTERN_DATA = 153,
             /// <summary>
             /// 기타 에러 251~400

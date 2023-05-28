@@ -600,9 +600,16 @@ namespace CRUX_Renewal.Main_Form
         private void Btn_StartInsp_Click(object sender, EventArgs e)
         {
             InspData Data = new InspData();
-            Data.Position = "Left";
-            CogImage8Grey Image = Cognex_Helper.Load_Image($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
-            Data.OriginImage = Image;
+
+            ImageData ImgData = new ImageData();
+            ImageData ImgData2 = new ImageData();
+            CogImage8Grey Image1 = Cognex_Helper.Load_Image($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
+            CogImage8Grey Image2 = Cognex_Helper.Load_Image($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
+
+            Data.Area = "Left";
+            ImgData.OriginImage = Image1;
+            //ImgData2.Area = "RIGHT";
+            ImgData2.OriginImage = Image2;
 
             Systems.Inspector_.Start_Insp(Data);
         }
@@ -630,7 +637,7 @@ namespace CRUX_Renewal.Main_Form
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
+            //RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
         }
     }
 }

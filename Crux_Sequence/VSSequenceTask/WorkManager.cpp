@@ -408,9 +408,9 @@ int	WorkManager::Seq_ManualChangeModel(byte* pParam, ULONG& nPrmSize, bool bAlwa
 {
 	// Receive //////////////////////////////////////////////////////////////////////////////////////////////////////
 	byte* pReceiveParam = pParam;
-	ST_MODEL_INFO* pStModelInfo = new ST_MODEL_INFO;
+	ST_RECIPE_INFO_AOT* pStModelInfo = new ST_RECIPE_INFO_AOT;
 	int nsize = sizeof(pStModelInfo);
-	pStModelInfo = (ST_MODEL_INFO *)pReceiveParam;
+	pStModelInfo = (ST_RECIPE_INFO_AOT *)pReceiveParam;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	int nRet = APP_OK;

@@ -36,10 +36,20 @@ namespace SharingFormat_DLL
     }
     public class CommonParam
     {
-        public Dictionary<string, string> Params = new Dictionary<string, string>();
+        public Dictionary<string, string> PatternParam = new Dictionary<string, string>();
     }
+
     public class Insp_Images
     {
-        public Dictionary<string, CogImage8Grey> Images = new Dictionary<string, CogImage8Grey>();
+        public CogImage8Grey Image = new CogImage8Grey();
+        public string PatternName;
+    }
+    public class Image_Collection
+    {
+        public Dictionary<string, Insp_Images> Images = new Dictionary<string, Insp_Images>();
+    }
+    public class CommonParamItem
+    {
+        public Dictionary<string, string> ParamList = new Dictionary<string, string>();
     }
 }

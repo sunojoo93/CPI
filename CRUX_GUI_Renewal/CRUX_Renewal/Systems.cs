@@ -32,7 +32,7 @@ namespace CRUX_Renewal
 
 
         public static List<PropertyString> CurrentApplyRecipeName;
-        public static List<string> CurrentSelectedPtnName;
+        public static List<string> CurrentSelectedAreaName;
         //public Recipes GetRecipes()
         //{
         //    return RecipeContent;
@@ -134,8 +134,8 @@ namespace CRUX_Renewal
                 //        recipe.Camera = new Optical_Cam();
                 //        recipe.Light = new Optical_Light();
                 //        recipe.Load_RecipeData(rcp_path + @"Recipes\", rcp_name);
-                        
-                //        recipe.SetRecipeData(rcp_path + @"Recipes\"+rcp_name, "Patterns.xml");
+
+                //        recipe.SetRecipeData(rcp_path + @"Recipes\"+rcp_name, "MainRecipe.xml");
                 //        recipe.Name = rcp_name;
                 //        recipe.Path = rcp_path;
                 //        recipe.Opend = true;

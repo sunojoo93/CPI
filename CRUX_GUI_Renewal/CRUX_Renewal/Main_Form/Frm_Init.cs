@@ -371,7 +371,7 @@ namespace CRUX_Renewal.Main_Form
                 //Systems.RecipeContent.MainRecipe = new List<Recipe>();
                 //Systems.RecipeContent.ViewRecipe = new List<Recipe>();
                 Systems.CurrentApplyRecipeName = new List<PropertyString>();
-                Systems.CurrentSelectedPtnName = new List<string>();
+                Systems.CurrentSelectedAreaName = new List<string>();
                 Systems.CurrentSelectedRecipe = new List<string>();
 
                 for (int i = 0; i < Globals.MaxVisionCnt; i++)
@@ -380,7 +380,7 @@ namespace CRUX_Renewal.Main_Form
                     {
                         Program.Frm_Main?.SetRecipeName(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
                     })));
-                    Systems.CurrentSelectedPtnName.Add("");
+                    Systems.CurrentSelectedAreaName.Add("");
                     Systems.RecipeData_Collection.Add(new Dictionary<string, IniFile>());
                     //Systems.RecipeContent.MainRecipe.Add(new Recipe());
                     //Systems.RecipeContent.ViewRecipe.Add(new Recipe());

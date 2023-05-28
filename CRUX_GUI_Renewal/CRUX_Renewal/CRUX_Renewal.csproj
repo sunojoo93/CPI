@@ -438,6 +438,12 @@
     <Compile Include="Ex_Form\Ex_Frm_Optic_Area.Designer.cs">
       <DependentUpon>Ex_Frm_Optic_Area.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Pattern_Select.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Others\Ex_Frm_Others_Pattern_Select.Designer.cs">
+      <DependentUpon>Ex_Frm_Others_Pattern_Select.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Algorithm_Select.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -473,12 +479,6 @@
     </Compile>
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_Link.Designer.cs">
       <DependentUpon>Ex_Frm_Recipe_Link.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.Designer.cs">
-      <DependentUpon>Ex_Frm_Recipe_ViewInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.cs">
       <SubType>Form</SubType>
@@ -608,6 +608,9 @@
     <EmbeddedResource Include="Ex_Form\Notification\Ex_Frm_Notification_Announce.resx">
       <DependentUpon>Ex_Frm_Notification_Announce.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Pattern_Select.resx">
+      <DependentUpon>Ex_Frm_Others_Pattern_Select.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Algorithm_Select.resx">
       <DependentUpon>Ex_Frm_Others_Algorithm_Select.cs</DependentUpon>
     </EmbeddedResource>
@@ -619,9 +622,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_Link.resx">
       <DependentUpon>Ex_Frm_Recipe_Link.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_ViewInfo.resx">
-      <DependentUpon>Ex_Frm_Recipe_ViewInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_ROI.resx">
       <DependentUpon>Ex_Frm_Recipe_ROI.cs</DependentUpon>

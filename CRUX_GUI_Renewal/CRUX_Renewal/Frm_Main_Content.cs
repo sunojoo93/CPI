@@ -62,7 +62,7 @@ namespace CRUX_Renewal
             this.TopLevel = false;
             Frm_MenuBar = new Ex_Frm_Menubar() { Owner = this.Owner };
             //if (Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.JobCount > 0)
-           //     Systems.CurrentSelectedPtnName[CurFormIndex] = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).Name;
+           //     Systems.CurrentSelectedAreaName[CurFormIndex] = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).Name;
             Frm_Auto = new Main_Frm_Auto() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Auto.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             //Frm_Auto.SetRecipe(ref Recipe);

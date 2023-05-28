@@ -400,7 +400,10 @@ namespace CRUX_Renewal.Class
                         {
                             ImageSave(Path, Temp);
                         });
-                        ip.OriginImage = new CogImage8Grey(Temp); 
+                        ImageData RcvImageTemp = new ImageData();
+                        RcvImageTemp.OriginImage = new CogImage8Grey(Temp);
+                        RcvImageTemp.P
+                        ip.Datas.Add(RcvImageTemp); 
 
 
 
@@ -448,7 +451,7 @@ namespace CRUX_Renewal.Class
 
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 03, rcvLogData);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 01, rcvCurModelInfoReq);
-            m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 02, rcvGrabStart);
+            //m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 02, rcvGrabStart);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 30, rcvClassify);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 90, rcvNotifyInitialModelInfo);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 100, rcvTactData);
@@ -629,187 +632,187 @@ namespace CRUX_Renewal.Class
 
         //}      
 
-        private static int rcvGrabStart(ref CmdMsgParam param)
-        {
-            int nRet = Consts.APP_OK;
-            try
-            {
-                //lock (LockRcv[(int)Enums.Analyze.ETC])
-                int nPcNo = param.nPcNo;//param.GetInteger() - 1;//>= 0 ? param.GetInteger() - 1 : 0;
-                Globals.CurLogView = param.GetInteger();
+        //private static int rcvGrabStart(ref CmdMsgParam param)
+        //{
+        //    int nRet = Consts.APP_OK;
+        //    try
+        //    {
+        //        //lock (LockRcv[(int)Enums.Analyze.ETC])
+        //        int nPcNo = param.nPcNo;//param.GetInteger() - 1;//>= 0 ? param.GetInteger() - 1 : 0;
+        //        Globals.CurLogView = param.GetInteger();
 
-                // 라이브 영상이 출력 중인지 확인하고 출력 중이면 라이브 영상을 정지한다.
-                //if (Program.Frm_Optical[nPcNo].m_UcRcpTeachPic.GetThreadDoWork())
-                if ( Program.Frm_MainContent_.Find(x => x.Name == Program.Frm_Main.CurDisplayForm)?.Frm_Optical != null)
-                    //Program.Frm_Optical[nPcNo].m_fnLiveStop();
-                //Systems.g_FrmMain.IsEnableTab((int)Enums.MainView.CAMERA, false);                    
+        //        // 라이브 영상이 출력 중인지 확인하고 출력 중이면 라이브 영상을 정지한다.
+        //        //if (Program.Frm_Optical[nPcNo].m_UcRcpTeachPic.GetThreadDoWork())
+        //        if ( Program.Frm_MainContent_.Find(x => x.Name == Program.Frm_Main.CurDisplayForm)?.Frm_Optical != null)
+        //            //Program.Frm_Optical[nPcNo].m_fnLiveStop();
+        //        //Systems.g_FrmMain.IsEnableTab((int)Enums.MainView.CAMERA, false);                    
 
-                if (Modes.RMS_MODE && (!Modes.NET_SIMULATION_MODE && !Modes.RMS_MANUAL_RUN_MODE))
-                {
-                    ///////////////////////////////////////////////////////////////////////////////////
-                    string strEqpType = iniUtl.GetIniValue("Common", "EQP", Paths.NET_INITIAL_PATH[nPcNo]);
-                    string strPcNo = iniUtl.GetIniValue("Common", "VISION PC NUM", Paths.NET_INITIAL_PATH[nPcNo]);
-                    string strSelRcpId = iniUtl.GetIniValue("RECIPE_INFO", "SELECT_RECIPE", "Default", Paths.NET_INITIAL_PATH[nPcNo]);
+        //        if (Modes.RMS_MODE && (!Modes.NET_SIMULATION_MODE && !Modes.RMS_MANUAL_RUN_MODE))
+        //        {
+        //            ///////////////////////////////////////////////////////////////////////////////////
+        //            string strEqpType = iniUtl.GetIniValue("Common", "EQP", Paths.NET_INITIAL_PATH[nPcNo]);
+        //            string strPcNo = iniUtl.GetIniValue("Common", "VISION PC NUM", Paths.NET_INITIAL_PATH[nPcNo]);
+        //            string strSelRcpId = iniUtl.GetIniValue("RECIPE_INFO", "SELECT_RECIPE", "Default", Paths.NET_INITIAL_PATH[nPcNo]);
 
-                    iniProc ini = new iniProc();
+        //            iniProc ini = new iniProc();
 
-                    CmdMsgParam SendParam = new CmdMsgParam();
+        //            CmdMsgParam SendParam = new CmdMsgParam();
 
-                    SendParam.SetChars("z".toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
-                    SendParam.SetChars(strSelRcpId.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //            SendParam.SetChars("z".toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //            SendParam.SetChars(strSelRcpId.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
 
-                    int Ret = Consts.APP_NG;
-                    ushort usIpcSeqNo = IpcConst.RMS_RCP_BASE_VER;
+        //            int Ret = Consts.APP_NG;
+        //            ushort usIpcSeqNo = IpcConst.RMS_RCP_BASE_VER;
 
-                    Ret = Systems.g_Ipc.SendCommand((ushort)((nPcNo + 1) * 100 + IpcConst.RMS_TASK), IpcConst.RMS_FUNC, usIpcSeqNo,
-                                                              IpcInterface.CMD_TYPE_RES, 1000, SendParam.GetByteSize(), SendParam.GetParam());
-                    if (Ret == Consts.APP_OK)
-                    {
-                        string srRmsPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.RMS_PATH);
+        //            Ret = Systems.g_Ipc.SendCommand((ushort)((nPcNo + 1) * 100 + IpcConst.RMS_TASK), IpcConst.RMS_FUNC, usIpcSeqNo,
+        //                                                      IpcInterface.CMD_TYPE_RES, 1000, SendParam.GetByteSize(), SendParam.GetParam());
+        //            if (Ret == Consts.APP_OK)
+        //            {
+        //                string srRmsPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.RMS_PATH);
 
-                        string strRecvModifyRcpPath = Path.Combine(srRmsPath, Paths.REP_BASE_RCP_VER);
+        //                string strRecvModifyRcpPath = Path.Combine(srRmsPath, Paths.REP_BASE_RCP_VER);
 
-                        DataTable dtRcpInfo = new DataTable();
-                        if (fileProc.FileExists(strRecvModifyRcpPath))
-                        {
-                            DataTable dt = new DataTable();
-                            XmlDocument doc = new XmlDocument();
-                            doc.Load(new StringReader(fileProc.FileRead(strRecvModifyRcpPath)));
+        //                DataTable dtRcpInfo = new DataTable();
+        //                if (fileProc.FileExists(strRecvModifyRcpPath))
+        //                {
+        //                    DataTable dt = new DataTable();
+        //                    XmlDocument doc = new XmlDocument();
+        //                    doc.Load(new StringReader(fileProc.FileRead(strRecvModifyRcpPath)));
 
-                            foreach (System.Xml.XmlNode childNode in doc.ChildNodes)
-                            {
-                                if (childNode.Name.ToUpper().Contains("REP_BASE_RCP_VER".ToUpper()))
-                                {
-                                    dtRcpInfo = doc.m_fnBuildDataTableFromXml("REP_BASE_RCP_VER/RecipeList/Recipe");
-                                }
-                            }
-                        }
-                        // 기준레시피 설정이 안되어 있거나 등록된 레시피가 하나도 없으면 현재 설정된 레시피로 진행
-                        //if (dtRcpInfo.Rows[0]["RecipeID"].ToString().Trim() == "")
-                        if (dtRcpInfo.Columns.Count == 0)
-                        {
-                            // Apply Recipe 면 기존 Recipe 로 변경
-                            if (!Globals.m_fnGetSelRcpSaved(nPcNo))
-                                //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeSelectedRecipe(strSelRcpId);
-                            return nRet;
-                        }
-                        else
-                        {
-                            // Recipe ID "" 로 들어오는 경우 있는지 확인 필요
-                            if (dtRcpInfo.Rows[0]["RecipeID"].ToString().Trim() == "")
-                            {
-                                // Apply Recipe 면 기존 Recipe 로 변경
-                                if (!Globals.m_fnGetSelRcpSaved(nPcNo))
-                                    //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeSelectedRecipe(strSelRcpId);
-                                return nRet;
-                            }
-                        }
+        //                    foreach (System.Xml.XmlNode childNode in doc.ChildNodes)
+        //                    {
+        //                        if (childNode.Name.ToUpper().Contains("REP_BASE_RCP_VER".ToUpper()))
+        //                        {
+        //                            dtRcpInfo = doc.m_fnBuildDataTableFromXml("REP_BASE_RCP_VER/RecipeList/Recipe");
+        //                        }
+        //                    }
+        //                }
+        //                // 기준레시피 설정이 안되어 있거나 등록된 레시피가 하나도 없으면 현재 설정된 레시피로 진행
+        //                //if (dtRcpInfo.Rows[0]["RecipeID"].ToString().Trim() == "")
+        //                if (dtRcpInfo.Columns.Count == 0)
+        //                {
+        //                    // Apply Recipe 면 기존 Recipe 로 변경
+        //                    if (!Globals.m_fnGetSelRcpSaved(nPcNo))
+        //                        //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeSelectedRecipe(strSelRcpId);
+        //                    return nRet;
+        //                }
+        //                else
+        //                {
+        //                    // Recipe ID "" 로 들어오는 경우 있는지 확인 필요
+        //                    if (dtRcpInfo.Rows[0]["RecipeID"].ToString().Trim() == "")
+        //                    {
+        //                        // Apply Recipe 면 기존 Recipe 로 변경
+        //                        if (!Globals.m_fnGetSelRcpSaved(nPcNo))
+        //                            //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeSelectedRecipe(strSelRcpId);
+        //                        return nRet;
+        //                    }
+        //                }
 
-                        //Systems.g_frmRecipe[nPcNo].m_fnChangeBaseRecipeName( dtRcpInfo.Rows[0]["RecipeID"].ToString(),
-                        //                                                     dtRcpInfo.Rows[0]["Version"].ToString(),
-                        //                                                     dtRcpInfo.Rows[1]["Version"].ToString());
-                    }
+        //                //Systems.g_frmRecipe[nPcNo].m_fnChangeBaseRecipeName( dtRcpInfo.Rows[0]["RecipeID"].ToString(),
+        //                //                                                     dtRcpInfo.Rows[0]["Version"].ToString(),
+        //                //                                                     dtRcpInfo.Rows[1]["Version"].ToString());
+        //            }
 
-                    ///////////////////////////////////////////////////////////////////////////////////
+        //            ///////////////////////////////////////////////////////////////////////////////////
 
-                    ///////////////////////////////////////////////////////////////////////////////////
+        //            ///////////////////////////////////////////////////////////////////////////////////
 
-                    bool bNeedChangeRecipe = false;
+        //            bool bNeedChangeRecipe = false;
 
-                    string strBaseRcpId = iniUtl.GetIniValue("RECIPE_INFO", "BASE_RECIPE", "Default", Paths.NET_INITIAL_PATH[nPcNo]);
-                    string strGrabStdVer = iniUtl.GetIniValue("RECIPE_INFO", "BASE_GRAB_VERSION", "Default", Paths.NET_INITIAL_PATH[nPcNo]); //fileProc.getFindKeyFile(strGrabRcpPath, Paths.RECPE_CURRENT_KEY);
-                    string strGrabCurVer = iniUtl.GetIniValue("RECIPE_INFO", "SELECT_GRAB_VERSION", "Default", Paths.NET_INITIAL_PATH[nPcNo]);
-                    string strInspStdVer = iniUtl.GetIniValue("RECIPE_INFO", "BASE_INSP_VERSION", "Default", Paths.NET_INITIAL_PATH[nPcNo]); //fileProc.getFindKeyFile(strGrabRcpPath, Paths.RECPE_CURRENT_KEY);
-                    string strInspCurVer = iniUtl.GetIniValue("RECIPE_INFO", "SELECT_INSP_VERSION", "Default", Paths.NET_INITIAL_PATH[nPcNo]);
+        //            string strBaseRcpId = iniUtl.GetIniValue("RECIPE_INFO", "BASE_RECIPE", "Default", Paths.NET_INITIAL_PATH[nPcNo]);
+        //            string strGrabStdVer = iniUtl.GetIniValue("RECIPE_INFO", "BASE_GRAB_VERSION", "Default", Paths.NET_INITIAL_PATH[nPcNo]); //fileProc.getFindKeyFile(strGrabRcpPath, Paths.RECPE_CURRENT_KEY);
+        //            string strGrabCurVer = iniUtl.GetIniValue("RECIPE_INFO", "SELECT_GRAB_VERSION", "Default", Paths.NET_INITIAL_PATH[nPcNo]);
+        //            string strInspStdVer = iniUtl.GetIniValue("RECIPE_INFO", "BASE_INSP_VERSION", "Default", Paths.NET_INITIAL_PATH[nPcNo]); //fileProc.getFindKeyFile(strGrabRcpPath, Paths.RECPE_CURRENT_KEY);
+        //            string strInspCurVer = iniUtl.GetIniValue("RECIPE_INFO", "SELECT_INSP_VERSION", "Default", Paths.NET_INITIAL_PATH[nPcNo]);
 
-                    string strGrabPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.NET_RECIPE_PATH[nPcNo], strBaseRcpId, Paths.RECIPE_GRAB, strGrabStdVer);
-                    string strInspPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.NET_RECIPE_PATH[nPcNo], strBaseRcpId, Paths.RECIPE_INSP, strInspStdVer);
+        //            string strGrabPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.NET_RECIPE_PATH[nPcNo], strBaseRcpId, Paths.RECIPE_GRAB, strGrabStdVer);
+        //            string strInspPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.NET_RECIPE_PATH[nPcNo], strBaseRcpId, Paths.RECIPE_INSP, strInspStdVer);
 
-                    ////////////////////////////////////////////////////////////////////////////////////////
-                    bool bExistGrabPath = fileProc.DirExists(strGrabPath);
-                    bool bExistInspPath = fileProc.DirExists(strInspPath);
-                    if (!bExistGrabPath || !bExistGrabPath)
-                    {
-                        //"INSP" EqpId="TEST01" PC="AVI" NO="1" ParameterType="ALL"
-                        if (bExistGrabPath)
-                            fileProc.DeleteDirectoryFile(strGrabPath);
-                        if (bExistInspPath)
-                            fileProc.DeleteDirectoryFile(strInspPath);
+        //            ////////////////////////////////////////////////////////////////////////////////////////
+        //            bool bExistGrabPath = fileProc.DirExists(strGrabPath);
+        //            bool bExistInspPath = fileProc.DirExists(strInspPath);
+        //            if (!bExistGrabPath || !bExistGrabPath)
+        //            {
+        //                //"INSP" EqpId="TEST01" PC="AVI" NO="1" ParameterType="ALL"
+        //                if (bExistGrabPath)
+        //                    fileProc.DeleteDirectoryFile(strGrabPath);
+        //                if (bExistInspPath)
+        //                    fileProc.DeleteDirectoryFile(strInspPath);
 
-                        string strInspType = "";
-                        //if ((int)Enums.Eqp_Type.AVI == Globals.Insp_Type)
-                        //    strInspType = CRUX_GUI.Enums.Eqp_Type.AVI.ToString();
-                        //if ((int)Enums.Eqp_Type.SVI == Globals.Insp_Type)
-                        //    strInspType = CRUX_GUI.Enums.Eqp_Type.SVI.ToString();
-                        //if ((int)Enums.Eqp_Type.APP == Globals.Insp_Type)
-                        //    strInspType = CRUX_GUI.Enums.Eqp_Type.APP.ToString();
+        //                string strInspType = "";
+        //                //if ((int)Enums.Eqp_Type.AVI == Globals.Insp_Type)
+        //                //    strInspType = CRUX_GUI.Enums.Eqp_Type.AVI.ToString();
+        //                //if ((int)Enums.Eqp_Type.SVI == Globals.Insp_Type)
+        //                //    strInspType = CRUX_GUI.Enums.Eqp_Type.SVI.ToString();
+        //                //if ((int)Enums.Eqp_Type.APP == Globals.Insp_Type)
+        //                //    strInspType = CRUX_GUI.Enums.Eqp_Type.APP.ToString();
 
-                        SendParam.SetOffset(0);
-                        SendParam.SetChars("z".toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
-                        SendParam.SetChars(strEqpType.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
-                        SendParam.SetChars(strInspType.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
-                        SendParam.SetChars(strPcNo.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
-                        SendParam.SetChars(strBaseRcpId.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
-                        SendParam.SetChars(strGrabStdVer.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
-                        SendParam.SetChars(strInspStdVer.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //                SendParam.SetOffset(0);
+        //                SendParam.SetChars("z".toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //                SendParam.SetChars(strEqpType.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //                SendParam.SetChars(strInspType.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //                SendParam.SetChars(strPcNo.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //                SendParam.SetChars(strBaseRcpId.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //                SendParam.SetChars(strGrabStdVer.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
+        //                SendParam.SetChars(strInspStdVer.toUniCharAry(Consts.RMS_MSG_DEFAULT_PARAM_SIZE));
 
-                        Ret = Systems.g_Ipc.SendCommand((ushort)((nPcNo + 1) * 100 + IpcConst.RMS_TASK), IpcConst.RMS_FUNC, IpcConst.RMS_RCP_SEL_DATA_DOWNLOAD,
-                                                                 IpcInterface.CMD_TYPE_RES, 10000, SendParam.GetByteSize(), SendParam.GetParam());
-                        if (Ret != Consts.APP_OK)
-                        {
-                            //Systems.Msg.Confirm(Systems.Msg.GetErrorCode("E024",Globals.nLanguageFlg), true);
-                            ////Systems.m_fnAddLog(Globals.SelPcNo, (int)Enums.LogLevel.ALL, (int)Enums.LogView.AUTO, "[GUI] Failed!! RMS recipe Download!!");
-                            strBaseRcpId = strSelRcpId;
-                            strGrabStdVer = strGrabCurVer;
-                            strInspStdVer = strInspCurVer;
-                        }
-                        else
-                        {
-                            //Systems.Msg.Confirm(Systems.Msg.GetErrorCode("E023", Globals.nLanguageFlg), true);
-                            ////Systems.m_fnAddLog(Globals.SelPcNo, (int)Enums.LogLevel.ALL, (int)Enums.LogView.AUTO, "[GUI] Success!! RMS recipe Download!!");
-                            // Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnLoadRecipeList();                        
-                        }
-                    }
-                    ////////////////////////////////////////////////////////////////////////////////////////
+        //                Ret = Systems.g_Ipc.SendCommand((ushort)((nPcNo + 1) * 100 + IpcConst.RMS_TASK), IpcConst.RMS_FUNC, IpcConst.RMS_RCP_SEL_DATA_DOWNLOAD,
+        //                                                         IpcInterface.CMD_TYPE_RES, 10000, SendParam.GetByteSize(), SendParam.GetParam());
+        //                if (Ret != Consts.APP_OK)
+        //                {
+        //                    //Systems.Msg.Confirm(Systems.Msg.GetErrorCode("E024",Globals.nLanguageFlg), true);
+        //                    ////Systems.m_fnAddLog(Globals.SelPcNo, (int)Enums.LogLevel.ALL, (int)Enums.LogView.AUTO, "[GUI] Failed!! RMS recipe Download!!");
+        //                    strBaseRcpId = strSelRcpId;
+        //                    strGrabStdVer = strGrabCurVer;
+        //                    strInspStdVer = strInspCurVer;
+        //                }
+        //                else
+        //                {
+        //                    //Systems.Msg.Confirm(Systems.Msg.GetErrorCode("E023", Globals.nLanguageFlg), true);
+        //                    ////Systems.m_fnAddLog(Globals.SelPcNo, (int)Enums.LogLevel.ALL, (int)Enums.LogView.AUTO, "[GUI] Success!! RMS recipe Download!!");
+        //                    // Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnLoadRecipeList();                        
+        //                }
+        //            }
+        //            ////////////////////////////////////////////////////////////////////////////////////////
 
 
-                    if (strBaseRcpId.CompareTo(strSelRcpId) != 0 || !Globals.m_fnGetSelRcpSaved(nPcNo))     // Recipe Apply 일 경우 기존 Recipe 선택 필요
-                    {
-                        bNeedChangeRecipe = true;
-                    }
+        //            if (strBaseRcpId.CompareTo(strSelRcpId) != 0 || !Globals.m_fnGetSelRcpSaved(nPcNo))     // Recipe Apply 일 경우 기존 Recipe 선택 필요
+        //            {
+        //                bNeedChangeRecipe = true;
+        //            }
 
-                    //string strGrabRcpPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.NET_RECIPE_PATH[nPcNo], Globals.m_fnGetSelRcpName(nPcNo), Paths.RECIPE_GRAB);
+        //            //string strGrabRcpPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.NET_RECIPE_PATH[nPcNo], Globals.m_fnGetSelRcpName(nPcNo), Paths.RECIPE_GRAB);
 
-                    if (strGrabStdVer.CompareTo(strGrabCurVer) != 0)
-                    {
-                        //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeGrabRecipe(strGrabStdVer);
-                        bNeedChangeRecipe = true;
-                    }
+        //            if (strGrabStdVer.CompareTo(strGrabCurVer) != 0)
+        //            {
+        //                //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeGrabRecipe(strGrabStdVer);
+        //                bNeedChangeRecipe = true;
+        //            }
 
-                    //string strInspRcpPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.NET_RECIPE_PATH[nPcNo], Globals.m_fnGetSelRcpName(nPcNo), Paths.RECIPE_INSP);
+        //            //string strInspRcpPath = Path.Combine(Paths.NET_DRIVE[nPcNo], Paths.NET_RECIPE_PATH[nPcNo], Globals.m_fnGetSelRcpName(nPcNo), Paths.RECIPE_INSP);
 
-                    if (strInspStdVer.CompareTo(strInspCurVer) != 0)
-                    {
-                        //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeInspRecipe(strInspStdVer);
-                        bNeedChangeRecipe = true;
-                    }
+        //            if (strInspStdVer.CompareTo(strInspCurVer) != 0)
+        //            {
+        //                //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeInspRecipe(strInspStdVer);
+        //                bNeedChangeRecipe = true;
+        //            }
 
-                    if (bNeedChangeRecipe)
-                    {
-                        Globals.m_fnSetCurGrabVersion(nPcNo, strGrabStdVer);
-                        Globals.m_fnSetCurInspVersion(nPcNo, strInspStdVer);
-                        //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeSelectedRecipe(strBaseRcpId);
-                    }
-                    ////////////////////////////////////////////////////////////////////////////////////////
+        //            if (bNeedChangeRecipe)
+        //            {
+        //                Globals.m_fnSetCurGrabVersion(nPcNo, strGrabStdVer);
+        //                Globals.m_fnSetCurInspVersion(nPcNo, strInspStdVer);
+        //                //Systems.g_frmRecipe[nPcNo].m_frmRcpInfo.m_fnChangeSelectedRecipe(strBaseRcpId);
+        //            }
+        //            ////////////////////////////////////////////////////////////////////////////////////////
 
-                }
-            }
-            catch (Exception ex)
-            {
-                CmdMsgParam.dbgPrint(ex);
-            }
-            return nRet;
-        }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CmdMsgParam.dbgPrint(ex);
+        //    }
+        //    return nRet;
+        //}
 
 
         private static int rcvData(ref CmdMsgParam param)

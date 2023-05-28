@@ -86,19 +86,19 @@ namespace CRUX_Renewal.Main_Form
             Dgv_Pattern.Columns[0].Width = 45;
             Dgv_Pattern.Columns[1].Width = 130;
         }
-        private void PtnListRefresh(InspAreas data)
+        private void PtnListRefresh(Areas data)
         {          
             if (data.Area.Count > 0)
             {
                 DataTable Dt = Dgv_Pattern.DataSource as DataTable;
                 Dt.Rows.Clear();
-                foreach (InspArea item in data.Area)
+                foreach (Area item in data.Area)
                 {
                     Dt.Rows.Add(item.Use, item.Name);
                 }
                 Dgv_Pattern.DataSource = Dt;
                 Dgv_Pattern.Rows[0].Selected = true;
-                Systems.CurrentSelectedPtnName[CurFormIndex] = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                Systems.CurrentSelectedAreaName[CurFormIndex] = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
             }
         }
         private void lv_DrawItem(object sender, DrawListViewItemEventArgs e)
@@ -114,7 +114,7 @@ namespace CRUX_Renewal.Main_Form
 
             SetRecipeList(Systems.CurrentSelectedRecipe[CurFormIndex]);
             //InitPtnListView(Shared_Recipe.ViewRecipe.Patterns_Data);
-            PtnListRefresh(Shared_Recipe.ViewRecipe.InspArea_Data);
+            PtnListRefresh(Shared_Recipe.ViewRecipe.Area_Data);
             Frm_Link.InitializeLinkTab();
         }
         private void InitializeROIData()
@@ -142,7 +142,7 @@ namespace CRUX_Renewal.Main_Form
             this.Invoke(new Action(() =>
             {
                 //cogToolGroupEditV2_Algorithm.Subject = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).VisionTool as CogToolGroup;
-                //Systems.CurrentSelectedPtnName[CurFormIndex] = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).Name;
+                //Systems.CurrentSelectedAreaName[CurFormIndex] = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).Name;
 
 
                 // cogToolGroupEditV2_Algorithm.ToolbarEvents += new CogJobManagerEdit.CogJobManagerEditEventHandler((s, e) =>
@@ -216,7 +216,7 @@ namespace CRUX_Renewal.Main_Form
         //{
         //    LstBoxJobList.Items.Clear();
         //    LstBoxJobList.Items.AddRange(data.ToArray());
-        //    LstBoxJobList.SelectedItem = Systems.CurrentSelectedPtnName;
+        //    LstBoxJobList.SelectedItem = Systems.CurrentSelectedAreaName;
         //}
         public void ChangeSubject(string name)
         {
@@ -255,8 +255,8 @@ namespace CRUX_Renewal.Main_Form
             string RecipePath = Shared_Recipe.ViewRecipe.Path;
             string RecipeName = Shared_Recipe.ViewRecipe.Name;
             RecipeManager.SaveRecipe(Shared_Recipe.ViewRecipe);
-            RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "InspAreas.xml", Shared_Recipe.ViewRecipe.InspArea_Data);
-            RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "GrabOpticsInfo.xml", Shared_Recipe.ViewRecipe.Optics_Data);
+            RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "MainRecipe.xml", Shared_Recipe.ViewRecipe.Area_Data);
+            //RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "GrabOpticsInfo.xml", Shared_Recipe.ViewRecipe.Optics_Data);
             //CogSerializer.SaveObjectToFile(Systems.RecipeContent.ViewRecipe[CurFormIndex].Manager, $@"{RecipePath}Recipes\{RecipeName}\{RecipeName}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
             Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
             Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
@@ -282,9 +282,9 @@ namespace CRUX_Renewal.Main_Form
             SendParam.SetStruct(Shared_Recipe.MainRecipe);
             int Ret = Consts.APP_NG;
             ushort usIpcSeqNo = IpcConst.RMS_RCP_BASE_VER;
-
-            Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.RMS_FUNC, usIpcSeqNo,
-                                                      IpcInterface.CMD_TYPE_RES, 1000, SendParam.GetByteSize(), SendParam.GetParam());
+            //ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
+           // Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_SEND_MODEL_INFO, usIpcSeqNo,
+             //                                         IpcInterface.CMD_TYPE_RES, 1000, SendParam.GetByteSize(), SendParam.GetParam());
 
 
 
@@ -333,10 +333,10 @@ namespace CRUX_Renewal.Main_Form
                     //Loading.Show();
                     Utility.LoadingStart();
                     string SelectedRecipe = $"{(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "")}{Temp[Temp.Length - 1]}";
-                    bool FileExist = fileProc.FileExists($@"{SelectedRecipe}\Patterns.xml");
-                    ArrayList InspArea = fileProc.getFileList($@"{SelectedRecipe}", "", "InspAreas.xml");
-                    ArrayList GrabArea = fileProc.getFileList($@"{SelectedRecipe}", "", "GrabOpticsInfo.xml");
-                    if (InspArea.Count > 0 && GrabArea.Count > 0)
+                    bool FileExist = fileProc.FileExists($@"{SelectedRecipe}\MainRecipe.xml");
+                    ArrayList InspArea = fileProc.getFileList($@"{SelectedRecipe}", "", "MainRecipe.xml");
+                    //ArrayList GrabArea = fileProc.getFileList($@"{SelectedRecipe}", "", "GrabOpticsInfo.xml");
+                    if (InspArea.Count > 0)
                     {
                         string RecipeName = Temp[Temp.Length - 1];
                         if (InspArea == null && InspArea?.Count < 1)
@@ -479,7 +479,7 @@ namespace CRUX_Renewal.Main_Form
         {
 
         }
-        public void InitPtnListView(InspAreas data)
+        public void InitPtnListView(Areas data)
         {
             //LstV_Pattern.Items.Clear();
             //Dgv_Pattern.Rows.Clear();
@@ -498,10 +498,10 @@ namespace CRUX_Renewal.Main_Form
 
             //   // LstV_Pattern.Items.AddRange(Items.ToArray());
             //    LstV_Pattern.Items[0].Selected = true;
-            //    Systems.CurrentSelectedPtnName[CurFormIndex] = LstV_Pattern.SelectedItems[0].Name as string;
+            //    Systems.CurrentSelectedAreaName[CurFormIndex] = LstV_Pattern.SelectedItems[0].Name as string;
             //}
         }
-        public void SetJobListBox(InspAreas data, string sel_ptn)
+        public void SetJobListBox(Areas data, string sel_ptn)
         {
             //LstV_Pattern.Items.Clear();
             //if (data.Pattern.Count > 0)
@@ -520,7 +520,7 @@ namespace CRUX_Renewal.Main_Form
             //    int Idx = LstV_Pattern.Items.IndexOfKey(sel_ptn);
             //    if (Idx >= 0)
             //        LstV_Pattern.Items[Idx].Selected = true;
-            //    Systems.CurrentSelectedPtnName[CurFormIndex] = LstV_Pattern.SelectedItems[0].Name as string;
+            //    Systems.CurrentSelectedAreaName[CurFormIndex] = LstV_Pattern.SelectedItems[0].Name as string;
             //}
         }
 
@@ -574,7 +574,7 @@ namespace CRUX_Renewal.Main_Form
                     //ListViewItem SelItem = LstV_Pattern.SelectedItems[0];
 
                     //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
-                    Systems.CurrentSelectedPtnName[CurFormIndex] = Row.Cells["Name"].Value.ToString(); ;
+                    Systems.CurrentSelectedAreaName[CurFormIndex] = Row.Cells["Name"].Value.ToString(); ;
                     //Patterns CurRecipe = Shared_Recipe.ViewRecipe.Patterns_Data;
                     //RegistPtnToRecipe();
                     //SetJobListBox(Shared_Recipe.ViewRecipe.Patterns_Data, SelItem.Name);
@@ -599,21 +599,19 @@ namespace CRUX_Renewal.Main_Form
                 MenuItem m0 = new MenuItem();
                 MenuItem m1 = new MenuItem();
 
-                m0.Text = "New Area";
+                m0.Text = "New Pattern";
                 m1.Text = "Delete";
 
                 m0.Click += (senders, ex) =>
                 {
-                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("새 영역 생성", Dgv_Pattern.Rows);
+                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("새 패턴 생성", Dgv_Pattern.Rows);
                     Input.ShowDialog();
                     if(Input.DialogResult == DialogResult.OK)
                     {
-                        InspArea NewInspArea = new InspArea();
-                        NewInspArea.Name = Input.ResultName;
-                        GrabArea NewGrabArea = new GrabArea();
-                        NewGrabArea.Name = Input.ResultName;
-                        Shared_Recipe.ViewRecipe.InspArea_Data.Area.Add(NewInspArea);
-                        Shared_Recipe.ViewRecipe.Optics_Data.Area.Add(NewGrabArea);
+                        Area NewInspArea = new Area();
+                        NewInspArea.Name = Input.ResultName;       
+                        Shared_Recipe.ViewRecipe.Area_Data.Area.Add(NewInspArea);
+                        //Shared_Recipe.ViewRecipe.Optics_Data.Area.Add(NewGrabArea);
                         RefeshRecipe();
                     }
                 };
@@ -623,11 +621,11 @@ namespace CRUX_Renewal.Main_Form
                     Noti.ShowDialog();
                     if (Noti.DialogResult == DialogResult.OK)
                     {
-                        InspArea FindInspArea= Shared_Recipe.ViewRecipe.InspArea_Data.Area.Find(x => x.Name == SelectedJobName);
-                        Shared_Recipe.ViewRecipe.InspArea_Data.Area.Remove(FindInspArea);
+                        Area FindInspArea = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == SelectedJobName);
+                        Shared_Recipe.ViewRecipe.Area_Data.Area.Remove(FindInspArea);
 
-                        GrabArea FindGrabArea = Shared_Recipe.ViewRecipe.Optics_Data.Area.Find(x => x.Name == SelectedJobName);
-                        Shared_Recipe.ViewRecipe.Optics_Data.Area.Remove(FindGrabArea);
+                        //GrabArea FindGrabArea = Shared_Recipe.ViewRecipe.Optics_Data.Area.Find(x => x.Name == SelectedJobName);
+                        //Shared_Recipe.ViewRecipe.Optics_Data.Area.Remove(FindGrabArea);
 
                         RefeshRecipe();
                     }
@@ -649,7 +647,7 @@ namespace CRUX_Renewal.Main_Form
             if (e.ColumnIndex == 0)
             {
                 DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                InspArea Temp = Shared_Recipe?.ViewRecipe?.InspArea_Data.Area?.Find(x => x.Name == SelItem.Cells["Name"].Value.ToString());
+                Area Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == SelItem.Cells["Name"].Value.ToString());
                 Temp.Use = SelItem.Cells["USE"].Value.toBool();
                 Temp.Name = SelItem.Cells["Name"].Value.ToString();
             }
@@ -660,7 +658,7 @@ namespace CRUX_Renewal.Main_Form
             if (SelectedPattern != "")
             {
                 DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                InspArea Temp = Shared_Recipe?.ViewRecipe?.InspArea_Data.Area?.Find(x => x.Name == SelectedPattern);
+                Area Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == SelectedPattern);
                 if (Temp != null)
                 {
                     Temp.Use = SelItem.Cells["USE"].Value.toBool();

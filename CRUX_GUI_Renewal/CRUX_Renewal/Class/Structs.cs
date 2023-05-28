@@ -25,23 +25,10 @@ namespace CRUX_Renewal.Class
     /// 검사에 필요한 정보
     /// </summary>
     [Serializable]
-    class InspData : IDisposable
+    class InspData
     {
-        public void Dispose()
-        {
-            //OriginImage.Dispose();   
-
-
-        }
-        public InspData DeepCopy()
-        {
-            InspData Temp = new InspData();
-            Temp = this;
-            Temp.OriginImage = ImageProc.DeepCopyBitmap_Stream(OriginImage);
-            return Temp;
-        }
-        public CogImage8Grey OriginImage { get; set; } = null;
-        public string Position { get; set; } = null;
+        public List<ImageData> Datas = new List<ImageData>();
+        public string Area { get; set; } = null;
         public string Direction { get; set; } = null;
         public string Face { get; set; } = null;
         public string CellID { get; set; } = null;
@@ -50,7 +37,17 @@ namespace CRUX_Renewal.Class
         public string FinishedTime { get; set; } = null;
         public string InspName { get; set; } = null;
         public string Path { get; set; } = "";
+        public string PatternName { get; set; } = string.Empty;
+    }
+    public class ImageData : IDisposable
+    {
+        public CogImage8Grey OriginImage { get; set; } = null;
         public int ImageNo { get; set; } = 0;
+        public string PatternName { get; set; } = string.Empty;
+        public void Dispose()
+        {
+         
+        }
     }
     /// <summary>
     /// 검사에 필요한 정보
@@ -251,9 +248,8 @@ namespace CRUX_Renewal.Class
         public string Path { get; set; }
         public bool Opend { get; set; }
         //public CogJobManager Manager { get; set; } = null;
-        public OpticsData Optics_Data = new OpticsData();
         //public Dictionary<string, List<ROI_Data>> ROI_List;
-        public InspAreas InspArea_Data = new InspAreas();
+        public Areas Area_Data = new Areas();
         //public List<ROI_Property> ROI_Prop = new List<ROI_Property>();
 
         public void SaveROI_Property()
@@ -511,13 +507,15 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_RECIPE_INFO
     {
-        public string RecipeName;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        public byte[] RecipeName;
         public int GrabCount;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_AREA_COUNT)]
         public ST_GRAB_AREA_INFO[] GrabArea;
         public ST_RECIPE_INFO(int num)
         {
-            RecipeName = string.Empty;
-            GrabArea = new ST_GRAB_AREA_INFO[10];
+            RecipeName = new byte[200];
+            GrabArea = new ST_GRAB_AREA_INFO[Consts.MAX_AREA_COUNT];
             GrabCount = 0;
         }
     }
@@ -525,35 +523,82 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_GRAB_AREA_INFO
     {
-        public string Name;
-        public ST_LINE_INFO LineInfo;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        public byte[] Name;
+        public int PtnCount;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_PATTERN_COUNT)]
         public ST_PATTERN_INFO[] PatternList;
         public ST_GRAB_AREA_INFO(int num)
         {
-            Name = string.Empty;
-            LineInfo = new ST_LINE_INFO();
-            PatternList = new ST_PATTERN_INFO[20];
+            Name = new byte[200];
+            PtnCount = 0;
+            PatternList = new ST_PATTERN_INFO[Consts.MAX_PATTERN_COUNT];
         }
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_PATTERN_INFO
     {
-        public string PatternName;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        public byte[] PatternName;
+        public bool Use;
         public bool Vacuum;
+        public int CamCondCount;
+        public int LightCondCount;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_CAMERA_COUNT)]
         public ST_CAM_COND[] Cam_Condition;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_COUNT)]
         public ST_LIGHT_COND[] Light_Condition;
+        public ST_PATTERN_INFO(int num)
+        {
+            PatternName = new byte[200];
+            Use = false;
+            Vacuum = false;
+            CamCondCount = 0;
+            LightCondCount = 0;
+            Cam_Condition = new ST_CAM_COND[Consts.MAX_CAMERA_COUNT];
+            Light_Condition = new ST_LIGHT_COND[Consts.MAX_LIGHT_COUNT];
+        }
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_CAM_COND
     {
-        public string Name;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        public byte[] Type;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        public byte[] Name;
         public bool Use;
-        public string Expose;
-        public string Gain;
-        public string PS;
-        public string Delay;
+        public double Expose;
+        public double Gain;
+        public double PS;
+        public double Delay;
+        public double nCountF;
+        public double nCountB;
+        public double nStartF;
+        public double nStartB;
+        public double nStopF;
+        public double nStopB;
+        public double nPeriodF;
+        public double nPeriodB;
+        public ST_CAM_COND(int num)
+        {
+            Type = new byte[200];
+            Name = new byte[200];
+            Use = false;
+            Expose = 100;
+            Gain = 1;
+            PS = 0;
+            Delay = 0;
+            nCountF = 0;
+            nCountB = 0;
+            nStartF = 0;
+            nStartB = 0;
+            nStopF = 0;
+            nStopB = 0;
+            nPeriodF = 0;
+            nPeriodB = 0;
+        }
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -561,8 +606,15 @@ namespace CRUX_Renewal.Class
     {
         public string Name;
         public bool Use;
-        public string CtrlName;
+        //public string CtrlName;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_CHANNEL_COUNT)]
         public int[] LightConditions;
+        public ST_LIGHT_COND(int num)
+        {
+            Name = string.Empty;
+            Use = true;
+            LightConditions = new int[Consts.MAX_LIGHT_CHANNEL_COUNT];
+        }
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -570,59 +622,7 @@ namespace CRUX_Renewal.Class
     {
         public int GrabCount;
     }
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct ST_LINE_INFO
-    {
-        public int GrabCount;
-    }
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    [XmlRoot("GrabInfo")]
-    public class OpticsData
-    {
-        [XmlArray("GrabAreas")]
-        [XmlArrayItem("GrabArea")]
-        public List<GrabArea> Area { get; set; }
-        public OpticsData()
-        {
-            Area = new List<GrabArea>();
-        }
-    };
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public class GrabArea
-    {
-        [XmlAttribute("Name")]
-        public string Name { get; set; } = string.Empty;
-        [XmlArray("Patterns")]
-        [XmlArrayItem("Pattern")]
-        public List<Pattern> Patterns { get; set; }
-        public GrabArea()
-        {
-            Patterns = new List<Pattern>();
-        }
-    }
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public class Pattern
-    {
-        [XmlAttribute("Name")]
-        public string Name { get; set; } = string.Empty;
-        [XmlAttribute("Use")]
-        public bool Use { get; set; } = false;
-        [XmlArray("Cameras")]
-        [XmlArrayItem("Camera")]
-        public List<CameraInfo> Camera_Conditions { get; set; }
-        [XmlArray("Lights")]
-        [XmlArrayItem("Light")]
-        public List<LightInfo> Light_Conditions { get; set; }
-        public Pattern()
-        {
-            Camera_Conditions = new List<CameraInfo>();
-            Light_Conditions = new List<LightInfo>();
-        }
-    }
+
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class CameraInfo
@@ -631,6 +631,8 @@ namespace CRUX_Renewal.Class
         public string Name { get; set; } = string.Empty;
         [XmlAttribute("Use")]
         public bool Use { get; set; } = false;
+        [XmlAttribute("Type")]
+        public string CamType { get; set; } = string.Empty;
         [XmlElement("Expose")]
         public double Expose { get; set; } = 0;
         [XmlElement("Gain")]
@@ -639,6 +641,23 @@ namespace CRUX_Renewal.Class
         public int PS { get; set; } = 0;
         [XmlElement("Delay")]
         public int Delay { get; set; } = 0;
+        [XmlElement("CountF")]
+        public int nCountF { get; set; } = 0;
+        [XmlElement("CountB")]
+        public int nCountB { get; set; } = 0;
+        [XmlElement("StartF")]
+        public int nStartF { get; set; } = 0;
+        [XmlElement("StartB")]
+        public int nStartB { get; set; } = 0;
+        [XmlElement("StopF")]
+        public int nStopF { get; set; } = 0;
+        [XmlElement("StopB")]
+        public int nStopB { get; set; } = 0;
+        [XmlElement("PeriodF")]
+        public int nPeriodF { get; set; } = 0;
+        [XmlElement("PeriodB")]
+        public int nPeriodB { get; set; } = 0;
+
     }
 
     [Serializable]
@@ -664,33 +683,76 @@ namespace CRUX_Renewal.Class
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     [XmlRoot("RecipeInfo")]
-    public class InspAreas
+    public class Areas
     {
-        [XmlArray("InspAreas")]
-        [XmlArrayItem("InspArea")]
-        public List<InspArea> Area { get; set; }
-        public InspAreas()
+        [XmlArray("Areas")]
+        [XmlArrayItem("Area")]
+        public List<Area> Area { get; set; }
+        public Areas()
         {
-            Area = new List<InspArea>();
+            Area = new List<Area>();
         }
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public class InspArea
+    public class Area
     {
         [XmlAttribute("Name")]
         public string Name { get; set; } = string.Empty;
         [XmlAttribute("Use")]
         public bool Use { get; set; } = false;
-        [XmlArray("ROI_List")]
-        [XmlArrayItem("ROI")]
-        public List<ROI> ROI_Coord { get; set; }
-
-        public InspArea()
+        [XmlArray("Patterns")]
+        [XmlArrayItem("Pattern")]
+        public List<Pattern> Patterns { get; set; }
+        public Area()
         {
-            ROI_Coord = new List<ROI>();
+            Patterns = new List<Pattern>();
+            
         }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Pattern
+    {
+        [XmlAttribute("Name")]
+        public string Name { get; set; } = string.Empty;
+        [XmlAttribute("Vacuum")]
+        public bool Vacuum { get; set; } = true;
+        [XmlAttribute("Use")]
+        public bool Use { get; set; } = true;
+        [XmlArray("InspData")]
+        [XmlArrayItem("ROI")]
+        public List<ROI> ROI_Data { get; set; }
+        [XmlArray("GrabData")]
+        [XmlArrayItem("Optics")]
+        public List<Optics> Grab_Data { get; set; }
+
+
+        public Pattern()
+        {
+            ROI_Data = new List<ROI>();
+            Grab_Data = new List<Optics>();
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Optics
+    {
+        [XmlArray("Cameras")]
+        [XmlArrayItem("Camera")]
+        public List<CameraInfo> Camera_Data { get; set; }
+        [XmlArray("Lights")]
+        [XmlArrayItem("Light")]
+        public List<LightInfo> Light_Data { get; set; }
+
+
+        public Optics()
+        {
+            Camera_Data = new List<CameraInfo>();
+            Light_Data = new List<LightInfo>();
+        }
+    }
+
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ROI

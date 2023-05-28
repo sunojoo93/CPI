@@ -36,8 +36,8 @@ namespace CRUX_Renewal.Ex_Form
         bool Display_Draging = false;
         ToolTip Tip = new ToolTip();
         Recipes Recipe;
-        public InspArea CurPattern;
-        InspArea Origin_Pattern;
+        public Pattern CurPattern;
+        Area Origin_Pattern;
         string CurPtnName;
         bool AltIsDown
         {
@@ -102,7 +102,7 @@ namespace CRUX_Renewal.Ex_Form
             InputBox.Hide();
             //RefeshRoiDataView();      
         }
-        public void Init(ICogImage image, InspArea ptn)
+        public void Init(ICogImage image, Pattern ptn)
         {
             Cog_ROI_Display.Image = image;
             Cog_ROI_Display.AutoFit = true;
@@ -117,7 +117,7 @@ namespace CRUX_Renewal.Ex_Form
             try
             {
 
-                if (CurPattern.ROI_Coord.Count > 0)
+                if (CurPattern?.ROI_Data.Count >= 0)
                 {
                     Cog_ROI_Display.DrawingEnabled = false;
                     //Dictionary<string, List<ROI_Data>> ROI_List = Systems.RecipeContent.ViewRecipe[CurFormIndex].ROI_List;
@@ -125,9 +125,9 @@ namespace CRUX_Renewal.Ex_Form
                     LstV_ROI.Groups.Clear();
                     LstV_ROI.Items.Clear();
                     PGE_ROIProp.Item.Clear();
-                    //if (!CurPattern.ROI_Coord.ContainsKey(Systems.CurrentSelectedPtnName[CurFormIndex]))
+                    //if (!CurPattern.ROI_Coord.ContainsKey(Systems.CurrentSelectedAreaName[CurFormIndex]))
                     //    return;
-                    List<ROI> Temp = CurPattern.ROI_Coord;
+                    List<ROI> Temp = CurPattern.ROI_Data;
 
                     //foreach (string item in LstB_Category.Items)
                     //    LstV_ROI.Groups.Add(new ListViewGroup(item, item));
@@ -198,7 +198,7 @@ namespace CRUX_Renewal.Ex_Form
                             //}
                             //LstV_ROI.Groups[item.Category].Items.Add(Lvi);
                             LstV_ROI.EndUpdate();
-                            //RefeshROI(Rp, Rect, Systems.CurrentSelectedPtnName[CurFormIndex], Category, item.Name, true);
+                            //RefeshROI(Rp, Rect, Systems.CurrentSelectedAreaName[CurFormIndex], Category, item.Name, true);
                         }
                     }
                     Cog_ROI_Display.DrawingEnabled = true;
@@ -400,7 +400,7 @@ namespace CRUX_Renewal.Ex_Form
                     NewROI.Name = ROI_Name;
                     NewROI.ROI_Property = Rp;
 
-                    CurPattern.ROI_Coord.Add(NewROI);
+                    CurPattern.ROI_Data.Add(NewROI);
 
                     ROI_Property Prop = new ROI_Property();
                     Prop.Name = ROIName;
@@ -492,7 +492,7 @@ namespace CRUX_Renewal.Ex_Form
             {
                 if ((item.SubItems["Object"].Tag as CogRectangle) == FindSelRect)
                 {
-                    ROI FindItem = CurPattern.ROI_Coord?.Find(x => x.Name == item.Text);
+                    ROI FindItem = CurPattern.ROI_Data?.Find(x => x.Name == item.Text);
                     FindItem.Coord.X = dragRect.X;
                     FindItem.Coord.Y = dragRect.Y;
                     FindItem.Coord.Width = dragRect.Width;
@@ -653,7 +653,7 @@ namespace CRUX_Renewal.Ex_Form
             GridItem SelectedItem = PGEx.SelectedGridItem;
             string ROIName = SelectedItem.Parent.Label;
 
-            ROI_PropertyData CurROIProp = CurPattern?.ROI_Coord?.Find(x => x.Name == ROIName)?.ROI_Property;
+            ROI_PropertyData CurROIProp = CurPattern?.ROI_Data?.Find(x => x.Name == ROIName)?.ROI_Property;
             CurROIProp.LineColor = (SelectedItem.Parent.Value as ROI_Property).LineColor.ToString();
             CurROIProp.LineStyle = (SelectedItem.Parent.Value as ROI_Property).LineStyle.ToString();
             CurROIProp.SelectedLineColor = (SelectedItem.Parent.Value as ROI_Property).SelectedLineColor.ToString();
@@ -778,7 +778,7 @@ namespace CRUX_Renewal.Ex_Form
                             ROI OriginItem = new ROI();
                             ROI FindItem = new ROI();
 
-                            OriginItem = CurPattern.ROI_Coord.Find(x => x.Name == curItem.SubItems["Name"].Text);
+                            OriginItem = CurPattern.ROI_Data.Find(x => x.Name == curItem.SubItems["Name"].Text);
 
                             if (Col == "Name")
                             {
@@ -792,7 +792,7 @@ namespace CRUX_Renewal.Ex_Form
                                 {
                                     NameChange = true;
 
-                                    FindItem = CurPattern.ROI_Coord.Find(x => x.Name == InputBox.Text);
+                                    FindItem = CurPattern.ROI_Data.Find(x => x.Name == InputBox.Text);
                                     if (curSB.Text == InputBox.Text)
                                     {
                                         InputBox.Hide();
@@ -877,7 +877,7 @@ namespace CRUX_Renewal.Ex_Form
                                 CoordChange = double.TryParse(InputBox.Text, out Num);
                                 if (CoordChange)
                                 {
-                                    OriginItem = CurPattern.ROI_Coord.Find(x => x.Name == curItem.SubItems["Name"].Text);
+                                    OriginItem = CurPattern.ROI_Data.Find(x => x.Name == curItem.SubItems["Name"].Text);
                                     OriginItem.Coord.X = Num;
                                 }
                             }
@@ -886,7 +886,7 @@ namespace CRUX_Renewal.Ex_Form
                                 CoordChange = double.TryParse(InputBox.Text, out Num);
                                 if (CoordChange)
                                 {
-                                    OriginItem = CurPattern.ROI_Coord.Find(x => x.Name == curItem.SubItems["Name"].Text);
+                                    OriginItem = CurPattern.ROI_Data.Find(x => x.Name == curItem.SubItems["Name"].Text);
                                     OriginItem.Coord.Y = Num;
                                 }
                             }
@@ -895,7 +895,7 @@ namespace CRUX_Renewal.Ex_Form
                                 CoordChange = double.TryParse(InputBox.Text, out Num);
                                 if (CoordChange)
                                 {
-                                    OriginItem = CurPattern.ROI_Coord.Find(x => x.Name == curItem.SubItems["Name"].Text);
+                                    OriginItem = CurPattern.ROI_Data.Find(x => x.Name == curItem.SubItems["Name"].Text);
                                     OriginItem.Coord.Width = Num;
                                 }
                             }
@@ -904,7 +904,7 @@ namespace CRUX_Renewal.Ex_Form
                                 CoordChange = double.TryParse(InputBox.Text, out Num);
                                 if (CoordChange)
                                 {
-                                    OriginItem = CurPattern.ROI_Coord.Find(x => x.Name == curItem.SubItems["Name"].Text);
+                                    OriginItem = CurPattern.ROI_Data.Find(x => x.Name == curItem.SubItems["Name"].Text);
                                     OriginItem.Coord.Height = Num;
                                 }
                             }
@@ -997,10 +997,10 @@ namespace CRUX_Renewal.Ex_Form
                     string Name = Item.SubItems["Name"].Text;
 
 
-                    var FindItem = CurPattern.ROI_Coord.Find(x => x.Name == Name);
+                    var FindItem = CurPattern.ROI_Data.Find(x => x.Name == Name);
                     if (FindItem != null)
                     {
-                        CurPattern.ROI_Coord.Remove(FindItem);
+                        CurPattern.ROI_Data.Remove(FindItem);
                         RefeshRoiDataView();
                     }
                 };
@@ -1176,7 +1176,7 @@ namespace CRUX_Renewal.Ex_Form
 
                 //int ROIIdx = Recipe.ViewRecipe.Patterns_Data.Pattern.FindIndex(x => x.Name == ROIName);
 
-                ROI Temp = CurPattern.ROI_Coord.Find(x => x.Name == ROIName);
+                ROI Temp = CurPattern.ROI_Data.Find(x => x.Name == ROIName);
                 Temp.Coord.X = Rect.X;
                 Temp.Coord.Y = Rect.Y;
                 Temp.Coord.Width = Rect.Width;

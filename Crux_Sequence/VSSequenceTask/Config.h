@@ -133,6 +133,11 @@ public:
 	int						GetCurPgIndex(int nGrabCnt)	{if (IsDust(nGrabCnt)) return DUST_PG_INDEX;	return m_stModelInfo.stPgInfo.stPgData[nGrabCnt].nPtnNum;};
 	void					SetModelInfo(ST_MODEL_INFO* pStModelInfo)				{	m_stModelInfo = *pStModelInfo;	SetUseLight();							 };		
 
+	//// AOT ////
+	void					SetModelInfo_AOT(ST_RECIPE_INFO_AOT* pStModelInfo) { m_stModelInfo_AOT = *pStModelInfo;	/*SetUseLight();*/ };
+
+
+
 private:
 	void					Write(TCHAR* sec, TCHAR* key, UINT val);
 	void					Write(TCHAR* sec, TCHAR* key, int val);
@@ -167,7 +172,9 @@ private:
 	int						m_nImgCount;
 
 	// Model Info
-	ST_MODEL_INFO			m_stModelInfo;	
+	ST_RECIPE_INFO_AOT			m_stModelInfo;
+	//ST_RECIPE_INFO_AOT		m_stModelInfo_AOT;
+
 	// 조명 사용 유무 (DUST 판단용)
 	BOOL					m_bIsUseLight[MAX_GRAB_STEP_COUNT];
 //	ST_PG_INFO				m_stPgInfo;

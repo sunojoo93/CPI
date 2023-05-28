@@ -577,7 +577,7 @@ namespace CRUX_Renewal.Class.InspVer1
                 //InspectData = data.DeepCopy<InspData>();
                 //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
                 Utility.ChangeJobImageSource(Job, false);
-                ((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
+                //((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
                 //Job.UserData["One"] = new object();
                 SharedClass Data = new SharedClass();
                 Data.ROI_List.Add("InspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 1000, Y = 2000, Width = 3000, Height = 4000 }));
@@ -627,7 +627,7 @@ namespace CRUX_Renewal.Class.InspVer1
                 //InspectData = data.DeepCopy<InspData>();
                 //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
 
-                ((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
+                //((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
                 Set = true;
                 //Utility.ChangeJobImageSource(Job, false);
                 //Job.Run();
@@ -719,7 +719,7 @@ namespace CRUX_Renewal.Class.InspVer1
                 var Temp = sender as CogJob;
             });         
         }
-        #region 검사
+        
 
 
         #region IDisposable Support
@@ -754,7 +754,6 @@ namespace CRUX_Renewal.Class.InspVer1
             // TODO: 위의 종료자가 재정의된 경우 다음 코드 줄의 주석 처리를 제거합니다.
             // GC.SuppressFinalize(this);
         }
-        #endregion
         #endregion
     }
 }

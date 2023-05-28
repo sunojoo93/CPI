@@ -61,6 +61,7 @@ namespace CRUX_Renewal.Class.InspVer2
                 {
                     if (item.Busy == false)
                     {
+                        data.InputTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
                         item.Start_Insp(data);
                         break;
                     }
@@ -78,36 +79,38 @@ namespace CRUX_Renewal.Class.InspVer2
         class Inspector_Ver2 : IDisposable
         {
             private string RecipeName = string.Empty;
-            
-            List<Inspection> Pattern_Inspector = new List<Inspection>();
+
+            List<Area_Inspector> Area_Insp = new List<Area_Inspector>();
             public bool Busy = false;
 
             public void ConvertInspectorFromRecipe(Recipe recipe)
             {
                 Dispose();
                 RecipeName = recipe.Name;
-                foreach (InspArea item in recipe.InspArea_Data.Area)
+                foreach (Area item in recipe.Area_Data.Area)
                 {
-                    if (Pattern_Inspector == null)
-                        Pattern_Inspector = new List<Inspection>();
+                    if (Area_Insp == null)
+                        Area_Insp = new List<Area_Inspector>();
                     if (item.Use)
                     {
-                        Inspection Insp = new Inspection(item);
-                        Pattern_Inspector.Add(Insp);
+                        Area_Inspector Insp = new Area_Inspector(item);
+                        Area_Insp.Add(Insp);
                     }
                 }
             }
+
+
             public void Start_Insp(InspData data)
             {
-                if (Pattern_Inspector != null && Pattern_Inspector.Count > 0)
+                if (Area_Insp != null && Area_Insp.Count > 0)
                 {
-                        foreach (Inspection item in Pattern_Inspector)
+                    foreach (Area_Inspector item in Area_Insp)
                     {
-                        if (data.Position == item.Name)
+                        if (data.Area == item.Name)
                         {
                             Thread t = new Thread(delegate ()
                             {
-                                item.Start_Insp(data.OriginImage); ;
+                                item.Start_Insp(data); ;
                             });
                             t.Start();
                         }
@@ -117,55 +120,58 @@ namespace CRUX_Renewal.Class.InspVer2
 
             public void Dispose()
             {
-                if (Pattern_Inspector != null)
+                if (Area_Insp != null)
                 {
-                    foreach (Inspection item in Pattern_Inspector)
+                    foreach (Area_Inspector item in Area_Insp)
                     {
                         item.Dispose();
                     }
                 }
-                Pattern_Inspector = null;
+                Area_Insp = null;
             }
 
-            class Inspection : IDisposable
-            {
-                //public bool Busy { get; set; } = false;
+            class Area_Inspector : IDisposable
+            {   
                 public bool Finished = false;
-                public bool Busy = false; 
+                public bool Busy = false;
                 public string Name { get; set; } = string.Empty;
-                List<Region_Inspector> Region_Insp = new List<Region_Inspector>();
+                List<Pattern_Inspector> Pattern_Insp = new List<Pattern_Inspector>();
 
-                public Judgement Judge = new Judgement();
-                private object Locker1 = new object();
-
-                public Inspection(InspArea pattern)
+                public Area_Inspector(Area area)
                 {
-                    Name = pattern.Name;
-                    foreach (ROI item in pattern.ROI_Coord)
+                    Name = area.Name;
+
+                    foreach (Pattern item in area.Patterns)
                     {
                         if (item.Use)
                         {
-                            Region_Inspector InspRegion = new Region_Inspector(item);
-                            Region_Insp.Add(InspRegion);
+                            Pattern_Inspector InspRegion = new Pattern_Inspector(item);
+                            Pattern_Insp.Add(InspRegion);
                         }
                     }
                 }
-                public Inspection()
+                public Area_Inspector()
                 {
 
                 }
-                public void Start_Insp(CogImage8Grey image)
+                public void Start_Insp(InspData data)
                 {
                     try
                     {
-                        if (Region_Insp != null)
+                        if (Pattern_Insp != null)
                         {
-                            for (int i = 0; i < Region_Insp.Count; ++i)
+                            foreach(Pattern_Inspector item in Pattern_Insp)
                             {
-                                Region_Insp[i].Start_Insp(image);
-                                if (Region_Insp[i]?.AlgoInsp?.Algorithm_Job != null)
-                                    AddJobManagerEvent(Region_Insp[i].AlgoInsp.Algorithm_Job);
+                                Thread t = new Thread(delegate ()
+                                {
+                                    if (item.Name == data.PatternName)
+                                    {
+                                        item.Start_Insp(data);
+                                    }
+                                });
+                                t.Start();
                             }
+
                             //if(Region_Insp.Count > 0)
 
                             //do
@@ -185,79 +191,12 @@ namespace CRUX_Renewal.Class.InspVer2
 
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Busy = false;
                         Finished = true;
                     }
-                }
-                private void AddJobManagerEvent(CogJobManager manager)
-                {
-                    manager.FailureQueueOverflowed += new CogJobManager.CogFailureQueueOverflowedEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogFailureQueueOverflowedEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.FailureItemAvailable += new CogJobManager.CogFailureItemAvailableEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogFailureItemAvailableEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.FailureItemRemoved += new CogJobManager.CogFailureItemRemovedEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogFailureItemRemovedEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.FailureQueueFlushed += new CogJobManager.CogFailureQueueFlushedEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogFailureQueueFlushedEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.JobAdded += new CogJobManager.CogJobAddedEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogJobAddedEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.JobRemoved += new CogJobManager.CogJobRemovedEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogJobRemovedEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.ResetComplete += new CogJobManager.CogJobManagerResetCompleteEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogJobManagerResetCompleteEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.Stopped += new CogJobManager.CogJobManagerStoppedEventHandler((sender, e) =>
-                    {                  
-                        Console.WriteLine($"CogJobManagerStoppedEventHandler");
-                        CogJobManager Manager = sender as CogJobManager;
-                        Finished = true;
-                        Busy = false;
-
-                        Judgement();
-                    });
-                    manager.UserQueueFlushed += new CogJobManager.CogUserQueueFlushedEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogUserQueueFlushedEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.UserQueueOverflowed += new CogJobManager.CogUserQueueOverflowedEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogUserQueueOverflowedEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.UserResultAvailable += new CogJobManager.CogUserResultAvailableEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogUserResultAvailableEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                    manager.UserResultRemoved += new CogJobManager.CogUserResultRemovedEventHandler((sender, e) =>
-                    {
-                        Console.WriteLine($"CogUserResultRemovedEventHandler");
-                        var Temp = sender as CogJobManager;
-                    });
-                }
+                }                
 
                 private void RemoveJobManagerEvent(CogJobManager manager)
                 {
@@ -329,7 +268,7 @@ namespace CRUX_Renewal.Class.InspVer2
                     //{
                     //    item.Dispose();
                     //}
-                    Judge.Dispose();
+                    //Judge.Dispose();
                     disposedValue = true;
 
                     Console.WriteLine($"JobManager Flush");
@@ -345,7 +284,7 @@ namespace CRUX_Renewal.Class.InspVer2
                 /// </summary>
                 public void Judgement()
                 {
-                    Judge = new Judgement();
+                    //Judge = new Judgement();
 
                     /// 판정 알고리즘 ///
                     string CurTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
@@ -356,7 +295,7 @@ namespace CRUX_Renewal.Class.InspVer2
                 }
 
 
-                public Inspection(Recipe source, int idx)
+                public Area_Inspector(Recipe source, int idx)
                 {
                     //JobManager = new CogJobManager();
                     //RemoveJobManagerEvent(JobManager);
@@ -415,20 +354,20 @@ namespace CRUX_Renewal.Class.InspVer2
                         // TODO: 관리되지 않는 리소스(관리되지 않는 개체)를 해제하고 아래의 종료자를 재정의합니다.
                         // TODO: 큰 필드를 null로 설정합니다.            
                         Finished = false;
-                        if (Region_Insp != null)
+                        if (Pattern_Insp != null)
                         {
-                            foreach (Region_Inspector item in Region_Insp)
+                            foreach (Pattern_Inspector item in Pattern_Insp)
                             {
                                 item.Dispose();
                             }
                         }
-                        Judge.Dispose();
+                        //Judge.Dispose();
                         disposedValue = true;
                     }
                 }
 
                 // TODO: 위의 Dispose(bool disposing)에 관리되지 않는 리소스를 해제하는 코드가 포함되어 있는 경우에만 종료자를 재정의합니다.
-                ~Inspection()
+                ~Area_Inspector()
                 {
                     // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
                     Dispose(false);
@@ -443,7 +382,112 @@ namespace CRUX_Renewal.Class.InspVer2
                     // GC.SuppressFinalize(this);
                 }
                 #endregion
+                class Pattern_Inspector : IDisposable
+                {
+                    public string Name { get; set; } = string.Empty;
+                    public bool Finishe { get; set; } = false;
+                    public bool Busy { get; set; } = false;
+                    public  List<Region_Inspector> Region_Insp = new List<Region_Inspector>();
+                    public Pattern_Inspector(Pattern pattern)
+                    {
+                        Name = pattern.Name;
 
+                        foreach (ROI item in pattern.ROI_Data)
+                        {
+                            if (item.Use)
+                            {
+                                Region_Inspector InspRegion = new Region_Inspector(item);
+                                Region_Insp.Add(InspRegion);
+                            }
+                        }
+                    }
+                    public void Start_Insp(InspData data)
+                    {
+                        Thread t = new Thread(delegate ()
+                        {
+                            foreach(Region_Inspector item in Region_Insp)
+                            {
+                                if (item?.AlgoInsp?.Algorithm_Job != null)
+                                {
+                                    item.Start_Insp(data);
+                                    AddJobManagerEvent(item.AlgoInsp.Algorithm_Job);
+                                }
+                            }
+                        });
+                        t.Start();
+                    }
+                    public void Dispose()
+                    {
+
+                    }
+                    private void AddJobManagerEvent(CogJobManager manager)
+                    {
+                        manager.FailureQueueOverflowed += new CogJobManager.CogFailureQueueOverflowedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogFailureQueueOverflowedEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.FailureItemAvailable += new CogJobManager.CogFailureItemAvailableEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogFailureItemAvailableEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.FailureItemRemoved += new CogJobManager.CogFailureItemRemovedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogFailureItemRemovedEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.FailureQueueFlushed += new CogJobManager.CogFailureQueueFlushedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogFailureQueueFlushedEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.JobAdded += new CogJobManager.CogJobAddedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogJobAddedEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.JobRemoved += new CogJobManager.CogJobRemovedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogJobRemovedEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.ResetComplete += new CogJobManager.CogJobManagerResetCompleteEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogJobManagerResetCompleteEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.Stopped += new CogJobManager.CogJobManagerStoppedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogJobManagerStoppedEventHandler");
+                            CogJobManager Manager = sender as CogJobManager;
+                            Finishe = true;
+                            Busy = false;
+
+                            //Judgement();
+                        });
+                        manager.UserQueueFlushed += new CogJobManager.CogUserQueueFlushedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogUserQueueFlushedEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.UserQueueOverflowed += new CogJobManager.CogUserQueueOverflowedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogUserQueueOverflowedEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.UserResultAvailable += new CogJobManager.CogUserResultAvailableEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogUserResultAvailableEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                        manager.UserResultRemoved += new CogJobManager.CogUserResultRemovedEventHandler((sender, e) =>
+                        {
+                            Console.WriteLine($"CogUserResultRemovedEventHandler");
+                            var Temp = sender as CogJobManager;
+                        });
+                    }
+                }
                 class Region_Inspector : IDisposable
                 {
                     public string Name;
@@ -459,14 +503,14 @@ namespace CRUX_Renewal.Class.InspVer2
                         {
                             if (AlgoInsp == null)
                                 AlgoInsp = new Algorithm_Inspection(Name);
-                            AlgoInsp.SetInspector(item);         
-                        }          
+                            AlgoInsp.SetInspector(item);
+                        }
                     }
                     public Region_Inspector()
                     {
 
                     }
-                    public void Start_Insp(CogImage8Grey image)
+                    public void Start_Insp(InspData data)
                     {
                         Thread_Insp = new Task(delegate ()
                        {
@@ -476,19 +520,22 @@ namespace CRUX_Renewal.Class.InspVer2
                                //for(int i = 0; i < AlgoInsp.Algorithm_Job.JobCount; ++i)
                                //{
                                //    ((AlgoInsp.Algorithm_Job.Job(i).VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = image;
-                               //}                          
+                               //}                    
+                               InspData Temp = new InspData();
 
                                CogCopyRegionTool RegionCopyTool = new CogCopyRegionTool();
-                               RegionCopyTool.InputImage = image;
+                               CogImage8Grey FindImage = data.Datas.Find(x => x.PatternName == data.PatternName).OriginImage;
+                               RegionCopyTool.InputImage = FindImage;
                                CogRectangle Rect = new CogRectangle() { X = ROI.X, Y = ROI.Y, Width = ROI.Width, Height = ROI.Height };
 
                                RegionCopyTool.Region = Rect;
                                RegionCopyTool.Run();
-                               CogImage8Grey Output = RegionCopyTool.OutputImage as CogImage8Grey;
-                               AlgoInsp.Start_Insp(Output);
+                               FindImage = RegionCopyTool.OutputImage as CogImage8Grey;
+
+                               AlgoInsp.Start_Insp(data);
                                //Busy = true;
                            }
-                           catch(Exception ex)
+                           catch (Exception ex)
                            {
                                //Busy = false;
                                string ErrorMessage = $"Thread Start Error, ROI Name : {Name} ErrorMessage : {ex.Message}";
@@ -509,8 +556,6 @@ namespace CRUX_Renewal.Class.InspVer2
                         }
                     }
 
-                    
-                    
                     public class Algorithm_Inspection : IDisposable
                     {
                         public CogJobManager Algorithm_Job = new CogJobManager();
@@ -527,31 +572,30 @@ namespace CRUX_Renewal.Class.InspVer2
                             CommonParam CommonParams = new CommonParam();
                             foreach (InspParam item in algo.Param)
                             {
-                                CommonParams.Params.Add(item.Name, item.Value);
+                                CommonParams.PatternParam.Add(item.Name, item.Value);
                             }
                             Job.UserData.Add("Param", CommonParams);
 
                             Algorithm_Job.JobAdd(Job);
                         }
-                        public void Start_Insp(CogImage8Grey image)
+                        public void Start_Insp(InspData data)
                         {
                             try
                             {
-                                Insp_Images ImagesList = new Insp_Images();
-                                ImagesList.Images.Add("Origin", image);
-                                //CogCopyRegion CopyRegionObj = new CogCopyRegion();
-                                //CopyRegionObj.
-
-                                //foreach (CogImage8Grey item in image)
-                                //    ImagesList.Images.Add("Temp", item);
-
+                                Image_Collection Collection = new Image_Collection();  
+                                for(int i = 0; i < data.Datas.Count; ++i)
+                                {
+                                    Insp_Images Temp = new Insp_Images();
+                                    Temp.Image = data.Datas[i].OriginImage;
+                                    Temp.PatternName = data.Datas[i].PatternName;
+                                    Collection.Images.Add(i.ToString(), Temp);
+                                }
                                 for (int i = 0; i < Algorithm_Job.JobCount; ++i)
-                                    Algorithm_Job.Job(i).VisionTool.UserData.Add("Images", ImagesList);
+                                    Algorithm_Job.Job(i).VisionTool.UserData.Add("Images", Collection);
 
                                 Algorithm_Job.Run();
-
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
                                 //Busy = false;                               
@@ -579,13 +623,13 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //Busy = true;
                                 var Temp = sender as CogJob;
                                 Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
-                            //InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                        });
+                                //InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                            });
                             Job.VisionToolError += new CogJob.CogVisionToolErrorEventHandler((sender, e) =>
                             {
                                 Console.WriteLine($"VisionToolError");
-                            //Set = false;
-                            //Finishe = true;
+                                //Set = false;
+                                //Finishe = true;
                                 var Temp = sender as CogJob;
                             });
                             Job.VisionToolLinkAdded += new CogJob.CogVisionToolLinkAddedEventHandler((sender, e) =>
@@ -646,12 +690,12 @@ namespace CRUX_Renewal.Class.InspVer2
                                 var Temp = sender as CogJob;
                                 Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
 
-                            //InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                            Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
-                            //InspectData.Dispose()
-                            //Finishe = true;
-                            //Set = false;
-                            Job.Image();
+                                //InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                                Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
+                                //InspectData.Dispose()
+                                //Finishe = true;
+                                //Set = false;
+                                Job.Image();
 
                             });
 
@@ -660,13 +704,13 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //Finishe = false;
                                 var Temp = sender as CogJob;
                                 Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
-                            //InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                        });
+                                //InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                            });
                             Job.VisionToolError -= new CogJob.CogVisionToolErrorEventHandler((sender, e) =>
                             {
                                 Console.WriteLine($"VisionToolError");
-                            //Set = false;
-                           // Finishe = true;
+                                //Set = false;
+                                // Finishe = true;
                                 var Temp = sender as CogJob;
                             });
                             Job.VisionToolLinkAdded -= new CogJob.CogVisionToolLinkAddedEventHandler((sender, e) =>
@@ -720,7 +764,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                 var Temp = sender as CogJob;
                             });
                         }
-                        
+
 
                         public void Dispose()
                         {
@@ -797,46 +841,46 @@ namespace CRUX_Renewal.Class.InspVer2
             {
                 try
                 {
-                    InspectData = InspectData ?? new InspData();
-                    InspectData.CellID = data.CellID;
-                    InspectData.InputTime = data.InputTime;
-                    //InspectData. = data.CellID;
+                    //InspectData = InspectData ?? new InspData();
                     //InspectData.CellID = data.CellID;
-                    //InspectData.CellID = data.CellID;
-                    //InspectData.CellID = data.CellID;
+                    //InspectData.InputTime = data.InputTime;
+                    ////InspectData. = data.CellID;
+                    ////InspectData.CellID = data.CellID;
+                    ////InspectData.CellID = data.CellID;
+                    ////InspectData.CellID = data.CellID;
 
-                    //InspectData = data.DeepCopy<InspData>();
-                    //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
-                    Utility.ChangeJobImageSource(Job, false);
-                    ((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
-                    //Job.UserData["One"] = new object();
-                    SharedClass Data = new SharedClass();
-                    Data.ROI_List.Add("InspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 1000, Y = 2000, Width = 3000, Height = 4000 }));
-                    Data.ROI_List.Add("NonInspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 2000, Y = 4000, Width = 6000, Height = 8000 }));
-                    Data.Parameters.Add("Th", "0");
-                    Job.VisionTool.UserData?.Add("One", Data);
+                    ////InspectData = data.DeepCopy<InspData>();
+                    ////(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
+                    //Utility.ChangeJobImageSource(Job, false);
+                    //((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
+                    ////Job.UserData["One"] = new object();
                     //SharedClass Data = new SharedClass();
                     //Data.ROI_List.Add("InspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 1000, Y = 2000, Width = 3000, Height = 4000 }));
                     //Data.ROI_List.Add("NonInspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 2000, Y = 4000, Width = 6000, Height = 8000 }));
-                    //Data.Parameters.Add("Th","0");
-                    foreach (ICogTool item in (Job.VisionTool as CogToolGroup).Tools)
-                    {
-                        CogToolCollection Colection = (item as CogToolBlock)?.Tools;
-                        if (Colection == null)
-                            continue;
-                        foreach (ICogTool item2 in Colection)
-                        {
+                    //Data.Parameters.Add("Th", "0");
+                    //Job.VisionTool.UserData?.Add("One", Data);
+                    ////SharedClass Data = new SharedClass();
+                    ////Data.ROI_List.Add("InspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 1000, Y = 2000, Width = 3000, Height = 4000 }));
+                    ////Data.ROI_List.Add("NonInspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 2000, Y = 4000, Width = 6000, Height = 8000 }));
+                    ////Data.Parameters.Add("Th","0");
+                    //foreach (ICogTool item in (Job.VisionTool as CogToolGroup).Tools)
+                    //{
+                    //    CogToolCollection Colection = (item as CogToolBlock)?.Tools;
+                    //    if (Colection == null)
+                    //        continue;
+                    //    foreach (ICogTool item2 in Colection)
+                    //    {
 
-                            item2?.UserData.Add("One", Data);
-                        }
-                    }
-                    //(Job.VisionTool as CogToolGroup).Tools[3].UserData?.Add("One", new SharedClass());
-                    //(Job.VisionTool as CogToolGroup).Tools[4].UserData?.Add("One", new SharedClass());
-                    //(Job.VisionTool as CogToolGroup).Tools[5].UserData?.Add("One", new SharedClass());
-                    //(Job.VisionTool as CogToolGroup).Tools[6].UserData?.Add("One", new SharedClass());
-                    //(Job.VisionTool as CogToolGroup).Tools[7].UserData?.Add("One", new SharedClass());
+                    //        item2?.UserData.Add("One", Data);
+                    //    }
+                    //}
+                    ////(Job.VisionTool as CogToolGroup).Tools[3].UserData?.Add("One", new SharedClass());
+                    ////(Job.VisionTool as CogToolGroup).Tools[4].UserData?.Add("One", new SharedClass());
+                    ////(Job.VisionTool as CogToolGroup).Tools[5].UserData?.Add("One", new SharedClass());
+                    ////(Job.VisionTool as CogToolGroup).Tools[6].UserData?.Add("One", new SharedClass());
+                    ////(Job.VisionTool as CogToolGroup).Tools[7].UserData?.Add("One", new SharedClass());
 
-                    Job.Run();
+                    //Job.Run();
                 }
                 catch (Exception ex)
                 {
@@ -847,21 +891,21 @@ namespace CRUX_Renewal.Class.InspVer2
             {
                 try
                 {
-                    InspectData = InspectData ?? new InspData();
-                    InspectData.CellID = data.CellID;
-                    InspectData.InputTime = data.InputTime;
-                    //InspectData. = data.CellID;
+                    //InspectData = InspectData ?? new InspData();
                     //InspectData.CellID = data.CellID;
-                    //InspectData.CellID = data.CellID;
-                    //InspectData.CellID = data.CellID;
+                    //InspectData.InputTime = data.InputTime;
+                    ////InspectData. = data.CellID;
+                    ////InspectData.CellID = data.CellID;
+                    ////InspectData.CellID = data.CellID;
+                    ////InspectData.CellID = data.CellID;
 
-                    //InspectData = data.DeepCopy<InspData>();
-                    //(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
+                    ////InspectData = data.DeepCopy<InspData>();
+                    ////(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
 
-                    ((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
-                    Set = true;
-                    //Utility.ChangeJobImageSource(Job, false);
-                    //Job.Run();
+                    //((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
+                    //Set = true;
+                    ////Utility.ChangeJobImageSource(Job, false);
+                    ////Job.Run();
                 }
                 catch (Exception ex)
                 {
@@ -878,8 +922,8 @@ namespace CRUX_Renewal.Class.InspVer2
 
                     InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
                     Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
-                //InspectData.Dispose()
-                Finished = true;
+                    //InspectData.Dispose()
+                    Finished = true;
                     Set = false;
                     Job.Image();
 

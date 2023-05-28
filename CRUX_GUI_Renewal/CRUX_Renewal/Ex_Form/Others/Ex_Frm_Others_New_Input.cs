@@ -190,7 +190,43 @@ namespace CRUX_Renewal.Ex_Form
                             Lb_Memo.Text = "생성할 수 있습니다.";
                             State = true;
                         }
+                    }
+                }
+            }
+            if(Obj?.GetType() == typeof(List<string>))
+            {
+                List<string> Items = Obj as List<string>;
+                if (Tb_AfterName.Text == "" || Tb_AfterName.Text.ToString().Any(x => Char.IsWhiteSpace(x) == true))
+                {
+                    Tb_AfterName.BackColor = Color.Pink;
+                    Lb_Memo.Text = "공백은 허용되지 않습니다.";
+                    State = false;
+                    return;
+                }
+                else if (Items.Count <= 0)
+                {
+                    Tb_AfterName.BackColor = Color.LightGreen;
+                    Lb_Memo.Text = "생성할 수 있습니다.";
+                    State = true;
+                }
+                else
+                {
+                    for (int i = 0; i < Items.Count; ++i)
+                    {
 
+                        if (Items[i].ToString() == Tb_AfterName.Text)
+                        {
+                            Tb_AfterName.BackColor = Color.Pink;
+                            Lb_Memo.Text = "중복된 이름입니다.";
+                            State = false;
+                            break;
+                        }
+                        else
+                        {
+                            Tb_AfterName.BackColor = Color.LightGreen;
+                            Lb_Memo.Text = "생성할 수 있습니다.";
+                            State = true;
+                        }
                     }
                 }
             }

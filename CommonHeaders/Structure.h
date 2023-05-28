@@ -4,11 +4,18 @@
 #define MAX_STAGE_COUNT				6
 #define MAX_LIGHT_PORT_COUNT		4
 #define MAX_LIGHT_CONTROLLER_COUNT	4
-#define MAX_LIGHT_CHANNEL_COUNT		24 //16 -> 24 
+//#define MAX_LIGHT_CHANNEL_COUNT		24 //16 -> 24 
 #define MAX_FRAME_GRABBER_COUNT		4
-#define MAX_CAMERA_COUNT			4
+//#define MAX_CAMERA_COUNT			4
 #define MAX_THREAD_PARAM_COUNT      10
 #define MAX_GRAB_STEP_COUNT			150
+
+
+#define  MAX_AREA_COUNT  10
+#define  MAX_PATTERN_COUNT  10
+#define  MAX_CAMERA_COUNT  4
+#define  MAX_LIGHT_COUNT  4
+#define  MAX_LIGHT_CHANNEL_COUNT  20
 
 #define MAX_IMAGE_RATIO				1
 
@@ -44,7 +51,7 @@ struct STRU_SERIAL_INFO
 
 	STRU_SERIAL_INFO()
 	{
-		nChCnt	= 0;
+		nChCnt = 0;
 		memset(nLightVal, 0, sizeof(UINT) * MAX_LIGHT_CHANNEL_COUNT);
 	};
 };
@@ -67,7 +74,7 @@ struct STRU_LIGHT_INFO
 struct ST_PG_DATA
 {
 	TCHAR	strPatternName[100];
-	BOOL	bJudge;				
+	BOOL	bJudge;
 	WORD	wVoltage[3];
 	double  dColor_X;
 	double	dColor_Y;
@@ -99,12 +106,12 @@ struct ST_LINE_DATA
 
 	ST_LINE_DATA()
 	{
-		nCOUNTF  = 0;
-		nCountB  = 0;
-		nStartF  = 0;
-		nStartB  = 0;
-		nStopF   = 0;
-		nStopB   = 0;
+		nCOUNTF = 0;
+		nCountB = 0;
+		nStartF = 0;
+		nStartB = 0;
+		nStopF = 0;
+		nStopB = 0;
 		nPeriodF = 0;
 		nPeriodB = 0;
 		memset(strDirection, 0, sizeof(strDirection));
@@ -145,7 +152,7 @@ struct ST_PG_INFO // 시퀀스가 PGController.ini와 MTP Result 파일을 읽어서 가지고
 	{
 		memset(strChIndex, 0, sizeof(strChIndex));
 		nChIndexNum = 0;
-		for(int i = 0 ; i < MAX_GRAB_STEP_COUNT ; i++)
+		for (int i = 0; i < MAX_GRAB_STEP_COUNT; i++)
 		{
 			stPgData[i].bJudge = FALSE;
 			stPgData[i].wVoltage[0] = 7500;
@@ -163,7 +170,7 @@ struct ST_LINE_INFO // 시퀀스가 PGController.ini와 MTP Result 파일을 읽어서 가지
 	{
 		memset(stLineData, 0, sizeof(ST_LINE_DATA)*MAX_GRAB_STEP_COUNT);
 	}
-	
+
 };
 
 
@@ -190,18 +197,102 @@ struct ST_MODEL_INFO
 	UINT			nGrabCount;
 	ST_STEP_INFO	stStepInfo[MAX_GRAB_STEP_COUNT];
 	ST_PG_INFO      stPgInfo;
-    ST_LINE_INFO	stLineInfo;
+	ST_LINE_INFO	stLineInfo;
 
 	ST_MODEL_INFO()
 	{
 		nGrabCount = 0;
-		memset(stStepInfo, 0, sizeof(ST_STEP_INFO) * MAX_GRAB_STEP_COUNT);		
+		memset(stStepInfo, 0, sizeof(ST_STEP_INFO) * MAX_GRAB_STEP_COUNT);
 	}
 };
 
-struct ST_MODEL_INFO_AOT
-{
 
+struct ST_CAM_COND_AOT
+{
+	TCHAR Type[100];
+	TCHAR Name[100];
+	bool Use;
+	double Expose;
+	double Gain;
+	double PS;
+	double Delay;
+	double nCountF;
+	double nCountB;
+	double nStartF;
+	double nStartB;
+	double nStopF;
+	double nStopB;
+	double nPeriodF;
+	double nPeriodB;
+	ST_CAM_COND_AOT()
+	{
+		Use = false;
+		Expose = 100;
+		Gain = 1;
+		PS = 0;
+		Delay = 0;
+		nCountF = 0;
+		nCountB = 0;
+		nStartF = 0;
+		nStartB = 0;
+		nStopF = 0;
+		nStopB = 0;
+		nPeriodF = 0;
+		nPeriodB = 0;
+	}
+};
+struct ST_LIGHT_COND_AOT
+{
+	TCHAR Name[100];
+	bool Use;
+	//public string CtrlName;
+	int LightConditions[MAX_LIGHT_CHANNEL_COUNT];
+	ST_LIGHT_COND_AOT()
+	{
+		Use = true;
+		memset(LightConditions, 0, sizeof(int) * MAX_LIGHT_CHANNEL_COUNT);
+	}
+};
+struct ST_PATTERN_INFO_AOT
+{
+	TCHAR PatternName[100];
+	bool Use;
+	bool Vacuum;
+	int CamCondCount;
+	int LightCondCount;
+	ST_CAM_COND_AOT Cam_Condition[MAX_CAMERA_COUNT];
+	ST_LIGHT_COND_AOT Light_Condition[MAX_LIGHT_COUNT];
+	ST_PATTERN_INFO_AOT()
+	{
+		Use = false;
+		Vacuum = false;
+		CamCondCount = 0;
+		LightCondCount = 0;
+		memset(Cam_Condition, 0, sizeof(ST_CAM_COND_AOT) * MAX_CAMERA_COUNT);
+		memset(Light_Condition, 0, sizeof(ST_LIGHT_COND_AOT) * MAX_LIGHT_COUNT);
+	}
+};
+struct ST_GRAB_AREA_INFO_AOT
+{
+	TCHAR Name[100];
+	int PtnCount;
+	ST_PATTERN_INFO_AOT PatternList[MAX_PATTERN_COUNT];
+	ST_GRAB_AREA_INFO_AOT()
+	{
+		PtnCount = 0;
+		memset(PatternList, 0, sizeof(ST_PATTERN_INFO_AOT) * MAX_PATTERN_COUNT);
+	}
+};
+struct ST_RECIPE_INFO_AOT
+{
+	TCHAR RecipeName[100];
+	int GrabCount;
+	ST_GRAB_AREA_INFO_AOT GrabArea[MAX_AREA_COUNT];
+	ST_RECIPE_INFO_AOT()
+	{
+		memset(GrabArea, 0, sizeof(ST_GRAB_AREA_INFO_AOT) * MAX_AREA_COUNT);
+		GrabCount = 0;
+	}
 };
 struct ST_PROC_INFO
 {
@@ -244,7 +335,7 @@ struct PARAM_CLASSIFY_END
 	// Algorithm
 	int nPCNum;
 	BOOL bIsManual;
-	wchar_t strPanelID[50];	
+	wchar_t strPanelID[50];
 	wchar_t strVirtualID[50];
 	wchar_t strModelID[50];
 	UINT nDefectCount;
@@ -282,8 +373,8 @@ struct PARAM_INSPECT_START
 {
 	UINT nInspType;				// 0: Auto, 1: Manual Grab & Inspection, 2: Manual Inspection
 	int	nStageNo;
-	wchar_t strPanelID[50];	
-	wchar_t strVirtualID[50];	
+	wchar_t strPanelID[50];
+	wchar_t strVirtualID[50];
 	wchar_t	strLotID[50];
 	BOOL bUseCamera[MAX_CAMERA_COUNT];
 	UINT nSeqMode[MAX_CAMERA_COUNT];	// PixelShift - 0 : Non / 1 : 4-Shot / 2 : 9-Shot
@@ -302,7 +393,7 @@ struct PARAM_INSPECT_START
 		memset(strPanelID, 0, sizeof(strPanelID));
 		memset(strVirtualID, 0, sizeof(strVirtualID));
 		memset(strLotID, 0, sizeof(strLotID));
-		for (int i=0; i<MAX_CAMERA_COUNT; i++)
+		for (int i = 0; i < MAX_CAMERA_COUNT; i++)
 		{
 			bUseCamera[i] = FALSE;
 			nSeqMode[i] = 0;
@@ -310,10 +401,10 @@ struct PARAM_INSPECT_START
 		}
 		memset(strPos, 0, sizeof(strPos));
 		nGrabLine = 0;
-		nImageNum = 0;	
+		nImageNum = 0;
 		nShareImgNum = 0;
 		nRetryCnt = 0;
-		for (int i=0; i<3; i++)
+		for (int i = 0; i < 3; i++)
 			dPatternCIE[i] = 0.0;
 	}
 };
@@ -323,7 +414,7 @@ struct PARAM_INSPECT_START_ACI
 	UINT nInspType;				// 0: Auto, 1: Manual Grab & Inspection, 2: Manual Inspection
 	wchar_t strPanelID[50];
 	wchar_t strVirtualID[50];
-	
+
 
 	UINT nImageNum;
 	UINT nShareImgNum;
@@ -351,8 +442,8 @@ struct PARAM_INSPECT_START_ACI
 struct PARAM_ALIGN_START
 {
 	int	nStageNo;
-	wchar_t strPanelID[50];	
-	wchar_t strVirtualID[50];	
+	wchar_t strPanelID[50];
+	wchar_t strVirtualID[50];
 	BOOL bUseCamera[MAX_CAMERA_COUNT];
 	UINT nSeqMode[MAX_CAMERA_COUNT];	// PixelShift - 0 : Non / 1 : 4-Shot / 2 : 9-Shot
 	UINT nImageNum;
@@ -366,7 +457,7 @@ struct PARAM_ALIGN_START
 		memset(strPanelID, 0, sizeof(strPanelID));
 		memset(strVirtualID, 0, sizeof(strVirtualID));
 		bIsManual = FALSE;
-		for (int i=0; i<MAX_CAMERA_COUNT; i++)
+		for (int i = 0; i < MAX_CAMERA_COUNT; i++)
 		{
 			bUseCamera[i] = FALSE;
 			nSeqMode[i] = 0;
@@ -415,16 +506,16 @@ namespace CS
 struct ST_CAMERA_INFO
 {
 	double		dResolution;
-  	CS::Rect		rcPad;					// Pad LT, RB
-  	wchar_t		strPadRefPath[500];
-  	wchar_t		strMuraRefPath[500];    // Au¿e ¿ⓒºI ¾ÆA÷ ¹IA¤
+	CS::Rect		rcPad;					// Pad LT, RB
+	wchar_t		strPadRefPath[500];
+	wchar_t		strMuraRefPath[500];    // Au¿e ¿ⓒºI ¾ÆA÷ ¹IA¤
 
 	ST_CAMERA_INFO()
 	{
- 		dResolution = 0.0;
-  		rcPad = CS::Rect(0, 0, 0, 0);
-   		memset(strPadRefPath, 0, sizeof(strPadRefPath));
-   		memset(strMuraRefPath, 0, sizeof(strMuraRefPath));
+		dResolution = 0.0;
+		rcPad = CS::Rect(0, 0, 0, 0);
+		memset(strPadRefPath, 0, sizeof(strPadRefPath));
+		memset(strMuraRefPath, 0, sizeof(strMuraRefPath));
 	}
 };
 
@@ -434,7 +525,7 @@ struct ST_RECIPE_INFO
 	int		nWorkDirection;					// 0 : X = Width, 1 : Y = Width
 	int		nWorkOriginPosition;			// 0 : LT, 1 : RT, 2 : RB, 3 : LB
 	int     nOriginOffsetX;					// Offset From Origin Position
-	int     nOriginOffsetY;	
+	int     nOriginOffsetY;
 
 	// Gate/Data Coordinate
 	int		nDataDirection;             // 0 : Data = X, 1 : Data = Y
@@ -454,7 +545,7 @@ struct ST_RECIPE_INFO
 		nWorkDirection = 0;
 		nWorkOriginPosition = 0;
 		nOriginOffsetX = 0;
-		nOriginOffsetY = 0;		
+		nOriginOffsetY = 0;
 		nDataDirection = 0;
 		nGateDataOriginPosition = 0;
 		nGateDataOriginOffsetX = 0;
@@ -482,9 +573,9 @@ struct TACT_TIME_DATA
 	TCHAR strTactState[50];
 	TACT_TIME_DATA()
 	{
-		memset(strPanelID , 0X00, sizeof(TCHAR) * 50);
-		memset(strTactName, 0X00, sizeof(TCHAR) * 50);		
-		memset(strTactState, 0X00, sizeof(TCHAR) * 50);		
+		memset(strPanelID, 0X00, sizeof(TCHAR) * 50);
+		memset(strTactName, 0X00, sizeof(TCHAR) * 50);
+		memset(strTactState, 0X00, sizeof(TCHAR) * 50);
 	}
 };
 
@@ -500,12 +591,12 @@ struct RCP_VERSION
 
 	RCP_VERSION()
 	{
-		memset(Ver					, 0, sizeof(Ver));
-// 		memset(EQP					, 0, sizeof(EQP));
-// 		memset(ModelType			, 0, sizeof(ModelType));
-// 		memset(updateDate			, 0, sizeof(updateDate));
-// 		memset(changeParamListDate	, 0, sizeof(changeParamListDate));
-// 		memset(testAlgType			, 0, sizeof(testAlgType));
+		memset(Ver, 0, sizeof(Ver));
+		// 		memset(EQP					, 0, sizeof(EQP));
+		// 		memset(ModelType			, 0, sizeof(ModelType));
+		// 		memset(updateDate			, 0, sizeof(updateDate));
+		// 		memset(changeParamListDate	, 0, sizeof(changeParamListDate));
+		// 		memset(testAlgType			, 0, sizeof(testAlgType));
 
 	}
 };
