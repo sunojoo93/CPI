@@ -35,9 +35,6 @@
             this.Tlp_ImageInfo = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_StartInsp = new System.Windows.Forms.Button();
             this.Tlp_InspInfo = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.Lb_InspName = new System.Windows.Forms.Label();
-            this.Tb_CellID = new System.Windows.Forms.TextBox();
             this.Tlp_LoadImageInfo = new System.Windows.Forms.TableLayoutPanel();
             this.Lb_Path = new System.Windows.Forms.Label();
             this.Tb_Path = new System.Windows.Forms.TextBox();
@@ -57,11 +54,13 @@
             this.tab_Page_ImageSimul = new System.Windows.Forms.TabPage();
             this.tab_Page_TotalSimul = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Tb_CellID = new System.Windows.Forms.TextBox();
             this.Tlp_Simul.SuspendLayout();
             this.Grb_ImageInfo.SuspendLayout();
             this.Tlp_ImageInfo.SuspendLayout();
             this.Tlp_InspInfo.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.Tlp_LoadImageInfo.SuspendLayout();
             this.Tlp_Images.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cog_Display)).BeginInit();
@@ -69,6 +68,7 @@
             this.Tab_Simul.SuspendLayout();
             this.tab_Page_ImageSimul.SuspendLayout();
             this.tab_Page_TotalSimul.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_Simul
@@ -84,7 +84,7 @@
             this.Tlp_Simul.Location = new System.Drawing.Point(3, 3);
             this.Tlp_Simul.Name = "Tlp_Simul";
             this.Tlp_Simul.RowCount = 2;
-            this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 619F));
+            this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 578F));
             this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Simul.Size = new System.Drawing.Size(1692, 693);
             this.Tlp_Simul.TabIndex = 0;
@@ -93,9 +93,9 @@
             // 
             this.Grb_ImageInfo.Controls.Add(this.Tlp_ImageInfo);
             this.Grb_ImageInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_ImageInfo.Location = new System.Drawing.Point(3, 622);
+            this.Grb_ImageInfo.Location = new System.Drawing.Point(3, 581);
             this.Grb_ImageInfo.Name = "Grb_ImageInfo";
-            this.Grb_ImageInfo.Size = new System.Drawing.Size(694, 68);
+            this.Grb_ImageInfo.Size = new System.Drawing.Size(694, 109);
             this.Grb_ImageInfo.TabIndex = 1;
             this.Grb_ImageInfo.TabStop = false;
             this.Grb_ImageInfo.Text = "검사 정보";
@@ -112,7 +112,7 @@
             this.Tlp_ImageInfo.Name = "Tlp_ImageInfo";
             this.Tlp_ImageInfo.RowCount = 1;
             this.Tlp_ImageInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_ImageInfo.Size = new System.Drawing.Size(688, 48);
+            this.Tlp_ImageInfo.Size = new System.Drawing.Size(688, 89);
             this.Tlp_ImageInfo.TabIndex = 1;
             // 
             // Btn_StartInsp
@@ -120,7 +120,7 @@
             this.Btn_StartInsp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_StartInsp.Location = new System.Drawing.Point(550, 3);
             this.Btn_StartInsp.Name = "Btn_StartInsp";
-            this.Btn_StartInsp.Size = new System.Drawing.Size(135, 42);
+            this.Btn_StartInsp.Size = new System.Drawing.Size(135, 83);
             this.Btn_StartInsp.TabIndex = 1;
             this.Btn_StartInsp.Text = "검사시작";
             this.Btn_StartInsp.UseVisualStyleBackColor = true;
@@ -130,51 +130,16 @@
             // 
             this.Tlp_InspInfo.ColumnCount = 1;
             this.Tlp_InspInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_InspInfo.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.Tlp_InspInfo.Controls.Add(this.Tlp_LoadImageInfo, 0, 0);
+            this.Tlp_InspInfo.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.Tlp_InspInfo.Location = new System.Drawing.Point(3, 3);
             this.Tlp_InspInfo.Name = "Tlp_InspInfo";
             this.Tlp_InspInfo.RowCount = 2;
             this.Tlp_InspInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.Tlp_InspInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_InspInfo.Size = new System.Drawing.Size(541, 42);
+            this.Tlp_InspInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.Tlp_InspInfo.Size = new System.Drawing.Size(541, 74);
             this.Tlp_InspInfo.TabIndex = 4;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.Lb_InspName, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.Tb_CellID, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 38);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 1F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(535, 1);
-            this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // Lb_InspName
-            // 
-            this.Lb_InspName.AutoSize = true;
-            this.Lb_InspName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_InspName.Font = new System.Drawing.Font("돋움체", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_InspName.Location = new System.Drawing.Point(0, 5);
-            this.Lb_InspName.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.Lb_InspName.Name = "Lb_InspName";
-            this.Lb_InspName.Size = new System.Drawing.Size(109, 1);
-            this.Lb_InspName.TabIndex = 0;
-            this.Lb_InspName.Text = "Cell ID : ";
-            // 
-            // Tb_CellID
-            // 
-            this.Tb_CellID.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tb_CellID.Location = new System.Drawing.Point(109, 5);
-            this.Tb_CellID.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.Tb_CellID.Name = "Tb_CellID";
-            this.Tb_CellID.Size = new System.Drawing.Size(426, 21);
-            this.Tb_CellID.TabIndex = 1;
             // 
             // Tlp_LoadImageInfo
             // 
@@ -241,7 +206,7 @@
             this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.Tlp_Images.Size = new System.Drawing.Size(694, 613);
+            this.Tlp_Images.Size = new System.Drawing.Size(694, 572);
             this.Tlp_Images.TabIndex = 2;
             // 
             // Cog_Display_Status
@@ -249,7 +214,7 @@
             this.Cog_Display_Status.CoordinateSpaceName = "*\\#";
             this.Cog_Display_Status.CoordinateSpaceName3D = "*\\#";
             this.Cog_Display_Status.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Cog_Display_Status.Location = new System.Drawing.Point(0, 557);
+            this.Cog_Display_Status.Location = new System.Drawing.Point(0, 516);
             this.Cog_Display_Status.Margin = new System.Windows.Forms.Padding(0);
             this.Cog_Display_Status.Name = "Cog_Display_Status";
             this.Cog_Display_Status.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -281,7 +246,7 @@
             this.Cog_Display.MouseWheelSensitivity = 1D;
             this.Cog_Display.Name = "Cog_Display";
             this.Cog_Display.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Cog_Display.OcxState")));
-            this.Cog_Display.Size = new System.Drawing.Size(688, 525);
+            this.Cog_Display.Size = new System.Drawing.Size(688, 484);
             this.Cog_Display.TabIndex = 128;
             // 
             // tableLayoutPanel1
@@ -296,7 +261,7 @@
             this.tableLayoutPanel1.Controls.Add(this.Btn_ImageSelect, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.Lb_CurImageNum, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 583);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 542);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -306,7 +271,7 @@
             // 
             // Btn_Left
             // 
-            this.Btn_Left.BackgroundImage = global::CRUX_Renewal.Properties.Resources.LeftArrow;
+            this.Btn_Left.BackgroundImage = global::CRUX_Renewal.Properties.Resources.SingleLeftArrow;
             this.Btn_Left.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Btn_Left.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Left.Location = new System.Drawing.Point(0, 0);
@@ -319,7 +284,7 @@
             // 
             // Btn_Right
             // 
-            this.Btn_Right.BackgroundImage = global::CRUX_Renewal.Properties.Resources.RightArrow;
+            this.Btn_Right.BackgroundImage = global::CRUX_Renewal.Properties.Resources.SingleRightArrow;
             this.Btn_Right.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Btn_Right.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Right.Location = new System.Drawing.Point(624, 0);
@@ -357,7 +322,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(703, 622);
+            this.button2.Location = new System.Drawing.Point(703, 581);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
@@ -418,6 +383,44 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.Tb_CellID, 1, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 38);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(535, 29);
+            this.tableLayoutPanel3.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("돋움체", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Location = new System.Drawing.Point(0, 5);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 24);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "ID : ";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Tb_CellID
+            // 
+            this.Tb_CellID.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tb_CellID.Location = new System.Drawing.Point(73, 5);
+            this.Tb_CellID.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.Tb_CellID.Name = "Tb_CellID";
+            this.Tb_CellID.Size = new System.Drawing.Size(462, 21);
+            this.Tb_CellID.TabIndex = 1;
+            // 
             // Main_Frm_Manual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -433,8 +436,6 @@
             this.Grb_ImageInfo.ResumeLayout(false);
             this.Tlp_ImageInfo.ResumeLayout(false);
             this.Tlp_InspInfo.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.Tlp_LoadImageInfo.ResumeLayout(false);
             this.Tlp_LoadImageInfo.PerformLayout();
             this.Tlp_Images.ResumeLayout(false);
@@ -444,6 +445,8 @@
             this.Tab_Simul.ResumeLayout(false);
             this.tab_Page_ImageSimul.ResumeLayout(false);
             this.tab_Page_TotalSimul.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -468,14 +471,14 @@
         private System.Windows.Forms.Button Btn_ImageSelect;
         private System.Windows.Forms.Label Lb_CurImageNum;
         private System.Windows.Forms.TableLayoutPanel Tlp_InspInfo;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label Lb_InspName;
-        private System.Windows.Forms.TextBox Tb_CellID;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TabControl Tab_Simul;
         private System.Windows.Forms.TabPage tab_Page_ImageSimul;
         private System.Windows.Forms.TabPage tab_Page_TotalSimul;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox Tb_CellID;
     }
 }

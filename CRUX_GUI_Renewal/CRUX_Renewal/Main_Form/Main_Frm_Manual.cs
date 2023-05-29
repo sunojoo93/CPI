@@ -34,7 +34,8 @@ namespace CRUX_Renewal.Main_Form
         CogRectangle mRect2;
         bool _shiftIsDown = false;
 
-        List<ManualnspImage> InspImages = new List<ManualnspImage>();
+        List<InspData> ManualInspImageData = new List<InspData>();
+        List<ManualImageData> ManualImage = new List<ManualImageData>();
         public void SetFormNameIndex(ref string name, ref int index)
         {
             CurrentFormName = name;
@@ -238,132 +239,10 @@ namespace CRUX_Renewal.Main_Form
             img.Close();
 
             return image8Grey;
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                InspData Temp0 = new InspData();
-                CogImage8Grey Bit0;
-                InspData Temp1 = new InspData();
-                CogImage8Grey Bit1;
-                InspData Temp2 = new InspData();
-                CogImage8Grey Bit2;
-                InspData Temp3 = new InspData();
-                CogImage8Grey Bit3;
-                string Time = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-
-                Temp0 = new InspData();
-                Bit0 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
-                Temp0.OriginImage = Bit0;
-                Temp1 = new InspData();
-                Bit1 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\TOP.bmp");
-                Temp1.OriginImage = Bit1;
-                Temp2 = new InspData();
-                Bit2 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\RIGHT.bmp");
-                Temp2.OriginImage = Bit2;
-                Temp3 = new InspData();
-                Bit3 = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\BOTTOM.bmp");
-                Temp3.OriginImage = Bit3;
-
-                Console.WriteLine("Read Image");
-                Temp0.CellID = $"{Time}_CellID";
-                Temp0.Direction = "Forward";
-                Temp0.Face = "Upper";
-                Temp0.InputTime = $"{Time}_00";
-                Temp0.InspName = "Left";
-                Temp0.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp";
-
-                Temp1.CellID = $"{Time}_CellID";
-                Temp1.Direction = "Forward";
-                Temp1.Face = "Upper";
-                Temp1.InputTime = $"{Time}_01";
-                Temp1.InspName = "Left2";
-                Temp1.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\TOP.bmp";
-
-                Temp2.CellID = $"{Time}_CellID";
-                Temp2.Direction = "Forward";
-                Temp2.Face = "Upper";
-                Temp2.InputTime = $"{Time}_00";
-                Temp2.InspName = "Left3";
-                Temp2.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\RIGHT.bmp";
-
-
-                Temp3.CellID = $"{Time}_CellID";
-                Temp3.Direction = "Forward";
-                Temp3.Face = "Upper";
-                Temp3.InputTime = $"{Time}_01";
-                Temp3.InspName = "Left4";
-                Temp3.Path = @"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\BOTTOM.bmp";
-                //Utility.ChangeJobImageSource(Job, false);
-                //Systems.Inspector_.SetInspection(true, Temp0, Temp1/*, Temp2, Temp3*/);
-                //Systems.Inspector_.StartManager();
-
-                //Systems.Inspector_.StartJob(Temp0);
-
-                //Systems.Inspector_.StartJob(Temp1);
-
-                //Systems.Inspector_.StartJob(Temp2);
-
-                //Systems.Inspector_.StartJob(Temp3);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Exception Image {ex.Message}");
-                //Program.ProgramExit();                
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Console.WriteLine($"Job: 0 Saved");
-                //CogSerializer.SaveObjectToFile(Systems.MainRecipe.Manager, $@"D:\CRUX\DATA\Recipes\{Systems.CurrentRecipe}\{Systems.CurrentRecipe}.vpp", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
-            }
-            catch (Exception ex)
-            {
-                int aa = 0;
-                throw;
-            }
-            
-
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            ////cogDisplay1.Show();
-            //var Temp = Load_Image(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\1.bmp");
-            ////var Temp2 = Temp.ToBitmap();
-            //cogDisplay1.Image = Temp;
-            //Lb_ImageX.Text = Temp.Width.ToString();
-            //Lb_ImageY.Text = Temp.Height.ToString();
-            //Lb_CtrlWidth.Text = cogDisplay1.DisplayRectangle.Width.ToString();
-            //Lb_CtrlHeight.Text = cogDisplay1.DisplayRectangle.Height.ToString();
-
-
-
-
-
-            //cogRecordDisplay1.ColorMapLoad(@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\2.bmp");
-
-        }
-
+        }       
         private void cogDisplay1_KeyDown(object sender, KeyEventArgs e)
         {
             _shiftIsDown = e.Shift;
-
         }
 
         private void cogDisplay1_KeyUp(object sender, KeyEventArgs e)
@@ -497,45 +376,75 @@ namespace CRUX_Renewal.Main_Form
         {
             Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog();
             dialog.IsFolderPicker = false; // true : 폴더 선택 / false : 파일 선택
-            CommonFileDialogFilterCollection DialogFilter = dialog.Filters;
-            DialogFilter.Add(new CommonFileDialogFilter("Bitmap", ".bmp"));
+            //CommonFileDialogFilterCollection DialogFilter = dialog.Filters;
+            //DialogFilter.Add(new CommonFileDialogFilter("Bitmap", ".bmp"));
             Cog_Display.AutoFit = true;
+            string FilePath = string.Empty;
             string FolderPath = string.Empty;
             if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
-            {                
-                Tb_Path.Text = dialog.FileName;
+            {
+                FilePath = dialog.FileName;
+                int FilePathLength = FilePath.Length;
                 int idx = dialog.FileName.LastIndexOf("\\");
-                FolderPath = dialog.FileName.Remove(++idx);
-                if (InspImages.Count > 0)
-                    InspImages.Clear();
+                FolderPath = FilePath.Remove(idx, FilePathLength-idx);
+                Tb_Path.Text = FolderPath;
+                if (ManualInspImageData.Count > 0)
+                    ManualInspImageData.Clear();
             }
             else            
                 return;
             Utility.LoadingStart();
-            ArrayList FileList = fileProc.getFileList(FolderPath, ".bmp");
-            string[] NameTemp;
-            foreach (string item in FileList)
+                        
+            ArrayList FileNames = fileProc.GetFileNames(FolderPath);
+
+            List<string> AreaNames = new List<string>();
+            foreach(string item in FileNames)
             {
-                CogImage8Grey ImageTemp = Cognex_Helper.Load_Image(item.ToString());
-                ManualnspImage Image = new ManualnspImage();
-                Image.Image = ImageTemp;
-                Image.Path = item.ToString();
-                NameTemp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
-                Image.Name = NameTemp[NameTemp.Length - 1];
-                InspImages.Add(Image);
+                string[] NameTemp = item.Split('_');
+                string AreaName = NameTemp[0];
+
+                if(!AreaNames.Contains(AreaName))
+                    AreaNames.Add(AreaName);
+            }
+            ArrayList FindFiles = fileProc.getFileList(FolderPath.ToString(), ".bmp");
+            int TotalImageCnt = 0;
+            foreach (string item in AreaNames)
+            {
+                InspData ManualInspData = new InspData();
+
+                for (int j = 0; j < FindFiles.Count; ++j)
+                {
+                    ManualImageData Data = new ManualImageData();
+                    string ImagePath = FindFiles[j].ToString();
+                    string[] PathSplit = ImagePath.Split(new string[] { "\\" }, StringSplitOptions.None);                    
+                    string AreaNameTemp = PathSplit[PathSplit.Length-1];
+                    string[] Temp2 = AreaNameTemp.Split('_');
+                    string AreaName = Temp2[0];                    
+                    string PatternName = Temp2[1].Replace(".bmp","");
+                    if(item == AreaName)
+                    {
+                        Data.OriginImage = Cognex_Helper.Load_Image(ImagePath);
+                        Data.PatternName = PatternName;
+                        Data.Area = AreaName;
+                        ManualInspData.PatternName = ManualInspData.PatternName ?? PatternName;
+                        ManualInspData.Area = AreaName;
+                        ManualInspData.Datas.Add(Data);
+                        ManualImage.Add(Data);
+                        TotalImageCnt++;
+                    }
+                }
+                ManualInspImageData.Add(ManualInspData);
+            }
+            if (ManualImage.Count > 0)
+            {
+                ManualImage[0].View = true;
+                ManualImageData Temp = ManualImage.Find(x => x.View);
+                Btn_ImageSelect.Text = $"{Temp.Area}_{Temp.PatternName}";
+                Lb_CurImageNum.Text = $"{ManualImage.FindIndex(x => x.View) + 1}/{TotalImageCnt}";
+                Cog_Display.Image = Temp.OriginImage;
             }
 
-            ManualnspImage FindImage =  InspImages?.Find(x => x.Path == dialog.FileName);
-            if(FindImage != null)
-            {
-                FindImage.Opend = true;
-                Cog_Display.Image = FindImage.Image;
-                Btn_ImageSelect.Text = FindImage.Name;
-            }
-            Lb_CurImageNum.Text = $"{InspImages.FindIndex(x => x.Opend) + 1}/{InspImages.Count}";
-            string[] CellIDTemp = FolderPath.Split(new string[] { "\\" }, StringSplitOptions.None);
-            string CellID = CellIDTemp[CellIDTemp.Length - 2];
-            Tb_CellID.Text = CellID;
+            Tb_CellID.Text = DateTime.Now.ToString("yyyy-MM-ddhh:mm:ss.fff");
             Utility.LoadingStop();
         }
 
@@ -544,7 +453,7 @@ namespace CRUX_Renewal.Main_Form
             {
                 try
                 {
-                    if (InspImages.Count >= 0)
+                    if (ManualInspImageData.Count >= 0)
                         SetManualImageSeq(true);
                 }
                 catch (Exception ex)
@@ -558,7 +467,7 @@ namespace CRUX_Renewal.Main_Form
         {
             try
             {
-                if (InspImages.Count >= 0)
+                if (ManualInspImageData.Count >= 0)
                     SetManualImageSeq(false);
             }
             catch(Exception ex)
@@ -568,28 +477,39 @@ namespace CRUX_Renewal.Main_Form
         }
         private void SetManualImageSeq(bool dir)
         {
-            int FindIdx = InspImages.FindIndex(x => x.Opend);
-            InspImages[FindIdx].Opend = false;
-            int NextIdx = dir == true ? FindIdx - 1 : FindIdx + 1;
-            Cog_Display.Image = InspImages[NextIdx].Image;
-            InspImages[NextIdx].Opend = true;
-            Btn_ImageSelect.Text = InspImages[NextIdx].Name;
-            int ListCount = InspImages.Count;
+            if(ManualInspImageData.Count > 0)
+            {
+                int FindIdx = ManualImage.FindIndex(x => x.View);
+                ManualImage[FindIdx].View = false;
 
-            if (NextIdx >= ListCount - 1)
-            {
-                Btn_Right.Enabled = false;
-            }
-            else if (NextIdx <= 0)
-            {
-                Btn_Left.Enabled = false;
+                int NextIdx = dir == true ? FindIdx - 1 : FindIdx + 1;
+                Cog_Display.Image = ManualImage[NextIdx].OriginImage;
+                ManualImage[NextIdx].View = true;
+                Btn_ImageSelect.Text = $"{ManualImage[NextIdx].Area}_{ManualImage[NextIdx].PatternName}";
+                int ListCount = ManualImage.Count;
+
+                if (NextIdx >= ListCount - 1)
+                {
+                    Btn_Left.Enabled = true;
+                    Btn_Right.Enabled = false;
+                }
+                else if (NextIdx <= 0)
+                {
+                    Btn_Right.Enabled = true;
+                    Btn_Left.Enabled = false;
+                }
+                else
+                {
+                    Btn_Right.Enabled = true;
+                    Btn_Left.Enabled = true;
+                }
+                Lb_CurImageNum.Text = $"{ManualImage.FindIndex(x => x.View) + 1}/{ManualImage.Count}";
             }
             else
             {
-                Btn_Right.Enabled = true;
-                Btn_Left.Enabled = true;
+                return;
             }
-            Lb_CurImageNum.Text = $"{InspImages.FindIndex(x => x.Opend) + 1}/{InspImages.Count}";
+            
         }
 
         private void Btn_ImageSelect_Click(object sender, EventArgs e)
@@ -599,19 +519,14 @@ namespace CRUX_Renewal.Main_Form
 
         private void Btn_StartInsp_Click(object sender, EventArgs e)
         {
-            InspData Data = new InspData();
+            string CellID = Tb_CellID.Text == "" ? DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : Tb_CellID.Text;
+            foreach(InspData item in ManualInspImageData)
+            {
+                item.CellID = CellID;
+            }
 
-            ImageData ImgData = new ImageData();
-            ImageData ImgData2 = new ImageData();
-            CogImage8Grey Image1 = Cognex_Helper.Load_Image($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
-            CogImage8Grey Image2 = Cognex_Helper.Load_Image($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
 
-            Data.Area = "Left";
-            ImgData.OriginImage = Image1;
-            //ImgData2.Area = "RIGHT";
-            ImgData2.OriginImage = Image2;
-
-            Systems.Inspector_.Start_Insp(Data);
+            Systems.Inspector_.Manual_Insp(ManualInspImageData);
         }
 
         private void button2_Click_2(object sender, EventArgs e)

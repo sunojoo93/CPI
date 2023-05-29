@@ -242,7 +242,7 @@ namespace CRUX_Renewal
           public const int MAX_MEM_SIZE_CAM_COUNT = 4;
 
         public const int MAX_IMAGE_RATIO = 1;
-        public const int MAX_IMAGE_COUNT = 1;
+        public const int MAX_IMAGE_COUNT = 20;
         // public const int MAX_MEM_SIZE_E_INSPECT_AREA = 20;
         public const int MAX_MEM_SIZE_E_INSPECT_AREA = 30;      // 비검사 영역 , 라운드 셀 영역 
           //public const int MAX_MEM_SIZE_INSPECTION_SECTION = 3;		// 레서피 구조체로 메모리 공간으로 확보 할 크기, 향후 확장을 고려하여야한다.  

@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 
 namespace CRUX_Renewal.Class.InspVer1
 {
+    /*
     // Inspector 객체는 싱글톤으로 생성
     class Inspector : IEnumerable, IEnumerator
     {
@@ -424,9 +425,9 @@ namespace CRUX_Renewal.Class.InspVer1
             {
                 Manual = isManual;
                 Busy = true;
-                Systems.LogWriter.Info($"Inspect Start Time : {insp_param.InputTime}");
+                Systems.LogWriter.Info($"Inspect Start Time : {insp_param.AreaInspStartTime}");
                 CommonData = CommonData ?? new CommonInspData();
-                CommonData.InputTime = CommonData.InputTime ?? insp_param.InputTime;
+                CommonData.InputTime = CommonData.InputTime ?? insp_param.AreaInspStartTime;
                 CommonData.CellID = CommonData.CellID ?? insp_param.CellID;
                 CommonData.Face = CommonData.Face ?? insp_param.Face;
 
@@ -442,9 +443,9 @@ namespace CRUX_Renewal.Class.InspVer1
             try
             {
                 Busy = true;
-                Systems.LogWriter.Info($"Inspect Start Time : {insp_param.InputTime}");
+                Systems.LogWriter.Info($"Inspect Start Time : {insp_param.AreaInspStartTime}");
                 CommonData = CommonData ?? new CommonInspData();
-                CommonData.InputTime = CommonData.InputTime ?? insp_param.InputTime;
+                CommonData.InputTime = CommonData.InputTime ?? insp_param.AreaInspStartTime;
                 CommonData.CellID = CommonData.CellID ?? insp_param.CellID;
                 CommonData.Face = CommonData.Face ?? insp_param.Face;
 
@@ -461,9 +462,9 @@ namespace CRUX_Renewal.Class.InspVer1
             {
 
             }
-            Systems.LogWriter.Info($"Inspect Start Time : {insp_param.InputTime}");
+            Systems.LogWriter.Info($"Inspect Start Time : {insp_param.AreaInspStartTime}");
             CommonData = CommonData ?? new CommonInspData();
-            CommonData.InputTime = CommonData.InputTime ?? insp_param.InputTime;
+            CommonData.InputTime = CommonData.InputTime ?? insp_param.AreaInspStartTime;
             CommonData.CellID = CommonData.CellID ?? insp_param.CellID;
             CommonData.Face = CommonData.Face ?? insp_param.Face;
 
@@ -568,7 +569,7 @@ namespace CRUX_Renewal.Class.InspVer1
             {
                 InspectData = InspectData ?? new InspData();
                 InspectData.CellID = data.CellID;
-                InspectData.InputTime = data.InputTime;
+                InspectData.AreaInspStartTime = data.AreaInspStartTime;
                 //InspectData. = data.CellID;
                 //InspectData.CellID = data.CellID;
                 //InspectData.CellID = data.CellID;
@@ -755,6 +756,6 @@ namespace CRUX_Renewal.Class.InspVer1
             // GC.SuppressFinalize(this);
         }
         #endregion
-    }
+    }*/
 }
 

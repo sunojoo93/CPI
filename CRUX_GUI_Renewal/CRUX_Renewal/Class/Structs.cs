@@ -29,25 +29,33 @@ namespace CRUX_Renewal.Class
     {
         public List<ImageData> Datas = new List<ImageData>();
         public string Area { get; set; } = null;
-        public string Direction { get; set; } = null;
+        public string VirID { get; set; } = null;
         public string Face { get; set; } = null;
         public string CellID { get; set; } = null;
-        public string InputTime { get; set; } = null;
-        public string OutputTime { get; set; } = null;
+        public string AreaInspStartTime { get; set; } = null;
+        public string AreaInspEndTime { get; set; } = null;
         public string FinishedTime { get; set; } = null;
         public string InspName { get; set; } = null;
         public string Path { get; set; } = "";
-        public string PatternName { get; set; } = string.Empty;
+        public string PatternName { get; set; } = null;
     }
+
     public class ImageData : IDisposable
     {
         public CogImage8Grey OriginImage { get; set; } = null;
-        public int ImageNo { get; set; } = 0;
+        public int SharedMemIdx { get; set; } = 0;
         public string PatternName { get; set; } = string.Empty;
+        public string Direction { get; set; } = null;
         public void Dispose()
         {
          
         }
+    }
+    public class ManualImageData : ImageData
+    {
+        public string Area = null;
+        public string Path = null;
+        public bool View = false;
     }
     /// <summary>
     /// 검사에 필요한 정보
@@ -120,30 +128,44 @@ namespace CRUX_Renewal.Class
     public struct PARAM_INSPECT_START_ACI
     {
         uint InspType;
+        public ImageSet[] ImageData;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
-        public byte[] ID;
+        public byte[] CellID;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] VirID;
-        public int ImageNum;
-        public uint ShareImgNum;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
-        public byte[] Direction;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
-        public byte[] Position;
+        public byte[] Area;
         public int GrabLine;
 
         public PARAM_INSPECT_START_ACI(int n)
         {
             InspType = 0;
-            ID = new byte[100];
+            ImageData = new ImageSet[Consts.MAX_PATTERN_COUNT];
+            CellID = new byte[100];
             VirID = new byte[100];
-            ImageNum = 0;
-            ShareImgNum = 0;
             GrabLine = 0;
-            Direction = new byte[100];
-            Position = new byte[100];
+            Area = new byte[100];
         }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ImageSet
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] PatternID;
+        public int SharedMemIdx;  
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] Direction;
+        public int GrabLine;
+
+        public ImageSet(int n)
+        {
+            PatternID = new byte[100];
+            SharedMemIdx = 0;
+            GrabLine = 0;
+            Direction = new byte[100];
+        }
+    }    
     public struct CRect
     {
         public int X;

@@ -603,6 +603,8 @@
     <Content Include="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Res\SingleRightArrow.png" />
+    <None Include="Res\SingleLeftArrow.png" />
     <None Include="Res\RightArrow.png" />
     <None Include="Res\LeftArrow.png" />
     <EmbeddedResource Include="Ex_Form\Notification\Ex_Frm_Notification_Announce.resx">

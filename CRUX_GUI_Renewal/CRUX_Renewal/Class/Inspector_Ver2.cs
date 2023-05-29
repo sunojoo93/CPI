@@ -61,8 +61,24 @@ namespace CRUX_Renewal.Class.InspVer2
                 {
                     if (item.Busy == false)
                     {
-                        data.InputTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                        //data.InspStartTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
                         item.Start_Insp(data);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void Manual_Insp(List<InspData> data)
+        {
+            if (Inspectors != null && Inspectors.Count > 0)
+            {
+                foreach (Inspector_Ver2 item in Collection_Object.Inspectors)
+                {
+                    if (item.Busy == false)
+                    {
+                        //data.InspStartTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                        item.Manual_Insp(data);
                         break;
                     }
                 }
@@ -117,7 +133,24 @@ namespace CRUX_Renewal.Class.InspVer2
                     }
                 }
             }
-
+            public void Manual_Insp(List<InspData> data)
+            {
+                if (Area_Insp != null && Area_Insp.Count > 0)
+                {
+                    foreach (Area_Inspector item in Area_Insp)
+                    {
+                        foreach(InspData item2 in data)
+                        if (item2.Area == item.Name.ToUpper())
+                        {
+                            Thread t = new Thread(delegate ()
+                            {
+                                item.Start_Insp(item2); ;
+                            });
+                            t.Start();
+                        }
+                    }
+                }
+            }
             public void Dispose()
             {
                 if (Area_Insp != null)
@@ -164,10 +197,10 @@ namespace CRUX_Renewal.Class.InspVer2
                             {
                                 Thread t = new Thread(delegate ()
                                 {
-                                    if (item.Name == data.PatternName)
-                                    {
+                                    //if (item.Name == data.PatternName)
+                                    //{
                                         item.Start_Insp(data);
-                                    }
+                                    //}
                                 });
                                 t.Start();
                             }
@@ -188,7 +221,6 @@ namespace CRUX_Renewal.Class.InspVer2
 
                             //} while(TotalCount > CheckCount)
                             Console.WriteLine("All Worker End");
-
                         }
                     }
                     catch (Exception ex)
@@ -398,6 +430,7 @@ namespace CRUX_Renewal.Class.InspVer2
                             {
                                 Region_Inspector InspRegion = new Region_Inspector(item);
                                 Region_Insp.Add(InspRegion);
+                                AddJobManagerEvent(InspRegion.AlgoInsp.Algorithm_Job);
                             }
                         }
                     }
@@ -410,7 +443,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                 if (item?.AlgoInsp?.Algorithm_Job != null)
                                 {
                                     item.Start_Insp(data);
-                                    AddJobManagerEvent(item.AlgoInsp.Algorithm_Job);
+                                    
                                 }
                             }
                         });
@@ -463,7 +496,7 @@ namespace CRUX_Renewal.Class.InspVer2
                             CogJobManager Manager = sender as CogJobManager;
                             Finishe = true;
                             Busy = false;
-
+                            Console.WriteLine($"검사완료 , RunState : {Manager.StateFlags.Flags} JobName : {Manager.Name}");
                             //Judgement();
                         });
                         manager.UserQueueFlushed += new CogJobManager.CogUserQueueFlushedEventHandler((sender, e) =>
@@ -499,12 +532,17 @@ namespace CRUX_Renewal.Class.InspVer2
                     {
                         Name = roi.Name;
                         ROI = roi.Coord;
+                       
                         foreach (Algorithm item in roi.Algo_List)
                         {
                             if (AlgoInsp == null)
+                            {
                                 AlgoInsp = new Algorithm_Inspection(Name);
-                            AlgoInsp.SetInspector(item);
+                                //AlgoInsp.Algorithm_Job.Name = roi.Name;
+                            }
+                            AlgoInsp.SetInspector(item);                        
                         }
+                   
                     }
                     public Region_Inspector()
                     {
@@ -609,7 +647,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                 Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
 
                                 //InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                                Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
+                                Console.WriteLine($"검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
                                 //InspectData.Dispose()
 
                                 //Set = false;
@@ -920,7 +958,7 @@ namespace CRUX_Renewal.Class.InspVer2
                     var Temp = sender as CogJob;
                     Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
 
-                    InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                    InspectData.AreaInspEndTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
                     Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
                     //InspectData.Dispose()
                     Finished = true;
@@ -934,7 +972,7 @@ namespace CRUX_Renewal.Class.InspVer2
                     Finished = false;
                     var Temp = sender as CogJob;
                     Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
-                    InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                    InspectData.AreaInspStartTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
                 });
                 Job.VisionToolError += new CogJob.CogVisionToolErrorEventHandler((sender, e) =>
                 {

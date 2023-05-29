@@ -143,6 +143,26 @@ namespace CRUX_Renewal.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        public static System.Drawing.Bitmap SingleLeftArrow {
+            get {
+                object obj = ResourceManager.GetObject("SingleLeftArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static System.Drawing.Bitmap SingleRightArrow {
+            get {
+                object obj = ResourceManager.GetObject("SingleRightArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         public static System.Drawing.Bitmap Unstable {
             get {
                 object obj = ResourceManager.GetObject("Unstable", resourceCulture);
