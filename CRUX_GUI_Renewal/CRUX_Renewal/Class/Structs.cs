@@ -745,15 +745,14 @@ namespace CRUX_Renewal.Class
         [XmlArray("InspData")]
         [XmlArrayItem("ROI")]
         public List<ROI> ROI_Data { get; set; }
-        [XmlArray("GrabData")]
-        [XmlArrayItem("Optics")]
-        public List<Optics> Grab_Data { get; set; }
+        [XmlElement("Optics")]
+        public Optics Grab_Data { get; set; }
 
 
         public Pattern()
         {
             ROI_Data = new List<ROI>();
-            Grab_Data = new List<Optics>();
+            Grab_Data = new Optics();
         }
     }
     [Serializable]

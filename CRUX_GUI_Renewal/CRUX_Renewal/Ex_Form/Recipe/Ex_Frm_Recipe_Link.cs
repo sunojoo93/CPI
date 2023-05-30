@@ -326,11 +326,14 @@ namespace CRUX_Renewal.Ex_Form
                 UpdateROI();
                 UpdateAlgorithm();
                 UpdateParameter();
-                string SelROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString() == null ? string.Empty : Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
-
-                if (SelROI != string.Empty)
+                if (Dgv_Roi.SelectedRows.Count > 0)
                 {
-                    ROI_PreView(SelROI);
+                    string SelROI = Dgv_Roi?.SelectedRows[0]?.Cells["Name"]?.Value?.ToString() == null ? string.Empty : Dgv_Roi?.SelectedRows[0]?.Cells["Name"]?.Value?.ToString();
+
+                    if (SelROI != string.Empty)
+                    {
+                        ROI_PreView(SelROI);
+                    }
                 }
 
             }

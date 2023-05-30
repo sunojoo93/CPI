@@ -282,7 +282,7 @@ namespace CRUX_Renewal.Main_Form
             SendParam.SetStruct(Shared_Recipe.MainRecipe);
             int Ret = Consts.APP_NG;
             ushort usIpcSeqNo = IpcConst.RMS_RCP_BASE_VER;
-            //ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
+            ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
            // Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_SEND_MODEL_INFO, usIpcSeqNo,
              //                                         IpcInterface.CMD_TYPE_RES, 1000, SendParam.GetByteSize(), SendParam.GetParam());
 

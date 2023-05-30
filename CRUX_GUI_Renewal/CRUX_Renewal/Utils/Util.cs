@@ -168,61 +168,61 @@ namespace CRUX_Renewal
             {
                 Console.WriteLine(ex.Message);
             }
-        }    
-        //public static ST_RECIPE_INFO CreateSeqRecipeFromRecipe(Recipe recipe)
-        //{
-        //    ST_RECIPE_INFO NewRecipe = new ST_RECIPE_INFO(0);
-        //    NewRecipe.RecipeName = recipe.Name;
-        //    NewRecipe.GrabCount = recipe.Optics_Data.Area.Count;
-        //    for (int i = 0; i < recipe.Optics_Data.Area.Count; ++i)
-        //    {
-        //        ST_GRAB_AREA_INFO NewGrabInfo = new ST_GRAB_AREA_INFO(0);
-        //        NewGrabInfo.Name = recipe.Optics_Data.Area[i].Name;
-        //        NewGrabInfo.PtnCount = recipe.Optics_Data.Area[i].Patterns.Count;
-        //        for (int j = 0; j < recipe.Optics_Data.Area[i].Patterns.Count; ++j)
-        //        {
-        //            ST_PATTERN_INFO NewPatternInfo = new ST_PATTERN_INFO(0);
-        //            NewPatternInfo.PatternName = recipe.Optics_Data.Area[i].Patterns[j].Name;
-        //            NewPatternInfo.Vacuum = recipe.Optics_Data.Area[i].Patterns[j].Vacuum;
-        //            NewPatternInfo.CamCondCount = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions.Count;
-        //            for (int k = 0; k < recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions.Count; ++k)
-        //            {
-        //                ST_CAM_COND NewCamInfo = new ST_CAM_COND(0);
-        //                    NewCamInfo.Name = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].Name;
-        //                    NewCamInfo.Type = (string)recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].CamType;
-        //                    NewCamInfo.Use = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].Use;
-        //                    NewCamInfo.Expose = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].Expose;
-        //                    NewCamInfo.Gain  = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].Gain;
-        //                    NewCamInfo.PS  = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].PS;
-        //                    NewCamInfo.Delay = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].Delay;
-        //                    NewCamInfo.nCountF = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].nCountF;
-        //                    NewCamInfo.nCountB = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].nCountB;
-        //                    NewCamInfo.nStartF = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].nStartF;
-        //                    NewCamInfo.nStartB = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].nStartB;
-        //                    NewCamInfo.nStopF = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].nStopF;
-        //                    NewCamInfo.nStopB = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].nStopB;
-        //                    NewCamInfo.nPeriodF = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].nPeriodF;
-        //                    NewCamInfo.nPeriodB = recipe.Optics_Data.Area[i].Patterns[j].Camera_Conditions[k].nPeriodB;
-        //                NewPatternInfo.Cam_Condition[k] = NewCamInfo;
-        //            }
-        //            NewPatternInfo.LightCondCount = recipe.Optics_Data.Area[i].Patterns[j].Light_Conditions.Count;
-        //            for (int k = 0; k < recipe.Optics_Data.Area[i].Patterns[j].Light_Conditions.Count; ++k)
-        //            {
-        //                ST_LIGHT_COND NewLightInfo = new ST_LIGHT_COND(0);
-        //                NewLightInfo.Name = recipe.Optics_Data.Area[i].Patterns[j].Light_Conditions[k].Name;
-        //                NewLightInfo.Use = recipe.Optics_Data.Area[i].Patterns[j].Light_Conditions[k].Use;
-        //                for(int t = 0; t < recipe.Optics_Data.Area[i].Patterns[j].Light_Conditions[k].LightConditions.Count; ++t)
-        //                {
-        //                    NewLightInfo.LightConditions[t] = recipe.Optics_Data.Area[i].Patterns[j].Light_Conditions[k].LightConditions[t];
-        //                }
-        //                NewPatternInfo.Light_Condition[k] = NewLightInfo;
-        //            }
-        //            NewGrabInfo.PatternList[j] = NewPatternInfo;
-        //        }
-        //        NewRecipe.GrabArea[i] = NewGrabInfo;
-        //    }
-        //    return NewRecipe;
-        //}
+        }
+        public static ST_RECIPE_INFO CreateSeqRecipeFromRecipe(Recipe recipe)
+        {
+            ST_RECIPE_INFO NewRecipe = new ST_RECIPE_INFO(0);
+            NewRecipe.RecipeName = recipe.Name.ToString().toUniByteAry(200);
+            NewRecipe.GrabCount = recipe.Area_Data.Area.Count;
+            for (int i = 0; i < recipe.Area_Data.Area.Count; ++i)
+            {
+                ST_GRAB_AREA_INFO NewGrabInfo = new ST_GRAB_AREA_INFO(0);
+                NewGrabInfo.Name = recipe.Area_Data.Area[i].Name.toUniByteAry(200);
+                NewGrabInfo.PtnCount = recipe.Area_Data.Area[i].Patterns.Count;
+                for (int j = 0; j < recipe.Area_Data.Area[i].Patterns.Count; ++j)
+                {
+                    ST_PATTERN_INFO NewPatternInfo = new ST_PATTERN_INFO(0);
+                    NewPatternInfo.PatternName = recipe.Area_Data.Area[i].Patterns[j].Name.toUniByteAry(200);
+                    NewPatternInfo.Vacuum = recipe.Area_Data.Area[i].Patterns[j].Vacuum;
+                    NewPatternInfo.CamCondCount = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data.Count;
+                    NewPatternInfo.LightCondCount = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count;
+                    for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data.Count; ++k)
+                    {
+                        ST_CAM_COND NewCamInfo = new ST_CAM_COND(0);
+                        NewCamInfo.Name = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Name.toUniByteAry(200);
+                        NewCamInfo.Type = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].CamType.toUniByteAry(200);
+                        NewCamInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Use;
+                        NewCamInfo.Expose = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Expose;
+                        NewCamInfo.Gain = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Gain;
+                        NewCamInfo.PS = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].PS;
+                        NewCamInfo.Delay = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Delay;
+                        NewCamInfo.nCountF = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].nCountF;
+                        NewCamInfo.nCountB = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].nCountB;
+                        NewCamInfo.nStartF = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].nStartF;
+                        NewCamInfo.nStartB = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].nStartB;
+                        NewCamInfo.nStopF = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].nStopF;
+                        NewCamInfo.nStopB = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].nStopB;
+                        NewCamInfo.nPeriodF = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].nPeriodF;
+                        NewCamInfo.nPeriodB = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].nPeriodB;
+                        NewPatternInfo.Cam_Condition[k] = NewCamInfo;
+                    }
+                    for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count; ++k)
+                    {
+                        ST_LIGHT_COND NewLightInfo = new ST_LIGHT_COND(0);
+                        NewLightInfo.Name = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Name;
+                        NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
+                        for (int t = 0; t < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightConditions.Count; ++t)
+                        {
+                            NewLightInfo.LightConditions[t] = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightConditions[t];
+                        }
+                        NewPatternInfo.Light_Condition[k] = NewLightInfo;
+                    }
+                    NewGrabInfo.PatternList[j] = NewPatternInfo;
+                }
+                NewRecipe.GrabArea[i] = NewGrabInfo;
+            }
+            return NewRecipe;
+        }
     }
 
     static class Utility

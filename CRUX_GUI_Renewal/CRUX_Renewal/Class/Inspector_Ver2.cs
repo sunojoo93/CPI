@@ -647,9 +647,9 @@ namespace CRUX_Renewal.Class.InspVer2
                                 Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
 
                                 //InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                                Console.WriteLine($"검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
+                                Console.WriteLine($"검사완료 , RunState : {Job.RunStatus as CogRunStatus} Job Name : {Job.Name} Manager Name : {Temp.Manager.Name}");
                                 //InspectData.Dispose()
-
+                                ;
                                 //Set = false;
                                 Job.Image();
                                 //Systems.Inspector_.Inspectors.Find
@@ -660,7 +660,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //Finishe = false;
                                 //Busy = true;
                                 var Temp = sender as CogJob;
-                                Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
+                                Console.WriteLine($"Job Name : {Temp.Name}, 검사 시작 Manager Name : {Temp.Manager.Name}");
                                 //InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
                             });
                             Job.VisionToolError += new CogJob.CogVisionToolErrorEventHandler((sender, e) =>

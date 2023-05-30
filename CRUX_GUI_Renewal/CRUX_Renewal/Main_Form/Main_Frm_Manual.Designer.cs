@@ -39,6 +39,9 @@
             this.Lb_Path = new System.Windows.Forms.Label();
             this.Tb_Path = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Tb_CellID = new System.Windows.Forms.TextBox();
             this.Tlp_Images = new System.Windows.Forms.TableLayoutPanel();
             this.Cog_Display_Status = new Cognex.VisionPro.CogDisplayStatusBarV2();
             this.Cog_Display_Toolbar = new Cognex.VisionPro.CogDisplayToolbarV2();
@@ -54,21 +57,18 @@
             this.tab_Page_ImageSimul = new System.Windows.Forms.TabPage();
             this.tab_Page_TotalSimul = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.Tb_CellID = new System.Windows.Forms.TextBox();
             this.Tlp_Simul.SuspendLayout();
             this.Grb_ImageInfo.SuspendLayout();
             this.Tlp_ImageInfo.SuspendLayout();
             this.Tlp_InspInfo.SuspendLayout();
             this.Tlp_LoadImageInfo.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.Tlp_Images.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cog_Display)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.Tab_Simul.SuspendLayout();
             this.tab_Page_ImageSimul.SuspendLayout();
             this.tab_Page_TotalSimul.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_Simul
@@ -189,6 +189,44 @@
             this.button1.Text = "불러오기";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Btn_LoadImage_Click);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.Tb_CellID, 1, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 38);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(535, 29);
+            this.tableLayoutPanel3.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("돋움체", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Location = new System.Drawing.Point(0, 5);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 24);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "ID : ";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Tb_CellID
+            // 
+            this.Tb_CellID.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tb_CellID.Location = new System.Drawing.Point(73, 5);
+            this.Tb_CellID.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.Tb_CellID.Name = "Tb_CellID";
+            this.Tb_CellID.Size = new System.Drawing.Size(462, 21);
+            this.Tb_CellID.TabIndex = 1;
             // 
             // Tlp_Images
             // 
@@ -383,44 +421,6 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.Tb_CellID, 1, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 38);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(535, 29);
-            this.tableLayoutPanel3.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("돋움체", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(0, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "ID : ";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Tb_CellID
-            // 
-            this.Tb_CellID.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tb_CellID.Location = new System.Drawing.Point(73, 5);
-            this.Tb_CellID.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.Tb_CellID.Name = "Tb_CellID";
-            this.Tb_CellID.Size = new System.Drawing.Size(462, 21);
-            this.Tb_CellID.TabIndex = 1;
-            // 
             // Main_Frm_Manual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -438,6 +438,8 @@
             this.Tlp_InspInfo.ResumeLayout(false);
             this.Tlp_LoadImageInfo.ResumeLayout(false);
             this.Tlp_LoadImageInfo.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.Tlp_Images.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Cog_Display)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -445,8 +447,6 @@
             this.Tab_Simul.ResumeLayout(false);
             this.tab_Page_ImageSimul.ResumeLayout(false);
             this.tab_Page_TotalSimul.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
