@@ -11,6 +11,7 @@
 
 #include "..\..\CommonHeaders\Structure.h"
 #include <direct.h>
+#include <array>
 
 
 
@@ -60,10 +61,49 @@ public:
 // 파일 형식 사용 안함 - IPC Message 활용
 // 	bool			LoadModel(CString strModel = _T(""));
 	// Get Func
-	BOOL					IsUseStep(int nGrabCnt)									{	return m_stModelInfo.stStepInfo[nGrabCnt].bUseStep						;};		// 현재 Step 사용 여부
-	BOOL					IsUseVacuum(int nGrabCnt)								{	return m_stModelInfo.stStepInfo[nGrabCnt].bUseVacuum					;};		// 현재 Step Vaccum사용 여부
-	BOOL					IsUseCamera(int nGrabCnt, int nCamCnt)					{	return m_stModelInfo.stStepInfo[nGrabCnt].stCamCond[nCamCnt].bUseCamera	;};		// 현재 Step 사용 여부
-	STRU_LIGHT_INFO			GetLightInfo(int nGrabCnt, int nLightNum)				{	return m_stModelInfo.stStepInfo[nGrabCnt].stLightInfo[nLightNum]		;};
+	BOOL	IsUseStep(CString AreaName, int nGrabCnt)									
+	{	
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Use;
+			}
+		}
+		return FALSE;
+	};		// 현재 Step 사용 여부
+	BOOL	IsUseVacuum(CString AreaName, int nGrabCnt)
+	{	
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Vacuum;
+			}
+		}
+		return FALSE;
+	};		// 현재 Step Vaccum사용 여부
+	BOOL	IsUseCamera(CString AreaName, int nGrabCnt, int nCamCnt)					
+	{	
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].Use;
+			}
+		}
+		return FALSE;
+	};		// 현재 Step 사용 여부
+	ST_LIGHT_COND_AOT		GetLightInfo(CString AreaName, int nGrabCnt, int nLightNum)
+	{	
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
+			}
+		}
+	};
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,35 +119,79 @@ public:
 		return strRet;
 	};
 
-	BOOL					IsUseLight(int nGrabCnt)					
+	BOOL	IsUseLight(CString AreaName, int nGrabCnt, int nLightNum)
 	{
-		for (int nLightCnt = 0; nLightCnt < MAX_LIGHT_PORT_COUNT; nLightCnt++)
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			for (int nCtrlCnt = 0; nCtrlCnt < MAX_LIGHT_CONTROLLER_COUNT; nCtrlCnt++)
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
 			{
-				if(m_stModelInfo.stStepInfo[nGrabCnt].stLightInfo[nLightCnt].stLight[nCtrlCnt].nChCnt > 0) 
-					return TRUE;
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum].Use;
 			}
 		}
 		return FALSE;
 	};
 
-	// 패턴 별로 조명 사용 유무를 설정 한다.
-	void SetUseLight()					
-	{
-		for (int nGrabCnt = 0; nGrabCnt < MAX_GRAB_STEP_COUNT; nGrabCnt++)
-		{
-			m_bIsUseLight[nGrabCnt] = IsUseLight(nGrabCnt);			
-		}		
-	};
+	//// 패턴 별로 조명 사용 유무를 설정 한다.
+	//void SetUseLight()					
+	//{
+	//	for (int nGrabCnt = 0; nGrabCnt < MAX_GRAB_STEP_COUNT; nGrabCnt++)
+	//	{
+	//		m_bIsUseLight[nGrabCnt] = IsUseLight(nGrabCnt);			
+	//	}		
+	//};
 	BOOL					IsDust(int nGrabCnt)									{	return m_bIsUseLight[nGrabCnt]											;};
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	ST_CAMERA_COND			GetCameraConditions(int nGrabCnt, int nCamCnt)			{	return m_stModelInfo.stStepInfo[nGrabCnt].stCamCond[nCamCnt]			;};
-	int						GetGrabCount()											{	return m_stModelInfo.nGrabCount											;};
-	TCHAR*					GetCurStepName(int nGrabCnt)							{	return m_stModelInfo.stStepInfo[nGrabCnt].strGrabStepName				;};
-	UINT					GetCamPSMode(int nGrabCnt, int nCamCnt)					{	return m_stModelInfo.stStepInfo[nGrabCnt].stCamCond[nCamCnt].nSeqMode	;};		// PixelShift Mode
-	DOUBLE					GetCamExposeVal(int nGrabCnt, int nCamCnt) { return m_stModelInfo.stStepInfo[nGrabCnt].stCamCond[nCamCnt].dExpTime; };		// 2021.12.15~ MDJ Modify Camera Expose Time
+	ST_CAM_COND_AOT		GetCameraConditions(CString AreaName, int nGrabCnt, int nCamCnt)
+	{	
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt];
+			}
+		}
+	};
+	int		GetGrabCount(CString AreaName)											
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PtnCount;
+			}
+		}
+	};
+	TCHAR*		GetCurStepName(CString AreaName, int nGrabCnt)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].PatternName;
+			}
+		};
+	};
+	UINT	GetCamPSMode(CString AreaName, int nGrabCnt, int nCamCnt)					
+	{	
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].PS;
+			}
+		}
+	};		// PixelShift Mode
+	DOUBLE	GetCamExposeVal(CString AreaName, int nGrabCnt, int nCamCnt)
+	{ 
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].PS;
+			}
+		}
+	};		// 2021.12.15~ MDJ Modify Camera Expose Time
 
 	int						GetUseLightControllerCount()							{	return m_nLightCount													;};
 	int						GetUseCamCount()										{	return m_nCamCount														;};
@@ -118,23 +202,28 @@ public:
 	int						GetShareImgCount()                                      {   return m_nImgCount                                                      ;};
 	// PG 레시피 처리
 	ST_PG_DATA*				GetVoltageInfo(TCHAR* strCurStepName);
-	ST_PG_INFO				GetPgInfo()											
-									{	
-													int a = 0;
-													return m_stModelInfo.stPgInfo									
-									;};
-	ST_LINE_INFO				GetLineInfo()
+	//ST_PG_INFO				GetPgInfo()											
+	//								{	
+	//												int a = 0;
+	//												return m_stModelInfo.stPgInfo									
+	//								;};
+	ST_CAM_COND_AOT		GetLineInfo(CString AreaName, int nGrabCnt, int nCamCnt )
 	{
-		int df = 0;
-		return m_stModelInfo.stLineInfo;
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt];
+			}
+		}
 	};
 	bool					UpdatePGVoltInfo(CString strMtpDrv, CString strOrgFilePath);		// 17.08.10 PG Voltage 값 갱신 함수
-	void					SetPgInfo(ST_PG_INFO stPgInfo)							{	m_stModelInfo.stPgInfo = stPgInfo										;};
-	int						GetCurPgIndex(int nGrabCnt)	{if (IsDust(nGrabCnt)) return DUST_PG_INDEX;	return m_stModelInfo.stPgInfo.stPgData[nGrabCnt].nPtnNum;};
-	void					SetModelInfo(ST_MODEL_INFO* pStModelInfo)				{	m_stModelInfo = *pStModelInfo;	SetUseLight();							 };		
+	//void					SetPgInfo(ST_PG_INFO stPgInfo)							{	m_stModelInfo.stPgInfo = stPgInfo										;};
+	//int						GetCurPgIndex(int nGrabCnt)	{if (IsDust(nGrabCnt)) return DUST_PG_INDEX;	return m_stModelInfo.stPgInfo.stPgData[nGrabCnt].nPtnNum;};
+	void					SetModelInfo(ST_RECIPE_INFO_AOT* pStModelInfo)				{	m_stModelInfo = *pStModelInfo;							 };
 
 	//// AOT ////
-	void					SetModelInfo_AOT(ST_RECIPE_INFO_AOT* pStModelInfo) { m_stModelInfo_AOT = *pStModelInfo;	/*SetUseLight();*/ };
+	//void					SetModelInfo_AOT(ST_RECIPE_INFO_AOT* pStModelInfo) { m_stModelInfo = *pStModelInfo;	/*SetUseLight();*/ };
 
 
 

@@ -55,7 +55,7 @@
             this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.20895F));
             this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.79105F));
             this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.Tlp_Account.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
             this.Tlp_Account.Controls.Add(this.Lb_ErrorTitle, 1, 0);
             this.Tlp_Account.Controls.Add(this.Pic_Level, 0, 0);
             this.Tlp_Account.Controls.Add(this.Lb_After, 1, 1);
@@ -125,7 +125,7 @@
             this.Tb_AfterName.Location = new System.Drawing.Point(161, 42);
             this.Tb_AfterName.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
             this.Tb_AfterName.Name = "Tb_AfterName";
-            this.Tb_AfterName.Size = new System.Drawing.Size(282, 28);
+            this.Tb_AfterName.Size = new System.Drawing.Size(281, 28);
             this.Tb_AfterName.TabIndex = 0;
             this.Tb_AfterName.TextChanged += new System.EventHandler(this.Tb_AfterName_TextChanged);
             // 
@@ -136,7 +136,7 @@
             this.Btn_Confirm.FlatAppearance.BorderSize = 0;
             this.Btn_Confirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Confirm.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Confirm.Location = new System.Drawing.Point(358, 101);
+            this.Btn_Confirm.Location = new System.Drawing.Point(357, 101);
             this.Btn_Confirm.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Confirm.Name = "Btn_Confirm";
             this.Btn_Confirm.Size = new System.Drawing.Size(88, 35);
@@ -153,10 +153,10 @@
             this.Btn_Cancle.FlatAppearance.BorderSize = 0;
             this.Btn_Cancle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Cancle.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Cancle.Location = new System.Drawing.Point(446, 101);
+            this.Btn_Cancle.Location = new System.Drawing.Point(445, 101);
             this.Btn_Cancle.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Cancle.Name = "Btn_Cancle";
-            this.Btn_Cancle.Size = new System.Drawing.Size(101, 35);
+            this.Btn_Cancle.Size = new System.Drawing.Size(102, 35);
             this.Btn_Cancle.TabIndex = 5;
             this.Btn_Cancle.Text = "취소";
             this.Btn_Cancle.UseVisualStyleBackColor = false;

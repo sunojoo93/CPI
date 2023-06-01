@@ -97,5 +97,12 @@ namespace CRUX_Renewal.Main_Form
                 CTGE_Algorithm.Subject = JobManager.Job(0).VisionTool as CogToolGroup;     
             }
         }
+
+        private void Btn_Save_Click(object sender, EventArgs e)
+        {
+            string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
+            string VppName = LstB_Algorithm.SelectedItem as string;
+            CogSerializer.SaveObjectToFile(JobManager.Job(0), $@"{AlgorithmPath}\{VppName}", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+        }
     }
 }

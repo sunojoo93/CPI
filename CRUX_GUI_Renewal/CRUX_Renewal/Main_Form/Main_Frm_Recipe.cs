@@ -278,13 +278,13 @@ namespace CRUX_Renewal.Main_Form
             Systems.Inspector_.CreateInspectorFromRecipe(Shared_Recipe.MainRecipe);
 
             CmdMsgParam SendParam = new CmdMsgParam();
-            SendParam.SetInteger(1);
-            SendParam.SetStruct(Shared_Recipe.MainRecipe);
+
             int Ret = Consts.APP_NG;
             ushort usIpcSeqNo = IpcConst.RMS_RCP_BASE_VER;
             ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
-           // Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_SEND_MODEL_INFO, usIpcSeqNo,
-             //                                         IpcInterface.CMD_TYPE_RES, 1000, SendParam.GetByteSize(), SendParam.GetParam());
+            SendParam.SetStruct(ConvertedRecipe);
+            //Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_MODEL_INFO,
+                                                      //IpcInterface.CMD_TYPE_RES, 100000, SendParam.GetByteSize(), SendParam.GetParam());
 
 
 
@@ -650,6 +650,16 @@ namespace CRUX_Renewal.Main_Form
                 Area Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == SelItem.Cells["Name"].Value.ToString());
                 Temp.Use = SelItem.Cells["USE"].Value.toBool();
                 Temp.Name = SelItem.Cells["Name"].Value.ToString();
+
+                //Systems.CurrentSelectedAreaName[CurFormIndex] = SelItem.Cells["Name"].Value.ToString();
+            }
+            else if(e.ColumnIndex == 1)
+            {
+                DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
+                Area Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]);
+                Temp.Use = SelItem.Cells["USE"].Value.toBool();
+                Temp.Name = SelItem.Cells["Name"].Value.ToString();
+                Systems.CurrentSelectedAreaName[CurFormIndex] = SelItem.Cells["Name"].Value.ToString();
             }
         }
 

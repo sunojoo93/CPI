@@ -31,10 +31,10 @@
             this.Tlp_Algorithm = new System.Windows.Forms.TableLayoutPanel();
             this.Grb_Algorithm = new System.Windows.Forms.GroupBox();
             this.Tlp_AlgorithmList = new System.Windows.Forms.TableLayoutPanel();
+            this.Btn_Save = new System.Windows.Forms.Button();
+            this.Btn_Revert = new System.Windows.Forms.Button();
             this.LstB_Algorithm = new System.Windows.Forms.ListBox();
             this.CTGE_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
-            this.Btn_Revert = new System.Windows.Forms.Button();
-            this.Btn_Save = new System.Windows.Forms.Button();
             this.Tlp_Algorithm.SuspendLayout();
             this.Grb_Algorithm.SuspendLayout();
             this.Tlp_AlgorithmList.SuspendLayout();
@@ -84,6 +84,39 @@
             this.Tlp_AlgorithmList.Size = new System.Drawing.Size(254, 831);
             this.Tlp_AlgorithmList.TabIndex = 0;
             // 
+            // Btn_Save
+            // 
+            this.Btn_Save.AutoSize = true;
+            this.Btn_Save.BackColor = System.Drawing.Color.LimeGreen;
+            this.Btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Save.FlatAppearance.BorderSize = 0;
+            this.Btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Save.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Save.Location = new System.Drawing.Point(0, 781);
+            this.Btn_Save.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_Save.Name = "Btn_Save";
+            this.Btn_Save.Size = new System.Drawing.Size(127, 50);
+            this.Btn_Save.TabIndex = 3;
+            this.Btn_Save.Text = "저장";
+            this.Btn_Save.UseVisualStyleBackColor = false;
+            this.Btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
+            // 
+            // Btn_Revert
+            // 
+            this.Btn_Revert.AutoSize = true;
+            this.Btn_Revert.BackColor = System.Drawing.Color.Orange;
+            this.Btn_Revert.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Revert.FlatAppearance.BorderSize = 0;
+            this.Btn_Revert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Revert.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Revert.Location = new System.Drawing.Point(127, 781);
+            this.Btn_Revert.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_Revert.Name = "Btn_Revert";
+            this.Btn_Revert.Size = new System.Drawing.Size(127, 50);
+            this.Btn_Revert.TabIndex = 2;
+            this.Btn_Revert.Text = "롤백";
+            this.Btn_Revert.UseVisualStyleBackColor = false;
+            // 
             // LstB_Algorithm
             // 
             this.Tlp_AlgorithmList.SetColumnSpan(this.LstB_Algorithm, 2);
@@ -108,38 +141,6 @@
             this.CTGE_Algorithm.Size = new System.Drawing.Size(1369, 851);
             this.CTGE_Algorithm.SuspendElectricRuns = false;
             this.CTGE_Algorithm.TabIndex = 1;
-            // 
-            // Btn_Revert
-            // 
-            this.Btn_Revert.AutoSize = true;
-            this.Btn_Revert.BackColor = System.Drawing.Color.Orange;
-            this.Btn_Revert.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Revert.FlatAppearance.BorderSize = 0;
-            this.Btn_Revert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Revert.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Revert.Location = new System.Drawing.Point(127, 781);
-            this.Btn_Revert.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_Revert.Name = "Btn_Revert";
-            this.Btn_Revert.Size = new System.Drawing.Size(127, 50);
-            this.Btn_Revert.TabIndex = 2;
-            this.Btn_Revert.Text = "롤백";
-            this.Btn_Revert.UseVisualStyleBackColor = false;
-            // 
-            // Btn_Save
-            // 
-            this.Btn_Save.AutoSize = true;
-            this.Btn_Save.BackColor = System.Drawing.Color.LimeGreen;
-            this.Btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Save.FlatAppearance.BorderSize = 0;
-            this.Btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Save.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Save.Location = new System.Drawing.Point(0, 781);
-            this.Btn_Save.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_Save.Name = "Btn_Save";
-            this.Btn_Save.Size = new System.Drawing.Size(127, 50);
-            this.Btn_Save.TabIndex = 3;
-            this.Btn_Save.Text = "저장";
-            this.Btn_Save.UseVisualStyleBackColor = false;
             // 
             // Main_Frm_Algorithm
             // 

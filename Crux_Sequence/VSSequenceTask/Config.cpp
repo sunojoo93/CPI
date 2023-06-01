@@ -202,8 +202,8 @@ ST_PG_DATA* CConfig::GetVoltageInfo(TCHAR* strCurStepName)
 {
 	for(int i = 0 ; i < MAX_GRAB_STEP_COUNT  ; i++)
 	{
-		if(!_tcsicmp(m_stModelInfo.stPgInfo.stPgData[i].strPatternName, strCurStepName))
-			return &m_stModelInfo.stPgInfo.stPgData[i];
+		//if(!_tcsicmp(m_stModelInfo.stPgInfo.stPgData[i].strPatternName, strCurStepName))
+		//	return &m_stModelInfo.stPgInfo.stPgData[i];
 	}
 	return NULL;
 }
@@ -280,249 +280,250 @@ bool CConfig::UpdatePGVoltInfo(CString strMtpDrv, CString strPGInfoPath)
 	// 17.08.10
 	// MTP 검사 결과 파일을 확인하여, 검사 성공한 패턴의 Voltage 정보를 'PGVoltInfo.ini' 파일에 갱신한다.
 	//////////////////////////////////////////////////////////////////////////
-	bool bRet = false;
+	//bool bRet = false;
 
-	const int RETRYCOUNT = 10; // 기존 3초에서 1초로 변경 (p.s.. Tianma MTP 기본전압 점등)
-	const int RETRYINTERVAL = 100;
+	//const int RETRYCOUNT = 10; // 기존 3초에서 1초로 변경 (p.s.. Tianma MTP 기본전압 점등)
+	//const int RETRYINTERVAL = 100;
 
-	strPGInfoPath.Format(_T("%s\\%s"), strMtpDrv, strPGInfoPath);
-	CString strPGInfoPathDefualt = _T("D:\\CRUX\\DATA\\TXT\\default_Data\\PG_DEFAULT_DATA.ini");
+	//strPGInfoPath.Format(_T("%s\\%s"), strMtpDrv, strPGInfoPath);
+	//CString strPGInfoPathDefualt = _T("D:\\CRUX\\DATA\\TXT\\default_Data\\PG_DEFAULT_DATA.ini");
 
-	CString strNetDrv;	
-	strNetDrv.Format(_T("%sNET_CONNECT.txt"), strMtpDrv);
-	
-	CStdioFile fileWrite;
-	int nRetryCntNetDrive = 0;
-	BOOL bRetNetDrive = FALSE;
-	try
-	{
-		// Network Drive 연결 100ms씩 최대 3초까지 Retry 하는 구문 추가
-		do{
-			bRetNetDrive = fileWrite.Open(strNetDrv, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite);
-			if (bRetNetDrive)
-			{
-				fileWrite.Close();
-				break;
-			}
-			else
-			{
-				nRetryCntNetDrive++;
-				theApp.m_SequenceTask->m_fnPrintLog(false, _T("Retry Connect %s Drive (%d)"), strMtpDrv, nRetryCntNetDrive);
-				Sleep(RETRYINTERVAL);				
-			}
-		} while (nRetryCntNetDrive < RETRYCOUNT);
+	//CString strNetDrv;	
+	//strNetDrv.Format(_T("%sNET_CONNECT.txt"), strMtpDrv);
+	//
+	//CStdioFile fileWrite;
+	//int nRetryCntNetDrive = 0;
+	//BOOL bRetNetDrive = FALSE;
+	//try
+	//{
+	//	// Network Drive 연결 100ms씩 최대 3초까지 Retry 하는 구문 추가
+	//	do{
+	//		bRetNetDrive = fileWrite.Open(strNetDrv, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite);
+	//		if (bRetNetDrive)
+	//		{
+	//			fileWrite.Close();
+	//			break;
+	//		}
+	//		else
+	//		{
+	//			nRetryCntNetDrive++;
+	//			theApp.m_SequenceTask->m_fnPrintLog(false, _T("Retry Connect %s Drive (%d)"), strMtpDrv, nRetryCntNetDrive);
+	//			Sleep(RETRYINTERVAL);				
+	//		}
+	//	} while (nRetryCntNetDrive < RETRYCOUNT);
 
-		if (!bRetNetDrive)
-		{
-			theApp.m_SequenceTask->m_fnPrintLog(true, _T("PLEASE CHECK NETWORK DRIVE CONNECTED (%s) !!!"), strMtpDrv);
-			return false;
-		}
-	}
-	catch (CFileException* e)
-	{
-		TCHAR strErr[256];
-		e->GetErrorMessage(strErr, 256);
-		theApp.m_SequenceTask->m_fnPrintLog(true, _T("ERROR OCCURED NETWORK DRIVE WRITE FILE : %s (%s) !!!"), strNetDrv, strErr);
-		e->Delete();
-		return false;
-	}	
+	//	if (!bRetNetDrive)
+	//	{
+	//		theApp.m_SequenceTask->m_fnPrintLog(true, _T("PLEASE CHECK NETWORK DRIVE CONNECTED (%s) !!!"), strMtpDrv);
+	//		return false;
+	//	}
+	//}
+	//catch (CFileException* e)
+	//{
+	//	TCHAR strErr[256];
+	//	e->GetErrorMessage(strErr, 256);
+	//	theApp.m_SequenceTask->m_fnPrintLog(true, _T("ERROR OCCURED NETWORK DRIVE WRITE FILE : %s (%s) !!!"), strNetDrv, strErr);
+	//	e->Delete();
+	//	return false;
+	//}	
 
-	// 검사 결과 원본 파일 존재 유무 확인(예외처리)
-	CFileFind ff;
-	int nRetryCntMTP = 0;
-	BOOL bRetMTP = FALSE;	
-	// MTP 파일 100ms씩 최대 3초까지 대기하는 구문 추가
-	do{
-		bRetMTP = ff.FindFile(strPGInfoPath);
-		if (bRetMTP)	break;
-		else
-		{
-			nRetryCntMTP++;
-			theApp.m_SequenceTask->m_fnPrintLog(false, _T("Retry Read MTP Result (%d)"), nRetryCntMTP);
-			Sleep(RETRYINTERVAL);
-		}
-	} while (nRetryCntMTP < RETRYCOUNT);
+	//// 검사 결과 원본 파일 존재 유무 확인(예외처리)
+	//CFileFind ff;
+	//int nRetryCntMTP = 0;
+	//BOOL bRetMTP = FALSE;	
+	//// MTP 파일 100ms씩 최대 3초까지 대기하는 구문 추가
+	//do{
+	//	bRetMTP = ff.FindFile(strPGInfoPath);
+	//	if (bRetMTP)	break;
+	//	else
+	//	{
+	//		nRetryCntMTP++;
+	//		theApp.m_SequenceTask->m_fnPrintLog(false, _T("Retry Read MTP Result (%d)"), nRetryCntMTP);
+	//		Sleep(RETRYINTERVAL);
+	//	}
+	//} while (nRetryCntMTP < RETRYCOUNT);
 
-	if(!bRetMTP)
-	{
-		theApp.m_SequenceTask->m_fnPrintLog(true, _T("NOT EXIST PG RESULT FILE : %s !!!(PASS)"), strPGInfoPath);
-		strPGInfoPath = strPGInfoPathDefualt;
-		//return false;
-	}
+	//if(!bRetMTP)
+	//{
+	//	theApp.m_SequenceTask->m_fnPrintLog(true, _T("NOT EXIST PG RESULT FILE : %s !!!(PASS)"), strPGInfoPath);
+	//	strPGInfoPath = strPGInfoPathDefualt;
+	//	//return false;
+	//}
 
-	// 1. MTP 원본 검사 파일을 읽는다.
-	// INI 파일내에 존재하는 Section명 리스트 저장
-	vector<CString>	SectionList;
+	//// 1. MTP 원본 검사 파일을 읽는다.
+	//// INI 파일내에 존재하는 Section명 리스트 저장
+	//vector<CString>	SectionList;
 
-	//TCHAR lpszReturnBuffer[1024];
-	TCHAR tmpDat[50] = {0,};
-	TCHAR szBuf[150] = {0,};
-	byte* bytes  = new byte[1024]; 
-	CString strRGBCH_Index = _T("");
-	CString strTemp = _T(""); 
-	int nCnt =0;
-	bool bMTP = false;
-	ST_PG_INFO stPgInfo = theApp.m_Config.GetPgInfo();	
-	try
-	{
-		GetPrivateProfileSectionNames((LPWSTR)bytes, 1024, strPGInfoPath);	
-				
-		while (true)
-		{
-			TRACE((LPWSTR)bytes);
-			CString tmp = _T("");
+	////TCHAR lpszReturnBuffer[1024];
+	//TCHAR tmpDat[50] = {0,};
+	//TCHAR szBuf[150] = {0,};
+	//byte* bytes  = new byte[1024]; 
+	//CString strRGBCH_Index = _T("");
+	//CString strTemp = _T(""); 
+	//int nCnt =0;
+	//bool bMTP = false;
+	//ST_PG_INFO stPgInfo = theApp.m_Config.GetPgInfo();	
+	//try
+	//{
+	//	GetPrivateProfileSectionNames((LPWSTR)bytes, 1024, strPGInfoPath);	
+	//			
+	//	while (true)
+	//	{
+	//		TRACE((LPWSTR)bytes);
+	//		CString tmp = _T("");
 
-			tmp = (LPWSTR)bytes;
-			int nlength = tmp.GetLength();
-			if(nlength == 0) break;
+	//		tmp = (LPWSTR)bytes;
+	//		int nlength = tmp.GetLength();
+	//		if(nlength == 0) break;
 
-			memset(tmpDat, 0x00, sizeof(tmpDat));
-			memcpy(tmpDat, bytes, sizeof(TCHAR) * nlength);
+	//		memset(tmpDat, 0x00, sizeof(tmpDat));
+	//		memcpy(tmpDat, bytes, sizeof(TCHAR) * nlength);
 
-			// Section 저장
-			if(_tcsicmp(tmpDat, PG_RECIPE) && _tcsicmp(tmpDat, RGB_CH))
-				SectionList.push_back(tmpDat);
+	//		// Section 저장
+	//		if(_tcsicmp(tmpDat, PG_RECIPE) && _tcsicmp(tmpDat, RGB_CH))
+	//			SectionList.push_back(tmpDat);
 
-			bytes+= (sizeof(TCHAR) * nlength + 2) ;
-		}
+	//		bytes+= (sizeof(TCHAR) * nlength + 2) ;
+	//	}
 
-		stPgInfo.Init();
+	//	stPgInfo.Init();
 
-		GetPrivateProfileString(RGB_CH, RGB_CH_INDEX,	_T("-1"), szBuf, sizeof(szBuf), strPGInfoPath);
-		memcpy(stPgInfo.strChIndex, szBuf, sizeof(stPgInfo.strChIndex));
+	//	GetPrivateProfileString(RGB_CH, RGB_CH_INDEX,	_T("-1"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//	memcpy(stPgInfo.strChIndex, szBuf, sizeof(stPgInfo.strChIndex));
 
-		int nCount = 0;
-		strRGBCH_Index.Format(_T("%s"),	szBuf);
-		while (AfxExtractSubString(strTemp, strRGBCH_Index, nCount++, ','))
-			stPgInfo.nChIndexNum++;
+	//	int nCount = 0;
+	//	strRGBCH_Index.Format(_T("%s"),	szBuf);
+	//	while (AfxExtractSubString(strTemp, strRGBCH_Index, nCount++, ','))
+	//		stPgInfo.nChIndexNum++;
 
-		int ratio = theApp.m_Config.GetSiteNum() == 10 ? 1000 : 100;
-		double ceil_value = theApp.m_Config.GetSiteNum() == 10 ? 0 : 0.005;
+	//	int ratio = theApp.m_Config.GetSiteNum() == 10 ? 1000 : 100;
+	//	double ceil_value = theApp.m_Config.GetSiteNum() == 10 ? 0 : 0.005;
 
-		// 2. 각 패턴 별 검사 결과 성공/실패 여부를 확인한다.
-		int nSectionCount = SectionList.size();
-		int nIndex = 0;
-		CString strMTP = _T("");
-		for (int nMTP = 0; nMTP < nSectionCount; nMTP++)
-		{
-			GetPrivateProfileString(SectionList[nMTP], PATTERN_MTP, _T(""), szBuf, sizeof(szBuf), strPGInfoPath);
-			strMTP.Format(_T("%s"), szBuf);
-			if (strMTP == "DISPLAY_ABNORMAL")
-			{
-				bMTP = true;
-				break;
-			}
+	//	// 2. 각 패턴 별 검사 결과 성공/실패 여부를 확인한다.
+	//	int nSectionCount = SectionList.size();
+	//	int nIndex = 0;
+	//	CString strMTP = _T("");
+	//	for (int nMTP = 0; nMTP < nSectionCount; nMTP++)
+	//	{
+	//		GetPrivateProfileString(SectionList[nMTP], PATTERN_MTP, _T(""), szBuf, sizeof(szBuf), strPGInfoPath);
+	//		strMTP.Format(_T("%s"), szBuf);
+	//		if (strMTP == "DISPLAY_ABNORMAL")
+	//		{
+	//			bMTP = true;
+	//			break;
+	//		}
 
-		}
-		if (!bMTP && theApp.m_Config.GetType() == TYPE_AVI)
-		{
+	//	}
+	//	if (!bMTP && theApp.m_Config.GetType() == TYPE_AVI)
+	//	{
 
-			for (int nPgCount = 0; nPgCount < MAX_GRAB_STEP_COUNT; nPgCount++)
-			{
-				CString a;
-				a.Format(_T("%s"),stPgInfo.stPgData[nPgCount].strPatternName);
-				
-				if (a == _T("BLACK"))
-				{
-					stPgInfo.stPgData[nPgCount].wVoltage[0] = (WORD)(7500);	// 소수점 3째자리 반올림
+	//		for (int nPgCount = 0; nPgCount < MAX_GRAB_STEP_COUNT; nPgCount++)
+	//		{
+	//			CString a;
+	//			a.Format(_T("%s"),stPgInfo.stPgData[nPgCount].strPatternName);
+	//			
+	//			if (a == _T("BLACK"))
+	//			{
+	//				stPgInfo.stPgData[nPgCount].wVoltage[0] = (WORD)(7500);	// 소수점 3째자리 반올림
 
- 					stPgInfo.stPgData[nPgCount].wVoltage[1] = (WORD)(7500);	// 소수점 3째자리 반올림
+ //					stPgInfo.stPgData[nPgCount].wVoltage[1] = (WORD)(7500);	// 소수점 3째자리 반올림
 
- 					stPgInfo.stPgData[nPgCount].wVoltage[2] = (WORD)(7500);	// 소수점 3째자리 반올림
-					break;
-				}
-			}
-		}
+ //					stPgInfo.stPgData[nPgCount].wVoltage[2] = (WORD)(7500);	// 소수점 3째자리 반올림
+	//				break;
+	//			}
+	//		}
+	//	}
 
-		while(nIndex < nSectionCount)
-		{
-			CString strSection = SectionList[nIndex];
-			memset(szBuf,0,sizeof(szBuf));
-			CString strJudge = _T("");
-			
-			// MTP 검사 결과 파일에서 검사 '성공', '실패' 여부를 확인한다.
-			GetPrivateProfileString(strSection, JUDGE,	_T("SKIP"), szBuf, sizeof(szBuf), strPGInfoPath);
-			strJudge.Format(_T("%s"),	szBuf);
+	//	while(nIndex < nSectionCount)
+	//	{
+	//		CString strSection = SectionList[nIndex];
+	//		memset(szBuf,0,sizeof(szBuf));
+	//		CString strJudge = _T("");
+	//		
+	//		// MTP 검사 결과 파일에서 검사 '성공', '실패' 여부를 확인한다.
+	//		GetPrivateProfileString(strSection, JUDGE,	_T("SKIP"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//		strJudge.Format(_T("%s"),	szBuf);
 
-			//if(strJudge.CompareNoCase(_T("OK")) == 0)			// MTP 검사 결과 '성공'인 경우,
-			//{
-				//int nPatternIndex = 0;
-				//int nGrabIndex = 0;
-				// MTP 검사 결과 파일에서 성공한 패턴의 Voltage 정보를 읽는다
-				int nPatternIndex  = GetPrivateProfileInt(strSection, PATTERN_INDEX,-1, strPGInfoPath);
+	//		//if(strJudge.CompareNoCase(_T("OK")) == 0)			// MTP 검사 결과 '성공'인 경우,
+	//		//{
+	//			//int nPatternIndex = 0;
+	//			//int nGrabIndex = 0;
+	//			// MTP 검사 결과 파일에서 성공한 패턴의 Voltage 정보를 읽는다
+	//			int nPatternIndex  = GetPrivateProfileInt(strSection, PATTERN_INDEX,-1, strPGInfoPath);
 
-				for (int nGrabCnt = 0 ; nGrabCnt < MAX_GRAB_STEP_COUNT; nGrabCnt++)
-				{
-				  if(stPgInfo.stPgData[nGrabCnt].nPtnNum == nPatternIndex)
-				  {
-					//  nGrabIndex = nGrabCnt;				
+	//			for (int nGrabCnt = 0 ; nGrabCnt < MAX_GRAB_STEP_COUNT; nGrabCnt++)
+	//			{
+	//			  if(stPgInfo.stPgData[nGrabCnt].nPtnNum == nPatternIndex)
+	//			  {
+	//				//  nGrabIndex = nGrabCnt;				
 
-					  if (nPatternIndex <= 0)
-					  {
-						  theApp.m_SequenceTask->m_fnPrintLog(true, _T("ABNORMAL PATTERN INDEX - %d (%s - [%s]) !!!"), nPatternIndex, strPGInfoPath, strSection);
-						  return false;
-					  }
+	//				  if (nPatternIndex <= 0)
+	//				  {
+	//					  theApp.m_SequenceTask->m_fnPrintLog(true, _T("ABNORMAL PATTERN INDEX - %d (%s - [%s]) !!!"), nPatternIndex, strPGInfoPath, strSection);
+	//					  return false;
+	//				  }
 
-					  stPgInfo.stPgData[nGrabCnt].bJudge = TRUE;
+	//				  stPgInfo.stPgData[nGrabCnt].bJudge = TRUE;
 
-					  stPgInfo.stPgData[nGrabCnt].nPtnNum = nPatternIndex;
-					  //memcpy(m_stPgInfo.stPgData[nPatternIndex-1].strPatternName, GetPatternName(nPatternIndex), 100);
+	//				  stPgInfo.stPgData[nGrabCnt].nPtnNum = nPatternIndex;
+	//				  //memcpy(m_stPgInfo.stPgData[nPatternIndex-1].strPatternName, GetPatternName(nPatternIndex), 100);
 
-					  if (bMTP)
-					  {
-						  theApp.m_SequenceTask->m_fnPrintLog(FALSE, _T("MTP : DISPLAY_ABNORMAL"));
+	//				  if (bMTP)
+	//				  {
+	//					  theApp.m_SequenceTask->m_fnPrintLog(FALSE, _T("MTP : DISPLAY_ABNORMAL"));
 
-						  GetPrivateProfileString(strSection, RED_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-						  stPgInfo.stPgData[nGrabCnt].wVoltage[0] = (WORD)(7500);	// 소수점 3째자리 반올림
+	//					  GetPrivateProfileString(strSection, RED_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//					  stPgInfo.stPgData[nGrabCnt].wVoltage[0] = (WORD)(7500);	// 소수점 3째자리 반올림
 
-						  GetPrivateProfileString(strSection, GREEN_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-						  stPgInfo.stPgData[nGrabCnt].wVoltage[1] = (WORD)(7500);	// 소수점 3째자리 반올림
+	//					  GetPrivateProfileString(strSection, GREEN_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//					  stPgInfo.stPgData[nGrabCnt].wVoltage[1] = (WORD)(7500);	// 소수점 3째자리 반올림
 
-						  GetPrivateProfileString(strSection, BLUE_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-						  stPgInfo.stPgData[nGrabCnt].wVoltage[2] = (WORD)(7500);	// 소수점 3째자리 반올림
-					  }
-					  else 
-					  {
-						  GetPrivateProfileString(strSection, RED_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-						  stPgInfo.stPgData[nGrabCnt].wVoltage[0] = (WORD)((_ttof(szBuf) + ceil_value) * ratio);	// 소수점 3째자리 반올림
+	//					  GetPrivateProfileString(strSection, BLUE_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//					  stPgInfo.stPgData[nGrabCnt].wVoltage[2] = (WORD)(7500);	// 소수점 3째자리 반올림
+	//				  }
+	//				  else 
+	//				  {
+	//					  GetPrivateProfileString(strSection, RED_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//					  stPgInfo.stPgData[nGrabCnt].wVoltage[0] = (WORD)((_ttof(szBuf) + ceil_value) * ratio);	// 소수점 3째자리 반올림
 
-						  GetPrivateProfileString(strSection, GREEN_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-						  stPgInfo.stPgData[nGrabCnt].wVoltage[1] = (WORD)((_ttof(szBuf) + ceil_value) * ratio);	// 소수점 3째자리 반올림
+	//					  GetPrivateProfileString(strSection, GREEN_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//					  stPgInfo.stPgData[nGrabCnt].wVoltage[1] = (WORD)((_ttof(szBuf) + ceil_value) * ratio);	// 소수점 3째자리 반올림
 
-						  GetPrivateProfileString(strSection, BLUE_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-						  stPgInfo.stPgData[nGrabCnt].wVoltage[2] = (WORD)((_ttof(szBuf) + ceil_value) * ratio);	// 소수점 3째자리 반올림
-					  }
+	//					  GetPrivateProfileString(strSection, BLUE_VOLTAGE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//					  stPgInfo.stPgData[nGrabCnt].wVoltage[2] = (WORD)((_ttof(szBuf) + ceil_value) * ratio);	// 소수점 3째자리 반올림
+	//				  }
 
-					  GetPrivateProfileString(strSection, COLOR_X, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-					  stPgInfo.stPgData[nGrabCnt].dColor_X = _ttof(szBuf);
+	//				  GetPrivateProfileString(strSection, COLOR_X, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//				  stPgInfo.stPgData[nGrabCnt].dColor_X = _ttof(szBuf);
 
-					  GetPrivateProfileString(strSection, COLOR_Y, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-					  stPgInfo.stPgData[nGrabCnt].dColor_Y = _ttof(szBuf);
+	//				  GetPrivateProfileString(strSection, COLOR_Y, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//				  stPgInfo.stPgData[nGrabCnt].dColor_Y = _ttof(szBuf);
 
-					  GetPrivateProfileString(strSection, LUMINANCE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
-					  stPgInfo.stPgData[nGrabCnt].dLuminance = _ttof(szBuf);
-				
-				  }
-				}			
-				
-			//}
-			//else	// MTP 검사 결과 '실패'인 경우,
-			//{
-			//	// Voltage 정보 저장하지 않고 skip
-			//	nIndex++;
-			//	continue;
-			//}
-			nIndex++;
-		}
-	
-		//set pg 데이터 
-		theApp.m_Config.SetPgInfo(stPgInfo);
-	}
-	catch(...)
-	{
-		theApp.m_SequenceTask->m_fnPrintLog(true, _T("ERROR OCCURED READ MTP FILE (%s) !!!"), strPGInfoPath);
-		return false;
-	}
-	
-	return true;
+	//				  GetPrivateProfileString(strSection, LUMINANCE, _T("0"), szBuf, sizeof(szBuf), strPGInfoPath);
+	//				  stPgInfo.stPgData[nGrabCnt].dLuminance = _ttof(szBuf);
+	//			
+	//			  }
+	//			}			
+	//			
+	//		//}
+	//		//else	// MTP 검사 결과 '실패'인 경우,
+	//		//{
+	//		//	// Voltage 정보 저장하지 않고 skip
+	//		//	nIndex++;
+	//		//	continue;
+	//		//}
+	//		nIndex++;
+	//	}
+	//
+	//	//set pg 데이터 
+	//	theApp.m_Config.SetPgInfo(stPgInfo);
+	//}
+	//catch(...)
+	//{
+	//	theApp.m_SequenceTask->m_fnPrintLog(true, _T("ERROR OCCURED READ MTP FILE (%s) !!!"), strPGInfoPath);
+	//	return false;
+	//}
+	//
+	//return true;
+return true;
 }

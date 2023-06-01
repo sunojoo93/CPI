@@ -371,7 +371,12 @@ namespace CRUX_Renewal.Main_Form
                 var Temp = sender as CogJobManager;
             });
         }
-
+        public void DisplayResult(CogRecord record)
+        {
+            cogRecordDisplay1.Record = record;
+            
+            //cogRecordDisplay1.Refresh();
+        }
         private void Btn_LoadImage_Click(object sender, EventArgs e)
         {
             Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog();

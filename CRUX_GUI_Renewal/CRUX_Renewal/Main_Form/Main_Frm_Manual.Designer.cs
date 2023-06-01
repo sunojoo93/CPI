@@ -52,11 +52,11 @@
             this.Btn_ImageSelect = new System.Windows.Forms.Button();
             this.Lb_CurImageNum = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.Tab_Simul = new System.Windows.Forms.TabControl();
             this.tab_Page_ImageSimul = new System.Windows.Forms.TabPage();
             this.tab_Page_TotalSimul = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
+            this.cogRecordDisplay1 = new Cognex.VisionPro.CogRecordDisplay();
             this.Tlp_Simul.SuspendLayout();
             this.Grb_ImageInfo.SuspendLayout();
             this.Tlp_ImageInfo.SuspendLayout();
@@ -69,6 +69,7 @@
             this.Tab_Simul.SuspendLayout();
             this.tab_Page_ImageSimul.SuspendLayout();
             this.tab_Page_TotalSimul.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay1)).BeginInit();
             this.SuspendLayout();
             // 
             // Tlp_Simul
@@ -79,7 +80,7 @@
             this.Tlp_Simul.Controls.Add(this.Grb_ImageInfo, 0, 1);
             this.Tlp_Simul.Controls.Add(this.Tlp_Images, 0, 0);
             this.Tlp_Simul.Controls.Add(this.button2, 1, 1);
-            this.Tlp_Simul.Controls.Add(this.button4, 1, 0);
+            this.Tlp_Simul.Controls.Add(this.cogRecordDisplay1, 1, 0);
             this.Tlp_Simul.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Simul.Location = new System.Drawing.Point(3, 3);
             this.Tlp_Simul.Name = "Tlp_Simul";
@@ -368,16 +369,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_2);
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(703, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click_1);
-            // 
             // Tab_Simul
             // 
             this.Tab_Simul.Controls.Add(this.tab_Page_ImageSimul);
@@ -421,6 +412,24 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
+            // cogRecordDisplay1
+            // 
+            this.cogRecordDisplay1.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay1.ColorMapLowerRoiLimit = 0D;
+            this.cogRecordDisplay1.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cogRecordDisplay1.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay1.ColorMapUpperRoiLimit = 1D;
+            this.cogRecordDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogRecordDisplay1.DoubleTapZoomCycleLength = 2;
+            this.cogRecordDisplay1.DoubleTapZoomSensitivity = 2.5D;
+            this.cogRecordDisplay1.Location = new System.Drawing.Point(703, 3);
+            this.cogRecordDisplay1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cogRecordDisplay1.MouseWheelSensitivity = 1D;
+            this.cogRecordDisplay1.Name = "cogRecordDisplay1";
+            this.cogRecordDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay1.OcxState")));
+            this.cogRecordDisplay1.Size = new System.Drawing.Size(986, 572);
+            this.cogRecordDisplay1.TabIndex = 4;
+            // 
             // Main_Frm_Manual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -447,6 +456,7 @@
             this.Tab_Simul.ResumeLayout(false);
             this.tab_Page_ImageSimul.ResumeLayout(false);
             this.tab_Page_TotalSimul.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -476,9 +486,9 @@
         private System.Windows.Forms.TabPage tab_Page_ImageSimul;
         private System.Windows.Forms.TabPage tab_Page_TotalSimul;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Tb_CellID;
+        private Cognex.VisionPro.CogRecordDisplay cogRecordDisplay1;
     }
 }

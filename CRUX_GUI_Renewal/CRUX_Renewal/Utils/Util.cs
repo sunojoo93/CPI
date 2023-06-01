@@ -182,15 +182,16 @@ namespace CRUX_Renewal
                 for (int j = 0; j < recipe.Area_Data.Area[i].Patterns.Count; ++j)
                 {
                     ST_PATTERN_INFO NewPatternInfo = new ST_PATTERN_INFO(0);
-                    NewPatternInfo.PatternName = recipe.Area_Data.Area[i].Patterns[j].Name.toUniByteAry(200);
+                    NewPatternInfo.PatternName = recipe.Area_Data.Area[i].Patterns[j].Name.toUniByteAry(100);
+                    NewPatternInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Use;
                     NewPatternInfo.Vacuum = recipe.Area_Data.Area[i].Patterns[j].Vacuum;
                     NewPatternInfo.CamCondCount = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data.Count;
                     NewPatternInfo.LightCondCount = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count;
                     for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data.Count; ++k)
                     {
                         ST_CAM_COND NewCamInfo = new ST_CAM_COND(0);
-                        NewCamInfo.Name = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Name.toUniByteAry(200);
-                        NewCamInfo.Type = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].CamType.toUniByteAry(200);
+                        NewCamInfo.Name = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Name.toUniByteAry(100);
+                        NewCamInfo.Type = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].CamType.toUniByteAry(100);
                         NewCamInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Use;
                         NewCamInfo.Expose = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Expose;
                         NewCamInfo.Gain = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data[k].Gain;
@@ -209,7 +210,7 @@ namespace CRUX_Renewal
                     for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count; ++k)
                     {
                         ST_LIGHT_COND NewLightInfo = new ST_LIGHT_COND(0);
-                        NewLightInfo.Name = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Name;
+                        NewLightInfo.Name = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Name.toUniByteAry(100);
                         NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
                         for (int t = 0; t < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightConditions.Count; ++t)
                         {

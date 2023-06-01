@@ -545,14 +545,14 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_GRAB_AREA_INFO
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Name;
         public int PtnCount;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_PATTERN_COUNT)]
         public ST_PATTERN_INFO[] PatternList;
         public ST_GRAB_AREA_INFO(int num)
         {
-            Name = new byte[200];
+            Name = new byte[100];
             PtnCount = 0;
             PatternList = new ST_PATTERN_INFO[Consts.MAX_PATTERN_COUNT];
         }
@@ -561,7 +561,7 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_PATTERN_INFO
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] PatternName;
         public bool Use;
         public bool Vacuum;
@@ -573,7 +573,7 @@ namespace CRUX_Renewal.Class
         public ST_LIGHT_COND[] Light_Condition;
         public ST_PATTERN_INFO(int num)
         {
-            PatternName = new byte[200];
+            PatternName = new byte[100];
             Use = false;
             Vacuum = false;
             CamCondCount = 0;
@@ -586,9 +586,9 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_CAM_COND
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Type;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Name;
         public bool Use;
         public double Expose;
@@ -605,8 +605,8 @@ namespace CRUX_Renewal.Class
         public double nPeriodB;
         public ST_CAM_COND(int num)
         {
-            Type = new byte[200];
-            Name = new byte[200];
+            Type = new byte[100];
+            Name = new byte[100];
             Use = false;
             Expose = 100;
             Gain = 1;
@@ -626,14 +626,15 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_LIGHT_COND
     {
-        public string Name;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] Name;
         public bool Use;
         //public string CtrlName;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_CHANNEL_COUNT)]
         public int[] LightConditions;
         public ST_LIGHT_COND(int num)
         {
-            Name = string.Empty;
+            Name = new byte[100];
             Use = true;
             LightConditions = new int[Consts.MAX_LIGHT_CHANNEL_COUNT];
         }

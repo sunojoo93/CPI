@@ -192,31 +192,31 @@ private:
 	int	VS_TaskAlive				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	// Manual
 	int	Seq_ManualChangeModel		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	int	Seq_ManualGrabImage			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	/*int	Seq_ManualGrabImage			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int	Seq_ManualGrabImage_AVI		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int	Seq_ManualGrabImage_SVI		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int	Seq_ManualGrabImage_APP		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int	Seq_ManualGrabImage_AMT		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int	Seq_ManualGrabImage_DUMP     (byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	int	Seq_ManualInspectImage		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	int	Seq_ManualInspectImage		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);*/
 	// Auto
 	int	Seq_AutoInspectGrabImage	(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	int	Seq_AutoInspectGrabImage_APP(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	int	Seq_AutoInspectGrabImage_AVI(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	int	Seq_AutoInspectGrabImage_SVI(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	int	Seq_AutoInspectGrabImage_AMT(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// AMT 검사 시컨스 신규 추가 180801 YSS
-	int	Seq_AutoInspectGrabImage_BUMP(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2021.10.05~ MDJ Inspection Sequence for LCP
+	//int	Seq_AutoInspectGrabImage_APP(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_AutoInspectGrabImage_AVI(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_AutoInspectGrabImage_SVI(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_AutoInspectGrabImage_AMT(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// AMT 검사 시컨스 신규 추가 180801 YSS
+	//int	Seq_AutoInspectGrabImage_BUMP(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2021.10.05~ MDJ Inspection Sequence for LCP
 	int	Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 AOT CHIPPING JSO
-	int	Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 ALM JSO
-	int	Seq_AutoChangeModel			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	
+	//int	Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 ALM JSO
+	//int	Seq_AutoChangeModel			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	
 	// Sequence
-	int	Seq_ClassifyEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	int	Seq_GUI_ClassifyEnd			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_ClassifyEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_GUI_ClassifyEnd			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	// Camera Align
-	int	Seq_AlignCamera				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_AlignCamera				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 		
 	// Reset
-	int	Seq_SeqeunceReset			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_SeqeunceReset			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 
 	//Tact Time
 	int Seq_TactTimeData			(TCHAR* strPanelId, CString strTactName, CString strTactState, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
@@ -224,10 +224,10 @@ private:
 	// Async Sequence
 	int	Seq_AsyncSequence			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	// Receive Dust End
-	int	Seq_RcvCheckDustEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_RcvCheckDustEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 
 	// For Test
-	int	Seq_MoveMotion_MortorX_ForTest	(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	//int	Seq_MoveMotion_MortorX_ForTest	(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	//int	Seq_MoveMotion_MortorY_ForTest	(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	//int	Seq_MoveMotion_MortorT_ForTest	(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	//int	Seq_MoveMotion_FocusZ_ForTest	(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
@@ -236,24 +236,24 @@ private:
 	/************************************************************************/
 	/*						     Use Function                               */
 	/************************************************************************/
-	int	m_fnSendMsgMoveMotion(CStringA strMotionType, int nRelativeMoveVal);
-	int	m_fnSendMsgGetMotionStatus(CStringA strMotionType);
+	//int	m_fnSendMsgMoveMotion(CStringA strMotionType, int nRelativeMoveVal);
+	//int	m_fnSendMsgGetMotionStatus(CStringA strMotionType);
 	int	m_ShareImgNum(int nImgNum);
 	
-	void SendStageMove(int nGrabCount, int nKindDirection, int nMotorSpeed);
-	bool WaitForStageMove(HANDLE(*pHandle)[MAX_SEQUENCE_LCP], int& nGrabCount, int& nKindDirection, DWORD dwMilliseconds = INFINITE);
+	//void SendStageMove(int nGrabCount, int nKindDirection, int nMotorSpeed);
+	//bool WaitForStageMove(HANDLE(*pHandle)[MAX_SEQUENCE_LCP], int& nGrabCount, int& nKindDirection, DWORD dwMilliseconds = INFINITE);
 
 
 	//int	m_fnSendMsgGetMotionStatus	(CStringA strMotionType);
 
 // Light Info 정적 배열로 변경
-	void m_fnCreateProcInfo(TCHAR* pStrPanelID, TCHAR* pStrVirtualID, TCHAR* pStrModelID, int nStageNo, BOOL bIsManual = FALSE);	//2019.07.10 nStageNo
+	//void m_fnCreateProcInfo(TCHAR* pStrPanelID, TCHAR* pStrVirtualID, TCHAR* pStrModelID, int nStageNo, BOOL bIsManual = FALSE);	//2019.07.10 nStageNo
 
 	// 다른 Sequence Task 동기화 함수
 	bool WaitForOtherSequence(HANDLE (*pHandle)[MAX_AUTO_SEQ_ASNC_POINT], int& nAsyncCount, DWORD dwMilliseconds = INFINITE);
 
 	// Alg. Task - Dust Image Check 대기 구문 작성
-	bool WaitForCheckDustAtAlgTask(DWORD dwMilliseconds = INFINITE);
+	//bool WaitForCheckDustAtAlgTask(DWORD dwMilliseconds = INFINITE);
 
 	
 

@@ -630,8 +630,8 @@ namespace CRUX_Renewal.Class.InspVer2
                                 }
                                 for (int i = 0; i < Algorithm_Job.JobCount; ++i)
                                     Algorithm_Job.Job(i).VisionTool.UserData.Add("Images", Collection);
-
                                 Algorithm_Job.Run();
+
                             }
                             catch (Exception ex)
                             {
@@ -651,7 +651,8 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //InspectData.Dispose()
                                 ;
                                 //Set = false;
-                                Job.Image();
+                                CogRecord ResultData = (Temp.VisionTool as CogToolGroup).UserData["Result"] as CogRecord;
+                                Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Manual.DisplayResult(ResultData);
                                 //Systems.Inspector_.Inspectors.Find
                             });
 

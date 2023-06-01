@@ -15,7 +15,7 @@
 #define  MAX_PATTERN_COUNT  10
 #define  MAX_CAMERA_COUNT  4
 #define  MAX_LIGHT_COUNT  4
-#define  MAX_LIGHT_CHANNEL_COUNT  20
+#define  MAX_LIGHT_CHANNEL_COUNT  50
 
 #define MAX_IMAGE_RATIO				1
 
@@ -197,7 +197,7 @@ struct ST_MODEL_INFO
 	UINT			nGrabCount;
 	ST_STEP_INFO	stStepInfo[MAX_GRAB_STEP_COUNT];
 	ST_PG_INFO      stPgInfo;
-	ST_LINE_INFO	stLineInfo;
+	//ST_CAM_COND_AOT	stLineInfo;
 
 	ST_MODEL_INFO()
 	{
@@ -206,12 +206,11 @@ struct ST_MODEL_INFO
 	}
 };
 
-
 struct ST_CAM_COND_AOT
 {
-	TCHAR Type[100];
-	TCHAR Name[100];
-	bool Use;
+	TCHAR Type[50];
+	TCHAR Name[50];
+	BOOL Use;
 	double Expose;
 	double Gain;
 	double PS;
@@ -243,8 +242,8 @@ struct ST_CAM_COND_AOT
 };
 struct ST_LIGHT_COND_AOT
 {
-	TCHAR Name[100];
-	bool Use;
+	TCHAR Name[50];
+	BOOL Use;
 	//public string CtrlName;
 	int LightConditions[MAX_LIGHT_CHANNEL_COUNT];
 	ST_LIGHT_COND_AOT()
@@ -255,9 +254,9 @@ struct ST_LIGHT_COND_AOT
 };
 struct ST_PATTERN_INFO_AOT
 {
-	TCHAR PatternName[100];
-	bool Use;
-	bool Vacuum;
+	TCHAR PatternName[50];
+	BOOL Use;
+	BOOL Vacuum;
 	int CamCondCount;
 	int LightCondCount;
 	ST_CAM_COND_AOT Cam_Condition[MAX_CAMERA_COUNT];
@@ -274,7 +273,7 @@ struct ST_PATTERN_INFO_AOT
 };
 struct ST_GRAB_AREA_INFO_AOT
 {
-	TCHAR Name[100];
+	TCHAR Name[50];
 	int PtnCount;
 	ST_PATTERN_INFO_AOT PatternList[MAX_PATTERN_COUNT];
 	ST_GRAB_AREA_INFO_AOT()

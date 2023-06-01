@@ -236,9 +236,9 @@ namespace CRUX_Renewal
                 procList = Process.GetProcessesByName("LLightLightTask");
                 foreach ( var proc in procList )
                     proc.Kill();
-                procList = Process.GetProcessesByName("VSSequenceTask");
-                foreach ( var proc in procList )
-                    proc.Kill();
+                //procList = Process.GetProcessesByName("VSSequenceTask");
+                //foreach ( var proc in procList )
+                //    proc.Kill();
                 procList = Process.GetProcessesByName("VSAlgorithmTask");
                 foreach ( var proc in procList )
                     proc.Kill();
