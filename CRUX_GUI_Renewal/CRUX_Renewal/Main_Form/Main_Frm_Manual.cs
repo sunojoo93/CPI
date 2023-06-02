@@ -301,76 +301,15 @@ namespace CRUX_Renewal.Main_Form
             }
             catch(Exception ex)
             {
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 에러 로그를 확인해주세요.");
+                Noti.ShowDialog();
+
                 Console.WriteLine(ex.Message);
+                Systems.LogWriter.Error($@"{this.Name}, Exception : {ex}");
             }
 
-        }
-
-        private void AddJobManagerEvent(CogJobManager manager)
-        {
-            manager.FailureQueueOverflowed += new CogJobManager.CogFailureQueueOverflowedEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogFailureQueueOverflowedEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.FailureItemAvailable += new CogJobManager.CogFailureItemAvailableEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogFailureItemAvailableEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.FailureItemRemoved += new CogJobManager.CogFailureItemRemovedEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogFailureItemRemovedEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.FailureQueueFlushed += new CogJobManager.CogFailureQueueFlushedEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogFailureQueueFlushedEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.JobAdded += new CogJobManager.CogJobAddedEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogJobAddedEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.JobRemoved += new CogJobManager.CogJobRemovedEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogJobRemovedEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.ResetComplete += new CogJobManager.CogJobManagerResetCompleteEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogJobManagerResetCompleteEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.Stopped += new CogJobManager.CogJobManagerStoppedEventHandler((sender, e) =>
-            {
-                var Manager = sender as CogJobManager;
-                var Tt = Manager.Job(0).RunStatus;
-                Console.WriteLine($"CogJobManagerStoppedEventHandler {Tt.Result.ToString()}");
-                var Temp = sender as CogJobManager;
-            });
-            manager.UserQueueFlushed += new CogJobManager.CogUserQueueFlushedEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogUserQueueFlushedEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.UserQueueOverflowed += new CogJobManager.CogUserQueueOverflowedEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogUserQueueOverflowedEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.UserResultAvailable += new CogJobManager.CogUserResultAvailableEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogUserResultAvailableEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-            manager.UserResultRemoved += new CogJobManager.CogUserResultRemovedEventHandler((sender, e) =>
-            {
-                Console.WriteLine($"CogUserResultRemovedEventHandler");
-                var Temp = sender as CogJobManager;
-            });
-        }
+        }        
+        
         public void DisplayResult(CogRecord record)
         {
             cogRecordDisplay1.Record = record;
@@ -379,78 +318,91 @@ namespace CRUX_Renewal.Main_Form
         }
         private void Btn_LoadImage_Click(object sender, EventArgs e)
         {
-            Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog();
-            dialog.IsFolderPicker = false; // true : 폴더 선택 / false : 파일 선택
-            //CommonFileDialogFilterCollection DialogFilter = dialog.Filters;
-            //DialogFilter.Add(new CommonFileDialogFilter("Bitmap", ".bmp"));
-            Cog_Display.AutoFit = true;
-            string FilePath = string.Empty;
-            string FolderPath = string.Empty;
-            if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
+            try
             {
-                FilePath = dialog.FileName;
-                int FilePathLength = FilePath.Length;
-                int idx = dialog.FileName.LastIndexOf("\\");
-                FolderPath = FilePath.Remove(idx, FilePathLength-idx);
-                Tb_Path.Text = FolderPath;
-                if (ManualInspImageData.Count > 0)
-                    ManualInspImageData.Clear();
-            }
-            else            
-                return;
-            Utility.LoadingStart();
-                        
-            ArrayList FileNames = fileProc.GetFileNames(FolderPath);
-
-            List<string> AreaNames = new List<string>();
-            foreach(string item in FileNames)
-            {
-                string[] NameTemp = item.Split('_');
-                string AreaName = NameTemp[0];
-
-                if(!AreaNames.Contains(AreaName))
-                    AreaNames.Add(AreaName);
-            }
-            ArrayList FindFiles = fileProc.getFileList(FolderPath.ToString(), ".bmp");
-            int TotalImageCnt = 0;
-            foreach (string item in AreaNames)
-            {
-                InspData ManualInspData = new InspData();
-
-                for (int j = 0; j < FindFiles.Count; ++j)
+                Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog();
+                dialog.IsFolderPicker = false; // true : 폴더 선택 / false : 파일 선택
+                                               //CommonFileDialogFilterCollection DialogFilter = dialog.Filters;
+                                               //DialogFilter.Add(new CommonFileDialogFilter("Bitmap", ".bmp"));
+                Cog_Display.AutoFit = true;
+                string FilePath = string.Empty;
+                string FolderPath = string.Empty;
+                if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
                 {
-                    ManualImageData Data = new ManualImageData();
-                    string ImagePath = FindFiles[j].ToString();
-                    string[] PathSplit = ImagePath.Split(new string[] { "\\" }, StringSplitOptions.None);                    
-                    string AreaNameTemp = PathSplit[PathSplit.Length-1];
-                    string[] Temp2 = AreaNameTemp.Split('_');
-                    string AreaName = Temp2[0];                    
-                    string PatternName = Temp2[1].Replace(".bmp","");
-                    if(item == AreaName)
-                    {
-                        Data.OriginImage = Cognex_Helper.Load_Image(ImagePath);
-                        Data.PatternName = PatternName;
-                        Data.Area = AreaName;
-                        ManualInspData.PatternName = ManualInspData.PatternName ?? PatternName;
-                        ManualInspData.Area = AreaName;
-                        ManualInspData.Datas.Add(Data);
-                        ManualImage.Add(Data);
-                        TotalImageCnt++;
-                    }
+                    FilePath = dialog.FileName;
+                    int FilePathLength = FilePath.Length;
+                    int idx = dialog.FileName.LastIndexOf("\\");
+                    FolderPath = FilePath.Remove(idx, FilePathLength - idx);
+                    Tb_Path.Text = FolderPath;
+                    if (ManualInspImageData.Count > 0)
+                        ManualInspImageData.Clear();
                 }
-                ManualInspImageData.Add(ManualInspData);
-            }
-            if (ManualImage.Count > 0)
-            {
-                ManualImage[0].View = true;
-                ManualImageData Temp = ManualImage.Find(x => x.View);
-                Btn_ImageSelect.Text = $"{Temp.Area}_{Temp.PatternName}";
-                Lb_CurImageNum.Text = $"{ManualImage.FindIndex(x => x.View) + 1}/{TotalImageCnt}";
-                Cog_Display.Image = Temp.OriginImage;
-            }
+                else
+                    return;
+                Utility.LoadingStart();
 
-            Tb_CellID.Text = DateTime.Now.ToString("yyyy-MM-ddhh:mm:ss.fff");
-            Utility.LoadingStop();
+                ArrayList FileNames = fileProc.GetFileNames(FolderPath);
+                FileNames.Sort();
+                List<string> AreaNames = new List<string>();
+                foreach (string item in FileNames)
+                {
+                    string[] NameTemp = item.Split('_');
+                    string AreaName = NameTemp[2];
+
+                    if (!AreaNames.Contains(AreaName))
+                        AreaNames.Add(AreaName);
+                }
+                ArrayList FindFiles = fileProc.getFileList(FolderPath.ToString(), ".bmp");
+                int TotalImageCnt = 0;
+                foreach (string item in AreaNames)
+                {
+                    InspData ManualInspData = new InspData();
+
+                    for (int j = 0; j < FindFiles.Count; ++j)
+                    {
+                        ManualImageData Data = new ManualImageData();
+                        string ImagePath = FindFiles[j].ToString();
+                        string[] PathSplit = ImagePath.Split(new string[] { "\\" }, StringSplitOptions.None);
+                        string AreaNameTemp = PathSplit[PathSplit.Length - 1];
+                        string[] Temp2 = AreaNameTemp.Split('_');
+                        string AreaName = Temp2[2];
+                        string PatternName = Temp2[3].Replace(".bmp", "");
+                        if (item == AreaName)
+                        {
+                            Data.OriginImage = Cognex_Helper.Load_Image(ImagePath);
+                            Data.PatternName = PatternName;
+                            Data.Area = AreaName;
+                            ManualInspData.PatternName = ManualInspData.PatternName ?? PatternName;
+                            ManualInspData.Area = AreaName;
+                            ManualInspData.Datas.Add(Data);
+
+                            ManualImage.Add(Data);
+
+                            TotalImageCnt++;
+                        }
+                    }
+                    ManualInspImageData.Add(ManualInspData);
+                }
+                if (ManualImage.Count > 0)
+                {
+                    ManualImage[0].View = true;
+                    ManualImageData Temp = ManualImage.Find(x => x.View);
+                    Btn_ImageSelect.Text = $"{Temp.Area}_{Temp.PatternName}";
+                    Lb_CurImageNum.Text = $"{ManualImage.FindIndex(x => x.View) + 1}/{TotalImageCnt}";
+                    Cog_Display.Image = Temp.OriginImage;
+                }
+
+                Tb_CellID.Text = DateTime.Now.ToString("yyyy-MM-ddhh:mm:ss.fff");
+                Utility.LoadingStop();
+            }
+            catch(Exception ex)
+            {
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 로그를 확인해주세요.");
+                Noti.ShowDialog();
+
+                Console.WriteLine(ex.Message);
+                Systems.LogWriter.Info($@"{this.Name}, Exception : {ex}");
+            }
         }
 
         private void Btn_Left_Click(object sender, EventArgs e)
@@ -530,8 +482,11 @@ namespace CRUX_Renewal.Main_Form
                 item.CellID = CellID;
             }
 
-
-            Systems.Inspector_.Manual_Insp(ManualInspImageData);
+            foreach(InspData item in ManualInspImageData)
+            {
+                Systems.Inspector_.Start_Insp(item);
+            }
+            //Systems.Inspector_.Manual_Insp(ManualInspImageData);
         }
 
         private void button2_Click_2(object sender, EventArgs e)

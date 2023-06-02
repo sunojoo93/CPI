@@ -255,16 +255,18 @@ struct ST_LIGHT_COND_AOT
 struct ST_PATTERN_INFO_AOT
 {
 	TCHAR PatternName[50];
-	BOOL Use;
-	BOOL Vacuum;
+	BOOL Grab;
+	BOOL Vacuum;	
+	BOOL Insp;
 	int CamCondCount;
 	int LightCondCount;
 	ST_CAM_COND_AOT Cam_Condition[MAX_CAMERA_COUNT];
 	ST_LIGHT_COND_AOT Light_Condition[MAX_LIGHT_COUNT];
 	ST_PATTERN_INFO_AOT()
 	{
-		Use = false;
-		Vacuum = false;
+		Grab = false;
+		Vacuum = false;	
+		Insp = false;
 		CamCondCount = 0;
 		LightCondCount = 0;
 		memset(Cam_Condition, 0, sizeof(ST_CAM_COND_AOT) * MAX_CAMERA_COUNT);
@@ -410,6 +412,7 @@ struct PARAM_INSPECT_START
 
 struct PARAM_INSPECT_START_ACI
 {
+	int PcNo;
 	UINT nInspType;				// 0: Auto, 1: Manual Grab & Inspection, 2: Manual Inspection
 	wchar_t strPanelID[50];
 	wchar_t strVirtualID[50];
@@ -420,9 +423,11 @@ struct PARAM_INSPECT_START_ACI
 	wchar_t strDirection[50];
 	wchar_t strPosition[50];
 	int nGrabLine;
+	int ParticleCount;
 
 	PARAM_INSPECT_START_ACI()
 	{
+		PcNo = 0;
 		nInspType = 0;
 
 		memset(strPanelID, 0, sizeof(strPanelID));
@@ -433,6 +438,7 @@ struct PARAM_INSPECT_START_ACI
 		memset(strDirection, 0, sizeof(strDirection));
 		memset(strPosition, 0, sizeof(strPosition));
 		nShareImgNum = 0;
+		ParticleCount = 0;
 
 
 	}

@@ -1,10 +1,12 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ImageFile;
+using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.QuickBuild.Implementation.Internal;
 using Cognex.VisionPro.ToolGroup;
 using CRUX_Renewal.Class;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,6 +101,61 @@ namespace CRUX_Renewal.Utils
         public static CogGraphicLineStyleConstants GetLineStyleFromString(string data)
         {
             return EnumUtil<CogGraphicLineStyleConstants>.Parse(data);
+        }
+        public static CogImage8Grey MergeImages(int shift_x, int shift_y, CogImage8Grey[] image_list, int img_len)
+        {
+            if (img_len > 0)
+            {
+                int nImage_Width = image_list[0].Width;
+                int nImage_Height = image_list[0].Height;
+                CogCopyRegionTool RegionTool = new CogCopyRegionTool();
+
+                CogImage8Grey Result_CogImg = new CogImage8Grey(nImage_Width, (nImage_Height * 2) + (nImage_Height - Math.Abs(shift_x)) * (img_len - 2));
+                CogRectangle OriRegion = new CogRectangle();
+
+                // RegionTool.RunParams.ImageAlignmentEnabled = true;
+
+                for (int i = 0; i < img_len; i++)
+                {
+                    RegionTool.InputImage = image_list[i];
+                    RegionTool.DestinationImage = Result_CogImg;
+
+                    if (i == 0)
+                    {
+                        RegionTool.RunParams.ImageAlignmentEnabled = false;
+
+                        OriRegion.X = 0;
+                        OriRegion.Y = 0;
+                        OriRegion.Width = nImage_Width;
+                        OriRegion.Height = nImage_Height;
+
+                        RegionTool.Region = OriRegion;
+                    }
+                    else
+                    {
+                        RegionTool.RunParams.ImageAlignmentEnabled = true;
+                        OriRegion.X = 0;
+                        OriRegion.Y = shift_y;
+                        OriRegion.Width = nImage_Width;
+                        OriRegion.Height = nImage_Height - shift_y;
+
+                        RegionTool.Region = OriRegion;
+                        //  RegionTool.RunParams.InputImageAlignmentX = nShift_X;
+                        //  RegionTool.RunParams.InputImageAlignmentY = nShift_Y;
+
+                        RegionTool.RunParams.DestinationImageAlignmentX = shift_x * (i);
+                        RegionTool.RunParams.DestinationImageAlignmentY = shift_y * (i);
+                    }
+                    RegionTool.Run();
+                    //Result_CogImg = (CogImage8Grey)RegionTool.OutputImage.CopyBase(CogImageCopyModeConstants.CopyPixels);
+                    //Result_CogImg = RegionTool.OutputImage;
+
+                    Result_CogImg = (CogImage8Grey)RegionTool.OutputImage;
+                }
+                return Result_CogImg;
+            }
+            else
+                return null;
         }
 
         //public static CogDisplay CreateCogDisplay(System.Drawing.Size size)

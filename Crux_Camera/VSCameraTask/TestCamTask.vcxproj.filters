@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Customize">
+      <UniqueIdentifier>{d083679c-80f8-4247-aa1a-5d10c7631c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Customize\Dialog">
+      <UniqueIdentifier>{d37fe67c-8757-4878-b753-f7c3d80153f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Customize\Camera">
+      <UniqueIdentifier>{93f21d3c-6b72-4f56-af8d-a3add4a80080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{20d4d864-ab97-4fb1-9ebe-a8b98fef12a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Interface">
+      <UniqueIdentifier>{503e9452-3f1d-429d-aaf3-5fc3e815e0f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\CommonCtrl">
+      <UniqueIdentifier>{9a42c660-be76-46be-9653-10155ba0487d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\SharedMemory">
+      <UniqueIdentifier>{0e451693-8d01-449a-bcad-6f34ac4bb92d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\VisualStation">
+      <UniqueIdentifier>{6d24e937-8186-49b6-a8b9-5c0c562c702b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Common\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Common\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Customize\CameraControl">
+      <UniqueIdentifier>{26bb2609-8069-4d24-8d7f-5292d618447b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Customize\TriggerControl">
+      <UniqueIdentifier>{e06b1ea6-06f6-4fe7-a192-63c9f24bcd2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Customize\Camera\Serial">
+      <UniqueIdentifier>{fd903aab-125c-4af0-9517-81687a6f8de7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\VSCameraTask.ico">
+      <Filter>Common\리소스 파일</Filter>
+    </None>
+    <None Include="res\VSCameraTask.rc2">
+      <Filter>Common\리소스 파일</Filter>
+    </None>
+    <None Include="res\Camera.ico">
+      <Filter>Common\리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="VSCameraTask.h">
+      <Filter>Common\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Common\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Common\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemWrapper.h">
+      <Filter>Common\SharedMemory</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraInterface.h">
+      <Filter>Common\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraWorkManager.h">
+      <Filter>Common\VisualStation</Filter>
+    </ClInclude>
+    <ClInclude Include="CPUTimer.h">
+      <Filter>Common\CommonCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="LogWriter.h">
+      <Filter>Common\CommonCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\resource.h">
+      <Filter>Customize\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\TestCam.h">
+      <Filter>Customize\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\VSTestCamTaskDlg.h">
+      <Filter>Customize\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\define.h">
+      <Filter>Customize\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\version.h">
+      <Filter>Customize</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\TriggerControl.h">
+      <Filter>Customize\TriggerControl</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\TriggerSerial.h">
+      <Filter>Customize\TriggerControl</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\TestCam.h">
+      <Filter>Customize\CameraControl</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\DalsaLineParam.hpp">
+      <Filter>Customize\CameraControl</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\DalsaLineSerial.h">
+      <Filter>Customize\CameraControl</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\PandaDefine.h">
+      <Filter>Customize\TriggerControl</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\YskimLib.hpp">
+      <Filter>Customize\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="MatroxCamera\SerialCtrl.h">
+      <Filter>Customize\Camera\Serial</Filter>
+    </ClInclude>
+    <ClInclude Include="MatroxCamera\VieworksComControl.h">
+      <Filter>Customize\Camera\Serial</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCam\DalsaLineCamControl.h">
+      <Filter>Common\헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Common\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemWrapper.cpp">
+      <Filter>Common\SharedMemory</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraInterface.cpp">
+      <Filter>Common\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraWorkManager.cpp">
+      <Filter>Common\VisualStation</Filter>
+    </ClCompile>
+    <ClCompile Include="CPUTimer.cpp">
+      <Filter>Common\CommonCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="LogWriter.cpp">
+      <Filter>Common\CommonCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCam\TestCam.cpp">
+      <Filter>Customize\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCam\VSTestCamTaskDlg.cpp">
+      <Filter>Customize\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="VSCameraTask.cpp">
+      <Filter>Common\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCam\TriggerControl.cpp">
+      <Filter>Customize\TriggerControl</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCam\TriggerSerial.cpp">
+      <Filter>Customize\TriggerControl</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCam\DalsaLineSerial.cpp">
+      <Filter>Customize\CameraControl</Filter>
+    </ClCompile>
+    <ClCompile Include="MatroxCamera\SerialCtrl.cpp">
+      <Filter>Customize\Camera\Serial</Filter>
+    </ClCompile>
+    <ClCompile Include="MatroxCamera\VieworksComControl.cpp">
+      <Filter>Customize\Camera\Serial</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCam\DalsaLineCamControl.cpp">
+      <Filter>Common\소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TestCam\VSTestCamTask.rc">
+      <Filter>Customize\Dialog</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

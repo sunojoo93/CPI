@@ -72,7 +72,7 @@
             // 
             this.Tlp_Link.ColumnCount = 5;
             this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 636F));
-            this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 280F));
             this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.Tlp_Link.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -182,7 +182,7 @@
             this.Grb_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_ROI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Grb_ROI.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Grb_ROI.Location = new System.Drawing.Point(836, 0);
+            this.Grb_ROI.Location = new System.Drawing.Point(916, 0);
             this.Grb_ROI.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_ROI.Name = "Grb_ROI";
             this.Grb_ROI.Size = new System.Drawing.Size(200, 580);
@@ -248,7 +248,7 @@
             this.Grb_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Algorithm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Grb_Algorithm.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Grb_Algorithm.Location = new System.Drawing.Point(1036, 0);
+            this.Grb_Algorithm.Location = new System.Drawing.Point(1116, 0);
             this.Grb_Algorithm.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_Algorithm.Name = "Grb_Algorithm";
             this.Grb_Algorithm.Size = new System.Drawing.Size(200, 580);
@@ -312,10 +312,10 @@
             this.Grb_Params.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Params.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Grb_Params.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Grb_Params.Location = new System.Drawing.Point(1236, 0);
+            this.Grb_Params.Location = new System.Drawing.Point(1316, 0);
             this.Grb_Params.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_Params.Name = "Grb_Params";
-            this.Grb_Params.Size = new System.Drawing.Size(296, 580);
+            this.Grb_Params.Size = new System.Drawing.Size(216, 580);
             this.Grb_Params.TabIndex = 12;
             this.Grb_Params.TabStop = false;
             this.Grb_Params.Text = "Params";
@@ -331,7 +331,7 @@
             this.Tlp_Parameter.RowCount = 2;
             this.Tlp_Parameter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Parameter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Parameter.Size = new System.Drawing.Size(290, 556);
+            this.Tlp_Parameter.Size = new System.Drawing.Size(210, 556);
             this.Tlp_Parameter.TabIndex = 2;
             // 
             // LstV_Parameter
@@ -341,7 +341,7 @@
             this.LstV_Parameter.LabelEdit = true;
             this.LstV_Parameter.Location = new System.Drawing.Point(3, 3);
             this.LstV_Parameter.Name = "LstV_Parameter";
-            this.LstV_Parameter.Size = new System.Drawing.Size(284, 530);
+            this.LstV_Parameter.Size = new System.Drawing.Size(204, 530);
             this.LstV_Parameter.TabIndex = 0;
             this.LstV_Parameter.UseCompatibleStateImageBehavior = false;
             this.LstV_Parameter.View = System.Windows.Forms.View.Details;
@@ -365,7 +365,7 @@
             this.CAGB_Pattern.Location = new System.Drawing.Point(636, 0);
             this.CAGB_Pattern.Margin = new System.Windows.Forms.Padding(0);
             this.CAGB_Pattern.Name = "CAGB_Pattern";
-            this.CAGB_Pattern.Size = new System.Drawing.Size(200, 580);
+            this.CAGB_Pattern.Size = new System.Drawing.Size(280, 580);
             this.CAGB_Pattern.TabIndex = 13;
             this.CAGB_Pattern.TabStop = false;
             this.CAGB_Pattern.Text = "Pattern";
@@ -380,7 +380,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(194, 556);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(274, 556);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // Dgv_Pattern
@@ -398,12 +398,13 @@
             this.Dgv_Pattern.RowTemplate.Height = 23;
             this.Dgv_Pattern.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Dgv_Pattern.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Pattern.Size = new System.Drawing.Size(188, 550);
+            this.Dgv_Pattern.Size = new System.Drawing.Size(268, 550);
             this.Dgv_Pattern.TabIndex = 16;
             this.Dgv_Pattern.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellEndEdit);
             this.Dgv_Pattern.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseDoubleClick);
             this.Dgv_Pattern.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseUp);
             this.Dgv_Pattern.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellValueChanged);
+            this.Dgv_Pattern.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_Pattern_EditingControlShowing);
             // 
             // Ex_Frm_Recipe_Link
             // 

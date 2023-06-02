@@ -122,7 +122,7 @@ namespace CRUX_Renewal.Class.InspVer2
                 {
                     foreach (Area_Inspector item in Area_Insp)
                     {
-                        if (data.Area == item.Name)
+                        if (data.Area.ToUpper() == item.Name.ToUpper())
                         {
                             Thread t = new Thread(delegate ()
                             {
@@ -151,6 +151,7 @@ namespace CRUX_Renewal.Class.InspVer2
                     }
                 }
             }
+           
             public void Dispose()
             {
                 if (Area_Insp != null)
@@ -176,7 +177,7 @@ namespace CRUX_Renewal.Class.InspVer2
 
                     foreach (Pattern item in area.Patterns)
                     {
-                        if (item.Use)
+                        if (item.Insp)
                         {
                             Pattern_Inspector InspRegion = new Pattern_Inspector(item);
                             Pattern_Insp.Add(InspRegion);
@@ -193,34 +194,18 @@ namespace CRUX_Renewal.Class.InspVer2
                     {
                         if (Pattern_Insp != null)
                         {
-                            foreach(Pattern_Inspector item in Pattern_Insp)
+                            foreach (Pattern_Inspector item in Pattern_Insp)
                             {
                                 Thread t = new Thread(delegate ()
                                 {
                                     //if (item.Name == data.PatternName)
                                     //{
-                                        item.Start_Insp(data);
+                                    item.Start_Insp(data);
                                     //}
                                 });
                                 t.Start();
+                                Systems.LogWriter.Info($@"Start to Area inspection, AreaName : {Name}, Pattern Name : {item.Name}");
                             }
-
-                            //if(Region_Insp.Count > 0)
-
-                            //do
-                            //{
-                            //    int TotalCount = Region_Insp.Count;
-                            //    int CheckCount = 0;
-                            //    foreach (Region_Inspector item in Region_Insp)
-                            //    {
-                            //        if (item.Region_Finished)
-                            //            ++CheckCount;
-                            //    }
-                            //    if(CheckCount >= TotalCount)
-
-
-                            //} while(TotalCount > CheckCount)
-                            Console.WriteLine("All Worker End");
                         }
                     }
                     catch (Exception ex)
@@ -233,64 +218,76 @@ namespace CRUX_Renewal.Class.InspVer2
                 private void RemoveJobManagerEvent(CogJobManager manager)
                 {
                     manager.FailureQueueOverflowed -= new CogJobManager.CogFailureQueueOverflowedEventHandler((sender, e) =>
-                    {
+                    {              
                         Console.WriteLine($"CogFailureQueueOverflowedEventHandler");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"CogFailureQueueOverflowedEventHandler, JobNamager Name : {Temp.Name}");
                     });
                     manager.FailureItemAvailable -= new CogJobManager.CogFailureItemAvailableEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogFailureItemAvailableEventHandler");
+                        Console.WriteLine($"FailureItemAvailable");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"FailureItemAvailable, JobNamager Name : {Temp.Name}");
                     });
                     manager.FailureItemRemoved -= new CogJobManager.CogFailureItemRemovedEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogFailureItemRemovedEventHandler");
+                        Console.WriteLine($"FailureItemRemoved");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"FailureItemRemoved, JobNamager Name : {Temp.Name}");
                     });
                     manager.FailureQueueFlushed -= new CogJobManager.CogFailureQueueFlushedEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogFailureQueueFlushedEventHandler");
+                        Console.WriteLine($"FailureQueueFlushed");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"FailureQueueFlushed, JobNamager Name : {Temp.Name}");
                     });
                     manager.JobAdded -= new CogJobManager.CogJobAddedEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogJobAddedEventHandler");
+                        Console.WriteLine($"JobAdded");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"JobAdded, JobNamager Name : {Temp.Name}");
                     });
                     manager.JobRemoved -= new CogJobManager.CogJobRemovedEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogJobRemovedEventHandler");
+                        Console.WriteLine($"JobRemoved");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"JobRemoved, JobNamager Name : {Temp.Name}");
                     });
                     manager.ResetComplete -= new CogJobManager.CogJobManagerResetCompleteEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogJobManagerResetCompleteEventHandler");
+                        Console.WriteLine($"ResetComplete");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"ResetComplete, JobNamager Name : {Temp.Name}");
                     });
                     manager.Stopped -= new CogJobManager.CogJobManagerStoppedEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogJobManagerStoppedEventHandler");
+                        Console.WriteLine($"Stopped");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"Stopped, JobNamager Name : {Temp.Name}");
                     });
                     manager.UserQueueFlushed -= new CogJobManager.CogUserQueueFlushedEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogUserQueueFlushedEventHandler");
+                        Console.WriteLine($"UserQueueFlushed");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"UserQueueFlushed, JobNamager Name : {Temp.Name}");
                     });
                     manager.UserQueueOverflowed -= new CogJobManager.CogUserQueueOverflowedEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogUserQueueOverflowedEventHandler");
+                        Console.WriteLine($"UserQueueOverflowed");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"UserQueueOverflowed, JobNamager Name : {Temp.Name}");
                     });
                     manager.UserResultAvailable -= new CogJobManager.CogUserResultAvailableEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogUserResultAvailableEventHandler");
+                        Console.WriteLine($"UserResultAvailable");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"UserResultAvailable, JobNamager Name : {Temp.Name}");
                     });
                     manager.UserResultRemoved -= new CogJobManager.CogUserResultRemovedEventHandler((sender, e) =>
                     {
-                        Console.WriteLine($"CogUserResultRemovedEventHandler");
+                        Console.WriteLine($"UserResultRemoved");
                         var Temp = sender as CogJobManager;
+                        Systems.LogWriter.Info($@"UserResultRemoved, JobNamager Name : {Temp.Name}");
                     });
                 }
                 public void Clear_Inspection()
@@ -302,8 +299,8 @@ namespace CRUX_Renewal.Class.InspVer2
                     //}
                     //Judge.Dispose();
                     disposedValue = true;
-
-                    Console.WriteLine($"JobManager Flush");
+                    Systems.LogWriter.Info($@"Clear Inspection");
+        
                     //for (int i = 0; i < JobManager.JobCount; ++i)
                     //{
                     //    JobManager.Job(i).ImageQueueFlush();
@@ -420,6 +417,7 @@ namespace CRUX_Renewal.Class.InspVer2
                     public bool Finishe { get; set; } = false;
                     public bool Busy { get; set; } = false;
                     public  List<Region_Inspector> Region_Insp = new List<Region_Inspector>();
+                
                     public Pattern_Inspector(Pattern pattern)
                     {
                         Name = pattern.Name;
@@ -457,67 +455,79 @@ namespace CRUX_Renewal.Class.InspVer2
                     {
                         manager.FailureQueueOverflowed += new CogJobManager.CogFailureQueueOverflowedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogFailureQueueOverflowedEventHandler");
+                            Console.WriteLine($"FailureQueueOverflowed");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"FailureQueueOverflowed, JobNamager Name : {Temp.Name}");
                         });
                         manager.FailureItemAvailable += new CogJobManager.CogFailureItemAvailableEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogFailureItemAvailableEventHandler");
+                            Console.WriteLine($"FailureItemAvailable");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"FailureItemAvailable, JobNamager Name : {Temp.Name}");
                         });
                         manager.FailureItemRemoved += new CogJobManager.CogFailureItemRemovedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogFailureItemRemovedEventHandler");
+                            Console.WriteLine($"FailureItemRemoved");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"FailureItemRemoved, JobNamager Name : {Temp.Name}");
                         });
                         manager.FailureQueueFlushed += new CogJobManager.CogFailureQueueFlushedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogFailureQueueFlushedEventHandler");
+                            Console.WriteLine($"FailureQueueFlushed");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"FailureQueueFlushed, JobNamager Name : {Temp.Name}");
                         });
                         manager.JobAdded += new CogJobManager.CogJobAddedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogJobAddedEventHandler");
+                            Console.WriteLine($"JobAdded");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"JobAdded, JobNamager Name : {Temp.Name}");
                         });
                         manager.JobRemoved += new CogJobManager.CogJobRemovedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogJobRemovedEventHandler");
+                            Console.WriteLine($"JobRemoved");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"JobRemoved, JobNamager Name : {Temp.Name}");
                         });
                         manager.ResetComplete += new CogJobManager.CogJobManagerResetCompleteEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogJobManagerResetCompleteEventHandler");
+                            Console.WriteLine($"ResetComplete");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"ResetComplete, JobNamager Name : {Temp.Name}");
                         });
                         manager.Stopped += new CogJobManager.CogJobManagerStoppedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogJobManagerStoppedEventHandler");
+                            //Console.WriteLine($"Stopped");
                             CogJobManager Manager = sender as CogJobManager;
                             Finishe = true;
                             Busy = false;
-                            Console.WriteLine($"검사완료 , RunState : {Manager.StateFlags.Flags} JobName : {Manager.Name}");
+                            Systems.LogWriter.Info($@"Inspection Complete, Pattern Name : { Name }, ");
+                            Console.WriteLine($"검사완료 , RunState : {Manager.StateFlags.Flags} ROI Name : {Manager.Name}");
                             //Judgement();
                         });
                         manager.UserQueueFlushed += new CogJobManager.CogUserQueueFlushedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogUserQueueFlushedEventHandler");
+                            Console.WriteLine($"UserQueueFlushed");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"UserQueueFlushed, JobNamager Name : {Temp.Name}");
                         });
                         manager.UserQueueOverflowed += new CogJobManager.CogUserQueueOverflowedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogUserQueueOverflowedEventHandler");
+                            Console.WriteLine($"UserQueueOverflowed");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"UserQueueOverflowed, JobNamager Name : {Temp.Name}");
                         });
                         manager.UserResultAvailable += new CogJobManager.CogUserResultAvailableEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogUserResultAvailableEventHandler");
+                            Console.WriteLine($"UserResultAvailable");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"UserResultAvailable, JobNamager Name : {Temp.Name}");
                         });
                         manager.UserResultRemoved += new CogJobManager.CogUserResultRemovedEventHandler((sender, e) =>
                         {
-                            Console.WriteLine($"CogUserResultRemovedEventHandler");
+                            Console.WriteLine($"UserResultRemoved");
                             var Temp = sender as CogJobManager;
+                            //Systems.LogWriter.Info($@"UserResultRemoved, JobNamager Name : {Temp.Name}");
                         });
                     }
                 }
@@ -535,11 +545,9 @@ namespace CRUX_Renewal.Class.InspVer2
                        
                         foreach (Algorithm item in roi.Algo_List)
                         {
-                            if (AlgoInsp == null)
-                            {
+                            if (AlgoInsp == null)                            
                                 AlgoInsp = new Algorithm_Inspection(Name);
-                                //AlgoInsp.Algorithm_Job.Name = roi.Name;
-                            }
+                            
                             AlgoInsp.SetInspector(item);                        
                         }
                    
@@ -578,6 +586,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                //Busy = false;
                                string ErrorMessage = $"Thread Start Error, ROI Name : {Name} ErrorMessage : {ex.Message}";
                                Console.WriteLine(ErrorMessage);
+                               Systems.LogWriter.Info($@"(Region)Inspection Start Error, Job Manager Name : {AlgoInsp.Algorithm_Job.Name} Exception {ex}");
                            }
                        });
 
@@ -636,6 +645,7 @@ namespace CRUX_Renewal.Class.InspVer2
                             catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
+                                Systems.LogWriter.Info($@"(Algo JobManager)Inspection Start Error, Job Manager Name : {Algorithm_Job.Name}, Exception : {ex}");
                                 //Busy = false;                               
                             }
                         }
@@ -645,11 +655,11 @@ namespace CRUX_Renewal.Class.InspVer2
                             {
                                 var Temp = sender as CogJob;
                                 Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
-
+                      
                                 //InspectData.OutputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                                Console.WriteLine($"검사완료 , RunState : {Job.RunStatus as CogRunStatus} Job Name : {Job.Name} Manager Name : {Temp.Manager.Name}");
+                                //Console.WriteLine($"검사완료 , RunState : {Job.RunStatus as CogRunStatus} Job Name : {Job.Name} Manager Name : {Temp.Manager.Name}");
                                 //InspectData.Dispose()
-                                ;
+                                Systems.LogWriter.Info($@"(Algorithm)Inspection Complete, ROI Name : {Temp.Manager.Name}, Algorithm Name : {Temp.Name}, State : {Temp.State.ToString()}");
                                 //Set = false;
                                 CogRecord ResultData = (Temp.VisionTool as CogToolGroup).UserData["Result"] as CogRecord;
                                 Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Manual.DisplayResult(ResultData);
@@ -661,7 +671,8 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //Finishe = false;
                                 //Busy = true;
                                 var Temp = sender as CogJob;
-                                Console.WriteLine($"Job Name : {Temp.Name}, 검사 시작 Manager Name : {Temp.Manager.Name}");
+                                //Console.WriteLine($"Job Name : {Temp.Name}, 검사 시작 Manager Name : {Temp.Manager.Name}");
+                                //Systems.LogWriter.Info($@"(Algo JobManager)Inspection Start Error, Job Manager Name : {Temp.Manager.Name}, Job Name : {Temp.Name}");
                                 //InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
                             });
                             Job.VisionToolError += new CogJob.CogVisionToolErrorEventHandler((sender, e) =>
@@ -670,56 +681,68 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //Set = false;
                                 //Finishe = true;
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"Running, JobNamager Name : {Temp.Name}");
+
                             });
                             Job.VisionToolLinkAdded += new CogJob.CogVisionToolLinkAddedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"VisionToolLinkAdded Error");
+                                Console.WriteLine($"VisionToolLinkAdded");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"VisionToolLinkAdded, JobNamager Name : {Temp.Name}");
                             });
                             Job.VisionToolLinkRemoved += new CogJob.CogVisionToolLinkRemovedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"VisionToolLinkAdded Error");
+                                Console.WriteLine($"VisionToolLinkRemoved");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"VisionToolLinkRemoved, JobNamager Name : {Temp.Name}");
                             });
                             Job.ResetComplete += new CogJob.CogJobResetCompleteEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"ResetComplete Error");
+                                Console.WriteLine($"ResetComplete");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ResetComplete, JobNamager Name : {Temp.Name}");
                             });
                             Job.Ran += new CogJob.CogJobRanEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"Ran Error");
+                                Console.WriteLine($"Ran");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"Ran, JobNamager Name : {Temp.Name}");
                             });
                             Job.ProcessedIOResultAvailable += new CogJob.CogProcessedIOResultAvailableEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogProcessedIOResultAvailable");
+                                Console.WriteLine($"ProcessedIOResultAvailable");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ProcessedIOResultAvailable, JobNamager Name : {Temp.Name}");
                             });
                             Job.ImageRemoved += new CogJob.CogImageRemovedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogImageRemoved");
+                                Console.WriteLine($"ImageRemoved");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ImageRemoved, JobNamager Name : {Temp.Name}");
                             });
                             Job.ImageQueueOverflowed += new CogJob.CogImageQueueOverflowedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogImageQueueOverflowed");
+                                Console.WriteLine($"ImageQueueOverflowed");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ImageQueueOverflowed, JobNamager Name : {Temp.Name}");
                             });
                             Job.ImageQueueFlushed += new CogJob.CogImageQueueFlushedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogImageQueueFlushed");
+                                Console.WriteLine($"ImageQueueFlushed");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ImageQueueFlushed, JobNamager Name : {Temp.Name}");
                             });
                             Job.ImageAvailable += new CogJob.CogImageAvailableEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogImageAvailable");
+                                Console.WriteLine($"ImageAvailable");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ImageAvailable, JobNamager Name : {Temp.Name}");
                             });
                             Job.GarbageCollectionRequested += new CogJob.CogGCRequestedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogGCRequested");
+                                Console.WriteLine($"GarbageCollectionRequested");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"GarbageCollectionRequested, JobNamager Name : {Temp.Name}");
                             });
                         }
                         private void RemoveJobEvent(CogJob Job)
@@ -735,7 +758,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //Finishe = true;
                                 //Set = false;
                                 Job.Image();
-
+                                Systems.LogWriter.Info($@"Inspection Complete, JobNamager Name : {Temp.Name}");
                             });
 
                             Job.Running -= new CogJob.CogJobRunningEventHandler((sender, e) =>
@@ -743,6 +766,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //Finishe = false;
                                 var Temp = sender as CogJob;
                                 Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
+                                //Systems.LogWriter.Info($@"Running, JobNamager Name : {Temp.Name}");
                                 //InspectData.InputTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
                             });
                             Job.VisionToolError -= new CogJob.CogVisionToolErrorEventHandler((sender, e) =>
@@ -751,56 +775,67 @@ namespace CRUX_Renewal.Class.InspVer2
                                 //Set = false;
                                 // Finishe = true;
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"VisionToolError, JobNamager Name : {Temp.Name}");
                             });
                             Job.VisionToolLinkAdded -= new CogJob.CogVisionToolLinkAddedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"VisionToolLinkAdded Error");
+                                Console.WriteLine($"VisionToolLinkAdded");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"VisionToolLinkAdded, JobNamager Name : {Temp.Name}");
                             });
                             Job.VisionToolLinkRemoved -= new CogJob.CogVisionToolLinkRemovedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"VisionToolLinkAdded Error");
+                                Console.WriteLine($"VisionToolLinkRemoved");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"VisionToolLinkRemoved, JobNamager Name : {Temp.Name}");
                             });
                             Job.ResetComplete -= new CogJob.CogJobResetCompleteEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"ResetComplete Error");
+                                Console.WriteLine($"ResetComplete");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ResetComplete, JobNamager Name : {Temp.Name}");
                             });
                             Job.Ran -= new CogJob.CogJobRanEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"Ran Error");
+                                Console.WriteLine($"Ran");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"Ran, JobNamager Name : {Temp.Name}");
                             });
                             Job.ProcessedIOResultAvailable -= new CogJob.CogProcessedIOResultAvailableEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogProcessedIOResultAvailable");
+                                Console.WriteLine($"ProcessedIOResultAvailable");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ProcessedIOResultAvailable, JobNamager Name : {Temp.Name}");
                             });
                             Job.ImageRemoved -= new CogJob.CogImageRemovedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogImageRemoved");
+                                Console.WriteLine($"ImageRemoved");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ImageRemoved, JobNamager Name : {Temp.Name}");
                             });
                             Job.ImageQueueOverflowed -= new CogJob.CogImageQueueOverflowedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogImageQueueOverflowed");
+                                Console.WriteLine($"ImageQueueOverflowed");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ImageQueueOverflowed, JobNamager Name : {Temp.Name}");
                             });
                             Job.ImageQueueFlushed -= new CogJob.CogImageQueueFlushedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogImageQueueFlushed");
+                                Console.WriteLine($"ImageQueueFlushed");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ImageQueueFlushed, JobNamager Name : {Temp.Name}");
                             });
                             Job.ImageAvailable -= new CogJob.CogImageAvailableEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogImageAvailable");
+                                Console.WriteLine($"ImageAvailable");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"ImageAvailable, JobNamager Name : {Temp.Name}");
                             });
                             Job.GarbageCollectionRequested -= new CogJob.CogGCRequestedEventHandler((sender, e) =>
                             {
-                                Console.WriteLine($"CogGCRequested");
+                                Console.WriteLine($"GarbageCollectionRequested");
                                 var Temp = sender as CogJob;
+                                //Systems.LogWriter.Info($@"GarbageCollectionRequested, JobNamager Name : {Temp.Name}");
                             });
                         }
 
@@ -822,255 +857,7 @@ namespace CRUX_Renewal.Class.InspVer2
             {
 
             }
-        }
-
-
-
-        /// <summary>
-        /// 셀 객체
-        /// </summary>
-
-        class InspectionWorker : IDisposable
-        {
-            string MainJobName { get; set; } = string.Empty;
-
-            //Thread Worker;
-            private bool Finished_;
-            public bool Set { get; set; } = false;
-            public bool Finished
-            {
-                get { return Finished_; }
-                set
-                {
-                    Finished_ = value;
-                    if (Finished_)
-                    {
-                        //var InspectionTemp = Systems.Inspector_.GetInspectionList().Find(x => x.CommonData.CellID == InspectData.CellID);
-
-                        //    if (InspectionTemp != null)
-                        //    {
-
-                        //        if (InspectionTemp.CheckRunState(Job))
-                        //        {
-                        //            InspectionTemp.Finished = true;
-                        //            Systems.LogWriter.Info($"Insp All Complete Cell ID : {InspectData.CellID} ");
-                        //            Console.WriteLine("-------------------------------------------------------");
-                        //        }
-                        //    }
-                        //    else
-                        //        Systems.LogWriter.Error($"Not Exist Inspection");
-
-                    }
-                }
-            }
-            RecipeParams Parameter;
-
-            Judgement Judge { get; set; }
-            InspData InspectData;
-            private CogJob Job { get; set; }
-
-            public InspectionWorker(string job_name, CogJob job)
-            {
-                MainJobName = job_name;
-                Job = job;
-                SetEvent();
-                Judge = new Judgement();
-            }
-            public void InspStart(InspData data)
-            {
-                try
-                {
-                    //InspectData = InspectData ?? new InspData();
-                    //InspectData.CellID = data.CellID;
-                    //InspectData.InputTime = data.InputTime;
-                    ////InspectData. = data.CellID;
-                    ////InspectData.CellID = data.CellID;
-                    ////InspectData.CellID = data.CellID;
-                    ////InspectData.CellID = data.CellID;
-
-                    ////InspectData = data.DeepCopy<InspData>();
-                    ////(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
-                    //Utility.ChangeJobImageSource(Job, false);
-                    //((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
-                    ////Job.UserData["One"] = new object();
-                    //SharedClass Data = new SharedClass();
-                    //Data.ROI_List.Add("InspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 1000, Y = 2000, Width = 3000, Height = 4000 }));
-                    //Data.ROI_List.Add("NonInspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 2000, Y = 4000, Width = 6000, Height = 8000 }));
-                    //Data.Parameters.Add("Th", "0");
-                    //Job.VisionTool.UserData?.Add("One", Data);
-                    ////SharedClass Data = new SharedClass();
-                    ////Data.ROI_List.Add("InspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 1000, Y = 2000, Width = 3000, Height = 4000 }));
-                    ////Data.ROI_List.Add("NonInspROI", Utility.DeepCopy(new SharingFormat_DLL.ROI_Property_Data() { X = 2000, Y = 4000, Width = 6000, Height = 8000 }));
-                    ////Data.Parameters.Add("Th","0");
-                    //foreach (ICogTool item in (Job.VisionTool as CogToolGroup).Tools)
-                    //{
-                    //    CogToolCollection Colection = (item as CogToolBlock)?.Tools;
-                    //    if (Colection == null)
-                    //        continue;
-                    //    foreach (ICogTool item2 in Colection)
-                    //    {
-
-                    //        item2?.UserData.Add("One", Data);
-                    //    }
-                    //}
-                    ////(Job.VisionTool as CogToolGroup).Tools[3].UserData?.Add("One", new SharedClass());
-                    ////(Job.VisionTool as CogToolGroup).Tools[4].UserData?.Add("One", new SharedClass());
-                    ////(Job.VisionTool as CogToolGroup).Tools[5].UserData?.Add("One", new SharedClass());
-                    ////(Job.VisionTool as CogToolGroup).Tools[6].UserData?.Add("One", new SharedClass());
-                    ////(Job.VisionTool as CogToolGroup).Tools[7].UserData?.Add("One", new SharedClass());
-
-                    //Job.Run();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-            public void SetWorker(InspData data)
-            {
-                try
-                {
-                    //InspectData = InspectData ?? new InspData();
-                    //InspectData.CellID = data.CellID;
-                    //InspectData.InputTime = data.InputTime;
-                    ////InspectData. = data.CellID;
-                    ////InspectData.CellID = data.CellID;
-                    ////InspectData.CellID = data.CellID;
-                    ////InspectData.CellID = data.CellID;
-
-                    ////InspectData = data.DeepCopy<InspData>();
-                    ////(Job.AcqFifo as CogAcqFifoSynthetic).Filename = data.Path;
-
-                    //((Job.VisionTool as CogToolGroup).Tools[0] as CogInputImageTool).InputImage = data.OriginImage;
-                    //Set = true;
-                    ////Utility.ChangeJobImageSource(Job, false);
-                    ////Job.Run();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-
-            private void SetEvent()
-            {
-                Job.Stopped += new CogJob.CogJobStoppedEventHandler((sender, e) =>
-                {
-                    var Temp = sender as CogJob;
-                    Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
-
-                    InspectData.AreaInspEndTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                    Console.WriteLine($"Job Name : {Temp.Name}, 검사완료 , RunState : {Job.RunStatus as CogRunStatus} JobName : {Job.Name}");
-                    //InspectData.Dispose()
-                    Finished = true;
-                    Set = false;
-                    Job.Image();
-
-                });
-
-                Job.Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
-                {
-                    Finished = false;
-                    var Temp = sender as CogJob;
-                    Console.WriteLine($"Job Name : {Temp.Name}, Origin 검사 시작");
-                    InspectData.AreaInspStartTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
-                });
-                Job.VisionToolError += new CogJob.CogVisionToolErrorEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"VisionToolError");
-                    Set = false;
-                    Finished = true;
-                    var Temp = sender as CogJob;
-                });
-                Job.VisionToolLinkAdded += new CogJob.CogVisionToolLinkAddedEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"VisionToolLinkAdded Error");
-                    var Temp = sender as CogJob;
-                });
-                Job.VisionToolLinkRemoved += new CogJob.CogVisionToolLinkRemovedEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"VisionToolLinkAdded Error");
-                    var Temp = sender as CogJob;
-                });
-                Job.ResetComplete += new CogJob.CogJobResetCompleteEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"ResetComplete Error");
-                    var Temp = sender as CogJob;
-                });
-                Job.Ran += new CogJob.CogJobRanEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"Ran Error");
-                    var Temp = sender as CogJob;
-                });
-                Job.ProcessedIOResultAvailable += new CogJob.CogProcessedIOResultAvailableEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"CogProcessedIOResultAvailable");
-                    var Temp = sender as CogJob;
-                });
-                Job.ImageRemoved += new CogJob.CogImageRemovedEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"CogImageRemoved");
-                    var Temp = sender as CogJob;
-                });
-                Job.ImageQueueOverflowed += new CogJob.CogImageQueueOverflowedEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"CogImageQueueOverflowed");
-                    var Temp = sender as CogJob;
-                });
-                Job.ImageQueueFlushed += new CogJob.CogImageQueueFlushedEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"CogImageQueueFlushed");
-                    var Temp = sender as CogJob;
-                });
-                Job.ImageAvailable += new CogJob.CogImageAvailableEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"CogImageAvailable");
-                    var Temp = sender as CogJob;
-                });
-                Job.GarbageCollectionRequested += new CogJob.CogGCRequestedEventHandler((sender, e) =>
-                {
-                    Console.WriteLine($"CogGCRequested");
-                    var Temp = sender as CogJob;
-                });
-            }
-            #region 검사
-
-
-            #region IDisposable Support
-            private bool disposedValue = false; // 중복 호출을 검색하려면
-
-            protected virtual void Dispose(bool disposing)
-            {
-                if (!disposedValue)
-                {
-                    if (disposing)
-                    {
-                        // TODO: 관리되는 상태(관리되는 개체)를 삭제합니다.
-                    }
-                    // TODO: 관리되지 않는 리소스(관리되지 않는 개체)를 해제하고 아래의 종료자를 재정의합니다.
-                    // TODO: 큰 필드를 null로 설정합니다.
-                    Job.Shutdown();
-                }
-            }
-
-            // TODO: 위의 Dispose(bool disposing)에 관리되지 않는 리소스를 해제하는 코드가 포함되어 있는 경우에만 종료자를 재정의합니다.
-            ~InspectionWorker()
-            {
-                // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
-                Dispose(false);
-            }
-
-            // 삭제 가능한 패턴을 올바르게 구현하기 위해 추가된 코드입니다.
-            public void Dispose()
-            {
-                // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
-                Dispose(true);
-                // TODO: 위의 종료자가 재정의된 경우 다음 코드 줄의 주석 처리를 제거합니다.
-                // GC.SuppressFinalize(this);
-            }
-            #endregion
-            #endregion
-        }
+        }        
     }
 }
 

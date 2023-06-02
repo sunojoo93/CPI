@@ -2,6 +2,7 @@
 using Cognex.VisionPro.QuickBuild;
 using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
+using OpenCvSharp;
 using PropertyGridExt;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace CRUX_Renewal.Class
         public string PatternName { get; set; } = null;
     }
 
-    public class ImageData : IDisposable
+    public class ImageData: IDisposable
     {
         public CogImage8Grey OriginImage { get; set; } = null;
         public int SharedMemIdx { get; set; } = 0;
@@ -57,6 +58,7 @@ namespace CRUX_Renewal.Class
         public string Path = null;
         public bool View = false;
     }
+
     /// <summary>
     /// 검사에 필요한 정보
     /// </summary>
@@ -125,10 +127,15 @@ namespace CRUX_Renewal.Class
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct PARAM_INSPECT_START_ACI
+    public struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
     {
+        int PcNo;
         uint InspType;
+        // 한 Area에 대한 모든 패턴의 이미지 모음
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_PATTERN_COUNT)]
         public ImageSet[] ImageData;
+        // 패턴의 개수
+        public int PatternCount;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] CellID;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
@@ -136,15 +143,21 @@ namespace CRUX_Renewal.Class
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Area;
         public int GrabLine;
+        public int CamNo;
+        //public int ParticleCount;
+    
 
-        public PARAM_INSPECT_START_ACI(int n)
+        public PARAM_INSPECT_START_AOT_CHIPPING_ALM(int n)
         {
+            PcNo = 0;
             InspType = 0;
             ImageData = new ImageSet[Consts.MAX_PATTERN_COUNT];
             CellID = new byte[100];
             VirID = new byte[100];
             GrabLine = 0;
             Area = new byte[100];
+            PatternCount = 0;
+            CamNo = 0;
         }
     }
     [Serializable]
@@ -152,16 +165,20 @@ namespace CRUX_Renewal.Class
     public struct ImageSet
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
-        public byte[] PatternID;
-        public int SharedMemIdx;  
+        public byte[] PatternName;
+        public int SharedMemStartIdx;
+        public int SharedMemEndId;
+        public int ParticleImageCount;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Direction;
         public int GrabLine;
 
         public ImageSet(int n)
         {
-            PatternID = new byte[100];
-            SharedMemIdx = 0;
+            PatternName = new byte[100];
+            SharedMemStartIdx = 0;
+            SharedMemEndId = 0;
+            ParticleImageCount = 0;
             GrabLine = 0;
             Direction = new byte[100];
         }
@@ -328,6 +345,7 @@ namespace CRUX_Renewal.Class
         // TODO: 위의 Dispose(bool disposing)에 관리되지 않는 리소스를 해제하는 코드가 포함되어 있는 경우에만 종료자를 재정의합니다.
         ~Recipe()
         {
+            Systems.LogWriter.Info($@"Recipe Finalizer, Recipe Name : {Name}");
             Console.WriteLine("Finalizer");
             // 이 코드를 변경하지 마세요. 위의 Dispose(bool disposing)에 정리 코드를 입력하세요.
             Dispose(false);
@@ -563,8 +581,9 @@ namespace CRUX_Renewal.Class
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] PatternName;
-        public bool Use;
+        public bool Grab;
         public bool Vacuum;
+        public bool Insp;
         public int CamCondCount;
         public int LightCondCount;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_CAMERA_COUNT)]
@@ -574,8 +593,9 @@ namespace CRUX_Renewal.Class
         public ST_PATTERN_INFO(int num)
         {
             PatternName = new byte[100];
-            Use = false;
+            Grab = false;
             Vacuum = false;
+            Insp = false;
             CamCondCount = 0;
             LightCondCount = 0;
             Cam_Condition = new ST_CAM_COND[Consts.MAX_CAMERA_COUNT];
@@ -739,10 +759,12 @@ namespace CRUX_Renewal.Class
     {
         [XmlAttribute("Name")]
         public string Name { get; set; } = string.Empty;
+        [XmlAttribute("Grab")]
+        public bool Grab { get; set; } = true;
         [XmlAttribute("Vacuum")]
         public bool Vacuum { get; set; } = true;
-        [XmlAttribute("Use")]
-        public bool Use { get; set; } = true;
+        [XmlAttribute("Insp")]
+        public bool Insp { get; set; } = true;
         [XmlArray("InspData")]
         [XmlArrayItem("ROI")]
         public List<ROI> ROI_Data { get; set; }
@@ -873,5 +895,19 @@ namespace CRUX_Renewal.Class
         public string Name { get; set; } = string.Empty;
         [XmlAttribute("Value")]
         public string Value { get; set; } = string.Empty;
+    }
+
+    public class GrabImageInfo
+    {
+        public CogImage8Grey Image { get; set; }
+        public string PatternName { get; set; }
+        public int CamNo;
+        
+        public GrabImageInfo(CogImage8Grey image, string name) 
+        {
+            Image = image;
+            PatternName = name;
+            CamNo = 0;
+        }
     }
 }

@@ -6580,9 +6580,6 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 	int nTotalLine = *(int *)pReceiveParam;						pReceiveParam += sizeof(nTotalLine);
 	memcpy(strDirection, pReceiveParam, sizeof(strDirection));		pReceiveParam += sizeof(strDirection);
 	memcpy(strPosition, pReceiveParam, sizeof(strPosition));		pReceiveParam += sizeof(strPosition);
-	//TCHAR strDirection[50] = { 0, };		// 100 b21,
-	//memcpy(strDirection, pReceiveParam, sizeof(strDirection));	pReceiveParam += sizeof(strDirection);
-	//CString strDirection = _T("F");
 
 
 

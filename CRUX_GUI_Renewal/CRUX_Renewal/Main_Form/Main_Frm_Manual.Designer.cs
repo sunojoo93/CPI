@@ -51,12 +51,12 @@
             this.Btn_Right = new System.Windows.Forms.Button();
             this.Btn_ImageSelect = new System.Windows.Forms.Button();
             this.Lb_CurImageNum = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.cogRecordDisplay1 = new Cognex.VisionPro.CogRecordDisplay();
+            this.label2 = new System.Windows.Forms.Label();
             this.Tab_Simul = new System.Windows.Forms.TabControl();
             this.tab_Page_ImageSimul = new System.Windows.Forms.TabPage();
             this.tab_Page_TotalSimul = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
-            this.cogRecordDisplay1 = new Cognex.VisionPro.CogRecordDisplay();
             this.Tlp_Simul.SuspendLayout();
             this.Grb_ImageInfo.SuspendLayout();
             this.Tlp_ImageInfo.SuspendLayout();
@@ -66,10 +66,10 @@
             this.Tlp_Images.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cog_Display)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay1)).BeginInit();
             this.Tab_Simul.SuspendLayout();
             this.tab_Page_ImageSimul.SuspendLayout();
             this.tab_Page_TotalSimul.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay1)).BeginInit();
             this.SuspendLayout();
             // 
             // Tlp_Simul
@@ -79,8 +79,8 @@
             this.Tlp_Simul.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Simul.Controls.Add(this.Grb_ImageInfo, 0, 1);
             this.Tlp_Simul.Controls.Add(this.Tlp_Images, 0, 0);
-            this.Tlp_Simul.Controls.Add(this.button2, 1, 1);
             this.Tlp_Simul.Controls.Add(this.cogRecordDisplay1, 1, 0);
+            this.Tlp_Simul.Controls.Add(this.label2, 1, 1);
             this.Tlp_Simul.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Simul.Location = new System.Drawing.Point(3, 3);
             this.Tlp_Simul.Name = "Tlp_Simul";
@@ -359,15 +359,33 @@
             this.Lb_CurImageNum.Text = "-/-";
             this.Lb_CurImageNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button2
+            // cogRecordDisplay1
             // 
-            this.button2.Location = new System.Drawing.Point(703, 581);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_2);
+            this.cogRecordDisplay1.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay1.ColorMapLowerRoiLimit = 0D;
+            this.cogRecordDisplay1.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cogRecordDisplay1.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay1.ColorMapUpperRoiLimit = 1D;
+            this.cogRecordDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogRecordDisplay1.DoubleTapZoomCycleLength = 2;
+            this.cogRecordDisplay1.DoubleTapZoomSensitivity = 2.5D;
+            this.cogRecordDisplay1.Location = new System.Drawing.Point(703, 3);
+            this.cogRecordDisplay1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cogRecordDisplay1.MouseWheelSensitivity = 1D;
+            this.cogRecordDisplay1.Name = "cogRecordDisplay1";
+            this.cogRecordDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay1.OcxState")));
+            this.cogRecordDisplay1.Size = new System.Drawing.Size(986, 572);
+            this.cogRecordDisplay1.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Location = new System.Drawing.Point(703, 578);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(153, 30);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "로그 출력 영역";
             // 
             // Tab_Simul
             // 
@@ -412,24 +430,6 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
-            // cogRecordDisplay1
-            // 
-            this.cogRecordDisplay1.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cogRecordDisplay1.ColorMapLowerRoiLimit = 0D;
-            this.cogRecordDisplay1.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cogRecordDisplay1.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cogRecordDisplay1.ColorMapUpperRoiLimit = 1D;
-            this.cogRecordDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cogRecordDisplay1.DoubleTapZoomCycleLength = 2;
-            this.cogRecordDisplay1.DoubleTapZoomSensitivity = 2.5D;
-            this.cogRecordDisplay1.Location = new System.Drawing.Point(703, 3);
-            this.cogRecordDisplay1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cogRecordDisplay1.MouseWheelSensitivity = 1D;
-            this.cogRecordDisplay1.Name = "cogRecordDisplay1";
-            this.cogRecordDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay1.OcxState")));
-            this.cogRecordDisplay1.Size = new System.Drawing.Size(986, 572);
-            this.cogRecordDisplay1.TabIndex = 4;
-            // 
             // Main_Frm_Manual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -442,6 +442,7 @@
             this.Name = "Main_Frm_Manual";
             this.Text = "Main_Frm_Manual";
             this.Tlp_Simul.ResumeLayout(false);
+            this.Tlp_Simul.PerformLayout();
             this.Grb_ImageInfo.ResumeLayout(false);
             this.Tlp_ImageInfo.ResumeLayout(false);
             this.Tlp_InspInfo.ResumeLayout(false);
@@ -453,10 +454,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.Cog_Display)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay1)).EndInit();
             this.Tab_Simul.ResumeLayout(false);
             this.tab_Page_ImageSimul.ResumeLayout(false);
             this.tab_Page_TotalSimul.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -481,7 +482,6 @@
         private System.Windows.Forms.Button Btn_ImageSelect;
         private System.Windows.Forms.Label Lb_CurImageNum;
         private System.Windows.Forms.TableLayoutPanel Tlp_InspInfo;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TabControl Tab_Simul;
         private System.Windows.Forms.TabPage tab_Page_ImageSimul;
         private System.Windows.Forms.TabPage tab_Page_TotalSimul;
@@ -490,5 +490,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Tb_CellID;
         private Cognex.VisionPro.CogRecordDisplay cogRecordDisplay1;
+        private System.Windows.Forms.Label label2;
     }
 }

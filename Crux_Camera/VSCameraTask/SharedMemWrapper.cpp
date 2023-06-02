@@ -71,7 +71,7 @@ BOOL CSharedMemWrapper::CreateSharedMem(int nImageSizeX, int nImageSizeY, int nI
 	INT64 nImageSize = ((INT64) nImageSizeX) * MAX_IMAGE_RATIO * ((INT64)nImageSizeY) * MAX_IMAGE_RATIO * nImageBandWidth * nBitrate;	// * nImageCount;
 	
 	INT64 nTotalAsignedBuffSize = (sizeof (SMemImageInfo)
-		) + (nImageSize * /*150*/nImageCount);
+		) + (nImageSize * nImageCount);
 
 
 	DWORD high = static_cast<DWORD>((nTotalAsignedBuffSize >> 32) & 0xFFFFFFFF);

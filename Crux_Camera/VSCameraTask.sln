@@ -30,6 +30,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NedLineCameraTask", "VSCame
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DalsaLineCameraTask", "VSCameraTask\DalsaLineCameraTask.vcxproj", "{4C5C8F04-4498-4FAD-A039-8EF3F8384276}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCamTask", "VSCameraTask\TestCamTask.vcxproj", "{D3971D88-E74D-4EA3-A917-73C6EDEC1341}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -50,7 +52,6 @@ Global
 		{D3C53928-E056-4A93-A17C-A5C0325FEA8E}.Release|x64.ActiveCfg = Release|x64
 		{5085A8D6-04E6-4616-8C97-20A34C55FAD2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5085A8D6-04E6-4616-8C97-20A34C55FAD2}.Debug|x64.ActiveCfg = Debug|x64
-		{5085A8D6-04E6-4616-8C97-20A34C55FAD2}.Debug|x64.Build.0 = Debug|x64
 		{5085A8D6-04E6-4616-8C97-20A34C55FAD2}.Release|Win32.ActiveCfg = Release|Win32
 		{5085A8D6-04E6-4616-8C97-20A34C55FAD2}.Release|Win32.Build.0 = Release|Win32
 		{5085A8D6-04E6-4616-8C97-20A34C55FAD2}.Release|x64.ActiveCfg = Release|x64
@@ -88,6 +89,14 @@ Global
 		{4C5C8F04-4498-4FAD-A039-8EF3F8384276}.Release|Win32.Build.0 = Release|Win32
 		{4C5C8F04-4498-4FAD-A039-8EF3F8384276}.Release|x64.ActiveCfg = Release|x64
 		{4C5C8F04-4498-4FAD-A039-8EF3F8384276}.Release|x64.Build.0 = Release|x64
+		{D3971D88-E74D-4EA3-A917-73C6EDEC1341}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D3971D88-E74D-4EA3-A917-73C6EDEC1341}.Debug|Win32.Build.0 = Debug|Win32
+		{D3971D88-E74D-4EA3-A917-73C6EDEC1341}.Debug|x64.ActiveCfg = Debug|x64
+		{D3971D88-E74D-4EA3-A917-73C6EDEC1341}.Debug|x64.Build.0 = Debug|x64
+		{D3971D88-E74D-4EA3-A917-73C6EDEC1341}.Release|Win32.ActiveCfg = Release|Win32
+		{D3971D88-E74D-4EA3-A917-73C6EDEC1341}.Release|Win32.Build.0 = Release|Win32
+		{D3971D88-E74D-4EA3-A917-73C6EDEC1341}.Release|x64.ActiveCfg = Release|x64
+		{D3971D88-E74D-4EA3-A917-73C6EDEC1341}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

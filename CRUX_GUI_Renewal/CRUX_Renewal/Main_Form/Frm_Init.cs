@@ -131,7 +131,7 @@ namespace CRUX_Renewal.Main_Form
                             else
                             {
                                 Systems.SharedMemory = new Class.SharedMem();
-                                Systems.SharedMemory.OpenSharedMem();
+                                Systems.SharedMemory.OpenSharedMem(1);
                             }
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize Shared Mem...");
@@ -288,7 +288,7 @@ namespace CRUX_Renewal.Main_Form
             Paths.NET_PANEL_MANUAL_INFO = new string[Globals.MaxVisionCnt];
             Paths.NET_RECIPE_PATH = new string[Globals.MaxVisionCnt];
             Paths.MANUAL_RESULT_DATA_DRIVE = new string[Globals.MaxVisionCnt];
-
+            Globals.Insp_Type = new int[Globals.MaxVisionCnt];
 
             Systems.AliveList = new ALIVE_STATE[2];
 
@@ -315,6 +315,7 @@ namespace CRUX_Renewal.Main_Form
                 else
                     Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE", Paths.INIT_PATH);
 
+                Globals.Insp_Type[i] = Systems.Ini_Collection[i]["Initialize.ini"]["Common"]["SITE TYPE"].toInt();
                 //Paths.OPERATION_PATH = iniUtl.GetIniValue("OperationPC", "Address", Paths.INIT_PATH); // 0623 JSO
                 Paths.NET_ORIGIN_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ORIGIN_PATH", Paths.INIT_PATH);
                 Paths.NET_RESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RESULT_PATH", Paths.INIT_PATH);

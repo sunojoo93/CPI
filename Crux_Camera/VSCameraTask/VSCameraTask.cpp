@@ -34,6 +34,9 @@
 #elif _DALSALINECAMERA
 #include "DalsaLineCamera/DalsaLineCamera.h"
 #include "VSDalsaLineCameraTaskDlg.h"
+#elif _TestCam
+#include "TestCam/TestCam.h"
+#include "VSTestCamTaskDlg.h"
 #endif
 
 #ifdef _DEBUG
@@ -182,6 +185,12 @@ BOOL CVSCameraTaskApp::InitInstance()
 	m_pLogMonitoring = new CLogWriter((TSTRING)CAM_MONITORING_LOG_PATH, _T("Monitoring"), 7, 0, true);
 #elif _DALSALINECAMERA
 	m_pCamera = new CDalsaLineCamera();
+	m_strInitFilePath.Format(theApp.GETDRV() + _T(":\\CRUX\\DATA\\INI\\%s"), strIniPath);
+	m_pLogWriter = new CLogWriter((TSTRING)CAM_TACT_LOG_PATH, _T("Tact"), 7, 0, true);
+	m_pLogLineScan = new CLogWriter((TSTRING)CAM_LINESCAN_LOG_PATH, _T("LineScan"), 7, 0, true);
+	m_pLogMonitoring = new CLogWriter((TSTRING)CAM_MONITORING_LOG_PATH, _T("Monitoring"), 7, 0, true);
+#elif _TestCam
+	m_pCamera = new CTestCam();
 	m_strInitFilePath.Format(theApp.GETDRV() + _T(":\\CRUX\\DATA\\INI\\%s"), strIniPath);
 	m_pLogWriter = new CLogWriter((TSTRING)CAM_TACT_LOG_PATH, _T("Tact"), 7, 0, true);
 	m_pLogLineScan = new CLogWriter((TSTRING)CAM_LINESCAN_LOG_PATH, _T("LineScan"), 7, 0, true);

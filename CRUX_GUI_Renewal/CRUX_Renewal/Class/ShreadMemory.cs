@@ -24,12 +24,12 @@ namespace CRUX_Renewal.Class
             m_ImageInfo = new SMemImageInfo(0);
             m_pImageBuffer = new byte*[Consts.MAX_IMAGE_COUNT];
         }
-        public int OpenSharedMem()
+        public int OpenSharedMem(int MaxCam)
         {
             try
             {
                 //MemoryMapTest로 이름붙인 공유 Memory 열기
-                var mappedFile = MemoryMappedFile.OpenExisting("PDC_SHARED_MEM_CAMERA_D_1", MemoryMappedFileRights.FullControl, HandleInheritability.None);
+                var mappedFile = MemoryMappedFile.OpenExisting("PDC_SHARED_MEM_CAMERA_1", MemoryMappedFileRights.FullControl, HandleInheritability.None);
 
                 long Pos = 0;
                 // 공유 Memory에서 읽은 것을 Stream으로 받기

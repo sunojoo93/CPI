@@ -207,7 +207,11 @@ namespace CRUX_Renewal.Ex_Form
             }
             catch(Exception ex)
             {
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 에러 로그를 확인해주세요.");
+                Noti.ShowDialog();
+
                 Console.WriteLine(ex.Message);
+                Systems.LogWriter.Error($@"{this.Name}, Exception : {ex}");
             }
         }
 
@@ -304,7 +308,11 @@ namespace CRUX_Renewal.Ex_Form
             }
             catch (Exception ex)
             {
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 에러 로그를 확인해주세요.");
+                Noti.ShowDialog();
+
                 Console.WriteLine(ex.Message);
+                Systems.LogWriter.Error($@"{this.Name}, Exception : {ex}");
             }
             //Ini.Save(Systems.Ini_Collection[Systems.CurDisplayIndex]["ROI_Property.dat"].GetIniPath(), System.IO.FileMode.Create);
         }
@@ -438,7 +446,11 @@ namespace CRUX_Renewal.Ex_Form
             catch (Exception ex)
             {
                 Cog_ROI_Display.DrawingEnabled = true;
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 에러 로그를 확인해주세요.");
+                Noti.ShowDialog();
+
                 Console.WriteLine(ex.Message);
+                Systems.LogWriter.Error($@"{this.Name}, Exception : {ex}");
             }
         }
 
@@ -772,8 +784,7 @@ namespace CRUX_Renewal.Ex_Form
                             bool CoordChange = false;
                             bool NameChange = false;
                             string ObjectName = string.Empty;
-                            string NewObjectName = string.Empty;
-                            string SelectedJobName = Program.Frm_MainContent_[CurFormIndex].Frm_Recipe.GetSelectedJob();
+                            string NewObjectName = string.Empty;                          
 
                             ROI OriginItem = new ROI();
                             ROI FindItem = new ROI();

@@ -43,7 +43,7 @@ namespace CRUX_Renewal.Main_Form
             this.Btn_Revert = new System.Windows.Forms.Button();
             this.Lb_UnderLine1 = new System.Windows.Forms.Label();
             this.Cagb_Jobs = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
-            this.Dgv_Pattern = new System.Windows.Forms.DataGridView();
+            this.Dgv_GrabArea = new System.Windows.Forms.DataGridView();
             this.Cagb_Recipe = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.LstBoxRecipeList = new System.Windows.Forms.ListBox();
             this.Tlp_RecipeLayout.SuspendLayout();
@@ -53,7 +53,7 @@ namespace CRUX_Renewal.Main_Form
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.Cagb_Jobs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pattern)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabArea)).BeginInit();
             this.Cagb_Recipe.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -240,7 +240,7 @@ namespace CRUX_Renewal.Main_Form
             // 
             // Cagb_Jobs
             // 
-            this.Cagb_Jobs.Controls.Add(this.Dgv_Pattern);
+            this.Cagb_Jobs.Controls.Add(this.Dgv_GrabArea);
             this.Cagb_Jobs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cagb_Jobs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Cagb_Jobs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -252,27 +252,27 @@ namespace CRUX_Renewal.Main_Form
             this.Cagb_Jobs.TabStop = false;
             this.Cagb_Jobs.Text = "Grab Area";
             // 
-            // Dgv_Pattern
+            // Dgv_GrabArea
             // 
-            this.Dgv_Pattern.AllowUserToAddRows = false;
-            this.Dgv_Pattern.AllowUserToDeleteRows = false;
-            this.Dgv_Pattern.AllowUserToResizeColumns = false;
-            this.Dgv_Pattern.AllowUserToResizeRows = false;
-            this.Dgv_Pattern.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dgv_Pattern.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Dgv_Pattern.Location = new System.Drawing.Point(3, 20);
-            this.Dgv_Pattern.MultiSelect = false;
-            this.Dgv_Pattern.Name = "Dgv_Pattern";
-            this.Dgv_Pattern.RowHeadersVisible = false;
-            this.Dgv_Pattern.RowTemplate.Height = 23;
-            this.Dgv_Pattern.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Pattern.Size = new System.Drawing.Size(174, 475);
-            this.Dgv_Pattern.TabIndex = 0;
-            this.Dgv_Pattern.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellEndEdit);
-            this.Dgv_Pattern.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseUp);
-            this.Dgv_Pattern.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellValueChanged);
-            this.Dgv_Pattern.CurrentCellDirtyStateChanged += new System.EventHandler(this.Dgv_Pattern_CurrentCellDirtyStateChanged);
-            this.Dgv_Pattern.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_Pattern_EditingControlShowing);
+            this.Dgv_GrabArea.AllowUserToAddRows = false;
+            this.Dgv_GrabArea.AllowUserToDeleteRows = false;
+            this.Dgv_GrabArea.AllowUserToResizeColumns = false;
+            this.Dgv_GrabArea.AllowUserToResizeRows = false;
+            this.Dgv_GrabArea.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_GrabArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_GrabArea.Location = new System.Drawing.Point(3, 20);
+            this.Dgv_GrabArea.MultiSelect = false;
+            this.Dgv_GrabArea.Name = "Dgv_GrabArea";
+            this.Dgv_GrabArea.RowHeadersVisible = false;
+            this.Dgv_GrabArea.RowTemplate.Height = 23;
+            this.Dgv_GrabArea.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_GrabArea.Size = new System.Drawing.Size(174, 475);
+            this.Dgv_GrabArea.TabIndex = 0;
+            this.Dgv_GrabArea.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GrabArea_CellEndEdit);
+            this.Dgv_GrabArea.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_GrabArea_CellMouseUp);
+            this.Dgv_GrabArea.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GrabArea_CellValueChanged);
+            this.Dgv_GrabArea.CurrentCellDirtyStateChanged += new System.EventHandler(this.Dgv_GrabArea_CurrentCellDirtyStateChanged);
+            this.Dgv_GrabArea.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_GrabArea_EditingControlShowing);
             // 
             // Cagb_Recipe
             // 
@@ -326,7 +326,7 @@ namespace CRUX_Renewal.Main_Form
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.Cagb_Jobs.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pattern)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabArea)).EndInit();
             this.Cagb_Recipe.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -349,6 +349,6 @@ namespace CRUX_Renewal.Main_Form
         private System.Windows.Forms.TabPage tab_optic;
         private System.Windows.Forms.TabPage tab_align;
         private System.Windows.Forms.TabPage tab_Link;
-        private System.Windows.Forms.DataGridView Dgv_Pattern;
+        private System.Windows.Forms.DataGridView Dgv_GrabArea;
     }
 }

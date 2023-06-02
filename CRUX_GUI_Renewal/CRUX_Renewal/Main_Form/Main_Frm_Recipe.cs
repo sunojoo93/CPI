@@ -28,7 +28,7 @@ namespace CRUX_Renewal.Main_Form
         //public Ex_Frm_Recipe_ROI Frm_ROI { get; set; } = null;
         public Ex_Frm_Recipe_Link Frm_Link { get; set; } = null;
 
-        string SelectedPattern = string.Empty;
+        string SelectedArea = string.Empty;
         public void LoadVpp(string path)
         {
             //MainRecipe.Manager = ((CogJobManager)CogSerializer.LoadObjectFromFile(path));
@@ -81,24 +81,24 @@ namespace CRUX_Renewal.Main_Form
             Dt.Columns.Add("Use", typeof(bool));
             Dt.Columns.Add("Name");
 
-            Dgv_Pattern.DataSource = Dt;
+            Dgv_GrabArea.DataSource = Dt;
 
-            Dgv_Pattern.Columns[0].Width = 45;
-            Dgv_Pattern.Columns[1].Width = 130;
+            Dgv_GrabArea.Columns[0].Width = 45;
+            Dgv_GrabArea.Columns[1].Width = 130;
         }
         private void PtnListRefresh(Areas data)
         {          
             if (data.Area.Count > 0)
             {
-                DataTable Dt = Dgv_Pattern.DataSource as DataTable;
+                DataTable Dt = Dgv_GrabArea.DataSource as DataTable;
                 Dt.Rows.Clear();
                 foreach (Area item in data.Area)
                 {
                     Dt.Rows.Add(item.Use, item.Name);
                 }
-                Dgv_Pattern.DataSource = Dt;
-                Dgv_Pattern.Rows[0].Selected = true;
-                Systems.CurrentSelectedAreaName[CurFormIndex] = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                Dgv_GrabArea.DataSource = Dt;
+                Dgv_GrabArea.Rows[0].Selected = true;
+                Systems.CurrentSelectedAreaName[CurFormIndex] = Dgv_GrabArea.SelectedRows[0].Cells["Name"].Value.ToString();
             }
         }
         private void lv_DrawItem(object sender, DrawListViewItemEventArgs e)
@@ -342,7 +342,7 @@ namespace CRUX_Renewal.Main_Form
                         if (InspArea == null && InspArea?.Count < 1)
                             throw new Exception(Enums.ErrorCode.DO_NOT_FOUND_PATTERN_DATA.DescriptionAttr());
 
-                        DataTable Dt = Dgv_Pattern.DataSource as DataTable;
+                        DataTable Dt = Dgv_GrabArea.DataSource as DataTable;
                         Dt.Rows.Clear();
         
                         string RecipePath = (Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
@@ -540,57 +540,38 @@ namespace CRUX_Renewal.Main_Form
         {
             return LstBoxRecipeList.SelectedItem as string;
         }
-        public string GetSelectedJob()
-        {
-            return "dd";
-            //return LstV_Pattern.SelectedItems[0].Name as string;
-        }
 
-        private void LstV_Pattern_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
 
-        }
-
-        private void LstV_Pattern_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        private void Dgv_GrabArea_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            //e.NewWidth = LstV_Pattern.Columns[e.ColumnIndex].Width;
-            //e.Cancel = true;
-        }
-
-        private void LstV_Pattern_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            int a = 0;
-        }
-
-        private void Dgv_Pattern_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (Dgv_Pattern.SelectedRows.Count <= 0)
+            if (Dgv_GrabArea.SelectedRows.Count <= 0)
                 return;
-            DataGridViewRow Row = Dgv_Pattern.SelectedRows[0];
+            DataGridViewRow Row = Dgv_GrabArea.SelectedRows[0];
             if (e.Button == MouseButtons.Left)
             {
 
-                    //ListViewItem SelItem = LstV_Pattern.GetItemAt(e.X, e.Y);
-                    //ListViewItem SelItem = LstV_Pattern.SelectedItems[0];
+                //ListViewItem SelItem = LstV_Pattern.GetItemAt(e.X, e.Y);
+                //ListViewItem SelItem = LstV_Pattern.SelectedItems[0];
 
-                    //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
-                    Systems.CurrentSelectedAreaName[CurFormIndex] = Row.Cells["Name"].Value.ToString(); ;
-                    //Patterns CurRecipe = Shared_Recipe.ViewRecipe.Patterns_Data;
-                    //RegistPtnToRecipe();
-                    //SetJobListBox(Shared_Recipe.ViewRecipe.Patterns_Data, SelItem.Name);
-                    Frm_Link.UpdateROI();
-                    Frm_Link.UpdateAlgorithm();
-                    Frm_Link.UpdateParameter();
-                
-                
+                //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
+                Systems.CurrentSelectedAreaName[CurFormIndex] = Row.Cells["Name"].Value.ToString(); ;
+                //Patterns CurRecipe = Shared_Recipe.ViewRecipe.Patterns_Data;
+                //RegistPtnToRecipe();
+                //SetJobListBox(Shared_Recipe.ViewRecipe.Patterns_Data, SelItem.Name);
+                Frm_Link.UpdatePattern();
+                Frm_Link.UpdateROI();
+                Frm_Link.UpdateAlgorithm();
+                Frm_Link.UpdateParameter();
+
+
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (Dgv_Pattern.SelectedRows == null && Dgv_Pattern?.SelectedRows.Count <= 0)
+                if (Dgv_GrabArea.SelectedRows == null && Dgv_GrabArea?.SelectedRows.Count <= 0)
                     return;
 
                 //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
-                string SelectedJobName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                string SelectedJobName = Dgv_GrabArea.SelectedRows[0].Cells["Name"].Value.ToString();
 
                 //오른쪽 메뉴를 만듭니다
                 ContextMenu m = new ContextMenu();
@@ -604,7 +585,7 @@ namespace CRUX_Renewal.Main_Form
 
                 m0.Click += (senders, ex) =>
                 {
-                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("새 패턴 생성", Dgv_Pattern.Rows);
+                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("새 패턴 생성", Dgv_GrabArea.Rows);
                     Input.ShowDialog();
                     if(Input.DialogResult == DialogResult.OK)
                     {
@@ -638,15 +619,15 @@ namespace CRUX_Renewal.Main_Form
                 m.MenuItems.Add(m1);
 
                 //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
-                m.Show(Dgv_Pattern, new System.Drawing.Point(e.X, e.Y));
+                m.Show(Dgv_GrabArea, new System.Drawing.Point(e.X, e.Y));
             }
         }
 
-        private void Dgv_Pattern_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void Dgv_GrabArea_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 0)
             {
-                DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
+                DataGridViewRow SelItem = Dgv_GrabArea.Rows[e.RowIndex];
                 Area Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == SelItem.Cells["Name"].Value.ToString());
                 Temp.Use = SelItem.Cells["USE"].Value.toBool();
                 Temp.Name = SelItem.Cells["Name"].Value.ToString();
@@ -655,7 +636,7 @@ namespace CRUX_Renewal.Main_Form
             }
             else if(e.ColumnIndex == 1)
             {
-                DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
+                DataGridViewRow SelItem = Dgv_GrabArea.Rows[e.RowIndex];
                 Area Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]);
                 Temp.Use = SelItem.Cells["USE"].Value.toBool();
                 Temp.Name = SelItem.Cells["Name"].Value.ToString();
@@ -663,32 +644,32 @@ namespace CRUX_Renewal.Main_Form
             }
         }
 
-        private void Dgv_Pattern_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void Dgv_GrabArea_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (SelectedPattern != "")
+            if (SelectedArea != "")
             {
-                DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                Area Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == SelectedPattern);
+                DataGridViewRow SelItem = Dgv_GrabArea.Rows[e.RowIndex];
+                Area Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == SelectedArea);
                 if (Temp != null)
                 {
                     Temp.Use = SelItem.Cells["USE"].Value.toBool();
                     Temp.Name = SelItem.Cells["Name"].Value.ToString();
                 }
-                SelectedPattern = "";
+                SelectedArea = "";
             }
         }
 
-        private void Dgv_Pattern_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void Dgv_GrabArea_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            Dgv_Pattern.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            Dgv_GrabArea.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
-        private void Dgv_Pattern_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private void Dgv_GrabArea_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (Dgv_Pattern.SelectedRows.Count > 0)
+            if (Dgv_GrabArea.SelectedRows.Count > 0)
             {
-                DataGridViewRow Rows = Dgv_Pattern.SelectedRows[0];
-                SelectedPattern = Rows.Cells["Name"].Value.ToString();
+                DataGridViewRow Rows = Dgv_GrabArea.SelectedRows[0];
+                SelectedArea = Rows.Cells["Name"].Value.ToString();
             }
         }
     }

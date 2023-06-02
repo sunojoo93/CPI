@@ -11,6 +11,7 @@ using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 using Cognex.VisionPro;
+using OpenCvSharp;
 
 namespace CRUX_Renewal.Utils
 {
@@ -538,7 +539,7 @@ namespace CRUX_Renewal.Utils
             g.RotateTransform(angle);
 
             g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
-            g.DrawImage(b, new Point(0, 0));
+            g.DrawImage(b, new System.Drawing.Point(0, 0));
 
             return returnBitmap;
         }
@@ -649,6 +650,40 @@ namespace CRUX_Renewal.Utils
                     return null;
                 }
             }
+        }
+        public static Mat MergeImages(int shift_x, int shift_y, Mat[] images, int img_len)
+        {
+            if (img_len > 1)
+            {
+                int ImgWidth = images[0].Width;
+                int ImgHeight = images[0].Height;
+                Mat Result_Mat = new Mat((-Math.Abs(shift_y)) + (Math.Abs(shift_y) * (img_len - 1)), ImgWidth, MatType.CV_8UC1);
+                //Result_Mat = new Mat((nImage_Height - Math.Abs(nShift_Y))* (nImage_Count), nImage_Width, MatType.CV_8UC1);
+                for (int i = 0; i < img_len; i++)
+                {
+
+                    Rect rect_tmp = new Rect(i * shift_x, ImgHeight + shift_y, ImgWidth - (i * shift_x), Math.Abs(shift_y));
+                    Rect rect_ori = new Rect(0, (ImgHeight + shift_x) * i, rect_tmp.Width, rect_tmp.Height);
+
+                    images[i][rect_tmp].CopyTo(Result_Mat[rect_ori]);
+                }
+              
+                Cv2.ImWrite("D:\\test.bmp", Result_Mat);
+                return Result_Mat;
+            }
+            return null;
+        }
+        public static CogImage8Grey CvtMatToCogImage(Mat image)
+        {
+            CogImage8Grey Result = new CogImage8Grey();
+            Parallel.For(0, image.Height, (y) =>
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    Result.SetPixel(x, y, image.At<byte>(x, y));
+                }
+            });
+            return Result;
         }
     }
 }

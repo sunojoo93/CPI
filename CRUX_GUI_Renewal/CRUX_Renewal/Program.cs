@@ -265,6 +265,7 @@ namespace CRUX_Renewal
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Systems.LogWriter.Info($@"TaskKill Error, Exception : {ex}");
             }
         }
         public static ProcessSet GetProcess(string name)

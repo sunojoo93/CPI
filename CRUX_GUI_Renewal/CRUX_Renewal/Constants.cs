@@ -108,13 +108,14 @@ namespace CRUX_Renewal
         //private static string[] CurInspVersion;
         public static int CurLogView = 0;
         public static Point[] Cam_Res;
-        public static int Insp_Type;
+        public static int[] Insp_Type;
       //  public static string[][] PatternName;
         public static int nLanguageFlg = 0;
         private static bool[] bIsSavedRecipe;
         public static double ROI_RATIO = 0.8;
         public static List<string> MAINFORM_NAME { get; set; }
 
+        
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
         public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "GrabOpticsInfo.xml" };
@@ -297,7 +298,8 @@ namespace CRUX_Renewal
         public static int ScrollSize = 50;
 
         public const int MAX_AREA_COUNT = 10;
-        public const int MAX_PATTERN_COUNT = 10;
+        public const int MAX_PATTERN_COUNT = 5;
+
         public const int MAX_CAMERA_COUNT = 4;
         public const int MAX_LIGHT_COUNT = 4;
         public const int MAX_LIGHT_CHANNEL_COUNT = 50;

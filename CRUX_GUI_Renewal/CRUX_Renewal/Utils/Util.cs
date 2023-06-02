@@ -96,8 +96,9 @@ namespace CRUX_Renewal
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
-                    MessageBox.Show("프로젝트 파일 로딩 실패 : " + FullPath);
+                    Console.WriteLine(ex.Message);
+                    Systems.LogWriter.Info($@"Recipe Load Fail, Exception : {ex}");
+                    //MessageBox.Show("프로젝트 파일 로딩 실패 : " + FullPath);
                 }
             }
             return default(T);
@@ -110,7 +111,11 @@ namespace CRUX_Renewal
             }
             catch(Exception ex)
             {
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 로그를 확인해주세요.");
+                Noti.ShowDialog();
+
                 Console.WriteLine(ex.Message);
+                Systems.LogWriter.Info($@"Recipe Save Fail, Exception : {ex}");
             }
         }
         public static void ReadRecipe(string path, Recipe recipe, string name)
@@ -166,7 +171,11 @@ namespace CRUX_Renewal
             }
             catch(Exception ex)
             {
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 로그를 확인해주세요.");
+                Noti.ShowDialog();
+
                 Console.WriteLine(ex.Message);
+                Systems.LogWriter.Info($@"Recipe Read Fail, Exception : {ex}");
             }
         }
         public static ST_RECIPE_INFO CreateSeqRecipeFromRecipe(Recipe recipe)
@@ -183,7 +192,8 @@ namespace CRUX_Renewal
                 {
                     ST_PATTERN_INFO NewPatternInfo = new ST_PATTERN_INFO(0);
                     NewPatternInfo.PatternName = recipe.Area_Data.Area[i].Patterns[j].Name.toUniByteAry(100);
-                    NewPatternInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Use;
+                    NewPatternInfo.Grab = recipe.Area_Data.Area[i].Patterns[j].Grab;
+                    NewPatternInfo.Insp = recipe.Area_Data.Area[i].Patterns[j].Insp;
                     NewPatternInfo.Vacuum = recipe.Area_Data.Area[i].Patterns[j].Vacuum;
                     NewPatternInfo.CamCondCount = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data.Count;
                     NewPatternInfo.LightCondCount = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count;

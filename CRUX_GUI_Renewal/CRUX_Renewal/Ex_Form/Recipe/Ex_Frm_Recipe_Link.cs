@@ -67,15 +67,17 @@ namespace CRUX_Renewal.Ex_Form
             Dgv_Roi.Columns[1].Width = 155;
 
             DataTable DtPtn = new DataTable();
-            DtPtn.Columns.Add("Use", typeof(bool));
+            DtPtn.Columns.Add("Grab", typeof(bool));
             DtPtn.Columns.Add("Vac", typeof(bool));
+            DtPtn.Columns.Add("Insp", typeof(bool));
             DtPtn.Columns.Add("Name");
 
             Dgv_Pattern.DataSource = DtPtn;
 
             Dgv_Pattern.Columns[0].Width = 40;
             Dgv_Pattern.Columns[1].Width = 40;
-            Dgv_Pattern.Columns[2].Width = 110;
+            Dgv_Pattern.Columns[2].Width = 40;
+            Dgv_Pattern.Columns[3].Width = 150;
         }
 
 
@@ -104,9 +106,12 @@ namespace CRUX_Renewal.Ex_Form
 
             DataTable Dt = Dgv_Pattern.DataSource as DataTable;
             Dt.Rows.Clear();
+            Dgv_Pattern.DataSource = Dt;
+            Dgv_Pattern.Refresh();
+
             foreach (Pattern item in Temp.Patterns)
             {
-                Dt.Rows.Add(item.Use, item.Vacuum, item.Name);
+                Dt.Rows.Add(item.Grab, item.Vacuum, item.Insp, item.Name);
             }
             Dgv_Pattern.DataSource = Dt;
             if (Dgv_Pattern.Rows.Count > 0)
@@ -119,29 +124,39 @@ namespace CRUX_Renewal.Ex_Form
         public void UpdateROI()
         {
             //ClearRecipeControl();
+            DataTable Dt = Dgv_Roi.DataSource as DataTable;
+            Dt.Rows.Clear();
+            Dgv_Roi.DataSource = Dt;
+            Dgv_Roi.Refresh();
+
             Areas Ptn = Shared_Recipe.ViewRecipe.Area_Data;
             string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
             string SelectedAreaName = Systems.CurrentSelectedAreaName[Systems.CurDisplayIndex];
-            string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-            Area Temp = null;
-            List<string> RoiNames = new List<string>();
-            foreach (Area item in Ptn.Area)
+            if (Dgv_Pattern.SelectedRows.Count > 0)
             {
-                if (item.Name == SelectedAreaName)
+                string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                Area Temp = null;
+                List<string> RoiNames = new List<string>();
+                foreach (Area item in Ptn.Area)
                 {
-                    Temp = item;
+                    if (item.Name == SelectedAreaName)
+                    {
+                        Temp = item;
+                    }
                 }
-            }
-            if (Temp != null)
-            {
-                DataTable Dt = Dgv_Roi.DataSource as DataTable;
-                Dt.Rows.Clear();
-                foreach (ROI item in Temp.Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data)
+                if (Temp != null)
                 {
-                    Dt.Rows.Add(item.Use, item.Name);
+
+                    if (Temp.Patterns.Count > 0)
+                    {
+                        foreach (ROI item in Temp.Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data)
+                        {
+                            Dt.Rows.Add(item.Use, item.Name);
+                        }
+                        UpdateAlgorithm();
+                        UpdateParameter();
+                    }
                 }
-                UpdateAlgorithm();
-                UpdateParameter();
             }
         }
         public void UpdateAlgorithm()
@@ -150,24 +165,27 @@ namespace CRUX_Renewal.Ex_Form
             Areas Ptn = Shared_Recipe.ViewRecipe.Area_Data;
             string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
             string SelectedPattern = Systems.CurrentSelectedAreaName[Systems.CurDisplayIndex];
-            string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-
-            if (Dgv_Roi?.SelectedRows.Count <= 0)
-                return;
-            string SelectedROI = Dgv_Roi?.SelectedRows[0]?.Cells["Name"].Value.ToString() ?? null;
-            if (SelectedROI == null)
-                return;
-            List<Algorithm> Algo = Ptn.Area.Find(x => x.Name == SelectedPattern)?.Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI)?.Algo_List;
-            List<string> Algo_List = new List<string>();
-
-            if (Algo != null && Algo.Count > 0)
+            if (Dgv_Pattern.SelectedRows.Count > 0)
             {
-                foreach (Algorithm item in Algo)
+                string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+
+                if (Dgv_Roi?.SelectedRows.Count <= 0)
+                    return;
+                string SelectedROI = Dgv_Roi?.SelectedRows[0]?.Cells["Name"].Value.ToString() ?? null;
+                if (SelectedROI == null)
+                    return;
+                List<Algorithm> Algo = Ptn.Area.Find(x => x.Name == SelectedPattern)?.Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI)?.Algo_List;
+                List<string> Algo_List = new List<string>();
+
+                if (Algo != null && Algo.Count > 0)
                 {
-                    Algo_List.Add(item.Name);
+                    foreach (Algorithm item in Algo)
+                    {
+                        Algo_List.Add(item.Name);
+                    }
+                    LstB_RegistedAlgorithm.Items.AddRange(Algo_List.ToArray());
+                    LstB_RegistedAlgorithm.SelectedItem = LstB_RegistedAlgorithm.Items[0];
                 }
-                LstB_RegistedAlgorithm.Items.AddRange(Algo_List.ToArray());
-                LstB_RegistedAlgorithm.SelectedItem = LstB_RegistedAlgorithm.Items[0];
             }
         }
         public void UpdateParameter()
@@ -177,31 +195,34 @@ namespace CRUX_Renewal.Ex_Form
             Areas Ptn = Shared_Recipe.ViewRecipe.Area_Data;
             string SelectedRecipe = Systems.CurrentSelectedRecipe[Systems.CurDisplayIndex];
             string SelectedAreaName = Systems.CurrentSelectedAreaName[Systems.CurDisplayIndex];
-            string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-
-            if (Dgv_Roi?.SelectedRows.Count <= 0)
-                return;
-            string SelectedROI = Dgv_Roi?.SelectedRows[0]?.Cells["Name"].Value.ToString() ?? null;
-            if (SelectedROI == null)
-                return;
-            string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
-            Algorithm Algo = Ptn.Area.Find(x => x.Name == SelectedAreaName)?.Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI)?.Algo_List?.Find(x => x.Name == SelectedAlgo);
-            if (Algo != null)
+            if (Dgv_Pattern.SelectedRows.Count > 0)
             {
-                LstV_Parameter.BeginUpdate();
-                List<InspParam> AlgoParam = Algo.Param;
-                foreach (InspParam item in AlgoParam)
+                string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+
+                if (Dgv_Roi?.SelectedRows.Count <= 0)
+                    return;
+                string SelectedROI = Dgv_Roi?.SelectedRows[0]?.Cells["Name"].Value.ToString() ?? null;
+                if (SelectedROI == null)
+                    return;
+                string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
+                Algorithm Algo = Ptn.Area.Find(x => x.Name == SelectedAreaName)?.Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI)?.Algo_List?.Find(x => x.Name == SelectedAlgo);
+                if (Algo != null)
                 {
-                    ListViewItem Lvi = new ListViewItem(item.Name) { Name = "Name"};
-                    Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = item.Value, Name = "Value"});
+                    LstV_Parameter.BeginUpdate();
+                    List<InspParam> AlgoParam = Algo.Param;
+                    foreach (InspParam item in AlgoParam)
+                    {
+                        ListViewItem Lvi = new ListViewItem(item.Name) { Name = "Name" };
+                        Lvi.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = item.Value, Name = "Value" });
 
-                    LstV_Parameter.Items.Add(Lvi);
-                    //LstV_Parameter.Groups[item.Category].Items.Add(Lvi);
+                        LstV_Parameter.Items.Add(Lvi);
+                        //LstV_Parameter.Groups[item.Category].Items.Add(Lvi);
+                    }
                 }
-            }
-            LstV_Parameter.EndUpdate();
+                LstV_Parameter.EndUpdate();
 
-            LstV_Parameter.Refresh();
+                LstV_Parameter.Refresh();
+            }
         }
         public void UpdateTotalAlgorithm()
         {
@@ -547,40 +568,32 @@ namespace CRUX_Renewal.Ex_Form
 
                     m1.Click += (senders, es) =>
                     {
-                        if (LstV_Parameter.GetItemAt(e.X, e.Y) == null)
-                        {
+                        // 파라미터 추가
+                        string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                        List<InspParam> FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param;
 
+                        List<string> TempList = new List<string>();
+
+                        foreach (InspParam item in FindCategory)
+                        {
+                            TempList.Add(item.Name);
                         }
-                        else
+
+                        Ex_Frm_Others_New_Input Frm_NewInput = new Ex_Frm_Others_New_Input("새 파라미터 입력", TempList);
+                        Frm_NewInput.ShowDialog();
+                        if (Frm_NewInput.DialogResult == DialogResult.OK)
                         {
-                            // 파라미터 추가
-                            string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-                            List<InspParam> FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param;
+                            InspParam NewParam = new InspParam();
+                            NewParam.Name = Frm_NewInput.ResultName;
+                            NewParam.Value = "0";
 
-                            List<string> TempList = new List<string>();
-
-                            foreach(InspParam item in FindCategory)
-                            {
-                                TempList.Add(item.Name);
-                            }               
-
-                            Ex_Frm_Others_New_Input Frm_NewInput = new Ex_Frm_Others_New_Input("새 파라미터 입력", TempList);
-                            Frm_NewInput.ShowDialog();
-                            if(Frm_NewInput.DialogResult == DialogResult.OK)
-                            {
-                                InspParam NewParam = new InspParam();
-                                NewParam.Name = Frm_NewInput.ResultName;                   
-                                NewParam.Value = "0";
-
-                                Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Add(NewParam);
-                                UpdateParameter();
-                            }
+                            Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Add(NewParam);
+                            UpdateParameter();
                         }
                     };
 
                     m2.Click += (senders, es) =>
                     {
-
                             // 파라미터 삭제
                             string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
                             InspParam FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == selectedNickname);
@@ -683,7 +696,6 @@ namespace CRUX_Renewal.Ex_Form
                             bool NameChange = false;
                             string ObjectName = string.Empty;
                             string NewObjectName = string.Empty;
-                            string SelectedJobName = Program.Frm_MainContent_[CurFormIndex].Frm_Recipe.GetSelectedJob();
 
                             InspParam OriginItem = new InspParam();
                             InspParam FindItem = new InspParam();
@@ -785,11 +797,12 @@ namespace CRUX_Renewal.Ex_Form
             {
                 string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
                 DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName);
+                Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == CurPtnName);
                 if (Temp != null)
                 {
-                    Temp.Use = SelItem.Cells["USE"].Value.toBool();
-                    Temp.Use = SelItem.Cells["Vac"].Value.toBool();
+                    Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
+                    Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
+                    Temp.Insp = SelItem.Cells["Insp"].Value.toBool();
                     Temp.Name = SelItem.Cells["Name"].Value.ToString();
                 }
                 CurPtnName = "";
@@ -812,6 +825,7 @@ namespace CRUX_Renewal.Ex_Form
 
                 //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
                 string CurPtn = Row.Cells["Name"].Value.ToString();
+                CurPtnName = CurPtn;
                 //ROI_PreView(CurRoi);
                 UpdateROI();
                 UpdateAlgorithm();
@@ -822,13 +836,23 @@ namespace CRUX_Renewal.Ex_Form
         private void Dgv_Pattern_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-            if (e.ColumnIndex == 0)
+            if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2)
             {
                 DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
                 Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName);
-                Temp.Use = SelItem.Cells["USE"].Value.toBool();
+                Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
                 Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
+                Temp.Insp = SelItem.Cells["Insp"].Value.toBool();  
                 Temp.Name = SelItem.Cells["Name"].Value.ToString();
+            }
+        }
+
+        private void Dgv_Pattern_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (Dgv_Pattern.SelectedRows.Count > 0)
+            {
+                DataGridViewRow Rows = Dgv_Pattern.SelectedRows[0];
+                CurPtnName = Rows.Cells["Name"].Value.ToString();
             }
         }
     }
