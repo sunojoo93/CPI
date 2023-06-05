@@ -75,6 +75,14 @@ namespace CRUX_Renewal
                 Recipes Temp = recipe[i];
                 Program.Frm_MainContent_[i].LinkRecipe(ref Temp);
                 Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
+
+                // 레시피 시퀀스 적용
+                CmdMsgParam SendParam = new CmdMsgParam();
+                int Ret = Consts.APP_NG;
+                ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Temp.MainRecipe);
+                SendParam.SetStruct(ConvertedRecipe);
+                Ret = Systems.g_Ipc.SendCommand((ushort)((i + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_MODEL_INFO,
+                                                          IpcInterface.CMD_TYPE_RES, 100000, SendParam.GetByteSize(), SendParam.GetParam());
             }
 
             SetForm(Program.Frm_MainContent_[0]);

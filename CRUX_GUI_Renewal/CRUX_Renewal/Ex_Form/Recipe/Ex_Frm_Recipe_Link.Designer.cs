@@ -227,6 +227,7 @@
             this.Dgv_Roi.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Roi_CellMouseDoubleClick);
             this.Dgv_Roi.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Roi_CellMouseUp);
             this.Dgv_Roi.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Roi_CellValueChanged);
+            this.Dgv_Roi.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Roi_ColumnHeaderMouseClick);
             this.Dgv_Roi.CurrentCellDirtyStateChanged += new System.EventHandler(this.Dgv_Roi_CurrentCellDirtyStateChanged);
             this.Dgv_Roi.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_Roi_EditingControlShowing);
             // 
@@ -404,6 +405,7 @@
             this.Dgv_Pattern.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseDoubleClick);
             this.Dgv_Pattern.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseUp);
             this.Dgv_Pattern.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellValueChanged);
+            this.Dgv_Pattern.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_ColumnHeaderMouseClick);
             this.Dgv_Pattern.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_Pattern_EditingControlShowing);
             // 
             // Ex_Frm_Recipe_Link

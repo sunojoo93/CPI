@@ -412,7 +412,6 @@ int	WorkManager::Seq_ManualChangeModel(byte* pParam, ULONG& nPrmSize, bool bAlwa
 	int nsize = sizeof(pStModelInfo);
 	pStModelInfo = (ST_RECIPE_INFO_AOT *)pReceiveParam;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	return 0;
 	int nRet = APP_OK;
 	bool isRunSequence = true;
 	int nStepNo = 0;
@@ -6580,9 +6579,6 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 	int nTotalLine = *(int *)pReceiveParam;						pReceiveParam += sizeof(nTotalLine);
 	memcpy(strDirection, pReceiveParam, sizeof(strDirection));		pReceiveParam += sizeof(strDirection);
 	memcpy(strPosition, pReceiveParam, sizeof(strPosition));		pReceiveParam += sizeof(strPosition);
-
-
-
 
 	nTotalLine = 2;
 

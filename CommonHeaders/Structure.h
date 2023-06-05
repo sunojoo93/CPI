@@ -11,9 +11,10 @@
 #define MAX_GRAB_STEP_COUNT			150
 
 
-#define  MAX_AREA_COUNT  10
-#define  MAX_PATTERN_COUNT  10
+#define  MAX_AREA_COUNT  5
+#define  MAX_PATTERN_COUNT  5
 #define  MAX_CAMERA_COUNT  4
+#define  MAX_AUTOFOCUS_COUNT 4
 #define  MAX_LIGHT_COUNT  4
 #define  MAX_LIGHT_CHANNEL_COUNT  50
 
@@ -252,6 +253,18 @@ struct ST_LIGHT_COND_AOT
 		memset(LightConditions, 0, sizeof(int) * MAX_LIGHT_CHANNEL_COUNT);
 	}
 };
+struct ST_AUTOFOCUS_AOT
+{
+	TCHAR Name[30];
+	BOOL Use;
+	double AxisZ;
+	ST_AUTOFOCUS_AOT()
+	{
+		Use = true;
+		AxisZ = 0;
+	}
+};
+
 struct ST_PATTERN_INFO_AOT
 {
 	TCHAR PatternName[50];
@@ -262,6 +275,7 @@ struct ST_PATTERN_INFO_AOT
 	int LightCondCount;
 	ST_CAM_COND_AOT Cam_Condition[MAX_CAMERA_COUNT];
 	ST_LIGHT_COND_AOT Light_Condition[MAX_LIGHT_COUNT];
+	ST_AUTOFOCUS_AOT AutoFocus_Condition[MAX_AUTOFOCUS_COUNT];
 	ST_PATTERN_INFO_AOT()
 	{
 		Grab = false;
@@ -271,6 +285,7 @@ struct ST_PATTERN_INFO_AOT
 		LightCondCount = 0;
 		memset(Cam_Condition, 0, sizeof(ST_CAM_COND_AOT) * MAX_CAMERA_COUNT);
 		memset(Light_Condition, 0, sizeof(ST_LIGHT_COND_AOT) * MAX_LIGHT_COUNT);
+		memset(AutoFocus_Condition, 0, sizeof(ST_AUTOFOCUS_AOT) * MAX_AUTOFOCUS_COUNT);
 	}
 };
 struct ST_GRAB_AREA_INFO_AOT
@@ -293,6 +308,44 @@ struct ST_RECIPE_INFO_AOT
 	{
 		memset(GrabArea, 0, sizeof(ST_GRAB_AREA_INFO_AOT) * MAX_AREA_COUNT);
 		GrabCount = 0;
+	}
+};
+struct IMAGE_SET_AOT
+{
+	TCHAR RecipeName[50];
+	int SharedMemStartIdx;
+	int SharedMemEndIdx;
+	int ParticleImageCount;
+};
+struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
+{
+	int PcNo;
+	UINT nInspType;				// 0: Auto, 1: Manual Grab & Inspection, 2: Manual Inspection
+	wchar_t strPanelID[50];
+	wchar_t strVirtualID[50];
+
+
+	UINT nImageNum;
+	UINT nShareImgNum;
+	wchar_t strDirection[50];
+	wchar_t strPosition[50];
+	int nGrabLine;
+	int ParticleCount;
+
+	PARAM_INSPECT_START_ACI()
+	{
+		PcNo = 0;
+		nInspType = 0;
+
+		memset(strPanelID, 0, sizeof(strPanelID));
+		memset(strVirtualID, 0, sizeof(strVirtualID));
+
+		nGrabLine = 0;
+		nImageNum = 0;
+		memset(strDirection, 0, sizeof(strDirection));
+		memset(strPosition, 0, sizeof(strPosition));
+		nShareImgNum = 0;
+		ParticleCount = 0;
 	}
 };
 struct ST_PROC_INFO

@@ -118,6 +118,21 @@ namespace CRUX_Renewal
                 Systems.LogWriter.Info($@"Recipe Save Fail, Exception : {ex}");
             }
         }
+        public static void SaveRecipe(Recipe recipe, string name)
+        {
+            try
+            {
+                RecipeManager.RecipeSerialize($"{ recipe.Path}{name}", "MainRecipe.xml", recipe.Area_Data);
+            }
+            catch (Exception ex)
+            {
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 로그를 확인해주세요.");
+                Noti.ShowDialog();
+
+                Console.WriteLine(ex.Message);
+                Systems.LogWriter.Info($@"Recipe Save Fail, Exception : {ex}");
+            }
+        }
         public static void ReadRecipe(string path, Recipe recipe, string name)
         {
             try
@@ -228,6 +243,15 @@ namespace CRUX_Renewal
                         }
                         NewPatternInfo.Light_Condition[k] = NewLightInfo;
                     }
+                    for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.AutoFocus.Count; ++k)
+                    {
+                        ST_AUTOFOCUS NewAutoFocusInfo = new ST_AUTOFOCUS(0);
+                        NewAutoFocusInfo.Number = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.AutoFocus[k].Number.toUniByteAry(100);
+                        NewAutoFocusInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.AutoFocus[k].Use;
+                        NewAutoFocusInfo.AxisZ = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.AutoFocus[k].AxisZ;
+                        NewPatternInfo.AutoFocus_Condition[k] = NewAutoFocusInfo;
+                    }
+
                     NewGrabInfo.PatternList[j] = NewPatternInfo;
                 }
                 NewRecipe.GrabArea[i] = NewGrabInfo;

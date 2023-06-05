@@ -224,6 +224,7 @@ namespace CRUX_Renewal.Main_Form
             this.Btn_Revert.TabIndex = 5;
             this.Btn_Revert.Text = "Revert";
             this.Btn_Revert.UseVisualStyleBackColor = false;
+            this.Btn_Revert.Visible = false;
             this.Btn_Revert.Click += new System.EventHandler(this.Btn_Revert_Click);
             // 
             // Lb_UnderLine1
@@ -271,6 +272,7 @@ namespace CRUX_Renewal.Main_Form
             this.Dgv_GrabArea.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GrabArea_CellEndEdit);
             this.Dgv_GrabArea.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_GrabArea_CellMouseUp);
             this.Dgv_GrabArea.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GrabArea_CellValueChanged);
+            this.Dgv_GrabArea.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_GrabArea_ColumnHeaderMouseClick);
             this.Dgv_GrabArea.CurrentCellDirtyStateChanged += new System.EventHandler(this.Dgv_GrabArea_CurrentCellDirtyStateChanged);
             this.Dgv_GrabArea.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_GrabArea_EditingControlShowing);
             // 

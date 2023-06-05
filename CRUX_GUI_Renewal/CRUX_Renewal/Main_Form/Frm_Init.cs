@@ -147,13 +147,12 @@ namespace CRUX_Renewal.Main_Form
                             ++InitFlag;
                             Systems.Inspector_ = Inspector_Collection.Instance();
                             for(int i = 0; i < Globals.MaxVisionCnt; ++i)
-                            {
-                                //CmdMsgParam Param = new CmdMsgParam();
-                                //Param.ClearOffset();
-                                //Param.SetInteger(1);
-                                //nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
-                                //                            IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
-                                Systems.Inspector_.CreateInspectorFromRecipe(RecipeList[0].MainRecipe); // 다중 피씨 고려해서 추후에 수정 필요함
+                            { 
+                                if(!Systems.Inspector_.CreateInspectorFromRecipe(RecipeList[0].MainRecipe)) // 다중 피씨 고려해서 추후에 수정 필요함
+                                {
+                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "Inspector 생성 오류가 발생했습니다.");
+                                    Noti.ShowDialog();                                    
+                                }
                             }
                     
                             Systems.LogWriter.Info("Initialize Inspector...");
@@ -168,7 +167,7 @@ namespace CRUX_Renewal.Main_Form
                             setControlText(lbl_CurrentState, string.Format("Initialize Sequence Program..."));
                             //for ( int i = 0; i < 2; i++ )
                                 //TempBin();
-                            //Program.StartSequence();                           
+                            Program.StartSequence();                           
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize Seq...");
                             break;
@@ -383,20 +382,15 @@ namespace CRUX_Renewal.Main_Form
                     })));
                     Systems.CurrentSelectedAreaName.Add("");
                     Systems.RecipeData_Collection.Add(new Dictionary<string, IniFile>());
-                    //Systems.RecipeContent.MainRecipe.Add(new Recipe());
-                    //Systems.RecipeContent.ViewRecipe.Add(new Recipe());
                     Systems.CurrentSelectedRecipe.Add("");
                     string RecipeName = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipeName"].ToString().Replace(" ", "");
                     string Path = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
                     ArrayList FileList = fileProc.getFileList($@"{Paths.RECIPE_PATH_RENEWAL}{RecipeName}");
 
-                    //Program.Frm_MainContent_[i].SetRecipe().ReadRecipe(Path, Systems.RecipeContent.MainRecipe[i], FileList[0].ToString(), RecipeName);
                     RecipeList.Add(new Recipes());
                     RecipeManager.ReadRecipe(Path, RecipeList[i].MainRecipe, RecipeName);
                     Systems.CurrentApplyRecipeName[i].SetString(RecipeName);
                     RecipeList[i].ViewRecipe = Utility.DeepCopy(RecipeList[i].MainRecipe);
-     
-                    //Systems.RecipeContent.ViewRecipe[i] = Utility.DeepCopy(Systems.RecipeContent.MainRecipe[i]);
                 }
             }
             catch (Exception ex)

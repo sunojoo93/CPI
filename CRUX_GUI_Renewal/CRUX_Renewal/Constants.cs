@@ -297,11 +297,13 @@ namespace CRUX_Renewal
         public static string VPP_PATH = "";
         public static int ScrollSize = 50;
 
-        public const int MAX_AREA_COUNT = 10;
+        public const int MAX_AREA_COUNT = 5;
         public const int MAX_PATTERN_COUNT = 5;
 
         public const int MAX_CAMERA_COUNT = 4;
         public const int MAX_LIGHT_COUNT = 4;
+        public const int MAX_AF_MODULE_COUNT = 4;
+
         public const int MAX_LIGHT_CHANNEL_COUNT = 50;
 
     }

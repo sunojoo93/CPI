@@ -67,7 +67,7 @@ public:
 		{
 			if (m_stModelInfo.GrabArea[i].Name == AreaName)
 			{
-				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Use;
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Grab;
 			}
 		}
 		return FALSE;

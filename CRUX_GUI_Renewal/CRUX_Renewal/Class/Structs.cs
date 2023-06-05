@@ -167,7 +167,7 @@ namespace CRUX_Renewal.Class
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] PatternName;
         public int SharedMemStartIdx;
-        public int SharedMemEndId;
+        public int SharedMemEndIdx;
         public int ParticleImageCount;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Direction;
@@ -177,7 +177,7 @@ namespace CRUX_Renewal.Class
         {
             PatternName = new byte[100];
             SharedMemStartIdx = 0;
-            SharedMemEndId = 0;
+            SharedMemEndIdx = 0;
             ParticleImageCount = 0;
             GrabLine = 0;
             Direction = new byte[100];
@@ -577,6 +577,21 @@ namespace CRUX_Renewal.Class
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_AUTOFOCUS
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 60)]
+        public byte[] Number;
+        public bool Use;
+        public double AxisZ;
+        public ST_AUTOFOCUS(int num)
+        {
+            Number = new byte[60];
+            Use = true;
+            AxisZ = 0;
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_PATTERN_INFO
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
@@ -590,6 +605,8 @@ namespace CRUX_Renewal.Class
         public ST_CAM_COND[] Cam_Condition;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_COUNT)]
         public ST_LIGHT_COND[] Light_Condition;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_AF_MODULE_COUNT)]
+        public ST_AUTOFOCUS[] AutoFocus_Condition;
         public ST_PATTERN_INFO(int num)
         {
             PatternName = new byte[100];
@@ -600,6 +617,7 @@ namespace CRUX_Renewal.Class
             LightCondCount = 0;
             Cam_Condition = new ST_CAM_COND[Consts.MAX_CAMERA_COUNT];
             Light_Condition = new ST_LIGHT_COND[Consts.MAX_LIGHT_COUNT];
+            AutoFocus_Condition = new ST_AUTOFOCUS[Consts.MAX_AF_MODULE_COUNT];
         }
     }
     [Serializable]
@@ -788,15 +806,29 @@ namespace CRUX_Renewal.Class
         [XmlArray("Lights")]
         [XmlArrayItem("Light")]
         public List<LightInfo> Light_Data { get; set; }
+        [XmlArray("AutoFocus")]
+        [XmlArrayItem("Module")]
+        public List<AutoFocus> AutoFocus { get; set; }
 
 
         public Optics()
         {
             Camera_Data = new List<CameraInfo>();
             Light_Data = new List<LightInfo>();
+            AutoFocus = new List<AutoFocus>();
         }
     }
-
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class AutoFocus
+    {
+        [XmlAttribute("Number")]
+        public string Number { get; set; } = string.Empty;
+        [XmlAttribute("Use")]
+        public bool Use { get; set; } = true;
+        [XmlElement("AxisZ")]
+        public double AxisZ { get; set; }
+    }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ROI

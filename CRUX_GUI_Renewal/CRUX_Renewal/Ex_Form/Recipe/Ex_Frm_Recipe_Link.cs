@@ -66,6 +66,10 @@ namespace CRUX_Renewal.Ex_Form
             Dgv_Roi.Columns[0].Width = 40;
             Dgv_Roi.Columns[1].Width = 155;
 
+            foreach(DataGridViewColumn item in Dgv_Roi.Columns)
+            {
+                item.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
             DataTable DtPtn = new DataTable();
             DtPtn.Columns.Add("Grab", typeof(bool));
             DtPtn.Columns.Add("Vac", typeof(bool));
@@ -78,6 +82,10 @@ namespace CRUX_Renewal.Ex_Form
             Dgv_Pattern.Columns[1].Width = 40;
             Dgv_Pattern.Columns[2].Width = 40;
             Dgv_Pattern.Columns[3].Width = 150;
+            foreach (DataGridViewColumn item in Dgv_Pattern.Columns)
+            {
+                item.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
 
@@ -103,7 +111,11 @@ namespace CRUX_Renewal.Ex_Form
         {
             ClearRecipeControl();
             Area Temp = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]);
-
+            if (Temp == null)
+            {
+                Systems.CurrentSelectedAreaName[CurFormIndex] = "";               
+                return;
+            }
             DataTable Dt = Dgv_Pattern.DataSource as DataTable;
             Dt.Rows.Clear();
             Dgv_Pattern.DataSource = Dt;
@@ -257,27 +269,38 @@ namespace CRUX_Renewal.Ex_Form
 
         private void ROI_PreView(string roi_name)
         {
-            string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-            Cog_ROI_Display.DrawingEnabled = false;
-            Cog_ROI_Display.InteractiveGraphics.Clear();
-            ROI Temp = Shared_Recipe?.ViewRecipe?.Area_Data?.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data?.Find(x => x.Name == roi_name);
-            CogRectangle Rect = new CogRectangle();
-            Rect.X = Temp.Coord.X;
-            Rect.Y = Temp.Coord.Y;
-            Rect.Width = Temp.Coord.Width;
-            Rect.Height = Temp.Coord.Height;
+            if (Dgv_Pattern.SelectedRows.Count > 0)
+            {
+                string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                Cog_ROI_Display.DrawingEnabled = false;
+                Cog_ROI_Display.InteractiveGraphics.Clear();
+                ROI Temp = Shared_Recipe?.ViewRecipe?.Area_Data?.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data?.Find(x => x.Name == roi_name);
+                if (Temp == null)
+                    return;
+                CogRectangle Rect = new CogRectangle();
+                Rect.X = Temp.Coord.X;
+                Rect.Y = Temp.Coord.Y;
+                Rect.Width = Temp.Coord.Width;
+                Rect.Height = Temp.Coord.Height;
 
-            Rect.Color = Cognex_Helper.GetColorFromString(Temp.ROI_Property.LineColor);
-            Rect.LineStyle = Cognex_Helper.GetLineStyleFromString(Temp.ROI_Property.LineStyle);
+                Rect.Color = Cognex_Helper.GetColorFromString(Temp.ROI_Property.LineColor);
+                Rect.LineStyle = Cognex_Helper.GetLineStyleFromString(Temp.ROI_Property.LineStyle);
 
-            Rect.SelectedColor = Cognex_Helper.GetColorFromString(Temp.ROI_Property.SelectedLineColor);
-            Rect.SelectedLineStyle = Cognex_Helper.GetLineStyleFromString(Temp.ROI_Property.SelectedLineStyle);
+                Rect.SelectedColor = Cognex_Helper.GetColorFromString(Temp.ROI_Property.SelectedLineColor);
+                Rect.SelectedLineStyle = Cognex_Helper.GetLineStyleFromString(Temp.ROI_Property.SelectedLineStyle);
 
-            Rect.DragColor = Cognex_Helper.GetColorFromString(Temp.ROI_Property.DragLineColor);
-            Rect.DragLineStyle = Cognex_Helper.GetLineStyleFromString(Temp.ROI_Property.DragLineStyle);
+                Rect.DragColor = Cognex_Helper.GetColorFromString(Temp.ROI_Property.DragLineColor);
+                Rect.DragLineStyle = Cognex_Helper.GetLineStyleFromString(Temp.ROI_Property.DragLineStyle);
 
-            Cog_ROI_Display.InteractiveGraphics.Add(Rect, "Temporary", false);
-            Cog_ROI_Display.DrawingEnabled = true;
+                Cog_ROI_Display.InteractiveGraphics.Add(Rect, "Temporary", false);
+                Cog_ROI_Display.DrawingEnabled = true;
+            }
+            else
+            {
+                Cog_ROI_Display.DrawingEnabled = false;
+                Cog_ROI_Display.InteractiveGraphics.Clear();
+                Cog_ROI_Display.DrawingEnabled = true;
+            }
         }
 
         private void LstB_Algorithm_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -302,6 +325,8 @@ namespace CRUX_Renewal.Ex_Form
 
         private void Btn_AlgorithmManage_Click(object sender, EventArgs e)
         {
+            if (Dgv_Roi.SelectedRows.Count <= 0)
+                return;
             Ex_Frm_Others_Algorithm_Select Selector = new Ex_Frm_Others_Algorithm_Select();
             List<string> RegistedAlgo = new List<string>();
             List<string> TotalAlgo = new List<string>();
@@ -331,6 +356,9 @@ namespace CRUX_Renewal.Ex_Form
 
         private void Btn_ROIManager_Click(object sender, EventArgs e)
         {
+            if (Dgv_Pattern.SelectedRows.Count <= 0)
+                return;
+
             Ex_Frm_Recipe_ROI Frm_Roi = new Ex_Frm_Recipe_ROI();
             string CurAreaName = Systems.CurrentSelectedAreaName[Systems.CurDisplayIndex];
             string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
@@ -373,13 +401,15 @@ namespace CRUX_Renewal.Ex_Form
                 Cog_ROI_Display.Image = Temp;
                 Cog_ROI_Display.Fit(true);
                 Cog_ROI_Display.DrawingEnabled = true;
-
-                string SelROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString() == null ? string.Empty : Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
-
-                if (SelROI != string.Empty)
+                if (Dgv_Roi.SelectedRows.Count > 0)
                 {
-                    if (!Dgv_Roi.IsCurrentCellInEditMode)
-                        ROI_PreView(SelROI);
+                    string SelROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString() == null ? string.Empty : Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
+
+                    if (SelROI != string.Empty)
+                    {
+                        if (!Dgv_Roi.IsCurrentCellInEditMode)
+                            ROI_PreView(SelROI);
+                    }
                 }
             }
         }
@@ -443,12 +473,13 @@ namespace CRUX_Renewal.Ex_Form
         private void Dgv_Roi_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (Dgv_Roi.SelectedRows.Count <= 0)
-
                 return;
-            DataGridViewRow Row = Dgv_Roi.SelectedRows[0];
+            
             if (e.Button == MouseButtons.Left)
             {
-
+                if (e.RowIndex == -1)
+                    return;
+                DataGridViewRow Row = Dgv_Roi.SelectedRows[0];
                 //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
                 string CurRoi = Row.Cells["Name"].Value.ToString();
                 ROI_PreView(CurRoi);
@@ -541,20 +572,11 @@ namespace CRUX_Renewal.Ex_Form
                 //오른쪽 클릭일 경우
                 if (e.Button.Equals(MouseButtons.Right))
                 {
-                    //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
-                    string selectedNickname = LstV_Parameter.GetItemAt(e.X, e.Y)?.Text;
-                    string SelectedCategory = LstV_Parameter.GetItemAt(e.X, e.Y)?.Tag as string;
-
-                    string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
-                    string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
-
                     if(LstV_Parameter.GetItemAt(e.X, e.Y) == null)
                     {
-
                     }
                     else
                     {
-
                     }
                     //오른쪽 메뉴를 만듭니다
                     ContextMenu m = new ContextMenu();
@@ -569,6 +591,16 @@ namespace CRUX_Renewal.Ex_Form
                     m1.Click += (senders, es) =>
                     {
                         // 파라미터 추가
+                        if (Dgv_Pattern.SelectedRows.Count <= 0 || Dgv_Roi.SelectedRows.Count <= 0 || LstB_RegistedAlgorithm.SelectedItem == null)
+                            return;
+
+                        string selectedNickname = LstV_Parameter.GetItemAt(e.X, e.Y)?.Text;
+                        string SelectedCategory = LstV_Parameter.GetItemAt(e.X, e.Y)?.Tag as string;
+
+                        string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
+                        string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
+
+
                         string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
                         List<InspParam> FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param;
 
@@ -594,8 +626,17 @@ namespace CRUX_Renewal.Ex_Form
 
                     m2.Click += (senders, es) =>
                     {
-                            // 파라미터 삭제
-                            string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                        if (Dgv_Pattern.SelectedRows.Count <= 0 || Dgv_Roi.SelectedRows.Count <= 0 || LstB_RegistedAlgorithm.SelectedItem == null)
+                            return;
+
+                        string selectedNickname = LstV_Parameter.GetItemAt(e.X, e.Y)?.Text;
+                        string SelectedCategory = LstV_Parameter.GetItemAt(e.X, e.Y)?.Tag as string;
+
+                        string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
+                        string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
+
+                        // 파라미터 삭제
+                        string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
                             InspParam FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == selectedNickname);
                             Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Remove(FindCategory);
                             UpdateParameter();
@@ -795,17 +836,20 @@ namespace CRUX_Renewal.Ex_Form
         {
             if (CurPtnName != "")
             {
-                string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-                DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == CurPtnName);
-                if (Temp != null)
+                if (Dgv_Pattern.SelectedRows.Count > 0)
                 {
-                    Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
-                    Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
-                    Temp.Insp = SelItem.Cells["Insp"].Value.toBool();
-                    Temp.Name = SelItem.Cells["Name"].Value.ToString();
+                    string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                    DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
+                    Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == CurPtnName);
+                    if (Temp != null)
+                    {
+                        Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
+                        Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
+                        Temp.Insp = SelItem.Cells["Insp"].Value.toBool();
+                        Temp.Name = SelItem.Cells["Name"].Value.ToString();
+                    }
+                    CurPtnName = "";
                 }
-                CurPtnName = "";
             }
         }
 
@@ -816,34 +860,106 @@ namespace CRUX_Renewal.Ex_Form
 
         private void Dgv_Pattern_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (Dgv_Pattern.SelectedRows.Count <= 0)
 
-                return;
-            DataGridViewRow Row = Dgv_Pattern.SelectedRows[0];
+
             if (e.Button == MouseButtons.Left)
             {
+                if (Dgv_Pattern.SelectedRows.Count <= 0)
+                    return;
+                if (e.RowIndex == -1)
+                    return;
+                DataGridViewRow Row = Dgv_Pattern.SelectedRows[0];
 
-                //Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Recipe.ChangeSubject(Temp);
                 string CurPtn = Row.Cells["Name"].Value.ToString();
                 CurPtnName = CurPtn;
-                //ROI_PreView(CurRoi);
+           
                 UpdateROI();
+                if (Dgv_Roi.Rows.Count > 0)
+                    CurROIName = Dgv_Roi.Rows[0].Cells["Name"].Value.ToString();
+                
+                ROI_PreView(CurROIName);
                 UpdateAlgorithm();
                 UpdateParameter();
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+
+                //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
+                string SelPatternName = string.Empty;
+                if (Dgv_Pattern.SelectedRows.Count > 0)
+                    SelPatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+
+                //오른쪽 메뉴를 만듭니다
+                ContextMenu m = new ContextMenu();
+
+                //메뉴에 들어갈 아이템을 만듭니다
+                MenuItem m0 = new MenuItem();
+                MenuItem m1 = new MenuItem();
+
+                m0.Text = "New Pattern";
+                m1.Text = "Delete";
+
+                m0.Click += (senders, ex) =>
+                {
+                    Ex_Frm_Others_New_Input Input = new Ex_Frm_Others_New_Input("새 패턴 생성", Dgv_Pattern.Rows);
+                    Input.ShowDialog();
+                    if (Input.DialogResult == DialogResult.OK)
+                    {
+                        Pattern NewPattern = new Pattern();
+                        NewPattern.Name = Input.ResultName;
+                        Shared_Recipe.ViewRecipe.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Add(NewPattern);
+                        
+                        UpdatePattern();
+                        UpdateROI();
+                        UpdateAlgorithm();
+                        UpdateParameter();
+                    }
+                };
+                m1.Click += (senders, es) =>
+                {
+                    Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "정말 삭제하시겠습니까?");
+                    Noti.ShowDialog();
+                    if (Noti.DialogResult == DialogResult.OK)
+                    {
+                        Pattern FindPattern = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelPatternName);
+                        Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Remove(FindPattern);
+
+                        UpdatePattern();
+                        UpdateROI();
+                        UpdateAlgorithm();
+                        UpdateParameter();
+                    }
+                    else
+                        return;
+                };
+
+                if (Dgv_Pattern?.SelectedRows.Count >= 0)
+                {
+                    //메뉴에 메뉴 아이템을 등록해줍니다
+                    m.MenuItems.Add(m0);
+                    m.MenuItems.Add(m1);
+                }
+                else
+                    m.MenuItems.Add(m0);
+                //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
+                m.Show(Dgv_Pattern, new System.Drawing.Point(e.X, e.Y));
             }
         }
 
         private void Dgv_Pattern_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-            if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2)
+            if (Dgv_Pattern.SelectedRows.Count > 0)
             {
-                DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName);
-                Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
-                Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
-                Temp.Insp = SelItem.Cells["Insp"].Value.toBool();  
-                Temp.Name = SelItem.Cells["Name"].Value.ToString();
+                string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2)
+                {
+                    DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
+                    Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName);
+                    Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
+                    Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
+                    Temp.Insp = SelItem.Cells["Insp"].Value.toBool();
+                    Temp.Name = SelItem.Cells["Name"].Value.ToString();
+                }
             }
         }
 
@@ -854,6 +970,16 @@ namespace CRUX_Renewal.Ex_Form
                 DataGridViewRow Rows = Dgv_Pattern.SelectedRows[0];
                 CurPtnName = Rows.Cells["Name"].Value.ToString();
             }
+        }
+
+        private void Dgv_Pattern_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+        }
+
+        private void Dgv_Roi_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
         }
     }
 }
