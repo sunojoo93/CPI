@@ -207,6 +207,7 @@ struct ST_MODEL_INFO
 	}
 };
 
+/////////////////////////////// AOT ///////////////////////////////
 struct ST_CAM_COND_AOT
 {
 	TCHAR Type[50];
@@ -332,7 +333,7 @@ struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 	int nGrabLine;
 	int ParticleCount;
 
-	PARAM_INSPECT_START_ACI()
+	PARAM_INSPECT_START_AOT_CHIPPING_ALM()
 	{
 		PcNo = 0;
 		nInspType = 0;
@@ -348,6 +349,7 @@ struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 		ParticleCount = 0;
 	}
 };
+/////////////////////////////// AOT ///////////////////////////////
 struct ST_PROC_INFO
 {
 	BOOL bFindModel;

@@ -82,12 +82,12 @@ public:
 		return FALSE;
 	};
 
-	virtual	void	CameraExpose() = 0;
+	//virtual	void	CameraExpose() = 0;
 	virtual BOOL	OpenCameraComPort(int nComPort, int nBaudrate, eCamModel eModel)
 																		{	return FALSE	;};
 	virtual int		GetMonitoringInterval()								{	return -1		;};
 	virtual void	SetMonitoringInterval(int nInterval)				{	return			;};
-	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
+	//virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
 
 #elif _VISTEKCAMERA
 	/************************************************************/

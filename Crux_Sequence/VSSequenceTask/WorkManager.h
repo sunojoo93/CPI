@@ -208,7 +208,8 @@ private:
 	//int	Seq_AutoInspectGrabImage_BUMP(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2021.10.05~ MDJ Inspection Sequence for LCP
 	int	Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 AOT CHIPPING JSO
 	int	Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 ALM JSO
-	//int	Seq_AutoChangeModel			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	
+	int Seq_GrabReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+																																							//int	Seq_AutoChangeModel			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	
 	// Sequence
 	//int	Seq_ClassifyEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	//int	Seq_GUI_ClassifyEnd			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
@@ -220,6 +221,7 @@ private:
 
 	//Tact Time
 	int Seq_TactTimeData			(TCHAR* strPanelId, CString strTactName, CString strTactState, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	
 
 	// Async Sequence
 	int	Seq_AsyncSequence			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);

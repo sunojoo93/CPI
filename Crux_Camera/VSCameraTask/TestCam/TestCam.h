@@ -56,6 +56,7 @@ public:
 	BOOL			StartLiveGrab();			// 16.06.30 Live 화면 출력 추가 by CWH
 	BOOL			StopLiveGrab();
 	void			SetSMemCurBuffer(int nTriggerCountF, int nTriggerCountB, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode);			// 현재 Grab Image Shared Memory 에 적재
+	void			SetSMemCurBuffer(int nBufCnt, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode);			// 현재 Grab Image Shared Memory 에 적재
 	void			SaveFileCurBuffer(TCHAR* strSavePath);			// 현재 Grab Image 파일로 저장
 	
 	// Get
@@ -156,9 +157,10 @@ public:
 #pragma region DalsaLine Camera 접근용
 	typedef struct
 	{
+		// Mil System, Mil Digitizer 접근 가능
 		CTestCam*	obj;
-		int		lastCount;
-		int		maxCount;
+		int		MaxCount;
+		int		ProcessedImageCount;
 		bool	isGrabEnd;
 		bool	isSaveImage;
 		HANDLE	hGrabEnd;
@@ -180,10 +182,12 @@ public:
 	bool	m_GrabFlag = false;
 	bool InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile);
 	void StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos ,bool sync, bool fileSave = false);
+	void StartGrab(int nBufCnt, CString strpos, bool sync, bool fileSave = false);
 	void StopGrab(int nTriggerCountF, int nTriggerCountB);
-	void AllocClearBuffer(int lineCount, bool onlyClear = false);
+	void StopGrab(int nBufCnt);
+	void AllocClearBuffer(int nBufCnt, bool onlyClear = false);
 	void m_fnMbufExport(CString strFilePath, MIL_ID milBuffer);
-	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void MPTYPE *HookDataPtr);
+	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr);
 #pragma endregion
 
 private:

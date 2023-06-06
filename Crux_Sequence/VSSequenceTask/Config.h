@@ -83,27 +83,8 @@ public:
 		}
 		return FALSE;
 	};		// 현재 Step Vaccum사용 여부
-	BOOL	IsUseCamera(CString AreaName, int nGrabCnt, int nCamCnt)					
-	{	
-		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
-		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
-			{
-				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].Use;
-			}
-		}
-		return FALSE;
-	};		// 현재 Step 사용 여부
-	ST_LIGHT_COND_AOT		GetLightInfo(CString AreaName, int nGrabCnt, int nLightNum)
-	{	
-		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
-		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
-			{
-				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
-			}
-		}
-	};
+
+
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -119,17 +100,6 @@ public:
 		return strRet;
 	};
 
-	BOOL	IsUseLight(CString AreaName, int nGrabCnt, int nLightNum)
-	{
-		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
-		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
-			{
-				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum].Use;
-			}
-		}
-		return FALSE;
-	};
 
 	//// 패턴 별로 조명 사용 유무를 설정 한다.
 	//void SetUseLight()					
@@ -141,18 +111,7 @@ public:
 	//};
 	BOOL					IsDust(int nGrabCnt)									{	return m_bIsUseLight[nGrabCnt]											;};
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	ST_CAM_COND_AOT		GetCameraConditions(CString AreaName, int nGrabCnt, int nCamCnt)
-	{	
-		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
-		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
-			{
-				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt];
-			}
-		}
-	};
-	int		GetGrabCount(CString AreaName)											
+	int		GetGrabCount(CString AreaName)
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
@@ -172,6 +131,62 @@ public:
 			}
 		};
 	};
+
+	/////////////////////// Light 관련 ////////////////////////
+	BOOL	IsUseLight(CString AreaName, int nGrabCnt, int nLightNum)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum].Use;
+			}
+		}
+		return FALSE;
+	};
+
+	ST_LIGHT_COND_AOT		GetLightInfo(CString AreaName, int nGrabCnt, int nLightNum)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
+			}
+		}
+	};
+	ST_LIGHT_COND_AOT		GetLightInfo_Use(CString AreaName, int nGrabCnt, int nLightNum)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
+			}
+		}
+	};
+	/////////////////////// Camera 관련 ////////////////////////
+	BOOL	IsUseCamera(CString AreaName, int nGrabCnt, int nCamCnt)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].Use;
+			}
+		}
+		return FALSE;
+	};		// 현재 Step 사용 여부
+	ST_CAM_COND_AOT		GetCameraConditions(CString AreaName, int nGrabCnt, int nCamCnt)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt];
+			}
+		}
+	};
 	UINT	GetCamPSMode(CString AreaName, int nGrabCnt, int nCamCnt)					
 	{	
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
@@ -188,7 +203,7 @@ public:
 		{
 			if (m_stModelInfo.GrabArea[i].Name == AreaName)
 			{
-				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].PS;
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].Expose;
 			}
 		}
 	};		// 2021.12.15~ MDJ Modify Camera Expose Time
