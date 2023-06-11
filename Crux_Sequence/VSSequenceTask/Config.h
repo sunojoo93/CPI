@@ -121,7 +121,7 @@ public:
 			}
 		}
 	};
-	TCHAR*		GetCurStepName(CString AreaName, int nGrabCnt)
+	TCHAR*		GetCurPatternName(CString AreaName, int nGrabCnt)
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
@@ -130,6 +130,10 @@ public:
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].PatternName;
 			}
 		};
+	};
+	TCHAR*		GetCurAreaName(int AreaNum)
+	{
+		return m_stModelInfo.GrabArea[AreaNum].Name;
 	};
 
 	/////////////////////// Light 관련 ////////////////////////
@@ -165,6 +169,16 @@ public:
 			}
 		}
 	};
+	int		GetMaxLightCount(CString AreaName, int nGrabCnt)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].LightCondCount;
+			}
+		}
+	};
 	/////////////////////// Camera 관련 ////////////////////////
 	BOOL	IsUseCamera(CString AreaName, int nGrabCnt, int nCamCnt)
 	{
@@ -184,6 +198,16 @@ public:
 			if (m_stModelInfo.GrabArea[i].Name == AreaName)
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt];
+			}
+		}
+	};
+	BOOL		GetUsePattern(CString AreaName, int nGrabCnt)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Grab;
 			}
 		}
 	};
