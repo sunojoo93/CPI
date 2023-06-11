@@ -422,8 +422,8 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 	
 	byte* tempParam = pParam;
 
-	ST_LINE_INFO stLineParam;
-	stLineParam = *(ST_LINE_INFO *)tempParam;
+	//ST_LINE_INFO stLineParam;
+	//stLineParam = *(ST_LINE_INFO *)tempParam;
 
 	//TCHAR strDirection[1] = { 0, };		// 100 byte
 	//memcpy(strDirection, tempParam, sizeof(tempParam));
@@ -431,7 +431,7 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 	//int nGrabLine = *(int  *)tempParam;
 
 	// Sequence In LOG
-	m_fnPrintLog(_T("CAMLOG -- Seq9011_Camera_Expose Sequence Start(%s). \n"), stLineParam.stLineData[0].strDirection);
+	m_fnPrintLog(_T("CAMLOG -- Seq9011_Camera_Expose Sequence Start(%s). \n"));
 	
 //#ifdef _DALSALINECAMERA 1221
 //	CDalsaLineCamera* temp = (CDalsaLineCamera*)theApp.m_pCamera;
@@ -605,21 +605,22 @@ int VSMessageProcessor::VS_WaitGrabEndSequence( byte* pParam, ULONG& nPrmSize, b
 	// Sequence In LOG
 	m_fnPrintLog(_T("CAMLOG -- Seq9013_Wait_Grab_End Sequence Start. bUseSMem=%s, nGrabNum=%d, bUseFileSave=%s, strPanelID=%s, strGrabStepName=%s \n"),
 						stWaitGrabEndParam.bUseSMem?_T("TRUE"):_T("FALSE"), 
-						stWaitGrabEndParam.nGrabNum,
+						//stWaitGrabEndParam.nGrabNum,
 						stWaitGrabEndParam.bUseFileSave?_T("TRUE"):_T("FALSE"),
-						stWaitGrabEndParam.strPanelID,
-						stWaitGrabEndParam.strGrabStepName
+						stWaitGrabEndParam.strPanelID
+						//stWaitGrabEndParam.strGrabStepName
 						);
 
 	EXCEPTION_TRY
 
 		int nRetryCnt = 3;
+	int	ProcessGrabCnt = 0;
 		for (int i =0 ; i < nRetryCnt; i++)
 		{
 			
 			theApp.m_pCamera->WaitGrabEnd();
 			if (stWaitGrabEndParam.bUseSMem)
-				theApp.m_pCamera->SetSMemCurBuffer(/*stWaitGrabEndParam.nTriCountF, stWaitGrabEndParam.nTriCountB,*/ stWaitGrabEndParam.nGrabNum, stWaitGrabEndParam.strPanelID, stWaitGrabEndParam.strGrabStepName, stWaitGrabEndParam.nSeqMode);
+				ProcessGrabCnt = theApp.m_pCamera->SetSMemCurBuffer(0, stWaitGrabEndParam.strPanelID);
 			if (stWaitGrabEndParam.bUseFileSave)
 			{
 				// 확장자 결정
@@ -634,6 +635,8 @@ int VSMessageProcessor::VS_WaitGrabEndSequence( byte* pParam, ULONG& nPrmSize, b
 			else 
 				theApp.m_pCamera->retryConnect();
 			*(int *)pParam = theApp.m_pCamera->GetImageCallBackState();	pParam   += sizeof(int);
+			*(int *)pParam = ProcessGrabCnt;	pParam += sizeof(int);
+			stWaitGrabEndParam.GrabCnt = ProcessGrabCnt;
 		}
 			
 

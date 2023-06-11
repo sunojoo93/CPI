@@ -65,7 +65,7 @@
             this.Btn_Login.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Login.FlatAppearance.BorderSize = 0;
             this.Btn_Login.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Login.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Login.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Login.Location = new System.Drawing.Point(1531, 0);
             this.Btn_Login.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
             this.Btn_Login.Name = "Btn_Login";
@@ -81,7 +81,7 @@
             this.Btn_Manage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Manage.FlatAppearance.BorderSize = 0;
             this.Btn_Manage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Manage.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Manage.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Manage.Location = new System.Drawing.Point(1421, 0);
             this.Btn_Manage.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
             this.Btn_Manage.Name = "Btn_Manage";
@@ -98,7 +98,7 @@
             this.Lb_CurUserInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Lb_CurUserInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_CurUserInfo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Lb_CurUserInfo.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lb_CurUserInfo.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_CurUserInfo.Location = new System.Drawing.Point(0, 0);
             this.Lb_CurUserInfo.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_CurUserInfo.Name = "Lb_CurUserInfo";

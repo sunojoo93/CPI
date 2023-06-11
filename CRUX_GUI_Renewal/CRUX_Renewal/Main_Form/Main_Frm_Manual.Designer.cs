@@ -75,7 +75,7 @@
             // Tlp_Simul
             // 
             this.Tlp_Simul.ColumnCount = 2;
-            this.Tlp_Simul.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 700F));
+            this.Tlp_Simul.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 800F));
             this.Tlp_Simul.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Simul.Controls.Add(this.Grb_ImageInfo, 0, 1);
             this.Tlp_Simul.Controls.Add(this.Tlp_Images, 0, 0);
@@ -85,18 +85,18 @@
             this.Tlp_Simul.Location = new System.Drawing.Point(3, 3);
             this.Tlp_Simul.Name = "Tlp_Simul";
             this.Tlp_Simul.RowCount = 2;
-            this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 578F));
+            this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 674F));
             this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Simul.Size = new System.Drawing.Size(1692, 693);
+            this.Tlp_Simul.Size = new System.Drawing.Size(1936, 813);
             this.Tlp_Simul.TabIndex = 0;
             // 
             // Grb_ImageInfo
             // 
             this.Grb_ImageInfo.Controls.Add(this.Tlp_ImageInfo);
             this.Grb_ImageInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_ImageInfo.Location = new System.Drawing.Point(3, 581);
+            this.Grb_ImageInfo.Location = new System.Drawing.Point(3, 677);
             this.Grb_ImageInfo.Name = "Grb_ImageInfo";
-            this.Grb_ImageInfo.Size = new System.Drawing.Size(694, 109);
+            this.Grb_ImageInfo.Size = new System.Drawing.Size(794, 133);
             this.Grb_ImageInfo.TabIndex = 1;
             this.Grb_ImageInfo.TabStop = false;
             this.Grb_ImageInfo.Text = "검사 정보";
@@ -105,23 +105,24 @@
             // 
             this.Tlp_ImageInfo.ColumnCount = 2;
             this.Tlp_ImageInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_ImageInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
+            this.Tlp_ImageInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
             this.Tlp_ImageInfo.Controls.Add(this.Btn_StartInsp, 1, 0);
             this.Tlp_ImageInfo.Controls.Add(this.Tlp_InspInfo, 0, 0);
             this.Tlp_ImageInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_ImageInfo.Location = new System.Drawing.Point(3, 17);
+            this.Tlp_ImageInfo.Location = new System.Drawing.Point(3, 18);
             this.Tlp_ImageInfo.Name = "Tlp_ImageInfo";
             this.Tlp_ImageInfo.RowCount = 1;
             this.Tlp_ImageInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_ImageInfo.Size = new System.Drawing.Size(688, 89);
+            this.Tlp_ImageInfo.Size = new System.Drawing.Size(788, 112);
             this.Tlp_ImageInfo.TabIndex = 1;
             // 
             // Btn_StartInsp
             // 
             this.Btn_StartInsp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_StartInsp.Location = new System.Drawing.Point(550, 3);
+            this.Btn_StartInsp.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_StartInsp.Location = new System.Drawing.Point(630, 3);
             this.Btn_StartInsp.Name = "Btn_StartInsp";
-            this.Btn_StartInsp.Size = new System.Drawing.Size(135, 83);
+            this.Btn_StartInsp.Size = new System.Drawing.Size(155, 106);
             this.Btn_StartInsp.TabIndex = 1;
             this.Btn_StartInsp.Text = "검사시작";
             this.Btn_StartInsp.UseVisualStyleBackColor = true;
@@ -136,18 +137,18 @@
             this.Tlp_InspInfo.Location = new System.Drawing.Point(3, 3);
             this.Tlp_InspInfo.Name = "Tlp_InspInfo";
             this.Tlp_InspInfo.RowCount = 2;
-            this.Tlp_InspInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_InspInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.Tlp_InspInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_InspInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_InspInfo.Size = new System.Drawing.Size(541, 74);
+            this.Tlp_InspInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.Tlp_InspInfo.Size = new System.Drawing.Size(618, 86);
             this.Tlp_InspInfo.TabIndex = 4;
             // 
             // Tlp_LoadImageInfo
             // 
             this.Tlp_LoadImageInfo.ColumnCount = 3;
-            this.Tlp_LoadImageInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.Tlp_LoadImageInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 83F));
             this.Tlp_LoadImageInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_LoadImageInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.Tlp_LoadImageInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
             this.Tlp_LoadImageInfo.Controls.Add(this.Lb_Path, 0, 0);
             this.Tlp_LoadImageInfo.Controls.Add(this.Tb_Path, 1, 0);
             this.Tlp_LoadImageInfo.Controls.Add(this.button1, 2, 0);
@@ -155,37 +156,39 @@
             this.Tlp_LoadImageInfo.Name = "Tlp_LoadImageInfo";
             this.Tlp_LoadImageInfo.RowCount = 1;
             this.Tlp_LoadImageInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_LoadImageInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.Tlp_LoadImageInfo.Size = new System.Drawing.Size(535, 29);
+            this.Tlp_LoadImageInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.Tlp_LoadImageInfo.Size = new System.Drawing.Size(611, 34);
             this.Tlp_LoadImageInfo.TabIndex = 0;
             // 
             // Lb_Path
             // 
             this.Lb_Path.AutoSize = true;
             this.Lb_Path.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Path.Font = new System.Drawing.Font("돋움체", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Path.Location = new System.Drawing.Point(0, 5);
-            this.Lb_Path.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.Lb_Path.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Path.Location = new System.Drawing.Point(0, 6);
+            this.Lb_Path.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.Lb_Path.Name = "Lb_Path";
-            this.Lb_Path.Size = new System.Drawing.Size(73, 24);
+            this.Lb_Path.Size = new System.Drawing.Size(83, 28);
             this.Lb_Path.TabIndex = 0;
             this.Lb_Path.Text = "경로 : ";
+            this.Lb_Path.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Tb_Path
             // 
             this.Tb_Path.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tb_Path.Location = new System.Drawing.Point(73, 5);
-            this.Tb_Path.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.Tb_Path.Location = new System.Drawing.Point(83, 6);
+            this.Tb_Path.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.Tb_Path.Name = "Tb_Path";
-            this.Tb_Path.Size = new System.Drawing.Size(362, 21);
+            this.Tb_Path.Size = new System.Drawing.Size(414, 22);
             this.Tb_Path.TabIndex = 1;
             // 
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(438, 3);
+            this.button1.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button1.Location = new System.Drawing.Point(500, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(94, 23);
+            this.button1.Size = new System.Drawing.Size(108, 28);
             this.button1.TabIndex = 2;
             this.button1.Text = "불러오기";
             this.button1.UseVisualStyleBackColor = true;
@@ -194,28 +197,28 @@
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 83F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.Tb_CellID, 1, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 38);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 44);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(535, 29);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(611, 34);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("돋움체", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(0, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label1.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Location = new System.Drawing.Point(0, 6);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 24);
+            this.label1.Size = new System.Drawing.Size(83, 28);
             this.label1.TabIndex = 0;
             this.label1.Text = "ID : ";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -223,10 +226,10 @@
             // Tb_CellID
             // 
             this.Tb_CellID.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tb_CellID.Location = new System.Drawing.Point(73, 5);
-            this.Tb_CellID.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.Tb_CellID.Location = new System.Drawing.Point(83, 6);
+            this.Tb_CellID.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.Tb_CellID.Name = "Tb_CellID";
-            this.Tb_CellID.Size = new System.Drawing.Size(462, 21);
+            this.Tb_CellID.Size = new System.Drawing.Size(528, 22);
             this.Tb_CellID.TabIndex = 1;
             // 
             // Tlp_Images
@@ -241,11 +244,11 @@
             this.Tlp_Images.Location = new System.Drawing.Point(3, 3);
             this.Tlp_Images.Name = "Tlp_Images";
             this.Tlp_Images.RowCount = 4;
-            this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.Tlp_Images.Size = new System.Drawing.Size(694, 572);
+            this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.Tlp_Images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_Images.Size = new System.Drawing.Size(794, 668);
             this.Tlp_Images.TabIndex = 2;
             // 
             // Cog_Display_Status
@@ -253,11 +256,12 @@
             this.Cog_Display_Status.CoordinateSpaceName = "*\\#";
             this.Cog_Display_Status.CoordinateSpaceName3D = "*\\#";
             this.Cog_Display_Status.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Cog_Display_Status.Location = new System.Drawing.Point(0, 516);
+            this.Cog_Display_Status.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Cog_Display_Status.Location = new System.Drawing.Point(0, 603);
             this.Cog_Display_Status.Margin = new System.Windows.Forms.Padding(0);
             this.Cog_Display_Status.Name = "Cog_Display_Status";
             this.Cog_Display_Status.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Cog_Display_Status.Size = new System.Drawing.Size(694, 26);
+            this.Cog_Display_Status.Size = new System.Drawing.Size(794, 30);
             this.Cog_Display_Status.TabIndex = 129;
             this.Cog_Display_Status.Use3DCoordinateSpaceTree = false;
             // 
@@ -267,7 +271,7 @@
             this.Cog_Display_Toolbar.Location = new System.Drawing.Point(0, 0);
             this.Cog_Display_Toolbar.Margin = new System.Windows.Forms.Padding(0);
             this.Cog_Display_Toolbar.Name = "Cog_Display_Toolbar";
-            this.Cog_Display_Toolbar.Size = new System.Drawing.Size(694, 26);
+            this.Cog_Display_Toolbar.Size = new System.Drawing.Size(794, 30);
             this.Cog_Display_Toolbar.TabIndex = 127;
             // 
             // Cog_Display
@@ -280,32 +284,32 @@
             this.Cog_Display.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cog_Display.DoubleTapZoomCycleLength = 2;
             this.Cog_Display.DoubleTapZoomSensitivity = 2.5D;
-            this.Cog_Display.Location = new System.Drawing.Point(3, 29);
+            this.Cog_Display.Location = new System.Drawing.Point(3, 33);
             this.Cog_Display.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.Cog_Display.MouseWheelSensitivity = 1D;
             this.Cog_Display.Name = "Cog_Display";
             this.Cog_Display.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Cog_Display.OcxState")));
-            this.Cog_Display.Size = new System.Drawing.Size(688, 484);
+            this.Cog_Display.Size = new System.Drawing.Size(788, 567);
             this.Cog_Display.TabIndex = 128;
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.Controls.Add(this.Btn_Left, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.Btn_Right, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.Btn_ImageSelect, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.Lb_CurImageNum, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 542);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 633);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(694, 30);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(794, 35);
             this.tableLayoutPanel1.TabIndex = 130;
             // 
             // Btn_Left
@@ -316,7 +320,7 @@
             this.Btn_Left.Location = new System.Drawing.Point(0, 0);
             this.Btn_Left.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Left.Name = "Btn_Left";
-            this.Btn_Left.Size = new System.Drawing.Size(70, 30);
+            this.Btn_Left.Size = new System.Drawing.Size(80, 35);
             this.Btn_Left.TabIndex = 0;
             this.Btn_Left.UseVisualStyleBackColor = true;
             this.Btn_Left.Click += new System.EventHandler(this.Btn_Left_Click);
@@ -326,10 +330,10 @@
             this.Btn_Right.BackgroundImage = global::CRUX_Renewal.Properties.Resources.SingleRightArrow;
             this.Btn_Right.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Btn_Right.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Right.Location = new System.Drawing.Point(624, 0);
+            this.Btn_Right.Location = new System.Drawing.Point(714, 0);
             this.Btn_Right.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Right.Name = "Btn_Right";
-            this.Btn_Right.Size = new System.Drawing.Size(70, 30);
+            this.Btn_Right.Size = new System.Drawing.Size(80, 35);
             this.Btn_Right.TabIndex = 1;
             this.Btn_Right.UseVisualStyleBackColor = true;
             this.Btn_Right.Click += new System.EventHandler(this.Btn_Right_Click);
@@ -337,10 +341,10 @@
             // Btn_ImageSelect
             // 
             this.Btn_ImageSelect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ImageSelect.Location = new System.Drawing.Point(70, 0);
+            this.Btn_ImageSelect.Location = new System.Drawing.Point(80, 0);
             this.Btn_ImageSelect.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_ImageSelect.Name = "Btn_ImageSelect";
-            this.Btn_ImageSelect.Size = new System.Drawing.Size(454, 30);
+            this.Btn_ImageSelect.Size = new System.Drawing.Size(520, 35);
             this.Btn_ImageSelect.TabIndex = 2;
             this.Btn_ImageSelect.UseVisualStyleBackColor = true;
             this.Btn_ImageSelect.Click += new System.EventHandler(this.Btn_ImageSelect_Click);
@@ -351,10 +355,10 @@
             this.Lb_CurImageNum.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_CurImageNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Lb_CurImageNum.Font = new System.Drawing.Font("돋움체", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_CurImageNum.Location = new System.Drawing.Point(524, 0);
+            this.Lb_CurImageNum.Location = new System.Drawing.Point(600, 0);
             this.Lb_CurImageNum.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_CurImageNum.Name = "Lb_CurImageNum";
-            this.Lb_CurImageNum.Size = new System.Drawing.Size(100, 30);
+            this.Lb_CurImageNum.Size = new System.Drawing.Size(114, 35);
             this.Lb_CurImageNum.TabIndex = 3;
             this.Lb_CurImageNum.Text = "-/-";
             this.Lb_CurImageNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -369,21 +373,21 @@
             this.cogRecordDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cogRecordDisplay1.DoubleTapZoomCycleLength = 2;
             this.cogRecordDisplay1.DoubleTapZoomSensitivity = 2.5D;
-            this.cogRecordDisplay1.Location = new System.Drawing.Point(703, 3);
+            this.cogRecordDisplay1.Location = new System.Drawing.Point(803, 3);
             this.cogRecordDisplay1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.cogRecordDisplay1.MouseWheelSensitivity = 1D;
             this.cogRecordDisplay1.Name = "cogRecordDisplay1";
             this.cogRecordDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay1.OcxState")));
-            this.cogRecordDisplay1.Size = new System.Drawing.Size(986, 572);
+            this.cogRecordDisplay1.Size = new System.Drawing.Size(1130, 668);
             this.cogRecordDisplay1.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(703, 578);
+            this.label2.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Location = new System.Drawing.Point(803, 674);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(153, 30);
+            this.label2.Size = new System.Drawing.Size(134, 23);
             this.label2.TabIndex = 5;
             this.label2.Text = "로그 출력 영역";
             // 
@@ -395,16 +399,16 @@
             this.Tab_Simul.Location = new System.Drawing.Point(0, 0);
             this.Tab_Simul.Name = "Tab_Simul";
             this.Tab_Simul.SelectedIndex = 0;
-            this.Tab_Simul.Size = new System.Drawing.Size(1706, 725);
+            this.Tab_Simul.Size = new System.Drawing.Size(1950, 846);
             this.Tab_Simul.TabIndex = 1;
             // 
             // tab_Page_ImageSimul
             // 
             this.tab_Page_ImageSimul.Controls.Add(this.Tlp_Simul);
-            this.tab_Page_ImageSimul.Location = new System.Drawing.Point(4, 22);
+            this.tab_Page_ImageSimul.Location = new System.Drawing.Point(4, 23);
             this.tab_Page_ImageSimul.Name = "tab_Page_ImageSimul";
             this.tab_Page_ImageSimul.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Page_ImageSimul.Size = new System.Drawing.Size(1698, 699);
+            this.tab_Page_ImageSimul.Size = new System.Drawing.Size(1942, 819);
             this.tab_Page_ImageSimul.TabIndex = 0;
             this.tab_Page_ImageSimul.Text = "Image Simulation";
             this.tab_Page_ImageSimul.UseVisualStyleBackColor = true;
@@ -412,19 +416,19 @@
             // tab_Page_TotalSimul
             // 
             this.tab_Page_TotalSimul.Controls.Add(this.button3);
-            this.tab_Page_TotalSimul.Location = new System.Drawing.Point(4, 22);
+            this.tab_Page_TotalSimul.Location = new System.Drawing.Point(4, 23);
             this.tab_Page_TotalSimul.Name = "tab_Page_TotalSimul";
             this.tab_Page_TotalSimul.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Page_TotalSimul.Size = new System.Drawing.Size(1698, 699);
+            this.tab_Page_TotalSimul.Size = new System.Drawing.Size(1942, 819);
             this.tab_Page_TotalSimul.TabIndex = 1;
             this.tab_Page_TotalSimul.Text = "Full Sequence Simulation";
             this.tab_Page_TotalSimul.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(377, 370);
+            this.button3.Location = new System.Drawing.Point(431, 432);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(86, 27);
             this.button3.TabIndex = 0;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
@@ -432,12 +436,13 @@
             // 
             // Main_Frm_Manual
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1706, 725);
+            this.ClientSize = new System.Drawing.Size(1950, 846);
             this.Controls.Add(this.Tab_Simul);
             this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Main_Frm_Manual";
             this.Text = "Main_Frm_Manual";

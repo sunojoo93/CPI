@@ -389,8 +389,8 @@ namespace CRUX_Renewal.Class
                             int PtnbyParticleCnt = Inspection_Data.ImageData[ptn_idx].ParticleImageCount;
 
                             CogImage8Grey[] Particles_Image = new CogImage8Grey[PtnbyParticleCnt];
-                            Parallel.For(0, PtnbyParticleCnt, (ptc_idx) =>
-                            //for (int ptc_idx = 0; ptc_idx < PtnbyParticleCnt; ++ptc_idx)
+                            //Parallel.For(0, PtnbyParticleCnt, (ptc_idx) =>
+                            for (int ptc_idx = Inspection_Data.ImageData[ptn_idx].SharedMemStartIdx; ptc_idx < PtnbyParticleCnt; ptc_idx+= PtnCnt)
                             {
                                 CogImage8Root ParticleImgTemp = new CogImage8Root();
                                 ParticleImgTemp.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[ptn_idx].SharedMemStartIdx), ImgWidth, null);
@@ -398,10 +398,10 @@ namespace CRUX_Renewal.Class
                                 CogImage8Grey Image = new CogImage8Grey();
                                 Image.SetRoot(ParticleImgTemp);
                                 Particles_Image[PtnbyParticleCnt] = Image;
-                            });
+                            }
                             string PatternName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
 
-                            PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(3, 0, Particles_Image, PtnbyParticleCnt) : Particles_Image[0];
+                            PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(3, 0, 2000,Particles_Image, PtnbyParticleCnt) : Particles_Image[0];
                             GrabImages[ptn_idx] = new GrabImageInfo(PtnArray[ptn_idx], PatternName);
                         });
                         //CogImage8Root[][] cogRoot = new CogImage8Root[PatternCnt][;
@@ -442,7 +442,7 @@ namespace CRUX_Renewal.Class
 
                             string Path = string.Format("{0}{1}", FilePath, ImageName);
 
-                            Systems.Inspector_.Start_Insp(RcvInspData);
+                            //Systems.Inspector_.Start_Insp(RcvInspData);
                             Task ImageSaveTask = new Task(delegate
                             {
                                 ImageSave(Path, GrabImages[i].Image);

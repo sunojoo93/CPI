@@ -73,6 +73,7 @@ public:
 	virtual UINT	retryConnect()										{	return 0		;};
 	virtual	void	CameraExpose() { };
 	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
+	virtual int		SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID) { return; };
 #ifdef _MATROXCAMERA
 	/************************************************************/
 	/*						 Matrox Camera						*/
@@ -171,6 +172,8 @@ public:
 	};
 	virtual	void	CameraExpose(ST_LINE_INFO stLine) = 0;
 	virtual void	SetSMemCurBuffer(int nTriggerCountF, int nTriggerCountB, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
+#elif _TestCam
+	virtual void	SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID, int nSeqMode) { return; };
 #endif
 };
 

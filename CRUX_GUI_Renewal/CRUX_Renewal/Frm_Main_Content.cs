@@ -61,11 +61,9 @@ namespace CRUX_Renewal
             this.Dock = DockStyle.Fill;
             this.TopLevel = false;
             Frm_MenuBar = new Ex_Frm_Menubar() { Owner = this.Owner };
-            //if (Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.JobCount > 0)
-           //     Systems.CurrentSelectedAreaName[CurFormIndex] = Systems.RecipeContent.MainRecipe[CurFormIndex].Manager.Job(0).Name;
+
             Frm_Auto = new Main_Frm_Auto() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Auto.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
-            //Frm_Auto.SetRecipe(ref Recipe);
 
             Frm_Manual = new Main_Frm_Manual() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Manual.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
@@ -73,26 +71,20 @@ namespace CRUX_Renewal
 
             Frm_Recipe = new Main_Frm_Recipe() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Recipe.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
-            //Frm_Recipe.SetRecipe(ref Recipe);
+
 
             Frm_Optical = new Main_Frm_Optical() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Optical.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
-            //Frm_Optical.SetRecipe(ref Recipe);
+
 
             Frm_Algorithm = new Main_Frm_Algorithm() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Algorithm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
-            //Frm_Algorithm.SetRecipe(ref Recipe);
 
             Tlp_MainForm.Controls.Add(Frm_MenuBar, 0, 1);
             Tlp_MainForm.Controls.Add(Frm_Auto, 0, 0);
 
             CurrentFormName = Frm_Auto.Name;
             LoadingComplete = true;
-           
-        }
-
-        private void Frm_MainContent_Load (object sender, EventArgs e)
-        {            
            
         }
 
@@ -103,8 +95,7 @@ namespace CRUX_Renewal
             {
                 name.Hide();
                 Tlp_MainForm.Controls.Remove(Tlp_MainForm.Controls.Find(CurrentFormName, false)[0]);
-                Tlp_MainForm.Controls.Add(name, 0, 0);
-                //Tlp_Main_.SetColumnSpan(name, 7);                
+                Tlp_MainForm.Controls.Add(name, 0, 0);           
                 CurrentFormName = name.Name;
                 name.Show();
             }
@@ -120,16 +111,9 @@ namespace CRUX_Renewal
                 this.Invoke(del, value);
             }
             else
-            {
-                //Your code goes here, in this case:                          
+            {                
                 form.Opacity = value;
-                //Tlp_Main.Refresh();
             }
-        }
-
-        public bool GetLoadingComplete()
-        {
-            return LoadingComplete;
         }
 
         private void Frm_MainContent_Shown (object sender, EventArgs e)

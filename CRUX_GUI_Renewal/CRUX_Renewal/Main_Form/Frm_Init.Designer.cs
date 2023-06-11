@@ -39,7 +39,7 @@ namespace CRUX_Renewal.Main_Form
             // lbl_CurrentState
             // 
             this.lbl_CurrentState.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_CurrentState.Font = new System.Drawing.Font("맑은 고딕", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_CurrentState.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_CurrentState.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lbl_CurrentState.Location = new System.Drawing.Point(99, 382);
             this.lbl_CurrentState.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
@@ -69,7 +69,7 @@ namespace CRUX_Renewal.Main_Form
             this.CircleProgressBar.DegreeOfDetail = 100;
             this.CircleProgressBar.Delay = 25;
             this.CircleProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CircleProgressBar.Font = new System.Drawing.Font("맑은 고딕", 72F, System.Drawing.FontStyle.Bold);
+            this.CircleProgressBar.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.CircleProgressBar.ForeColor = System.Drawing.Color.Black;
             this.CircleProgressBar.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
             this.CircleProgressBar.Line = true;

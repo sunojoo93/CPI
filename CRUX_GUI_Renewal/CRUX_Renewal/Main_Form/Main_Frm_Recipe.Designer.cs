@@ -91,6 +91,7 @@ namespace CRUX_Renewal.Main_Form
             this.Tab_RecipeMain.Controls.Add(this.tab_optic);
             this.Tab_RecipeMain.Controls.Add(this.tab_align);
             this.Tab_RecipeMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tab_RecipeMain.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Tab_RecipeMain.HotTrack = true;
             this.Tab_RecipeMain.Location = new System.Drawing.Point(180, 0);
             this.Tab_RecipeMain.Margin = new System.Windows.Forms.Padding(0);
@@ -123,9 +124,9 @@ namespace CRUX_Renewal.Main_Form
             // 
             // tab_align
             // 
-            this.tab_align.Location = new System.Drawing.Point(4, 22);
+            this.tab_align.Location = new System.Drawing.Point(4, 23);
             this.tab_align.Name = "tab_align";
-            this.tab_align.Size = new System.Drawing.Size(1453, 753);
+            this.tab_align.Size = new System.Drawing.Size(1453, 752);
             this.tab_align.TabIndex = 2;
             this.tab_align.Text = "Align";
             this.tab_align.UseVisualStyleBackColor = true;
@@ -244,7 +245,7 @@ namespace CRUX_Renewal.Main_Form
             this.Cagb_Jobs.Controls.Add(this.Dgv_GrabArea);
             this.Cagb_Jobs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cagb_Jobs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Cagb_Jobs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Cagb_Jobs.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Cagb_Jobs.Location = new System.Drawing.Point(0, 171);
             this.Cagb_Jobs.Margin = new System.Windows.Forms.Padding(0);
             this.Cagb_Jobs.Name = "Cagb_Jobs";
@@ -261,13 +262,13 @@ namespace CRUX_Renewal.Main_Form
             this.Dgv_GrabArea.AllowUserToResizeRows = false;
             this.Dgv_GrabArea.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Dgv_GrabArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Dgv_GrabArea.Location = new System.Drawing.Point(3, 20);
+            this.Dgv_GrabArea.Location = new System.Drawing.Point(3, 18);
             this.Dgv_GrabArea.MultiSelect = false;
             this.Dgv_GrabArea.Name = "Dgv_GrabArea";
             this.Dgv_GrabArea.RowHeadersVisible = false;
             this.Dgv_GrabArea.RowTemplate.Height = 23;
             this.Dgv_GrabArea.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_GrabArea.Size = new System.Drawing.Size(174, 475);
+            this.Dgv_GrabArea.Size = new System.Drawing.Size(174, 477);
             this.Dgv_GrabArea.TabIndex = 0;
             this.Dgv_GrabArea.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GrabArea_CellEndEdit);
             this.Dgv_GrabArea.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_GrabArea_CellMouseUp);
@@ -280,7 +281,7 @@ namespace CRUX_Renewal.Main_Form
             // 
             this.Cagb_Recipe.Controls.Add(this.LstBoxRecipeList);
             this.Cagb_Recipe.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Cagb_Recipe.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Cagb_Recipe.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Cagb_Recipe.Location = new System.Drawing.Point(0, 0);
             this.Cagb_Recipe.Margin = new System.Windows.Forms.Padding(0);
             this.Cagb_Recipe.Name = "Cagb_Recipe";
@@ -292,14 +293,14 @@ namespace CRUX_Renewal.Main_Form
             // LstBoxRecipeList
             // 
             this.LstBoxRecipeList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstBoxRecipeList.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstBoxRecipeList.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstBoxRecipeList.FormattingEnabled = true;
-            this.LstBoxRecipeList.ItemHeight = 20;
-            this.LstBoxRecipeList.Location = new System.Drawing.Point(3, 20);
+            this.LstBoxRecipeList.ItemHeight = 14;
+            this.LstBoxRecipeList.Location = new System.Drawing.Point(3, 18);
             this.LstBoxRecipeList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.LstBoxRecipeList.Name = "LstBoxRecipeList";
             this.LstBoxRecipeList.ScrollAlwaysVisible = true;
-            this.LstBoxRecipeList.Size = new System.Drawing.Size(174, 143);
+            this.LstBoxRecipeList.Size = new System.Drawing.Size(174, 145);
             this.LstBoxRecipeList.TabIndex = 3;
             this.LstBoxRecipeList.SelectedIndexChanged += new System.EventHandler(this.LstBoxRecipeList_SelectedIndexChanged);
             this.LstBoxRecipeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseDoubleClick);

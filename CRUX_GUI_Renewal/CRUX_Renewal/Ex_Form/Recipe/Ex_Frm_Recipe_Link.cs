@@ -82,6 +82,9 @@ namespace CRUX_Renewal.Ex_Form
             Dgv_Pattern.Columns[1].Width = 40;
             Dgv_Pattern.Columns[2].Width = 40;
             Dgv_Pattern.Columns[3].Width = 150;
+
+            Dgv_Roi.DefaultCellStyle.Font = new System.Drawing.Font("나눔스퀘어라운드", 9); ;
+            Dgv_Pattern.DefaultCellStyle.Font = new System.Drawing.Font("나눔스퀘어라운드", 9);
             foreach (DataGridViewColumn item in Dgv_Pattern.Columns)
             {
                 item.SortMode = DataGridViewColumnSortMode.NotSortable;

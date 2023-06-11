@@ -313,40 +313,50 @@ struct ST_RECIPE_INFO_AOT
 };
 struct IMAGE_SET_AOT
 {
-	TCHAR RecipeName[50];
+	TCHAR PatternName[50];
 	int SharedMemStartIdx;
 	int SharedMemEndIdx;
 	int ParticleImageCount;
+	TCHAR Direction[50];
+	int GrabLine;
+
+	IMAGE_SET_AOT()
+	{
+		memset(PatternName, 0, sizeof(PatternName));
+		SharedMemStartIdx = 0;
+		SharedMemEndIdx = 0;
+		ParticleImageCount = 0;
+		memset(Direction, 0, sizeof(Direction));
+		GrabLine = 0;
+
+	}
+
 };
 struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 {
 	int PcNo;
 	UINT nInspType;				// 0: Auto, 1: Manual Grab & Inspection, 2: Manual Inspection
+	IMAGE_SET_AOT ImageSet[5];
+	int PatternCount;
 	wchar_t strPanelID[50];
 	wchar_t strVirtualID[50];
+	wchar_t strArea[50];
+	int GrabLine;
+	int CamNo;
 
 
-	UINT nImageNum;
-	UINT nShareImgNum;
-	wchar_t strDirection[50];
-	wchar_t strPosition[50];
-	int nGrabLine;
-	int ParticleCount;
 
 	PARAM_INSPECT_START_AOT_CHIPPING_ALM()
 	{
 		PcNo = 0;
 		nInspType = 0;
-
+		PatternCount = 0;
+		memset(ImageSet, 0, sizeof(ST_GRAB_AREA_INFO_AOT) * 5);
 		memset(strPanelID, 0, sizeof(strPanelID));
 		memset(strVirtualID, 0, sizeof(strVirtualID));
-
-		nGrabLine = 0;
-		nImageNum = 0;
-		memset(strDirection, 0, sizeof(strDirection));
-		memset(strPosition, 0, sizeof(strPosition));
-		nShareImgNum = 0;
-		ParticleCount = 0;
+		memset(strArea, 0, sizeof(strArea));
+		GrabLine = 0;
+		CamNo = 0;
 	}
 };
 /////////////////////////////// AOT ///////////////////////////////
@@ -370,6 +380,7 @@ struct PARAM_WAIT_GRAB_END
 	int nSeqMode;
 	int nTriCountF;
 	int nTriCountB;
+	int GrabCnt;
 
 	PARAM_WAIT_GRAB_END()
 	{
@@ -382,7 +393,7 @@ struct PARAM_WAIT_GRAB_END
 		nSeqMode = 0;
 		nTriCountF = 0;
 		nTriCountB = 0;
-
+		GrabCnt = 0;
 	}
 };
 

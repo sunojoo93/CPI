@@ -110,10 +110,10 @@ namespace CRUX_Renewal.Main_Form
                             break;
                         case (int)Enums.InitFlag.CAM_TASK:
                             setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
-                            if ( SimulMode.ToString() == "FALSE" )
-                                Program.StartSimulCameraTask(); // 추후에 수정
-                            else
-                                Program.StartDalsaCameraTask();
+                            //if ( SimulMode.ToString() == "FALSE" )
+                                Program.StartCameraTask(SimulMode.ToString(), "TestCamTask"); // 추후에 수정
+                           // else
+                            //    Program.StartDalsaCameraTask();
                             ++InitFlag;
                             Systems.LogWriter.Info("Initialize CAM...");
                             break;

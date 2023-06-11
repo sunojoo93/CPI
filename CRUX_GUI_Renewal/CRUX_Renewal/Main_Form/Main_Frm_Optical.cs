@@ -1,4 +1,5 @@
-﻿using CRUX_Renewal.Ex_Form;
+﻿using CRUX_Renewal.Class;
+using CRUX_Renewal.Ex_Form;
 using System.Windows.Forms;
 
 namespace CRUX_Renewal.Main_Form

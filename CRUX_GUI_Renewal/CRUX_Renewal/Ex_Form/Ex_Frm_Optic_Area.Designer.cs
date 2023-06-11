@@ -30,6 +30,16 @@
         {
             this.Tlp_AreaCam = new System.Windows.Forms.TableLayoutPanel();
             this.Pnl_MainPic = new System.Windows.Forms.Panel();
+            this.CAGB_LightInfo = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
+            this.Tlp_LightInfo = new System.Windows.Forms.TableLayoutPanel();
+            this.Lb_Light_Name = new System.Windows.Forms.Label();
+            this.Lb_Light_Name_Content = new System.Windows.Forms.Label();
+            this.Lb_Light_Temp = new System.Windows.Forms.Label();
+            this.Lb_Light_Temp_Content = new System.Windows.Forms.Label();
+            this.CAGB_TriggerInfo = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
+            this.Tlp_TriggerInfo = new System.Windows.Forms.TableLayoutPanel();
+            this.Lb_Trigger_Name = new System.Windows.Forms.Label();
+            this.Lb_Trigger_Name_Content = new System.Windows.Forms.Label();
             this.CAGB_CamInfo = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
             this.Tlp_CameraInfo = new System.Windows.Forms.TableLayoutPanel();
             this.Lb_Cam_Name = new System.Windows.Forms.Label();
@@ -40,23 +50,13 @@
             this.Lb_Cam_Type_Content = new System.Windows.Forms.Label();
             this.Lb_Cam_Temp = new System.Windows.Forms.Label();
             this.Lb_Cam_Temp_Content = new System.Windows.Forms.Label();
-            this.CAGB_TriggerInfo = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
-            this.Tlp_TriggerInfo = new System.Windows.Forms.TableLayoutPanel();
-            this.Lb_Trigger_Name = new System.Windows.Forms.Label();
-            this.Lb_Trigger_Name_Content = new System.Windows.Forms.Label();
-            this.CAGB_LightInfo = new CRUX_Renewal.User_Controls.CenterAlignedGroupBox();
-            this.Tlp_LightInfo = new System.Windows.Forms.TableLayoutPanel();
-            this.Lb_Light_Name = new System.Windows.Forms.Label();
-            this.Lb_Light_Name_Content = new System.Windows.Forms.Label();
-            this.Lb_Light_Temp = new System.Windows.Forms.Label();
-            this.Lb_Light_Temp_Content = new System.Windows.Forms.Label();
             this.Tlp_AreaCam.SuspendLayout();
-            this.CAGB_CamInfo.SuspendLayout();
-            this.Tlp_CameraInfo.SuspendLayout();
-            this.CAGB_TriggerInfo.SuspendLayout();
-            this.Tlp_TriggerInfo.SuspendLayout();
             this.CAGB_LightInfo.SuspendLayout();
             this.Tlp_LightInfo.SuspendLayout();
+            this.CAGB_TriggerInfo.SuspendLayout();
+            this.Tlp_TriggerInfo.SuspendLayout();
+            this.CAGB_CamInfo.SuspendLayout();
+            this.Tlp_CameraInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_AreaCam
@@ -78,7 +78,7 @@
             this.Tlp_AreaCam.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.Tlp_AreaCam.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.Tlp_AreaCam.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.Tlp_AreaCam.Size = new System.Drawing.Size(1641, 1226);
+            this.Tlp_AreaCam.Size = new System.Drawing.Size(1641, 1100);
             this.Tlp_AreaCam.TabIndex = 0;
             // 
             // Pnl_MainPic
@@ -88,18 +88,168 @@
             this.Pnl_MainPic.Location = new System.Drawing.Point(257, 5);
             this.Pnl_MainPic.Name = "Pnl_MainPic";
             this.Tlp_AreaCam.SetRowSpan(this.Pnl_MainPic, 3);
-            this.Pnl_MainPic.Size = new System.Drawing.Size(685, 1216);
+            this.Pnl_MainPic.Size = new System.Drawing.Size(685, 1090);
             this.Pnl_MainPic.TabIndex = 0;
+            // 
+            // CAGB_LightInfo
+            // 
+            this.CAGB_LightInfo.BackColor = System.Drawing.Color.White;
+            this.CAGB_LightInfo.Controls.Add(this.Tlp_LightInfo);
+            this.CAGB_LightInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CAGB_LightInfo.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.CAGB_LightInfo.Location = new System.Drawing.Point(5, 773);
+            this.CAGB_LightInfo.Name = "CAGB_LightInfo";
+            this.CAGB_LightInfo.Size = new System.Drawing.Size(244, 322);
+            this.CAGB_LightInfo.TabIndex = 5;
+            this.CAGB_LightInfo.TabStop = false;
+            this.CAGB_LightInfo.Text = "Light Info";
+            // 
+            // Tlp_LightInfo
+            // 
+            this.Tlp_LightInfo.BackColor = System.Drawing.Color.Transparent;
+            this.Tlp_LightInfo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.Tlp_LightInfo.ColumnCount = 2;
+            this.Tlp_LightInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.Tlp_LightInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_LightInfo.Controls.Add(this.Lb_Light_Name, 0, 0);
+            this.Tlp_LightInfo.Controls.Add(this.Lb_Light_Name_Content, 1, 0);
+            this.Tlp_LightInfo.Controls.Add(this.Lb_Light_Temp, 0, 1);
+            this.Tlp_LightInfo.Controls.Add(this.Lb_Light_Temp_Content, 1, 1);
+            this.Tlp_LightInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_LightInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Tlp_LightInfo.Location = new System.Drawing.Point(3, 29);
+            this.Tlp_LightInfo.Margin = new System.Windows.Forms.Padding(0);
+            this.Tlp_LightInfo.Name = "Tlp_LightInfo";
+            this.Tlp_LightInfo.RowCount = 7;
+            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_LightInfo.Size = new System.Drawing.Size(238, 290);
+            this.Tlp_LightInfo.TabIndex = 3;
+            // 
+            // Lb_Light_Name
+            // 
+            this.Lb_Light_Name.AutoSize = true;
+            this.Lb_Light_Name.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Light_Name.Location = new System.Drawing.Point(4, 4);
+            this.Lb_Light_Name.Margin = new System.Windows.Forms.Padding(3);
+            this.Lb_Light_Name.Name = "Lb_Light_Name";
+            this.Lb_Light_Name.Size = new System.Drawing.Size(34, 17);
+            this.Lb_Light_Name.TabIndex = 1;
+            this.Lb_Light_Name.Text = "이름";
+            this.Lb_Light_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Lb_Light_Name_Content
+            // 
+            this.Lb_Light_Name_Content.AutoSize = true;
+            this.Lb_Light_Name_Content.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Light_Name_Content.Location = new System.Drawing.Point(105, 4);
+            this.Lb_Light_Name_Content.Margin = new System.Windows.Forms.Padding(3);
+            this.Lb_Light_Name_Content.Name = "Lb_Light_Name_Content";
+            this.Lb_Light_Name_Content.Size = new System.Drawing.Size(44, 17);
+            this.Lb_Light_Name_Content.TabIndex = 2;
+            this.Lb_Light_Name_Content.Text = "Name";
+            this.Lb_Light_Name_Content.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Lb_Light_Temp
+            // 
+            this.Lb_Light_Temp.AutoSize = true;
+            this.Lb_Light_Temp.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Light_Temp.Location = new System.Drawing.Point(4, 40);
+            this.Lb_Light_Temp.Margin = new System.Windows.Forms.Padding(3);
+            this.Lb_Light_Temp.Name = "Lb_Light_Temp";
+            this.Lb_Light_Temp.Size = new System.Drawing.Size(34, 17);
+            this.Lb_Light_Temp.TabIndex = 8;
+            this.Lb_Light_Temp.Text = "온도";
+            this.Lb_Light_Temp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Lb_Light_Temp_Content
+            // 
+            this.Lb_Light_Temp_Content.AutoSize = true;
+            this.Lb_Light_Temp_Content.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Light_Temp_Content.Location = new System.Drawing.Point(105, 40);
+            this.Lb_Light_Temp_Content.Margin = new System.Windows.Forms.Padding(3);
+            this.Lb_Light_Temp_Content.Name = "Lb_Light_Temp_Content";
+            this.Lb_Light_Temp_Content.Size = new System.Drawing.Size(36, 17);
+            this.Lb_Light_Temp_Content.TabIndex = 9;
+            this.Lb_Light_Temp_Content.Text = "40℃";
+            this.Lb_Light_Temp_Content.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CAGB_TriggerInfo
+            // 
+            this.CAGB_TriggerInfo.BackColor = System.Drawing.Color.White;
+            this.CAGB_TriggerInfo.Controls.Add(this.Tlp_TriggerInfo);
+            this.CAGB_TriggerInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CAGB_TriggerInfo.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.CAGB_TriggerInfo.Location = new System.Drawing.Point(5, 389);
+            this.CAGB_TriggerInfo.Name = "CAGB_TriggerInfo";
+            this.CAGB_TriggerInfo.Size = new System.Drawing.Size(244, 376);
+            this.CAGB_TriggerInfo.TabIndex = 3;
+            this.CAGB_TriggerInfo.TabStop = false;
+            this.CAGB_TriggerInfo.Text = "Trigger Info";
+            // 
+            // Tlp_TriggerInfo
+            // 
+            this.Tlp_TriggerInfo.BackColor = System.Drawing.Color.Transparent;
+            this.Tlp_TriggerInfo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.Tlp_TriggerInfo.ColumnCount = 2;
+            this.Tlp_TriggerInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.Tlp_TriggerInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_TriggerInfo.Controls.Add(this.Lb_Trigger_Name, 0, 0);
+            this.Tlp_TriggerInfo.Controls.Add(this.Lb_Trigger_Name_Content, 1, 0);
+            this.Tlp_TriggerInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_TriggerInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Tlp_TriggerInfo.Location = new System.Drawing.Point(3, 25);
+            this.Tlp_TriggerInfo.Margin = new System.Windows.Forms.Padding(0);
+            this.Tlp_TriggerInfo.Name = "Tlp_TriggerInfo";
+            this.Tlp_TriggerInfo.RowCount = 7;
+            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_TriggerInfo.Size = new System.Drawing.Size(238, 348);
+            this.Tlp_TriggerInfo.TabIndex = 3;
+            // 
+            // Lb_Trigger_Name
+            // 
+            this.Lb_Trigger_Name.AutoSize = true;
+            this.Lb_Trigger_Name.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Trigger_Name.Location = new System.Drawing.Point(4, 4);
+            this.Lb_Trigger_Name.Margin = new System.Windows.Forms.Padding(3);
+            this.Lb_Trigger_Name.Name = "Lb_Trigger_Name";
+            this.Lb_Trigger_Name.Size = new System.Drawing.Size(34, 17);
+            this.Lb_Trigger_Name.TabIndex = 1;
+            this.Lb_Trigger_Name.Text = "이름";
+            this.Lb_Trigger_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Lb_Trigger_Name_Content
+            // 
+            this.Lb_Trigger_Name_Content.AutoSize = true;
+            this.Lb_Trigger_Name_Content.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Trigger_Name_Content.Location = new System.Drawing.Point(105, 4);
+            this.Lb_Trigger_Name_Content.Margin = new System.Windows.Forms.Padding(3);
+            this.Lb_Trigger_Name_Content.Name = "Lb_Trigger_Name_Content";
+            this.Lb_Trigger_Name_Content.Size = new System.Drawing.Size(44, 17);
+            this.Lb_Trigger_Name_Content.TabIndex = 2;
+            this.Lb_Trigger_Name_Content.Text = "Name";
+            this.Lb_Trigger_Name_Content.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CAGB_CamInfo
             // 
             this.CAGB_CamInfo.BackColor = System.Drawing.Color.White;
             this.CAGB_CamInfo.Controls.Add(this.Tlp_CameraInfo);
             this.CAGB_CamInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CAGB_CamInfo.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.CAGB_CamInfo.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.CAGB_CamInfo.Location = new System.Drawing.Point(5, 5);
             this.CAGB_CamInfo.Name = "CAGB_CamInfo";
-            this.CAGB_CamInfo.Size = new System.Drawing.Size(244, 420);
+            this.CAGB_CamInfo.Size = new System.Drawing.Size(244, 376);
             this.CAGB_CamInfo.TabIndex = 2;
             this.CAGB_CamInfo.TabStop = false;
             this.CAGB_CamInfo.Text = "Camera Info";
@@ -121,7 +271,7 @@
             this.Tlp_CameraInfo.Controls.Add(this.Lb_Cam_Temp_Content, 1, 3);
             this.Tlp_CameraInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_CameraInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Tlp_CameraInfo.Location = new System.Drawing.Point(3, 29);
+            this.Tlp_CameraInfo.Location = new System.Drawing.Point(3, 25);
             this.Tlp_CameraInfo.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_CameraInfo.Name = "Tlp_CameraInfo";
             this.Tlp_CameraInfo.RowCount = 7;
@@ -132,7 +282,7 @@
             this.Tlp_CameraInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.Tlp_CameraInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.Tlp_CameraInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_CameraInfo.Size = new System.Drawing.Size(238, 388);
+            this.Tlp_CameraInfo.Size = new System.Drawing.Size(238, 348);
             this.Tlp_CameraInfo.TabIndex = 3;
             // 
             // Lb_Cam_Name
@@ -231,177 +381,27 @@
             this.Lb_Cam_Temp_Content.Text = "40℃";
             this.Lb_Cam_Temp_Content.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // CAGB_TriggerInfo
-            // 
-            this.CAGB_TriggerInfo.BackColor = System.Drawing.Color.White;
-            this.CAGB_TriggerInfo.Controls.Add(this.Tlp_TriggerInfo);
-            this.CAGB_TriggerInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CAGB_TriggerInfo.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.CAGB_TriggerInfo.Location = new System.Drawing.Point(5, 433);
-            this.CAGB_TriggerInfo.Name = "CAGB_TriggerInfo";
-            this.CAGB_TriggerInfo.Size = new System.Drawing.Size(244, 420);
-            this.CAGB_TriggerInfo.TabIndex = 3;
-            this.CAGB_TriggerInfo.TabStop = false;
-            this.CAGB_TriggerInfo.Text = "Trigger Info";
-            // 
-            // Tlp_TriggerInfo
-            // 
-            this.Tlp_TriggerInfo.BackColor = System.Drawing.Color.Transparent;
-            this.Tlp_TriggerInfo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.Tlp_TriggerInfo.ColumnCount = 2;
-            this.Tlp_TriggerInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.Tlp_TriggerInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_TriggerInfo.Controls.Add(this.Lb_Trigger_Name, 0, 0);
-            this.Tlp_TriggerInfo.Controls.Add(this.Lb_Trigger_Name_Content, 1, 0);
-            this.Tlp_TriggerInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_TriggerInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Tlp_TriggerInfo.Location = new System.Drawing.Point(3, 29);
-            this.Tlp_TriggerInfo.Margin = new System.Windows.Forms.Padding(0);
-            this.Tlp_TriggerInfo.Name = "Tlp_TriggerInfo";
-            this.Tlp_TriggerInfo.RowCount = 7;
-            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_TriggerInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_TriggerInfo.Size = new System.Drawing.Size(238, 388);
-            this.Tlp_TriggerInfo.TabIndex = 3;
-            // 
-            // Lb_Trigger_Name
-            // 
-            this.Lb_Trigger_Name.AutoSize = true;
-            this.Lb_Trigger_Name.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Trigger_Name.Location = new System.Drawing.Point(4, 4);
-            this.Lb_Trigger_Name.Margin = new System.Windows.Forms.Padding(3);
-            this.Lb_Trigger_Name.Name = "Lb_Trigger_Name";
-            this.Lb_Trigger_Name.Size = new System.Drawing.Size(34, 17);
-            this.Lb_Trigger_Name.TabIndex = 1;
-            this.Lb_Trigger_Name.Text = "이름";
-            this.Lb_Trigger_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Lb_Trigger_Name_Content
-            // 
-            this.Lb_Trigger_Name_Content.AutoSize = true;
-            this.Lb_Trigger_Name_Content.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Trigger_Name_Content.Location = new System.Drawing.Point(105, 4);
-            this.Lb_Trigger_Name_Content.Margin = new System.Windows.Forms.Padding(3);
-            this.Lb_Trigger_Name_Content.Name = "Lb_Trigger_Name_Content";
-            this.Lb_Trigger_Name_Content.Size = new System.Drawing.Size(44, 17);
-            this.Lb_Trigger_Name_Content.TabIndex = 2;
-            this.Lb_Trigger_Name_Content.Text = "Name";
-            this.Lb_Trigger_Name_Content.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // CAGB_LightInfo
-            // 
-            this.CAGB_LightInfo.BackColor = System.Drawing.Color.White;
-            this.CAGB_LightInfo.Controls.Add(this.Tlp_LightInfo);
-            this.CAGB_LightInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CAGB_LightInfo.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.CAGB_LightInfo.Location = new System.Drawing.Point(5, 861);
-            this.CAGB_LightInfo.Name = "CAGB_LightInfo";
-            this.CAGB_LightInfo.Size = new System.Drawing.Size(244, 360);
-            this.CAGB_LightInfo.TabIndex = 5;
-            this.CAGB_LightInfo.TabStop = false;
-            this.CAGB_LightInfo.Text = "Light Info";
-            // 
-            // Tlp_LightInfo
-            // 
-            this.Tlp_LightInfo.BackColor = System.Drawing.Color.Transparent;
-            this.Tlp_LightInfo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.Tlp_LightInfo.ColumnCount = 2;
-            this.Tlp_LightInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.Tlp_LightInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_LightInfo.Controls.Add(this.Lb_Light_Name, 0, 0);
-            this.Tlp_LightInfo.Controls.Add(this.Lb_Light_Name_Content, 1, 0);
-            this.Tlp_LightInfo.Controls.Add(this.Lb_Light_Temp, 0, 1);
-            this.Tlp_LightInfo.Controls.Add(this.Lb_Light_Temp_Content, 1, 1);
-            this.Tlp_LightInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_LightInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Tlp_LightInfo.Location = new System.Drawing.Point(3, 29);
-            this.Tlp_LightInfo.Margin = new System.Windows.Forms.Padding(0);
-            this.Tlp_LightInfo.Name = "Tlp_LightInfo";
-            this.Tlp_LightInfo.RowCount = 7;
-            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.Tlp_LightInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_LightInfo.Size = new System.Drawing.Size(238, 328);
-            this.Tlp_LightInfo.TabIndex = 3;
-            // 
-            // Lb_Light_Name
-            // 
-            this.Lb_Light_Name.AutoSize = true;
-            this.Lb_Light_Name.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Light_Name.Location = new System.Drawing.Point(4, 4);
-            this.Lb_Light_Name.Margin = new System.Windows.Forms.Padding(3);
-            this.Lb_Light_Name.Name = "Lb_Light_Name";
-            this.Lb_Light_Name.Size = new System.Drawing.Size(34, 17);
-            this.Lb_Light_Name.TabIndex = 1;
-            this.Lb_Light_Name.Text = "이름";
-            this.Lb_Light_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Lb_Light_Name_Content
-            // 
-            this.Lb_Light_Name_Content.AutoSize = true;
-            this.Lb_Light_Name_Content.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Light_Name_Content.Location = new System.Drawing.Point(105, 4);
-            this.Lb_Light_Name_Content.Margin = new System.Windows.Forms.Padding(3);
-            this.Lb_Light_Name_Content.Name = "Lb_Light_Name_Content";
-            this.Lb_Light_Name_Content.Size = new System.Drawing.Size(44, 17);
-            this.Lb_Light_Name_Content.TabIndex = 2;
-            this.Lb_Light_Name_Content.Text = "Name";
-            this.Lb_Light_Name_Content.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Lb_Light_Temp
-            // 
-            this.Lb_Light_Temp.AutoSize = true;
-            this.Lb_Light_Temp.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Light_Temp.Location = new System.Drawing.Point(4, 40);
-            this.Lb_Light_Temp.Margin = new System.Windows.Forms.Padding(3);
-            this.Lb_Light_Temp.Name = "Lb_Light_Temp";
-            this.Lb_Light_Temp.Size = new System.Drawing.Size(34, 17);
-            this.Lb_Light_Temp.TabIndex = 8;
-            this.Lb_Light_Temp.Text = "온도";
-            this.Lb_Light_Temp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Lb_Light_Temp_Content
-            // 
-            this.Lb_Light_Temp_Content.AutoSize = true;
-            this.Lb_Light_Temp_Content.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Light_Temp_Content.Location = new System.Drawing.Point(105, 40);
-            this.Lb_Light_Temp_Content.Margin = new System.Windows.Forms.Padding(3);
-            this.Lb_Light_Temp_Content.Name = "Lb_Light_Temp_Content";
-            this.Lb_Light_Temp_Content.Size = new System.Drawing.Size(36, 17);
-            this.Lb_Light_Temp_Content.TabIndex = 9;
-            this.Lb_Light_Temp_Content.Text = "40℃";
-            this.Lb_Light_Temp_Content.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Ex_Frm_Optic_Area
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PeachPuff;
-            this.ClientSize = new System.Drawing.Size(1641, 1226);
+            this.ClientSize = new System.Drawing.Size(1641, 1100);
             this.Controls.Add(this.Tlp_AreaCam);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Ex_Frm_Optic_Area";
             this.Text = "Ex_Frm_Status";
             this.Tlp_AreaCam.ResumeLayout(false);
-            this.CAGB_CamInfo.ResumeLayout(false);
-            this.Tlp_CameraInfo.ResumeLayout(false);
-            this.Tlp_CameraInfo.PerformLayout();
-            this.CAGB_TriggerInfo.ResumeLayout(false);
-            this.Tlp_TriggerInfo.ResumeLayout(false);
-            this.Tlp_TriggerInfo.PerformLayout();
             this.CAGB_LightInfo.ResumeLayout(false);
             this.Tlp_LightInfo.ResumeLayout(false);
             this.Tlp_LightInfo.PerformLayout();
+            this.CAGB_TriggerInfo.ResumeLayout(false);
+            this.Tlp_TriggerInfo.ResumeLayout(false);
+            this.Tlp_TriggerInfo.PerformLayout();
+            this.CAGB_CamInfo.ResumeLayout(false);
+            this.Tlp_CameraInfo.ResumeLayout(false);
+            this.Tlp_CameraInfo.PerformLayout();
             this.ResumeLayout(false);
 
         }

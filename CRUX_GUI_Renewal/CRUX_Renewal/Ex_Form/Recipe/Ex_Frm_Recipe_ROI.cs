@@ -1204,5 +1204,15 @@ namespace CRUX_Renewal.Ex_Form
             ControlPaint.DrawBorder3D(e.Graphics, borderRectangle,
                 Border3DStyle.Etched);
         }
+
+        private void PGE_ROIProp_Click(object sender, EventArgs e)
+        {
+            int a = 0;
+        }
+
+        private void PGE_ROIProp_MouseClick(object sender, MouseEventArgs e)
+        {
+            int a = 0;
+        }
     }
 }

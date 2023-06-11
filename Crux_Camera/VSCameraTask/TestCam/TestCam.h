@@ -43,7 +43,7 @@ public:
 	BOOL			InitializeGrabber(int nGrabberNo, int nDigCh, CString strDcfFilePath);
 	BOOL			OpenCameraComPort(int nComPort, int nBaudrate, eCamModel eModel);	
 	// Grab
-	void			CameraExpose(ST_LINE_INFO stLine);									// Exposure Time 동안만 대기 후 반환
+	void			CameraExpose(/*ST_LINE_INFO stLine*/);									// Exposure Time 동안만 대기 후 반환
 	void			WaitGrabEnd();									// Wait Image Grab End	
 	BYTE*			GetGrabBuffer();
 	BOOL			DoRotateImage(cv::Mat matSrcBuffer, cv::Mat& matDstBuffer, double dAngle);
@@ -56,7 +56,7 @@ public:
 	BOOL			StartLiveGrab();			// 16.06.30 Live 화면 출력 추가 by CWH
 	BOOL			StopLiveGrab();
 	void			SetSMemCurBuffer(int nTriggerCountF, int nTriggerCountB, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode);			// 현재 Grab Image Shared Memory 에 적재
-	void			SetSMemCurBuffer(int nBufCnt, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode);			// 현재 Grab Image Shared Memory 에 적재
+	int				SetSMemCurBuffer(int nBufCnt,TCHAR* strPanelID);			// 현재 Grab Image Shared Memory 에 적재
 	void			SaveFileCurBuffer(TCHAR* strSavePath);			// 현재 Grab Image 파일로 저장
 	
 	// Get
@@ -182,7 +182,7 @@ public:
 	bool	m_GrabFlag = false;
 	bool InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile);
 	void StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos ,bool sync, bool fileSave = false);
-	void StartGrab(int nBufCnt, CString strpos, bool sync, bool fileSave = false);
+	void StartGrab(int nBufCnt, bool sync, bool fileSave = false);
 	void StopGrab(int nTriggerCountF, int nTriggerCountB);
 	void StopGrab(int nBufCnt);
 	void AllocClearBuffer(int nBufCnt, bool onlyClear = false);

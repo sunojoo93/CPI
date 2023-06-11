@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -66,17 +67,21 @@ namespace CRUX_Renewal
         }
         public void InitMainForm(List<Recipes> recipe)
         {
+            // 리스트가 없다면 객체 생성
             if (Program.Frm_MainContent_ == null)
                 Program.Frm_MainContent_ = new List<Frm_MainContent>();
 
+            // 현재 연결된 비전 PC 개수만큼 생성
             for (int i = 0; i < Globals.MaxVisionCnt; ++i)
             {
+
                 Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i], CurFormIndex = i});
                 Recipes Temp = recipe[i];
+                // 레시피를 각 폼마다 Reference로 사용
                 Program.Frm_MainContent_[i].LinkRecipe(ref Temp);
                 Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
 
-                // 레시피 시퀀스 적용
+                // 현재 레시피를 변환하여 시퀀스에 적용
                 CmdMsgParam SendParam = new CmdMsgParam();
                 int Ret = Consts.APP_NG;
                 ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Temp.MainRecipe);
@@ -85,48 +90,60 @@ namespace CRUX_Renewal
                                                           IpcInterface.CMD_TYPE_RES, 100000, SendParam.GetByteSize(), SendParam.GetParam());
             }
 
+            // 초기 화면을 0번 PC로 지정
             SetForm(Program.Frm_MainContent_[0]);
         }
         public void SetForm(Frm_MainContent form)
         {
+            // TableLayouPanel에서 기존 Form을 제거하고 변경할 Form을 등록
             Tlp_Main.Controls.Add(form, 0, 1);
             Tlp_Main.SetColumnSpan(form, 7);
             Program.Frm_MainContent_[0].Show();
         }
         private void Frm_Main_Shown(object sender, EventArgs e)
         {
-            //this.Invoke(new Action(() => { Program.Frm_Init_.Visible = false; }));
-            //Program.Frm_Init_.CircleProgressBar.TimerStop();
+            // Control Round 처리
             WinApis.SetWindowRgn(Btn_Minimize.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Minimize.Width, Btn_Minimize.Height, 15, 15), true);
             WinApis.SetWindowRgn(Btn_Exit.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Exit.Width, Btn_Exit.Height, 15, 15), true);
-            //Systems.CurrentRecipe = Systems.Environment_INI[$@"{Cur "LastUsedRecipe"]["RecipeName"].ToString();
+
+            // 모든 폼이 사용하는 현재 적용 중인 레시피 이름
             Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].SetString(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
         }
 
         private void Btn_Minimize_Click(object sender, EventArgs e)
         {
+            // 창 최소화
             Program.Frm_Main.WindowState = FormWindowState.Minimized;
         }
 
         private void Btn_Exit_Click(object sender, EventArgs e)
         {
-            Frm_Status.StopCheckStatus();
-            Program.ProgramExit();
+            try
+            {
+                // 현재 스테이터스 체크 종료
+                Frm_Status.StopCheckStatus();
+
+                // 프로세스 리스트 종료
+                foreach (ProcessSet item in Program.GetProcessList())                
+                    item.Proc.Kill();                
+
+                Program.ProgramExit();
+            }
+            catch(Exception ex)
+            {
+                Systems.LogWriter.Error($"Fail Close to Program, Exceiption Message : {ex.Message}");
+            }
         }
 
-        private new DialogResult ShowDialog()
-        {
-            base.ShowDialog();
-
-            return base.DialogResult;
-        }
         private void Pb_Logo_MouseDown(object sender, MouseEventArgs e)
         {
+            // 창 잡고 끌기
             CurWindowPosition = new Point(e.X, e.Y);
         }
 
         private void Pb_Logo_MouseMove(object sender, MouseEventArgs e)
         {
+            // 창 잡고 끌기
             if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
             {
                 Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
@@ -135,20 +152,31 @@ namespace CRUX_Renewal
 
         private void Lb_JobName_MouseDown(object sender, MouseEventArgs e)
         {
+            // 창 잡고 끌기
             CurWindowPosition = new Point(e.X, e.Y);
         }
 
         private void Lb_JobName_MouseMove(object sender, MouseEventArgs e)
         {
+            // 창 잡고 끌기
             if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
             {
                 Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
             }
         }
+        /// <summary>
+        /// 레시피 이름 지정
+        /// </summary>
+        /// <param name="name"></param>
         public void SetRecipeName(string name)
         {
             Lb_RecipeName.Text = name;
         }
+        /// <summary>
+        /// PC간 UI 전환
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cmb_SelPC_SelectedIndexChanged(object sender, EventArgs e)
         {
             try

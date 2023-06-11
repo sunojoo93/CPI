@@ -6563,6 +6563,7 @@ int	WorkManager::Seq_GrabReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMod
 {
 	byte* pReceiveParam = pParam;
 
+	return APP_OK;
 	bool isRunSequence = true;
 	int nStepNo = 0;
 	static bool isSeqBusy = false;
@@ -6659,7 +6660,7 @@ int	WorkManager::Seq_GrabReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMod
 
 	isSeqBusy = false;
 
-		return nRet;
+	return nRet;
 }
 int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
 {
@@ -6714,54 +6715,41 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 
 	// 검사 사용 유무 플래그
 	//BOOL bUseInspect = GetPrivateProfileInt(_T("INSPECT"), _T("Use_Inspect"), 0, PATH_INIT_FILE);
-
+	int ProcessGrabCount = 0;
 	int nRet = APP_OK;
 	bool isRunSequence = true;
 	int nStepNo = 0;
 	static bool isSeqBusy = false;
 
 	int nGrabCnt = 0;
-	int nLightIndex = 0;
 	int nNextStepInterval = 1;
-	int nAlignPatternNum = 0;
-	int dfg = 0;
 	int nAsyncCount = 0;		// Sequence 동기화 Flag Index - 함수 내부에서 자동 증가
 	bool bRet = false;
 
 	// 2021.12.15~ MDJ Modify Camera Expose Time
 	double dExposeTime = 0.0;
 
-	m_bNeedRetry = false;
-	m_bIsNormalDust = false;
-
-	static bool bFirst = true;	// 임시 작업 - UI 속도 개선 후 지울 것
-
-
 	ST_LIGHT_COND_AOT stCurLightInfo;
 
 
 	ST_CAM_COND_AOT stCurCamCond;
-	ST_CAM_COND_AOT stLineInfo;
 
 	PARAM_WAIT_GRAB_END		stWaitGrabEndParam;
 	// Send ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	PARAM_INSPECT_START_ACI*	prmInspStart = new PARAM_INSPECT_START_ACI;
+	PARAM_INSPECT_START_AOT_CHIPPING_ALM*	prmInspStart = new PARAM_INSPECT_START_AOT_CHIPPING_ALM;
 	int						nVacuumType = 0;
 	//int						nPGState = 0;
-	TCHAR					strCurStepName[50] = { 0, };
-	int						nPatternIndex = 0;
-	CString					strOriginPGInfoPath = _T("");
 	//CString					strPosition = _T("FORWARD");
 	//CString					strPosi = _T("");
 
 
-	CString strTemp2 = _T("");
+
 	CString strFileDirectory = _T("D:\\");
 	int						nPgDelay = 0;	//2019.10.23
 	int						nPgIndex = 0;
 
 	bool*					bUseInspEachStage;
-
+	CString strTemp2 = _T("");
 	int exposureCount = 0;	
 
 	// AVI - Camera Mode 강제로 Overlap Mode 로 변경 - 필요 시 설정 구문 추가 할 것
@@ -6795,7 +6783,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 		case 1:
 			m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light Control Start. Pattern : %s"), nStepNo, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));		// 조명 On 전에 로그 추가		180511 YSS
 
-			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 1);
+			//stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 1);
 
 			nRet += /*CmdEditSend(SEND_LIGHT_ON, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK + 1, (byte *)&stCurLightInfo, CMD_TYPE_RES)*/0;
 
@@ -6811,7 +6799,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 			break;
 
 		case 2:
-			stCurCamCond = /*theApp.m_Config.GetCamExposeVal(nGrabCnt, 0)*/theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt,0);
+			//stCurCamCond = /*theApp.m_Config.GetCamExposeVal(nGrabCnt, 0)*/theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt,0);
 
 			nRet = 0/*CmdEditSend(SEND_SET_CAMERA_EXPOSE_TIME, 0, sizeof(dExposeTime), VS_CAMERA_TASK, (byte *)&dExposeTime, CMD_TYPE_RES, 6000)*/;
 
@@ -6873,20 +6861,23 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 
 		case 7:
 			// 카메라 버퍼 -> 공유메모리
+
 			strTemp2.Format(_T("%s%s\\%02d_%s_CAM%02d"), strFileDirectory, strPanelID, nGrabCnt, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt), 0);
-			_tcscpy(stWaitGrabEndParam.strSavePath, strTemp2);
-
-
+			_tcscpy(stWaitGrabEndParam.strSavePath, strTemp2);			
 
 			stCurCamCond = theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt, 0);
 			stWaitGrabEndParam.bUseSMem = TRUE;
-			stWaitGrabEndParam.nGrabNum = /*m_ShareImgNum(*/nGrabCnt;
-			stWaitGrabEndParam.nSeqMode = stCurCamCond.PS;
-			stWaitGrabEndParam.nTriCountF = stCurCamCond.nCountF;
-			stWaitGrabEndParam.nTriCountB = stCurCamCond.nCountB;
+			//stWaitGrabEndParam.nGrabNum = tWaitGrabEndParam.nSeqMode = stCurCamCond.PS;
+			//stWaitGrabEndParam.nTriCountF = stCurCamCond.nCountF;
+			//stWaitGrabEndParam.nTriCountB = stCurCamCond.nCountB;
 			_tcscpy(stWaitGrabEndParam.strPanelID, strPanelID);
-			_tcscpy(stWaitGrabEndParam.strGrabStepName, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));
+			//_tcscpy(stWaitGrabEndParam.strGrabStepName, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));
 			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 60000);
+			byte* Temp = (byte *)&stWaitGrabEndParam;
+			Temp += sizeof(ProcessGrabCount);
+			ProcessGrabCount = *(int*)Temp;
+			Temp += sizeof(ProcessGrabCount);
+			int GrabCnttt = stWaitGrabEndParam.GrabCnt;
 			if (nRet == APP_OK)
 			{
 				m_fnPrintLog(FALSE, _T("CASE %d : Wait Grab End"), nStepNo);
@@ -6899,18 +6890,23 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 			break;
 
 		case 8:
+			for (int i = 0; i < theApp.m_Config.GetGrabCount(strPosition); ++i)
+			{
+				IMAGE_SET_AOT Temp;
+				Temp.ParticleImageCount = 5;
+				Temp.SharedMemStartIdx = i;
+				memcpy((TCHAR *)Temp.PatternName, theApp.m_Config.GetCurStepName(strPosition, i), sizeof(Temp.PatternName));
+				prmInspStart->ImageSet[i] = Temp;
+			}
+			prmInspStart->PcNo = 0;
+			prmInspStart->nInspType = 0;
+			prmInspStart->PatternCount = theApp.m_Config.GetGrabCount(strPosition);
 			memcpy((TCHAR *)prmInspStart->strPanelID, strPanelID, sizeof(prmInspStart->strPanelID));
 			memcpy((TCHAR *)prmInspStart->strVirtualID, strVirtualPanelID, sizeof(prmInspStart->strVirtualID));
-			//memcpy((TCHAR *)prmInspStart->strLotID, strPanelID, sizeof(prmInspStart->strLotID));
-			//memcpy((TCHAR *)prmInspStart->strPos, strDirection, sizeof(prmInspStart->strPos));
+			memcpy((TCHAR *)prmInspStart->strArea, strPosition, sizeof(prmInspStart->strArea));
 
-			prmInspStart->nImageNum = nGrabCnt;
-			prmInspStart->nShareImgNum = /*m_ShareImgNum(*/nGrabCnt;
-			prmInspStart->nGrabLine = nTotalLine;
-			memcpy((TCHAR *)prmInspStart->strDirection, strDirection, sizeof(prmInspStart->strDirection));
-			memcpy((TCHAR *)prmInspStart->strPosition, strPosition, sizeof(prmInspStart->strPosition));
 			// 검사 시작은 무조건 NoRes 로 변경
-			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_ACI), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_NORES);
+			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_NORES);
 
 			if (bFirstInspFlg)
 				nRet = Seq_TactTimeData(strPanelID, TACT_INSP, TACT_START);

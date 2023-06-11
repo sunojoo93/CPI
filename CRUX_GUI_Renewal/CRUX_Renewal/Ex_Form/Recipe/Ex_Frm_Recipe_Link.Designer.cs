@@ -111,6 +111,7 @@
             this.cogDisplayStatusBarV21.CoordinateSpaceName = "*\\#";
             this.cogDisplayStatusBarV21.CoordinateSpaceName3D = "*\\#";
             this.cogDisplayStatusBarV21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogDisplayStatusBarV21.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.cogDisplayStatusBarV21.Location = new System.Drawing.Point(0, 548);
             this.cogDisplayStatusBarV21.Margin = new System.Windows.Forms.Padding(0);
             this.cogDisplayStatusBarV21.Name = "cogDisplayStatusBarV21";
@@ -166,7 +167,7 @@
             // Btn_ImageLoad
             // 
             this.Btn_ImageLoad.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ImageLoad.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_ImageLoad.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_ImageLoad.Location = new System.Drawing.Point(430, 0);
             this.Btn_ImageLoad.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_ImageLoad.Name = "Btn_ImageLoad";
@@ -181,7 +182,7 @@
             this.Grb_ROI.Controls.Add(this.Tlp_Roi);
             this.Grb_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_ROI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Grb_ROI.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Grb_ROI.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_ROI.Location = new System.Drawing.Point(916, 0);
             this.Grb_ROI.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_ROI.Name = "Grb_ROI";
@@ -197,13 +198,13 @@
             this.Tlp_Roi.Controls.Add(this.Dgv_Roi, 0, 0);
             this.Tlp_Roi.Controls.Add(this.Btn_ROIManager, 0, 1);
             this.Tlp_Roi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Roi.Location = new System.Drawing.Point(3, 21);
+            this.Tlp_Roi.Location = new System.Drawing.Point(3, 18);
             this.Tlp_Roi.Name = "Tlp_Roi";
             this.Tlp_Roi.RowCount = 2;
             this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Roi.Size = new System.Drawing.Size(194, 556);
+            this.Tlp_Roi.Size = new System.Drawing.Size(194, 559);
             this.Tlp_Roi.TabIndex = 0;
             // 
             // Dgv_Roi
@@ -221,7 +222,7 @@
             this.Dgv_Roi.RowTemplate.Height = 23;
             this.Dgv_Roi.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Dgv_Roi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Roi.Size = new System.Drawing.Size(188, 475);
+            this.Dgv_Roi.Size = new System.Drawing.Size(188, 478);
             this.Dgv_Roi.TabIndex = 15;
             this.Dgv_Roi.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Roi_CellEndEdit);
             this.Dgv_Roi.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Roi_CellMouseDoubleClick);
@@ -234,7 +235,8 @@
             // Btn_ROIManager
             // 
             this.Btn_ROIManager.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ROIManager.Location = new System.Drawing.Point(0, 481);
+            this.Btn_ROIManager.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_ROIManager.Location = new System.Drawing.Point(0, 484);
             this.Btn_ROIManager.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_ROIManager.Name = "Btn_ROIManager";
             this.Btn_ROIManager.Size = new System.Drawing.Size(194, 75);
@@ -248,7 +250,7 @@
             this.Grb_Algorithm.Controls.Add(this.Tlp_Algorithm);
             this.Grb_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Algorithm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Grb_Algorithm.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Grb_Algorithm.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_Algorithm.Location = new System.Drawing.Point(1116, 0);
             this.Grb_Algorithm.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_Algorithm.Name = "Grb_Algorithm";
@@ -264,14 +266,14 @@
             this.Tlp_Algorithm.Controls.Add(this.LstB_RegistedAlgorithm, 0, 0);
             this.Tlp_Algorithm.Controls.Add(this.Btn_AlgorithmManage, 0, 1);
             this.Tlp_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Algorithm.Location = new System.Drawing.Point(3, 21);
+            this.Tlp_Algorithm.Location = new System.Drawing.Point(3, 18);
             this.Tlp_Algorithm.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_Algorithm.Name = "Tlp_Algorithm";
             this.Tlp_Algorithm.RowCount = 2;
             this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Algorithm.Size = new System.Drawing.Size(194, 556);
+            this.Tlp_Algorithm.Size = new System.Drawing.Size(194, 559);
             this.Tlp_Algorithm.TabIndex = 0;
             // 
             // LstB_RegistedAlgorithm
@@ -279,14 +281,13 @@
             this.LstB_RegistedAlgorithm.AllowDrop = true;
             this.LstB_RegistedAlgorithm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LstB_RegistedAlgorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstB_RegistedAlgorithm.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstB_RegistedAlgorithm.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstB_RegistedAlgorithm.FormattingEnabled = true;
-            this.LstB_RegistedAlgorithm.ItemHeight = 17;
             this.LstB_RegistedAlgorithm.Location = new System.Drawing.Point(0, 0);
             this.LstB_RegistedAlgorithm.Margin = new System.Windows.Forms.Padding(0);
             this.LstB_RegistedAlgorithm.Name = "LstB_RegistedAlgorithm";
             this.LstB_RegistedAlgorithm.ScrollAlwaysVisible = true;
-            this.LstB_RegistedAlgorithm.Size = new System.Drawing.Size(194, 481);
+            this.LstB_RegistedAlgorithm.Size = new System.Drawing.Size(194, 484);
             this.LstB_RegistedAlgorithm.TabIndex = 3;
             this.LstB_RegistedAlgorithm.MouseClick += new System.Windows.Forms.MouseEventHandler(this.LstB_RegistedAlgorithm_MouseClick);
             this.LstB_RegistedAlgorithm.SelectedIndexChanged += new System.EventHandler(this.LstB_Algorithm_SelectedIndexChanged);
@@ -297,7 +298,8 @@
             // Btn_AlgorithmManage
             // 
             this.Btn_AlgorithmManage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_AlgorithmManage.Location = new System.Drawing.Point(0, 481);
+            this.Btn_AlgorithmManage.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_AlgorithmManage.Location = new System.Drawing.Point(0, 484);
             this.Btn_AlgorithmManage.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_AlgorithmManage.Name = "Btn_AlgorithmManage";
             this.Btn_AlgorithmManage.Size = new System.Drawing.Size(194, 75);
@@ -312,7 +314,7 @@
             this.Grb_Params.Controls.Add(this.Tb_ParamEdit);
             this.Grb_Params.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Params.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Grb_Params.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Grb_Params.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_Params.Location = new System.Drawing.Point(1316, 0);
             this.Grb_Params.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_Params.Name = "Grb_Params";
@@ -327,22 +329,23 @@
             this.Tlp_Parameter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Parameter.Controls.Add(this.LstV_Parameter, 0, 0);
             this.Tlp_Parameter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Parameter.Location = new System.Drawing.Point(3, 21);
+            this.Tlp_Parameter.Location = new System.Drawing.Point(3, 18);
             this.Tlp_Parameter.Name = "Tlp_Parameter";
             this.Tlp_Parameter.RowCount = 2;
             this.Tlp_Parameter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Parameter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Parameter.Size = new System.Drawing.Size(210, 556);
+            this.Tlp_Parameter.Size = new System.Drawing.Size(210, 559);
             this.Tlp_Parameter.TabIndex = 2;
             // 
             // LstV_Parameter
             // 
             this.LstV_Parameter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LstV_Parameter.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstV_Parameter.FullRowSelect = true;
             this.LstV_Parameter.LabelEdit = true;
             this.LstV_Parameter.Location = new System.Drawing.Point(3, 3);
             this.LstV_Parameter.Name = "LstV_Parameter";
-            this.LstV_Parameter.Size = new System.Drawing.Size(204, 530);
+            this.LstV_Parameter.Size = new System.Drawing.Size(204, 533);
             this.LstV_Parameter.TabIndex = 0;
             this.LstV_Parameter.UseCompatibleStateImageBehavior = false;
             this.LstV_Parameter.View = System.Windows.Forms.View.Details;
@@ -354,7 +357,7 @@
             // 
             this.Tb_ParamEdit.Location = new System.Drawing.Point(190, 5);
             this.Tb_ParamEdit.Name = "Tb_ParamEdit";
-            this.Tb_ParamEdit.Size = new System.Drawing.Size(100, 25);
+            this.Tb_ParamEdit.Size = new System.Drawing.Size(100, 22);
             this.Tb_ParamEdit.TabIndex = 13;
             this.Tb_ParamEdit.Visible = false;
             // 
@@ -362,7 +365,7 @@
             // 
             this.CAGB_Pattern.Controls.Add(this.tableLayoutPanel1);
             this.CAGB_Pattern.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CAGB_Pattern.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.CAGB_Pattern.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.CAGB_Pattern.Location = new System.Drawing.Point(636, 0);
             this.CAGB_Pattern.Margin = new System.Windows.Forms.Padding(0);
             this.CAGB_Pattern.Name = "CAGB_Pattern";
@@ -377,11 +380,11 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.Dgv_Pattern, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 21);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 18);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(274, 556);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(274, 559);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // Dgv_Pattern
@@ -399,7 +402,7 @@
             this.Dgv_Pattern.RowTemplate.Height = 23;
             this.Dgv_Pattern.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Dgv_Pattern.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Pattern.Size = new System.Drawing.Size(268, 550);
+            this.Dgv_Pattern.Size = new System.Drawing.Size(268, 553);
             this.Dgv_Pattern.TabIndex = 16;
             this.Dgv_Pattern.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellEndEdit);
             this.Dgv_Pattern.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseDoubleClick);

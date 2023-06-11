@@ -21,14 +21,21 @@ namespace CRUX_Renewal.Main_Form
 {
     public partial class Main_Frm_Recipe : Form
     {
+        // 현재 폼 이름
         public string CurrentFormName = string.Empty;
+        // 현재 폼 인덱스
         public int CurFormIndex = 0;
+        // 공유 레시피
         public Recipes Shared_Recipe;
 
         public Ex_Frm_Recipe_Link Frm_Link { get; set; } = null;
 
         string SelectedArea = string.Empty;
-
+        /// <summary>
+        /// 폼 이름과 인덱스를 지정한다.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="index"></param>
         public void SetFormNameIndex(ref string name, ref int index)
         {
             try
@@ -41,6 +48,10 @@ namespace CRUX_Renewal.Main_Form
                 Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
             }
         }
+        /// <summary>
+        /// 레시피를 설정한다.
+        /// </summary>
+        /// <param name="recipe"></param>
         public void SetRecipe(ref Recipes recipe)
         {
             try
@@ -78,6 +89,9 @@ namespace CRUX_Renewal.Main_Form
                 Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
             }
         }
+        /// <summary>
+        /// DataGridView의 패턴 리스트를 생성한다.
+        /// </summary>
         private void DrawDgvPattern()
         {
             try
@@ -87,6 +101,7 @@ namespace CRUX_Renewal.Main_Form
                 Dt.Columns.Add("Name");
 
                 Dgv_GrabArea.DataSource = Dt;
+                Dgv_GrabArea.DefaultCellStyle.Font = new System.Drawing.Font("나눔스퀘어라운드", 9);
 
                 Dgv_GrabArea.Columns[0].Width = 45;
                 Dgv_GrabArea.Columns[1].Width = 130;
@@ -100,6 +115,10 @@ namespace CRUX_Renewal.Main_Form
                 Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
             }
         }
+        /// <summary>
+        /// Area에 해당하는 Pattern을 가져와서 DataGridView에 세팅한다.
+        /// </summary>
+        /// <param name="data"></param>
         private void PtnListRefresh(Areas data)
         {
             try
@@ -122,14 +141,9 @@ namespace CRUX_Renewal.Main_Form
                 Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
             }
         }
-        private void lv_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-            e.DrawDefault = true;
-        }
-        private void lv_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-        {
-            e.DrawDefault = true;
-        }
+        /// <summary>
+        /// 레시피를 불러온 후 UI에 적용한다.
+        /// </summary>
         public void RefeshRecipe()
         {
             try
@@ -170,6 +184,11 @@ namespace CRUX_Renewal.Main_Form
                 //cogToolGroupEditV2_Algorithm.Show();
             }));
         }
+        /// <summary>
+        /// 레시피 리스트 이름을 반환한다.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public ArrayList FindRecipeList(string path)
         {
             try
@@ -182,6 +201,10 @@ namespace CRUX_Renewal.Main_Form
                 return null;
             }
         }
+        /// <summary>
+        /// 레시피 리스트를 ListBox에 세팅한다.
+        /// </summary>
+        /// <param name="recipe"></param>
         public void SetRecipeList(string recipe)
         {
             try
@@ -212,6 +235,10 @@ namespace CRUX_Renewal.Main_Form
             }
 
         }
+        /// <summary>
+        /// 레시피를 ListBox에 세팅한다.
+        /// 이니셜용
+        /// </summary>
         public void SetRecipeList()
         {
             try
@@ -243,10 +270,11 @@ namespace CRUX_Renewal.Main_Form
                 Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
             }
         }
-        public void LoadRecipeList()
-        {
-
-        }
+        /// <summary>
+        /// 레시피를 저장한다.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Save_Click(object sender, System.EventArgs e)
         {
             try
@@ -265,7 +293,11 @@ namespace CRUX_Renewal.Main_Form
                 Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
             }
         }
-
+        /// <summary>
+        /// 현재 열려 있는 레시피를 실제 생산 레시피로 적용한다.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Apply_Click(object sender, System.EventArgs e)
         {
             try
@@ -301,7 +333,11 @@ namespace CRUX_Renewal.Main_Form
                 Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
             }
         }
-
+        /// <summary>
+        /// 레시피를 변경점을 되돌린다.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Revert_Click(object sender, EventArgs e)
         {
             try
@@ -315,6 +351,7 @@ namespace CRUX_Renewal.Main_Form
             }
         }
 
+        
         private void Main_Frm_Recipe_Shown(object sender, EventArgs e)
         {
             try
@@ -495,20 +532,6 @@ namespace CRUX_Renewal.Main_Form
             //    Frm_Link.UpdateParameter();
             //}
         }
-
-        public string GetSelectedRecipe()
-        {
-            try
-            {
-                return LstBoxRecipeList.SelectedItem as string;
-            }
-            catch (Exception ex)
-            {
-                Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
-                return null;
-            }
-        }
-
 
         private void Dgv_GrabArea_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {

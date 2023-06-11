@@ -60,6 +60,7 @@
             // 
             this.Grb_Algorithm.Controls.Add(this.Tlp_AlgorithmList);
             this.Grb_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grb_Algorithm.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_Algorithm.Location = new System.Drawing.Point(3, 3);
             this.Grb_Algorithm.Name = "Grb_Algorithm";
             this.Grb_Algorithm.Size = new System.Drawing.Size(260, 851);
@@ -76,12 +77,12 @@
             this.Tlp_AlgorithmList.Controls.Add(this.Btn_Revert, 0, 1);
             this.Tlp_AlgorithmList.Controls.Add(this.LstB_Algorithm, 0, 0);
             this.Tlp_AlgorithmList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_AlgorithmList.Location = new System.Drawing.Point(3, 17);
+            this.Tlp_AlgorithmList.Location = new System.Drawing.Point(3, 18);
             this.Tlp_AlgorithmList.Name = "Tlp_AlgorithmList";
             this.Tlp_AlgorithmList.RowCount = 2;
             this.Tlp_AlgorithmList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_AlgorithmList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.Tlp_AlgorithmList.Size = new System.Drawing.Size(254, 831);
+            this.Tlp_AlgorithmList.Size = new System.Drawing.Size(254, 830);
             this.Tlp_AlgorithmList.TabIndex = 0;
             // 
             // Btn_Save
@@ -91,8 +92,8 @@
             this.Btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Save.FlatAppearance.BorderSize = 0;
             this.Btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Save.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Save.Location = new System.Drawing.Point(0, 781);
+            this.Btn_Save.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Save.Location = new System.Drawing.Point(0, 780);
             this.Btn_Save.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Save.Name = "Btn_Save";
             this.Btn_Save.Size = new System.Drawing.Size(127, 50);
@@ -108,8 +109,8 @@
             this.Btn_Revert.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Revert.FlatAppearance.BorderSize = 0;
             this.Btn_Revert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Revert.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Revert.Location = new System.Drawing.Point(127, 781);
+            this.Btn_Revert.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Revert.Location = new System.Drawing.Point(127, 780);
             this.Btn_Revert.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Revert.Name = "Btn_Revert";
             this.Btn_Revert.Size = new System.Drawing.Size(127, 50);
@@ -121,11 +122,11 @@
             // 
             this.Tlp_AlgorithmList.SetColumnSpan(this.LstB_Algorithm, 2);
             this.LstB_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LstB_Algorithm.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstB_Algorithm.FormattingEnabled = true;
-            this.LstB_Algorithm.ItemHeight = 12;
             this.LstB_Algorithm.Location = new System.Drawing.Point(3, 3);
             this.LstB_Algorithm.Name = "LstB_Algorithm";
-            this.LstB_Algorithm.Size = new System.Drawing.Size(248, 775);
+            this.LstB_Algorithm.Size = new System.Drawing.Size(248, 774);
             this.LstB_Algorithm.TabIndex = 0;
             this.LstB_Algorithm.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstB_Algorithm_MouseDoubleClick);
             // 
@@ -134,6 +135,7 @@
             this.CTGE_Algorithm.AllowDrop = true;
             this.CTGE_Algorithm.ContextMenuCustomizer = null;
             this.CTGE_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CTGE_Algorithm.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.CTGE_Algorithm.Location = new System.Drawing.Point(269, 3);
             this.CTGE_Algorithm.MinimumSize = new System.Drawing.Size(489, 0);
             this.CTGE_Algorithm.Name = "CTGE_Algorithm";

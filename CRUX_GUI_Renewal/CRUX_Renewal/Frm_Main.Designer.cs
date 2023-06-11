@@ -84,7 +84,7 @@
             this.Lb_RecipeName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Lb_RecipeName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_RecipeName.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Lb_RecipeName.Font = new System.Drawing.Font("맑은 고딕", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_RecipeName.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_RecipeName.Location = new System.Drawing.Point(103, 4);
             this.Lb_RecipeName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.Lb_RecipeName.Name = "Lb_RecipeName";
@@ -101,7 +101,7 @@
             this.Btn_Exit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Exit.FlatAppearance.BorderSize = 0;
             this.Btn_Exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Exit.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Exit.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Exit.Location = new System.Drawing.Point(1834, 3);
             this.Btn_Exit.Name = "Btn_Exit";
             this.Btn_Exit.Size = new System.Drawing.Size(83, 45);
@@ -116,12 +116,12 @@
             this.Btn_Minimize.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Minimize.FlatAppearance.BorderSize = 0;
             this.Btn_Minimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Minimize.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Minimize.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Minimize.Location = new System.Drawing.Point(1754, 3);
             this.Btn_Minimize.Name = "Btn_Minimize";
             this.Btn_Minimize.Size = new System.Drawing.Size(74, 45);
             this.Btn_Minimize.TabIndex = 0;
-            this.Btn_Minimize.Text = "최소화";
+            this.Btn_Minimize.Text = "Minimize";
             this.Btn_Minimize.UseVisualStyleBackColor = false;
             this.Btn_Minimize.Click += new System.EventHandler(this.Btn_Minimize_Click);
             // 
@@ -131,13 +131,13 @@
             this.Cmb_SelPC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cmb_SelPC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Cmb_SelPC.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Cmb_SelPC.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold);
+            this.Cmb_SelPC.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Cmb_SelPC.ForeColor = System.Drawing.SystemColors.InfoText;
             this.Cmb_SelPC.FormattingEnabled = true;
             this.Cmb_SelPC.Location = new System.Drawing.Point(1216, 5);
             this.Cmb_SelPC.Margin = new System.Windows.Forms.Padding(0, 5, 2, 0);
             this.Cmb_SelPC.Name = "Cmb_SelPC";
-            this.Cmb_SelPC.Size = new System.Drawing.Size(99, 40);
+            this.Cmb_SelPC.Size = new System.Drawing.Size(99, 38);
             this.Cmb_SelPC.TabIndex = 14;
             this.Cmb_SelPC.SelectedIndexChanged += new System.EventHandler(this.Cmb_SelPC_SelectedIndexChanged);
             // 

@@ -63,6 +63,10 @@ namespace CRUX_Renewal
             Frm_Main = new Frm_Main();
             Application.Run(Frm_Main);
         }
+        public static List<ProcessSet> GetProcessList()
+        {
+            return ProcessList;
+        }
         public static void ProgramExit()
         {
            
@@ -161,6 +165,20 @@ namespace CRUX_Renewal
                 ProcessList.Add(temp);
             }
         }
+        public static void StartCameraTask(string simul, string task_name)
+        {
+
+                var procs = Process.GetProcessesByName(task_name);
+                if (procs.Length == 0)
+                {
+                bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
+                    ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@"1 {task_name.Replace("Task", "")}1.ini");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            
+        }
         public static void StartTrivisionLight ()
         {
             var procs = Process.GetProcessesByName("TrivisionLightTask");
@@ -227,7 +245,7 @@ namespace CRUX_Renewal
                 procList = Process.GetProcessesByName("Crux_MainPcInterface");
                 foreach ( var proc in procList )
                     proc.Kill();
-                procList = Process.GetProcessesByName("DalsaLineCameraTask");
+                procList = Process.GetProcessesByName("TestCamTask");
                 foreach ( var proc in procList )
                     proc.Kill();
                 procList = Process.GetProcessesByName("TrivisionLightTask");

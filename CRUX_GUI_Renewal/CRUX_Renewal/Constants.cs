@@ -403,17 +403,7 @@ namespace CRUX_Renewal
             Inspector,            
             MAINPC_TASK,
             SEQ_TASK,
-            //ALG_TASK,
             LIGHT_TASK,
-            //Init_Form,
-            //PG_TASK,
-            //AUTO_TAB,
-            //RECIPE_TAB,
-            //CAM_TAB,
-            //MANUAL_TAB,
-            //SET_PARAM,
-            //SETUP_TAB,
-            //ERROR_LIST_INFO,
             MAX
         };
 

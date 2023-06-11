@@ -59,7 +59,6 @@
             this.Name = "Frm_MainContent";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "CRUX";
-            this.Load += new System.EventHandler(this.Frm_MainContent_Load);
             this.Shown += new System.EventHandler(this.Frm_MainContent_Shown);
             this.ResumeLayout(false);
 

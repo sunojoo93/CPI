@@ -942,4 +942,24 @@ namespace CRUX_Renewal.Class
             CamNo = 0;
         }
     }
+    public class Recipes
+    {
+        private static Recipes Recipes_Object;
+        public static Recipes Instance()
+        {
+            if (Recipes_Object == null)
+            {
+                Recipes_Object = new Recipes();
+            }
+            return Recipes_Object;
+        }
+        public Recipe MainRecipe = new Recipe();
+        public Recipe ViewRecipe = new Recipe();
+
+        public static bool SaveLoadType = false;
+    }
+    public class CamList
+    {
+
+    }
 }

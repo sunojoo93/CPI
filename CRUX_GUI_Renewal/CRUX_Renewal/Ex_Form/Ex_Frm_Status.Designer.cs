@@ -67,7 +67,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             this.Lb_CAM.AutoSize = true;
             this.Lb_CAM.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_CAM.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.Lb_CAM.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_CAM.Location = new System.Drawing.Point(258, 0);
             this.Lb_CAM.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_CAM.Name = "Lb_CAM";
@@ -80,7 +80,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             this.Lb_SEQ.AutoSize = true;
             this.Lb_SEQ.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_SEQ.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.Lb_SEQ.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_SEQ.Location = new System.Drawing.Point(172, 0);
             this.Lb_SEQ.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_SEQ.Name = "Lb_SEQ";
@@ -93,7 +93,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             this.Lb_MI.AutoSize = true;
             this.Lb_MI.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_MI.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.Lb_MI.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_MI.Location = new System.Drawing.Point(86, 0);
             this.Lb_MI.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_MI.Name = "Lb_MI";
@@ -106,7 +106,7 @@ namespace CRUX_Renewal.Ex_Form
             // 
             this.Lb_VSS.AutoSize = true;
             this.Lb_VSS.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_VSS.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.Lb_VSS.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_VSS.Location = new System.Drawing.Point(0, 0);
             this.Lb_VSS.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_VSS.Name = "Lb_VSS";
@@ -202,7 +202,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Status.SetColumnSpan(this.Lb_DateTime, 9);
             this.Lb_DateTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_DateTime.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Lb_DateTime.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold);
+            this.Lb_DateTime.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_DateTime.Location = new System.Drawing.Point(346, 2);
             this.Lb_DateTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 3);
             this.Lb_DateTime.Name = "Lb_DateTime";

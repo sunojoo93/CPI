@@ -95,7 +95,7 @@ BOOL CVSCameraTaskDlg::OnInitDialog()
 
 	// 버전 표기
 	CString title;
-	title.Format(_T("DalsaLine Camera %s"), _Version);
+	title.Format(_T("VC-21MX2-M230I00 %s"), _Version);
 	SetWindowText(title);
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
@@ -406,18 +406,18 @@ void CVSCameraTaskDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 					m_fnChangeBtnColor(lpDrawItemStruct, DARK_GRAY, WHITE);
 			}
 		}
-		case IDC_BTN_TRIGGER:
-		{
-			if (((CTestCam*)theApp.m_pCamera)->m_Trigger->IsConnected())
-			{
-				m_fnChangeBtnColor(lpDrawItemStruct, LIGHT_GREEN, DARK_GREEN);
-			}
-			else
-			{
-				m_fnChangeBtnColor(lpDrawItemStruct, LIGHT_RED, DARK_RED);
-			}
-		}
-		break;
+		//case IDC_BTN_TRIGGER:
+		//{
+		//	if (((CTestCam*)theApp.m_pCamera)->m_Trigger->IsConnected())
+		//	{
+		//		m_fnChangeBtnColor(lpDrawItemStruct, LIGHT_GREEN, DARK_GREEN);
+		//	}
+		//	else
+		//	{
+		//		m_fnChangeBtnColor(lpDrawItemStruct, LIGHT_RED, DARK_RED);
+		//	}
+		//}
+		//break;
 	}
 
 	if (((CTestCam*)theApp.m_pCamera)->m_GrabFlag)
@@ -493,7 +493,7 @@ void CVSCameraTaskDlg::OnBnClickedCheckCamReverse()
 // 버튼 클릭했을때 Cam Parameter 적용되도록 하는 함수
 void CVSCameraTaskDlg::OnBnClickedButtonCam()
 {
-	DalsaLineParam* param = &DalsaLineParam::Instance();
+	//TestCam* param = &DalsaLineParam::Instance();
 	int buttonID = GetFocus()->GetDlgCtrlID();
 	switch (buttonID)
 	{
@@ -504,45 +504,45 @@ void CVSCameraTaskDlg::OnBnClickedButtonCam()
 		((CTestCam*)theApp.m_pCamera)->m_Camera->SaveAllProperty();
 		break;
 	case IDC_BUTTON_CAM_STA:
-		((CTestCam*)theApp.m_pCamera)->m_Camera->GetAllProperty();
-		SetDlgItemText(IDC_EDIT_INI_FILE_PATH, theApp.GetInitFilePath());
-		SetDlgItemText(IDC_EDIT_CAM_MODEL, param->GetParamStr(_T("Type")));
-		SetDlgItemText(IDC_EDIT_CAM_GRB_NO, ToString(((CTestCam*)theApp.m_pCamera)->FrameGrabberNo));
-		SetDlgItemText(IDC_EDIT_CAM_DIG_CH, ToString(((CTestCam*)theApp.m_pCamera)->DigitizerChannel));
-		SetDlgItemText(IDC_EDIT_CAM_DCF, ((CTestCam*)theApp.m_pCamera)->DcfFile);
-		SetDlgItemText(IDC_EDIT_CAM_PORT, ToString(((CTestCam*)theApp.m_pCamera)->CameraPort));
-		SetDlgItemText(IDC_EDIT_CAM_BAUD, ToString(((CTestCam*)theApp.m_pCamera)->CameraBaud));
-		SetDlgItemText(IDC_EDIT_CAM_GR, param->GetParamStr(_T("r")));
-		SetDlgItemText(IDC_EDIT_CAM_GRFO, param->GetParamStr(_T("grfo")));
-		SetDlgItemText(IDC_EDIT_CAM_GRFE, param->GetParamStr(_T("grfe")));
-		SetDlgItemText(IDC_EDIT_CAM_GRRO, param->GetParamStr(_T("grro")));
-		SetDlgItemText(IDC_EDIT_CAM_GRRE, param->GetParamStr(_T("grre")));
-		SetDlgItemText(IDC_EDIT_CAM_GG, param->GetParamStr(_T("g")));
-		SetDlgItemText(IDC_EDIT_CAM_GGFO, param->GetParamStr(_T("ggfo")));
-		SetDlgItemText(IDC_EDIT_CAM_GGFE, param->GetParamStr(_T("ggfe")));
-		SetDlgItemText(IDC_EDIT_CAM_GGRO, param->GetParamStr(_T("ggro")));
-		SetDlgItemText(IDC_EDIT_CAM_GGRE, param->GetParamStr(_T("ggre")));
-		SetDlgItemText(IDC_EDIT_CAM_GB, param->GetParamStr(_T("b")));
-		SetDlgItemText(IDC_EDIT_CAM_GBFO, param->GetParamStr(_T("gbfo")));
-		SetDlgItemText(IDC_EDIT_CAM_GBFE, param->GetParamStr(_T("gbfe")));
-		SetDlgItemText(IDC_EDIT_CAM_GBRO, param->GetParamStr(_T("gbro")));
-		SetDlgItemText(IDC_EDIT_CAM_GBRE, param->GetParamStr(_T("gbre")));
-		SetDlgItemText(IDC_EDIT_CAM_WBR, param->GetParamStr(_T("WBr")));
-		SetDlgItemText(IDC_EDIT_CAM_WBG, param->GetParamStr(_T("WBg")));
-		SetDlgItemText(IDC_EDIT_CAM_WBB, param->GetParamStr(_T("WBb")));
-		SetDlgItemText(IDC_EDIT_CAM_EXP, param->GetParamStr(_T("i")));
-		SetDlgItemText(IDC_EDIT_CAM_LINEDELAY, param->GetParamStr(_T("d")));
-		m_comboCamTriMode.SetCurSel(param->GetParamInt(_T("t")));
-		m_comboCamVdOut.SetCurSel(param->GetParamInt(_T("v")));
-		m_comboCamTap.SetCurSel(param->GetParamInt(_T("tap")) - 1);
-		m_comboCamTest.SetCurSel(param->GetParamInt(_T("T")));
-		m_checkReverse.SetCheck(param->GetParamInt(_T("rev")));
+		//((CTestCam*)theApp.m_pCamera)->m_Camera->GetAllProperty();
+		//SetDlgItemText(IDC_EDIT_INI_FILE_PATH, theApp.GetInitFilePath());
+		//SetDlgItemText(IDC_EDIT_CAM_MODEL, param->GetParamStr(_T("Type")));
+		//SetDlgItemText(IDC_EDIT_CAM_GRB_NO, ToString(((CTestCam*)theApp.m_pCamera)->FrameGrabberNo));
+		//SetDlgItemText(IDC_EDIT_CAM_DIG_CH, ToString(((CTestCam*)theApp.m_pCamera)->DigitizerChannel));
+		//SetDlgItemText(IDC_EDIT_CAM_DCF, ((CTestCam*)theApp.m_pCamera)->DcfFile);
+		//SetDlgItemText(IDC_EDIT_CAM_PORT, ToString(((CTestCam*)theApp.m_pCamera)->CameraPort));
+		//SetDlgItemText(IDC_EDIT_CAM_BAUD, ToString(((CTestCam*)theApp.m_pCamera)->CameraBaud));
+		//SetDlgItemText(IDC_EDIT_CAM_GR, param->GetParamStr(_T("r")));
+		//SetDlgItemText(IDC_EDIT_CAM_GRFO, param->GetParamStr(_T("grfo")));
+		//SetDlgItemText(IDC_EDIT_CAM_GRFE, param->GetParamStr(_T("grfe")));
+		//SetDlgItemText(IDC_EDIT_CAM_GRRO, param->GetParamStr(_T("grro")));
+		//SetDlgItemText(IDC_EDIT_CAM_GRRE, param->GetParamStr(_T("grre")));
+		//SetDlgItemText(IDC_EDIT_CAM_GG, param->GetParamStr(_T("g")));
+		//SetDlgItemText(IDC_EDIT_CAM_GGFO, param->GetParamStr(_T("ggfo")));
+		//SetDlgItemText(IDC_EDIT_CAM_GGFE, param->GetParamStr(_T("ggfe")));
+		//SetDlgItemText(IDC_EDIT_CAM_GGRO, param->GetParamStr(_T("ggro")));
+		//SetDlgItemText(IDC_EDIT_CAM_GGRE, param->GetParamStr(_T("ggre")));
+		//SetDlgItemText(IDC_EDIT_CAM_GB, param->GetParamStr(_T("b")));
+		//SetDlgItemText(IDC_EDIT_CAM_GBFO, param->GetParamStr(_T("gbfo")));
+		//SetDlgItemText(IDC_EDIT_CAM_GBFE, param->GetParamStr(_T("gbfe")));
+		//SetDlgItemText(IDC_EDIT_CAM_GBRO, param->GetParamStr(_T("gbro")));
+		//SetDlgItemText(IDC_EDIT_CAM_GBRE, param->GetParamStr(_T("gbre")));
+		//SetDlgItemText(IDC_EDIT_CAM_WBR, param->GetParamStr(_T("WBr")));
+		//SetDlgItemText(IDC_EDIT_CAM_WBG, param->GetParamStr(_T("WBg")));
+		//SetDlgItemText(IDC_EDIT_CAM_WBB, param->GetParamStr(_T("WBb")));
+		//SetDlgItemText(IDC_EDIT_CAM_EXP, param->GetParamStr(_T("i")));
+		//SetDlgItemText(IDC_EDIT_CAM_LINEDELAY, param->GetParamStr(_T("d")));
+		//m_comboCamTriMode.SetCurSel(param->GetParamInt(_T("t")));
+		//m_comboCamVdOut.SetCurSel(param->GetParamInt(_T("v")));
+		//m_comboCamTap.SetCurSel(param->GetParamInt(_T("tap")) - 1);
+		//m_comboCamTest.SetCurSel(param->GetParamInt(_T("T")));
+		//m_checkReverse.SetCheck(param->GetParamInt(_T("rev")));
 		break;
 	case IDC_BUTTON_CAM_GRABSTART:
-		((CTestCam*)theApp.m_pCamera)->StartGrab(0,52,false, true);
+		((CTestCam*)theApp.m_pCamera)->StartGrab(100,false, true);
 		break;
 	case IDC_BUTTON_CAM_GRABSTOP:
-		//((CTestCam*)theApp.m_pCamera)->StopGrab();
+		((CTestCam*)theApp.m_pCamera)->StopGrab(100);
 		break;
 	}
 }

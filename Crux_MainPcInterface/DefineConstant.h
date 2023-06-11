@@ -52,6 +52,7 @@ enum {
 
 //*************** Main PC --> Inspect PC  ***************************************//
 #define MAIN_PC_PACKET_GRAB_START					"MOT.GRAB.START."
+#define MAIN_PC_PACKET_GRAB_READY					"MOT.GRAB.READY."
 #define MAIN_PC_PACKET_ISNP_GRAB_START				"MOT.INSP.START."
 #define MAIN_PC_PACKET_RECIPE_CHANGE				"MOT.RECIPE.CHANGE."
 #define MAIN_PC_PACKET_SYSTEM_TIME_SET				"MOT.TIME.SET."
@@ -71,6 +72,7 @@ enum {
 
 //*************** Inspect PC --> Main PC ***************************************//
 #define MAIN_PC_PACKET_GRAB_START_REPLY				"FDB.GRAB.START."
+#define MAIN_PC_PACKET_GRAB_READY_REPLY				"FDB.GRAB.READY."
 #define MAIN_PC_PACKET_GRAB_END_REPLY				"FDB.GRAB.END."
 #define MAIN_PC_PACKET_INSP_END_REPLY				"FDB.INSP.END."
 #define MAIN_PC_PACKET_CLASSIFY_END_REPLY			"FDB.CLASS.END."

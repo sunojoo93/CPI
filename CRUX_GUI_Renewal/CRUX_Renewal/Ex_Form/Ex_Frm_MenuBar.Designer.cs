@@ -69,7 +69,7 @@
             this.Btn_Job.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Job.FlatAppearance.BorderSize = 0;
             this.Btn_Job.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Job.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Job.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Job.Location = new System.Drawing.Point(393, 3);
             this.Btn_Job.Name = "Btn_Job";
             this.Btn_Job.Size = new System.Drawing.Size(189, 379);
@@ -84,7 +84,7 @@
             this.Btn_Simulation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Simulation.FlatAppearance.BorderSize = 0;
             this.Btn_Simulation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Simulation.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Simulation.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Simulation.Location = new System.Drawing.Point(198, 3);
             this.Btn_Simulation.Name = "Btn_Simulation";
             this.Btn_Simulation.Size = new System.Drawing.Size(189, 379);
@@ -99,7 +99,7 @@
             this.Btn_Auto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Auto.FlatAppearance.BorderSize = 0;
             this.Btn_Auto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Auto.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Auto.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Auto.Location = new System.Drawing.Point(3, 3);
             this.Btn_Auto.Name = "Btn_Auto";
             this.Btn_Auto.Size = new System.Drawing.Size(189, 379);
@@ -114,7 +114,7 @@
             this.Btn_Advance.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Advance.FlatAppearance.BorderSize = 0;
             this.Btn_Advance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Advance.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Advance.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Advance.Location = new System.Drawing.Point(978, 3);
             this.Btn_Advance.Name = "Btn_Advance";
             this.Btn_Advance.Size = new System.Drawing.Size(191, 379);
@@ -144,7 +144,7 @@
             this.Btn_Alg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Alg.FlatAppearance.BorderSize = 0;
             this.Btn_Alg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Alg.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Alg.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Alg.Location = new System.Drawing.Point(588, 3);
             this.Btn_Alg.Name = "Btn_Alg";
             this.Btn_Alg.Size = new System.Drawing.Size(189, 379);
