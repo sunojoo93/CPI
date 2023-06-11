@@ -7099,31 +7099,40 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			int MaxLightCnt = theApp.m_Config.GetMaxLightCount(CurAreaName, nGrabCnt);
 			for (int i = 0; i < MaxLightCnt; ++i)
 			{
-
+				if (theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, i).Use)
+				{
+					stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, i);
+					nRet += CmdEditSend(SEND_LIGHT_ON, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK + i, (byte *)&stCurLightInfo, CMD_TYPE_RES);
+					if (nRet == APP_OK)
+					{
+						m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON End. Pattern : %s, Light Index : %d"), nStepNo, theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt), i);
+					}
+					else
+					{
+						m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON Error !!!"), nStepNo);
+						throw nRet;
+					}
+				}
 			}
-			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 1);
 
-			nRet += /*CmdEditSend(SEND_LIGHT_ON, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK + 1, (byte *)&stCurLightInfo, CMD_TYPE_RES)*/0;
-
-			if (nRet == APP_OK)
-			{
-				m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON End. Pattern : %s"), nStepNo, theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt ));
-			}
-			else
-			{
-				m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON Error !!!"), nStepNo);
-				throw nRet;
-			}
 			break;
 			// 카메라 세팅
 		case 4:
-			//stCurCamCond = /*theApp.m_Config.GetCamExposeVal(nGrabCnt, 0)*/theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt,0);
+			int MaxCamCondCnt = theApp.m_Config.GetMaxCameraCondCount(CurAreaName, nGrabCnt);
 
-			nRet = 0/*CmdEditSend(SEND_SET_CAMERA_EXPOSE_TIME, 0, sizeof(dExposeTime), VS_CAMERA_TASK, (byte *)&dExposeTime, CMD_TYPE_RES, 6000)*/;
+			for (int i = 0; i < MaxCamCondCnt; ++i)
+			{
+				if (theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt, i).Use)
+				{
+					stCurCamCond = theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt, i);
+					nRet += CmdEditSend(SEND_SET_CAMERA_EXPOSE_TIME, 0, sizeof(dExposeTime), VS_CAMERA_TASK+i, (byte *)&dExposeTime, CMD_TYPE_RES, 6000);
+				}
+
+			}
 
 			if (nRet == APP_OK)
 			{
-				m_fnPrintLog(FALSE, _T("CASE %d : Set Camera Expose Time : %f"), nStepNo, dExposeTime);
+				m_fnPrintLog(FALSE, _T("CASE %d : Set Camera Condition Time : %f"), nStepNo, dExposeTime);
 			}
 			else
 			{
@@ -7153,10 +7162,15 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 		case 6:
 			// 촬영 시작
 			//stLineInfo = theApp.m_Config.GetLineInfo(strPosition_Temp, )
-			nRet = CmdEditSend(SEND_CAMERA_EXPOSE, 0, sizeof(ST_LINE_INFO), VS_CAMERA_TASK, (byte *)&stCurCamCond, CMD_TYPE_RES, 60000);
+			int MaxCamCondCnt = theApp.m_Config.GetMaxCameraCondCount(CurAreaName, nGrabCnt);
 
-
-			nNextStepInterval = 1;
+			for (int i = 0; i < MaxCamCondCnt; ++i)
+			{
+				if (theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt, i).Use)
+				{
+					nRet = CmdEditSend(SEND_CAMERA_EXPOSE, 0, sizeof(ST_LINE_INFO), VS_CAMERA_TASK+i, (byte *)&stCurCamCond, CMD_TYPE_RES, 60000);
+				}
+			}			
 
 			if (nRet == APP_OK)
 			{
@@ -7180,22 +7194,32 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 		case 9:
 			// 카메라 버퍼 -> 공유메모리
 
-			strTemp2.Format(_T("%s%s\\%02d_%s_CAM%02d"), strFileDirectory, strPanelID, nGrabCnt, theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt), 0);
-			_tcscpy(stWaitGrabEndParam.strSavePath, strTemp2);
+			for (int i = 0; i < MaxCamCondCnt; ++i)
+			{
+				if (theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt, i).Use)
+				{
 
-			stCurCamCond = theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt, 0);
-			stWaitGrabEndParam.bUseSMem = TRUE;
-			//stWaitGrabEndParam.nGrabNum = tWaitGrabEndParam.nSeqMode = stCurCamCond.PS;
-			//stWaitGrabEndParam.nTriCountF = stCurCamCond.nCountF;
-			//stWaitGrabEndParam.nTriCountB = stCurCamCond.nCountB;
-			_tcscpy(stWaitGrabEndParam.strPanelID, strPanelID);
-			//_tcscpy(stWaitGrabEndParam.strGrabStepName, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));
-			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 60000);
-			byte* Temp = (byte *)&stWaitGrabEndParam;
-			Temp += sizeof(ProcessGrabCount);
-			ProcessGrabCount = *(int*)Temp;
-			Temp += sizeof(ProcessGrabCount);
-			int GrabCnttt = stWaitGrabEndParam.GrabCnt;
+					strTemp2.Format(_T("%s%s\\%02d_%s_CAM%02d"), strFileDirectory, strPanelID, nGrabCnt, theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt), 0);
+					_tcscpy(stWaitGrabEndParam.strSavePath, strTemp2);
+
+					stCurCamCond = theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt, 0);
+					stWaitGrabEndParam.bUseSMem = TRUE;
+					//stWaitGrabEndParam.nGrabNum = tWaitGrabEndParam.nSeqMode = stCurCamCond.PS;
+					//stWaitGrabEndParam.nTriCountF = stCurCamCond.nCountF;
+					//stWaitGrabEndParam.nTriCountB = stCurCamCond.nCountB;
+					_tcscpy(stWaitGrabEndParam.strPanelID, strPanelID);
+					//_tcscpy(stWaitGrabEndParam.strGrabStepName, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));
+					nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 60000);
+					byte* Temp = (byte *)&stWaitGrabEndParam;
+					Temp += sizeof(ProcessGrabCount);
+					ProcessGrabCount = *(int*)Temp;
+					Temp += sizeof(ProcessGrabCount);
+					int GrabCnttt = stWaitGrabEndParam.GrabCnt;
+
+
+				}
+			}
+
 			if (nRet == APP_OK)
 			{
 				m_fnPrintLog(FALSE, _T("CASE %d : Wait Grab End"), nStepNo);
