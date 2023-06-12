@@ -73,6 +73,16 @@ namespace CRUX_Renewal.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        public static System.Drawing.Bitmap Close {
+            get {
+                object obj = ResourceManager.GetObject("Close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         public static System.Drawing.Bitmap Connect {
             get {
                 object obj = ResourceManager.GetObject("Connect", resourceCulture);
@@ -106,6 +116,16 @@ namespace CRUX_Renewal.Properties {
         public static System.Drawing.Bitmap Logo_Ox {
             get {
                 object obj = ResourceManager.GetObject("Logo_Ox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        public static System.Drawing.Bitmap Minimize {
+            get {
+                object obj = ResourceManager.GetObject("Minimize", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

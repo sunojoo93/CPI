@@ -603,6 +603,8 @@
     <Content Include="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Res\Minimize.png" />
+    <None Include="Res\Close.png" />
     <None Include="Res\SingleRightArrow.png" />
     <None Include="Res\SingleLeftArrow.png" />
     <None Include="Res\RightArrow.png" />

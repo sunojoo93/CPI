@@ -97,7 +97,9 @@
             // 
             // Btn_Exit
             // 
-            this.Btn_Exit.BackColor = System.Drawing.Color.OrangeRed;
+            this.Btn_Exit.BackColor = System.Drawing.Color.White;
+            this.Btn_Exit.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Close;
+            this.Btn_Exit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Btn_Exit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Exit.FlatAppearance.BorderSize = 0;
             this.Btn_Exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -106,13 +108,14 @@
             this.Btn_Exit.Name = "Btn_Exit";
             this.Btn_Exit.Size = new System.Drawing.Size(83, 45);
             this.Btn_Exit.TabIndex = 1;
-            this.Btn_Exit.Text = "종료";
             this.Btn_Exit.UseVisualStyleBackColor = false;
             this.Btn_Exit.Click += new System.EventHandler(this.Btn_Exit_Click);
             // 
             // Btn_Minimize
             // 
-            this.Btn_Minimize.BackColor = System.Drawing.Color.LemonChiffon;
+            this.Btn_Minimize.BackColor = System.Drawing.Color.White;
+            this.Btn_Minimize.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Minimize;
+            this.Btn_Minimize.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Btn_Minimize.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Minimize.FlatAppearance.BorderSize = 0;
             this.Btn_Minimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -121,7 +124,6 @@
             this.Btn_Minimize.Name = "Btn_Minimize";
             this.Btn_Minimize.Size = new System.Drawing.Size(74, 45);
             this.Btn_Minimize.TabIndex = 0;
-            this.Btn_Minimize.Text = "Minimize";
             this.Btn_Minimize.UseVisualStyleBackColor = false;
             this.Btn_Minimize.Click += new System.EventHandler(this.Btn_Minimize_Click);
             // 

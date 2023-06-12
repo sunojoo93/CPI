@@ -477,7 +477,29 @@ namespace CRUX_Renewal
             [Description("SimulationCameraTask")]
             Sim_Cam = 5,
             MAX
-        };        
+        };
+        public enum GuideLine
+        {
+            [StringValue("None")]
+            //[Description("VisualStationServer")]
+            None = 0,
+            [StringValue("LEFT_TOP")]
+            //[Description("Crux_MainPcInterface")]
+            LEFT_TOP = 1,
+            [StringValue("Btn_SEQ_State")]
+            //[Description("VSSequenceTask")]
+            RIGHT_TOP = 2,
+            [StringValue("RIGHT_TOP")]
+            //[Description("VSDalsaLineCamTask")]
+            LEFT_BOT = 3,
+            [StringValue("LEFT_BOT")]
+            //[Description("SimulationCameraTask")]
+            RIGHT_BOT = 4,
+            [StringValue("CENTER")]
+            //[Description("SimulationCameraTask")]
+            Center = 5
+            //MAX
+        };
     }
 
 class GlobalConstance

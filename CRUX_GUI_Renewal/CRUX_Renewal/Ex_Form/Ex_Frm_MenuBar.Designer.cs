@@ -119,7 +119,7 @@
             this.Btn_Advance.Name = "Btn_Advance";
             this.Btn_Advance.Size = new System.Drawing.Size(191, 379);
             this.Btn_Advance.TabIndex = 4;
-            this.Btn_Advance.Text = "ADVANCE";
+            this.Btn_Advance.Text = "Advance";
             this.Btn_Advance.UseVisualStyleBackColor = false;
             this.Btn_Advance.Click += new System.EventHandler(this.Btn_Advance_Click);
             // 
@@ -129,7 +129,7 @@
             this.Btn_Optical.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Optical.FlatAppearance.BorderSize = 0;
             this.Btn_Optical.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Optical.Font = new System.Drawing.Font("맑은 고딕", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Optical.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Optical.Location = new System.Drawing.Point(783, 3);
             this.Btn_Optical.Name = "Btn_Optical";
             this.Btn_Optical.Size = new System.Drawing.Size(189, 379);

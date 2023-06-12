@@ -40,9 +40,6 @@ namespace CRUX_Renewal.User_Controls
             set
             {
                 _m_dRatio = value;
-                if(Lb_Ratio != null)
-                    Lb_Ratio.Text = $"Ratio : {value}";
-
             }
         }
         private bool m_bImgFocus = false;
@@ -53,11 +50,6 @@ namespace CRUX_Renewal.User_Controls
             get { return _m_pointClick; }
             set
             { _m_pointClick = value;
-                if (Lb_CursorX != null && Lb_CursorY != null)
-                {
-                    Lb_CursorX.Text = value.X.ToString();
-                    Lb_CursorY.Text = value.Y.ToString();
-                }
             }
         }
         private Point m_LastPoint;

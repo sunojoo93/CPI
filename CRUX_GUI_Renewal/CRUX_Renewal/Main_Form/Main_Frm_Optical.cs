@@ -10,7 +10,7 @@ namespace CRUX_Renewal.Main_Form
         public int CurFormIndex = 0;
         public Recipes Shared_Recipe;
         Ex_Frm_Optic_Line LineCamForm;
-        Ex_Frm_Optic_Area AreaCamForm;
+        Ex_Frm_Optic_Area_Content AreaCamForm;
         public Main_Frm_Optical ()
         {
             InitializeComponent();
@@ -31,16 +31,17 @@ namespace CRUX_Renewal.Main_Form
         }
         private void Initialize()
         {
-            LineCamForm = new Ex_Frm_Optic_Line() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
-            AreaCamForm = new Ex_Frm_Optic_Area() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            //LineCamForm = new Ex_Frm_Optic_Line() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            AreaCamForm = new Ex_Frm_Optic_Area_Content() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+            AreaCamForm.SetRecipe(ref Shared_Recipe);
 
-            LineCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            //LineCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             AreaCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
-            tab_CAM_1.Controls.Add(LineCamForm);            
+            tab_CAM_1.Controls.Add(AreaCamForm);            
             //LineCamForm.Show();
-            tab_CAM_2.Controls.Add(AreaCamForm);
+            //tab_CAM_2.Controls.Add(AreaCamForm);
             //AreaCamForm.Show();
-            LineCamForm.Show();
+            //LineCamForm.Show();
             AreaCamForm.Show();
         }
     }
