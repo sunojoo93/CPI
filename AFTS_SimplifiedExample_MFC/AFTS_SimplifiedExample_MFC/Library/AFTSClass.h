@@ -9,6 +9,7 @@
 #include <atlstr.h>
 #include <thread>
 
+
 class AFTSSingleTone 
 {
 public:
@@ -41,8 +42,8 @@ public:
 	void OpenAFCAM();
 	void CloseAFCAM();
 
-	void AFSwitchOn();
-	void AFSwitchOff();
+	int AFSwitchOn();
+	int AFSwitchOff();
 
 	void MeasureModeOn();
 	void MeasureModeOff();
@@ -79,7 +80,7 @@ public:
 	void GetAFDiffValue(OUT double& _Value);
 	void GetAxisPoSValue(OUT double& _Value);
 
-	void MoveZAxis(double dPoS, bool bRelative);
+	int MoveZAxis(double dPoS, bool bRelative);
 	void HomingZAxis();
 	void SwitchZAxis(bool _bEnable);
 	void StopZMotor();
@@ -107,5 +108,11 @@ private:
 	int  m_nDeviceCount;
 	bool m_bDeviceDiscovered;
 
-	void CheckResult(VWSDK::RESULT FunctionReturn);
+	const int SEQ_OK = 0;			///< Sequence Task 에서 사용 되어지는 OK
+	const int SEQ_NG = 0xFFFF;		///< Sequence Task 에서 사용 되어지는 NG
+	const int APP_OK = 0;			///< Application 에서 사용하는 정상 응답
+	const int APP_NG = 1;			///< Application 에서 사용하는 이상 응답
+
+
+	int CheckResult(VWSDK::RESULT FunctionReturn);
 };

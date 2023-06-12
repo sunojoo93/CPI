@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Library/AFTSClass.h"
 #include "AFTS_SimplifiedExample_MFCDlg.h"
+#include "afxwin.h"
 
 #define AFTSDEVICE_NUMBER 8 // 사용하려는 AF Z축 개수만큼 DEFINE해서 사용자가 쓰기. 
 // CMainDlg 대화 상자
@@ -24,6 +25,8 @@ protected:
 	CTabCtrl m_ctlTab;
 	CAFTSSimplifiedExampleMFCDlg* m_TapDlg1;
 
+	CRect m_Image_Rect;
+	CImage m_Image;
 	void InitControls();
 
 	//////////////////////////////////
@@ -89,6 +92,8 @@ public:
 	afx_msg void OnNMClickAftslist(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg int	 mfn_AutoFocus(int index , double zPos);
 	afx_msg bool initDevice(int nDev_Count);
-	CListCtrl m_AFTS_DeviceLog_ListCtr;
 	afx_msg void OnBnClickedAftsclose();
+	afx_msg void PingTest(int index);
+	CStatic m_Picture_Ctrl;
+	afx_msg void OnPaint();
 };

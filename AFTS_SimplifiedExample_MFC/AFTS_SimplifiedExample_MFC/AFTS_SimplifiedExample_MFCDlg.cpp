@@ -55,6 +55,7 @@ CAFTSSimplifiedExampleMFCDlg::CAFTSSimplifiedExampleMFCDlg(void* p_AFTSHandle, A
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_AFTSSingleTone = NULL;
+
 	m_pAFTSClass = NULL; //Auto run 시 주석제거
 
 	nDeviceCount = 0;
@@ -97,7 +98,8 @@ void CAFTSSimplifiedExampleMFCDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_AFSwitchLED, m_AFSwitchLED);
 	DDX_Control(pDX, IDC_HWLimitLeftLED, m_HWLeftLimitLED);
 	DDX_Control(pDX, IDC_HWLimitRightLED, m_HWRightLimitLED);
-	
+
+	DDX_Control(pDX, IDC_AFTSList2, mCameraCtrl_Log);
 }
 
 BEGIN_MESSAGE_MAP(CAFTSSimplifiedExampleMFCDlg, CDialogEx)
@@ -160,6 +162,8 @@ BOOL CAFTSSimplifiedExampleMFCDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	((CButton*)GetDlgItem(IDC_AFMODE_1))->SetCheck(TRUE);
+
+
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
 	mfn_DlgInit();
 
@@ -607,7 +611,7 @@ void CAFTSSimplifiedExampleMFCDlg::EventCallbackMain(EVENTDATA* _Data)
 		//Addlog_ListCtrlAFTS(AddString(_Data->_MESSAGELOG));
 		break;
 	case AF_CAMERA_DISCONNECTED:
-		//Addlog_ListCtrlAFTS(AddString(_Data->_MESSAGELOG));	
+		Addlog_ListCtrlAFTS(GetTimeInfo() , AddString(_Data->_MESSAGELOG));
 		break;
 	}
 }
@@ -639,12 +643,12 @@ void CAFTSSimplifiedExampleMFCDlg::Addlog_ListCtrl(CString Date, CString Info)
 	m_EventLogListctrl.SetItemText(nItemNum, 1, Info);
 }
 
-void CAFTSSimplifiedExampleMFCDlg::Addlog_ListCtrlAFTS(CString Info)
+void CAFTSSimplifiedExampleMFCDlg::Addlog_ListCtrlAFTS(CString Date , CString Info)
 {
-	/*int nItemNum = m_AFTSListControl.GetItemCount();
-	m_AFTSListControl.InsertItem(nItemNum, _T(""));
-	//m_AFTSListControl.SetItemText(nItemNum, 0, AxisIndex);
-	m_AFTSListControl.SetItemText(nItemNum, 0, Info);*/
+	int nItemNum = mCameraCtrl_Log.GetItemCount();
+	mCameraCtrl_Log.InsertItem(nItemNum, _T(""));
+	mCameraCtrl_Log.SetItemText(nItemNum, 0, Date);
+	mCameraCtrl_Log.SetItemText(nItemNum, 1, Info);
 }
 
 
@@ -823,9 +827,20 @@ void CAFTSSimplifiedExampleMFCDlg::OnDestroy()
 
 int CAFTSSimplifiedExampleMFCDlg::mfn_MoveZAxis(double zPos)
 {
-	m_pAFTSClass->MoveZAxis(zPos , false);
+	try
+	{
+		return m_pAFTSClass->MoveZAxis(zPos, false);
+	}
+	catch (CException* e)
+	{
+		CString strLogTemp;
 
-	return APP_OK;
+		strLogTemp.Format(_T("[%s][%s] AF Move Z Fail!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+		theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+		return APP_NG;
+	}
 }
 
 void CAFTSSimplifiedExampleMFCDlg::mfn_DlgInit()
@@ -842,11 +857,11 @@ void CAFTSSimplifiedExampleMFCDlg::mfn_DlgInit()
 	m_EventLogListctrl.InsertColumn(0, _T("Date"), LVCFMT_LEFT, 130);
 	m_EventLogListctrl.InsertColumn(1, _T("LogInfo"), LVCFMT_LEFT, 1000);
 
-	/*CRect AFTSrect;
-	m_AFTSListControl.GetClientRect(&rect);
-	m_AFTSListControl.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
-	m_AFTSListControl.SetExtendedStyle(m_AFTSListControl.GetExtendedStyle() | LVS_EX_CHECKBOXES);
-	m_AFTSListControl.InsertColumn(0, _T("AFTS Info"), LVCFMT_LEFT, 400);*/
+	mCameraCtrl_Log.GetClientRect(&rect);
+	mCameraCtrl_Log.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
+	mCameraCtrl_Log.InsertColumn(0, _T("Date"), LVCFMT_LEFT, 130);
+	mCameraCtrl_Log.InsertColumn(1, _T("LogInfo"), LVCFMT_LEFT, 1000);
+	
 
 	m_AFSwitchLED.EnableWindowsTheming(false);
 	m_AFSwitchLED.SetTextColor(RGB(0, 0, 0)); //글자색 변경
@@ -867,120 +882,202 @@ void CAFTSSimplifiedExampleMFCDlg::mfn_DlgInit()
 	
 }
 
-bool CAFTSSimplifiedExampleMFCDlg::OnAfswitch() {
-
-	bool _AFSwitch = false;
-	if (m_bAFTSDiscovery == true)
+int CAFTSSimplifiedExampleMFCDlg::OnAfswitch() {
+	try
 	{
-		if (m_bAFCAMOpened == true)
+		bool _AFSwitch = false;
+		if (m_bAFTSDiscovery == true)
 		{
-			m_pAFTSClass->Get_AFSwitch(_AFSwitch);
-			if (m_AFModeBtn.GetCheck() == true)
+			if (m_bAFCAMOpened == true)
 			{
-				if (_AFSwitch == false)
+				m_pAFTSClass->Get_AFSwitch(_AFSwitch);
+				if (m_AFModeBtn.GetCheck() == true)
 				{
-					m_pAFTSClass->AFSwitchOn();
-					SetDlgItemText(IDC_AFSwitch, _T("AF OFF"));
-					GetDlgItem(IDC_AFMODE_1)->EnableWindow(FALSE);
-					GetDlgItem(IDC_AFMODE_2)->EnableWindow(FALSE);
+					if (_AFSwitch == false)
+					{
+						int nRet = APP_OK;
+
+						nRet = m_pAFTSClass->AFSwitchOn();
+						SetDlgItemText(IDC_AFSwitch, _T("AF OFF"));
+						GetDlgItem(IDC_AFMODE_1)->EnableWindow(FALSE);
+						GetDlgItem(IDC_AFMODE_2)->EnableWindow(FALSE);
+
+						return nRet;
+					}
+					else {
+
+						CString strLogTemp;
+
+						strLogTemp.Format(_T("[%s][%s] AF On [AF Swich On State] Fail!!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+						theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+						return APP_NG;
+					}
+				
 				}
-				else
+				else {
+
+					CString strLogTemp;
+
+					strLogTemp.Format(_T("[%s][%s] AF On [AF Mode Measure State] Fail!!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+					theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+					return APP_NG;
+				
+				}
+				/*else if (m_MeasureModeBtn.GetCheck() == true)
 				{
+					CString Status;
+					GetDlgItemText(IDC_AFSwitch, Status);
+					if (Status == "AF OFF")
+					{
+						m_pAFTSClass->MeasureModeOff();
+						SetDlgItemText(IDC_AFSwitch, _T("AF ON"));
+						GetDlgItem(IDC_AFMODE_1)->EnableWindow(TRUE);
+						GetDlgItem(IDC_AFMODE_2)->EnableWindow(TRUE);
+					}
 					
-				}
+				}*/
 			}
-			else if (m_MeasureModeBtn.GetCheck() == true)
+			else
 			{
-				CString Status;
-				GetDlgItemText(IDC_AFSwitch, Status);
-				if (Status == "AF OFF")
-				{
-					m_pAFTSClass->MeasureModeOff();
-					SetDlgItemText(IDC_AFSwitch, _T("AF ON"));
-					GetDlgItem(IDC_AFMODE_1)->EnableWindow(TRUE);
-					GetDlgItem(IDC_AFMODE_2)->EnableWindow(TRUE);
-				}
-				else {
-				
-				}
+				CString strLogTemp;
+
+				strLogTemp.Format(_T("[%s][%s] AF On [AFCAM OFF State] Fail!!!- %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+				theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+				return APP_NG;
 			}
 		}
 		else
 		{
-			return true;
+			CString strLogTemp;
+
+			strLogTemp.Format(_T("[%s][%s] AF On [Discovery OFF State] Fail!!!- %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+			return APP_NG;
 		}
 	}
-	else
+	catch (CException* e)
 	{
-		return true;
-	}
+		CString strLogTemp;
 
+		strLogTemp.Format(_T("[%s][%s] AF On Error!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+		theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+		return APP_NG;
+	}
 
 }
 
-bool CAFTSSimplifiedExampleMFCDlg::OffAfswitch() {
-	bool _AFSwitch = false;
-	if (m_bAFTSDiscovery == true)
+int CAFTSSimplifiedExampleMFCDlg::OffAfswitch() {
+
+	try
 	{
-		if (m_bAFCAMOpened == true)
+		bool _AFSwitch = false;
+
+		if (m_bAFTSDiscovery == true)
 		{
-			m_pAFTSClass->Get_AFSwitch(_AFSwitch);
-			if (m_AFModeBtn.GetCheck() == true)
+			if (m_bAFCAMOpened == true)
 			{
-				if (_AFSwitch == true)
+				m_pAFTSClass->Get_AFSwitch(_AFSwitch);
+				if (m_AFModeBtn.GetCheck() == true)
 				{
-					m_pAFTSClass->AFSwitchOff();
-					SetDlgItemText(IDC_AFSwitch, _T("AF ON"));
-					GetDlgItem(IDC_AFMODE_1)->EnableWindow(TRUE);
-					GetDlgItem(IDC_AFMODE_2)->EnableWindow(TRUE);
+					if (_AFSwitch == true)
+					{
+						int nRet = APP_OK;
+
+						nRet = m_pAFTSClass->AFSwitchOff();
+						SetDlgItemText(IDC_AFSwitch, _T("AF ON"));
+						GetDlgItem(IDC_AFMODE_1)->EnableWindow(TRUE);
+						GetDlgItem(IDC_AFMODE_2)->EnableWindow(TRUE);
+
+						return nRet;
+					}
+					else {
+
+						CString strLogTemp;
+
+						strLogTemp.Format(_T("[%s][%s] AF Off [AF Swich Off State] Fail!!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+						theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+						return APP_NG;
+					}
+
 				}
 				else {
-				
+
+					CString strLogTemp;
+
+					strLogTemp.Format(_T("[%s][%s] AF Off [AF Mode Measure State] Fail!!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+					theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+					return APP_NG;
+
 				}
-			}
-			else if (m_MeasureModeBtn.GetCheck() == true)
-			{
-				CString Status;
-				GetDlgItemText(IDC_AFSwitch, Status);
-				if (Status == "AF ON")
+				/*else if (m_MeasureModeBtn.GetCheck() == true)
 				{
-					m_pAFTSClass->MeasureModeOn();
-					SetDlgItemText(IDC_AFSwitch, _T("AF OFF"));
-					GetDlgItem(IDC_AFMODE_1)->EnableWindow(FALSE);
-					GetDlgItem(IDC_AFMODE_2)->EnableWindow(FALSE);
-				}
-				else {
-				
-				}
+					CString Status;
+					GetDlgItemText(IDC_AFSwitch, Status);
+					if (Status == "AF ON")
+					{
+						m_pAFTSClass->MeasureModeOn();
+						SetDlgItemText(IDC_AFSwitch, _T("AF OFF"));
+						GetDlgItem(IDC_AFMODE_1)->EnableWindow(FALSE);
+						GetDlgItem(IDC_AFMODE_2)->EnableWindow(FALSE);
+					}
+
+				}*/
+
 			}
-			//else if (_AFSwitch == true)
-			//{
-			//	if (m_AFModeBtn.GetCheck() == true)
-			//	{
-			//		m_AFTSClass[m_AxisNum]->AFSwitchOff();
-			//	}
-			//	else if (m_MeasureModeBtn.GetCheck() == true)
-			//	{
-			//		m_AFTSClass[m_AxisNum]->MeasureModeOff();
-			//	}
-			//	SetDlgItemText(IDC_AFSwitch, _T("AF ON"));
-			//}
+			else
+			{
+				CString strLogTemp;
+
+				strLogTemp.Format(_T("[%s][%s] AF Off [AFCAM OFF State] Fail!!!- %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+				theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+				return APP_NG;
+			}
 		}
 		else
 		{
-			return true;
+			CString strLogTemp;
+
+			strLogTemp.Format(_T("[%s][%s] AF Off [Discovery OFF State] Fail!!!- %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+			return APP_NG;
 		}
 	}
-	else
+	catch (CException* e)
 	{
-		return true;
-	}
+		CString strLogTemp;
 
+		strLogTemp.Format(_T("[%s][%s] AF Off Error!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+		theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+		return APP_NG;
+	}
 }
-//void CAFTSSimplifiedExampleMFCDlg::OnWindowPosChanging(WINDOWPOS* lpwndpos)
-//{
-//	lpwndpos->flags |= SWP_NOMOVE;
-//	CDialogEx::OnWindowPosChanging(lpwndpos);
-//
-//	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
-//}
+
+void CAFTSSimplifiedExampleMFCDlg::PingTest(int index) {
+
+	Sleep(1000);
+
+	CString strLogTemp;
+	strLogTemp.Format(_T("[%s][%s] AF ping test - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+	theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+}

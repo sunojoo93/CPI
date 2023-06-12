@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "AFTSClass.h"
 
-
 AFTSSingleTone::AFTSSingleTone(AFTSEventCallback Callback)
 {
 	Create_AFTSSingleTone();
@@ -219,23 +218,32 @@ void AFTSControlLibrary::SetPeakThreshold(int nValue)
 	CheckResult(SetAFCamParam_PeakThreshold(m_nDeviceIndex, nValue));
 }
 
-void AFTSControlLibrary::AFSwitchOn()
+int AFTSControlLibrary::AFSwitchOn()
 {	
+	int nRet = APP_OK;
+
 	if (hAFMModule == NULL)
 	{
-		return;	
+		return APP_NG;	
 	}
-	CheckResult(StartAFCam(m_nDeviceIndex));
-	CheckResult(AFON(m_nDeviceIndex));
+	
+	nRet = CheckResult(StartAFCam(m_nDeviceIndex));
+	nRet = CheckResult(AFON(m_nDeviceIndex));
+
+	return nRet;
 }
-void AFTSControlLibrary::AFSwitchOff()
+int AFTSControlLibrary::AFSwitchOff()
 {
+	int nRet = APP_OK;
+
 	if (hAFMModule == NULL)
 	{
-		return;
+		return APP_NG;
 	}
-	CheckResult(StopAFCam(m_nDeviceIndex));
-	CheckResult(AFStop(m_nDeviceIndex));
+	nRet =  CheckResult(StopAFCam(m_nDeviceIndex));
+	nRet =  CheckResult(AFStop(m_nDeviceIndex));
+
+	return nRet;
 }
 void AFTSControlLibrary::MeasureModeOn()
 {	
@@ -441,14 +449,14 @@ void AFTSControlLibrary::GetAxisPoSValue(OUT double& _Value)
 	return;
 }
 
-void AFTSControlLibrary::MoveZAxis(double dPoS, bool bRelative)
+int AFTSControlLibrary::MoveZAxis(double dPoS, bool bRelative)
 {
 	if (hAFMModule == NULL)
 	{		
-		return;
+		return APP_NG;
 	}
-	CheckResult(MoveAxis(m_nDeviceIndex, dPoS, bRelative));
-	return;
+	return CheckResult(MoveAxis(m_nDeviceIndex, dPoS, bRelative));
+
 }
 void AFTSControlLibrary::HomingZAxis()
 {
@@ -527,15 +535,15 @@ void AFTSControlLibrary::Set_SWLimitRight(double value)
 	return;
 }
 
-void AFTSControlLibrary::CheckResult(VWSDK::RESULT FunctionReturn)
+int AFTSControlLibrary::CheckResult(VWSDK::RESULT FunctionReturn)
 {
 	if (FunctionReturn == VWSDK::RESULT_SUCCESS)
 	{
-		return;
+		return APP_OK;
 	}
 	else
 	{
 		OutputDebugString(_T("Error!"));
-		return;
+		return APP_NG;
 	}
 }

@@ -138,7 +138,10 @@ BOOL CAFTSSimplifiedExampleMFCApp::InitInstance()
 	LocalFree(argv);
 
 	//CAFTSSimplifiedExampleMFCDlg dlg;
+	
 	CMainDlg Mdlg;
+
+	pAFTS_Dlg = &Mdlg;
 
 	m_pMainWnd = &Mdlg;
 	INT_PTR nResponse = Mdlg.DoModal();

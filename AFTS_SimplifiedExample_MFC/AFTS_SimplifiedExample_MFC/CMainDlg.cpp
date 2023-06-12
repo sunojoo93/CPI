@@ -31,6 +31,8 @@ CMainDlg::CMainDlg(CWnd* pParent /*=nullptr*/)
 	m_LogIndex = 0;
 	m_bAFTSDiscovery = false;
 	m_Dlginit_Flag = false;
+
+
 }
 
 CMainDlg::~CMainDlg()
@@ -49,7 +51,8 @@ void CMainDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RADIO4, m_TaskMode_Setting);
 
 	DDX_Radio(pDX, IDC_RADIO3, (int&)m_radioTaskMode);
-	DDX_Control(pDX, IDC_AFTSList2, m_AFTS_DeviceLog_ListCtr);
+
+	DDX_Control(pDX, IDC_PICTURE, m_Picture_Ctrl);
 }
 
 
@@ -64,6 +67,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
 	ON_NOTIFY(NM_CLICK, IDC_AFTSList, &CMainDlg::OnNMClickAftslist)
 	
 	ON_BN_CLICKED(IDC_AFTSClose, &CMainDlg::OnBnClickedAftsclose)
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 BOOL CMainDlg::OnInitDialog()
@@ -72,6 +76,15 @@ BOOL CMainDlg::OnInitDialog()
 
 	SetIcon(m_hIcon, TRUE);
 	SetIcon(m_hIcon, FALSE);
+
+	GetDlgItem(IDC_PICTURE)->GetWindowRect(m_Image_Rect);
+	ScreenToClient(m_Image_Rect);
+
+	if (m_Image.IsNull()) {
+	
+		m_Image.Load(L"6.png");
+		InvalidateRect(m_Image_Rect);
+	}
 
 	InitControls();		// <-- 여기서 컨트롤을 초기화 한다.
 
@@ -91,16 +104,13 @@ void CMainDlg::InitControls()
 	m_AFTSListControl.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
 	m_AFTSListControl.SetExtendedStyle(m_AFTSListControl.GetExtendedStyle() | LVS_EX_CHECKBOXES);
 	m_AFTSListControl.InsertColumn(0, _T("AFTS Info"), LVCFMT_LEFT, 400);
+	
 	//m_AFTSListControl.InsertItem(0, _T("1"));
 	//m_AFTSListControl.InsertItem(1, _T("2"));
 	//m_AFTSListControl.InsertItem(2, _T("3"));
 	//m_AFTSListControl.InsertItem(3, _T("4"));
 
-	m_AFTS_DeviceLog_ListCtr.GetClientRect(&rect);
-	m_AFTS_DeviceLog_ListCtr.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
-	m_AFTS_DeviceLog_ListCtr.InsertColumn(0, _T("Date"), LVCFMT_LEFT, 130);
-	m_AFTS_DeviceLog_ListCtr.InsertColumn(1, _T("DevNum"), LVCFMT_LEFT, 100);
-	m_AFTS_DeviceLog_ListCtr.InsertColumn(2, _T("LogInfo"), LVCFMT_LEFT, 1000);
+
 
 	
 
@@ -311,15 +321,7 @@ void CMainDlg::Addlog_ListCtrlAFTS(CString Info)
 
 void CMainDlg::AddDevlog_ListCtrlAFTS(CString Date, int Dev_Num, CString Info)
 {
-	CString strDev_Num;
-	strDev_Num.Format(_T("%d"), Dev_Num);
 
-	int nItemNum = m_AFTS_DeviceLog_ListCtr.GetItemCount();
-	m_AFTS_DeviceLog_ListCtr.InsertItem(nItemNum, _T(""));
-	//m_AFTSListControl.SetItemText(nItemNum, 0, AxisIndex);
-	m_AFTS_DeviceLog_ListCtr.SetItemText(nItemNum, 0, Date);
-	m_AFTS_DeviceLog_ListCtr.SetItemText(nItemNum, 1, strDev_Num);
-	m_AFTS_DeviceLog_ListCtr.SetItemText(nItemNum, 2, Info);
 }
 
 CString CMainDlg::AddString(char* msg)
@@ -568,14 +570,55 @@ void CMainDlg::OnNMClickAftslist(NMHDR *pNMHDR, LRESULT *pResult)
 
 
 int CMainDlg::mfn_AutoFocus(int index , double zPos) {
+
+	int ref = APP_OK;
+	CString strLogTemp;
+
 	if (m_bAFTSDiscovery == true && m_AFTS_Dlg_Class[index] != NULL)
 	{
-		int ref = APP_OK;
-
 		
-		m_AFTS_Dlg_Class[index]->mfn_MoveZAxis(zPos);
-		m_AFTS_Dlg_Class[index]->OnAfswitch();
-		m_AFTS_Dlg_Class[index]->OffAfswitch();
+		
+		ref = m_AFTS_Dlg_Class[index]->mfn_MoveZAxis(zPos);
+
+		if (ref != APP_OK) {
+			strLogTemp.Format(_T("[%s][%s] AF Move Z Fail!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+			return ref;
+		}
+
+		ref = m_AFTS_Dlg_Class[index]->OnAfswitch();
+
+		if (ref != APP_OK) {
+			strLogTemp.Format(_T("[%s][%s] AF OnAF Fail!!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+			return ref;
+		}
+
+		ref = m_AFTS_Dlg_Class[index]->OffAfswitch();
+
+		if (ref != APP_OK) {
+			strLogTemp.Format(_T("[%s][%s] AF OffAF Fail!!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+			return ref;
+		}
+		
+		
+		
+		return ref;
+	}
+	else {
+
+		ref = APP_NG;
+
+		strLogTemp.Format(_T("[%s][%s] AF Fail [Discovery Fail || Dlg Null] - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
+
+		theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
 
 		return ref;
 	}
@@ -740,4 +783,21 @@ bool CMainDlg::initDevice(int nDev_Count) {
 
 
 	return true;
+}
+
+void CMainDlg::PingTest(int index) {
+	Sleep(1000);
+	m_AFTS_Dlg_Class[index]->PingTest(index);
+}
+
+void CMainDlg::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
+					   // 그리기 메시지에 대해서는 CDialogEx::OnPaint()을(를) 호출하지 마십시오.
+
+	if (!m_Image.IsNull()) {
+		dc.SetStretchBltMode(COLORONCOLOR);
+		m_Image.Draw(dc, m_Image_Rect);
+	}
 }

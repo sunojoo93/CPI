@@ -351,10 +351,13 @@ int VSMessageProcessor::VS_AF_Start( byte* pParam, ULONG& nPrmSize, bool bAlways
 
 	byte* tempParam	= pParam;
 	
-	int nStageIndex = 0;
+	int Temp1 = *(int*)tempParam;
+	tempParam += sizeof(int);
+	
+	///////////////////////// Message·Î ¹ÞÀ» param
+	int nStageIndex = Temp1;
 	double dZ_Pos = 5.0;
-
-	////////
+	/////////////////////////
 	
 	CString strLogTemp = _T("");
 
@@ -382,26 +385,41 @@ int VSMessageProcessor::VS_AF_Start( byte* pParam, ULONG& nPrmSize, bool bAlways
 	
 	bool	AFTS_OK;
 
+	//theApp.pAFTS_Dlg->PingTest(nStageIndex);
+	
+
 	EXCEPTION_TRY
 
-		pAFTS_Dlg->mfn_AutoFocus(nStageIndex , dZ_Pos);
+		if (theApp.pAFTS_Dlg->mfn_AutoFocus(nStageIndex, dZ_Pos) == APP_OK) {
 
-		strLogTemp.Format(_T("[%s][%s] AF End - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(false));
+			strLogTemp.Format(_T("[%s][%s] AF End - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(false));
 
-		theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
 
+			AFTS_OK = true;
 
-		AFTS_OK = true;
+			*(int *)pSendParam = AFTS_OK;	pSendParam += sizeof(bool);
 
+			nRet = m_fnCmdEditSend(VS_SEND_AFTS_END, 0, sizeof(bool), VS_SEQ_TASK, prParam);
 
-		*(int *)pSendParam = AFTS_OK;	pSendParam += sizeof(bool);
+			return nRet;
+		}
+		else {
+			
+			strLogTemp.Format(_T("[%s][%s] AF Fail!!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(false));
 
-		nRet =	m_fnCmdEditSend(VS_SEND_GRAB_IMAGE, 0, sizeof(bool), VS_SEQ_TASK, prParam);
- 		//if (theApp.GetCameraState()	||
- 			//theApp.GetSMemState()		)
-			//nRet = APP_OK;
- 		//else
- 			//nRet = APP_NG;
+			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
+
+			AFTS_OK = false;
+
+			*(int *)pSendParam = AFTS_OK;	pSendParam += sizeof(bool);
+
+			nRet = m_fnCmdEditSend(VS_SEND_AFTS_END, 0, sizeof(bool), VS_SEQ_TASK, prParam);
+
+			return nRet;
+		
+		}
+
 	EXCEPTION_CATCH
 
 		if ( nRet != APP_OK)
@@ -412,10 +430,10 @@ int VSMessageProcessor::VS_AF_Start( byte* pParam, ULONG& nPrmSize, bool bAlways
 
 			*(int *)pSendParam = AFTS_OK;	pSendParam += sizeof(bool);
 
-			nRet = m_fnCmdEditSend(VS_SEND_GRAB_IMAGE, 0, sizeof(bool), VS_SEQ_TASK, prParam);
+			nRet = m_fnCmdEditSend(VS_SEND_AFTS_END, 0, sizeof(bool), VS_SEQ_TASK, prParam);
 			// Error Log
 			m_fnPrintLog(_T("CAMLOG -- Seq1001_Task_Alive Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);			
-			return nRet;
+			
 		}
 
 		//Sequence Out LOG

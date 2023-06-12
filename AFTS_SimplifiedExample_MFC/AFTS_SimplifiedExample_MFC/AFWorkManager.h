@@ -18,6 +18,7 @@
 #define VS_PG_TASK									40  + (theApp.GetPcNum() * 100)
 
 // Send Message
+#define VS_SEND_AFTS_END							90, 13
 #define VS_SEND_GRAB_IMAGE							90, 14
 #define VS_SEND_PATTERN_ONOFF						40, 11
 #define VS_SEND_PATTERN_CHANGE						40, 13

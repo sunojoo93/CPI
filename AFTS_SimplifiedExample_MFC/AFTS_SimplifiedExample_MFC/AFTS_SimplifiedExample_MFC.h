@@ -34,6 +34,8 @@ public:
 	BOOL				 m_bExec;				// IPC Trhead 실행 Flag
 	VSMessageProcessor*	 m_pInternalServer;		// IPC Driver
 
+	CMainDlg* pAFTS_Dlg;
+
 	int					GetTaskNum() { return m_nTaskNo; };
 	void				SetIPCState(BOOL bState) { m_bIPCConnect = bState; };
 

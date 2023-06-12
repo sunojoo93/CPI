@@ -4,6 +4,7 @@
 
 #pragma once
 #include "Library/AFTSClass.h"
+#include "afxcmn.h"
 #define AFTSDEVICE_NUMBER 8 // 사용하려는 AF Z축 개수만큼 DEFINE해서 사용자가 쓰기. 
 // CAFTSSimplifiedExampleMFCDlg 대화 상자
 class CAFTSSimplifiedExampleMFCDlg : public CDialogEx
@@ -48,7 +49,7 @@ public:
 	HTREEITEM AFTSRoot, AFTSChild;
 
 	
-	void			Addlog_ListCtrlAFTS(CString Info);
+	void			Addlog_ListCtrlAFTS(CString Date, CString Info);
 
 	int				m_LogIndex;
 	CString			AddString(char* msg);
@@ -86,8 +87,8 @@ public:
 	afx_msg void OnBnClickedGetafcamzoffset();
 	afx_msg void OnBnClickedSetafcamexposure();
 	afx_msg void OnBnClickedSetafcamzoffset();
-	afx_msg bool OnAfswitch();
-	afx_msg bool OffAfswitch();
+	afx_msg int OnAfswitch();
+	afx_msg int OffAfswitch();
 	//afx_msg void RadioCtrl(UINT ID);
 
 	void			Addlog_ListCtrl(CString Date, CString Info);
@@ -113,6 +114,8 @@ public:
 
 	afx_msg int mfn_MoveZAxis( double zPos);
 	afx_msg void mfn_DlgInit();
+	afx_msg void PingTest(int index);
 
 //	afx_msg void OnWindowPosChanging(WINDOWPOS* lpwndpos);
+	CListCtrl mCameraCtrl_Log;
 };
