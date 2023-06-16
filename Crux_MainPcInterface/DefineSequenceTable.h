@@ -27,12 +27,14 @@
 
 // Sequence
 #define START_GRAB_REQ								21, 20
-#define START_GRAB_READY							21, 23
-
+#define START_AF_READY							21, 23
+#define START_GRAB_END							21, 24
 // Main PC Interface
 #define START_MAIN_PC_IF_SOCKET						20, 1
 
 #define START_GRAB_REQ_FROM_MAIN_PC					60, 1
 #define RECIPE_CHANGE_REQ_FROM_MAIN_PC				60, 2
+#define GRAB_END				60, 5
+#define AF_READY				60, 23
 
 #define WAIT_CLASSIFY_END							90, 1

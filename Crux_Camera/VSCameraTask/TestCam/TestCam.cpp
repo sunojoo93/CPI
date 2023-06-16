@@ -48,7 +48,7 @@ void CTestCam::CloseApp()
 	
 }
 
-void CTestCam::CameraExpose(/*ST_LINE_INFO stLine*/)
+void CTestCam::CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt)
 {	
 
 	//int nTriggerCountF = stLine.stLineData[stLine.stLineData[0].nCurrentGrab].nCOUNTF;
@@ -66,14 +66,17 @@ void CTestCam::CameraExpose(/*ST_LINE_INFO stLine*/)
 
 
 	//MimControl(m_milSystem, M_GRAB_DIRECTION_Y, M_REVERSE);
-	//MIL_INT Orientation = MimInquire(m_milSystem, M_GRAB_DIRECTION_Y, M_NULL);
+	//MIL_INT Orientation = MimInquire(m_milSystem, M_GRAB_DIRECTION_Y, M_NULL);	
 
 
-	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposrorcp ure Start"));
-	StopGrab(100);
+	//CString TotalPath;
+	//TotalPath.Format(_T("D:\\CamGrabTest\\%s"), VirID);
+	
+	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposrorcp ure Start, Max Count : %d"), nBufCnt);
+	StopGrab(nBufCnt);
 	m_GrabTime.Start();
-	StartGrab(100, false, true);
-	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposure End"));
+	StartGrab(PanelID, VirID, Position, nBufCnt, false, true);
+	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposure End, Max Count : %d"), nBufCnt);
 }
 
 BOOL CTestCam::InitializeCamera(CString strInitFilePath)
@@ -219,23 +222,45 @@ void CTestCam::StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos 
 	}
 }
 
-void CTestCam::StartGrab(int nBufCnt, bool sync, bool fileSave)
+void CTestCam::StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave)
 {
 	//count -= 1;
 	// 버퍼할당
 	AllocClearBuffer(nBufCnt);
+	CString TotalPath_;
+	TotalPath_.Format(_T("D:\\CamGrabTest\\%s"), VirID);
 	// UserHookData 초기화
+	CString TotalPath;
+	TotalPath.Format(_T("D:\\CamGrabTest\\%s\\%s"), VirID, Position);
+
+
 	UserHookData.obj = this;
 	UserHookData.isGrabEnd = false;
 	UserHookData.ProcessedImageCount = 0;
 	UserHookData.MaxCount = nBufCnt;
 	UserHookData.isSaveImage = fileSave;
+	UserHookData.PanelID = PanelID;
+	UserHookData.VirID = VirID;
+	UserHookData.SavePath = TotalPath;
 	ResetEvent(UserHookData.hGrabEnd);
-
+	if (GetFileAttributes((LPCTSTR)TotalPath_) == INVALID_FILE_ATTRIBUTES)
+	{
+		CreateDirectory(TotalPath_, NULL);
+	}
+	if (GetFileAttributes((LPCTSTR)TotalPath) == INVALID_FILE_ATTRIBUTES)
+	{
+		CreateDirectory(TotalPath, NULL);
+	}
+	ProcessGrabCnt = 0;
 	// 그랩 스타트
 	m_GrabFlag = true;
-	theApp.m_fnWriteLineScanLog(_T("Grab Start"));
-
+	theApp.m_fnWriteLineScanLog(_T("Grab Start, BufCnt : %d"), nBufCnt);
+	MIL_INT64 SequencerSetNext = 1;
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetSelector"), M_TYPE_STRING, MIL_TEXT("1"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerPathSelector"), M_TYPE_STRING, MIL_TEXT("1"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("On"));
 	theApp.m_fnWriteLineScanLog(_T("MdigProcess Start"));
 	// M_SEQUENCE + M_COUNT(Count) : 패킷의 총 길이
 	MdigProcess(m_milDigitizer, m_milLineImage, nBufCnt, M_SEQUENCE + M_COUNT(nBufCnt), M_DEFAULT, ProcessingFunction, &UserHookData);
@@ -256,16 +281,18 @@ void CTestCam::StopGrab(int nTriggerCountF, int nTriggerCountB)
 	SetEvent(UserHookData.hGrabEnd);
 	m_GrabFlag = false;
 }
-void CTestCam::StopGrab(int nBufCnt)
+int CTestCam::StopGrab(int nBufCnt)
 {	
 	//count -= 1;
 	// 그랩 종료
-	theApp.m_fnWriteLineScanLog(_T("Grab Stop"));
+	theApp.m_fnWriteLineScanLog(_T("Grab Stop, BufCnt : %d, Proc Cnt : %d"), nBufCnt, ProcessGrabCnt);
 	MdigProcess(m_milDigitizer, m_milLineImage, nBufCnt, M_STOP, M_DEFAULT, ProcessingFunction, &UserHookData);
-	ProcessGrabCnt = 0;
+
 	SetEvent(UserHookData.hGrabEnd);
 	m_GrabFlag = false;
+	return ProcessGrabCnt;
 }
+
 
 void CTestCam::AllocClearBuffer(int nBufCnt, bool onlyClear)
 {
@@ -328,10 +355,11 @@ MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *Hook
 	// 수정된 버퍼 인덱스를 가져온다.
 	MdigGetHookInfo(HookId, M_MODIFIED_BUFFER + M_BUFFER_INDEX, &ModifiedBufferIndex);
 	// 다음 훅이 들어올 때 증가된 프로세스 카운트
-	ProcessGrabCnt = ModifiedBufferIndex;
-	UserHookDataPtr->ProcessedImageCount = ModifiedBufferIndex + 1;
-	theApp.m_fnWriteLineScanLog(_T("ProcessingFunction - %d/%d"), UserHookDataPtr->ProcessedImageCount, UserHookDataPtr->MaxCount);
 	
+	UserHookDataPtr->ProcessedImageCount = ModifiedBufferIndex + 1;
+	ProcessGrabCnt = UserHookDataPtr->ProcessedImageCount;
+	theApp.m_fnWriteLineScanLog(_T("ProcessingFunction - %d/%d"), UserHookDataPtr->ProcessedImageCount, UserHookDataPtr->MaxCount);
+
 	if (UserHookDataPtr->MaxCount == UserHookDataPtr->ProcessedImageCount)
 	{
 		//if(!UserHookDataPtr->isGrabEnd)
@@ -340,7 +368,8 @@ MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *Hook
 		//UserHookDataPtr->isGrabEnd = true;
 		MdigProcess(UserHookDataPtr->obj->m_milDigitizer, UserHookDataPtr->obj->m_milLineImage, UserHookDataPtr->MaxCount, M_STOP, M_DEFAULT, ProcessingFunction, &UserHookDataPtr);
 		SetEvent(UserHookDataPtr->hGrabEnd);
-		theApp.m_fnWriteLineScanLog(_T("Grab End"));
+		//MdigControlFeature(UserHookDataPtr->obj->m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+		theApp.m_fnWriteLineScanLog(_T("Grab End, MaxCount : %d"), UserHookDataPtr->MaxCount);
 		UserHookDataPtr->obj->m_GrabFlag = false;
 	}
 	if (UserHookDataPtr->isSaveImage)
@@ -349,7 +378,8 @@ MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *Hook
 		time_t curr_time = time(nullptr);
 		_localtime64_s(&curr_tm, &curr_time);
 		CString filePath;
-		filePath.Format(_T("D:\\CamGrabTest\\GrabTest-%4d%02d%02d-%02d%02d%02d_%d.bmp"), curr_tm.tm_year + 1900, curr_tm.tm_mon + 1, curr_tm.tm_mday, curr_tm.tm_hour, curr_tm.tm_min, curr_tm.tm_sec, UserHookDataPtr->ProcessedImageCount);
+		filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, UserHookDataPtr->ProcessedImageCount);
+
 		theApp.m_fnWriteLineScanLog(_T("image save Start."));
 		//temp->m_Trigger->TriggerGenCount0();
 		MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[ModifiedBufferIndex]);
@@ -361,7 +391,7 @@ MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *Hook
 
 int CTestCam::CloseCamera()
 {
-	m_Trigger->ClosePort();
+	//m_Trigger->ClosePort();
 	m_Camera->m_CamSerial->CloseComPort();
 	BUFFREE(m_milMergeImage);
 	for (int i = 0; i < BUFFER_COUNT; i++)
@@ -441,8 +471,8 @@ void CTestCam::DisplayLive(HWND hDispWnd)
 void CTestCam::WaitGrabEnd()
 {	
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera WaitGrabEnd Start"));
-	WaitForSingleObject(UserHookData.hGrabEnd, 10000);
-	ResetEvent(UserHookData.hGrabEnd);
+	//WaitForSingleObject(UserHookData.hGrabEnd, 10000);
+	//ResetEvent(UserHookData.hGrabEnd);
 	m_GrabTime.End();	
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera WaitGrabEnd End"));
 }
@@ -479,7 +509,7 @@ int CTestCam::SetSMemCurBuffer(int nBufCnt , TCHAR* strPanelID)
 		int width = theApp.m_pSharedMemory->GetImgWidth();
 		int height = theApp.m_pSharedMemory->GetImgHeight();
 
-		for (int i = 0; i < ProcessGrabCnt; ++i)
+		for (int i = 0; i < nBufCnt; ++i)
 		{
 			MbufGet2d(m_milLineImage[i], 0, 0, m_lDigSizeX, m_lDigSizeY, theApp.m_pSharedMemory->GetImgAddress(i));
 		}

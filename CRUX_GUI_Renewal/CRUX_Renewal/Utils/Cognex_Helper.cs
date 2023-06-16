@@ -132,8 +132,16 @@ namespace CRUX_Renewal.Utils
         /// <returns></returns>
         public static CogJob LoadJob(string path)
         {
-            CogJob Job = (CogJob)CogSerializer.LoadObjectFromFile(path);
-            return Job;
+            try
+            {
+                CogJob Job = CogSerializer.LoadObjectFromFile(path) as CogJob;
+                return Job;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
         /// <summary>
         /// JobManager를 종료한다.
@@ -143,8 +151,9 @@ namespace CRUX_Renewal.Utils
         {
             if(manager != null)
             {
-                manager.Shutdown();
+                manager.Shutdown();               
                 manager = null;
+                GC.Collect();
             }
         }
         /// <summary>
@@ -190,6 +199,7 @@ namespace CRUX_Renewal.Utils
                 for (int i = 0; i < img_len; i++)
                 {
                     RegionTool.InputImage = image_list[i];
+                    image_list[i].ToBitmap().Save($@"D:\ImageSave\Test{i}.bmp");
                     RegionTool.DestinationImage = Result_CogImg;
 
                     if (i == 0)
@@ -216,7 +226,7 @@ namespace CRUX_Renewal.Utils
                         //  RegionTool.RunParams.InputImageAlignmentY = nShift_Y;
 
                         RegionTool.RunParams.DestinationImageAlignmentX = shift_x * (i);
-                        RegionTool.RunParams.DestinationImageAlignmentY = shift_y * (i);
+                        RegionTool.RunParams.DestinationImageAlignmentY = (nImage_Height - shift_y) * (i);
                     }
                     RegionTool.Run();
                     //Result_CogImg = (CogImage8Grey)RegionTool.OutputImage.CopyBase(CogImageCopyModeConstants.CopyPixels);
@@ -248,6 +258,7 @@ namespace CRUX_Renewal.Utils
                     }
 
                     Result_CogImg = (CogImage8Grey)RegionTool.OutputImage;
+                    Result_CogImg.ToBitmap().Save(@"D:\ImageSave\Test.bmp");
                 }
 
                 return Result_CogImg;

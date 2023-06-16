@@ -29,7 +29,7 @@ namespace CRUX_Renewal.Class
             try
             {
                 //MemoryMapTest로 이름붙인 공유 Memory 열기
-                var mappedFile = MemoryMappedFile.OpenExisting("PDC_SHARED_MEM_CAMERA_1", MemoryMappedFileRights.FullControl, HandleInheritability.None);
+                var mappedFile = MemoryMappedFile.OpenExisting("PDC_SHARED_MEM_CAMERA_D_1", MemoryMappedFileRights.FullControl, HandleInheritability.None);
 
                 long Pos = 0;
                 // 공유 Memory에서 읽은 것을 Stream으로 받기

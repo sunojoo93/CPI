@@ -111,7 +111,7 @@ namespace CRUX_Renewal.Main_Form
                         case (int)Enums.InitFlag.CAM_TASK:
                             setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
                             //if ( SimulMode.ToString() == "FALSE" )
-                                Program.StartCameraTask(SimulMode.ToString(), "TestCamTask"); // 추후에 수정
+                              //  Program.StartCameraTask(SimulMode.ToString(), "TestCamTask"); // 추후에 수정
                            // else
                             //    Program.StartDalsaCameraTask();
                             ++InitFlag;
@@ -127,7 +127,10 @@ namespace CRUX_Renewal.Main_Form
                         case (int)Enums.InitFlag.SharedMemory:
                             setControlText(lbl_CurrentState, string.Format("Access Shared Memory..."));
                             if ( SimulMode.ToString() == "FALSE" )
-                            { }
+                            {
+                                Systems.SharedMemory = new Class.SharedMem();
+                                Systems.SharedMemory.OpenSharedMem(1);
+                            }
                             else
                             {
                                 Systems.SharedMemory = new Class.SharedMem();

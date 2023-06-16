@@ -29,6 +29,7 @@ bool AFTSSingleTone::AFTSDiscovery(IN char* ACS_IPADDRESS, OUT AFM_HANDLE& m_hAF
 		{
 			DiscoveryAFTS(ACS_IPADDRESS, hAFMModule, m_AFTSSingleTone_DeviceCount);		
 			m_hAFMModuleSingleTone = hAFMModule;
+			nDiscoveredDevices = m_AFTSSingleTone_DeviceCount;
 			return true;
 		}
 		else if (m_bDeviceDiscovered == true)
@@ -451,6 +452,7 @@ void AFTSControlLibrary::GetAxisPoSValue(OUT double& _Value)
 
 int AFTSControlLibrary::MoveZAxis(double dPoS, bool bRelative)
 {
+	
 	if (hAFMModule == NULL)
 	{		
 		return APP_NG;

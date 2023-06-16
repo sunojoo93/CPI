@@ -174,6 +174,16 @@ struct ST_LINE_INFO // 시퀀스가 PGController.ini와 MTP Result 파일을 읽어서 가지
 
 };
 
+struct ST_REQ_GRAB_START
+{
+	TCHAR	strCellID[100];
+	TCHAR	strVirId[100];
+	ST_REQ_GRAB_START()
+	{
+		memset(strCellID, 0, sizeof(strCellID));
+		memset(strVirId, 0, sizeof(strVirId));
+	}
+};
 
 struct ST_STEP_INFO
 {
@@ -351,7 +361,7 @@ struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 		PcNo = 0;
 		nInspType = 0;
 		PatternCount = 0;
-		memset(ImageSet, 0, sizeof(ST_GRAB_AREA_INFO_AOT) * 5);
+		memset(ImageSet, 0, sizeof(IMAGE_SET_AOT) * 5);
 		memset(strPanelID, 0, sizeof(strPanelID));
 		memset(strVirtualID, 0, sizeof(strVirtualID));
 		memset(strArea, 0, sizeof(strArea));

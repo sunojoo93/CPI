@@ -21,6 +21,7 @@ namespace CRUX_Renewal
 
         Point CurWindowPosition = new Point();
         private string CurDisplayForm_;
+        
         public string CurDisplayForm
         {
             get { return CurDisplayForm_; }
@@ -65,6 +66,7 @@ namespace CRUX_Renewal
    
             //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
         }
+
         public void InitMainForm(List<Recipes> recipe)
         {
             // 리스트가 없다면 객체 생성
@@ -74,7 +76,6 @@ namespace CRUX_Renewal
             // 현재 연결된 비전 PC 개수만큼 생성
             for (int i = 0; i < Globals.MaxVisionCnt; ++i)
             {
-
                 Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i], CurFormIndex = i});
                 Recipes Temp = recipe[i];
                 // 레시피를 각 폼마다 Reference로 사용
@@ -122,7 +123,12 @@ namespace CRUX_Renewal
             {
                 // 현재 스테이터스 체크 종료
                 Frm_Status.StopCheckStatus();
-
+            
+                for(int i = 0; i < Globals.MaxVisionCnt; ++i)
+                {
+                    Program.Frm_MainContent_[i].Frm_Algorithm.JobManager.Shutdown();
+                    Program.Frm_MainContent_[i].Recipe.Dispose();
+                }
                 // 프로세스 리스트 종료
                 foreach (ProcessSet item in Program.GetProcessList())                
                     item.Proc.Kill();                

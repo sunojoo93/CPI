@@ -117,6 +117,7 @@
             this.Btn_Revert.TabIndex = 2;
             this.Btn_Revert.Text = "롤백";
             this.Btn_Revert.UseVisualStyleBackColor = false;
+            this.Btn_Revert.Click += new System.EventHandler(this.Btn_Revert_Click);
             // 
             // LstB_Algorithm
             // 

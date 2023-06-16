@@ -94,7 +94,7 @@ namespace CRUX_Renewal
     }
     static class Globals
     {
-        public static int MaxInspectorCount = 2;
+        public static int MaxInspectorCount = 1;
         public static Size ImageRectSize = new Size(200, 200);
         public static int LoadImageColCnt = 3;
         public static int SelPcNo = 0;

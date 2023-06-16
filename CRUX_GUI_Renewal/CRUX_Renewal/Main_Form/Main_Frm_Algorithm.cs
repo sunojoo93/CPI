@@ -12,6 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,7 +20,7 @@ namespace CRUX_Renewal.Main_Form
 {
     public partial class Main_Frm_Algorithm : Form
     {
-        private CogJobManager JobManager;
+        public CogJobManager JobManager;
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
         public Recipes Shared_Recipe;
@@ -39,8 +40,8 @@ namespace CRUX_Renewal.Main_Form
             if (LstB_Algorithm.Items.Count > 0)
             {
                 LstB_Algorithm.SelectedItem = LstB_Algorithm.Items[0];
-                ChangeJob(LstB_Algorithm.SelectedItem as string);
-                CTGE_Algorithm.Subject = JobManager.Job(0).VisionTool as CogToolGroup;
+                //ChangeJob(LstB_Algorithm.SelectedItem as string);
+                CTGE_Algorithm.SetSubjectAndInitialize(null);
             }
         }
         public void SetRecipe(ref Recipes recipe)
@@ -63,46 +64,59 @@ namespace CRUX_Renewal.Main_Form
         {
 
         }
-        public void LoadVppFile(string path)
-        {            
-            ArrayList VppList = fileProc.GetFileNames(path, ".vpp");
 
-            if (VppList.Count > 0)
-            {
-                LstB_Algorithm.Items.AddRange(VppList.ToArray());
-            }
-        }
 
         public void ChangeJob(string name)
         {
-            string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
+            try
+            {
+                string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
+           
+                string TotalPath = $@"{AlgorithmPath}\{name}";
+                if (JobManager != null)
+                {
+                    Cognex_Helper.ClearJobMnager(JobManager);
+                }
+                JobManager = new CogJobManager();              
 
-            string TotalPath = $@"{AlgorithmPath}\{name}";
-            if (JobManager != null)                
-                Cognex_Helper.ClearJobMnager(JobManager);
-            JobManager = new CogJobManager();
-            JobManager.JobAdd((CogJob)CogSerializer.LoadObjectFromFile(TotalPath)); 
+                JobManager.JobAdd(Cognex_Helper.LoadJob(TotalPath));
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private async void LstB_Algorithm_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (LstB_Algorithm.Items.Count > 0 && LstB_Algorithm.SelectedItem != null)
             {
+                CTGE_Algorithm.Subject = null;
+                //GC.Collect(10, GCCollectionMode.Forced);
+                //Thread.Sleep(1000);
                 string VppName = LstB_Algorithm.SelectedItem as string;
                 Utility.LoadingStart();
-                Task t = new Task(() => ChangeJob(VppName));
+                Task t = new Task(() =>  ChangeJob(VppName));
                 t.Start();
                 await t;
                 Utility.LoadingStop();
-                CTGE_Algorithm.Subject = JobManager.Job(0).VisionTool as CogToolGroup;     
+                CTGE_Algorithm.Subject = JobManager.Job(0).VisionTool as CogToolGroup;   
             }
         }
 
         private void Btn_Save_Click(object sender, EventArgs e)
         {
+            //Utility.LoadingStart();
             string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
             string VppName = LstB_Algorithm.SelectedItem as string;
             CogSerializer.SaveObjectToFile(JobManager.Job(0), $@"{AlgorithmPath}\{VppName}", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+            Thread.Sleep(5000);
+            //Utility.LoadingStop();
+        }
+
+        private void Btn_Revert_Click(object sender, EventArgs e)
+        {
+            //JobManager.JobAdd(Cognex_Helper.LoadJob(@"V:\D_Drive\CRUX\DATA\Top Bot Inspect.vpp"));
         }
     }
 }

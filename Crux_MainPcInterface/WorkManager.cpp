@@ -180,10 +180,10 @@ int WorkManager::AnalyzeMsg(CMDMSG* pCmdMsg)
 	SEQUENCE_TABLE (	10,		10	,	Seq_SendMessageToMainPC				, false	,			false					,	NULL				)
 
 	SEQUENCE_TABLE (	60,		01	,	Seq_StartGrab_FromMainPc			, false	,			false					,	NULL				)
-	SEQUENCE_TABLE (	60,		23	,	Seq_StartReady_FromMainPc			, false ,			false					,	NULL				)
-
+	SEQUENCE_TABLE (	60,		23	,	Seq_AFReady_FromMainPc				, false ,			false					,	NULL				)
+	SEQUENCE_TABLE (	60,		04	,	Seq_Reply_StartGrabFromMainPc		, false, false, NULL)
 	SEQUENCE_TABLE (	60,		02	,	Seq_ChangeRecipe_FromMainPc			, false	,			false					,	NULL				)
-
+	SEQUENCE_TABLE (	60,		05	,	Seq_GrabEnd_FromMainPc				, false ,			false					,	NULL				)
 	SEQUENCE_TABLE (	60,		22	,	Seq_SendMsg_ClassifyEnd_FromInspPc	, true	,			false					,	NULL				)
 
 	SEQUENCE_TABLE (    60,     60  ,   Seq_StageMove_FromInspPc            , true  ,           false                   ,   NULL                )
@@ -903,13 +903,13 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 
 	nTotalLine = *(int*)pParamTemp;		pParamTemp += sizeof(int);
 
-	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
-	pParamTemp += SIZE_CELL_ID;
-	strDirection = cTemp;
+	//memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
+	//pParamTemp += SIZE_CELL_ID;
+	//strDirection = cTemp;
 
-	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
-	pParamTemp += SIZE_CELL_ID;
-	strPosition = cTemp;
+	//memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
+	//pParamTemp += SIZE_CELL_ID;
+	//strPosition = cTemp;
 
 
 	/*CString strRecipeName;
@@ -933,25 +933,25 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 	bpTempParam += SIZE_CELL_ID;
 	*(int*)bpTempParam = nTotalLine;
 	bpTempParam += sizeof(int);
-	_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strDirection);
-	bpTempParam += SIZE_CELL_ID;
-	_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strPosition);
-	bpTempParam += SIZE_CELL_ID;
+	//_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strDirection);
+	//bpTempParam += SIZE_CELL_ID;
+	//_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strPosition);
+	//bpTempParam += SIZE_CELL_ID;
 
 
-	strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_START_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
-	nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+	//strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_START_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+	//nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
 
 
 	//nRet = 0;
-	if (nRet != APP_OK)
-	{
-		strSendMsg.Format("%sERR.%s.%s.", MAIN_PC_PACKET_GRAB_START_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
-		nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
-		m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc Message Send Error(FDB.GRAB.START.ERR)."));
-		throw nRet;
-	}
-	
+	//if (nRet != APP_OK)
+	//{
+	//	strSendMsg.Format("%sERR.%s.%s.", MAIN_PC_PACKET_GRAB_START_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+	//	nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+	//	m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc Message Send Error(FDB.GRAB.START.ERR)."));
+	//	throw nRet;
+	//}
+	//
 	//TEST
 
 	//strSendMsg.Format("%s%d.OK.", MAIN_PC_PACKET_GRAB_END_REPLY, nTotalLine);
@@ -970,7 +970,7 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 			isSeqBusy = false;
 			if (nRet != APP_OK)
 			{
-				m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc  INSP End Err... Message Send Error."));
+				m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc INSP End Err... Message Send Error."));
 				throw nRet;
 			}
 		}
@@ -993,7 +993,7 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 	return nRet;
 }
 
-int	WorkManager::Seq_StartReady_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
+int	WorkManager::Seq_AFReady_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
 {
 	int nRet = APP_OK;
 	bool isRunSequence = false;
@@ -1061,18 +1061,18 @@ int	WorkManager::Seq_StartReady_FromMainPc(byte* pParam, ULONG& nPrmSize, bool b
 	//nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
 
 
-	nRet = CmdEditSend(START_GRAB_READY, 0, sizeof(bParam), VS_SEQUENCE_TASK, bParam, CMD_TYPE_RES, 6000);
-
-	if (nRet == APP_OK)
-	{
-		strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
-		nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
-	}
-	else
-	{
-		strSendMsg.Format("%sERR.%s.%s.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
-		nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
-	}
+	//nRet = CmdEditSend(START_AF_READY, 0, sizeof(bParam), VS_SEQUENCE_TASK, bParam, CMD_TYPE_RES, 60000);
+	//nRet = APP_OK;
+	//if (nRet == APP_OK)
+	//{
+	//	strSendMsg.Format("%sOK.%s.%s.1.1.1.1.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+	//	nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+	//}
+	//else
+	//{
+	//	strSendMsg.Format("%sERR.%s.%s.0.0.0.0.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+	//	nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+	//}
 
 
 
@@ -1105,6 +1105,171 @@ int	WorkManager::Seq_StartReady_FromMainPc(byte* pParam, ULONG& nPrmSize, bool b
 		}
 
 	m_fnPrintLog(_T("SEQLOG -- StartGrabReady_FromMainPc Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+
+	return nRet;
+}
+int	WorkManager::Seq_GrabEnd_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
+{
+	int nRet = APP_OK;
+	bool isRunSequence = false;
+	int nStepNo = 0, nAsyncFlag = 0, nTestMode = 0, nStartLine = 0, nPos = 0;
+	int			nStageNo = 0;
+	static bool isSeqBusy = false;
+	byte*		pParamTemp = pParam;
+
+
+	CString		strCellID;
+
+	bool		bReqAnalysis;
+	CString		strLotID;
+	CString		strVirtualID;
+	CString		strCellIDTmp;	  // 2017.10.06 edit by ikm
+
+	TCHAR		cTemp[500] = { 0, };
+	TCHAR szTemp[100] = { 0, };
+	CStringA	strSendMsg;
+
+	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
+	pParamTemp += SIZE_CELL_ID;
+	strVirtualID = cTemp;
+
+	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
+	pParamTemp += SIZE_CELL_ID;
+	strCellID = cTemp;
+
+	EXCEPTION_TRY
+
+		isSeqBusy = true;
+
+	// Sequence In LOG
+	m_fnPrintLog(_T("SEQLOG -- StartGrabReady_FromMainPc StepNo=%d, RetVal=%d \n"), nStepNo++, nRet);
+
+
+	byte bParam[1000] = { 0, };
+	byte* bpTempParam = bParam;
+
+	_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strVirtualID);
+	bpTempParam += SIZE_CELL_ID;
+	_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strCellID);
+	bpTempParam += SIZE_CELL_ID;
+	//*(int*)bpTempParam = 5;
+	//bpTempParam += sizeof(int);
+
+
+	nRet = CmdEditSend(START_GRAB_END, 0, sizeof(bParam), VS_SEQUENCE_TASK, bParam, CMD_TYPE_RES, 60000);
+
+	//if (nRet == APP_OK)
+	//{
+	//	strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_START_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+	//	nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+	//}
+	//else
+	//{
+	//	strSendMsg.Format("%sERR.%s.%s.", MAIN_PC_PACKET_GRAB_START_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+	//	nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+	//}
+
+
+
+	EXCEPTION_CATCH
+
+		if (nRet == APP_OK)
+		{
+
+			//strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+			//nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+			isSeqBusy = false;
+			if (nRet != APP_OK)
+			{
+				m_fnPrintLog(_T("SEQLOG -- StartGrabReady_FromMainPc  INSP End Err... Message Send Error."));
+				throw nRet;
+			}
+		}
+		else
+		{
+			m_fnPrintLog(_T("SEQLOG -- StartGrabReady_FromMainPc - Error return from sequence task. Error = %d"), nRet);
+			strSendMsg.Format("%sERR.%s.%s.", MAIN_PC_PACKET_GRAB_END_REPLY, (CStringA)strVirtualID, strCellID);
+			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+			isSeqBusy = false;
+			if (nRet != APP_OK)
+			{
+				m_fnPrintLog(_T("SEQLOG -- StartGrabReady_FromMainPc Message Send Error."));
+				throw nRet;
+			}
+			throw MAINPCINTERFACE_TASK_SEQUENCE_FAIL;
+		}
+
+	m_fnPrintLog(_T("SEQLOG -- StartGrabReady_FromMainPc Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+
+	return nRet;
+}
+
+int	WorkManager::Seq_Reply_StartGrabFromMainPc(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
+{
+
+	int nRet = APP_OK;
+	bool isRunSequence = false;
+	int nStepNo = 0, nAsyncFlag = 0, nTestMode = 0, nStartLine = 0, nPos = 0;
+	int			nStageNo = 0;
+	static bool isSeqBusy = false;
+	byte*		pParamTemp = pParam;
+
+
+	CString		strCellID;
+	CString		strVirtualID;
+
+
+	TCHAR		cTemp[500] = { 0, };
+	TCHAR szTemp[100] = { 0, };
+	CStringA	strSendMsg;
+
+	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
+	pParamTemp += SIZE_CELL_ID;
+	strCellID = cTemp;
+
+	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
+	pParamTemp += SIZE_CELL_ID;
+	strVirtualID = cTemp;
+
+	EXCEPTION_TRY
+		m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc StepNo=%d, RetVal=%d \n"), nStepNo++, nRet);
+		isSeqBusy = true;
+
+	// Sequence In LOG
+
+
+
+	byte bParam[1000] = { 0, };
+	byte* bpTempParam = bParam;
+
+	_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strVirtualID);
+	bpTempParam += SIZE_CELL_ID;
+	_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strCellID);
+	bpTempParam += SIZE_CELL_ID;
+
+	strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_START_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+	nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+
+	EXCEPTION_CATCH
+
+		if (nRet == APP_OK)
+		{
+
+			//strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+			//nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+			isSeqBusy = false;
+			m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc OK."));
+			throw nRet;
+			
+		}
+		else
+		{
+			isSeqBusy = false;
+			m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc Err."));
+			throw MAINPCINTERFACE_TASK_SEQUENCE_FAIL;
+		}
+
+	m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
 
 	return nRet;
 }
@@ -2886,11 +3051,11 @@ int WorkManager::m_fnAnalyzeMainPcCmd(char* buffer, int nBuffSize)
 			return nRet;
 		}
 	}
-	else if (stRcvPacket.Find(MAIN_PC_PACKET_GRAB_READY) != -1)
+	else if (stRcvPacket.Find(MAIN_PC_PACKET_AF_READY) != -1)
 	{
 		// 17.07.14 Async Flag 추가
 		int nStartLine = 0, nStartPos = 0, nEndPos = 0, nTotalLine = 0;
-		CString strCellId, strVirtualID, strPos;
+		CString strCellId, strVirtualID, strPos, strAF;
 
 		// MergeTool 촬영위치, 검사 Step 추가 
 		CString strGrabPos, strInspStep;
@@ -2898,7 +3063,7 @@ int WorkManager::m_fnAnalyzeMainPcCmd(char* buffer, int nBuffSize)
 
 		byte* pParamTemp = bParam;
 
-		stRcvPacket.Replace(MAIN_PC_PACKET_GRAB_START, "");
+		stRcvPacket.Replace(MAIN_PC_PACKET_AF_READY, "");
 
 		nStartPos = 0;
 		nEndPos = stRcvPacket.Find(".");
@@ -2912,6 +3077,10 @@ int WorkManager::m_fnAnalyzeMainPcCmd(char* buffer, int nBuffSize)
 		nEndPos = stRcvPacket.Find(".", nStartPos);
 		strPos = stRcvPacket.Mid(nStartPos, nEndPos - nStartPos);
 
+		nStartPos = nEndPos + 1;;
+		nEndPos = stRcvPacket.Find(".", nStartPos);
+		strAF = stRcvPacket.Mid(nStartPos, nEndPos - nStartPos);
+
 		_tcsncpy((TCHAR*)pParamTemp, (LPCTSTR)strVirtualID, strVirtualID.GetLength());
 		pParamTemp += SIZE_CELL_ID;
 
@@ -2921,7 +3090,49 @@ int WorkManager::m_fnAnalyzeMainPcCmd(char* buffer, int nBuffSize)
 		*(int*)pParamTemp = _ttoi(strPos);
 		pParamTemp += sizeof(int);
 
-		nRet = CmdEditSend(START_GRAB_REQ_FROM_MAIN_PC, 0, sizeof(bParam), VS_MAIN_PC_TASK, bParam, CMD_TYPE_NORES);
+		*(int*)pParamTemp = _ttoi(strAF);
+		pParamTemp += sizeof(int);
+
+		nRet = CmdEditSend(AF_READY, 0, sizeof(bParam), VS_MAIN_PC_TASK, bParam, CMD_TYPE_NORES);
+
+		if (nRet != APP_OK)
+		{
+			m_fnPrintLog(_T("m_fnAnalyzeMainPcCmd: <START_GRAB_REQ_FROM_MAIN_PC> command send Error = %d \n"), nRet);
+			return nRet;
+		}
+	}
+	else if (stRcvPacket.Find(MAIN_PC_PACKET_GRAB_READY) != -1)
+	{
+		// 17.07.14 Async Flag 추가
+		int nStartLine = 0, nStartPos = 0, nEndPos = 0, nTotalLine = 0;
+		CString strCellId, strVirtualID, strPos;
+
+		// MergeTool 촬영위치, 검사 Step 추가 
+		CString strGrabPos, strInspStep;
+		int nGrabPos = 0, nInspStep = 0;
+
+		byte* pParamTemp = bParam;
+
+		stRcvPacket.Replace(MAIN_PC_PACKET_GRAB_READY, "");
+
+		nStartPos = 0;
+		nEndPos = stRcvPacket.Find(".");
+		strVirtualID = stRcvPacket.Mid(nStartPos, nEndPos - nStartPos);
+
+		nStartPos = nEndPos + 1;;
+		nEndPos = stRcvPacket.Find(".", nStartPos);
+		strCellId = stRcvPacket.Mid(nStartPos, nEndPos - nStartPos);
+
+		_tcsncpy((TCHAR*)pParamTemp, (LPCTSTR)strVirtualID, strVirtualID.GetLength());
+		pParamTemp += SIZE_CELL_ID;
+
+		_tcsncpy((TCHAR*)pParamTemp, (LPCTSTR)strCellId, strCellId.GetLength());
+		pParamTemp += SIZE_CELL_ID;
+
+		*(int*)pParamTemp = _ttoi(strPos);
+		pParamTemp += sizeof(int);
+
+		nRet = CmdEditSend(GRAB_END, 0, sizeof(bParam), VS_MAIN_PC_TASK, bParam, CMD_TYPE_NORES);
 
 		if (nRet != APP_OK)
 		{

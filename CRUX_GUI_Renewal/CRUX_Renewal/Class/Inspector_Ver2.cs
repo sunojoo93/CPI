@@ -133,6 +133,7 @@ namespace CRUX_Renewal.Class.InspVer2
                     RecipeName = recipe.Name;
                     foreach (Area item in recipe.Area_Data.Area)
                     {
+                      
                         if (Area_Insp == null)
                             Area_Insp = new List<Area_Inspector>();
                         if (item.Use)
@@ -234,6 +235,7 @@ namespace CRUX_Renewal.Class.InspVer2
 
                         foreach (Pattern item in area.Patterns)
                         {
+
                             if (item.Insp)
                             {
                                 Pattern_Inspector InspRegion = new Pattern_Inspector(item);
@@ -539,7 +541,13 @@ namespace CRUX_Renewal.Class.InspVer2
                     }
                     public void Dispose()
                     {
-
+                        if(Region_Insp != null)
+                        {
+                            foreach(Region_Inspector item in Region_Insp)
+                            {
+                                item.Dispose();
+                            }
+                        }
                     }
                     private void AddJobManagerEvent(CogJobManager manager)
                     {
@@ -720,6 +728,7 @@ namespace CRUX_Renewal.Class.InspVer2
                             {
                                 try
                                 {
+
                                     CogJob Job = CogSerializer.DeepCopyObject(Cognex_Helper.LoadJob(algo.Path)) as CogJob;
                                     Job.Name = algo.Name;
                                     AddJobEvent(Job);

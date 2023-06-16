@@ -942,7 +942,7 @@ namespace CRUX_Renewal.Class
             CamNo = 0;
         }
     }
-    public class Recipes
+    public class Recipes : IDisposable
     {
         private static Recipes Recipes_Object;
         public static Recipes Instance()
@@ -953,6 +953,13 @@ namespace CRUX_Renewal.Class
             }
             return Recipes_Object;
         }
+
+        public void Dispose()
+        {
+            ViewRecipe.Dispose();
+            MainRecipe.Dispose();     
+        }
+
         public Recipe MainRecipe = new Recipe();
         public Recipe ViewRecipe = new Recipe();
 

@@ -56,6 +56,7 @@
 #define SEND_SET_CAMERA_COND						90, 30
 #define SEND_SET_CAMERA_EXPOSE_TIME					90, 31	// 2021.12.15~ MDJ Modify Camera ExposeTime
 #define SEND_SET_TRIGGER_MODE						90, 34
+#define SEND_GRAB_STOP								90, 50
 #define SEND_ALARM_OCCURRED							60, 52
 
 // Main PC Interface
@@ -69,6 +70,7 @@
 #define REQ_PG_CHANGE_PATTERN						60, 57		// PG Change Pattern	180801 YSS
 #define REQ_PG_OFF									60, 58		// PG OFF				180801 YSS
 #define REQ_PG_ON									60, 59		// PG OFF				180822 YSS
+#define REQ_GRAB_START								60, 04
 
 // Other PC Sequence Task
 #define SEND_ASYNC_SEQUENCE							21, 88
@@ -174,6 +176,7 @@ private:
 	HANDLE				m_hAsycAutoSeq[MAX_PC_COUNT][MAX_AUTO_SEQ_ASNC_POINT];		// 시컨스 동기화 기능 1차원 배열 -> 2차원 배열로 수정(PC Num 추가)	181010 YSS
 	HANDLE				m_hDustEnd;
 	HANDLE				m_hSeqStageMove[MAX_GRAB_COUNT_LCP][MAX_SEQUENCE_LCP];
+	HANDLE				m_hSeqStageMoveDone;
 	bool				m_bNeedRetry;		// Dust Retry 필요 여부
 	bool				m_bIsNormalDust;	// Dust Check 결과 - From Alg.Task
 
@@ -208,8 +211,10 @@ private:
 	//int	Seq_AutoInspectGrabImage_BUMP(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2021.10.05~ MDJ Inspection Sequence for LCP
 	int	Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 AOT CHIPPING JSO
 	int	Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 ALM JSO
-	int Seq_GrabReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-																																							//int	Seq_AutoChangeModel			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	
+	int Seq_AFReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	int Seq_GrabEnd_FromMainPC(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	
+	//int	Seq_AutoChangeModel			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	
 	// Sequence
 	//int	Seq_ClassifyEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	//int	Seq_GUI_ClassifyEnd			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);

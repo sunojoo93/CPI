@@ -30,15 +30,23 @@
 #define EXCEPTION_TRY	try{
 #define EXCEPTION_CATCH	}catch(int nErrCode){nRet = nErrCode;}	catch(...){nRet = TASK_EXCEPTION_UNKNOWN_EXCEPTION;}
 
-#define	SEQUENCE_TABLE(FUNCTION_NO,SEQUENCE_NO,FUNCTION_NAME,ALWAYS_RUNMODE,SEQ_REST_POSSIBLE)								\
+#define	SEQUENCE_TABLE(FUNCTION_NO,SEQUENCE_NO,FUNCTION_NAME,ALWAYS_RUNMODE,SEQ_REST_POSSIBLE,CS_LOCK_NAME)					\
 	if ( pCmdMsg->uFunID_Dest == FUNCTION_NO && pCmdMsg->uSeqID_Dest == SEQUENCE_NO )										\
 	{																														\
+		if ((VOID*)CS_LOCK_NAME != NULL)																					\
+		{																													\
+			EnterCriticalSection(CS_LOCK_NAME);																					\
+		}																													\
 			if (SEQ_REST_POSSIBLE)																							\
 				m_SeqenceCount++;																							\
 			isFunctionRuned = true;																							\
 			nRet = FUNCTION_NAME((BYTE*)pCmdMsg->cMsgBuf, pCmdMsg->uMsgSize, ALWAYS_RUNMODE, false, SEQ_REST_POSSIBLE);		\
 			if (SEQ_REST_POSSIBLE)																							\
 				m_SeqenceCount--;																							\
+		if ((VOID*)CS_LOCK_NAME != NULL)																							\
+		{																															\
+			LeaveCriticalSection(CS_LOCK_NAME);																							\
+		}																															\
 	}																														\
 
 
@@ -87,6 +95,7 @@ private:
 	int		VS_LiveGrab				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int     VS_ManualLoadImage		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int		VS_SaveGrabImage		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	int		VS_GrabStop				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	// Get
 	int		VS_GetImageWidth		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int		VS_GetImageHeight		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
@@ -111,9 +120,9 @@ private:
 	int						m_nSimulationGrabTime;
 	ST_CAMERA_COND*			m_oldCamCondition;
 
-// 	CRITICAL_SECTION	m_csSequenceLock_1;
-// 	CRITICAL_SECTION	m_csSequenceLock_2;
-// 	CRITICAL_SECTION	m_csSequenceLock_3;
-// 	CRITICAL_SECTION	m_csSequenceLock_4;
-// 	CRITICAL_SECTION	m_csSequenceLock_5; 
+ 	CRITICAL_SECTION	m_csSequenceLock_1;
+ 	CRITICAL_SECTION	m_csSequenceLock_2;
+ 	CRITICAL_SECTION	m_csSequenceLock_3;
+ 	CRITICAL_SECTION	m_csSequenceLock_4;
+ 	CRITICAL_SECTION	m_csSequenceLock_5; 
 };

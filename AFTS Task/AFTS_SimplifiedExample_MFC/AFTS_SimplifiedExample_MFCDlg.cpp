@@ -56,7 +56,7 @@ CAFTSSimplifiedExampleMFCDlg::CAFTSSimplifiedExampleMFCDlg(void* p_AFTSHandle, A
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_AFTSSingleTone = NULL;
 
-	m_pAFTSClass = NULL; //Auto run 시 주석제거
+	m_pAFTSClass = NULL; //Autorun 시 주석제거
 
 	nDeviceCount = 0;
 	m_LogIndex = 0;
@@ -875,9 +875,9 @@ void CAFTSSimplifiedExampleMFCDlg::mfn_DlgInit()
 	m_HWRightLimitLED.SetTextColor(RGB(0, 0, 0)); //글자색 변경
 
 
-	m_pAFTSClass->OpenAFCAM();
-	m_bAFCAMOpened = true;
-	SetTimer(1, 500, NULL);
+	m_pAFTSClass->OpenAFCAM(); //Autorun 시 주석제거
+	m_bAFCAMOpened = true;	//Autorun 시 주석제거
+	SetTimer(1, 500, NULL);	//Autorun 시 주석제거
 	
 	
 }

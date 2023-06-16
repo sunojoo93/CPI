@@ -78,7 +78,8 @@ public:
 	int m_nTaskMode;
 	bool m_Dlginit_Flag;
 
-	CString strTab_Name[AFTSDEVICE_NUMBER] = {_T("상면 Left"),_T("상면 Right"), _T("후면 Left"), _T("후면 Right"), _T(""), _T(""), _T(""), _T("") }; //AFTSDEVICE_NUMBER 만큼 초기화
+	//CString strTab_Name[AFTSDEVICE_NUMBER] = {_T("상면 Left"),_T("상면 Right"), , _T("후면 Right"), _T("Temp"), _T("Temp"), _T("Temp"), _T("Temp") }; //AFTSDEVICE_NUMBER 만큼 초기화
+	CString strTab_Name[AFTSDEVICE_NUMBER] = { _T("후면 Right"),_T("후면 Left"), _T("상면 Right"),_T("상면 Left") , _T("Temp"), _T("Temp"), _T("Temp"), _T("Temp") };
 
 	afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDestroy();
@@ -91,9 +92,10 @@ public:
 	afx_msg void OnBnClickedAftsopen();
 	afx_msg void OnNMClickAftslist(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg int	 mfn_AutoFocus(int index , double zPos);
-	afx_msg bool initDevice(int nDev_Count);
+	afx_msg bool initDevice();
 	afx_msg void OnBnClickedAftsclose();
 	afx_msg void PingTest(int index);
 	CStatic m_Picture_Ctrl;
 	afx_msg void OnPaint();
+	afx_msg void OnBnClickedButton1();
 };

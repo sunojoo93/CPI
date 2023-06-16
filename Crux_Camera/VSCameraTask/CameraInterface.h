@@ -30,7 +30,7 @@ public:
 	virtual void	SaveGrabImage(int nImgCnt, BOOL bIsLiveImage, BOOL bIsGrayImg, ULONG lOffsetX, ULONG lOffsetY, ULONG lCropSizeX, ULONG lCropSizeY, CString strFilePath)
 																		{	return			;};
 	virtual void	DisplayGrabImage(HWND hDispWnd = NULL)				{	return			;};
-
+	//virtual int		GrabStop(int nBufCnt) { return 0; };
 	
 	virtual void	SaveFileCurBuffer(TCHAR* strSavePath)				{	return			;};	
 // 	// Get
@@ -73,7 +73,7 @@ public:
 	virtual UINT	retryConnect()										{	return 0		;};
 	virtual	void	CameraExpose() { };
 	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
-	virtual int		SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID) { return; };
+	virtual int		SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID) { return 0; };
 #ifdef _MATROXCAMERA
 	/************************************************************/
 	/*						 Matrox Camera						*/
@@ -173,7 +173,10 @@ public:
 	virtual	void	CameraExpose(ST_LINE_INFO stLine) = 0;
 	virtual void	SetSMemCurBuffer(int nTriggerCountF, int nTriggerCountB, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
 #elif _TestCam
+	virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt) {};
 	virtual void	SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID, int nSeqMode) { return; };
+	virtual int	StopGrab(int nBufCnt) { return 0; };
+
 #endif
 };
 

@@ -68,6 +68,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
 	
 	ON_BN_CLICKED(IDC_AFTSClose, &CMainDlg::OnBnClickedAftsclose)
 	ON_WM_PAINT()
+	ON_BN_CLICKED(IDC_BUTTON1, &CMainDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 BOOL CMainDlg::OnInitDialog()
@@ -110,10 +111,6 @@ void CMainDlg::InitControls()
 	//m_AFTSListControl.InsertItem(2, _T("3"));
 	//m_AFTSListControl.InsertItem(3, _T("4"));
 
-
-
-	
-
 	CListctr_clickindex = -1;
 
 	m_ACSIPAddressCtrl.SetAddress(theApp.m_Module_IPadress[0], theApp.m_Module_IPadress[1], theApp.m_Module_IPadress[2], theApp.m_Module_IPadress[3]);
@@ -121,9 +118,9 @@ void CMainDlg::InitControls()
 	OnBnClickedAftsdiscovery_Auto();
 
 	//
-	nDeviceCount = 4;
+	//nDeviceCount = 4; //Autorun 시 주석
 
-	initDevice(nDeviceCount);
+	initDevice();
 
 	m_Dlginit_Flag = true;
 	//
@@ -236,7 +233,7 @@ void CMainDlg::OnBnClickedAftsdiscovery()
 		{
 			m_bAFTSDiscovery = true;
 			nDeviceCount = 4;
-			initDevice(nDeviceCount);
+			initDevice();
 			
 		}
 	}
@@ -661,7 +658,7 @@ void CMainDlg::OnBnClickedAftsclose()
 
 
 
-bool CMainDlg::initDevice(int nDev_Count) {
+bool CMainDlg::initDevice() {
 
 	if (m_bAFTSDiscovery == true) {
 		for (int i = 0; i < nDeviceCount; i++) {
@@ -800,4 +797,11 @@ void CMainDlg::OnPaint()
 		dc.SetStretchBltMode(COLORONCOLOR);
 		m_Image.Draw(dc, m_Image_Rect);
 	}
+}
+
+
+void CMainDlg::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	mfn_AutoFocus(3, 1.5);
 }

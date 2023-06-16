@@ -243,11 +243,11 @@ namespace CRUX_Renewal
                 foreach ( var proc in procList )
                     proc.Kill();
                 procList = Process.GetProcessesByName("Crux_MainPcInterface");
-                foreach ( var proc in procList )
+                foreach (var proc in procList)
                     proc.Kill();
-                procList = Process.GetProcessesByName("TestCamTask");
-                foreach ( var proc in procList )
-                    proc.Kill();
+                //procList = Process.GetProcessesByName("TestCamTask");
+                //foreach ( var proc in procList )
+                //    proc.Kill();
                 procList = Process.GetProcessesByName("TrivisionLightTask");
                 foreach ( var proc in procList )
                     proc.Kill();

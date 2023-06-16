@@ -43,7 +43,7 @@ public:
 	BOOL			InitializeGrabber(int nGrabberNo, int nDigCh, CString strDcfFilePath);
 	BOOL			OpenCameraComPort(int nComPort, int nBaudrate, eCamModel eModel);	
 	// Grab
-	void			CameraExpose(/*ST_LINE_INFO stLine*/);									// Exposure Time 동안만 대기 후 반환
+	void			CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt);									// Exposure Time 동안만 대기 후 반환
 	void			WaitGrabEnd();									// Wait Image Grab End	
 	BYTE*			GetGrabBuffer();
 	BOOL			DoRotateImage(cv::Mat matSrcBuffer, cv::Mat& matDstBuffer, double dAngle);
@@ -58,7 +58,7 @@ public:
 	void			SetSMemCurBuffer(int nTriggerCountF, int nTriggerCountB, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode);			// 현재 Grab Image Shared Memory 에 적재
 	int				SetSMemCurBuffer(int nBufCnt,TCHAR* strPanelID);			// 현재 Grab Image Shared Memory 에 적재
 	void			SaveFileCurBuffer(TCHAR* strSavePath);			// 현재 Grab Image 파일로 저장
-	
+	//int				StopGrab(int nBufCnt);
 	// Get
 	int				GetImageWidth()									{ return	m_lDigSizeX;}
 	int				GetImageHeight()								{ return	m_lDigSizeY;}
@@ -159,11 +159,15 @@ public:
 	{
 		// Mil System, Mil Digitizer 접근 가능
 		CTestCam*	obj;
+		CString VirID;
+		CString PanelID;
 		int		MaxCount;
 		int		ProcessedImageCount;
 		bool	isGrabEnd;
 		bool	isSaveImage;
 		HANDLE	hGrabEnd;
+		CString SavePath;
+		CString Position;
 	} HookDataStruct;
 
 	CDalsaLineCamControl* m_Camera;
@@ -182,9 +186,9 @@ public:
 	bool	m_GrabFlag = false;
 	bool InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile);
 	void StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos ,bool sync, bool fileSave = false);
-	void StartGrab(int nBufCnt, bool sync, bool fileSave = false);
+	void StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave = false);
 	void StopGrab(int nTriggerCountF, int nTriggerCountB);
-	void StopGrab(int nBufCnt);
+	int StopGrab(int nBufCnt);
 	void AllocClearBuffer(int nBufCnt, bool onlyClear = false);
 	void m_fnMbufExport(CString strFilePath, MIL_ID milBuffer);
 	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr);

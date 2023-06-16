@@ -87,7 +87,7 @@
             this.Tlp_Simul.RowCount = 2;
             this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 674F));
             this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Simul.Size = new System.Drawing.Size(1936, 813);
+            this.Tlp_Simul.Size = new System.Drawing.Size(1910, 813);
             this.Tlp_Simul.TabIndex = 0;
             // 
             // Grb_ImageInfo
@@ -378,7 +378,7 @@
             this.cogRecordDisplay1.MouseWheelSensitivity = 1D;
             this.cogRecordDisplay1.Name = "cogRecordDisplay1";
             this.cogRecordDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay1.OcxState")));
-            this.cogRecordDisplay1.Size = new System.Drawing.Size(1130, 668);
+            this.cogRecordDisplay1.Size = new System.Drawing.Size(1104, 668);
             this.cogRecordDisplay1.TabIndex = 4;
             // 
             // label2
@@ -399,7 +399,7 @@
             this.Tab_Simul.Location = new System.Drawing.Point(0, 0);
             this.Tab_Simul.Name = "Tab_Simul";
             this.Tab_Simul.SelectedIndex = 0;
-            this.Tab_Simul.Size = new System.Drawing.Size(1950, 846);
+            this.Tab_Simul.Size = new System.Drawing.Size(1924, 846);
             this.Tab_Simul.TabIndex = 1;
             // 
             // tab_Page_ImageSimul
@@ -408,7 +408,7 @@
             this.tab_Page_ImageSimul.Location = new System.Drawing.Point(4, 23);
             this.tab_Page_ImageSimul.Name = "tab_Page_ImageSimul";
             this.tab_Page_ImageSimul.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Page_ImageSimul.Size = new System.Drawing.Size(1942, 819);
+            this.tab_Page_ImageSimul.Size = new System.Drawing.Size(1916, 819);
             this.tab_Page_ImageSimul.TabIndex = 0;
             this.tab_Page_ImageSimul.Text = "Image Simulation";
             this.tab_Page_ImageSimul.UseVisualStyleBackColor = true;
@@ -439,7 +439,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1950, 846);
+            this.ClientSize = new System.Drawing.Size(1924, 846);
             this.Controls.Add(this.Tab_Simul);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
