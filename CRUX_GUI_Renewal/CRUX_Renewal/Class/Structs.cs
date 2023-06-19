@@ -105,6 +105,7 @@ namespace CRUX_Renewal.Class
         public bool inspect;
         public bool sequence;
         public bool pgcontrol;
+        public bool AF;
         public void init()
         {
             camrea = false;
@@ -113,6 +114,7 @@ namespace CRUX_Renewal.Class
             inspect = false;
             sequence = false;
             pgcontrol = false;
+            AF = false;
         }
     }
     public class ProcessSet

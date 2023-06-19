@@ -24,8 +24,8 @@ namespace CRUX_Renewal.Main_Form
     {
         List<Recipes> RecipeList = new List<Recipes>();
         Thread thread;
-        public bool Finished { get; set; } = false; 
-        public Frm_Init ()
+        public bool Finished { get; set; } = false;
+        public Frm_Init()
         {
             InitializeComponent();
             lbl_CurrentState.Parent = CircleProgressBar;
@@ -38,7 +38,7 @@ namespace CRUX_Renewal.Main_Form
             thread.IsBackground = true;
             thread.Name = "Initial Thread";
             thread.SetApartmentState(ApartmentState.STA);
-            thread.Start(this); 
+            thread.Start(this);
         }
         public List<Recipes> GetLoadedRecipe()
         {
@@ -51,205 +51,297 @@ namespace CRUX_Renewal.Main_Form
             //Globals.MaxVisionCnt = Systems.Environment_INI["UI_Property"]["VisionTotalCount"].ToInt();
             //Globals.CurrentPCno = Systems.Environment_INI["UI_Property"]["CurrentUINumber"].ToInt();          
             //Globals.MAINFORM_NAME = Systems.Environment_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
-   
+
         }
 
-        private void initialize (object arg)
+        private void initialize(object arg)
         {
-            int InitFlag = 0;
-            int Percent = 0;
-            bool Temp;
-            Finished = false;
-            StringBuilder SimulMode = new StringBuilder();
-            WinApis.GetPrivateProfileString("Common", "SIMULATION Mode", "FALSE", SimulMode, 100, @"‪D:\CRUX\DATA\INI\Initialize.ini");
             try
             {
-                while ( (int)Enums.InitFlag.MAX > InitFlag )
+                int InitFlag = 0;
+                int Percent = 0;
+                bool Temp;
+                Finished = false;
+                StringBuilder SimulMode = new StringBuilder();
+                //WinApis.GetPrivateProfileString("Common", "SIMULATION Mode", "FALSE", SimulMode, 100, @"‪D:\CRUX\DATA\INI\Initialize.ini");
+                WinApis.GetPrivateProfileString("Common", "SIMULATION MODE", "FALSE", SimulMode, 50, "D:\\CRUX\\DATA\\INI\\Initialize.ini");
+                while ((int)Enums.InitFlag.MAX > InitFlag)
                 {
                     Temp = false;
                     //Thread.Sleep(10);
-                    switch ( InitFlag )
+                    switch (InitFlag)
                     {
                         case (int)Enums.InitFlag.CHK_PROGRAM:
-                            setControlText(lbl_CurrentState, string.Format("Closing Program..."));
-                            Program.KillTasks();
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Chk Program Log...");
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Closing Program..."));
+                                Systems.LogWriter.Info("Chk Program Log...");
+                                Program.KillTasks();
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                         case (int)Enums.InitFlag.SET_ENVIRONMENT:
-                            setControlText(lbl_CurrentState, string.Format("Set Evironment..."));
-                            Thread t = new Thread( () =>
+                            try
                             {
-                                ExcuteBatchFile(@"NetworkDrive_AutoMount.bat");
-                            });
-                            t.Start();
-
-                            if(!t.Join(60000))
-                            {
-                                t.Abort();
-                                throw new Exception("Set environment time out");
+                                setControlText(lbl_CurrentState, string.Format("Set Evironment..."));
+                                Systems.LogWriter.Info("Set Evironment...");
+                                Thread t = new Thread(() =>
+                               {
+                                   ExcuteBatchFile(@"NetworkDrive_AutoMount.bat");
+                               });
+                                t.Start();
+                                if (!t.Join(60000))
+                                {
+                                    t.Abort();
+                                    throw new Exception("Set environment time out");
+                                }
+                                if (Systems.LogWriter == null)
+                                    throw new Exception("LogWriter 생성 실패");
+                                ++InitFlag;
                             }
-                            if ( Systems.LogWriter == null )
-                                throw new Exception("LogWriter 생성 실패");
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Set Evironment...");
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                         case (int)Enums.InitFlag.INI:
-                            setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
-                            CreateINIObject();
-                            if ( Systems.LogWriter == null )
-                                throw new Exception("LogWriter 생성 실패");
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Initialize Log...");
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
+                                Systems.LogWriter.Info("Read Program Data...");
+                                CreateINIObject();
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                         case (int)Enums.InitFlag.DATA:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Data..."));
-                            m_fnLoadInitInfo();
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Initialize Data...");
-                            break;
-                        case (int)Enums.InitFlag.CAM_TASK:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
-                            //if ( SimulMode.ToString() == "FALSE" )
-                              //  Program.StartCameraTask(SimulMode.ToString(), "TestCamTask"); // 추후에 수정
-                           // else
-                            //    Program.StartDalsaCameraTask();
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Initialize CAM...");
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
+                                Systems.LogWriter.Info("Read Program Data...");
+                                m_fnLoadInitInfo();
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw;
+                            }
                             break;
                         case (int)Enums.InitFlag.IPC:
-                            setControlText(lbl_CurrentState, string.Format("Initialize IPC..."));
-                            InitializeIpc();
-                            Program.StartVSServer();
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Initialize IPC...");
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Initialize IPC..."));
+                                Systems.LogWriter.Info("Initialize IPC...");
+                                InitializeIpc();
+                                Program.StartVSServer();
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
+                            break;
+                        case (int)Enums.InitFlag.CAM_TASK:
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
+                                Systems.LogWriter.Info("Initialize CAM...");
+                                if (SimulMode.ToString() == "FALSE")
+                                    Program.StartCameraTask("TestCamTask"); // 추후에 수정
+                                else
+                                    Program.StartSimulCameraTask();
+                                Thread.Sleep(3000);
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                         case (int)Enums.InitFlag.SharedMemory:
-                            setControlText(lbl_CurrentState, string.Format("Access Shared Memory..."));
-                            if ( SimulMode.ToString() == "FALSE" )
+                            try
                             {
-                                Systems.SharedMemory = new Class.SharedMem();
-                                Systems.SharedMemory.OpenSharedMem(1);
+                                setControlText(lbl_CurrentState, string.Format("Access Shared Memory..."));
+                                Systems.LogWriter.Info("Access Shared Memory...");
+                                if (SimulMode.ToString() == "FALSE")
+                                {
+                                    Systems.SharedMemory = new Class.SharedMem();
+                                    Systems.SharedMemory.OpenSharedMem(1);
+                                }
+                                else
+                                {
+                                    Systems.SharedMemory = new Class.SharedMem();
+                                    Systems.SharedMemory.OpenSharedMem(1);
+                                }
+                                ++InitFlag;
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                Systems.SharedMemory = new Class.SharedMem();
-                                Systems.SharedMemory.OpenSharedMem(1);
+                                throw ex;
                             }
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Initialize Shared Mem...");
                             break;
                         case (int)Enums.InitFlag.LoadJOB:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Job..."));
-                            LoadRecipe(); // 모델 적용
-                            Systems.LogWriter.Info("Initialize Job...");
-                            ++InitFlag;
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Initialize Job..."));
+                                LoadRecipe(); // 모델 적용
+                                Systems.LogWriter.Info("Initialize Job...");
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                         case (int)Enums.InitFlag.Inspector:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
-                            ++InitFlag;
-                            Systems.Inspector_ = Inspector_Collection.Instance();
-                            for(int i = 0; i < Globals.MaxVisionCnt; ++i)
-                            { 
-                                if(!Systems.Inspector_.CreateInspectorFromRecipe(RecipeList[0].MainRecipe)) // 다중 피씨 고려해서 추후에 수정 필요함
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Initialize Inspector..."));
+                                Systems.LogWriter.Info("Initialize Inspector...");
+                                Systems.Inspector_ = Inspector_Collection.Instance();
+                                for (int i = 0; i < Globals.MaxVisionCnt; ++i)
                                 {
-                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "Inspector 생성 오류가 발생했습니다.");
-                                    Noti.ShowDialog();                                    
+                                    if (!Systems.Inspector_.CreateInspectorFromRecipe(RecipeList[0].MainRecipe)) // 다중 피씨 고려해서 추후에 수정 필요함
+                                    {
+                                        Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "Inspector 생성 오류가 발생했습니다.");
+                                        Noti.ShowDialog();
+                                    }
                                 }
+                                ++InitFlag;
                             }
-                    
-                            Systems.LogWriter.Info("Initialize Inspector...");
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                         case (int)Enums.InitFlag.MAINPC_TASK:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Main Program..."));
-                            Program.StartMainInterface();                            
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Initialize Main...");
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Initialize Main Program..."));
+                                Systems.LogWriter.Info("Initialize Main...");
+                                Program.StartMainInterface();
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
+                            break;
+                        case (int)Enums.InitFlag.AF_TASK:
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Initialize AF Program..."));
+                                Systems.LogWriter.Info("Initialize AF...");
+                                Program.StartAutoFocus();
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                         case (int)Enums.InitFlag.SEQ_TASK:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Sequence Program..."));
-                            //for ( int i = 0; i < 2; i++ )
-                                //TempBin();
-                            Program.StartSequence();                           
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Initialize Seq...");
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Initialize Sequence Program..."));
+                                Systems.LogWriter.Info("Initialize Seq...");
+                                Program.StartSequence();
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                         case (int)Enums.InitFlag.LIGHT_TASK:
-                            setControlText(lbl_CurrentState, string.Format("Initialize Light Program..."));
-                            ++InitFlag;
-                            Systems.LogWriter.Info("Initialize Light...");
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Initialize Light Program..."));
+                                Systems.LogWriter.Info("Initialize Light...");
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
+                            }
                             break;
                     }
-                    this.Invoke(new Action(delegate () {
+                    this.Invoke(new Action(delegate ()
+                    {
                         int Per = SetInitCount(ref Percent);
-                        for ( double i = (double)CircleProgressBar.Value; i < Per; i += Consts.LOADING_INTERVAL )
+                        for (double i = (double)CircleProgressBar.Value; i < Per; i += Consts.LOADING_INTERVAL)
                         {
                             CircleProgressBar.Increment(Consts.LOADING_INTERVAL);
                         }
                         Temp = true;
                     }));
-                    while ( Temp != true )
-                        ;
+                    while (Temp != true) ;
                 }
-                //Percent = (int)Enums.InitFlag.MAX;
-
                 Systems.LogWriter.Info("Init Finished");
 
                 setControlText(lbl_CurrentState, string.Format("Program Opening ... "));
                 Thread.Sleep(500);
-                this.Invoke(new MethodInvoker(delegate ()
-                {
-                    //CircleProgressBar.TimerStop();
-                    this.Close();
-                }));
-                //FormOpen(Program.Frm_Main);
+                DialogResult = DialogResult.Yes;
+                ////////this.Invoke(new MethodInvoker(delegate ()
+                ////////{
+                ////////    this.Close();
+                ////////}));
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                Systems.LogWriter.Error("초기화 실패", ex);  
-                if ( ex.Message == "카메라 실행 실패" )
+                Systems.LogWriter.Error("초기화 실패", ex);
+                if (ex.Message == "카메라 실행 실패")
                 {
                     setTextboxContent(lbl_CurrentState, string.Format("카메라 실행 실패"), Color.Red);
                     Thread.Sleep(3000);
                     setTextboxContent(lbl_CurrentState, string.Format("프로그램을 종료합니다."), Color.Black);
                     Thread.Sleep(3000);
+                    DialogResult = DialogResult.No;
                 }
-                if ( ex.Message == "공유메모리 접근 실패" )
+                if (ex.Message == "공유메모리 접근 실패")
                 {
                     setTextboxContent(lbl_CurrentState, string.Format("Shared Momory 접근 실패"), Color.Red);
                     Thread.Sleep(3000);
                     setTextboxContent(lbl_CurrentState, string.Format("프로그램을 종료합니다."), Color.Black);
                     Thread.Sleep(3000);
+                    DialogResult = DialogResult.No;
                 }
+                else
+                {
+                    setTextboxContent(lbl_CurrentState, string.Format("에러 발생"), Color.Red);
+                    Thread.Sleep(3000);
+                    setTextboxContent(lbl_CurrentState, string.Format("프로그램을 종료합니다."), Color.Black);
+                }
+                Systems.LogWriter.Error(ex.Message);
                 CircleProgressBar.TimerStop();
                 Program.KillAllTask();
-                //if(Systems.RecipeContent.MainRecipe != null)
-                //    foreach(Recipe item in Systems.RecipeContent.MainRecipe)
-                //        item?.Manager?.Shutdown();
-
-                //if(Systems.RecipeContent.ViewRecipe != null)
-                //    foreach (Recipe item in Systems.RecipeContent.ViewRecipe)
-                //        item?.Manager?.Shutdown();
                 Application.Exit();
             }
         }
 
-        public void TempBin ()
+        public void TempBin()
         {
             int nRet = Consts.APP_OK;
             CmdMsgParam Param = new CmdMsgParam();
 
             Param.ClearOffset();
-            nRet = Systems.g_Ipc.SendCommand((ushort)( ( Globals.SelPcNo + 1 ) * 100 + IpcConst.GUI_TASK ), IpcConst.TASK_ALIVE_FUNC, IpcConst.RMS_RCP_CRR_SEND,
+            nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.SelPcNo + 1) * 100 + IpcConst.GUI_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.RMS_RCP_CRR_SEND,
                                         IpcInterface.CMD_TYPE_NORES, 2000, Param.GetByteSize(), Param.GetParam());
         }
 
 
-        private int SetInitCount (ref int nPercent)
+        private int SetInitCount(ref int nPercent)
         {
-            int nPersent = ++nPercent * ( 100 / /*(int)Enums.InitFlag.MAX) > 100 ? 100 : nPercent * (100 / */(int)Enums.InitFlag.MAX );
+            int nPersent = ++nPercent * (100 / /*(int)Enums.InitFlag.MAX) > 100 ? 100 : nPercent * (100 / */(int)Enums.InitFlag.MAX);
 
-            if ( nPersent > 100 )
+            if (nPersent > 100)
                 nPersent = 100;
             return nPersent;
         }
@@ -262,7 +354,7 @@ namespace CRUX_Renewal.Main_Form
         /// /작성자 : 임경민 (IKM)
         /// /클래스 : Form_Init    
         /// </summary>      
-        private void m_fnLoadInitInfo ()
+        private void m_fnLoadInitInfo()
         {
             //m_fnAddLog(0, string.Format("{0}_Start", MethodBase.GetCurrentMethod().Name));
             //Globals.MaxVisionCnt = Convert.ToInt32(iniUtl.GetIniValue("Common", "VISION PC COUNT", Paths.INIT_PATH));
@@ -296,10 +388,10 @@ namespace CRUX_Renewal.Main_Form
 
             Systems.Ini_Collection = new List<Dictionary<string, IniFile>>();
             Systems.RecipeData_Collection = new List<Dictionary<string, IniFile>>();
-            for ( int i = 0; i < Globals.MaxVisionCnt; i++ )
-            {        
+            for (int i = 0; i < Globals.MaxVisionCnt; i++)
+            {
                 Systems.Ini_Collection.Add(new Dictionary<string, IniFile>());
-                for(int j = 0; j < Globals.Ini_Init_Names.Length; ++j)
+                for (int j = 0; j < Globals.Ini_Init_Names.Length; ++j)
                 {
                     IniFile Ini = new IniFile();
                     string IniPath = $@"{Paths.INIT_FOLDER_PATH}{Globals.Ini_Init_Names[j]}";
@@ -333,13 +425,13 @@ namespace CRUX_Renewal.Main_Form
 
                 Systems.AliveList[i].init();
 
-                string AlgorithmPath = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i+1}_AlgorithmPath"]["Path"].ToString();
+                string AlgorithmPath = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_AlgorithmPath"]["Path"].ToString();
                 ArrayList FileList = fileProc.getFileList(AlgorithmPath, ".vpp");
-                foreach(string item in FileList)
+                foreach (string item in FileList)
                 {
                     string[] Temp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
                     Algorithm_Infomation Info = new Algorithm_Infomation();
-                    
+
                     string FileName = Temp[Temp.Length - 1];
                     string[] Name = FileName.Split('.');
                     Info.Name = Name[0];
@@ -366,7 +458,7 @@ namespace CRUX_Renewal.Main_Form
         /// /작성자 : 임경민 (IKM)
         /// /클래스 : Form_Init    
         /// </summary>      
-        
+
         private void LoadRecipe()
         {
             try
@@ -379,7 +471,7 @@ namespace CRUX_Renewal.Main_Form
 
                 for (int i = 0; i < Globals.MaxVisionCnt; i++)
                 {
-                    Systems.CurrentApplyRecipeName.Add(new PropertyString(new Action(()=>
+                    Systems.CurrentApplyRecipeName.Add(new PropertyString(new Action(() =>
                     {
                         Program.Frm_Main?.SetRecipeName(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
                     })));
@@ -413,7 +505,7 @@ namespace CRUX_Renewal.Main_Form
         /// /작성자 : 임경민 (IKM)
         /// /클래스 : Form_Init    
         /// </summary>      
-        private void InitializeIpc ()
+        private void InitializeIpc()
         {
             Thread thread = new Thread(new ThreadStart(delegate () { ThreadConnectVSServer(); }));
             thread.IsBackground = true;
@@ -428,7 +520,7 @@ namespace CRUX_Renewal.Main_Form
         /// /작성자 : 임경민 (IKM)
         /// /클래스 : Form_Init    
         /// </summary>      
-        private void ThreadConnectVSServer ()
+        private void ThreadConnectVSServer()
         {
             int nRet = 0;
             Systems.g_Ipc = new ServerInterface();
@@ -437,15 +529,15 @@ namespace CRUX_Renewal.Main_Form
             {
                 nRet = Systems.g_Ipc.m_fnStartVsMsgReceiver();
 
-                if ( Consts.APP_OK != nRet )
+                if (Consts.APP_OK != nRet)
                     Thread.Sleep(1000);
-            } while ( Consts.APP_OK != nRet );
+            } while (Consts.APP_OK != nRet);
 
             // VS 상태 체크
-            while ( Systems.g_Ipc.m_fnGetIpcState() )
+            while (Systems.g_Ipc.m_fnGetIpcState())
             {
-                if ( Systems.g_Ipc != null )
-                    if ( !Systems.g_Ipc.m_fnGetIpcState() )
+                if (Systems.g_Ipc != null)
+                    if (!Systems.g_Ipc.m_fnGetIpcState())
                         break;
                 Thread.Sleep(1000);
             }
@@ -458,10 +550,10 @@ namespace CRUX_Renewal.Main_Form
         // Cross-thread callback Method  -----S
         //
         ////////////////////////////////////////////////////////////////////////////
-        delegate void setControlTextCallback (Control ctr, string text);
-        private void setControlText (Control ctr, string text)
+        delegate void setControlTextCallback(Control ctr, string text);
+        private void setControlText(Control ctr, string text)
         {
-            if ( ctr.InvokeRequired )
+            if (ctr.InvokeRequired)
             {
                 setControlTextCallback CI = new setControlTextCallback(setControlText);
                 ctr.Invoke(CI, ctr, text);
@@ -471,10 +563,10 @@ namespace CRUX_Renewal.Main_Form
                 ctr.Text = text;
             }
         }
-        delegate void setTextboxContentCallback (Control ctr, string text, Color color);
-        private void setTextboxContent (Control ctr, string text, Color color)
+        delegate void setTextboxContentCallback(Control ctr, string text, Color color);
+        private void setTextboxContent(Control ctr, string text, Color color)
         {
-            if ( ctr.InvokeRequired )
+            if (ctr.InvokeRequired)
             {
                 setTextboxContentCallback CI = new setTextboxContentCallback(setTextboxContent);
                 ctr.Invoke(CI, ctr, text, color);
@@ -487,10 +579,10 @@ namespace CRUX_Renewal.Main_Form
         }
 
 
-        delegate void setControlVisibleCallback (Control ctr, bool flag);
-        private void setControlVisible (Control ctr, bool flag)
+        delegate void setControlVisibleCallback(Control ctr, bool flag);
+        private void setControlVisible(Control ctr, bool flag)
         {
-            if ( ctr.InvokeRequired )
+            if (ctr.InvokeRequired)
             {
                 setControlVisibleCallback CI = new setControlVisibleCallback(setControlVisible);
                 ctr.Invoke(CI, ctr, flag);
@@ -500,10 +592,10 @@ namespace CRUX_Renewal.Main_Form
                 ctr.Visible = flag;
             }
         }
-        delegate void FormHideCallback (Form dlg);
-        private void FormHide (Form dlg)
+        delegate void FormHideCallback(Form dlg);
+        private void FormHide(Form dlg)
         {
-            if ( dlg.InvokeRequired )
+            if (dlg.InvokeRequired)
             {
                 FormHideCallback CI = new FormHideCallback(FormHide);
                 dlg.Invoke(CI, dlg);
@@ -513,10 +605,10 @@ namespace CRUX_Renewal.Main_Form
                 dlg.Hide();
             }
         }
-        delegate void FormCloseCallback (Form dlg);
-        private void FormClose (Form dlg)
+        delegate void FormCloseCallback(Form dlg);
+        private void FormClose(Form dlg)
         {
-            if ( dlg.InvokeRequired )
+            if (dlg.InvokeRequired)
             {
                 FormCloseCallback CI = new FormCloseCallback(FormClose);
                 dlg.Invoke(CI, dlg);
@@ -527,25 +619,25 @@ namespace CRUX_Renewal.Main_Form
             }
         }
 
-        delegate void FormOpenCallback (Form dlg);
-        private void FormOpen (Form dlg)
+        delegate void FormOpenCallback(Form dlg);
+        private void FormOpen(Form dlg)
         {
-            if ( dlg.InvokeRequired )
+            if (dlg.InvokeRequired)
             {
                 FormOpenCallback CI = new FormOpenCallback(FormOpen);
                 dlg.BeginInvoke(CI, dlg);
             }
             else
             {
-                dlg.BringToFront();        
+                dlg.BringToFront();
                 dlg.ShowDialog();
             }
         }
 
-        private void Init_Form_Load (object sender, EventArgs e)
+        private void Init_Form_Load(object sender, EventArgs e)
         {
             /// 폼 둥글게
-            Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height,600,600));
+            Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 600, 600));
         }
 
         private void ExcuteBatchFile(string file)
@@ -557,11 +649,11 @@ namespace CRUX_Renewal.Main_Form
                 Psi.WorkingDirectory = @"D:\\CRUX\\";
                 //Psi.RedirectStandardOutput = true;
                 Psi.CreateNoWindow = true;
-                Psi.UseShellExecute = false;          
+                Psi.UseShellExecute = false;
                 Process Proc = Process.Start(Psi);
                 Proc.WaitForExit();
             }
-            catch ( Exception ex)
+            catch (Exception ex)
             {
                 Systems.LogWriter.Error("배치파일 실행 실패", ex);
                 throw;

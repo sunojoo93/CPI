@@ -14,6 +14,7 @@
 // ´Ù¸¥ Task No
 #define VS_UI_TASK									10
 #define VS_ALGORITHM_TASK							50  + (theApp.m_Config.GetPCNum() * 100)
+#define VS_AF_TASK									70  + (theApp.m_Config.GetPCNum() * 100)
 #define VS_LIGHT_TASK								80  + (theApp.m_Config.GetPCNum() * 100)
 #define VS_PG_TASK									40  + (theApp.m_Config.GetPCNum() * 100)
 #define VS_CAMERA_TASK								90  + (theApp.m_Config.GetPCNum() * 100)
@@ -46,6 +47,9 @@
 #define SEND_SEND_VOLTAGEINFO						40, 20
 #define MAX_SEQUENCE_LCP							2	
 #define SEND_MOVESTAGE								60, 60
+
+// AF
+#define SEND_AF_PROCESS								10, 2
 
 // Camera
 #define SEND_CAMERA_EXPOSE							90, 11

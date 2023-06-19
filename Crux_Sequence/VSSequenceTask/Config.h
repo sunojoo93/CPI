@@ -131,6 +131,17 @@ public:
 			}
 		};
 	};
+
+	ST_AUTOFOCUS_AOT	GetAutoFocusData(CString AreaName, int nGrabCnt, int nPos)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].AutoFocus_Condition[nPos];
+			}
+		};
+	};
 	TCHAR*		GetCurAreaName(int AreaNum)
 	{
 		return m_stModelInfo.GrabArea[AreaNum].Name;

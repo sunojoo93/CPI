@@ -42,11 +42,14 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Status = new System.Windows.Forms.TableLayoutPanel();
             this.Lb_DateTime = new System.Windows.Forms.Label();
             this.Timer_Time = new System.Windows.Forms.Timer(this.components);
+            this.Lb_AF = new System.Windows.Forms.Label();
+            this.Pic_AF = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_VSS_State)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_MI_State)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_SEQ_State)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_CAM_State)).BeginInit();
             this.Tlp_Status.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Pic_AF)).BeginInit();
             this.SuspendLayout();
             // 
             // Pb_VSS_State
@@ -54,10 +57,9 @@ namespace CRUX_Renewal.Ex_Form
             this.Pb_VSS_State.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
             this.Pb_VSS_State.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Pb_VSS_State.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pb_VSS_State.Location = new System.Drawing.Point(49, 5);
-            this.Pb_VSS_State.Margin = new System.Windows.Forms.Padding(5);
+            this.Pb_VSS_State.Location = new System.Drawing.Point(47, 3);
             this.Pb_VSS_State.Name = "Pb_VSS_State";
-            this.Pb_VSS_State.Size = new System.Drawing.Size(32, 34);
+            this.Pb_VSS_State.Size = new System.Drawing.Size(36, 16);
             this.Pb_VSS_State.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Pb_VSS_State.TabIndex = 7;
             this.Pb_VSS_State.TabStop = false;
@@ -71,10 +73,10 @@ namespace CRUX_Renewal.Ex_Form
             this.Lb_CAM.Location = new System.Drawing.Point(258, 0);
             this.Lb_CAM.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_CAM.Name = "Lb_CAM";
-            this.Lb_CAM.Size = new System.Drawing.Size(44, 44);
+            this.Lb_CAM.Size = new System.Drawing.Size(44, 22);
             this.Lb_CAM.TabIndex = 6;
             this.Lb_CAM.Text = "CAM";
-            this.Lb_CAM.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Lb_CAM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Lb_SEQ
             // 
@@ -84,10 +86,10 @@ namespace CRUX_Renewal.Ex_Form
             this.Lb_SEQ.Location = new System.Drawing.Point(172, 0);
             this.Lb_SEQ.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_SEQ.Name = "Lb_SEQ";
-            this.Lb_SEQ.Size = new System.Drawing.Size(44, 44);
+            this.Lb_SEQ.Size = new System.Drawing.Size(44, 22);
             this.Lb_SEQ.TabIndex = 5;
             this.Lb_SEQ.Text = "SEQ";
-            this.Lb_SEQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Lb_SEQ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Lb_MI
             // 
@@ -97,10 +99,10 @@ namespace CRUX_Renewal.Ex_Form
             this.Lb_MI.Location = new System.Drawing.Point(86, 0);
             this.Lb_MI.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_MI.Name = "Lb_MI";
-            this.Lb_MI.Size = new System.Drawing.Size(44, 44);
+            this.Lb_MI.Size = new System.Drawing.Size(44, 22);
             this.Lb_MI.TabIndex = 4;
             this.Lb_MI.Text = "MPI";
-            this.Lb_MI.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Lb_MI.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Lb_VSS
             // 
@@ -110,20 +112,19 @@ namespace CRUX_Renewal.Ex_Form
             this.Lb_VSS.Location = new System.Drawing.Point(0, 0);
             this.Lb_VSS.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_VSS.Name = "Lb_VSS";
-            this.Lb_VSS.Size = new System.Drawing.Size(44, 44);
+            this.Lb_VSS.Size = new System.Drawing.Size(44, 22);
             this.Lb_VSS.TabIndex = 3;
             this.Lb_VSS.Text = "VSS";
-            this.Lb_VSS.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Lb_VSS.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Pb_MI_State
             // 
             this.Pb_MI_State.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
             this.Pb_MI_State.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Pb_MI_State.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pb_MI_State.Location = new System.Drawing.Point(135, 5);
-            this.Pb_MI_State.Margin = new System.Windows.Forms.Padding(5);
+            this.Pb_MI_State.Location = new System.Drawing.Point(133, 3);
             this.Pb_MI_State.Name = "Pb_MI_State";
-            this.Pb_MI_State.Size = new System.Drawing.Size(32, 34);
+            this.Pb_MI_State.Size = new System.Drawing.Size(36, 16);
             this.Pb_MI_State.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Pb_MI_State.TabIndex = 8;
             this.Pb_MI_State.TabStop = false;
@@ -134,10 +135,9 @@ namespace CRUX_Renewal.Ex_Form
             this.Pb_SEQ_State.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
             this.Pb_SEQ_State.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Pb_SEQ_State.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pb_SEQ_State.Location = new System.Drawing.Point(221, 5);
-            this.Pb_SEQ_State.Margin = new System.Windows.Forms.Padding(5);
+            this.Pb_SEQ_State.Location = new System.Drawing.Point(219, 3);
             this.Pb_SEQ_State.Name = "Pb_SEQ_State";
-            this.Pb_SEQ_State.Size = new System.Drawing.Size(32, 34);
+            this.Pb_SEQ_State.Size = new System.Drawing.Size(36, 16);
             this.Pb_SEQ_State.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Pb_SEQ_State.TabIndex = 9;
             this.Pb_SEQ_State.TabStop = false;
@@ -148,10 +148,9 @@ namespace CRUX_Renewal.Ex_Form
             this.Pb_CAM_State.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
             this.Pb_CAM_State.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Pb_CAM_State.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pb_CAM_State.Location = new System.Drawing.Point(307, 5);
-            this.Pb_CAM_State.Margin = new System.Windows.Forms.Padding(5);
+            this.Pb_CAM_State.Location = new System.Drawing.Point(305, 3);
             this.Pb_CAM_State.Name = "Pb_CAM_State";
-            this.Pb_CAM_State.Size = new System.Drawing.Size(32, 34);
+            this.Pb_CAM_State.Size = new System.Drawing.Size(36, 16);
             this.Pb_CAM_State.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Pb_CAM_State.TabIndex = 10;
             this.Pb_CAM_State.TabStop = false;
@@ -178,6 +177,8 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Status.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.Tlp_Status.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.Tlp_Status.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.Tlp_Status.Controls.Add(this.Pic_AF, 1, 1);
+            this.Tlp_Status.Controls.Add(this.Lb_AF, 0, 1);
             this.Tlp_Status.Controls.Add(this.Pb_CAM_State, 7, 0);
             this.Tlp_Status.Controls.Add(this.Lb_CAM, 6, 0);
             this.Tlp_Status.Controls.Add(this.Pb_SEQ_State, 5, 0);
@@ -190,7 +191,9 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Status.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Status.Location = new System.Drawing.Point(0, 0);
             this.Tlp_Status.Name = "Tlp_Status";
-            this.Tlp_Status.RowCount = 1;
+            this.Tlp_Status.RowCount = 3;
+            this.Tlp_Status.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.Tlp_Status.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.Tlp_Status.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Status.Size = new System.Drawing.Size(953, 44);
             this.Tlp_Status.TabIndex = 0;
@@ -206,6 +209,7 @@ namespace CRUX_Renewal.Ex_Form
             this.Lb_DateTime.Location = new System.Drawing.Point(346, 2);
             this.Lb_DateTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 3);
             this.Lb_DateTime.Name = "Lb_DateTime";
+            this.Tlp_Status.SetRowSpan(this.Lb_DateTime, 2);
             this.Lb_DateTime.Size = new System.Drawing.Size(605, 39);
             this.Lb_DateTime.TabIndex = 12;
             this.Lb_DateTime.Text = "2023-02-18\\/24:00:00";
@@ -215,6 +219,31 @@ namespace CRUX_Renewal.Ex_Form
             // 
             this.Timer_Time.Interval = 500;
             this.Timer_Time.Tick += new System.EventHandler(this.Timer_Time_Tick);
+            // 
+            // Lb_AF
+            // 
+            this.Lb_AF.AutoSize = true;
+            this.Lb_AF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_AF.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_AF.Location = new System.Drawing.Point(0, 22);
+            this.Lb_AF.Margin = new System.Windows.Forms.Padding(0);
+            this.Lb_AF.Name = "Lb_AF";
+            this.Lb_AF.Size = new System.Drawing.Size(44, 22);
+            this.Lb_AF.TabIndex = 13;
+            this.Lb_AF.Text = "AF";
+            this.Lb_AF.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Pic_AF
+            // 
+            this.Pic_AF.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
+            this.Pic_AF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Pic_AF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Pic_AF.Location = new System.Drawing.Point(47, 25);
+            this.Pic_AF.Name = "Pic_AF";
+            this.Pic_AF.Size = new System.Drawing.Size(36, 16);
+            this.Pic_AF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Pic_AF.TabIndex = 14;
+            this.Pic_AF.TabStop = false;
             // 
             // Ex_Frm_Status
             // 
@@ -235,6 +264,7 @@ namespace CRUX_Renewal.Ex_Form
             ((System.ComponentModel.ISupportInitialize)(this.Pb_CAM_State)).EndInit();
             this.Tlp_Status.ResumeLayout(false);
             this.Tlp_Status.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Pic_AF)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -251,5 +281,7 @@ namespace CRUX_Renewal.Ex_Form
         private System.Windows.Forms.PictureBox Pb_CAM_State;
         private System.Windows.Forms.Label Lb_DateTime;
         private System.Windows.Forms.Timer Timer_Time;
+        private System.Windows.Forms.Label Lb_AF;
+        private System.Windows.Forms.PictureBox Pic_AF;
     }
 }

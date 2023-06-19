@@ -92,7 +92,7 @@ namespace CRUX_Renewal
                         var Temp = (T)xs.Deserialize(sr);
                         return Temp;
                         //this.project.Set(prj);
-                    }                 
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -109,7 +109,7 @@ namespace CRUX_Renewal
             {
                 RecipeManager.RecipeSerialize($"{ recipe.Path}{recipe.Name}", "MainRecipe.xml", recipe.Area_Data);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 로그를 확인해주세요.");
                 Noti.ShowDialog();
@@ -175,16 +175,16 @@ namespace CRUX_Renewal
                                     recipe.Area_Data = null;
                                     recipe.Area_Data = RecipeManager.RecipeDeserialize<Areas>($@"{FullPath}\", "MainRecipe.xml");
                                     break;
-                                //case "GrabOpticsInfo.xml":
-                                //    recipe.Optics_Data = null;
-                                //    recipe.Optics_Data = RecipeManager.RecipeDeserialize<OpticsData>($@"{FullPath}\", "GrabOpticsInfo.xml");
-                                //    break;                                
+                                    //case "GrabOpticsInfo.xml":
+                                    //    recipe.Optics_Data = null;
+                                    //    recipe.Optics_Data = RecipeManager.RecipeDeserialize<OpticsData>($@"{FullPath}\", "GrabOpticsInfo.xml");
+                                    //    break;                                
                             }
                         }
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.CAUTION, "에러가 발생했습니다. 로그를 확인해주세요.");
                 Noti.ShowDialog();
@@ -308,17 +308,17 @@ namespace CRUX_Renewal
         static public void LoadingStart()
         {
             Ex_Frm_Others_Loading form = null;
+            form = new Ex_Frm_Others_Loading();
+            //Thread thread = new Thread(() => {
+            form.Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (form.Width / 2)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (form.Height / 2)));
+            Program.LoadingForm = form;
+            form.Show();
+            //Application.Run(form);      
 
-            Thread thread = new Thread(() => {
-                form = new Ex_Frm_Others_Loading();
-                form.Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (form.Width/2)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (form.Height/2)));
-                Program.LoadingForm = form;
-                Application.Run(form);
-            });
+            //});
+            //thread.SetApartmentState(ApartmentState.STA);
 
-            thread.SetApartmentState(ApartmentState.STA);
-
-            thread.Start();
+            //thread.Start();
 
             while (true)
             {
@@ -388,7 +388,7 @@ namespace CRUX_Renewal
                     if (ctl.Controls.Count > 0) // 자식 컨트롤의 자식 컨트롤들이 0보다 많으면
                     {   // Container 이므로                        
                         controlList.AddRange(GetAllControlsRecursive(ctl, content)); // container를 재귀호출한다. 
-                                                                            // 그리고 그 값들은 AddRange로 리스트에 추가된다.
+                                                                                     // 그리고 그 값들은 AddRange로 리스트에 추가된다.
                     }
                 }
                 return controlList.ToArray(); // 콘트롤 리스트를 반환한다.
@@ -515,8 +515,8 @@ namespace CRUX_Renewal
                 Systems.LogWriter.Error(string.Format("Exception Message : {0} Stack : {1} Prev Func Name : {2} }", ex.Message.ToString(), ex.StackTrace.ToString(), $"{new StackFrame(1, true).GetMethod().Name}"));
                 throw ex;
             }
-        }        
- 
+        }
+
         static public void AdjustCoordinate(ref RectangleF rect)
         {
             try
@@ -556,22 +556,22 @@ namespace CRUX_Renewal
             (rtna[0] as Button).PerformClick();
             Config.CopyAll(job);
         }
-        static public void AdjustCoordination (ref RectangleF rect)
+        static public void AdjustCoordination(ref RectangleF rect)
         {
             try
             {
-                if ( rect.Width < 0 )
+                if (rect.Width < 0)
                 {
                     rect.Width = Math.Abs(rect.Width);
                     rect.X -= rect.Width;
                 }
-                if ( rect.Height < 0 )
+                if (rect.Height < 0)
                 {
                     rect.Height = Math.Abs(rect.Height);
                     rect.Y -= rect.Height;
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 Systems.LogWriter.Error(string.Format("Exception Message : {0} Stack : {1} Prev Func Name : {2} }", ex.Message.ToString(), ex.StackTrace.ToString(), $"{new StackFrame(1, true).GetMethod().Name}"));
             }
@@ -599,7 +599,7 @@ namespace CRUX_Renewal
             // 고정 픽셀이면 width를 바로 알수 있다.
             if (panel.ColumnStyles[col].SizeType == SizeType.Absolute)
             {
-                nw = (int)panel.ColumnStyles[col].Width;                
+                nw = (int)panel.ColumnStyles[col].Width;
             }
             // 다른 요소들을 검사후 값을 알아낼 수 있다.
 

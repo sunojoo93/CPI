@@ -156,6 +156,16 @@ namespace CRUX_Renewal.Utils
                 GC.Collect();
             }
         }
+        public static void ClearJob(CogJob job)
+        {
+            if (job != null)
+            {
+                job.Shutdown();
+                job = null;
+                GC.Collect();
+                job = new CogJob();
+            }
+        }
         /// <summary>
         /// string으로 받은 데이터를 해당하는 CogColorConstants로 변환한다.
         /// </summary>

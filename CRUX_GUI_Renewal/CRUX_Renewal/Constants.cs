@@ -182,6 +182,8 @@ namespace CRUX_Renewal
         public static ushort MAINPC_PG_STAGE_NO = (ushort)(60);             // Stage No             2019.01.31 for CSOT
         public static ushort MAINPC_ALARM = (ushort)(52);                   // Alarm Send to MainPC(Directly) 2020.06.11 JSO
 
+        public static ushort AF_TASK = (ushort)(70);
+
         public static ushort PG_TASK = (ushort)(40);
         public static ushort PG_FUNC = (ushort)(40);
         public static ushort PG_ONOFF = (ushort)(11);
@@ -396,12 +398,13 @@ namespace CRUX_Renewal
             SET_ENVIRONMENT,
             INI,
             DATA,
-            CAM_TASK,
             IPC,
+            CAM_TASK,
             SharedMemory,
             LoadJOB,
             Inspector,            
             MAINPC_TASK,
+            AF_TASK,
             SEQ_TASK,
             LIGHT_TASK,
             MAX

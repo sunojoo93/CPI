@@ -312,9 +312,12 @@ namespace CRUX_Renewal.Main_Form
         
         public void DisplayResult(CogRecord record)
         {
-            cogRecordDisplay1.Record = record;
-            
-            //cogRecordDisplay1.Refresh();
+            Cog_RecordDisplay1.Record = record;
+            Cog_RecordDisplay1.Invoke(new MethodInvoker(delegate ()
+            {
+                Cog_RecordDisplay1.Refresh();
+            }));
+       
         }
         private void Btn_LoadImage_Click(object sender, EventArgs e)
         {
@@ -334,8 +337,10 @@ namespace CRUX_Renewal.Main_Form
                     int idx = dialog.FileName.LastIndexOf("\\");
                     FolderPath = FilePath.Remove(idx, FilePathLength - idx);
                     Tb_Path.Text = FolderPath;
-                    if (ManualInspImageData.Count > 0)
-                        ManualInspImageData.Clear();
+                    Cog_Display.Image = null;
+                    ManualImage.Clear();
+                    ManualInspImageData.Clear();
+                    Cog_RecordDisplay1.Record = null;
                 }
                 else
                     return;
@@ -476,6 +481,7 @@ namespace CRUX_Renewal.Main_Form
 
         private void Btn_StartInsp_Click(object sender, EventArgs e)
         {
+            Cog_RecordDisplay1.Record = null;
             string CellID = Tb_CellID.Text == "" ? DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : Tb_CellID.Text;
             foreach(InspData item in ManualInspImageData)
             {

@@ -283,8 +283,8 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 		//m_fnPrintLog(_T("Analyze Start. FuncNo : %d, SeqNo : %d ,From %d Task "), pCmdMsg->uFunID_Dest, pCmdMsg->uSeqID_Dest, pCmdMsg->uTask_Src);
 
 		//	SEQUENCE_TABLE (	FUNNO,	SEQNO,	FUNCTION_NAME,					중복실행가능여부,	시퀀스 리셋 가능 여부	)
-		SEQUENCE_TABLE (	10,		 1	,	VS_AF_Start						, false	,			false						)
-																														
+		SEQUENCE_TABLE (	10,		 2	,	VS_AF_Start						, true	,			false						)
+		SEQUENCE_TABLE (	10,		 1	,	VS_TaskAlive					, false ,			false						)
 		/*SEQUENCE_TABLE (	90,		10	,	VS_InitCamera					, false	,			false						)	
 		SEQUENCE_TABLE (	90,		11	,	VS_CameraExpose					, false	,			false						)	
 		SEQUENCE_TABLE (	90,		12	,	VS_WaitGrabEnd					, false	,			false						)	
@@ -351,28 +351,43 @@ int VSMessageProcessor::VS_AF_Start( byte* pParam, ULONG& nPrmSize, bool bAlways
 
 	byte* tempParam	= pParam;
 	
-	int Temp1 = *(int*)tempParam;
-	tempParam += sizeof(int);
+	/*memcpy(strVirtualPanelID, pReceiveParam, sizeof(strVirtualPanelID));		pReceiveParam += sizeof(strVirtualPanelID);
+	memcpy(strPanelID, pReceiveParam, sizeof(strPanelID));		pReceiveParam += sizeof(strPanelID);*/
 	
+	
+
+
+	int nPCNum = 0; 
+	double Axis_Z = 0;
+
+
+	nPCNum = *(int*)tempParam;
+	tempParam += sizeof(nPCNum);
+
+	Axis_Z = *(double*)tempParam;
+	tempParam += sizeof(Axis_Z);
+
+	TCHAR strAreaName[50] = { 0, };		// 100 byte
+	memcpy(strAreaName, tempParam, sizeof(strAreaName));		tempParam += sizeof(strAreaName);
 	///////////////////////// Message로 받을 param
-	int nStageIndex = Temp1;
-	double dZ_Pos = 5.0;
+	int nStageIndex = nPCNum;
+	double dZ_Pos = Axis_Z;
 	/////////////////////////
 	
 	CString strLogTemp = _T("");
 
 	if (nStageIndex == 0 || nStageIndex == 1) {
-		theApp.m_strLog_AF_Position = _T("상면");
+		theApp.m_strLog_AF_Position = _T("배면");
 	}
 	else {
-		theApp.m_strLog_AF_Position = _T("후면");
+		theApp.m_strLog_AF_Position = _T("상면");
 	}
 
 	if (nStageIndex == 0 || nStageIndex == 2) {
-		theApp.m_strLog_AF_Stage = _T("Left");
+		theApp.m_strLog_AF_Stage = _T("Right");
 	}
 	else {
-		theApp.m_strLog_AF_Stage = _T("Right");
+		theApp.m_strLog_AF_Stage = _T("Left");
 	}
 
 
@@ -380,10 +395,7 @@ int VSMessageProcessor::VS_AF_Start( byte* pParam, ULONG& nPrmSize, bool bAlways
 	// Sequence In LOG
 	m_fnPrintLog(_T("CAMLOG -- Seq1001_Task_Alive Sequence Start. \n"));
 
-	byte*	prParam = new byte[sizeof(bool)];
-	byte*	pSendParam = prParam;
 	
-	bool	AFTS_OK;
 
 	//theApp.pAFTS_Dlg->PingTest(nStageIndex);
 	
@@ -396,11 +408,7 @@ int VSMessageProcessor::VS_AF_Start( byte* pParam, ULONG& nPrmSize, bool bAlways
 
 			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
 
-			AFTS_OK = true;
-
-			*(int *)pSendParam = AFTS_OK;	pSendParam += sizeof(bool);
-
-			nRet = m_fnCmdEditSend(VS_SEND_AFTS_END, 0, sizeof(bool), VS_SEQ_TASK, prParam);
+			nRet = APP_OK;
 
 			return nRet;
 		}
@@ -410,38 +418,59 @@ int VSMessageProcessor::VS_AF_Start( byte* pParam, ULONG& nPrmSize, bool bAlways
 
 			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
 
-			AFTS_OK = false;
-
-			*(int *)pSendParam = AFTS_OK;	pSendParam += sizeof(bool);
-
-			nRet = m_fnCmdEditSend(VS_SEND_AFTS_END, 0, sizeof(bool), VS_SEQ_TASK, prParam);
+			nRet = APP_NG;
 
 			return nRet;
 		
 		}
 
 	EXCEPTION_CATCH
+			//*(int *)pSendParam = AFTS_OK;	pSendParam += sizeof(bool);
 
-		if ( nRet != APP_OK)
-		{
-
-			AFTS_OK = false;
-
-
-			*(int *)pSendParam = AFTS_OK;	pSendParam += sizeof(bool);
-
-			nRet = m_fnCmdEditSend(VS_SEND_AFTS_END, 0, sizeof(bool), VS_SEQ_TASK, prParam);
-			// Error Log
-			m_fnPrintLog(_T("CAMLOG -- Seq1001_Task_Alive Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);			
+			//nRet = m_fnCmdEditSend(VS_SEND_AFTS_END, 0, sizeof(bool), VS_SEQ_TASK, prParam);
 			
+			// Error Log
+			m_fnPrintLog(_T("CAMLOG -- Seq1001_Task_Alive Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);	
+			nRet = APP_NG;
+			return	nRet;
+	
+
+			//Sequence Out LOG
+			//m_fnPrintLog(_T("CAMLOG -- Seq1001_Task_Alive Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+		
+		
+	
+	
+	return nRet;
+}
+int VSMessageProcessor::VS_TaskAlive(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/)
+{
+	int nRet = APP_OK;
+	int nStepNo = 0;
+
+	byte* tempParam = pParam;
+
+	// Sequence In LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq1001_Task_Alive Sequence Start. \n"));
+
+	EXCEPTION_TRY
+
+		nRet = APP_OK;
+
+	EXCEPTION_CATCH
+
+		if (nRet != APP_OK)
+		{
+			// Error Log
+			m_fnPrintLog(_T("CAMLOG -- Seq1001_AF Task_Alive Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			return nRet;
 		}
 
-		//Sequence Out LOG
-		//m_fnPrintLog(_T("CAMLOG -- Seq1001_Task_Alive Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+	// Sequence Out LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq1001_Task_Alive Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
 
-		return nRet;
+	return nRet;
 }
-
 
 //int VSMessageProcessor::VS_InitCamera( byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/ )
 //{

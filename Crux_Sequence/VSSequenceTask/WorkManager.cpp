@@ -155,7 +155,7 @@ int WorkManager::AnalyzeMsg(CMDMSG* pCmdMsg)
 		//SEQUENCE_TABLE(21, 12, Seq_ManualInspectImage, false, true, &m_csSequenceLock_2)
 		// Auto
 		SEQUENCE_TABLE(21, 20, Seq_AutoInspectGrabImage, false, true, &m_csSequenceLock_2)
-		SEQUENCE_TABLE(21, 23, Seq_AFReady, false, true, &m_csSequenceLock_4)
+		SEQUENCE_TABLE(21, 23, Seq_AFReady, true, true, &m_csSequenceLock_4)
 		SEQUENCE_TABLE(21, 24, Seq_GrabEnd_FromMainPC, false, true, &m_csSequenceLock_3)
 		//SEQUENCE_TABLE(21, 21, Seq_AutoChangeModel, false, true, &m_csSequenceLock_2)
 		// Sequence
@@ -6565,7 +6565,7 @@ int	WorkManager::Seq_AFReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode 
 {
 	byte* pReceiveParam = pParam;
 
-	return APP_OK;
+
 	bool isRunSequence = true;
 	int nStepNo = 0;
 	static bool isSeqBusy = false;
@@ -6573,22 +6573,72 @@ int	WorkManager::Seq_AFReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode 
 	byte bParam2[100] = { 0, };
 	byte* bpTempParam2 = bParam2;
 
+	byte bParam1[1000] = { 0, };
+	byte* bpTempParam1 = bParam1;
+
 	TCHAR strVirtualPanelID[50] = { 0, };		// 100 byte
 	TCHAR strPanelID[50] = { 0, };		// 100 byte
+
+	int nPos = 0;
+	int nArea = 0;
 
 	int nRet = APP_OK;
 	memcpy(strVirtualPanelID, pReceiveParam, sizeof(strVirtualPanelID));		pReceiveParam += sizeof(strVirtualPanelID);
 	memcpy(strPanelID, pReceiveParam, sizeof(strPanelID));		pReceiveParam += sizeof(strPanelID);
-	/*int CellPos = *(int *)pReceiveParam;						pReceiveParam += sizeof(CellPos);*/
-	//int AFModule_1 = *(int *)pReceiveParam;						pReceiveParam += sizeof(AFModule_1);
-	//int AFModule_2 = *(int *)pReceiveParam;						pReceiveParam += sizeof(AFModule_2);
-	//int AFModule_3 = *(int *)pReceiveParam;						pReceiveParam += sizeof(AFModule_3);
-	//int AFModule_4 = *(int *)pReceiveParam;						pReceiveParam += sizeof(AFModule_4);
+	nPos = *(int*)pReceiveParam;
+	pReceiveParam += sizeof(nPos);
+	nArea = *(int*)pReceiveParam;
+	pReceiveParam += sizeof(nArea);
 
-	int AFModule_1 = 1;
-	int AFModule_2 = 1;
-	int AFModule_3 = 1;
-	int AFModule_4 = 1;
+	CString PCPosition;
+
+	TCHAR* AreaName;
+
+	if (nPos == 0)
+	{
+		PCPosition = _T("배면1");
+	}
+	else if (nPos == 1)
+	{
+		PCPosition = _T("배면2");
+	}
+	else if (nPos == 2)
+	{
+		PCPosition = _T("상면1");
+	}
+	else if (nPos == 3)
+	{
+		PCPosition = _T("상면2");
+	}
+	else
+	{
+		// 지정되지 않은 영역
+		throw 5002;
+	}
+
+	if (nArea == 0)
+	{
+		AreaName = (LPTSTR)(LPCTSTR)_T("PAD");
+	}
+	else if (nArea == 1)
+	{
+		AreaName = (LPTSTR)(LPCTSTR)_T("Right");
+	}
+	else if (nArea == 2)
+	{
+		AreaName = (LPTSTR)(LPCTSTR)_T("Bottom");
+	}
+	else if (nArea == 3)
+	{
+		AreaName = (LPTSTR)(LPCTSTR)_T("TOP");
+	}
+	else
+	{
+		// 지정되지 않은 영역
+		throw 5001;
+	}
+
+	ST_AUTOFOCUS_AOT AutoFocusData;
 
 	do
 	{
@@ -6613,9 +6663,23 @@ int	WorkManager::Seq_AFReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode 
 		switch (nStepNo)
 		{
 		case 1:
-			// AF 정보 전송
+			// 레시피 확인
+			AutoFocusData = theApp.m_Config.GetAutoFocusData(AreaName, 0, nPos);
+
+			*(int*)bpTempParam1 = nPos;
+			bpTempParam1 += sizeof(nPos);
+			*(double*)bpTempParam1 = AutoFocusData.AxisZ;
+			bpTempParam1 += sizeof(AutoFocusData.AxisZ);
+			_tcscpy((TCHAR*)bpTempParam1, (LPCTSTR)AreaName);
+			bpTempParam1 += 100;
+			break;
+		case 2:
+			// AF 전송
+			nRet = CmdEditSend(SEND_AF_PROCESS, 0, sizeof(bParam1), VS_AF_TASK, (byte *)bParam1, CMD_TYPE_RES);
+			m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2123_GrabReay_AOT strPanelID = %s, StepNo=%d, RetVal=%d, AreaName = %s, PCNum = %d, Axis = %f"), strPanelID, nStepNo, nRet, AreaName, nPos, AutoFocusData.AxisZ);
 			break;
 		default:
+			isRunSequence = false;
 			break;
 		}
 		EXCEPTION_CATCH
@@ -6744,22 +6808,22 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 	if (CellPos == 0)
 	{
 		strPosition = _T("Pad");
-		ProcessCnt = 13;
+		ProcessCnt = 14;
 	}
 	else if (CellPos == 1)
 	{
 		strPosition = _T("Right");
-		ProcessCnt = 13;
+		ProcessCnt = 14;
 	}
 	else if (CellPos == 2)
 	{
 		strPosition = _T("Bottom");
-		ProcessCnt = 18;
+		ProcessCnt = 16;
 	}
 	else if (CellPos == 3)
 	{
 		strPosition = _T("TOP");
-		ProcessCnt = 17;
+		ProcessCnt = 16;
 	}
 	else
 	{

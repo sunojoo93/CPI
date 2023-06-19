@@ -263,7 +263,7 @@ BOOL CVSCameraTaskApp::InitInstance()
 	CVSCameraTaskDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
-
+	
 	if (nResponse == IDOK)
 
 	{

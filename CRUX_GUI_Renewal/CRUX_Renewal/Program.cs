@@ -143,6 +143,17 @@ namespace CRUX_Renewal
                 ProcessList.Add(temp);
             }
         }
+        public static void StartAutoFocus()
+        {
+            var procs = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
+            if (procs.Length == 0)
+            {
+                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\AFTS_SimplifiedExample_MFC.exe");
+                Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                ProcessList.Add(temp);
+            }
+        }
         public static void StartDalsaCameraTask ()
         {
             var procs = Process.GetProcessesByName("DalsaLineCameraTask");
@@ -159,20 +170,20 @@ namespace CRUX_Renewal
             var procs = Process.GetProcessesByName("SimulationCameraTask");
             if ( procs.Length == 0 )
             {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\SimulationCameraTask.exe", "1 SimulationCamera1.ini");
+                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\SimulationCameraTask.exe", " 1 SimulationCamera1.ini");
                 Psi.WindowStyle = ProcessWindowStyle.Minimized;
                 var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
                 ProcessList.Add(temp);
             }
         }
-        public static void StartCameraTask(string simul, string task_name)
+        public static void StartCameraTask(string task_name)
         {
 
                 var procs = Process.GetProcessesByName(task_name);
                 if (procs.Length == 0)
                 {
                 bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
-                    ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@"1 {task_name.Replace("Task", "")}1.ini");
+                    ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" 1 {task_name.Replace("Task", "")}1.ini");
                     Psi.WindowStyle = ProcessWindowStyle.Minimized;
                     var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
                     ProcessList.Add(temp);
@@ -245,9 +256,9 @@ namespace CRUX_Renewal
                 procList = Process.GetProcessesByName("Crux_MainPcInterface");
                 foreach (var proc in procList)
                     proc.Kill();
-                //procList = Process.GetProcessesByName("TestCamTask");
-                //foreach ( var proc in procList )
-                //    proc.Kill();
+                procList = Process.GetProcessesByName("TestCamTask");
+                foreach (var proc in procList)
+                    proc.Kill();
                 procList = Process.GetProcessesByName("TrivisionLightTask");
                 foreach ( var proc in procList )
                     proc.Kill();
@@ -266,7 +277,6 @@ namespace CRUX_Renewal
                 procList = Process.GetProcessesByName("SimulationCameraTask");
                 foreach ( var proc in procList )
                     proc.Kill();
-
             }
             catch { }
         }

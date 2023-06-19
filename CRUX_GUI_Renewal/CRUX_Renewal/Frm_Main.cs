@@ -49,21 +49,27 @@ namespace CRUX_Renewal
             Frm_Init Init = new Frm_Init();
             Init.ShowDialog();
             List<Recipes> Temp = Init.GetLoadedRecipe();
-            if(Temp.Count <= 0)
+            if (Init.DialogResult == DialogResult.Yes)
             {
-                return;
+                if (Temp.Count <= 0)
+                {
+                    return;
+                }
+                InitMainForm(Temp);
+
+                Frm_Status = new Ex_Frm_Status();
+                Frm_AccountManage = new Ex_Frm_Account_Info();
+                Tlp_Main.Controls.Add(Frm_Status, 2, 0);
+                Tlp_Main.Controls.Add(Frm_AccountManage, 4, 0);
+                Frm_Status.StartCheckStatus();
+
+                CurDisplayForm = "Upper";
+                Cmb_SelPC.SelectedIndex = 0;
             }
-            InitMainForm(Temp);
-
-            Frm_Status = new Ex_Frm_Status();
-            Frm_AccountManage = new Ex_Frm_Account_Info();
-            Tlp_Main.Controls.Add(Frm_Status, 2, 0);
-            Tlp_Main.Controls.Add(Frm_AccountManage, 4, 0);
-            Frm_Status.StartCheckStatus();
-
-            CurDisplayForm = "Upper";
-            Cmb_SelPC.SelectedIndex = 0;
-   
+            else
+            {
+                Systems.LogWriter.Error("프로그램 시작 실패");
+            }      
             //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
         }
 
@@ -126,8 +132,8 @@ namespace CRUX_Renewal
             
                 for(int i = 0; i < Globals.MaxVisionCnt; ++i)
                 {
-                    Program.Frm_MainContent_[i].Frm_Algorithm.JobManager.Shutdown();
-                    Program.Frm_MainContent_[i].Recipe.Dispose();
+                    Program.Frm_MainContent_[i].Frm_Algorithm.CurrentOpenJob?.Shutdown();
+                    Program.Frm_MainContent_[i].Recipe?.Dispose();
                 }
                 // 프로세스 리스트 종료
                 foreach (ProcessSet item in Program.GetProcessList())                

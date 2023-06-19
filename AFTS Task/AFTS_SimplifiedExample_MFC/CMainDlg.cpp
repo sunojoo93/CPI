@@ -573,7 +573,9 @@ int CMainDlg::mfn_AutoFocus(int index , double zPos) {
 
 	if (m_bAFTSDiscovery == true && m_AFTS_Dlg_Class[index] != NULL)
 	{
-		
+		strLogTemp.Format(_T("[%s][%s] AF Move Z Value = %f!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, zPos,theApp.m_AFTactTime.Stop(true));
+
+		theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
 		
 		ref = m_AFTS_Dlg_Class[index]->mfn_MoveZAxis(zPos);
 
@@ -585,7 +587,7 @@ int CMainDlg::mfn_AutoFocus(int index , double zPos) {
 			return ref;
 		}
 
-		ref = m_AFTS_Dlg_Class[index]->OnAfswitch();
+		/*ref = m_AFTS_Dlg_Class[index]->OnAfswitch();
 
 		if (ref != APP_OK) {
 			strLogTemp.Format(_T("[%s][%s] AF OnAF Fail!!! - %3.3f"), theApp.m_strLog_AF_Position, theApp.m_strLog_AF_Stage, theApp.m_AFTactTime.Stop(true));
@@ -603,7 +605,7 @@ int CMainDlg::mfn_AutoFocus(int index , double zPos) {
 			theApp.m_pLogWriter->m_fnWriteLog(strLogTemp);
 
 			return ref;
-		}
+		}*/
 		
 		
 		

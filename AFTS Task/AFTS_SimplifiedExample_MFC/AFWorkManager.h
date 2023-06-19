@@ -78,6 +78,7 @@ private:
 	// Receive Message
 	// Alive
 	int		VS_AF_Start			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	int		VS_TaskAlive		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	//// Init
 	//int		VS_InitCamera			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	//// Grab
