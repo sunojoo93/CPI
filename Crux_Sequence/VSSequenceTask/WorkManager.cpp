@@ -6791,7 +6791,8 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 
 	TCHAR strVirtualPanelID[50] = { 0, };		// 100 byte
 	TCHAR strPanelID[50] = { 0, };		// 100 byte
-
+	TCHAR strAreaTemp[50] = { 0, };		// 100 byte
+	memset(strAreaTemp, 0, sizeof(strAreaTemp));
 	// 영상 Buf Index 계산을 위해서 방향 필요할지도?
 	//TCHAR strDirection[50] = { 0, };		// 100 byte
 	//TCHAR strPosition[50] = { 0, };		// 100 byte
@@ -6807,22 +6808,22 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 	int ProcessCnt = 0;
 	if (CellPos == 0)
 	{
-		strPosition = _T("Pad");
+		strPosition.Format(_T("Pad"));
 		ProcessCnt = 14;
 	}
 	else if (CellPos == 1)
 	{
-		strPosition = _T("Right");
+		strPosition.Format(_T("Right"));
 		ProcessCnt = 14;
 	}
 	else if (CellPos == 2)
 	{
-		strPosition = _T("Bottom");
+		strPosition.Format(_T("Bottom"));
 		ProcessCnt = 16;
 	}
 	else if (CellPos == 3)
 	{
-		strPosition = _T("TOP");
+		strPosition.Format(_T("TOP"));
 		ProcessCnt = 16;
 	}
 	else
@@ -6830,6 +6831,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 		// 지정되지 않은 영역
 		throw 5001;
 	}
+	memcpy(strAreaTemp, strPosition, strPosition.GetLength()*2);
 	TCHAR* Temp1 = (LPTSTR)(LPCTSTR)strPosition;
 
 	int ProcessGrabCount = 0;
@@ -7031,7 +7033,6 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 			break;
 		case 8:
 			// 카메라 버퍼 -> 공유메모리
-
 			strTemp2.Format(_T("%s%s\\%02d_%s_CAM%02d"), strFileDirectory, strPanelID, nGrabCnt, theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt), 0);
 			_tcscpy(stWaitGrabEndParam.strSavePath, strTemp2);			
 
@@ -7074,10 +7075,10 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 			prmInspStart->PatternCount = theApp.m_Config.GetGrabCount(strPosition);
 			memcpy((TCHAR *)prmInspStart->strPanelID, strPanelID, sizeof(prmInspStart->strPanelID));
 			memcpy((TCHAR *)prmInspStart->strVirtualID, strVirtualPanelID, sizeof(prmInspStart->strVirtualID));
-			memcpy((TCHAR *)prmInspStart->strArea, strPosition, sizeof(prmInspStart->strArea));
-
+			memcpy((TCHAR *)prmInspStart->strArea, strAreaTemp, sizeof(prmInspStart->strArea));
+		
 			// 검사 시작은 무조건 NoRes 로 변경
-			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_RES);
+			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_RES, 60000);
 
 			//if (bFirstInspFlg)
 			//	nRet = Seq_TactTimeData(strPanelID, TACT_INSP, TACT_START);

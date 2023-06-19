@@ -935,12 +935,16 @@ namespace CRUX_Renewal.Class
     {
         public CogImage8Grey Image { get; set; }
         public string PatternName { get; set; }
+        public string AreaName { get; set; }
         public int CamNo;
+        public int PtnNo;
         
-        public GrabImageInfo(CogImage8Grey image, string name) 
+        public GrabImageInfo(CogImage8Grey image, string name, string area, int ptn_no) 
         {
             Image = image;
             PatternName = name;
+            AreaName = area;
+            PtnNo = ptn_no;
             CamNo = 0;
         }
     }

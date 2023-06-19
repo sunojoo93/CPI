@@ -640,9 +640,9 @@ int VSMessageProcessor::VS_WaitGrabEndSequence( byte* pParam, ULONG& nPrmSize, b
 		for (int i =0 ; i < nRetryCnt; i++)
 		{
 			m_fnPrintLog(_T("CAMLOG -- Seq9017_Wait_Grab_End Sequence Before WaitGrabEnd."));
-			theApp.m_pCamera->WaitGrabEnd();
-		/*	if (stWaitGrabEndParam.bUseSMem)
-				ProcessGrabCnt = theApp.m_pCamera->SetSMemCurBuffer(stWaitGrabEndParam.GrabCnt, stWaitGrabEndParam.strPanelID);*/
+			//theApp.m_pCamera->WaitGrabEnd();
+			if (stWaitGrabEndParam.bUseSMem)
+				ProcessGrabCnt = theApp.m_pCamera->SetSMemCurBuffer(stWaitGrabEndParam.GrabCnt, stWaitGrabEndParam.strPanelID);
 			if (stWaitGrabEndParam.bUseFileSave)
 			{
 				// 확장자 결정

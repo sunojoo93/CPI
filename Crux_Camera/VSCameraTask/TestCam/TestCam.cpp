@@ -242,6 +242,7 @@ void CTestCam::StartGrab(CString PanelID, CString VirID, CString Position, int n
 	UserHookData.PanelID = PanelID;
 	UserHookData.VirID = VirID;
 	UserHookData.SavePath = TotalPath;
+	UserHookData.DirectSave = true;
 	ResetEvent(UserHookData.hGrabEnd);
 	if (GetFileAttributes((LPCTSTR)TotalPath_) == INVALID_FILE_ATTRIBUTES)
 	{
@@ -307,37 +308,43 @@ void CTestCam::AllocClearBuffer(int nBufCnt, bool onlyClear)
 			m_milLineImage[i] = M_NULL;
 		}
 	}
-
-	if (m_milMergeImage > 0)
-	{
-		MbufFree(m_milMergeImage);
-		m_milMergeImage = M_NULL;
-	}
+	theApp.m_fnWriteLineScanLog(_T("Buf Free End"));
+	//if (m_milMergeImage > 0)
+	//{
+	//	MbufFree(m_milMergeImage);
+	//	m_milMergeImage = M_NULL;
+	//}
 
 	int Band = GetImageBandwidth();
 	int DigBit = GetImageBitrate();
 	int y = GetImageHeight();
 	int x = GetImageWidth();
-
+	theApp.m_fnWriteLineScanLog(_T("Get Size"));
 	// 총 이미지 개수
 	// ex.. BrightField, DarkField 20장씩 찍는다면 Buf Cnt는 40개가 되어야 함
-	MbufAlloc2d(m_milSystem, x, y * nBufCnt, DigBit, M_IMAGE + M_GRAB + M_PROC, &m_milMergeImage);
-
-	MbufClear(m_milMergeImage, 0xFF);
-
-
-	for (int i = 0; i < nBufCnt; i++)
+	for (int i = 0; i < nBufCnt; ++i)
 	{
+		MbufAlloc2d(m_milSystem, x, y, DigBit, M_IMAGE + M_GRAB + M_PROC, &m_milLineImage[i]);
 
-		MbufChild2d(m_milMergeImage, 0, i * y, x, y, &m_milLineImage[i]);
 		MbufClear(m_milLineImage[i], 0xFF);
-
 	}
+	theApp.m_fnWriteLineScanLog(_T("Buf Alloc"));
+	//MbufAlloc2d(m_milSystem, x, y * nBufCnt, DigBit, M_IMAGE + M_GRAB + M_PROC, &m_milMergeImage);
 
-	theApp.m_fnWriteLineScanLog(_T("AllocClearBuffer End"));
+	//MbufClear(m_milMergeImage, 0xFF);
+
+
+	//for (int i = 0; i < nBufCnt; i++)
+	//{
+
+	//	MbufChild2d(m_milMergeImage, 0, i * y, x, y, &m_milLineImage[i]);
+	//	MbufClear(m_milLineImage[i], 0xFF);
+
+	//}
 
 	// 촬영 타임아웃이 없음 지속촬영(Stop하기 전까지)
 	MdigControl(m_milDigitizer, M_GRAB_TIMEOUT, M_INFINITE);
+	theApp.m_fnWriteLineScanLog(_T("AllocClearBuffer End"));
 }
 
 MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr)
@@ -371,19 +378,42 @@ MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *Hook
 		//MdigControlFeature(UserHookDataPtr->obj->m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
 		theApp.m_fnWriteLineScanLog(_T("Grab End, MaxCount : %d"), UserHookDataPtr->MaxCount);
 		UserHookDataPtr->obj->m_GrabFlag = false;
+		if (UserHookDataPtr->isSaveImage)
+		{
+			if (!UserHookDataPtr->DirectSave)
+			{
+				for (int idx = 0; idx < ModifiedBufferIndex; ++idx)
+				{
+					struct tm curr_tm;
+					time_t curr_time = time(nullptr);
+					_localtime64_s(&curr_tm, &curr_time);
+					CString filePath;
+					filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, idx);
+
+					theApp.m_fnWriteLineScanLog(_T("image save Start."));
+					//temp->m_Trigger->TriggerGenCount0();
+					MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[idx]);
+					theApp.m_fnWriteLineScanLog(_T("image save End."));
+				}
+			}
+		}
+
 	}
 	if (UserHookDataPtr->isSaveImage)
 	{
-		struct tm curr_tm;
-		time_t curr_time = time(nullptr);
-		_localtime64_s(&curr_tm, &curr_time);
-		CString filePath;
-		filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, UserHookDataPtr->ProcessedImageCount);
+		if (UserHookDataPtr->DirectSave)
+		{
+			struct tm curr_tm;
+			time_t curr_time = time(nullptr);
+			_localtime64_s(&curr_tm, &curr_time);
+			CString filePath;
+			filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, UserHookDataPtr->ProcessedImageCount);
 
-		theApp.m_fnWriteLineScanLog(_T("image save Start."));
-		//temp->m_Trigger->TriggerGenCount0();
-		MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[ModifiedBufferIndex]);
-		theApp.m_fnWriteLineScanLog(_T("image save End."));
+			theApp.m_fnWriteLineScanLog(_T("image save Start."));
+			//temp->m_Trigger->TriggerGenCount0();
+			MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[ModifiedBufferIndex]);
+			theApp.m_fnWriteLineScanLog(_T("image save End."));
+		}
 
 	}
 	return 0;
@@ -510,8 +540,9 @@ int CTestCam::SetSMemCurBuffer(int nBufCnt , TCHAR* strPanelID)
 		int height = theApp.m_pSharedMemory->GetImgHeight();
 
 		for (int i = 0; i < nBufCnt; ++i)
-		{
-			MbufGet2d(m_milLineImage[i], 0, 0, m_lDigSizeX, m_lDigSizeY, theApp.m_pSharedMemory->GetImgAddress(i));
+		{			
+			MbufGet2d(m_milLineImage[i], 0, 0, width, height, theApp.m_pSharedMemory->GetImgAddress(i));
+
 		}
 
 

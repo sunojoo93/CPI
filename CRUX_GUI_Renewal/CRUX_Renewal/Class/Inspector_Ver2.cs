@@ -639,7 +639,16 @@ namespace CRUX_Renewal.Class.InspVer2
                                 CogJobManager Manager = sender as CogJobManager;
                                 Busy = false;
                                 Finishe = true;
-                                Systems.LogWriter.Info($@"Inspection Complete, Pattern Name : { PatternName }, ");
+                      
+                                for(int i = 0; i < Manager.JobCount; ++i)
+                                {
+                                    string RunStatusMessage = string.Empty;
+                                    string Result = string.Empty;
+                                    RunStatusMessage = Manager.Job(i).RunStatus.Message;
+                                    Result = /*Utility.EnumUtil<CogToolResultConstants>(*/Manager.Job(i).RunStatus.Result.ToString();
+                                    Systems.LogWriter.Info($@"Inspection Complete, Pattern Name : { PatternName }, RunStatus Message : {RunStatusMessage}, Result : {Result} ");
+                                }
+                   
                                 Console.WriteLine($"검사완료 , RunState : {Manager.StateFlags.Flags} ROI Name : {Manager.Name}");
                                 Pattern_Inspector PtnInsp = Inspector_Collection.Instance().Inspectors.Find(x => x.Inspector_Id == Inspector_Id).Area_Insp.Find(x => x.AreaName == AreaName).Pattern_Insp.Find(x => x.PatternName == PatternName);
                                 PtnInsp.CheckAreaInspResult();
@@ -839,8 +848,8 @@ namespace CRUX_Renewal.Class.InspVer2
                                         var Temp = sender as CogJob;
                                         Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
                                  
-                                        Systems.LogWriter.Info($@"(Algorithm)Inspection Complete, ROI Name : {Temp.Manager.Name}, Algorithm Name : {Temp.Name}, State : {Temp.State.ToString()}");
-                                        Region_Inspector RgnInsp = Inspector_Collection.Instance().Inspectors.Find(x => x.Inspector_Id == Inspector_Id).Area_Insp.Find(x => x.AreaName == AreaName).Pattern_Insp.Find(x => x.PatternName == PatternName).Region_Insp.Find(x => x.RegionName == RegionName);
+                                        Systems.LogWriter.Info($@"(Algorithm)Inspection Complete, ROI Name : {Temp.Manager.Name}, Algorithm Name : {Temp.Name}, State : {Temp.State.ToString()}, Job Message : {Temp.RunStatus.Message}");
+                                        //Region_Inspector RgnInsp = Inspector_Collection.Instance().Inspectors.Find(x => x.Inspector_Id == Inspector_Id).Area_Insp.Find(x => x.AreaName == AreaName).Pattern_Insp.Find(x => x.PatternName == PatternName).Region_Insp.Find(x => x.RegionName == RegionName);
                                         
                                         Busy = false;
                                         Finishe = true;
@@ -945,7 +954,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                         //Finishe = true;
                                         //Set = false;
                                         Job.Image();
-                                        Systems.LogWriter.Info($@"Inspection Complete, JobNamager Name : {Temp.Name}");
+                                        Systems.LogWriter.Info($@"Inspection Complete, JobNamager Name : {Temp.Name}, Job Message : {Temp.RunStatus.Message}");
                                     });
 
                                     Job.Running -= new CogJob.CogJobRunningEventHandler((sender, e) =>

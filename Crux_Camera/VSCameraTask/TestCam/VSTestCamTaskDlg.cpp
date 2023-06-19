@@ -254,7 +254,8 @@ void CVSCameraTaskDlg::TraySetting(void)
 	TCHAR strTitle[256];
 	GetWindowText(strTitle, sizeof(strTitle));
 	lstrcpy(nid.szTip, strTitle);
-	Shell_NotifyIcon(NIM_ADD, &nid);
+	//Shell_NotifyIcon(NIM_ADD, &nid);
+	Shell_NotifyIcon(NIM_DELETE, &nid);
 	SendMessage(WM_SETICON, (WPARAM)TRUE, (LPARAM)nid.hIcon);
 	SendMessage(WM_SETICON, (WPARAM)FALSE, (LPARAM)nid.hIcon);
 	m_bTrayStatus = TRUE;
@@ -546,10 +547,10 @@ void CVSCameraTaskDlg::OnBnClickedButtonCam()
 	case IDC_BUTTON_CAM_GRABSTART:
 
 
-		((CTestCam*)theApp.m_pCamera)->StartGrab(VirID, VirID, _T("Test"), 62,false, true);
+		((CTestCam*)theApp.m_pCamera)->StartGrab(VirID, VirID, _T("Test"), 60,false, true);
 		break;
 	case IDC_BUTTON_CAM_GRABSTOP:
-		((CTestCam*)theApp.m_pCamera)->StopGrab(62);
+		((CTestCam*)theApp.m_pCamera)->StopGrab(60);
 		break;
 	}
 }

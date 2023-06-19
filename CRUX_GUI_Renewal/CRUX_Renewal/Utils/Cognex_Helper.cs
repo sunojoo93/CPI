@@ -191,9 +191,12 @@ namespace CRUX_Renewal.Utils
         /// <param name="shift_y">y 오프셋</param>
         /// <param name="image_list">이미지 리스트</param>
         /// <param name="img_len">이미지 리스트 배열 길이</param>
+        /// direction : true - 정방향
+        /// direction : false - 역방향
         /// <returns></returns>
-        public static CogImage8Grey MergeImages(int shift_x, int shift_y, int shift_all, CogImage8Grey[] image_list, int img_len)
+        public static CogImage8Grey MergeImages(int shift_x, int shift_y, int shift_all, CogImage8Grey[] image_list, int img_len, string area, string ptn_name, bool direction)
         {
+
             if (img_len > 0)
             {
                 int nImage_Width = image_list[0].Width;
@@ -205,71 +208,149 @@ namespace CRUX_Renewal.Utils
                 CogRectangle OriRegion = new CogRectangle();
 
                 // RegionTool.RunParams.ImageAlignmentEnabled = true;
-
-                for (int i = 0; i < img_len; i++)
+                if (direction)
                 {
-                    RegionTool.InputImage = image_list[i];
-                    image_list[i].ToBitmap().Save($@"D:\ImageSave\Test{i}.bmp");
-                    RegionTool.DestinationImage = Result_CogImg;
-
-                    if (i == 0)
+                    for (int i = 0; i < img_len; i++)
                     {
-                        RegionTool.RunParams.ImageAlignmentEnabled = false;
+                        RegionTool.InputImage = image_list[i];
+                        //image_list[i].ToBitmap().Save($@"D:\ImageSave\Test{i}.bmp");
+                        RegionTool.DestinationImage = Result_CogImg;
 
-                        OriRegion.X = 0;
-                        OriRegion.Y = 0;
-                        OriRegion.Width = nImage_Width;
-                        OriRegion.Height = nImage_Height;
+                        if (i == 0)
+                        {
+                            RegionTool.RunParams.ImageAlignmentEnabled = false;
 
-                        RegionTool.Region = OriRegion;
-                    }
-                    else
-                    {
-                        RegionTool.RunParams.ImageAlignmentEnabled = true;
-                        OriRegion.X = 0;
-                        OriRegion.Y = shift_y;
-                        OriRegion.Width = nImage_Width;
-                        OriRegion.Height = nImage_Height - shift_y;
+                            OriRegion.X = 0;
+                            OriRegion.Y = 0;
+                            OriRegion.Width = nImage_Width;
+                            OriRegion.Height = nImage_Height;
 
-                        RegionTool.Region = OriRegion;
-                        //  RegionTool.RunParams.InputImageAlignmentX = nShift_X;
-                        //  RegionTool.RunParams.InputImageAlignmentY = nShift_Y;
+                            RegionTool.Region = OriRegion;
+                        }
+                        else
+                        {
+                            RegionTool.RunParams.ImageAlignmentEnabled = true;
+                            OriRegion.X = 0;
+                            OriRegion.Y = shift_y;
+                            OriRegion.Width = nImage_Width;
+                            OriRegion.Height = nImage_Height - shift_y;
 
-                        RegionTool.RunParams.DestinationImageAlignmentX = shift_x * (i);
-                        RegionTool.RunParams.DestinationImageAlignmentY = (nImage_Height - shift_y) * (i);
-                    }
-                    RegionTool.Run();
-                    //Result_CogImg = (CogImage8Grey)RegionTool.OutputImage.CopyBase(CogImageCopyModeConstants.CopyPixels);
-                    //Result_CogImg = RegionTool.OutputImage;
-                    CogImage8Grey ResultALL_CogImg;
-                    ResultALL_CogImg = new CogImage8Grey(RegionTool.OutputImage.Width, RegionTool.OutputImage.Height);
+                            RegionTool.Region = OriRegion;
+                            //  RegionTool.RunParams.InputImageAlignmentX = nShift_X;
+                            //  RegionTool.RunParams.InputImageAlignmentY = nShift_Y;
 
-                    if (shift_all != 0)
-                    {
-
-
-                        RegionTool.InputImage = RegionTool.OutputImage;
-                        RegionTool.DestinationImage = ResultALL_CogImg;
-
-                        RegionTool.RunParams.ImageAlignmentEnabled = true;
-                        OriRegion.X = 0;
-                        OriRegion.Y = 0;
-                        OriRegion.Width = RegionTool.OutputImage.Width;
-                        OriRegion.Height = RegionTool.OutputImage.Height;
-
-
-
-                        RegionTool.Region = OriRegion;
-
-                        RegionTool.RunParams.DestinationImageAlignmentX = 0;
-                        RegionTool.RunParams.DestinationImageAlignmentY = shift_all;
-
+                            RegionTool.RunParams.DestinationImageAlignmentX = shift_x * (i);
+                            RegionTool.RunParams.DestinationImageAlignmentY = (nImage_Height - shift_y) * (i);
+                        }
                         RegionTool.Run();
+                        //Result_CogImg = (CogImage8Grey)RegionTool.OutputImage.CopyBase(CogImageCopyModeConstants.CopyPixels);
+                        //Result_CogImg = RegionTool.OutputImage;
+                        CogImage8Grey ResultALL_CogImg;
+                        ResultALL_CogImg = new CogImage8Grey(RegionTool.OutputImage.Width, RegionTool.OutputImage.Height);
+
+                        if (shift_all != 0)
+                        {
+
+
+                            RegionTool.InputImage = RegionTool.OutputImage;
+                            RegionTool.DestinationImage = ResultALL_CogImg;
+
+                            RegionTool.RunParams.ImageAlignmentEnabled = true;
+                            OriRegion.X = 0;
+                            OriRegion.Y = 0;
+                            OriRegion.Width = RegionTool.OutputImage.Width;
+                            OriRegion.Height = RegionTool.OutputImage.Height;
+
+
+
+                            RegionTool.Region = OriRegion;
+
+                            RegionTool.RunParams.DestinationImageAlignmentX = 0;
+                            RegionTool.RunParams.DestinationImageAlignmentY = shift_all;
+
+                            RegionTool.Run();
+                        }
                     }
+
+                    int dir = direction == true ? 0 : 1;
 
                     Result_CogImg = (CogImage8Grey)RegionTool.OutputImage;
-                    Result_CogImg.ToBitmap().Save(@"D:\ImageSave\Test.bmp");
+                    Result_CogImg.ToBitmap().Save($@"D:\ImageSave\{area}_{ptn_name}_{dir}_Test.bmp");
                 }
+                else {
+                  
+                    for (int i = img_len -1 ; i >= 0; i--)
+                    {
+                        RegionTool.InputImage = image_list[i];
+                        //image_list[i].ToBitmap().Save($@"D:\ImageSave\Test{i}.bmp");
+                        RegionTool.DestinationImage = Result_CogImg;
+
+                        if (i == img_len - 1)
+                        {
+                            RegionTool.RunParams.ImageAlignmentEnabled = false;
+
+                            OriRegion.X = 0;
+                            OriRegion.Y = 0;
+                            OriRegion.Width = nImage_Width;
+                            OriRegion.Height = nImage_Height;
+
+                            RegionTool.Region = OriRegion;
+                        }
+                        else
+                        {
+                            RegionTool.RunParams.ImageAlignmentEnabled = true;
+                            OriRegion.X = 0;
+                            OriRegion.Y = shift_y;
+                            OriRegion.Width = nImage_Width;
+                            OriRegion.Height = nImage_Height - shift_y;
+
+                            RegionTool.Region = OriRegion;
+                            //  RegionTool.RunParams.InputImageAlignmentX = nShift_X;
+                            //  RegionTool.RunParams.InputImageAlignmentY = nShift_Y;
+
+                            RegionTool.RunParams.DestinationImageAlignmentX = shift_x * ((img_len - 1)-i);
+                            RegionTool.RunParams.DestinationImageAlignmentY = (nImage_Height - shift_y) * ((img_len - 1)-i);
+                        }
+                        RegionTool.Run();
+                        //Result_CogImg = (CogImage8Grey)RegionTool.OutputImage.CopyBase(CogImageCopyModeConstants.CopyPixels);
+                        //Result_CogImg = RegionTool.OutputImage;
+                        CogImage8Grey ResultALL_CogImg;
+                        ResultALL_CogImg = new CogImage8Grey(RegionTool.OutputImage.Width, RegionTool.OutputImage.Height);
+
+                        if (shift_all != 0)
+                        {
+
+
+                            RegionTool.InputImage = RegionTool.OutputImage;
+                            RegionTool.DestinationImage = ResultALL_CogImg;
+
+                            RegionTool.RunParams.ImageAlignmentEnabled = true;
+                            OriRegion.X = 0;
+                            OriRegion.Y = 0;
+                            OriRegion.Width = RegionTool.OutputImage.Width;
+                            OriRegion.Height = RegionTool.OutputImage.Height;
+
+
+
+                            RegionTool.Region = OriRegion;
+
+                            RegionTool.RunParams.DestinationImageAlignmentX = 0;
+                            RegionTool.RunParams.DestinationImageAlignmentY = shift_all;
+
+                            RegionTool.Run();
+                        }
+
+                       
+                    }
+                    int dir = direction == true ? 0 : 1;
+                    Result_CogImg = (CogImage8Grey)RegionTool.OutputImage;
+                    Result_CogImg.ToBitmap().Save(($@"D:\ImageSave\{area}_{ptn_name}_{dir}_Test.bmp"));
+
+                }
+
+                    
+                   
+                
 
                 return Result_CogImg;
             }

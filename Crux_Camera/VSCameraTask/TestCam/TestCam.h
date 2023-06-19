@@ -27,7 +27,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 //KYH
-#define BUFFER_COUNT	245
+#define BUFFER_COUNT	200
 #define BUFFREE(milBuffer)		if(milBuffer == 0) { MbufFree	(milBuffer);	milBuffer=M_NULL;	/*MbufClear(milBuffer,0);*/}
 
 class CTestCam : public CameraInterface
@@ -168,6 +168,8 @@ public:
 		HANDLE	hGrabEnd;
 		CString SavePath;
 		CString Position;
+		bool DirectSave;
+
 	} HookDataStruct;
 
 	CDalsaLineCamControl* m_Camera;

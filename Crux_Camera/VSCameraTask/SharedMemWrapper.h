@@ -3,7 +3,7 @@
 #pragma pack(1)		// for Padding bit
 //#include <windows.h>
 
-#define MAX_IMAGE_COUNT	10		// 공유메모리 이미저 저장 최대 개수
+#define MAX_IMAGE_COUNT	20		// 공유메모리 이미저 저장 최대 개수
 
 #define SAFE_DELETE(p)	if(p){ delete (p); (p)=0; }			///< delete 문 재정의, 메모리가 할당 되었을 경우에만 동작됨
 #define SAFE_DELETE_ARR(p) if(p){ delete [](p); (p)=0;}		///< delete[] 문 재정의, 메모리가 할당 되었을 경우에만 동작됨

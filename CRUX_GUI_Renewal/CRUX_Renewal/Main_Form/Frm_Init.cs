@@ -141,6 +141,7 @@ namespace CRUX_Renewal.Main_Form
                                 Systems.LogWriter.Info("Initialize IPC...");
                                 InitializeIpc();
                                 Program.StartVSServer();
+                                Thread.Sleep(3000);
                                 ++InitFlag;
                             }
                             catch (Exception ex)
@@ -239,7 +240,7 @@ namespace CRUX_Renewal.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize AF Program..."));
                                 Systems.LogWriter.Info("Initialize AF...");
-                                Program.StartAutoFocus();
+                                //Program.StartAutoFocus();
                                 ++InitFlag;
                             }
                             catch (Exception ex)

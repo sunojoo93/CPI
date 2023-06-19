@@ -148,7 +148,7 @@ namespace CRUX_Renewal
             var procs = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
             if (procs.Length == 0)
             {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\AFTS_SimplifiedExample_MFC.exe");
+                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\AFTS_SimplifiedExample_MFC.exe", "1 AFCamera1.ini" );
                 Psi.WindowStyle = ProcessWindowStyle.Minimized;
                 var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
                 ProcessList.Add(temp);
@@ -251,7 +251,7 @@ namespace CRUX_Renewal
             {
                 Process[] procList;
                 procList = Process.GetProcessesByName("VisualStationServer");
-                foreach ( var proc in procList )
+                foreach (var proc in procList)
                     proc.Kill();
                 procList = Process.GetProcessesByName("Crux_MainPcInterface");
                 foreach (var proc in procList)
@@ -277,6 +277,9 @@ namespace CRUX_Renewal
                 procList = Process.GetProcessesByName("SimulationCameraTask");
                 foreach ( var proc in procList )
                     proc.Kill();
+                //procList = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
+                //foreach (var proc in procList)
+                //    proc.Kill();
             }
             catch { }
         }
