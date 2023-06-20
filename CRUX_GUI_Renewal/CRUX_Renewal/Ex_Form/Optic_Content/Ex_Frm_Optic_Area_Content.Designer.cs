@@ -29,18 +29,9 @@
         private void InitializeComponent()
         {
             this.Tlp_AreaCam = new System.Windows.Forms.TableLayoutPanel();
-            this.LstV_GuideLine = new System.Windows.Forms.ListView();
-            this.Header1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Tlp_OpticMain = new System.Windows.Forms.TableLayoutPanel();
-            this.Grb_Light = new System.Windows.Forms.GroupBox();
             this.Grb_CamControl = new System.Windows.Forms.GroupBox();
-            this.Grb_Motor = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.Btn_AllOn = new System.Windows.Forms.Button();
-            this.Btn_AllOff = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Btn_GrabStart = new System.Windows.Forms.Button();
             this.Btn_GrabStop = new System.Windows.Forms.Button();
             this.Grb_Area = new System.Windows.Forms.GroupBox();
@@ -48,45 +39,54 @@
             this.Grb_Options = new System.Windows.Forms.GroupBox();
             this.Grb_Param = new System.Windows.Forms.GroupBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Grb_Light = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.Btn_AllOn = new System.Windows.Forms.Button();
+            this.Btn_AllOff = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Grb_Motor = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.Pnl_ImageArea = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.Grb_ExProc = new System.Windows.Forms.GroupBox();
             this.Tlp_ExOption = new System.Windows.Forms.TableLayoutPanel();
-            this.Pnl_ImageArea = new System.Windows.Forms.Panel();
-            this.Grb_CamStatus = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.LstV_GuideLine = new System.Windows.Forms.ListView();
+            this.Header1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Pnl_MiniMap = new System.Windows.Forms.Panel();
             this.Tlp_Status = new System.Windows.Forms.TableLayoutPanel();
-            this.Grb_LightStatus = new System.Windows.Forms.GroupBox();
+            this.Grb_CamStatus = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.Lb_CamName = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Lb_CamName = new System.Windows.Forms.Label();
+            this.Grb_LightStatus = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.Tlp_AreaCam.SuspendLayout();
             this.Tlp_OpticMain.SuspendLayout();
-            this.Grb_Light.SuspendLayout();
             this.Grb_CamControl.SuspendLayout();
-            this.Grb_Motor.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.Grb_Param.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.Grb_Light.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.Grb_Motor.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.Grb_ExProc.SuspendLayout();
             this.Tlp_ExOption.SuspendLayout();
-            this.Grb_CamStatus.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.Tlp_Status.SuspendLayout();
-            this.Grb_LightStatus.SuspendLayout();
+            this.Grb_CamStatus.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.Grb_LightStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_AreaCam
@@ -109,30 +109,6 @@
             this.Tlp_AreaCam.Size = new System.Drawing.Size(1920, 800);
             this.Tlp_AreaCam.TabIndex = 0;
             // 
-            // LstV_GuideLine
-            // 
-            this.LstV_GuideLine.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Header1});
-            this.LstV_GuideLine.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstV_GuideLine.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LstV_GuideLine.FullRowSelect = true;
-            this.LstV_GuideLine.GridLines = true;
-            this.LstV_GuideLine.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.LstV_GuideLine.Location = new System.Drawing.Point(0, 0);
-            this.LstV_GuideLine.Margin = new System.Windows.Forms.Padding(0);
-            this.LstV_GuideLine.MultiSelect = false;
-            this.LstV_GuideLine.Name = "LstV_GuideLine";
-            this.LstV_GuideLine.Size = new System.Drawing.Size(194, 150);
-            this.LstV_GuideLine.TabIndex = 0;
-            this.LstV_GuideLine.UseCompatibleStateImageBehavior = false;
-            this.LstV_GuideLine.View = System.Windows.Forms.View.Details;
-            this.LstV_GuideLine.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LstV_GuideLine_MouseUp);
-            // 
-            // Header1
-            // 
-            this.Header1.Text = "Guide Locaction";
-            this.Header1.Width = 148;
-            // 
             // Tlp_OpticMain
             // 
             this.Tlp_OpticMain.ColumnCount = 2;
@@ -152,19 +128,6 @@
             this.Tlp_OpticMain.Size = new System.Drawing.Size(1114, 794);
             this.Tlp_OpticMain.TabIndex = 3;
             // 
-            // Grb_Light
-            // 
-            this.Tlp_OpticMain.SetColumnSpan(this.Grb_Light, 2);
-            this.Grb_Light.Controls.Add(this.tableLayoutPanel2);
-            this.Grb_Light.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_Light.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Grb_Light.Location = new System.Drawing.Point(3, 587);
-            this.Grb_Light.Name = "Grb_Light";
-            this.Grb_Light.Size = new System.Drawing.Size(1108, 204);
-            this.Grb_Light.TabIndex = 0;
-            this.Grb_Light.TabStop = false;
-            this.Grb_Light.Text = "Light Control";
-            // 
             // Grb_CamControl
             // 
             this.Tlp_OpticMain.SetColumnSpan(this.Grb_CamControl, 2);
@@ -177,19 +140,6 @@
             this.Grb_CamControl.TabIndex = 1;
             this.Grb_CamControl.TabStop = false;
             this.Grb_CamControl.Text = "Camera Control";
-            // 
-            // Grb_Motor
-            // 
-            this.Tlp_OpticMain.SetColumnSpan(this.Grb_Motor, 2);
-            this.Grb_Motor.Controls.Add(this.tableLayoutPanel3);
-            this.Grb_Motor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_Motor.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Grb_Motor.Location = new System.Drawing.Point(3, 3);
-            this.Grb_Motor.Name = "Grb_Motor";
-            this.Grb_Motor.Size = new System.Drawing.Size(1108, 388);
-            this.Grb_Motor.TabIndex = 2;
-            this.Grb_Motor.TabStop = false;
-            this.Grb_Motor.Text = "Event";
             // 
             // tableLayoutPanel1
             // 
@@ -213,70 +163,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1102, 163);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.Btn_AllOn, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.Btn_AllOff, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.dataGridView1, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 18);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1102, 183);
-            this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 18);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1102, 367);
-            this.tableLayoutPanel3.TabIndex = 0;
-            // 
-            // Btn_AllOn
-            // 
-            this.Btn_AllOn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_AllOn.Location = new System.Drawing.Point(3, 3);
-            this.Btn_AllOn.Name = "Btn_AllOn";
-            this.Btn_AllOn.Size = new System.Drawing.Size(94, 85);
-            this.Btn_AllOn.TabIndex = 0;
-            this.Btn_AllOn.Text = "ALL ON";
-            this.Btn_AllOn.UseVisualStyleBackColor = true;
-            // 
-            // Btn_AllOff
-            // 
-            this.Btn_AllOff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_AllOff.Location = new System.Drawing.Point(3, 94);
-            this.Btn_AllOff.Name = "Btn_AllOff";
-            this.Btn_AllOff.Size = new System.Drawing.Size(94, 86);
-            this.Btn_AllOff.TabIndex = 1;
-            this.Btn_AllOff.Text = "ALL OFF";
-            this.Btn_AllOff.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(103, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.tableLayoutPanel2.SetRowSpan(this.dataGridView1, 2);
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(996, 177);
-            this.dataGridView1.TabIndex = 2;
             // 
             // Btn_GrabStart
             // 
@@ -354,6 +240,122 @@
             this.dataGridView2.Size = new System.Drawing.Size(602, 136);
             this.dataGridView2.TabIndex = 0;
             // 
+            // Grb_Light
+            // 
+            this.Tlp_OpticMain.SetColumnSpan(this.Grb_Light, 2);
+            this.Grb_Light.Controls.Add(this.tableLayoutPanel2);
+            this.Grb_Light.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grb_Light.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_Light.Location = new System.Drawing.Point(3, 587);
+            this.Grb_Light.Name = "Grb_Light";
+            this.Grb_Light.Size = new System.Drawing.Size(1108, 204);
+            this.Grb_Light.TabIndex = 0;
+            this.Grb_Light.TabStop = false;
+            this.Grb_Light.Text = "Light Control";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.Btn_AllOn, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.Btn_AllOff, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.dataGridView1, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1102, 183);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // Btn_AllOn
+            // 
+            this.Btn_AllOn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_AllOn.Location = new System.Drawing.Point(3, 3);
+            this.Btn_AllOn.Name = "Btn_AllOn";
+            this.Btn_AllOn.Size = new System.Drawing.Size(94, 85);
+            this.Btn_AllOn.TabIndex = 0;
+            this.Btn_AllOn.Text = "ALL ON";
+            this.Btn_AllOn.UseVisualStyleBackColor = true;
+            this.Btn_AllOn.Click += new System.EventHandler(this.Btn_AllOn_Click);
+            // 
+            // Btn_AllOff
+            // 
+            this.Btn_AllOff.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_AllOff.Location = new System.Drawing.Point(3, 94);
+            this.Btn_AllOff.Name = "Btn_AllOff";
+            this.Btn_AllOff.Size = new System.Drawing.Size(94, 86);
+            this.Btn_AllOff.TabIndex = 1;
+            this.Btn_AllOff.Text = "ALL OFF";
+            this.Btn_AllOff.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(103, 3);
+            this.dataGridView1.Name = "dataGridView1";
+            this.tableLayoutPanel2.SetRowSpan(this.dataGridView1, 2);
+            this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.Size = new System.Drawing.Size(996, 177);
+            this.dataGridView1.TabIndex = 2;
+            // 
+            // Grb_Motor
+            // 
+            this.Tlp_OpticMain.SetColumnSpan(this.Grb_Motor, 2);
+            this.Grb_Motor.Controls.Add(this.tableLayoutPanel3);
+            this.Grb_Motor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grb_Motor.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_Motor.Location = new System.Drawing.Point(3, 3);
+            this.Grb_Motor.Name = "Grb_Motor";
+            this.Grb_Motor.Size = new System.Drawing.Size(1108, 388);
+            this.Grb_Motor.TabIndex = 2;
+            this.Grb_Motor.TabStop = false;
+            this.Grb_Motor.Text = "Event";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1102, 367);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // Pnl_ImageArea
+            // 
+            this.Pnl_ImageArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Pnl_ImageArea.Location = new System.Drawing.Point(0, 0);
+            this.Pnl_ImageArea.Margin = new System.Windows.Forms.Padding(0);
+            this.Pnl_ImageArea.Name = "Pnl_ImageArea";
+            this.Pnl_ImageArea.Size = new System.Drawing.Size(600, 600);
+            this.Pnl_ImageArea.TabIndex = 1;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.Grb_ExProc, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.Pnl_MiniMap, 0, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(600, 0);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(200, 600);
+            this.tableLayoutPanel4.TabIndex = 6;
+            // 
             // Grb_ExProc
             // 
             this.Grb_ExProc.Controls.Add(this.Tlp_ExOption);
@@ -386,44 +388,29 @@
             this.Tlp_ExOption.Size = new System.Drawing.Size(194, 379);
             this.Tlp_ExOption.TabIndex = 0;
             // 
-            // Pnl_ImageArea
+            // LstV_GuideLine
             // 
-            this.Pnl_ImageArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pnl_ImageArea.Location = new System.Drawing.Point(0, 0);
-            this.Pnl_ImageArea.Margin = new System.Windows.Forms.Padding(0);
-            this.Pnl_ImageArea.Name = "Pnl_ImageArea";
-            this.Pnl_ImageArea.Size = new System.Drawing.Size(600, 600);
-            this.Pnl_ImageArea.TabIndex = 1;
+            this.LstV_GuideLine.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Header1});
+            this.LstV_GuideLine.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LstV_GuideLine.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstV_GuideLine.FullRowSelect = true;
+            this.LstV_GuideLine.GridLines = true;
+            this.LstV_GuideLine.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.LstV_GuideLine.Location = new System.Drawing.Point(0, 0);
+            this.LstV_GuideLine.Margin = new System.Windows.Forms.Padding(0);
+            this.LstV_GuideLine.MultiSelect = false;
+            this.LstV_GuideLine.Name = "LstV_GuideLine";
+            this.LstV_GuideLine.Size = new System.Drawing.Size(194, 150);
+            this.LstV_GuideLine.TabIndex = 0;
+            this.LstV_GuideLine.UseCompatibleStateImageBehavior = false;
+            this.LstV_GuideLine.View = System.Windows.Forms.View.Details;
+            this.LstV_GuideLine.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LstV_GuideLine_MouseUp);
             // 
-            // Grb_CamStatus
+            // Header1
             // 
-            this.Grb_CamStatus.Controls.Add(this.tableLayoutPanel5);
-            this.Grb_CamStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_CamStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Grb_CamStatus.Location = new System.Drawing.Point(0, 0);
-            this.Grb_CamStatus.Margin = new System.Windows.Forms.Padding(0);
-            this.Grb_CamStatus.Name = "Grb_CamStatus";
-            this.Grb_CamStatus.Padding = new System.Windows.Forms.Padding(0);
-            this.Grb_CamStatus.Size = new System.Drawing.Size(300, 148);
-            this.Grb_CamStatus.TabIndex = 5;
-            this.Grb_CamStatus.TabStop = false;
-            this.Grb_CamStatus.Text = "Camera Status";
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 1;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this.Grb_ExProc, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.Pnl_MiniMap, 0, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(600, 0);
-            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(200, 600);
-            this.tableLayoutPanel4.TabIndex = 6;
+            this.Header1.Text = "Guide Locaction";
+            this.Header1.Width = 148;
             // 
             // Pnl_MiniMap
             // 
@@ -450,19 +437,19 @@
             this.Tlp_Status.Size = new System.Drawing.Size(600, 148);
             this.Tlp_Status.TabIndex = 0;
             // 
-            // Grb_LightStatus
+            // Grb_CamStatus
             // 
-            this.Grb_LightStatus.Controls.Add(this.tableLayoutPanel6);
-            this.Grb_LightStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_LightStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Grb_LightStatus.Location = new System.Drawing.Point(300, 0);
-            this.Grb_LightStatus.Margin = new System.Windows.Forms.Padding(0);
-            this.Grb_LightStatus.Name = "Grb_LightStatus";
-            this.Grb_LightStatus.Padding = new System.Windows.Forms.Padding(0);
-            this.Grb_LightStatus.Size = new System.Drawing.Size(300, 148);
-            this.Grb_LightStatus.TabIndex = 6;
-            this.Grb_LightStatus.TabStop = false;
-            this.Grb_LightStatus.Text = "Light Status";
+            this.Grb_CamStatus.Controls.Add(this.tableLayoutPanel5);
+            this.Grb_CamStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grb_CamStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_CamStatus.Location = new System.Drawing.Point(0, 0);
+            this.Grb_CamStatus.Margin = new System.Windows.Forms.Padding(0);
+            this.Grb_CamStatus.Name = "Grb_CamStatus";
+            this.Grb_CamStatus.Padding = new System.Windows.Forms.Padding(0);
+            this.Grb_CamStatus.Size = new System.Drawing.Size(300, 148);
+            this.Grb_CamStatus.TabIndex = 5;
+            this.Grb_CamStatus.TabStop = false;
+            this.Grb_CamStatus.Text = "Camera Status";
             // 
             // tableLayoutPanel5
             // 
@@ -495,6 +482,152 @@
             this.tableLayoutPanel5.Size = new System.Drawing.Size(300, 133);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label11.Location = new System.Drawing.Point(103, 112);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(194, 21);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Name : ";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label10.Location = new System.Drawing.Point(3, 112);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(94, 21);
+            this.label10.TabIndex = 10;
+            this.label10.Text = "Name : ";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label9.Location = new System.Drawing.Point(103, 92);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(194, 20);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Name : ";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label8.Location = new System.Drawing.Point(3, 92);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(94, 20);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Name : ";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Location = new System.Drawing.Point(103, 72);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(194, 20);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Name : ";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Location = new System.Drawing.Point(3, 72);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(94, 20);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Name : ";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(103, 52);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(194, 20);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Name : ";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(3, 52);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(94, 20);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Name : ";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Location = new System.Drawing.Point(103, 26);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(194, 26);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Name : ";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(94, 26);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Name : ";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(103, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(194, 26);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Name : ";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Lb_CamName
+            // 
+            this.Lb_CamName.AutoSize = true;
+            this.Lb_CamName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_CamName.Location = new System.Drawing.Point(3, 0);
+            this.Lb_CamName.Name = "Lb_CamName";
+            this.Lb_CamName.Size = new System.Drawing.Size(94, 26);
+            this.Lb_CamName.TabIndex = 0;
+            this.Lb_CamName.Text = "Name : ";
+            this.Lb_CamName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Grb_LightStatus
+            // 
+            this.Grb_LightStatus.Controls.Add(this.tableLayoutPanel6);
+            this.Grb_LightStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grb_LightStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_LightStatus.Location = new System.Drawing.Point(300, 0);
+            this.Grb_LightStatus.Margin = new System.Windows.Forms.Padding(0);
+            this.Grb_LightStatus.Name = "Grb_LightStatus";
+            this.Grb_LightStatus.Padding = new System.Windows.Forms.Padding(0);
+            this.Grb_LightStatus.Size = new System.Drawing.Size(300, 148);
+            this.Grb_LightStatus.TabIndex = 6;
+            this.Grb_LightStatus.TabStop = false;
+            this.Grb_LightStatus.Text = "Light Status";
+            // 
             // tableLayoutPanel6
             // 
             this.tableLayoutPanel6.ColumnCount = 2;
@@ -510,138 +643,6 @@
             this.tableLayoutPanel6.Size = new System.Drawing.Size(300, 133);
             this.tableLayoutPanel6.TabIndex = 1;
             // 
-            // Lb_CamName
-            // 
-            this.Lb_CamName.AutoSize = true;
-            this.Lb_CamName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_CamName.Location = new System.Drawing.Point(3, 0);
-            this.Lb_CamName.Name = "Lb_CamName";
-            this.Lb_CamName.Size = new System.Drawing.Size(94, 26);
-            this.Lb_CamName.TabIndex = 0;
-            this.Lb_CamName.Text = "Name : ";
-            this.Lb_CamName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(103, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(194, 26);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Name : ";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 26);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Name : ";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(103, 26);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(194, 26);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Name : ";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 52);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(94, 20);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Name : ";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(103, 52);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(194, 20);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Name : ";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Location = new System.Drawing.Point(3, 72);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(94, 20);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Name : ";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(103, 72);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(194, 20);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Name : ";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Location = new System.Drawing.Point(3, 92);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(94, 20);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Name : ";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Location = new System.Drawing.Point(103, 92);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(194, 20);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "Name : ";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(3, 112);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(94, 21);
-            this.label10.TabIndex = 10;
-            this.label10.Text = "Name : ";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Location = new System.Drawing.Point(103, 112);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(194, 21);
-            this.label11.TabIndex = 11;
-            this.label11.Text = "Name : ";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Ex_Frm_Optic_Area_Content
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -655,22 +656,22 @@
             this.Text = "Ex_Frm_Status";
             this.Tlp_AreaCam.ResumeLayout(false);
             this.Tlp_OpticMain.ResumeLayout(false);
-            this.Grb_Light.ResumeLayout(false);
             this.Grb_CamControl.ResumeLayout(false);
-            this.Grb_Motor.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.Grb_Param.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.Grb_Light.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Grb_Motor.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.Grb_ExProc.ResumeLayout(false);
             this.Tlp_ExOption.ResumeLayout(false);
-            this.Grb_CamStatus.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
             this.Tlp_Status.ResumeLayout(false);
-            this.Grb_LightStatus.ResumeLayout(false);
+            this.Grb_CamStatus.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            this.Grb_LightStatus.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

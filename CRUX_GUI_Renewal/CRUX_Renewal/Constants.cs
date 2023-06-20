@@ -94,6 +94,8 @@ namespace CRUX_Renewal
     }
     static class Globals
     {
+        // 5 : CHIPPING, 6 : ALM
+        public static int[] SiteType;        
         public static int MaxInspectorCount = 1;
         public static Size ImageRectSize = new Size(200, 200);
         public static int LoadImageColCnt = 3;

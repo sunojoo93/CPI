@@ -32,6 +32,8 @@ namespace CRUX_Renewal.Ex_Form
             Pnl_MiniMap.Controls.Add(MiniView);
             MainView.Show();
             InitGuideLine();
+
+            //RecipeManager
         }
         private void InitGuideLine()
         {
@@ -60,6 +62,11 @@ namespace CRUX_Renewal.Ex_Form
         private void LstV_GuideLine_MouseUp(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private void Btn_AllOn_Click(object sender, EventArgs e)
+        {
+    
         }
     }
 }

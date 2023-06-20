@@ -494,6 +494,13 @@ void CVSCameraTaskDlg::OnBnClickedCheckCamReverse()
 void CVSCameraTaskDlg::OnBnClickedButtonCam()
 {
 	DalsaLineParam* param = &DalsaLineParam::Instance();
+
+	CString VirID;
+	struct tm curr_tm;
+	time_t curr_time = time(nullptr);
+	_localtime64_s(&curr_tm, &curr_time);
+	VirID.Format(_T("%4d%02d%02d-%02d%02d%02d"), curr_tm.tm_year + 1900, curr_tm.tm_mon + 1, curr_tm.tm_mday, curr_tm.tm_hour, curr_tm.tm_min, curr_tm.tm_sec);
+	
 	int buttonID = GetFocus()->GetDlgCtrlID();
 	switch (buttonID)
 	{
@@ -539,10 +546,11 @@ void CVSCameraTaskDlg::OnBnClickedButtonCam()
 		m_checkReverse.SetCheck(param->GetParamInt(_T("rev")));
 		break;
 	case IDC_BUTTON_CAM_GRABSTART:
-		((CDalsaLineCamera*)theApp.m_pCamera)->StartGrab(0,52,false, true);
+		((CDalsaLineCamera*) theApp.m_pCamera)->StartGrab(VirID, VirID, _T("Test"), 65, false, true);
+		//((CDalsaLineCamera*)theApp.m_pCamera)->StartGrab(0,52,false, true);
 		break;
 	case IDC_BUTTON_CAM_GRABSTOP:
-		//((CDalsaLineCamera*)theApp.m_pCamera)->StopGrab();
+		((CDalsaLineCamera*)theApp.m_pCamera)->StopGrab(65);
 		break;
 	}
 }

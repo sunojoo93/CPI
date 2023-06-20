@@ -254,13 +254,16 @@ struct ST_CAM_COND_AOT
 };
 struct ST_LIGHT_COND_AOT
 {
-	TCHAR Name[50];
 	BOOL Use;
+	int Port_No;
+	int Controller_No;
 	//public string CtrlName;
 	int LightConditions[MAX_LIGHT_CHANNEL_COUNT];
 	ST_LIGHT_COND_AOT()
 	{
 		Use = true;
+		Port_No = 0;
+		Controller_No = 0;
 		memset(LightConditions, 0, sizeof(int) * MAX_LIGHT_CHANNEL_COUNT);
 	}
 };

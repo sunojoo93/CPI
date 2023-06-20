@@ -154,10 +154,20 @@ namespace CRUX_Renewal.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
                                 Systems.LogWriter.Info("Initialize CAM...");
-                                if (SimulMode.ToString() == "FALSE")
-                                    Program.StartCameraTask("TestCamTask"); // 추후에 수정
-                                else
-                                    Program.StartSimulCameraTask();
+                                if (Globals.SiteType[0] == 5) // CHIPPING
+                                {
+                                    if (SimulMode.ToString() == "FALSE")
+                                        Program.StartCameraTask("TestCamTask", 1,"TestCam1"); // 추후에 수정
+                                    else
+                                        Program.StartSimulCameraTask();
+                                }
+                                else if(Globals.SiteType[0] == 6)
+                                {
+                                    if (SimulMode.ToString() == "FALSE")
+                                        Program.StartCameraTask("DalsaLineCameraTask", 1,"DalsaLineCamera1"); // 추후에 수정
+                                    else
+                                        Program.StartSimulCameraTask();
+                                }
                                 Thread.Sleep(3000);
                                 ++InitFlag;
                             }
@@ -266,6 +276,14 @@ namespace CRUX_Renewal.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Light Program..."));
                                 Systems.LogWriter.Info("Initialize Light...");
+								if (Globals.SiteType[0] == 5) // CHIPPING
+                                {
+								
+								}
+								else if(Globals.SiteType[0] == 6) // ALM
+                                {
+                                	Program.StartLight("NeepsLightTask", 1, "NeepsLight.ini");
+								}
                                 ++InitFlag;
                             }
                             catch (Exception ex)
@@ -384,6 +402,7 @@ namespace CRUX_Renewal.Main_Form
             Paths.NET_RECIPE_PATH = new string[Globals.MaxVisionCnt];
             Paths.MANUAL_RESULT_DATA_DRIVE = new string[Globals.MaxVisionCnt];
             Globals.Insp_Type = new int[Globals.MaxVisionCnt];
+            Globals.SiteType = new int[Globals.MaxVisionCnt];
 
             Systems.AliveList = new ALIVE_STATE[2];
 
@@ -410,7 +429,8 @@ namespace CRUX_Renewal.Main_Form
                 else
                     Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE", Paths.INIT_PATH);
 
-                Globals.Insp_Type[i] = Systems.Ini_Collection[i]["Initialize.ini"]["Common"]["SITE TYPE"].toInt();
+                Globals.SiteType[i] = Systems.Ini_Collection[i]["Initialize.ini"]["Common"]["SITE TYPE"].toInt();
+       
                 //Paths.OPERATION_PATH = iniUtl.GetIniValue("OperationPC", "Address", Paths.INIT_PATH); // 0623 JSO
                 Paths.NET_ORIGIN_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ORIGIN_PATH", Paths.INIT_PATH);
                 Paths.NET_RESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RESULT_PATH", Paths.INIT_PATH);

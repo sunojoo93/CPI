@@ -132,6 +132,18 @@ namespace CRUX_Renewal
                 ProcessList.Add(temp);
             }
         }
+        public static void StartLight(string task_name, int task_num, string ini_name)
+        {
+            var procs = Process.GetProcessesByName(task_name);
+            if (procs.Length == 0)
+            {
+                //bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
+                ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" {task_num} {ini_name}.ini");
+                Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                ProcessList.Add(temp);
+            }
+        }
         public static void StartMainInterface ()
         {
             var procs = Process.GetProcessesByName("Crux_MainPcInterface");
@@ -176,14 +188,14 @@ namespace CRUX_Renewal
                 ProcessList.Add(temp);
             }
         }
-        public static void StartCameraTask(string task_name)
+        public static void StartCameraTask(string task_name, int task_num, string ini_name)
         {
 
                 var procs = Process.GetProcessesByName(task_name);
                 if (procs.Length == 0)
                 {
-                bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
-                    ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" 1 {task_name.Replace("Task", "")}1.ini");
+                //bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
+                    ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" {task_num} {ini_name}.ini");
                     Psi.WindowStyle = ProcessWindowStyle.Minimized;
                     var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
                     ProcessList.Add(temp);
@@ -276,6 +288,12 @@ namespace CRUX_Renewal
                     proc.Kill();
                 procList = Process.GetProcessesByName("SimulationCameraTask");
                 foreach ( var proc in procList )
+                    proc.Kill();
+                procList = Process.GetProcessesByName("NeepsLightTask");
+                foreach (var proc in procList)
+                    proc.Kill();
+                procList = Process.GetProcessesByName("DalsaLineCameraTask");
+                foreach (var proc in procList)
                     proc.Kill();
                 //procList = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
                 //foreach (var proc in procList)

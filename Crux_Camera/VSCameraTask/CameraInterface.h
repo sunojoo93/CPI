@@ -170,8 +170,11 @@ public:
 	{
 		return FALSE;
 	};
-	virtual	void	CameraExpose(ST_LINE_INFO stLine) = 0;
-	virtual void	SetSMemCurBuffer(int nTriggerCountF, int nTriggerCountB, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
+	/*virtual	void	CameraExpose(ST_LINE_INFO stLine) = 0;
+	virtual void	SetSMemCurBuffer(int nTriggerCountF, int nTriggerCountB, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };*/
+	virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt) {};
+	virtual void	SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID, int nSeqMode) { return; };
+	virtual int	StopGrab(int nBufCnt) { return 0; };
 #elif _TestCam
 	virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt) {};
 	virtual void	SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID, int nSeqMode) { return; };

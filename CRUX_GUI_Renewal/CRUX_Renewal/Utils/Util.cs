@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -65,6 +66,23 @@ namespace CRUX_Renewal
     }
     public static class RecipeManager
     {
+       // public static DataTable CvtDtLightInfo(ST_PATTERN_INFO ptn_info)
+       // {
+            //DataTable Dt = new DataTable();
+            //Dt.Columns.Add("Port");
+            //Dt.Columns.Add("Controller");
+
+            //for(int i = 0; i < ptn_info.LightCondCount; ++i)
+            //{
+            //   Dt.Columns.Add(ptn_info.Light_Condition[i])
+            //}
+
+            
+       // }
+       // public static ST_LIGHT_COND GetLightInfo()
+       // {
+
+      //  }
         public static void RecipeSerialize<T>(string path, string name, T recipe)
         {
             string FullPath = $@"{path}\{name}";
@@ -235,8 +253,9 @@ namespace CRUX_Renewal
                     for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count; ++k)
                     {
                         ST_LIGHT_COND NewLightInfo = new ST_LIGHT_COND(0);
-                        NewLightInfo.Name = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Name.toUniByteAry(100);
                         NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
+                        NewLightInfo.Port_No = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Port_No;
+                        NewLightInfo.Controller_No = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Controller_No;
                         for (int t = 0; t < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightConditions.Count; ++t)
                         {
                             NewLightInfo.LightConditions[t] = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightConditions[t];

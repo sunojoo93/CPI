@@ -156,12 +156,19 @@ public:
 #pragma region DalsaLine Camera 접근용
 	typedef struct
 	{
+		// Mil System, Mil Digitizer 접근 가능
 		CDalsaLineCamera*	obj;
-		int		lastCount;
-		int		maxCount;
+		CString VirID;
+		CString PanelID;
+		int		MaxCount;
+		int		ProcessedImageCount;
 		bool	isGrabEnd;
 		bool	isSaveImage;
 		HANDLE	hGrabEnd;
+		CString SavePath;
+		CString Position;
+		bool DirectSave;
+
 	} HookDataStruct;
 
 	CDalsaLineCamControl* m_Camera;
@@ -180,10 +187,12 @@ public:
 	bool	m_GrabFlag = false;
 	bool InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile);
 	void StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos ,bool sync, bool fileSave = false);
+	int StopGrab(int nBufCnt);
+	void StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave = false);
 	void StopGrab(int nTriggerCountF, int nTriggerCountB);
 	void AllocClearBuffer(int lineCount, bool onlyClear = false);
 	void m_fnMbufExport(CString strFilePath, MIL_ID milBuffer);
-	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void MPTYPE *HookDataPtr);
+	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr);
 #pragma endregion
 
 private:

@@ -666,16 +666,17 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_LIGHT_COND
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
-        public byte[] Name;
         public bool Use;
+        public int Port_No;
+        public int Controller_No;
         //public string CtrlName;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_CHANNEL_COUNT)]
         public int[] LightConditions;
         public ST_LIGHT_COND(int num)
         {
-            Name = new byte[100];
             Use = true;
+            Port_No = 0;
+            Controller_No = 0;
             LightConditions = new int[Consts.MAX_LIGHT_CHANNEL_COUNT];
         }
     }
@@ -727,10 +728,12 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class LightInfo
     {
-        [XmlAttribute("Name")]
-        public string Name { get; set; } = string.Empty;
         [XmlAttribute("Use")]
         public bool Use { get; set; } = false;
+        [XmlAttribute("Port_No")]
+        public int Port_No { get; set; } = 0;
+        [XmlAttribute("Controller_No")]
+        public int Controller_No { get; set; } = 0;
         [XmlArray("Channels")]
         [XmlArrayItem("Ch")]
         public List<int> LightConditions { get; set; }

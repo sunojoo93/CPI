@@ -16,7 +16,7 @@ static char THIS_FILE[]=__FILE__;
 
 
 HANDLE g_hGrabEnd;
-
+int ProcessGrabCnt = 0;
 CDalsaLineCamera::CDalsaLineCamera()
 {
 	CString strPath;
@@ -74,6 +74,68 @@ void CDalsaLineCamera::CameraExpose(ST_LINE_INFO stLine)
 	m_GrabTime.Start();
 	StartGrab(nTriggerCountF, nTriggerCountB, strpos, false, false);
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposure End"));
+}
+
+void CDalsaLineCamera::StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave)
+{
+	//count -= 1;
+	// 버퍼할당
+	AllocClearBuffer(nBufCnt);
+	CString TotalPath_;
+	TotalPath_.Format(_T("D:\\CamGrabTest\\%s"), VirID);
+	// UserHookData 초기화
+	CString TotalPath;
+	TotalPath.Format(_T("D:\\CamGrabTest\\%s\\%s"), VirID, Position);
+
+
+	UserHookData.obj = this;
+	UserHookData.isGrabEnd = false;
+	UserHookData.ProcessedImageCount = 0;
+	UserHookData.MaxCount = nBufCnt;
+	UserHookData.isSaveImage = fileSave;
+	UserHookData.PanelID = PanelID;
+	UserHookData.VirID = VirID;
+	UserHookData.SavePath = TotalPath;
+	UserHookData.DirectSave = true;
+	ResetEvent(UserHookData.hGrabEnd);
+	if (GetFileAttributes((LPCTSTR)TotalPath_) == INVALID_FILE_ATTRIBUTES)
+	{
+		CreateDirectory(TotalPath_, NULL);
+	}
+	if (GetFileAttributes((LPCTSTR)TotalPath) == INVALID_FILE_ATTRIBUTES)
+	{
+		CreateDirectory(TotalPath, NULL);
+	}
+	ProcessGrabCnt = 0;
+	// 그랩 스타트
+	m_GrabFlag = true;
+	theApp.m_fnWriteLineScanLog(_T("Grab Start, BufCnt : %d"), nBufCnt);
+	MIL_INT64 SequencerSetNext = 1;
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetSelector"), M_TYPE_STRING, MIL_TEXT("1"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerPathSelector"), M_TYPE_STRING, MIL_TEXT("1"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("On"));
+	theApp.m_fnWriteLineScanLog(_T("MdigProcess Start"));
+	// M_SEQUENCE + M_COUNT(Count) : 패킷의 총 길이
+	MdigProcess(m_milDigitizer, m_milLineImage, nBufCnt, M_SEQUENCE + M_COUNT(nBufCnt), M_DEFAULT, ProcessingFunction, &UserHookData);
+	theApp.m_fnWriteLineScanLog(_T("MdigProcess End"));
+	if (sync)
+	{
+		WaitForSingleObject(UserHookData.hGrabEnd, 10000);
+	}
+}
+
+int CDalsaLineCamera::StopGrab(int nBufCnt)
+{
+	//count -= 1;
+	// 그랩 종료
+	theApp.m_fnWriteLineScanLog(_T("Grab Stop, BufCnt : %d, Proc Cnt : %d"), nBufCnt, ProcessGrabCnt);
+	MdigProcess(m_milDigitizer, m_milLineImage, nBufCnt, M_STOP, M_DEFAULT, ProcessingFunction, &UserHookData);
+
+	SetEvent(UserHookData.hGrabEnd);
+	m_GrabFlag = false;
+	return ProcessGrabCnt;
 }
 
 BOOL CDalsaLineCamera::InitializeCamera(CString strInitFilePath)
@@ -156,9 +218,11 @@ bool CDalsaLineCamera::InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFil
 		MappAlloc(M_DEFAULT, &m_milApplication);
 		if (m_milApplication == M_NULL)	return false;
 		//1215
-		MsysAlloc(M_SYSTEM_SOLIOS, nGrabberNo, M_DEFAULT, &m_milSystem);
+		//MsysAlloc(M_SYSTEM_SOLIOS, nGrabberNo, M_DEFAULT, &m_milSystem);
 		//if (m_milSystem == M_NULL)	return false;
-		MsysAlloc(M_SYSTEM_RAPIXOCXP, nGrabberNo, M_DEFAULT, &m_milSystem);
+		//MsysAlloc(M_SYSTEM_RAPIXOCXP, nGrabberNo, M_DEFAULT, &m_milSystem);
+		//if (m_milSystem == M_NULL)	return false;
+		MsysAlloc(M_SYSTEM_RADIENTEVCL, nGrabberNo, M_DEFAULT, &m_milSystem);
 		if (m_milSystem == M_NULL)	return false;
 		MdigAlloc(m_milSystem, nDigCh, strDcfFile, M_DEFAULT, &m_milDigitizer);
 		if (m_milDigitizer == M_NULL)	return false;
@@ -198,8 +262,8 @@ void CDalsaLineCamera::StartGrab(int nTriggerCountF, int nTriggerCountB, CString
 	// UserHookData 초기화
 	UserHookData.obj = this;
 	UserHookData.isGrabEnd = false;
-	UserHookData.lastCount = 0;
-	UserHookData.maxCount = count;
+	//UserHookData.lastCount = 0;
+	//UserHookData.maxCount = count;
 	UserHookData.isSaveImage = true/*fileSave*/;
 	ResetEvent(UserHookData.hGrabEnd);
 
@@ -271,27 +335,25 @@ void CDalsaLineCamera::AllocClearBuffer(int lineCount, bool onlyClear)
 	theApp.m_fnWriteLineScanLog(_T("AllocClearBuffer End"));
 }
 
-MIL_INT CDalsaLineCamera::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void MPTYPE *HookDataPtr)
+MIL_INT CDalsaLineCamera::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr)
 {
 	CDalsaLineCamera* temp = (CDalsaLineCamera*)theApp.m_pCamera;
-	//temp->m_Trigger->TriggerGenCount0();
-	//temp->m_Trigger->TriggerCurrentPosition();
 	HookDataStruct *UserHookDataPtr = (HookDataStruct*)HookDataPtr;
 	
 	MIL_ID ModifiedBufferId;
 	MIL_INT ModifiedBufferIndex;
 	MdigGetHookInfo(HookId, M_MODIFIED_BUFFER + M_BUFFER_ID, &ModifiedBufferId);
 	MdigGetHookInfo(HookId, M_MODIFIED_BUFFER + M_BUFFER_INDEX, &ModifiedBufferIndex);
-	UserHookDataPtr->lastCount = ModifiedBufferIndex + 1;
-	theApp.m_fnWriteLineScanLog(_T("ProcessingFunction - %d/%d"), UserHookDataPtr->lastCount, UserHookDataPtr->maxCount);
+	UserHookDataPtr->ProcessedImageCount = ModifiedBufferIndex + 1;
+	theApp.m_fnWriteLineScanLog(_T("ProcessingFunction - %d/%d"), UserHookDataPtr->ProcessedImageCount, UserHookDataPtr->MaxCount);
 	
-	if (UserHookDataPtr->maxCount == UserHookDataPtr->lastCount)
+	if (UserHookDataPtr->MaxCount == UserHookDataPtr->ProcessedImageCount)
 	{
 		if(!UserHookDataPtr->isGrabEnd)
 		{
 		UserHookDataPtr->obj->SetImageCallBackState(0);
 		UserHookDataPtr->isGrabEnd = true;
-		MdigProcess(UserHookDataPtr->obj->m_milDigitizer, UserHookDataPtr->obj->m_milLineImage, UserHookDataPtr->maxCount, M_STOP, M_DEFAULT, ProcessingFunction, &UserHookDataPtr);
+		MdigProcess(UserHookDataPtr->obj->m_milDigitizer, UserHookDataPtr->obj->m_milLineImage, UserHookDataPtr->MaxCount, M_STOP, M_DEFAULT, ProcessingFunction, &UserHookDataPtr);
 		SetEvent(UserHookDataPtr->hGrabEnd);
 		theApp.m_fnWriteLineScanLog(_T("Grab End"));
 		UserHookDataPtr->obj->m_GrabFlag = false;
