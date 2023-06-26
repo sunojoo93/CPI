@@ -40,6 +40,7 @@ public:
 	BOOL			InitializeLight(CString strInitFilePath);
 
 	void			MultiTurnOn(STRU_LIGHT_INFO stLightInfo);	
+	void			MultiTurnOn(ST_LIGHT_COND_AOT stLightInfo);
 	void			TurnOn(UINT nController, UINT nChannel, UINT nIntensity);
 
 	void			MultiTurnOff();
@@ -60,6 +61,7 @@ public:
 	void			SetPWMSubChannel(BYTE Terminal, BYTE SubChannel, WORD Duty);
 	void			SetPWMChannel(BYTE Terminal, BYTE Channel, WORD Duty);
 	void			SetPWMAll(BYTE Terminal, STRU_SERIAL_INFO* stLightInfo = NULL);
+	//void			SetPWMAll(BYTE Terminal, STRU_SERIAL_INFO_AOT* stLightInfo = NULL);
 	void			SetPWMAll_Manual(BYTE Terminal, int nValue, int nCh);
 	void			SetChannel16(BYTE Terminal, int* Duty, int nCh);
 

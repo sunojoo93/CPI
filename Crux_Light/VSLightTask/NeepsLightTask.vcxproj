@@ -249,6 +249,9 @@ copy D:\CRUX\EXE\ClientSockDll_X64.dll $(SolutionDir)\Shared</Command>
   <ItemGroup>
     <ResourceCompile Include="NeepsLight\NeepsLightTask.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Light.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

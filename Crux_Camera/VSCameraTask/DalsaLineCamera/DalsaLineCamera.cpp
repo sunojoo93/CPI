@@ -75,6 +75,36 @@ void CDalsaLineCamera::CameraExpose(ST_LINE_INFO stLine)
 	StartGrab(nTriggerCountF, nTriggerCountB, strpos, false, false);
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposure End"));
 }
+void CDalsaLineCamera::CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt)
+{
+
+	//int nTriggerCountF = stLine.stLineData[stLine.stLineData[0].nCurrentGrab].nCOUNTF;
+	//int nTriggerCountB = stLine.stLineData[stLine.stLineData[0].nCurrentGrab].nCountB;
+
+	//CString strpos = stLine.stLineData[stLine.stLineData[0].nCurrentGrab].strDirection;
+	//if (strpos == _T("FORWARD"))
+	//{
+	//	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("ScanDirection"), M_TYPE_STRING, MIL_TEXT("Reverse"));
+	//}
+	//else
+	//{
+	//	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("ScanDirection"), M_TYPE_STRING, MIL_TEXT("Forward"));
+	//}
+
+
+	//MimControl(m_milSystem, M_GRAB_DIRECTION_Y, M_REVERSE);
+	//MIL_INT Orientation = MimInquire(m_milSystem, M_GRAB_DIRECTION_Y, M_NULL);	
+
+
+	//CString TotalPath;
+	//TotalPath.Format(_T("D:\\CamGrabTest\\%s"), VirID);
+
+	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposrorcp ure Start, Max Count : %d"), nBufCnt);
+	StopGrab(nBufCnt);
+	m_GrabTime.Start();
+	StartGrab(PanelID, VirID, Position, nBufCnt, false, true);
+	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposure End, Max Count : %d"), nBufCnt);
+}
 
 void CDalsaLineCamera::StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave)
 {
@@ -82,10 +112,12 @@ void CDalsaLineCamera::StartGrab(CString PanelID, CString VirID, CString Positio
 	// 버퍼할당
 	AllocClearBuffer(nBufCnt);
 	CString TotalPath_;
-	TotalPath_.Format(_T("D:\\CamGrabTest\\%s"), VirID);
+	//TotalPath_.Format(_T("D:\\NetWorkDrive_10G\\Image\\%s"), VirID);
+	TotalPath_.Format(_T("D:\\NetWorkDrive_10G\\Image\\PC2\\%s"), VirID);
 	// UserHookData 초기화
 	CString TotalPath;
-	TotalPath.Format(_T("D:\\CamGrabTest\\%s\\%s"), VirID, Position);
+	//TotalPath.Format(_T("D:\\NetWorkDrive_10G\\Image\\%s\\%s"), VirID, Position);
+	TotalPath.Format(_T("D:\\NetWorkDrive_10G\\Image\\PC2\\%s\\%s"), VirID, Position);
 
 
 	UserHookData.obj = this;
@@ -317,7 +349,7 @@ void CDalsaLineCamera::AllocClearBuffer(int lineCount, bool onlyClear)
 	int DigBit = GetImageBitrate();
 	int y = GetImageHeight();
 	int x = GetImageWidth();
-
+	 
 
 	MbufAlloc2d(m_milSystem, x, y * lineCount, DigBit, M_IMAGE + M_GRAB + M_PROC, &m_milMergeImage);
 
@@ -368,10 +400,18 @@ MIL_INT CDalsaLineCamera::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, vo
 			time_t curr_time = time(nullptr);
 			_localtime64_s(&curr_tm, &curr_time);
 			CString filePath;
-			filePath.Format(_T("D:\\GrabTest-%4d%02d%02d-%02d%02d%02d.bmp"), curr_tm.tm_year + 1900, curr_tm.tm_mon + 1, curr_tm.tm_mday, curr_tm.tm_hour, curr_tm.tm_min, curr_tm.tm_sec);
+			//filePath.Format(_T("D:\\NetWorkDrive_10G\\Image\\GrabTest-PC2.bmp"));
+			filePath.Format(_T("%s\\%4d%02d%02d-%02d%02d%02d.bmp"), UserHookDataPtr->SavePath, curr_tm.tm_year + 1900, curr_tm.tm_mon + 1, curr_tm.tm_mday, curr_tm.tm_hour, curr_tm.tm_min, curr_tm.tm_sec);
+			CString filePath_Run;
+			//filePath.Format(_T("D:\\NetWorkDrive_10G\\Image\\GrabTest-PC2.bmp"));
+			filePath_Run.Format(_T("D:\\NetWorkDrive_10G\\Image\\Image_Run\\2.bmp"));
 			theApp.m_fnWriteLineScanLog(_T("image save Start."));
 			//temp->m_Trigger->TriggerGenCount0();
-			MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milMergeImage);
+			MbufSave(filePath, UserHookDataPtr->obj->m_milMergeImage);
+			MbufSave(filePath_Run, UserHookDataPtr->obj->m_milMergeImage);
+
+			//MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milMergeImage);
+			//MbufExport(filePath_Run, M_BMP, UserHookDataPtr->obj->m_milMergeImage);
 			theApp.m_fnWriteLineScanLog(_T("image save End."));
 	
 		 }
@@ -495,6 +535,33 @@ void CDalsaLineCamera::SetSMemCurBuffer(int TriggerCountF, int TriggerCountB, UI
 		memcpy(theApp.m_pSharedMemory->GetImgAddress(nGrabNum), Image, nBufferSize);
 		SAFE_DELETE_ARR(Image);
 	}
+}
+int CDalsaLineCamera::SetSMemCurBuffer(int GrabCnt, int nBufCnt, TCHAR* strPanelID)
+{
+	if (m_lDigBand == 1)
+	{
+		int line = nBufCnt;
+		int width = theApp.m_pSharedMemory->GetImgWidth();
+		int height = theApp.m_pSharedMemory->GetImgHeight();
+
+		MbufGet2d(m_milMergeImage, 0, 0, GetImageWidth()/*m_lDigSizeX*/,GetImageHeight()/*m_lDigSizeY*/ * line/*m_lDigSizeY*/, theApp.m_pSharedMemory->GetImgAddress(GrabCnt));
+	}
+	else if (m_lDigBand == 3)
+	{
+		int line = nBufCnt;
+		/*line -= 1;*/
+		int nBufferSize = GetImageWidth() * GetImageHeight() * GetImageBandwidth();
+		byte* Image = new byte[nBufferSize];
+		for (int i = 0; i < nBufCnt; ++i)
+		{
+			MbufGetColor(m_milLineImage[i], M_PACKED + M_BGR24, M_ALL_BANDS, Image);
+			memcpy(theApp.m_pSharedMemory->GetImgAddress(i), Image, nBufferSize);
+		}
+
+
+		SAFE_DELETE_ARR(Image);
+	}
+	return ProcessGrabCnt;
 }
 
 void CDalsaLineCamera::SaveFileCurBuffer(TCHAR* strSavePath)

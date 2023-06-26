@@ -66,23 +66,50 @@ namespace CRUX_Renewal
     }
     public static class RecipeManager
     {
-       // public static DataTable CvtDtLightInfo(ST_PATTERN_INFO ptn_info)
-       // {
-            //DataTable Dt = new DataTable();
-            //Dt.Columns.Add("Port");
-            //Dt.Columns.Add("Controller");
+        public static DataTable CvtDtLightInfo(Areas ptn_info)
+        {
+            DataTable Dt = new DataTable();
 
-            //for(int i = 0; i < ptn_info.LightCondCount; ++i)
+            //for (int i = 0; i < ptn_info.Area.Count; ++i)
             //{
-            //   Dt.Columns.Add(ptn_info.Light_Condition[i])
+            //    Dt.Columns.Add($@"Ch_{ptn_info.Area[i].LightConditions.Count()}");
             //}
+            return Dt;
+        }
+        public static DataTable CvtDtAreaInfo(DataTable table, Areas areas)
+        {
+            table.Clear();
+            DataTable Dt = table.Clone();
+            for (int i = 0; i < areas.Area.Count; ++i)
+            {
+                DataRow Dr = Dt.NewRow();
 
-            
-       // }
-       // public static ST_LIGHT_COND GetLightInfo()
-       // {
+                Dt.Rows.Add(false, areas.Area[i].Name);
+            }
+            return Dt;
+        }
+        public static DataTable CvtDtPatternInfo(DataTable table, Area area)
+        {
+            table.Clear();
+            DataTable Dt = table.Clone();
+            for (int i = 0; i < area.Patterns.Count; ++i)
+            {
+                DataRow Dr = Dt.NewRow();
 
-      //  }
+                Dt.Rows.Add(false, area.Patterns[i].Name);
+            }
+            return Dt;
+        }
+        public static DataTable CvtDtGrabCond(DataTable table, Recipe recipe)
+        {
+            DataTable Dt = new DataTable();
+
+            return Dt;
+        }
+        //public static ST_LIGHT_COND GetLightInfo()
+        //{
+
+        //}
         public static void RecipeSerialize<T>(string path, string name, T recipe)
         {
             string FullPath = $@"{path}\{name}";
@@ -253,12 +280,19 @@ namespace CRUX_Renewal
                     for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count; ++k)
                     {
                         ST_LIGHT_COND NewLightInfo = new ST_LIGHT_COND(0);
-                        NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
-                        NewLightInfo.Port_No = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Port_No;
-                        NewLightInfo.Controller_No = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Controller_No;
-                        for (int t = 0; t < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightConditions.Count; ++t)
+                        //NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
+                        NewLightInfo.Port_No = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Port_No;
+                        NewLightInfo.Controller_No = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Controller_No;
+                        //NewLightInfo.LightChCnt = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightChCnt;
+                        for (int t = 0; t < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightModules.Count; ++t)
                         {
-                            NewLightInfo.LightConditions[t] = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightConditions[t];
+                            NewLightInfo.Modules[t] = new STRU_SERIAL_INFO_AOT(0);
+                            NewLightInfo.Modules[t].nChCnt = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightModules[t].Count;
+                            for (int s = 0; s < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightModules[t].Ch_Value.Count; ++s)
+                            {
+                                NewLightInfo.Modules[t].nLightVal[s] = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightModules[t].Ch_Value[s];
+                            }
+                     
                         }
                         NewPatternInfo.Light_Condition[k] = NewLightInfo;
                     }

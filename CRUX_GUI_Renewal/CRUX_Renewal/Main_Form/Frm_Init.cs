@@ -46,11 +46,7 @@ namespace CRUX_Renewal.Main_Form
         }
         private void CreateINIObject()
         {
-            //Systems.Environment_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
 
-            //Globals.MaxVisionCnt = Systems.Environment_INI["UI_Property"]["VisionTotalCount"].ToInt();
-            //Globals.CurrentPCno = Systems.Environment_INI["UI_Property"]["CurrentUINumber"].ToInt();          
-            //Globals.MAINFORM_NAME = Systems.Environment_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
 
         }
 
@@ -154,14 +150,14 @@ namespace CRUX_Renewal.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
                                 Systems.LogWriter.Info("Initialize CAM...");
-                                if (Globals.SiteType[0] == 5) // CHIPPING
+                                if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
                                     if (SimulMode.ToString() == "FALSE")
                                         Program.StartCameraTask("TestCamTask", 1,"TestCam1"); // 추후에 수정
                                     else
                                         Program.StartSimulCameraTask();
                                 }
-                                else if(Globals.SiteType[0] == 6)
+                                else if(Globals.Insp_Type[0] == 6)
                                 {
                                     if (SimulMode.ToString() == "FALSE")
                                         Program.StartCameraTask("DalsaLineCameraTask", 1,"DalsaLineCamera1"); // 추후에 수정
@@ -250,7 +246,10 @@ namespace CRUX_Renewal.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize AF Program..."));
                                 Systems.LogWriter.Info("Initialize AF...");
-                                //Program.StartAutoFocus();
+
+                                if(Globals.PcName == "L1")              
+                                    Program.StartAutoFocus();
+                                
                                 ++InitFlag;
                             }
                             catch (Exception ex)
@@ -276,13 +275,29 @@ namespace CRUX_Renewal.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Light Program..."));
                                 Systems.LogWriter.Info("Initialize Light...");
-								if (Globals.SiteType[0] == 5) // CHIPPING
+								if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
-								
-								}
-								else if(Globals.SiteType[0] == 6) // ALM
+                                    if (SimulMode.ToString() == "FALSE")
+                                    {
+                                        //Program.StartLight("NeepsLightTask", 1, "NeepsLight.ini");
+                                    }
+                                    else
+                                    {
+
+                                    }
+
+                                }
+								else if(Globals.Insp_Type[0] == 6) // ALM
                                 {
-                                	Program.StartLight("NeepsLightTask", 1, "NeepsLight.ini");
+                                    if (SimulMode.ToString() == "FALSE")
+                                    {
+                                        Program.StartLight("NeepsLightTask", 1, "NeepsLight");
+                                    }
+                                    else
+                                    {
+
+                                    }
+                    
 								}
                                 ++InitFlag;
                             }
@@ -402,7 +417,6 @@ namespace CRUX_Renewal.Main_Form
             Paths.NET_RECIPE_PATH = new string[Globals.MaxVisionCnt];
             Paths.MANUAL_RESULT_DATA_DRIVE = new string[Globals.MaxVisionCnt];
             Globals.Insp_Type = new int[Globals.MaxVisionCnt];
-            Globals.SiteType = new int[Globals.MaxVisionCnt];
 
             Systems.AliveList = new ALIVE_STATE[2];
 
@@ -428,8 +442,8 @@ namespace CRUX_Renewal.Main_Form
                     Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE_SIMUL", Paths.INIT_PATH);
                 else
                     Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE", Paths.INIT_PATH);
-
-                Globals.SiteType[i] = Systems.Ini_Collection[i]["Initialize.ini"]["Common"]["SITE TYPE"].toInt();
+                Globals.Insp_Type[i] = Systems.Ini_Collection[i]["Initialize.ini"]["Common"]["TYPE"].toInt();
+                
        
                 //Paths.OPERATION_PATH = iniUtl.GetIniValue("OperationPC", "Address", Paths.INIT_PATH); // 0623 JSO
                 Paths.NET_ORIGIN_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ORIGIN_PATH", Paths.INIT_PATH);

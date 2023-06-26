@@ -35,6 +35,8 @@ BEGIN_MESSAGE_MAP(CVSLightTaskDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_MESSAGE(WM_TRAYICON_MSG,	TrayIconMessage)
 	ON_WM_DRAWITEM()
+	ON_BN_CLICKED(IDC_BUTTON_ON, &CVSLightTaskDlg::OnBnClickedButtonOn)
+	ON_BN_CLICKED(IDC_BUTTON_OFF, &CVSLightTaskDlg::OnBnClickedButtonOff)
 END_MESSAGE_MAP()
 
 
@@ -337,4 +339,22 @@ void CVSLightTaskDlg::m_fnChangeBtnColor(LPDRAWITEMSTRUCT lpDrawItemStruct, COLO
 	::GetWindowText(lpDrawItemStruct->hwndItem,buffer,MAX_PATH);	//버튼의 text얻기
 	dc.DrawText(buffer,&rect,DT_CENTER|DT_VCENTER|DT_SINGLELINE);	//버튼의 text넣기
 	dc.Detach();													//버튼의 dc 풀어주기
+}
+
+void CVSLightTaskDlg::OnBnClickedButtonOn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	STRU_LIGHT_INFO stTemp;
+	stTemp.nControllerCount = 1;
+	stTemp.stLight[0].nChCnt = 8;
+	for (int i = 0; i < stTemp.stLight[0].nChCnt; i++)
+		stTemp.stLight[0].nLightVal[i] = 500;
+	theApp.m_pLight->MultiTurnOn(stTemp);
+}
+
+
+void CVSLightTaskDlg::OnBnClickedButtonOff()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	theApp.m_pLight->MultiTurnOff();
 }

@@ -18,6 +18,7 @@ public:
 
 	// Turn On
 	virtual	void	MultiTurnOn(STRU_LIGHT_INFO stLightInfo)							{	return				;};
+	//virtual	void	MultiTurnOn(ST_LIGHT_COND_AOT stLightInfo) { return; };
 	virtual	void	SingleTurnOn(UINT nController, UINT nChannel, UINT nIntensity)		{	return				;};	
 
 	// Turn Off

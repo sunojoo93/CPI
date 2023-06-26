@@ -51,7 +51,7 @@ namespace CRUX_Renewal
             Globals.MaxVisionCnt = Default_INI["UI_Property"]["VisionTotalCount"].ToInt();
             Globals.CurrentPCno = Default_INI["UI_Property"]["CurrentUINumber"].ToInt();
             Globals.MAINFORM_NAME = Default_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
-           
+            Globals.PcName = Default_INI["PC_INFO"]["Name"].ToString(); ;
         }
     }
 }

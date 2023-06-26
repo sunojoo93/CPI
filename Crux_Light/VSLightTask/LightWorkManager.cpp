@@ -377,8 +377,8 @@ int VSMessageProcessor::VS_MultiTurnOn( byte* pParam, ULONG& nPrmSize, bool bAlw
 
 	byte* tempParam	= pParam;
 	BOOL bChangeFlag = 0;
-
-	m_stLightInfo = *(STRU_LIGHT_INFO *)tempParam;	// Light Info 정적 배열로 변경
+	STRU_LIGHT_INFO RcvLightCond;
+	RcvLightCond = *(STRU_LIGHT_INFO *)tempParam;	// Light Info 정적 배열로 변경
 
 	m_fnPrintLog(_T("SEQLOG -- Seq8020_Multi_Turn_On Sequence Start."));	// 조명 On 전에 로그 추가		180511 YSS
 
@@ -393,7 +393,7 @@ int VSMessageProcessor::VS_MultiTurnOn( byte* pParam, ULONG& nPrmSize, bool bAlw
 // 		}
 // 
 // 		if(bChangeFlag > 0)
-		theApp.m_pLight->MultiTurnOn(m_stLightInfo);
+		theApp.m_pLight->MultiTurnOn(RcvLightCond);
 // 		memcpy( m_OldLightInfo,&m_stLightInfo,sizeof(STRU_LIGHT_INFO) );
 	EXCEPTION_CATCH
 

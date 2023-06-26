@@ -148,19 +148,19 @@ public:
 	};
 
 	/////////////////////// Light ฐüทร ////////////////////////
-	BOOL	IsUseLight(CString AreaName, int nGrabCnt, int nLightNum)
-	{
-		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
-		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
-			{
-				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum].Use;
-			}
-		}
-		return FALSE;
-	};
+	//BOOL	IsUseLight(CString AreaName, int nGrabCnt, int nLightNum)
+	//{
+	//	for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+	//	{
+	//		if (m_stModelInfo.GrabArea[i].Name == AreaName)
+	//		{
+	//			return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum].Use;
+	//		}
+	//	}
+	//	return FALSE;
+	//};
 
-	ST_LIGHT_COND_AOT		GetLightInfo(CString AreaName, int nGrabCnt, int nLightNum)
+	STRU_LIGHT_INFO		GetLightInfo(CString AreaName, int nGrabCnt, int nLightNum)
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
@@ -170,16 +170,16 @@ public:
 			}
 		}
 	};
-	ST_LIGHT_COND_AOT		GetLightInfo_Use(CString AreaName, int nGrabCnt, int nLightNum)
-	{
-		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
-		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
-			{
-				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
-			}
-		}
-	};
+	//STRU_LIGHT_INFO		GetLightInfo_Use(CString AreaName, int nGrabCnt, int nLightNum)
+	//{
+	//	for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+	//	{
+	//		if (m_stModelInfo.GrabArea[i].Name == AreaName)
+	//		{
+	//			return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
+	//		}
+	//	}
+	//};
 	int		GetMaxLightCount(CString AreaName, int nGrabCnt)
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)

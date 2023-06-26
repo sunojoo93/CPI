@@ -188,14 +188,17 @@ namespace CRUX_Renewal.Ex_Form
                         Systems.AliveList[Systems.CurDisplayIndex].mainpc = false;
                     #endregion
                     #region AF Check
-                    Param.ClearOffset();
-                    Param.SetInteger(1);
-                    nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.AF_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
-                                                IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
-                    if (nRet == Consts.APP_OK)
-                        Systems.AliveList[Systems.CurDisplayIndex].AF = true;
-                    else
-                        Systems.AliveList[Systems.CurDisplayIndex].AF = false;
+                    if (Globals.Insp_Type[0] == 5)
+                    {
+                        Param.ClearOffset();
+                        Param.SetInteger(1);
+                        nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.AF_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
+                                                    IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
+                        if (nRet == Consts.APP_OK)
+                            Systems.AliveList[Systems.CurDisplayIndex].AF = true;
+                        else
+                            Systems.AliveList[Systems.CurDisplayIndex].AF = false;
+                    }
                     #endregion
                     BeginInvoke(new Action( () =>
                     {

@@ -23,6 +23,7 @@ namespace CRUX_Renewal.Main_Form
         public void SetRecipe(ref Recipes recipe)
         {
             Shared_Recipe = recipe;
+            AreaCamForm.SetRecipe(ref Shared_Recipe);
         }
         public void SetFormNameIndex(ref string name, ref int index)
         {
@@ -33,7 +34,7 @@ namespace CRUX_Renewal.Main_Form
         {
             //LineCamForm = new Ex_Frm_Optic_Line() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             AreaCamForm = new Ex_Frm_Optic_Area_Content() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
-            AreaCamForm.SetRecipe(ref Shared_Recipe);
+
 
             //LineCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             AreaCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);

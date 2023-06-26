@@ -547,10 +547,10 @@ void CVSCameraTaskDlg::OnBnClickedButtonCam()
 	case IDC_BUTTON_CAM_GRABSTART:
 
 
-		((CTestCam*)theApp.m_pCamera)->StartGrab(VirID, VirID, _T("Test"), 60,false, true);
+		((CTestCam*)theApp.m_pCamera)->StartGrab(VirID, VirID, _T("Test"), 84,false, true);
 		break;
 	case IDC_BUTTON_CAM_GRABSTOP:
-		((CTestCam*)theApp.m_pCamera)->StopGrab(60);
+		((CTestCam*)theApp.m_pCamera)->StopGrab(84);
 		break;
 	}
 }

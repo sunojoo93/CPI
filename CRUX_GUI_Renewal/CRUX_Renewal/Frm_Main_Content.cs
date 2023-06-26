@@ -26,7 +26,9 @@ namespace CRUX_Renewal
         public Ex_Frm_Menubar Frm_MenuBar;
 
         // 오토 폼
-        public Main_Frm_Auto Frm_Auto;
+        public Main_Frm_Auto_For_CHIPPING Frm_Auto_Chipping;
+        public Main_Frm_Auto_For_ALM Frm_Auto_ALM;
+        public Main_Frm_Auto Frm_Auto_Default;
         // 메뉴얼 폼
         public Main_Frm_Manual Frm_Manual;
         // 레시피 폼
@@ -49,7 +51,15 @@ namespace CRUX_Renewal
         }
         public void LinkRecipe(ref Recipes recipe)
         {
-            Frm_Auto.SetRecipe(ref recipe);
+            if(Globals.Insp_Type[0] == 5)
+            {
+                Frm_Auto_Default.SetRecipe(ref recipe);
+            }
+            if(Globals.Insp_Type[0] == 6)
+            {
+                Frm_Auto_Default.SetRecipe(ref recipe);
+            }
+
             Frm_Manual.SetRecipe(ref recipe);
             Frm_Recipe.SetRecipe(ref recipe);
             Frm_Optical.SetRecipe(ref recipe);
@@ -61,9 +71,21 @@ namespace CRUX_Renewal
             this.Dock = DockStyle.Fill;
             this.TopLevel = false;
             Frm_MenuBar = new Ex_Frm_Menubar() { Owner = this.Owner };
-
-            Frm_Auto = new Main_Frm_Auto() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
-            Frm_Auto.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            if(Globals.Insp_Type[0] == 5)
+            {
+                Frm_Auto_Default = new Main_Frm_Auto_For_CHIPPING() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+                Frm_Auto_Default.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            }
+            else if(Globals.Insp_Type[0] == 6)
+            {
+                Frm_Auto_Default = new Main_Frm_Auto_For_ALM() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+                Frm_Auto_Default.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            }
+            else
+            {
+                Frm_Auto_Default = new Main_Frm_Auto() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+                Frm_Auto_Default.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
+            }
 
             Frm_Manual = new Main_Frm_Manual() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             Frm_Manual.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
@@ -81,11 +103,11 @@ namespace CRUX_Renewal
             Frm_Algorithm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
 
             Tlp_MainForm.Controls.Add(Frm_MenuBar, 0, 1);
-            Tlp_MainForm.Controls.Add(Frm_Auto, 0, 0);
 
-            CurrentFormName = Frm_Auto.Name;
+            Tlp_MainForm.Controls.Add(Frm_Auto_Default, 0, 0);
+            CurrentFormName = Frm_Auto_Default.Name;
+
             LoadingComplete = true;
-           
         }
 
         public void ChangeMainForm(Form name)

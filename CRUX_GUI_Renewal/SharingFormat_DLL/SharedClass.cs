@@ -43,6 +43,8 @@ namespace SharingFormat_DLL
     {
         public CogImage8Grey Image = new CogImage8Grey();
         public string PatternName;
+        public string CellID;
+        public string VirID;
     }
     public class Image_Collection
     {

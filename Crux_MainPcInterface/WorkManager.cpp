@@ -892,6 +892,7 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 	TCHAR		cTemp[500] = { 0, };
 	TCHAR szTemp[100] = { 0, };
 	CStringA	strSendMsg;
+	CStringA	strClassEnd;
 
 	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
 	pParamTemp += SIZE_CELL_ID;
@@ -967,6 +968,13 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 			
 			strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
 			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+
+			if (nTotalLine == 3)
+			{
+				Sleep(2000);
+				strClassEnd.Format("%sOK.%s.%s.", MAIN_PC_PACKET_CLASSIFY_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+				nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strClassEnd, strClassEnd.GetLength());
+			}
 			isSeqBusy = false;
 			if (nRet != APP_OK)
 			{
@@ -979,6 +987,13 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 			m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc - Error return from sequence task. Error = %d"), nRet);
 			strSendMsg.Format("%sERR.%s.%s.", MAIN_PC_PACKET_GRAB_END_REPLY, (CStringA)strVirtualID, strCellID);
 			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+
+			if (nTotalLine == 3)
+			{
+				Sleep(2000);
+				strClassEnd.Format("%sERR.%s.%s.", MAIN_PC_PACKET_CLASSIFY_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+				nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strClassEnd, strClassEnd.GetLength());
+			}
 			isSeqBusy = false;
 			if (nRet != APP_OK)
 			{
@@ -1052,7 +1067,7 @@ int	WorkManager::Seq_AFReady_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bAlw
 
 		if (nRet == APP_OK)
 		{
-			strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, (CStringA)strCellID, nPos, nArea);
+			strSendMsg.Format("%sOK.%s.%s.%d.%d.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, (CStringA)strCellID, nPos, nArea);
 			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
 			isSeqBusy = false;
 			if (nRet != APP_OK)
@@ -1064,7 +1079,7 @@ int	WorkManager::Seq_AFReady_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bAlw
 		else
 		{
 			m_fnPrintLog(_T("SEQLOG -- Start AF Ready_FromMainPc - Error return from sequence task. Error = %d"), nRet);
-			strSendMsg.Format("%sERR.%s.%s.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, strCellID, nPos, nArea);
+			strSendMsg.Format("%sERR.%s.%s.%d.%d.", MAIN_PC_PACKET_GRAB_READY_REPLY, (CStringA)strVirtualID, strCellID, nPos, nArea);
 			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
 			isSeqBusy = false;
 			if (nRet != APP_OK)
@@ -1196,11 +1211,11 @@ int	WorkManager::Seq_Reply_StartGrabFromMainPc(byte* pParam, ULONG& nPrmSize, bo
 
 	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
 	pParamTemp += SIZE_CELL_ID;
-	strCellID = cTemp;
+	strVirtualID = cTemp;
 
 	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
 	pParamTemp += SIZE_CELL_ID;
-	strVirtualID = cTemp;
+	strCellID = cTemp;
 
 	EXCEPTION_TRY
 		m_fnPrintLog(_T("SEQLOG -- StartGrab_FromMainPc StepNo=%d, RetVal=%d \n"), nStepNo++, nRet);

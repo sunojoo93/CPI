@@ -6618,7 +6618,7 @@ int	WorkManager::Seq_AFReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode 
 
 	if (nArea == 0)
 	{
-		AreaName = (LPTSTR)(LPCTSTR)_T("PAD");
+		AreaName = (LPTSTR)(LPCTSTR)_T("Pad");
 	}
 	else if (nArea == 1)
 	{
@@ -6804,27 +6804,31 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 	int CellPos = *(int *)pReceiveParam;						pReceiveParam += sizeof(CellPos);
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	CString					strDirection, strPosition;
-
+	bool FirstPattern = false;
 	int ProcessCnt = 0;
 	if (CellPos == 0)
 	{
 		strPosition.Format(_T("Pad"));
-		ProcessCnt = 14;
+		ProcessCnt = 20;
+		FirstPattern = true;
 	}
 	else if (CellPos == 1)
 	{
 		strPosition.Format(_T("Right"));
-		ProcessCnt = 14;
+		ProcessCnt = 20;
+		FirstPattern = false;
 	}
 	else if (CellPos == 2)
 	{
 		strPosition.Format(_T("Bottom"));
-		ProcessCnt = 16;
+		ProcessCnt = 22;
+		FirstPattern = false;
 	}
 	else if (CellPos == 3)
 	{
 		strPosition.Format(_T("TOP"));
-		ProcessCnt = 16;
+		ProcessCnt = 22;
+		FirstPattern = false;
 	}
 	else
 	{
@@ -6948,6 +6952,8 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 				//throw nRet;
 			}
 			break;
+		
+
 
 		case 4:
 			_tcscpy((TCHAR*)bpTempParam4, (LPCTSTR)strPanelID);
@@ -6986,7 +6992,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 
 		case 6:
 			// 스테이지 이동 확인			
-			nRet = WaitForSingleObject(m_hSeqStageMoveDone, 30000);
+			nRet = WaitForSingleObject(m_hSeqStageMoveDone, 60000);
 
 			if (nRet == WAIT_TIMEOUT)
 			{
@@ -7074,7 +7080,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 			memcpy((TCHAR *)prmInspStart->strPanelID, strPanelID, sizeof(prmInspStart->strPanelID));
 			memcpy((TCHAR *)prmInspStart->strVirtualID, strVirtualPanelID, sizeof(prmInspStart->strVirtualID));
 			memcpy((TCHAR *)prmInspStart->strArea, strAreaTemp, sizeof(prmInspStart->strArea));
-		
+			prmInspStart->FirstPattern = true;
 			// 검사 시작은 무조건 NoRes 로 변경
 			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_RES, 60000);
 
@@ -7169,8 +7175,8 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 
 	int ProcessCnt = 0;
 
-	strPosition.Format(_T("Pad"));
-	ProcessCnt = 14;
+	strPosition.Format(_T("ALL"));
+	ProcessCnt = 45;
 
 	memcpy(strAreaTemp, strPosition, strPosition.GetLength() * 2);
 	TCHAR* Temp1 = (LPTSTR)(LPCTSTR)strPosition;
@@ -7189,7 +7195,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 	// 2021.12.15~ MDJ Modify Camera Expose Time
 	double dExposeTime = 0.0;
 
-	ST_LIGHT_COND_AOT stCurLightInfo;
+	STRU_LIGHT_INFO stCurLightInfo;
 
 	ST_CAM_COND_AOT stCurCamCond;
 
@@ -7240,11 +7246,13 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 		switch (nStepNo)
 		{
 		case 1:
+			break;
+		case 2:
 			m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light Control Start. Pattern : %s"), nStepNo, "123");		// 조명 On 전에 로그 추가		180511 YSS
 
-																													//stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 1);
+			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
 
-			nRet += /*CmdEditSend(SEND_LIGHT_ON, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK + 1, (byte *)&stCurLightInfo, CMD_TYPE_RES)*/0;
+			//nRet += CmdEditSend(SEND_LIGHT_ON, 0, sizeof(ST_LIGHT_COND_AOT), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_RES);
 
 			if (nRet == APP_OK)
 			{
@@ -7257,10 +7265,10 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			}
 			break;
 
-		case 2:
-			//stCurCamCond = /*theApp.m_Config.GetCamExposeVal(nGrabCnt, 0)*/theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt,0);
+		case 3:
+			stCurCamCond = theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt,0);
 
-			nRet = 0/*CmdEditSend(SEND_SET_CAMERA_EXPOSE_TIME, 0, sizeof(dExposeTime), VS_CAMERA_TASK, (byte *)&dExposeTime, CMD_TYPE_RES, 6000)*/;
+			//nRet = CmdEditSend(SEND_SET_CAMERA_COND, 0, sizeof(ST_CAM_COND_AOT), VS_CAMERA_TASK, (byte *)&stCurCamCond, CMD_TYPE_RES, 6000);
 
 			if (nRet == APP_OK)
 			{
@@ -7273,7 +7281,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			}
 			break;
 
-		case 3:
+		case 4:
 			// Vaccum 세팅
 			// 통신 추가 필요
 			nRet = 0;
@@ -7292,7 +7300,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 
 
 
-		case 4:
+		case 5:
 			_tcscpy((TCHAR*)bpTempParam4, (LPCTSTR)strPanelID);
 			bpTempParam4 += 100;
 			_tcscpy((TCHAR*)bpTempParam4, (LPCTSTR)strVirtualPanelID);
@@ -7316,7 +7324,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 				//throw nRet;
 			}
 			break;
-		case 5:
+		case 6:
 			// 스테이지 이동 요청
 
 			_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strVirtualPanelID);
@@ -7327,9 +7335,9 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			nRet = CmdEditSend(REQ_GRAB_START, 0, 200, VS_MAIN_PC_TASK, (byte *)&bParam, CMD_TYPE_NORES);
 			break;
 
-		case 6:
+		case 7:
 			// 스테이지 이동 확인			
-			nRet = WaitForSingleObject(m_hSeqStageMoveDone, 30000);
+			nRet = WaitForSingleObject(m_hSeqStageMoveDone, 60000);
 
 			if (nRet == WAIT_TIMEOUT)
 			{
@@ -7359,7 +7367,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 
 			//ResetEvent(m_hSeqStageMoveDone);
 			break;
-		case 7:
+		case 8:
 			//Sleep(300);
 			//// 스테이지 이동 완료 후 그랩 종료
 			//m_fnPrintLog(FALSE, _T("CASE %d : Stage Move Check !!!"), nStepNo);
@@ -7372,7 +7380,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			//ProcessCnt = *(int*)bpTempParam3;
 			//m_fnPrintLog(FALSE, _T("CASE %d : Stage Move Done !!!, ProcessCnt : %d"), nStepNo, ProcessCnt);
 			break;
-		case 8:
+		case 9:
 			// 카메라 버퍼 -> 공유메모리
 			strTemp2.Format(_T("%s%s\\%02d_%s_CAM%02d"), strFileDirectory, strPanelID, nGrabCnt, theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt), 0);
 			_tcscpy(stWaitGrabEndParam.strSavePath, strTemp2);
@@ -7383,10 +7391,15 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			//stWaitGrabEndParam.nTriCountF = stCurCamCond.nCountF;
 			//stWaitGrabEndParam.nTriCountB = stCurCamCond.nCountB;
 			_tcscpy(stWaitGrabEndParam.strPanelID, strPanelID);
-			stWaitGrabEndParam.GrabCnt = ProcessCnt;
+			stWaitGrabEndParam.GrabCnt =nGrabCnt;
 			//_tcscpy(stWaitGrabEndParam.strGrabStepName, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));
-			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 60000);
+			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 600000);
 
+			ImageSetTemp.ParticleImageCount = 1;
+			ImageSetTemp.SharedMemStartIdx = nGrabCnt;
+			memcpy((TCHAR *)ImageSetTemp.PatternName, theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt), sizeof(ImageSetTemp.PatternName));
+			prmInspStart->ImageSet[nGrabCnt] = ImageSetTemp;
+			prmInspStart->FirstPattern = true;
 			//CameraRespons = (byte *)&stWaitGrabEndParam;
 			//CameraRespons += sizeof(ProcessGrabCount);
 			//ProcessGrabCount = *(int*)CameraRespons;
@@ -7401,16 +7414,27 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 				throw nRet;
 			}
 			break;
+		case 10:
+			m_fnPrintLog(FALSE, _T("CASE %d : Light Off Start. Pattern : %s"), nStepNo, "123");		// 조명 On 전에 로그 추가		180511 YSS
 
-		case 9:
-			for (int i = 0; i < theApp.m_Config.GetGrabCount(strPosition); ++i)
+			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
+
+			//nRet += CmdEditSend(SEND_LIGHT_OFF, 0, sizeof(ST_LIGHT_COND_AOT), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_NORES);
+
+			if (nRet == APP_OK)
 			{
-
-				ImageSetTemp.ParticleImageCount = ProcessCnt;
-				ImageSetTemp.SharedMemStartIdx = i;
-				memcpy((TCHAR *)ImageSetTemp.PatternName, theApp.m_Config.GetCurPatternName(strPosition, i), sizeof(ImageSetTemp.PatternName));
-				prmInspStart->ImageSet[i] = ImageSetTemp;
+				m_fnPrintLog(FALSE, _T("CASE %d : Light Off End. Pattern : %s"), nStepNo, "123"/*theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt + nNextStepInterval)*/);
 			}
+			else
+			{
+				m_fnPrintLog(FALSE, _T("CASE %d : Light Off Error !!!"), nStepNo);
+				throw nRet;
+			}
+			break;
+		case 11:
+
+
+
 			prmInspStart->PcNo = 0;
 			prmInspStart->nInspType = 0;
 			prmInspStart->PatternCount = theApp.m_Config.GetGrabCount(strPosition);
@@ -7435,6 +7459,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 				throw nRet;
 			}
 			break;
+		
 		default:
 			isRunSequence = false;
 			break;
@@ -7445,7 +7470,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			if (nRet != APP_OK)
 			{
 				// Error Log
-				m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2120_AutoInspectGrabImage_CHIPPING Error Occured. StepNo=%d, RetVal=%d"), nStepNo, nRet);
+				m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2120_AutoInspectGrabImage_ALM Error Occured. StepNo=%d, RetVal=%d"), nStepNo, nRet);
 
 				// Error 발생 시 PG / Light Off
 				int nErrRet = APP_OK;
@@ -7470,7 +7495,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 	SAFE_DELETE(prmInspStart);
 
 	// Sequence Out LOG
-	m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2120_AutoInspectGrabImage_CHIPPING Sequence END. Barcode = %s, StepNo=%d, RetVal=%d"), strPanelID, nStepNo, nRet);
+	m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2120_AutoInspectGrabImage_ALM Sequence END. Barcode = %s, StepNo=%d, RetVal=%d"), strPanelID, nStepNo, nRet);
 
 	isSeqBusy = false;
 
@@ -7499,4 +7524,3 @@ int	WorkManager::m_ShareImgNum(int nImgNum)
 
 	return m_count;
 }
-

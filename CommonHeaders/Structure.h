@@ -16,7 +16,7 @@
 #define  MAX_CAMERA_COUNT  4
 #define  MAX_AUTOFOCUS_COUNT 4
 #define  MAX_LIGHT_COUNT  4
-#define  MAX_LIGHT_CHANNEL_COUNT  50
+#define  MAX_LIGHT_CHANNEL_COUNT  8
 
 #define MAX_IMAGE_RATIO				1
 
@@ -51,6 +51,17 @@ struct STRU_SERIAL_INFO
 	UINT  nLightVal[MAX_LIGHT_CHANNEL_COUNT];
 
 	STRU_SERIAL_INFO()
+	{
+		nChCnt = 0;
+		memset(nLightVal, 0, sizeof(UINT) * MAX_LIGHT_CHANNEL_COUNT);
+	};
+};
+struct STRU_SERIAL_INFO_AOT
+{
+	UINT  nChCnt;
+	UINT  nLightVal[MAX_LIGHT_CHANNEL_COUNT];
+
+	STRU_SERIAL_INFO_AOT()
 	{
 		nChCnt = 0;
 		memset(nLightVal, 0, sizeof(UINT) * MAX_LIGHT_CHANNEL_COUNT);
@@ -252,19 +263,20 @@ struct ST_CAM_COND_AOT
 		nPeriodB = 0;
 	}
 };
+
 struct ST_LIGHT_COND_AOT
 {
 	BOOL Use;
 	int Port_No;
 	int Controller_No;
-	//public string CtrlName;
-	int LightConditions[MAX_LIGHT_CHANNEL_COUNT];
+	STRU_SERIAL_INFO_AOT LightModule[MAX_LIGHT_COUNT];
+
 	ST_LIGHT_COND_AOT()
 	{
 		Use = true;
 		Port_No = 0;
 		Controller_No = 0;
-		memset(LightConditions, 0, sizeof(int) * MAX_LIGHT_CHANNEL_COUNT);
+		memset(LightModule, 0, sizeof(STRU_SERIAL_INFO_AOT) * MAX_LIGHT_COUNT);
 	}
 };
 struct ST_AUTOFOCUS_AOT
@@ -288,7 +300,7 @@ struct ST_PATTERN_INFO_AOT
 	int CamCondCount;
 	int LightCondCount;
 	ST_CAM_COND_AOT Cam_Condition[MAX_CAMERA_COUNT];
-	ST_LIGHT_COND_AOT Light_Condition[MAX_LIGHT_COUNT];
+	STRU_LIGHT_INFO Light_Condition[MAX_LIGHT_COUNT];
 	ST_AUTOFOCUS_AOT AutoFocus_Condition[MAX_AUTOFOCUS_COUNT];
 	ST_PATTERN_INFO_AOT()
 	{
@@ -298,7 +310,7 @@ struct ST_PATTERN_INFO_AOT
 		CamCondCount = 0;
 		LightCondCount = 0;
 		memset(Cam_Condition, 0, sizeof(ST_CAM_COND_AOT) * MAX_CAMERA_COUNT);
-		memset(Light_Condition, 0, sizeof(ST_LIGHT_COND_AOT) * MAX_LIGHT_COUNT);
+		memset(Light_Condition, 0, sizeof(STRU_LIGHT_INFO) * MAX_LIGHT_COUNT);
 		memset(AutoFocus_Condition, 0, sizeof(ST_AUTOFOCUS_AOT) * MAX_AUTOFOCUS_COUNT);
 	}
 };
@@ -356,6 +368,7 @@ struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 	wchar_t strArea[50];
 	int GrabLine;
 	int CamNo;
+	BOOL FirstPattern;
 
 
 
@@ -370,6 +383,7 @@ struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 		memset(strArea, 0, sizeof(strArea));
 		GrabLine = 0;
 		CamNo = 0;
+		FirstPattern = false;
 	}
 };
 /////////////////////////////// AOT ///////////////////////////////

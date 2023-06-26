@@ -57,4 +57,6 @@ private:
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
+	afx_msg void OnBnClickedButtonOn();
+	afx_msg void OnBnClickedButtonOff();
 };

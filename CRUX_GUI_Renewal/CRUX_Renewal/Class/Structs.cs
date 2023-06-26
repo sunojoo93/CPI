@@ -39,6 +39,7 @@ namespace CRUX_Renewal.Class
         public string InspName { get; set; } = null;
         public string Path { get; set; } = "";
         public string PatternName { get; set; } = null;
+        public bool FirstPattern { get; set; } = false;
     }
 
     public class ImageData: IDisposable
@@ -146,6 +147,7 @@ namespace CRUX_Renewal.Class
         public byte[] Area;
         public int GrabLine;
         public int CamNo;
+        public bool FirstPattern;
         //public int ParticleCount;
     
 
@@ -160,6 +162,7 @@ namespace CRUX_Renewal.Class
             Area = new byte[100];
             PatternCount = 0;
             CamNo = 0;
+            FirstPattern = false;
         }
     }
     [Serializable]
@@ -664,20 +667,31 @@ namespace CRUX_Renewal.Class
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct STRU_SERIAL_INFO_AOT
+    {
+        public uint nChCnt;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_CHANNEL_COUNT)]
+        public uint[] nLightVal;
+
+        public STRU_SERIAL_INFO_AOT(int num)
+        {
+            nChCnt = 0;
+            nLightVal = new uint[Consts.MAX_LIGHT_CHANNEL_COUNT];
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_LIGHT_COND
     {
-        public bool Use;
-        public int Port_No;
-        public int Controller_No;
-        //public string CtrlName;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_CHANNEL_COUNT)]
-        public int[] LightConditions;
+        public uint Port_No;
+        public uint Controller_No;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_COUNT)]
+        public STRU_SERIAL_INFO_AOT[] Modules;
         public ST_LIGHT_COND(int num)
         {
-            Use = true;
             Port_No = 0;
             Controller_No = 0;
-            LightConditions = new int[Consts.MAX_LIGHT_CHANNEL_COUNT];
+            Modules = new STRU_SERIAL_INFO_AOT[Consts.MAX_LIGHT_COUNT];
         }
     }
     [Serializable]
@@ -734,13 +748,25 @@ namespace CRUX_Renewal.Class
         public int Port_No { get; set; } = 0;
         [XmlAttribute("Controller_No")]
         public int Controller_No { get; set; } = 0;
-        [XmlArray("Channels")]
-        [XmlArrayItem("Ch")]
-        public List<int> LightConditions { get; set; }
+        [XmlAttribute("ModuleCount")]
+        public int ModuleCount { get; set; } = 0;
+        [XmlArray("Modules")]
+        [XmlArrayItem("Module")]
+        public List<LightModule> LightModules { get; set; }
         public LightInfo()
         {
-            LightConditions = new List<int>();
+            LightModules = new List<LightModule>();
         }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class LightModule
+    {
+        [XmlAttribute("Count")]
+        public int Count { get; set; } = 0;       
+        [XmlArray("Ch_Value")]
+        [XmlArrayItem("Ch")]
+        public List<uint> Ch_Value { get; set; }
     }
     /// <summary>
     /// Patterns Struct
@@ -757,6 +783,22 @@ namespace CRUX_Renewal.Class
         public Areas()
         {
             Area = new List<Area>();
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class ImageMergeProperty
+    {
+        [XmlElement("All_Shift")]
+        public int All_Shift { get; set; } = 0;
+        [XmlElement("ShiftX")]
+        public int Shift_X { get; set; } = 0;
+        [XmlElement("ShiftY")]
+        public int ShiftY { get; set; } = 0;
+
+        public ImageMergeProperty()
+        {
+            
         }
     }
     [Serializable]

@@ -491,34 +491,8 @@ namespace CRUX_Renewal.Main_Form
             foreach(InspData item in ManualInspImageData)
             {
                 Systems.Inspector_.Start_Insp(item);
+                Systems.LogWriter.Info($"Manual Inspect Start, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex]}, Area : {item.Area}");
             }
-            //Systems.Inspector_.Manual_Insp(ManualInspImageData);
-        }
-
-        private void button2_Click_2(object sender, EventArgs e)
-        {
-            CogImage8Grey Image = Cognex_Helper.Load_Image($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT.bmp");
-            CogCopyRegionTool RegionCopyTool = new CogCopyRegionTool();
-            RegionCopyTool.InputImage = Image;
-            CogRectangle Rect = new CogRectangle() { X = 2000, Y = 50000, Width = 2000, Height = 50000 };
-
-            RegionCopyTool.Region = Rect;
-            RegionCopyTool.Run();
-            CogImage8Grey Output = RegionCopyTool.OutputImage as CogImage8Grey;
-
-            Bitmap Temp = Output.ToBitmap();
-            Temp.Save($@"D:\회사업무\프로젝트\ACI\삼성프로젝트\0227\LEFT123.bmp");
-
-        }
-
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click_1(object sender, EventArgs e)
-        {
-            //RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
         }
     }
 }

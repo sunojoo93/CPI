@@ -504,7 +504,7 @@ DWORD CSerialPort::Write(const void* lpBuf, DWORD dwCount)
     return FALSE;
   }
 
-  return dwBytesWritten;
+   return dwBytesWritten;
 }
 
 BOOL CSerialPort::Write(const void* lpBuf, DWORD dwCount, OVERLAPPED& overlapped, DWORD* pBytesWritten)

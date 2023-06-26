@@ -26,7 +26,7 @@ namespace CRUX_Renewal.Ex_Form
         {
             var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
             if(Temp != null)
-                Temp.ChangeMainForm(Temp.Frm_Auto);
+                Temp.ChangeMainForm(Temp.Frm_Auto_Default);
         }
 
         private void Btn_Manual_Click (object sender, EventArgs e)

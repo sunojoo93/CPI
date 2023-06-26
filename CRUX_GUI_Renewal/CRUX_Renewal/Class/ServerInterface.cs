@@ -340,12 +340,13 @@ namespace CRUX_Renewal.Class
                 //{
                 // 이미지 병합
                 //Cognex_Helper.MergeImages("이미지들");
+                #region For CHIPPING
+                if (Globals.Insp_Type[0] == 5)
+                {
 
-
-                PARAM_INSPECT_START_AOT_CHIPPING_ALM Inspection_Data = new PARAM_INSPECT_START_AOT_CHIPPING_ALM(0);
+                    PARAM_INSPECT_START_AOT_CHIPPING_ALM Inspection_Data = new PARAM_INSPECT_START_AOT_CHIPPING_ALM(0);
 
                     Inspection_Data = (PARAM_INSPECT_START_AOT_CHIPPING_ALM)param.GetStruct(typeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), Marshal.SizeOf(Inspection_Data));
-                    //string tete = Encoding.Default.GetString(Inspection_Data.ID).Trim('\0').Replace("\0", "");
 
                     int ImgWidth = Systems.SharedMemory.GetImgWidth();
                     int ImgHeight = Systems.SharedMemory.GetImgHeight();
@@ -357,207 +358,223 @@ namespace CRUX_Renewal.Class
                     //string Direction = Encoding.Default.GetString(Inspection_Data.Direction).Trim('\0').Replace("\0", "");
                     string Area = Encoding.Default.GetString(Inspection_Data.Area).Trim('\0').Replace("\0", "").ToUpper();
                     string Drive = @"D:\";//Systems.DiskManagers.CheckDrive();
-                    //int ImageTotalCount = Inspection_Data.ParticleTotalCount;
+                                          //int ImageTotalCount = Inspection_Data.ParticleTotalCount;
                     string FilePath = string.Format("{0}{1}{2}\\{3}\\", Drive, "Result\\", CellID, Paths.NET_ORIGIN_PATH[0]);
-                Systems.LogWriter.Info("Done Inspection_GUI_Parse");
-                // 오토런 검사
-                // 공유메모리에서 이미지 불러들여 검사
-                //
+                    bool FirstPattern = Inspection_Data.FirstPattern;
+                    Systems.LogWriter.Info("Done Inspection_GUI_Parse");
+                    // 오토런 검사
+                    // 공유메모리에서 이미지 불러들여 검사
+                    //
 
-                // 가득찼을 때.. 디스크 바꿔줄 필요 있음...
-                if (ImgBitrate == 8)
+                    // 가득찼을 때.. 디스크 바꿔줄 필요 있음...
+                    if (ImgBitrate == 8)
                     {
                         if (ImgBandWidth == 1)
                         {
-                        #region CogImage8Grey Version
-                        //int Stride = ImgWidth;
-                        //Stride += (ImgWidth * ImgBandWidth) % 4;
-                        //Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC1, (IntPtr)Systems.SMem.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx));
-                        InspData RcvInspData = new InspData();
-                        RcvInspData.CellID = CellID;
-                        RcvInspData.Area = Area;
-                        RcvInspData.VirID = VirID;
-                        RcvInspData.Face = "UnderSide";
-                        //RcvInspData.InputTime =
+                            #region CogImage8Grey Version
+                            //int Stride = ImgWidth;
+                            //Stride += (ImgWidth * ImgBandWidth) % 4;
+                            //Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC1, (IntPtr)Systems.SMem.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx));
+                            InspData RcvInspData = new InspData();
+                            RcvInspData.CellID = CellID;
+                            RcvInspData.Area = Area;
+                            RcvInspData.VirID = VirID;
+                            RcvInspData.Face = "UnderSide";
+                            //RcvInspData.InputTime =
+                            RcvInspData.FirstPattern = FirstPattern;
+                            //Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx)).Clone() as Bitmap);
 
-                        //Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx)).Clone() as Bitmap);
+                            /////// Byte to CogRoot 23-03-08 검증 필요함 ///////
+                            int PtnCnt = Inspection_Data.PatternCount;
+                            GrabImageInfo[] GrabImages = new GrabImageInfo[PtnCnt];
+                            CogImage8Grey[] PtnArray = new CogImage8Grey[PtnCnt];
+                            //Parallel.For(0, PtnCnt, (ptn_idx) =>
 
-                        /////// Byte to CogRoot 23-03-08 검증 필요함 ///////
-                        int PtnCnt = Inspection_Data.PatternCount;
-                        GrabImageInfo[] GrabImages = new GrabImageInfo[PtnCnt];
-                        CogImage8Grey[] PtnArray = new CogImage8Grey[PtnCnt];
-                        //Parallel.For(0, PtnCnt, (ptn_idx) =>
-                        for (int ptn_idx = 0; ptn_idx < PtnCnt; ++ptn_idx)
-                        {
-                            int PtnbyParticleCnt = Inspection_Data.ImageData[ptn_idx].ParticleImageCount;
-
-                            List<CogImage8Grey> Particles_Image = new List<CogImage8Grey>();
-                            //Parallel.For(0, PtnbyParticleCnt, (ptc_idx) =>
-
-                            double LoopCnt = Math.Ceiling((double)PtnbyParticleCnt / (double)2);
-                            for (int ptc_idx = Inspection_Data.ImageData[ptn_idx].SharedMemStartIdx, Offset = 0, Index = 0; Index < LoopCnt; Offset += PtnCnt, Index++)
+                            string PatternName = Encoding.Default.GetString(Inspection_Data.ImageData[0].PatternName).Trim('\0').Replace("\0", "");
+                            for (int ptn_idx = 0; ptn_idx < PtnCnt; ++ptn_idx)
                             {
-                                CogImage8Root ParticleImgTemp = new CogImage8Root();
-                                ParticleImgTemp.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(ptc_idx+Offset), ImgWidth, null);
+                                int PtnbyParticleCnt = Inspection_Data.ImageData[ptn_idx].ParticleImageCount;
 
-                                CogImage8Grey Image = new CogImage8Grey();
-                                Image.SetRoot(ParticleImgTemp);
-                                Particles_Image.Add(Image);
-      
+                                List<CogImage8Grey> Particles_Image = new List<CogImage8Grey>();
+                                //Parallel.For(0, PtnbyParticleCnt, (ptc_idx) =>
+
+                                double LoopCnt = Math.Ceiling((double)PtnbyParticleCnt / (double)2);
+                                for (int ptc_idx = Inspection_Data.ImageData[ptn_idx].SharedMemStartIdx, Offset = 0, Index = 0; Index < LoopCnt; Offset += PtnCnt, Index++)
+                                {
+                                    CogImage8Root ParticleImgTemp = new CogImage8Root();
+                                    ParticleImgTemp.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(ptc_idx + Offset), ImgWidth, null);
+
+                                    CogImage8Grey Image = new CogImage8Grey();
+                                    Image.SetRoot(ParticleImgTemp);
+                                    Particles_Image.Add(Image);
+
+                                }
+                                //string PatternName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
+
+                                RcvInspData.PatternName = PatternName;
+                                int AllShift = 0;
+
+                                bool Direction = false;
+
+                                switch (Area.ToUpper())
+                                {
+                                    case "PAD":
+                                    case "BOTTOM":
+                                        Direction = false;
+                                        break;
+
+                                    case "RIGHT":
+                                    case "TOP":
+                                        Direction = true;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                if (Direction)
+                                {
+                                    if (ptn_idx == 0)
+                                        AllShift = -1500;
+                                    else
+                                        AllShift = 0;
+
+                                }
+                                else
+                                {
+                                    if (ptn_idx == 0)
+                                        AllShift = 0;
+                                    else
+                                        AllShift = -1500;
+
+                                }
+
+                                Systems.LogWriter.Info($"Start Inspection_GUI_Merge, Area : {Area}, Ptn : {PatternName} ");
+                                PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(-5, 1092, AllShift, Particles_Image.ToArray(), ptn_idx, PtnbyParticleCnt / 2, Area, PatternName, Direction, CellID) : Particles_Image[0];
+                                GrabImages[ptn_idx] = new GrabImageInfo(PtnArray[ptn_idx], PatternName, Area, ptn_idx);
                             }
-                            string PatternName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
-                            int AllShift = 0;
-                            if (ptn_idx == 0)
-                                AllShift = 0;
-                            else
-                                AllShift = 2003;
+                            Systems.LogWriter.Info("Done Inspection_GUI_Merge");
 
-                            bool Direction = false;
 
-                            switch (Area)
+                            foreach (GrabImageInfo item in GrabImages)
                             {
-                                case "PAD":
-                                case "BOTTOM":
-                                    Direction = false;
-                                    break;
 
-                                case "RIGHT":
-                                case "TOP":
-                                    Direction = true;
-                                    break;
-                                default:
-                                    break;
+                                string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", item.PtnNo, item.CamNo, item.AreaName, item.PatternName);
+
+
+                                fileProc.CreateDirectory(FilePath);
+                                if (ImgBitrate == 8)
+                                    ImageName = ImageName + (".bmp");
+                                else
+                                    ImageName = ImageName + (".tiff");
+
+                                string Path = string.Format("{0}{1}", FilePath, ImageName);
+
+                                Task ImageSaveTask = new Task(delegate
+                                {
+                                    ImageSave(Path, item.Image);
+                                });
+                                //ImageSaveTask.Start();
                             }
 
-                            Systems.LogWriter.Info($"Start Inspection_GUI_Merge, Area : {Area}, Ptn : {PatternName} ");
-                            PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(-5, 88, AllShift, Particles_Image.ToArray(), PtnbyParticleCnt/2, Area, PatternName, Direction) : Particles_Image[0];
-                            GrabImages[ptn_idx] = new GrabImageInfo(PtnArray[ptn_idx], PatternName, Area, ptn_idx);
-                        }
-                        Systems.LogWriter.Info("Done Inspection_GUI_Merge");
-
-
-                        foreach (GrabImageInfo item in GrabImages)
-                        {
-
-                            string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", item.PtnNo, item.CamNo, item.AreaName, item.PatternName);
-
-
-                            fileProc.CreateDirectory(FilePath);
-                            if (ImgBitrate == 8)
-                                ImageName = ImageName + (".bmp");
-                            else
-                                ImageName = ImageName + (".tiff");
-
-                            string Path = string.Format("{0}{1}", FilePath, ImageName);
-
-                            Task ImageSaveTask = new Task(delegate
+                            for (int i = 0; i < PtnCnt; ++i)
                             {
-                                ImageSave(Path, item.Image);
-                            });
-                            //ImageSaveTask.Start();
-                        }
-   
-                        for (int i = 0; i < PtnCnt; ++i)
-                        {
-                            ImageData ImgData = new ImageData();
-
-     
-                            ImgData.PatternName = GrabImages[i].PatternName;
- 
-                            ImgData.OriginImage = GrabImages[i].Image;
-
-                            RcvInspData.Datas.Add(ImgData);
+                                ImageData ImgData = new ImageData();
 
 
-                            //Systems.Inspector_.Start_Insp(RcvInspData);
+                                ImgData.PatternName = GrabImages[i].PatternName;
 
+                                ImgData.OriginImage = GrabImages[i].Image;
+
+                                RcvInspData.Datas.Add(ImgData);                     
+
+                              
+                            }
+                            Systems.Inspector_.Start_Insp(RcvInspData);
                             Systems.LogWriter.Info("Done Inspection_GUI_Inspection Start Seq");
+                            #endregion
+                            #region Mat Version
+                            ////int Stride = ImgWidth;
+                            ////Stride += (ImgWidth * ImgBandWidth) % 4;
+
+                            //InspData RcvInspData = new InspData();
+                            //RcvInspData.CellID = CellID;
+                            //RcvInspData.Area = Area;
+                            //RcvInspData.VirID = VirID;
+                            //RcvInspData.Face = "UnderSide";
+                            ////RcvInspData.InputTime =
+
+                            ////Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx)).Clone() as Bitmap);
+
+                            ///////// Byte to CogRoot 23-03-08 검증 필요함 ///////
+                            //int PtnCnt = Inspection_Data.PatternCount;
+                            //GrabImageInfo[] GrabImages = new GrabImageInfo[PtnCnt];
+                            //Mat[] PtnArray = new Mat[PtnCnt];
+                            //Parallel.For(0, PtnCnt, (ptn_idx) =>
+                            ////for (int img_idx = 0; img_idx < PtnCnt; ++img_idx)
+                            //{
+                            //    int PtnbyParticleCnt = Inspection_Data.ImageData[ptn_idx].ParticleImageCount;
+
+                            //    Mat[] Particles_Image = new Mat[PtnbyParticleCnt];
+                            //    Parallel.For(0, PtnbyParticleCnt, (ptc_idx) =>
+                            //    //for (int ptc_idx = 0; ptc_idx < PtnbyParticleCnt; ++ptc_idx)
+                            //    {
+                            //        Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC1, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[ptn_idx].SharedMemStartIdx));
+                            //        Particles_Image[PtnbyParticleCnt] = OrgImage;
+                            //    });
+                            //    string PatternName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
+
+                            //    PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? ImageProc.MergeImages(3,0, Particles_Image, PtnbyParticleCnt) : Particles_Image[0];
+                            //    GrabImages[ptn_idx] = new GrabImageInfo(ImageProc.CvtMatToCogImage(PtnArray[ptn_idx]), PatternName);
+                            //});
+                            ////CogImage8Root[][] cogRoot = new CogImage8Root[PatternCnt][;
+
+                            ////cogRoot.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx), ImgWidth, null);
+
+                            ////var cogImage = new CogImage8Grey();
+                            ////cogImage.SetRoot(cogRoot);
+                            //for (int i = 0; i < PtnCnt; ++i)
+                            //{
+                            //    ImageData ImgData = new ImageData();
+
+                            //    //ImgData.Direction = PtnDirection;
+                            //    ImgData.PatternName = GrabImages[i].PatternName;
+                            //    //ImgData.SharedMemIdx = PtnIdx;
+                            //    ImgData.OriginImage = GrabImages[i].Image;
+
+                            //    RcvInspData.Datas.Add(ImgData);
+                            //    ////////////////////////////////////////////////////
+                            //    //ColorPalette cp = Temp.Palette;
+                            //    //Color[] _entries = cp.Entries;
+
+                            //    //for (int j = 0; j < 256; j++)
+                            //    //{
+                            //    //    Color b = new Color();
+                            //    //    b = Color.FromArgb((byte)j, (byte)j, (byte)j);
+                            //    //    _entries[j] = b;
+                            //    //}
+                            //    //Temp.Palette = cp;
+                            //    string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", PtnCnt, GrabImages[i].CamNo, Area, GrabImages[i].PatternName);
+
+
+                            //    fileProc.CreateDirectory(FilePath);
+                            //    if (ImgBitrate == 8)
+                            //        ImageName = ImageName + (".bmp");
+                            //    else
+                            //        ImageName = ImageName + (".tiff");
+
+                            //    string Path = string.Format("{0}{1}", FilePath, ImageName);
+
+                            //    Systems.Inspector_.Start_Insp(RcvInspData);
+                            //    Task ImageSaveTask = new Task(delegate
+                            //    {
+                            //        ImageSave(Path, GrabImages[i].Image);
+                            //    });
+                            //    ImageSaveTask.Start();
+                            //}
+                            #endregion
                         }
 
-                        #endregion
-                        #region Mat Version
-                        ////int Stride = ImgWidth;
-                        ////Stride += (ImgWidth * ImgBandWidth) % 4;
-
-                        //InspData RcvInspData = new InspData();
-                        //RcvInspData.CellID = CellID;
-                        //RcvInspData.Area = Area;
-                        //RcvInspData.VirID = VirID;
-                        //RcvInspData.Face = "UnderSide";
-                        ////RcvInspData.InputTime =
-
-                        ////Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx)).Clone() as Bitmap);
-
-                        ///////// Byte to CogRoot 23-03-08 검증 필요함 ///////
-                        //int PtnCnt = Inspection_Data.PatternCount;
-                        //GrabImageInfo[] GrabImages = new GrabImageInfo[PtnCnt];
-                        //Mat[] PtnArray = new Mat[PtnCnt];
-                        //Parallel.For(0, PtnCnt, (ptn_idx) =>
-                        ////for (int img_idx = 0; img_idx < PtnCnt; ++img_idx)
-                        //{
-                        //    int PtnbyParticleCnt = Inspection_Data.ImageData[ptn_idx].ParticleImageCount;
-
-                        //    Mat[] Particles_Image = new Mat[PtnbyParticleCnt];
-                        //    Parallel.For(0, PtnbyParticleCnt, (ptc_idx) =>
-                        //    //for (int ptc_idx = 0; ptc_idx < PtnbyParticleCnt; ++ptc_idx)
-                        //    {
-                        //        Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC1, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[ptn_idx].SharedMemStartIdx));
-                        //        Particles_Image[PtnbyParticleCnt] = OrgImage;
-                        //    });
-                        //    string PatternName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
-
-                        //    PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? ImageProc.MergeImages(3,0, Particles_Image, PtnbyParticleCnt) : Particles_Image[0];
-                        //    GrabImages[ptn_idx] = new GrabImageInfo(ImageProc.CvtMatToCogImage(PtnArray[ptn_idx]), PatternName);
-                        //});
-                        ////CogImage8Root[][] cogRoot = new CogImage8Root[PatternCnt][;
-
-                        ////cogRoot.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx), ImgWidth, null);
-
-                        ////var cogImage = new CogImage8Grey();
-                        ////cogImage.SetRoot(cogRoot);
-                        //for (int i = 0; i < PtnCnt; ++i)
-                        //{
-                        //    ImageData ImgData = new ImageData();
-
-                        //    //ImgData.Direction = PtnDirection;
-                        //    ImgData.PatternName = GrabImages[i].PatternName;
-                        //    //ImgData.SharedMemIdx = PtnIdx;
-                        //    ImgData.OriginImage = GrabImages[i].Image;
-
-                        //    RcvInspData.Datas.Add(ImgData);
-                        //    ////////////////////////////////////////////////////
-                        //    //ColorPalette cp = Temp.Palette;
-                        //    //Color[] _entries = cp.Entries;
-
-                        //    //for (int j = 0; j < 256; j++)
-                        //    //{
-                        //    //    Color b = new Color();
-                        //    //    b = Color.FromArgb((byte)j, (byte)j, (byte)j);
-                        //    //    _entries[j] = b;
-                        //    //}
-                        //    //Temp.Palette = cp;
-                        //    string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", PtnCnt, GrabImages[i].CamNo, Area, GrabImages[i].PatternName);
-
-
-                        //    fileProc.CreateDirectory(FilePath);
-                        //    if (ImgBitrate == 8)
-                        //        ImageName = ImageName + (".bmp");
-                        //    else
-                        //        ImageName = ImageName + (".tiff");
-
-                        //    string Path = string.Format("{0}{1}", FilePath, ImageName);
-
-                        //    Systems.Inspector_.Start_Insp(RcvInspData);
-                        //    Task ImageSaveTask = new Task(delegate
-                        //    {
-                        //        ImageSave(Path, GrabImages[i].Image);
-                        //    });
-                        //    ImageSaveTask.Start();
-                        //}
-                        #endregion
-                    }
-
-                    if (ImgBandWidth == 3)
+                        if (ImgBandWidth == 3)
                         {
                             //int Stride = ImgWidth;
                             //Stride += (ImgWidth * ImgBandWidth) % 4;
@@ -567,136 +584,154 @@ namespace CRUX_Renewal.Class
 
                         }
                     }
-                //}
-                //#endregion For chipping 
-                //#region For ALM
-                //// ALM 일 때 파싱
-                //else if (Globals.Insp_Type[0] == 11)
-                //{
-                //    PARAM_INSPECT_START_AOT_CHIPPING_ALM Inspection_Data = new PARAM_INSPECT_START_AOT_CHIPPING_ALM(0);
+                }
 
-                //    Inspection_Data = (PARAM_INSPECT_START_AOT_CHIPPING_ALM)param.GetStruct(typeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), Marshal.SizeOf(Inspection_Data));
-                //    //string tete = Encoding.Default.GetString(Inspection_Data.ID).Trim('\0').Replace("\0", "");
+                #endregion For CHIPPING 
+                #region For ALM
+                // ALM 일 때 파싱
+                else if (Globals.Insp_Type[0] == 6)
+                {
+                    PARAM_INSPECT_START_AOT_CHIPPING_ALM Inspection_Data = new PARAM_INSPECT_START_AOT_CHIPPING_ALM(0);
 
-                //    int ImgWidth = Systems.SharedMemory.GetImgWidth();
-                //    int ImgHeight = Systems.SharedMemory.GetImgHeight();
-                //    int ImgBandWidth = Systems.SharedMemory.GetImgBandWidth();
-                //    int ImgBitrate = Systems.SharedMemory.GetImgBitrate();
+                    Inspection_Data = (PARAM_INSPECT_START_AOT_CHIPPING_ALM)param.GetStruct(typeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), Marshal.SizeOf(Inspection_Data));
 
-                //    string CellID = Encoding.Default.GetString(Inspection_Data.CellID).Trim('\0').Replace("\0", "");
-                //    string VirID = Encoding.Default.GetString(Inspection_Data.VirID).Trim('\0').Replace("\0", "");
-                //    //string Direction = Encoding.Default.GetString(Inspection_Data.Direction).Trim('\0').Replace("\0", "");
-                //    string Area = Encoding.Default.GetString(Inspection_Data.Area).Trim('\0').Replace("\0", "");
-                //    string Drive = @"D:\";//Systems.DiskManagers.CheckDrive();
-                //    //int ImageTotalCount = Inspection_Data.ParticleTotalCount;
-                //    string FilePath = string.Format("{0}{1}{2}\\{3}\\", Drive, "Result\\", CellID, Paths.NET_ORIGIN_PATH[0]);
+                    int ImgWidth = Systems.SharedMemory.GetImgWidth();
+                    int ImgHeight = Systems.SharedMemory.GetImgHeight();
+                    int ImgBandWidth = Systems.SharedMemory.GetImgBandWidth();
+                    int ImgBitrate = Systems.SharedMemory.GetImgBitrate();
 
-                //    // 오토런 검사
-                //    // 공유메모리에서 이미지 불러들여 검사
-                //    //
+                    string CellID = Encoding.Default.GetString(Inspection_Data.CellID).Trim('\0').Replace("\0", "");
+                    string VirID = Encoding.Default.GetString(Inspection_Data.VirID).Trim('\0').Replace("\0", "");
+                    //string Direction = Encoding.Default.GetString(Inspection_Data.Direction).Trim('\0').Replace("\0", "");
+                    string Area = Encoding.Default.GetString(Inspection_Data.Area).Trim('\0').Replace("\0", "");
+                    string Drive = @"D:\";//Systems.DiskManagers.CheckDrive();
+                    //int ImageTotalCount = Inspection_Data.ParticleTotalCount;
+                    string FilePath = string.Format("{0}{1}{2}\\{3}\\", Drive, "Result\\", CellID, Paths.NET_ORIGIN_PATH[0]);
+                    bool FirstPattern = Inspection_Data.FirstPattern;
+                    // 오토런 검사
+                    // 공유메모리에서 이미지 불러들여 검사
+                    //
+                    string[] path = { @"D:\NetWorkDrive_10G\Image\Image_Run\1.bmp", @"D:\NetWorkDrive_10G\Image\Image_Run\3.bmp" };
+                    //Parallel.For(0, 2, (pc_num) =>
+                    //{
+                    //    PC_Img[pc_num] = Cognex_Helper.Load_Image(path[pc_num]);                                
+                    //});
+                    int aa = 0;
+                    do
+                    {
+                        aa = 0;
+                        if (fileProc.FileExists(path[0]))
+                            aa++;
+                        if (fileProc.FileExists(path[1]))
+                            aa++;
+                    } while (aa < 2);
+                    Thread.Sleep(5000);
+                    // 가득찼을 때.. 디스크 바꿔줄 필요 있음...
+                    if (ImgBitrate == 8)
+                    {
+                        if (ImgBandWidth == 1)
+                        {
+                            //int Stride = ImgWidth;
+                            //Stride += (ImgWidth * ImgBandWidth) % 4;
+                            //Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC1, (IntPtr)Systems.SMem.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx));
+                            InspData RcvInspData = new InspData();
+                            RcvInspData.CellID = CellID;
+                            RcvInspData.Area = Area;
+                            RcvInspData.VirID = VirID;
+                            RcvInspData.Face = "UnderSide";
+                            RcvInspData.FirstPattern = FirstPattern;
+                            //RcvInspData.InputTime =
 
-                //    // 가득찼을 때.. 디스크 바꿔줄 필요 있음...
-                //    if (ImgBitrate == 8)
-                //    {
-                //        if (ImgBandWidth == 1)
-                //        {
-                //            //int Stride = ImgWidth;
-                //            //Stride += (ImgWidth * ImgBandWidth) % 4;
-                //            //Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC1, (IntPtr)Systems.SMem.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx));
-                //            InspData RcvInspData = new InspData();
-                //            RcvInspData.CellID = CellID;
-                //            RcvInspData.Area = Area;
-                //            RcvInspData.VirID = VirID;
-                //            RcvInspData.Face = "UnderSide";
-                //            //RcvInspData.InputTime =
+                            //Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx)).Clone() as Bitmap);
 
-                //            //Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx)).Clone() as Bitmap);
+                            /////// Byte to CogRoot 23-03-08 검증 필요함 ///////
+                            int PtnCnt = Inspection_Data.PatternCount;
+                            GrabImageInfo[] GrabImages = new GrabImageInfo[PtnCnt];
 
-                //            /////// Byte to CogRoot 23-03-08 검증 필요함 ///////
-                //            int PtnCnt = Inspection_Data.PatternCount;
-                //            GrabImageInfo[] GrabImages = new GrabImageInfo[PtnCnt];
-                //            CogImage8Grey[] PtnArray = new CogImage8Grey[PtnCnt];
-                //            Parallel.For(0, PtnCnt, (ptn_idx) =>
-                //            //for (int img_idx = 0; img_idx < PtnCnt; ++img_idx)
-                //            {
-                //                int PtnbyParticleCnt = Inspection_Data.ImageData[ptn_idx].ParticleImageCount;
+                            //Parallel.For(0, PtnCnt, (pt3n_idx) =>
+                            for (int ptn_idx = 0; ptn_idx < PtnCnt; ++ptn_idx)
+                            {
+                                CogImage8Root ParticleImgTemp = new CogImage8Root();
+                                ParticleImgTemp.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[ptn_idx].SharedMemStartIdx), ImgWidth, null);
 
-                //                CogImage8Grey[] Particles_Image = new CogImage8Grey[PtnbyParticleCnt];
-                //                Parallel.For(0, PtnbyParticleCnt, (ptc_idx) =>
-                //                //for (int ptc_idx = 0; ptc_idx < PtnbyParticleCnt; ++ptc_idx)
-                //                {
-                //                    CogImage8Root ParticleImgTemp = new CogImage8Root();
-                //                    ParticleImgTemp.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[ptn_idx].SharedMemStartIdx), ImgWidth, null);
+                                CogImage8Grey Image = new CogImage8Grey();
+                                Image.SetRoot(ParticleImgTemp);
 
-                //                    CogImage8Grey Image = new CogImage8Grey();
-                //                    Image.SetRoot(ParticleImgTemp);
-                //                    Particles_Image[PtnbyParticleCnt] = Image;
-                //                });
-                //                string PatternName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
-                                
-                //                PtnArray[ptn_idx] = PtnbyParticleCnt == 1 ? Cognex_Helper.MergeImages(Particles_Image) : Particles_Image[0];
-                //                GrabImages[ptn_idx] = new GrabImageInfo(PtnArray[ptn_idx], PatternName);
-                //            });
-                //            //CogImage8Root[][] cogRoot = new CogImage8Root[PatternCnt][;
+                                string PatternName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
 
-                //            //cogRoot.Initialize(ImgWidth, ImgHeight, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx), ImgWidth, null);
+                                RcvInspData.PatternName = PatternName;
+                             GrabImages[ptn_idx] = new GrabImageInfo(Image, PatternName, Area, ptn_idx);
+                            }//);
+                         
+                            CogImage8Grey[] PC_Img = new CogImage8Grey[2];
+                           // string[] path = { @"D:\NetWorkDrive_10G\Image\Image_Run\1.bmp", @"D:\NetWorkDrive_10G\Image\Image_Run\3.bmp" };
+                            //Parallel.For(0, 2, (pc_num) =>
+                            //{
+                            //    PC_Img[pc_num] = Cognex_Helper.Load_Image(path[pc_num]);                                
+                            //});
+                            ///int aa = 0;
+                           // do
+                           // {
+                           //     aa = 0;
+                          //      if (fileProc.FileExists(path[0]))
+                          //          aa++;
+                          //      if (fileProc.FileExists(path[1]))
+                          //          aa++;
+                          //  } while (aa < 2);
+                            for (int i = 0; i < PtnCnt; ++i)
+                            {
+                                ImageData ImgData = new ImageData();
 
-                //            //var cogImage = new CogImage8Grey();
-                //            //cogImage.SetRoot(cogRoot);
-                //            for (int i = 0; i < PtnCnt; ++i)
-                //            {
-                //                ImageData ImgData = new ImageData();
+                                //ImgData.Direction = PtnDirection;
+                                ImgData.PatternName = GrabImages[i].PatternName;
+                                //ImgData.SharedMemIdx = PtnIdx;
+                                ImgData.OriginImage = GrabImages[i].Image;
 
-                //                //ImgData.Direction = PtnDirection;
-                //                ImgData.PatternName = GrabImages[i].PatternName;
-                //                //ImgData.SharedMemIdx = PtnIdx;
-                //                ImgData.OriginImage = GrabImages[i].Image;
+                                RcvInspData.Datas.Add(ImgData);
+                                ////////////////////////////////////////////////////
+                                //ColorPalette cp = Temp.Palette;
+                                //Color[] _entries = cp.Entries;
 
-                //                RcvInspData.Datas.Add(ImgData);
-                //                ////////////////////////////////////////////////////
-                //                //ColorPalette cp = Temp.Palette;
-                //                //Color[] _entries = cp.Entries;
-
-                //                //for (int j = 0; j < 256; j++)
-                //                //{
-                //                //    Color b = new Color();
-                //                //    b = Color.FromArgb((byte)j, (byte)j, (byte)j);
-                //                //    _entries[j] = b;
-                //                //}
-                //                //Temp.Palette = cp;
-                //                string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", PtnCnt, GrabImages[i].CamNo, Area, GrabImages[i].PatternName);
+                                //for (int j = 0; j < 256; j++)
+                                //{
+                                //    Color b = new Color();
+                                //    b = Color.FromArgb((byte)j, (byte)j, (byte)j);
+                                //    _entries[j] = b;
+                                //}
+                                //Temp.Palette = cp;
+                                string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", PtnCnt, GrabImages[i].CamNo, Area, GrabImages[i].PatternName);
 
 
-                //                fileProc.CreateDirectory(FilePath);
-                //                if (ImgBitrate == 8)
-                //                    ImageName = ImageName + (".bmp");
-                //                else
-                //                    ImageName = ImageName + (".tiff");
+                                fileProc.CreateDirectory(FilePath);
+                                if (ImgBitrate == 8)
+                                    ImageName = ImageName + (".bmp");
+                                else
+                                    ImageName = ImageName + (".tiff");
 
-                //                string Path = string.Format("{0}{1}", FilePath, ImageName);
+                                string Path = string.Format("{0}{1}", FilePath, ImageName);
 
-                //                Systems.Inspector_.Start_Insp(RcvInspData);
-                //                Task ImageSaveTask = new Task(delegate
-                //                {
-                //                    ImageSave(Path, GrabImages[i].Image);
-                //                });
-                //                ImageSaveTask.Start();
-                //            }
-                //        }
+                                Systems.Inspector_.Start_Insp(RcvInspData);
+                                Task ImageSaveTask = new Task(delegate
+                                {
+                                    ImageSave(Path, GrabImages[i].Image);
+                                });
+                                //ImageSaveTask.Start();
+                            }
+                        }
 
-                //        if (ImgBandWidth == 3)
-                //        {
-                //            //int Stride = ImgWidth;
-                //            //Stride += (ImgWidth * ImgBandWidth) % 4;
-                //            //Bitmap OrgImage = new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format24bppRgb, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx));
-                //            //Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC3, (IntPtr)Systems.SMem.GetImgAddress(Inspection_Data.ImageNum));
-                //            //OrgImage.Save(Path);
+                        if (ImgBandWidth == 3)
+                        {
+                            //int Stride = ImgWidth;
+                            //Stride += (ImgWidth * ImgBandWidth) % 4;
+                            //Bitmap OrgImage = new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format24bppRgb, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx));
+                            //Mat OrgImage = new Mat(ImgHeight, ImgWidth, MatType.CV_8UC3, (IntPtr)Systems.SMem.GetImgAddress(Inspection_Data.ImageNum));
+                            //OrgImage.Save(Path);
 
-                //        }
-                //    }
-                //}
-                //#endregion For ALM
-
+                        }
+                    }
+                }
+                #endregion For_ALM
+          
                 return 0;
             }
             catch (Exception ex)
@@ -1168,10 +1203,6 @@ namespace CRUX_Renewal.Class
             }
             return nRet;
         }
-
-        static int m_nManualInspCnt = 0;
-
-
 
         private static int rcvClassify(ref CmdMsgParam param)
         {

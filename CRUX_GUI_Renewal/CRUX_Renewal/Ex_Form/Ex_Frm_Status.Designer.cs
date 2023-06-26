@@ -40,10 +40,10 @@ namespace CRUX_Renewal.Ex_Form
             this.Pb_SEQ_State = new System.Windows.Forms.PictureBox();
             this.Pb_CAM_State = new System.Windows.Forms.PictureBox();
             this.Tlp_Status = new System.Windows.Forms.TableLayoutPanel();
+            this.Pic_AF = new System.Windows.Forms.PictureBox();
+            this.Lb_AF = new System.Windows.Forms.Label();
             this.Lb_DateTime = new System.Windows.Forms.Label();
             this.Timer_Time = new System.Windows.Forms.Timer(this.components);
-            this.Lb_AF = new System.Windows.Forms.Label();
-            this.Pic_AF = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_VSS_State)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_MI_State)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_SEQ_State)).BeginInit();
@@ -198,6 +198,31 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Status.Size = new System.Drawing.Size(953, 44);
             this.Tlp_Status.TabIndex = 0;
             // 
+            // Pic_AF
+            // 
+            this.Pic_AF.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
+            this.Pic_AF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Pic_AF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Pic_AF.Location = new System.Drawing.Point(47, 25);
+            this.Pic_AF.Name = "Pic_AF";
+            this.Pic_AF.Size = new System.Drawing.Size(36, 16);
+            this.Pic_AF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Pic_AF.TabIndex = 14;
+            this.Pic_AF.TabStop = false;
+            // 
+            // Lb_AF
+            // 
+            this.Lb_AF.AutoSize = true;
+            this.Lb_AF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_AF.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_AF.Location = new System.Drawing.Point(0, 22);
+            this.Lb_AF.Margin = new System.Windows.Forms.Padding(0);
+            this.Lb_AF.Name = "Lb_AF";
+            this.Lb_AF.Size = new System.Drawing.Size(44, 22);
+            this.Lb_AF.TabIndex = 13;
+            this.Lb_AF.Text = "AF";
+            this.Lb_AF.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Lb_DateTime
             // 
             this.Lb_DateTime.AutoSize = true;
@@ -219,31 +244,6 @@ namespace CRUX_Renewal.Ex_Form
             // 
             this.Timer_Time.Interval = 500;
             this.Timer_Time.Tick += new System.EventHandler(this.Timer_Time_Tick);
-            // 
-            // Lb_AF
-            // 
-            this.Lb_AF.AutoSize = true;
-            this.Lb_AF.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_AF.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_AF.Location = new System.Drawing.Point(0, 22);
-            this.Lb_AF.Margin = new System.Windows.Forms.Padding(0);
-            this.Lb_AF.Name = "Lb_AF";
-            this.Lb_AF.Size = new System.Drawing.Size(44, 22);
-            this.Lb_AF.TabIndex = 13;
-            this.Lb_AF.Text = "AF";
-            this.Lb_AF.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Pic_AF
-            // 
-            this.Pic_AF.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
-            this.Pic_AF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Pic_AF.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pic_AF.Location = new System.Drawing.Point(47, 25);
-            this.Pic_AF.Name = "Pic_AF";
-            this.Pic_AF.Size = new System.Drawing.Size(36, 16);
-            this.Pic_AF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Pic_AF.TabIndex = 14;
-            this.Pic_AF.TabStop = false;
             // 
             // Ex_Frm_Status
             // 

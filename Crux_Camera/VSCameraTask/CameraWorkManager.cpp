@@ -1140,27 +1140,27 @@ int VSMessageProcessor::VS_SetCameraConditions( byte* pParam, ULONG& nPrmSize, b
 {
 	int nRet = APP_OK;
 	int nStepNo = 0;
-	ST_CAMERA_COND stCurCameraCond;
+	ST_CAM_COND_AOT stCurCameraCond;
 	double dExpTime = 0.0;
 	UINT nAnalogGain = 0, nSeqMode = 0;
 
 	byte* tempParam	= pParam;
 
-	stCurCameraCond = *(ST_CAMERA_COND *)tempParam;
+	stCurCameraCond = *(ST_CAM_COND_AOT *)tempParam;
 
 	// Sequence In LOG
 	m_fnPrintLog(_T("CAMLOG -- Seq9030_Set_Camera_Conditions Sequence Start. dExpTime=%lf, nAnalogGain=%lf, nSeqMode=%d \n"),
-						stCurCameraCond.dExpTime, stCurCameraCond.dAnalogGain, stCurCameraCond.nSeqMode);
+						stCurCameraCond.Expose, stCurCameraCond.Gain, stCurCameraCond.PS);
 
 	EXCEPTION_TRY
 		theApp.m_fnWriteTactLog(_T("\t\tExp. Start"));
 
-	if (!theApp.m_pCamera->SetExposureTime(stCurCameraCond.dExpTime))	
+	if (!theApp.m_pCamera->SetExposureTime(stCurCameraCond.Expose))	
 		return APP_NG;	
-	if (!theApp.m_pCamera->SetAnalogGain(stCurCameraCond.dAnalogGain))
+	if (!theApp.m_pCamera->SetAnalogGain(stCurCameraCond.Gain))
 		return APP_NG;	
-	if (!theApp.m_pCamera->SetSequenceMode(stCurCameraCond.nSeqMode))	
-		return APP_NG;
+	//if (!theApp.m_pCamera->SetSequenceMode(stCurCameraCond.nSeqMode))	
+	//	return APP_NG;
 	//if (!theApp.m_pCamera->SetStitchMode(stCurCameraCond.nCamTab))		// 180809 YSS
 	//	return APP_NG;
 	EXCEPTION_CATCH
@@ -1177,7 +1177,47 @@ int VSMessageProcessor::VS_SetCameraConditions( byte* pParam, ULONG& nPrmSize, b
 
 	return nRet;
 }
+int VSMessageProcessor::VS_SetCameraConditions_AOT(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/)
+{
+	int nRet = APP_OK;
+	int nStepNo = 0;
+	ST_CAM_COND_AOT stCurCameraCond;
+	double dExpTime = 0.0;
+	UINT nAnalogGain = 0, nSeqMode = 0;
 
+	byte* tempParam = pParam;
+
+	stCurCameraCond = *(ST_CAM_COND_AOT *)tempParam;
+
+	// Sequence In LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq9030_Set_Camera_Conditions Sequence Start. dExpTime=%lf, nAnalogGain=%lf \n"),
+		stCurCameraCond.Expose, stCurCameraCond.Gain);
+
+	EXCEPTION_TRY
+		theApp.m_fnWriteTactLog(_T("\t\tExp. Start"));
+
+	if (!theApp.m_pCamera->SetExposureTime(stCurCameraCond.Expose))
+		return APP_NG;
+	if (!theApp.m_pCamera->SetAnalogGain(stCurCameraCond.Gain))
+		return APP_NG;
+	//if (!theApp.m_pCamera->SetSequenceMode(stCurCameraCond.nSeqMode))
+	//	return APP_NG;
+	//if (!theApp.m_pCamera->SetStitchMode(stCurCameraCond.nCamTab))		// 180809 YSS
+	//	return APP_NG;
+	EXCEPTION_CATCH
+
+		if (nRet != APP_OK)
+		{
+			// Error Log
+			m_fnPrintLog(_T("CAMLOG -- Seq9030_Set_Camera_Conditions Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			return nRet;
+		}
+
+	// Sequence Out LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq9030_Set_Camera_Conditions Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+
+	return nRet;
+}
 int VSMessageProcessor::VS_SetExposureTime( byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/ )
 {
 	int nRet = APP_OK;

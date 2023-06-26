@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace CRUX_Renewal.Main_Form
 {
-    public partial class Main_Frm_Auto : Form
+    public partial class Main_Frm_Auto_For_CHIPPING : Main_Frm_Auto
     {
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
         public Recipes Shared_Recipe;
-        public Main_Frm_Auto()
+        public Main_Frm_Auto_For_CHIPPING ()
         {
             InitializeComponent();
             TopLevel = false;
@@ -32,6 +32,11 @@ namespace CRUX_Renewal.Main_Form
         public void SetRecipe(ref Recipes recipe)
         {
             Shared_Recipe = recipe;
+        }
+
+        private void Main_Frm_Auto_For_CHIPPING_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

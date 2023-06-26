@@ -3,6 +3,7 @@ using CRUX_Renewal.User_Controls;
 using CRUX_Renewal.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using static System.Windows.Forms.ListViewItem;
@@ -33,7 +34,77 @@ namespace CRUX_Renewal.Ex_Form
             MainView.Show();
             InitGuideLine();
 
-            //RecipeManager
+            InitDataTables();
+
+            
+        }
+
+        public void InitDataTables()
+        {
+            //////////// Area Dgv 초기화
+            DataTable Dt_Area = new DataTable();
+            Dt_Area.Columns.Add("Use", typeof(bool));
+            Dt_Area.Columns.Add("Name");
+
+            Dgv_Area.DataSource = Dt_Area;
+
+            Dgv_Area.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+            {
+                Dgv_Area.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+            }
+
+            //////////// 패턴 Dgv 초기화
+            DataTable Dt_Pattern = new DataTable();
+            Dt_Pattern.Columns.Add("Use", typeof(bool));
+            Dt_Pattern.Columns.Add("Name");
+
+            Dgv_Pattern.DataSource = Dt_Pattern;
+
+            for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+            {
+                Dgv_Pattern.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+            }
+            Dgv_Pattern.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            //////////// 카메라 컨디션 Dgv 초기화
+            DataTable Dt_GrabCond = new DataTable();
+            Dt_GrabCond.Columns.Add("Use", typeof(bool));
+            Dt_GrabCond.Columns.Add("Name");
+            Dt_GrabCond.Columns.Add("Exp");
+            Dt_GrabCond.Columns.Add("Gain");
+
+            Dgv_GrabCond.DataSource = Dt_GrabCond;
+
+            for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+            {
+                Dgv_GrabCond.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+            }
+            Dgv_GrabCond.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            //////////// 조명 Dgv 초기화
+            DataTable Dt_LightCond = new DataTable();
+            Dt_LightCond.Columns.Add("Use", typeof(bool));
+            Dt_LightCond.Columns.Add("Name");
+            for(int i = 0; i < Consts.MAX_LIGHT_CHANNEL_COUNT; ++i)
+            {
+                Dt_LightCond.Columns.Add($"Ch_{i}");
+            }
+            Dgv_LightCond.DataSource = Dt_LightCond;
+
+            for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+            {
+                if (i == 0)
+                    Dgv_LightCond.Columns[0].Width = 50;
+                else if (i == 1)
+                    Dgv_LightCond.Columns[1].Width = 50;
+                else
+                    Dgv_LightCond.Columns[i].Width = 50;
+            }
+            for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+            {
+                Dgv_LightCond.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+            }
         }
         private void InitGuideLine()
         {
@@ -67,6 +138,21 @@ namespace CRUX_Renewal.Ex_Form
         private void Btn_AllOn_Click(object sender, EventArgs e)
         {
     
+        }
+
+        private void Ex_Frm_Optic_Area_Content_Shown(object sender, EventArgs e)
+        {
+            DataTable AreasData = Dgv_Area.DataSource as DataTable;
+            Dgv_Area.DataSource = RecipeManager.CvtDtAreaInfo(AreasData, Shared_Recipe.ViewRecipe.Area_Data);
+
+            //DataTable PatternData = Dgv_Pattern.DataSource as DataTable;
+            //Dgv_Pattern.DataSource = RecipeManager.CvtDtPatternInfo(PatternData, Shared_Recipe.ViewRecipe.Area_Data.Area);
+
+            //DataTable GrabCondData = Dgv_GrabCond.DataSource as DataTable;
+            //Dgv_GrabCond.DataSource = RecipeManager.CvtDtGrabCond(GrabCondData, Shared_Recipe.ViewRecipe.Area_Data);
+
+            //DataTable LightCodData = Dgv_LightCond.DataSource as DataTable;
+            //Dgv_LightCond.DataSource = RecipeManager.CvtDtLightInfo(LightCodData, Shared_Recipe.ViewRecipe.Area_Data);
         }
     }
 }
