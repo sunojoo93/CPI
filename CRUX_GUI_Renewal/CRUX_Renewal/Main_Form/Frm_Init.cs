@@ -279,7 +279,7 @@ namespace CRUX_Renewal.Main_Form
                                 {
                                     if (SimulMode.ToString() == "FALSE")
                                     {
-                                        //Program.StartLight("NeepsLightTask", 1, "NeepsLight.ini");
+                                        Program.StartLight("IPulsLightTask", 1, "IPulsLight");
                                     }
                                     else
                                     {
@@ -358,6 +358,7 @@ namespace CRUX_Renewal.Main_Form
                 Program.KillAllTask();
                 Application.Exit();
             }
+
         }
 
         public void TempBin()

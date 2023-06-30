@@ -300,7 +300,7 @@ struct ST_PATTERN_INFO_AOT
 	int CamCondCount;
 	int LightCondCount;
 	ST_CAM_COND_AOT Cam_Condition[MAX_CAMERA_COUNT];
-	STRU_LIGHT_INFO Light_Condition[MAX_LIGHT_COUNT];
+	ST_LIGHT_COND_AOT Light_Condition[MAX_LIGHT_COUNT];
 	ST_AUTOFOCUS_AOT AutoFocus_Condition[MAX_AUTOFOCUS_COUNT];
 	ST_PATTERN_INFO_AOT()
 	{
@@ -310,7 +310,7 @@ struct ST_PATTERN_INFO_AOT
 		CamCondCount = 0;
 		LightCondCount = 0;
 		memset(Cam_Condition, 0, sizeof(ST_CAM_COND_AOT) * MAX_CAMERA_COUNT);
-		memset(Light_Condition, 0, sizeof(STRU_LIGHT_INFO) * MAX_LIGHT_COUNT);
+		memset(Light_Condition, 0, sizeof(ST_LIGHT_COND_AOT) * MAX_LIGHT_COUNT);
 		memset(AutoFocus_Condition, 0, sizeof(ST_AUTOFOCUS_AOT) * MAX_AUTOFOCUS_COUNT);
 	}
 };
@@ -328,6 +328,7 @@ struct ST_GRAB_AREA_INFO_AOT
 struct ST_RECIPE_INFO_AOT
 {
 	TCHAR RecipeName[100];
+	TCHAR RecipePath[100];
 	int GrabCount;
 	ST_GRAB_AREA_INFO_AOT GrabArea[MAX_AREA_COUNT];
 	ST_RECIPE_INFO_AOT()

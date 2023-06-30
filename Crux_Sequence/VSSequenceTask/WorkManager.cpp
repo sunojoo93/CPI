@@ -414,6 +414,7 @@ int	WorkManager::Seq_ManualChangeModel(byte* pParam, ULONG& nPrmSize, bool bAlwa
 	ST_RECIPE_INFO_AOT* pStModelInfo = new ST_RECIPE_INFO_AOT;
 	int nsize = sizeof(pStModelInfo);
 	pStModelInfo = (ST_RECIPE_INFO_AOT *)pReceiveParam;
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	int nRet = APP_OK;
 	bool isRunSequence = true;
@@ -6806,29 +6807,38 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 	CString					strDirection, strPosition;
 	bool FirstPattern = false;
 	int ProcessCnt = 0;
+	CString RecipePath;
+	RecipePath.Format(_T("%s\\GrabData.ini"), theApp.m_Config.GetRecipeFullPath());
+
 	if (CellPos == 0)
 	{
-		strPosition.Format(_T("Pad"));
-		ProcessCnt = 20;
+		strPosition.Format(_T("Pad"));		
+		ProcessCnt = GetPrivateProfileInt(_T("Offset"), strPosition.MakeUpper(), 20, RecipePath);
 		FirstPattern = true;
 	}
 	else if (CellPos == 1)
 	{
 		strPosition.Format(_T("Right"));
-		ProcessCnt = 20;
+		ProcessCnt = GetPrivateProfileInt(_T("Offset"), strPosition.MakeUpper(), 20, RecipePath);
 		FirstPattern = false;
 	}
 	else if (CellPos == 2)
 	{
 		strPosition.Format(_T("Bottom"));
-		ProcessCnt = 22;
+		ProcessCnt = GetPrivateProfileInt(_T("Offset"), strPosition.MakeUpper(), 22, RecipePath);
 		FirstPattern = false;
 	}
 	else if (CellPos == 3)
 	{
 		strPosition.Format(_T("TOP"));
-		ProcessCnt = 22;
+		ProcessCnt = GetPrivateProfileInt(_T("Offset"), strPosition.MakeUpper(), 22, RecipePath);
 		FirstPattern = false;
+	}
+	else if(CellPos == 4)
+	{
+		strPosition.Format(_T("Pad"));
+		ProcessCnt = GetPrivateProfileInt(_T("Offset"), strPosition.MakeUpper(), 20, RecipePath);
+		FirstPattern = true;
 	}
 	else
 	{
@@ -6905,13 +6915,13 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 		case 1:
 			m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light Control Start. Pattern : %s"), nStepNo, "123");		// 조명 On 전에 로그 추가		180511 YSS
 
-			//stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 1);
+			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
 
-			nRet += /*CmdEditSend(SEND_LIGHT_ON, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK + 1, (byte *)&stCurLightInfo, CMD_TYPE_RES)*/0;
+			//nRet += CmdEditSend(SEND_LIGHT_SEQUENCE_IDX_INIT, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_RES);
 
 			if (nRet == APP_OK)
 			{
-				m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON End. Pattern : %s"), nStepNo, "123"/*theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt + nNextStepInterval)*/);
+				m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON End. Pattern : %s"), nStepNo, PatternName/*theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt + nNextStepInterval)*/);
 			}
 			else
 			{
@@ -7175,8 +7185,11 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 
 	int ProcessCnt = 0;
 
+	CString RecipePath;
+	RecipePath.Format(_T("%s\\GrabData.ini"), theApp.m_Config.GetRecipeFullPath());
+
 	strPosition.Format(_T("ALL"));
-	ProcessCnt = 45;
+	ProcessCnt = GetPrivateProfileInt(_T("Offset"), strPosition, 45, RecipePath);
 
 	memcpy(strAreaTemp, strPosition, strPosition.GetLength() * 2);
 	TCHAR* Temp1 = (LPTSTR)(LPCTSTR)strPosition;
@@ -7195,7 +7208,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 	// 2021.12.15~ MDJ Modify Camera Expose Time
 	double dExposeTime = 0.0;
 
-	STRU_LIGHT_INFO stCurLightInfo;
+	ST_LIGHT_COND_AOT stCurLightInfo;
 
 	ST_CAM_COND_AOT stCurCamCond;
 

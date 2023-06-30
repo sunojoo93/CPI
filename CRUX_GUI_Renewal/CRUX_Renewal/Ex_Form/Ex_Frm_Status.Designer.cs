@@ -40,16 +40,19 @@ namespace CRUX_Renewal.Ex_Form
             this.Pb_SEQ_State = new System.Windows.Forms.PictureBox();
             this.Pb_CAM_State = new System.Windows.Forms.PictureBox();
             this.Tlp_Status = new System.Windows.Forms.TableLayoutPanel();
-            this.Pic_AF = new System.Windows.Forms.PictureBox();
+            this.Pb_AF = new System.Windows.Forms.PictureBox();
             this.Lb_AF = new System.Windows.Forms.Label();
             this.Lb_DateTime = new System.Windows.Forms.Label();
             this.Timer_Time = new System.Windows.Forms.Timer(this.components);
+            this.Lb_Light = new System.Windows.Forms.Label();
+            this.Pb_Light = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_VSS_State)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_MI_State)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_SEQ_State)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_CAM_State)).BeginInit();
             this.Tlp_Status.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Pic_AF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Pb_AF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Pb_Light)).BeginInit();
             this.SuspendLayout();
             // 
             // Pb_VSS_State
@@ -177,8 +180,6 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Status.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.Tlp_Status.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.Tlp_Status.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.Tlp_Status.Controls.Add(this.Pic_AF, 1, 1);
-            this.Tlp_Status.Controls.Add(this.Lb_AF, 0, 1);
             this.Tlp_Status.Controls.Add(this.Pb_CAM_State, 7, 0);
             this.Tlp_Status.Controls.Add(this.Lb_CAM, 6, 0);
             this.Tlp_Status.Controls.Add(this.Pb_SEQ_State, 5, 0);
@@ -188,6 +189,10 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Status.Controls.Add(this.Pb_VSS_State, 1, 0);
             this.Tlp_Status.Controls.Add(this.Lb_VSS, 0, 0);
             this.Tlp_Status.Controls.Add(this.Lb_DateTime, 8, 0);
+            this.Tlp_Status.Controls.Add(this.Pb_AF, 7, 1);
+            this.Tlp_Status.Controls.Add(this.Lb_AF, 6, 1);
+            this.Tlp_Status.Controls.Add(this.Lb_Light, 0, 1);
+            this.Tlp_Status.Controls.Add(this.Pb_Light, 1, 1);
             this.Tlp_Status.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Status.Location = new System.Drawing.Point(0, 0);
             this.Tlp_Status.Name = "Tlp_Status";
@@ -198,24 +203,24 @@ namespace CRUX_Renewal.Ex_Form
             this.Tlp_Status.Size = new System.Drawing.Size(953, 44);
             this.Tlp_Status.TabIndex = 0;
             // 
-            // Pic_AF
+            // Pb_AF
             // 
-            this.Pic_AF.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
-            this.Pic_AF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Pic_AF.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pic_AF.Location = new System.Drawing.Point(47, 25);
-            this.Pic_AF.Name = "Pic_AF";
-            this.Pic_AF.Size = new System.Drawing.Size(36, 16);
-            this.Pic_AF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Pic_AF.TabIndex = 14;
-            this.Pic_AF.TabStop = false;
+            this.Pb_AF.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
+            this.Pb_AF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Pb_AF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Pb_AF.Location = new System.Drawing.Point(305, 25);
+            this.Pb_AF.Name = "Pb_AF";
+            this.Pb_AF.Size = new System.Drawing.Size(36, 16);
+            this.Pb_AF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Pb_AF.TabIndex = 14;
+            this.Pb_AF.TabStop = false;
             // 
             // Lb_AF
             // 
             this.Lb_AF.AutoSize = true;
             this.Lb_AF.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_AF.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_AF.Location = new System.Drawing.Point(0, 22);
+            this.Lb_AF.Location = new System.Drawing.Point(258, 22);
             this.Lb_AF.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_AF.Name = "Lb_AF";
             this.Lb_AF.Size = new System.Drawing.Size(44, 22);
@@ -245,6 +250,29 @@ namespace CRUX_Renewal.Ex_Form
             this.Timer_Time.Interval = 500;
             this.Timer_Time.Tick += new System.EventHandler(this.Timer_Time_Tick);
             // 
+            // Lb_Light
+            // 
+            this.Lb_Light.AutoSize = true;
+            this.Lb_Light.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_Light.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Light.Location = new System.Drawing.Point(0, 22);
+            this.Lb_Light.Margin = new System.Windows.Forms.Padding(0);
+            this.Lb_Light.Name = "Lb_Light";
+            this.Lb_Light.Size = new System.Drawing.Size(44, 22);
+            this.Lb_Light.TabIndex = 15;
+            this.Lb_Light.Text = "LGT";
+            this.Lb_Light.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Pb_Light
+            // 
+            this.Pb_Light.BackgroundImage = global::CRUX_Renewal.Properties.Resources.Unstable;
+            this.Pb_Light.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Pb_Light.Location = new System.Drawing.Point(47, 25);
+            this.Pb_Light.Name = "Pb_Light";
+            this.Pb_Light.Size = new System.Drawing.Size(36, 16);
+            this.Pb_Light.TabIndex = 16;
+            this.Pb_Light.TabStop = false;
+            // 
             // Ex_Frm_Status
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -264,7 +292,8 @@ namespace CRUX_Renewal.Ex_Form
             ((System.ComponentModel.ISupportInitialize)(this.Pb_CAM_State)).EndInit();
             this.Tlp_Status.ResumeLayout(false);
             this.Tlp_Status.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Pic_AF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Pb_AF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Pb_Light)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -282,6 +311,8 @@ namespace CRUX_Renewal.Ex_Form
         private System.Windows.Forms.Label Lb_DateTime;
         private System.Windows.Forms.Timer Timer_Time;
         private System.Windows.Forms.Label Lb_AF;
-        private System.Windows.Forms.PictureBox Pic_AF;
+        private System.Windows.Forms.PictureBox Pb_AF;
+        private System.Windows.Forms.Label Lb_Light;
+        private System.Windows.Forms.PictureBox Pb_Light;
     }
 }

@@ -434,7 +434,7 @@ namespace CRUX_Renewal.Class
                                 if (Direction)
                                 {
                                     if (ptn_idx == 0)
-                                        AllShift = -1500;
+                                        AllShift = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
                                     else
                                         AllShift = 0;
 
@@ -444,13 +444,13 @@ namespace CRUX_Renewal.Class
                                     if (ptn_idx == 0)
                                         AllShift = 0;
                                     else
-                                        AllShift = -1500;
+                                        AllShift = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
 
                                 }
-
-                                Systems.LogWriter.Info($"Start Inspection_GUI_Merge, Area : {Area}, Ptn : {PatternName} ");
-                                PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(-5, 1092, AllShift, Particles_Image.ToArray(), ptn_idx, PtnbyParticleCnt / 2, Area, PatternName, Direction, CellID) : Particles_Image[0];
-                                GrabImages[ptn_idx] = new GrabImageInfo(PtnArray[ptn_idx], PatternName, Area, ptn_idx);
+                                string ParticldPtnName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
+                                Systems.LogWriter.Info($"Start Inspection_GUI_Merge, Area : {Area}, Ptn : {ParticldPtnName} ");
+                                PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["XShift"].ToInt(), Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["YShift"].ToInt(), AllShift, Particles_Image.ToArray(), ptn_idx, PtnbyParticleCnt / 2, Area, ParticldPtnName, Direction, CellID) : Particles_Image[0];
+                                GrabImages[ptn_idx] = new GrabImageInfo(PtnArray[ptn_idx], ParticldPtnName, Area, ptn_idx);
                             }
                             Systems.LogWriter.Info("Done Inspection_GUI_Merge");
 

@@ -96,7 +96,7 @@ namespace CRUX_Renewal
     {
         // 5 : CHIPPING, 6 : ALM
         public static int[] SiteType;        
-        public static int MaxInspectorCount = 5;
+        public static int MaxInspectorCount = 2;
         public static Size ImageRectSize = new Size(200, 200);
         public static int LoadImageColCnt = 3;
         public static int SelPcNo = 0;
@@ -121,7 +121,7 @@ namespace CRUX_Renewal
         
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
-        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "GrabOpticsInfo.xml" };
+        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "ImageMergeOffset.ini" };
         public static List<string> SelectRecipe = new List<string>();
 
        
@@ -482,6 +482,12 @@ namespace CRUX_Renewal
             [StringValue("Btn_SIMCAM_State")]
             [Description("SimulationCameraTask")]
             Sim_Cam = 5,
+            [StringValue("Btn_AF_State")]
+            [Description("AFTS_SimplifiedExample_MFC")]
+            AF = 6,
+            [StringValue("Btn_Light_State")]
+            [Description("IPulsLightTask")]
+            Light = 7,
             MAX
         };
         public enum GuideLine

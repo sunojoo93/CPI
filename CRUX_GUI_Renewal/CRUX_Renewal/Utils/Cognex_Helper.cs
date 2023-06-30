@@ -482,11 +482,33 @@ namespace CRUX_Renewal.Utils
 
                 }
 
-                    
-                   
-                
+               
+                //////////////////좌표리셋 복사
+                CogImage8Grey Temp_Copy_CogImg = new CogImage8Grey(Result_CogImg.Width, Result_CogImg.Height);
 
-                return Result_CogImg;
+                CogCopyRegionTool CopyTool = new CogCopyRegionTool();
+                CogRectangle Rect = new CogRectangle();
+
+                Rect.X = 0;
+                Rect.Y = 0;
+                Rect.Width = Result_CogImg.Width;
+                Rect.Height = Result_CogImg.Height;
+
+                CopyTool.InputImage = Result_CogImg;
+                CopyTool.DestinationImage = Temp_Copy_CogImg;
+                CopyTool.Region = Rect;
+
+                CopyTool.Run();
+
+                CogImage8Grey Last_Image = (CogImage8Grey)CopyTool.OutputImage;
+                //////////////////     
+
+                //////////////////
+
+
+
+
+                return Last_Image;
             }
             else
                 return null;

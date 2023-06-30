@@ -138,7 +138,7 @@ namespace CRUX_Renewal
             if (procs.Length == 0)
             {
                 //bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
-                ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" {task_num} {ini_name}");
+                ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" {task_num} {ini_name}.ini");
                 Psi.WindowStyle = ProcessWindowStyle.Minimized;
                 var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
                 ProcessList.Add(temp);

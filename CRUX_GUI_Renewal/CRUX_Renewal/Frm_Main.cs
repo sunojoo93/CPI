@@ -65,6 +65,7 @@ namespace CRUX_Renewal
 
                 CurDisplayForm = "Upper";
                 Cmb_SelPC.SelectedIndex = 0;
+                Init.Dispose();
             }
             else
             {
@@ -144,6 +145,7 @@ namespace CRUX_Renewal
             catch(Exception ex)
             {
                 Systems.LogWriter.Error($"Fail Close to Program, Exceiption Message : {ex.Message}");
+                Program.ProgramExit();
             }
         }
 

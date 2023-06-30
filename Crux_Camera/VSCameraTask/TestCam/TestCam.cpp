@@ -269,16 +269,16 @@ void CTestCam::StartGrab(CString PanelID, CString VirID, CString Position, int n
 
 	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
 	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("On"));
-	MIL_BOOL SequencerFeatureEnable_TRUE = M_TRUE;
-	MIL_BOOL SequencerFeatureEnable_FALSE = M_FALSE;
-	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable_TRUE);
+	//MIL_BOOL SequencerFeatureEnable_TRUE = M_TRUE;
+	//MIL_BOOL SequencerFeatureEnable_FALSE = M_FALSE;
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable_TRUE);
 
 	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetSelector"), M_TYPE_STRING, MIL_TEXT("1"));
 
 	MIL_INT64 SequencerSetNext = 0;
 	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
 
-	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable_FALSE);
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable_FALSE);
 	//MdigControlFeature(m_milDigitizer, M_FEATURE_EXECUTE, MIL_TEXT("SequencerSetSave"), M_DEFAULT, M_NULL);
 
 	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);

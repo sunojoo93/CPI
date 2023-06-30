@@ -37,6 +37,7 @@
 
 // Light
 #define SEND_LIGHT_ON								80, 20
+#define SEND_LIGHT_SEQUENCE_IDX_INIT				80, 41
 #define SEND_LIGHT_OFF								80, 30
 
 // PG

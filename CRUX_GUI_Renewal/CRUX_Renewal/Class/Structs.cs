@@ -100,21 +100,21 @@ namespace CRUX_Renewal.Class
     /// </summary>
     public struct ALIVE_STATE
     {
-        public bool camrea;
-        public bool light;
-        public bool mainpc;
-        public bool inspect;
-        public bool sequence;
-        public bool pgcontrol;
+        public bool Camera;
+        public bool Light;
+        public bool MainPc;
+        public bool Inspector;
+        public bool Sequence;
+        public bool PG;
         public bool AF;
         public void init()
         {
-            camrea = false;
-            light = false;
-            mainpc = false;
-            inspect = false;
-            sequence = false;
-            pgcontrol = false;
+            Camera = false;
+            Light = false;
+            MainPc = false;
+            Inspector = false;
+            Sequence = false;
+            PG = false;
             AF = false;
         }
     }
@@ -554,12 +554,15 @@ namespace CRUX_Renewal.Class
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
         public byte[] RecipeName;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 200)]
+        public byte[] RecipePath;
         public int GrabCount;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_AREA_COUNT)]
         public ST_GRAB_AREA_INFO[] GrabArea;
         public ST_RECIPE_INFO(int num)
         {
             RecipeName = new byte[200];
+            RecipePath = new byte[200];
             GrabArea = new ST_GRAB_AREA_INFO[Consts.MAX_AREA_COUNT];
             GrabCount = 0;
         }
@@ -683,12 +686,14 @@ namespace CRUX_Renewal.Class
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_LIGHT_COND
     {
+        public bool Use;
         public uint Port_No;
         public uint Controller_No;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_COUNT)]
         public STRU_SERIAL_INFO_AOT[] Modules;
         public ST_LIGHT_COND(int num)
         {
+            Use = true;
             Port_No = 0;
             Controller_No = 0;
             Modules = new STRU_SERIAL_INFO_AOT[Consts.MAX_LIGHT_COUNT];

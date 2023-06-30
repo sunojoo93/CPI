@@ -65,7 +65,9 @@ public:
 	{	
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Grab;
 			}
@@ -76,7 +78,9 @@ public:
 	{	
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Vacuum;
 			}
@@ -115,7 +119,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PtnCount;
 			}
@@ -125,7 +131,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].PatternName;
 			}
@@ -136,7 +144,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].AutoFocus_Condition[nPos];
 			}
@@ -145,6 +155,18 @@ public:
 	TCHAR*		GetCurAreaName(int AreaNum)
 	{
 		return m_stModelInfo.GrabArea[AreaNum].Name;
+	};
+	CString		GetRecipeFullPath()
+	{
+		CString FullPath;
+		CString RecipePath;
+		CString RecipeName;
+
+		RecipePath.Format(_T("%s"), m_stModelInfo.RecipePath);
+		RecipeName.Format(_T("%s"), m_stModelInfo.RecipeName);
+
+		FullPath.Format(_T("%s%s"), RecipePath, RecipeName);
+		return FullPath;
 	};
 
 	/////////////////////// Light ฐüทร ////////////////////////
@@ -160,11 +182,13 @@ public:
 	//	return FALSE;
 	//};
 
-	STRU_LIGHT_INFO		GetLightInfo(CString AreaName, int nGrabCnt, int nLightNum)
+	ST_LIGHT_COND_AOT		GetLightInfo(CString AreaName, int nGrabCnt, int nLightNum)
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
 			}
@@ -184,7 +208,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].LightCondCount;
 			}
@@ -195,7 +221,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].Use;
 			}
@@ -206,7 +234,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt];
 			}
@@ -216,7 +246,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].CamCondCount;
 			}
@@ -226,7 +258,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Grab;
 			}
@@ -236,7 +270,9 @@ public:
 	{	
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].PS;
 			}
@@ -246,7 +282,9 @@ public:
 	{ 
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt].Expose;
 			}
@@ -271,7 +309,9 @@ public:
 	{
 		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
 		{
-			if (m_stModelInfo.GrabArea[i].Name == AreaName)
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Cam_Condition[nCamCnt];
 			}

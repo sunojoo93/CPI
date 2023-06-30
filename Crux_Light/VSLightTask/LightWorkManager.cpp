@@ -284,6 +284,7 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 	SEQUENCE_TABLE (	80,		31	,	VS_SingleTurnOff				, false	,			false					,	&m_csSequenceLock_2	)	
 
 	SEQUENCE_TABLE (	80,		40	,	VS_CheckLight					, false	,			false					,	&m_csSequenceLock_2	)	
+	SEQUENCE_TABLE (	80,		41	,	VS_SequenceIndexReset			, false	,			false					,	&m_csSequenceLock_3	)
 
 	if( m_SeqenceCount <= 0 )
 	{
@@ -354,7 +355,7 @@ int VSMessageProcessor::VS_InitLight( byte* pParam, ULONG& nPrmSize, bool bAlway
 	strInitFilePath.TrimRight();
 
 	EXCEPTION_TRY
-		theApp.m_pLight->InitializeLight(strInitFilePath);
+		theApp.m_pLight->InitializeLight(strInitFilePath);	
 	EXCEPTION_CATCH
 
 		if ( nRet != APP_OK)
@@ -492,7 +493,57 @@ int VSMessageProcessor::VS_SingleTurnOff( byte* pParam, ULONG& nPrmSize, bool bA
 
 	return nRet;
 }
+int VSMessageProcessor::VS_GetTriggerCount(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/)
+{
+	int nRet = APP_OK;
+	int nStepNo = 0;
 
+	byte* tempParam = pParam;
+	int ModuleNum = *(int*)tempParam;
+
+	EXCEPTION_TRY
+		theApp.m_pLight->Write_Func6_UINT32(0, (BYTE)0x03, (WORD)0x0100, 1);
+	EXCEPTION_CATCH
+
+		if (nRet != APP_OK)
+		{
+			// Error Log
+			m_fnPrintLog(_T("SEQLOG -- Seq8042_GetTriggerCount Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			return nRet;
+		}
+
+	// Sequence Out LOG
+	m_fnPrintLog(_T("SEQLOG -- Seq8042_GetTriggerCount Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+
+	return nRet;
+
+}
+int VSMessageProcessor::VS_SequenceIndexReset(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/)
+{
+	int nRet = APP_OK;
+	int nStepNo = 0;
+
+	byte* tempParam = pParam;
+	int ModuleNum = *(int*)tempParam;
+
+	EXCEPTION_TRY
+		theApp.m_pLight->Write_Func6_UINT16(0, (BYTE)0x06, (WORD)0x0008, (WORD)1);
+
+	EXCEPTION_CATCH
+
+		if (nRet != APP_OK)
+		{
+			// Error Log
+			m_fnPrintLog(_T("SEQLOG -- Seq8041_Sequence Index Count Reset Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			return nRet;
+		}
+
+	// Sequence Out LOG
+	m_fnPrintLog(_T("SEQLOG -- Seq8041_Sequence Index Count Reset Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+
+	return nRet;
+
+}
 int VSMessageProcessor::VS_CheckLight( byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/ )
 {
 	int nRet = APP_OK;

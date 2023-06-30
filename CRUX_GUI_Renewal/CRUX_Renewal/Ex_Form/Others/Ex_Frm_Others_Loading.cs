@@ -40,5 +40,15 @@ namespace CRUX_Renewal.Ex_Form
         {
             Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 30,30));
         }
+
+        private void Ex_Frm_Others_Loading_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //this.Dispose();
+        }
+
+        private void Ex_Frm_Others_Loading_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //this.Dispose();
+        }
     }
 }

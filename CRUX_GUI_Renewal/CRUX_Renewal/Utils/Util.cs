@@ -220,10 +220,14 @@ namespace CRUX_Renewal
                                     recipe.Area_Data = null;
                                     recipe.Area_Data = RecipeManager.RecipeDeserialize<Areas>($@"{FullPath}\", "MainRecipe.xml");
                                     break;
-                                    //case "GrabOpticsInfo.xml":
-                                    //    recipe.Optics_Data = null;
-                                    //    recipe.Optics_Data = RecipeManager.RecipeDeserialize<OpticsData>($@"{FullPath}\", "GrabOpticsInfo.xml");
-                                    //    break;                                
+                                case "ImageMergeOffset.ini":
+                                    IniFile OffsetFile = new IniFile();
+                                    OffsetFile.Load($@"{FullPath}\ImageMergeOffset.ini");
+                                    Dictionary<string, IniFile> Data = new Dictionary<string, IniFile>();
+                                
+                                    Systems.RecipeData_Collection[0].Add("ImageMergeOffset.ini", OffsetFile);
+                                    //int aa = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
+                                    break;
                             }
                         }
                     }
@@ -242,6 +246,7 @@ namespace CRUX_Renewal
         {
             ST_RECIPE_INFO NewRecipe = new ST_RECIPE_INFO(0);
             NewRecipe.RecipeName = recipe.Name.ToString().toUniByteAry(200);
+            NewRecipe.RecipePath = recipe.Path.ToString().toUniByteAry(200);
             NewRecipe.GrabCount = recipe.Area_Data.Area.Count;
             for (int i = 0; i < recipe.Area_Data.Area.Count; ++i)
             {
@@ -280,7 +285,7 @@ namespace CRUX_Renewal
                     for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count; ++k)
                     {
                         ST_LIGHT_COND NewLightInfo = new ST_LIGHT_COND(0);
-                        //NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
+                        NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
                         NewLightInfo.Port_No = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Port_No;
                         NewLightInfo.Controller_No = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Controller_No;
                         //NewLightInfo.LightChCnt = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightChCnt;
@@ -362,16 +367,16 @@ namespace CRUX_Renewal
         {
             Ex_Frm_Others_Loading form = null;
             form = new Ex_Frm_Others_Loading();
-            //Thread thread = new Thread(() => {
+            Thread thread = new Thread(() => {
             form.Location = new Point(Program.Frm_Main.Location.X + ((Program.Frm_Main.Width / 2) - (form.Width / 2)), Program.Frm_Main.Location.Y + ((Program.Frm_Main.Height / 2) - (form.Height / 2)));
             Program.LoadingForm = form;
             form.Show();
-            //Application.Run(form);      
+            Application.Run(form);      
 
-            //});
-            //thread.SetApartmentState(ApartmentState.STA);
+            });
+            thread.SetApartmentState(ApartmentState.STA);
 
-            //thread.Start();
+            thread.Start();
 
             while (true)
             {
@@ -392,6 +397,7 @@ namespace CRUX_Renewal
         {
             Program.LoadingForm?.Invoke(new Action(delegate ()
             {
+                Program.LoadingForm?.Dispose();
                 Program.LoadingForm?.Close();
             }));
         }

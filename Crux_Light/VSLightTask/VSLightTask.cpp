@@ -154,6 +154,9 @@ BOOL CVSLightTaskApp::InitInstance()
 #elif _LFINELIGHT
 	m_pLight = new CLFineLight(); 
 // 	m_pLogWriter = new CLogWriter((TSTRING)LIGHT_MONITORING_LOG_PATH, _T("LFineLightCheck"), 30, 0, true);
+#elif _IPULSLIGHT
+	m_pLight = new CIPulsLight();
+	// 	m_pLogWriter = new CLogWriter((TSTRING)LIGHT_MONITORING_LOG_PATH, _T("LLightLightCheck"), 30, 0, true);
 #elif _LLIGHTLIGHT
 	m_pLight = new CLLightLight();
 	// 	m_pLogWriter = new CLogWriter((TSTRING)LIGHT_MONITORING_LOG_PATH, _T("LLightLightCheck"), 30, 0, true);

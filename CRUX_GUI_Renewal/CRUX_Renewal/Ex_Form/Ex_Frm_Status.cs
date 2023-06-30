@@ -45,6 +45,16 @@ namespace CRUX_Renewal.Ex_Form
         private void Ex_Frm_Status_Shown(object sender, EventArgs e)
         {
             Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 5, 5));
+            if(Globals.Insp_Type[0] == 5)
+            {
+                Lb_AF.Visible = true;
+                Pb_AF.Visible = true;
+            }
+            if(Globals.Insp_Type[0] == 6)
+            {
+                Lb_AF.Visible = false;
+                Pb_AF.Visible = false;
+            }
         }
 
         private void Pb_VSS_State_Click(object sender, EventArgs e)
@@ -96,6 +106,12 @@ namespace CRUX_Renewal.Ex_Form
                     case "Pb_MI_State":
                         ProcessName = EnumHelper.GetDescription(Enums.ProcessNames.Main);
                         break;
+                    case "Pb_Light":
+                        break;
+
+                    case "Pb_AF":
+                        break;
+
                 }
                 ProcessSet temp = Program.GetProcess(ProcessName);
                 IntPtr procHandler = WinApis.FindWindow(null, temp.Proc.MainWindowTitle);
@@ -143,9 +159,9 @@ namespace CRUX_Renewal.Ex_Form
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.CAMERA_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
                                                                  IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
-                        Systems.AliveList[Systems.CurDisplayIndex].camrea = true;
+                        Systems.AliveList[Systems.CurDisplayIndex].Camera = true;
                     else
-                        Systems.AliveList[Systems.CurDisplayIndex].camrea = false;
+                        Systems.AliveList[Systems.CurDisplayIndex].Camera = false;
                     #endregion
 
                     #region SEQ Check
@@ -154,9 +170,9 @@ namespace CRUX_Renewal.Ex_Form
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
                                                 IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
-                        Systems.AliveList[Systems.CurDisplayIndex].sequence = true;
+                        Systems.AliveList[Systems.CurDisplayIndex].Sequence = true;
                     else
-                        Systems.AliveList[Systems.CurDisplayIndex].sequence = false;
+                        Systems.AliveList[Systems.CurDisplayIndex].Sequence = false;
                     #endregion                    
                     //#region LIGHT Check
                     //Param.ClearOffset();
@@ -183,9 +199,9 @@ namespace CRUX_Renewal.Ex_Form
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.MAINPC_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
                                                 IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
                     if (nRet == Consts.APP_OK)
-                        Systems.AliveList[Systems.CurDisplayIndex].mainpc = true;
+                        Systems.AliveList[Systems.CurDisplayIndex].MainPc = true;
                     else
-                        Systems.AliveList[Systems.CurDisplayIndex].mainpc = false;
+                        Systems.AliveList[Systems.CurDisplayIndex].MainPc = false;
                     #endregion
                     #region AF Check
                     if (Globals.Insp_Type[0] == 5)
@@ -200,11 +216,23 @@ namespace CRUX_Renewal.Ex_Form
                             Systems.AliveList[Systems.CurDisplayIndex].AF = false;
                     }
                     #endregion
-                    BeginInvoke(new Action( () =>
-                    {
-                        SetState();
-                    }));
-                  
+                    #region Light Check
+
+                    Param.ClearOffset();
+                    Param.SetInteger(1);
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.LIGHT_TASK), IpcConst.TASK_ALIVE_FUNC, IpcConst.TASK_ALIVE_SIGNAL,
+                                                IpcInterface.CMD_TYPE_RES, Consts.ALIVE_RESPONSE_TIME, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                        Systems.AliveList[Systems.CurDisplayIndex].Light = true;
+                    else
+                        Systems.AliveList[Systems.CurDisplayIndex].Light = false;
+
+                    #endregion
+                    BeginInvoke(new Action(() =>
+                   {
+                       SetState();
+                   }));
+
                     Thread.Sleep(Consts.ALIVE_INTERVAL);
                 }
                 catch (Exception ex)
@@ -216,51 +244,42 @@ namespace CRUX_Renewal.Ex_Form
 
         private void SetState()
         {
-                   System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
-                   string resourceName = asm.GetName().Name + ".Properties.Resources";
-                   var rm = new System.Resources.ResourceManager(resourceName, asm);
+            System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
+            string resourceName = asm.GetName().Name + ".Properties.Resources";
+            var rm = new System.Resources.ResourceManager(resourceName, asm);
 
-                   if (Systems.g_Ipc.m_fnGetConnected())
-                       Pb_VSS_State.Image = (Bitmap)rm.GetObject("Connect");
-                   else
-                       Pb_VSS_State.Image = (Bitmap)rm.GetObject("Disconnect");
-                   //Pb_VSS_State.Refresh();
-
-                   if (Systems.AliveList[Systems.CurDisplayIndex].camrea)
-                       Pb_CAM_State.Image = (Bitmap)rm.GetObject("Connect");
-                   else
-                       Pb_CAM_State.Image = (Bitmap)rm.GetObject("Disconnect");
-
-                   if (Systems.AliveList[Systems.CurDisplayIndex].sequence)
-                       Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Connect");
-                   else
-
-                       Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Disconnect");
-                   if (Systems.AliveList[Systems.CurDisplayIndex].mainpc)
-                       Pb_MI_State.Image = (Bitmap)rm.GetObject("Connect");
-                   else
-                       Pb_MI_State.Image = (Bitmap)rm.GetObject("Disconnect");
-
-            if (Systems.AliveList[Systems.CurDisplayIndex].AF)
-                Pic_AF.Image = (Bitmap)rm.GetObject("Connect");
+            if (Systems.g_Ipc.m_fnGetConnected())
+                Pb_VSS_State.Image = (Bitmap)rm.GetObject("Connect");
             else
-                Pic_AF.Image = (Bitmap)rm.GetObject("Disconnect");
+                Pb_VSS_State.Image = (Bitmap)rm.GetObject("Disconnect");
+            //Pb_VSS_State.Refresh();
 
-            //if (Systems.AliveList[Systems.CurDisplayIndex].inspect)
-            //    picAliveInsp.Image = (Bitmap)rm.GetObject("Connect");
-            //else
-            //    picAliveInsp.Image = (Bitmap)rm.GetObject("Disconnect");
+            if (Systems.AliveList[Systems.CurDisplayIndex].Camera)
+                Pb_CAM_State.Image = (Bitmap)rm.GetObject("Connect");
+            else
+                Pb_CAM_State.Image = (Bitmap)rm.GetObject("Disconnect");
 
-            //if (Systems.AliveList[Systems.CurDisplayIndex].light)
-            //    picAliveLight.Image = (Bitmap)rm.GetObject("Connect");
-            //else
-            //    picAliveLight.Image = (Bitmap)rm.GetObject("Disconnect");
+            if (Systems.AliveList[Systems.CurDisplayIndex].Sequence)
+                Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Connect");
+            else
 
-            //if (Systems.AliveList[Systems.CurDisplayIndex].pgcontrol)
-            //    picAlivePg.Image = (Bitmap)rm.GetObject("Connect");
-            //else
-            //    picAlivePg.Image = (Bitmap)rm.GetObject("Disconnect");
+                Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Disconnect");
+            if (Systems.AliveList[Systems.CurDisplayIndex].MainPc)
+                Pb_MI_State.Image = (Bitmap)rm.GetObject("Connect");
+            else
+                Pb_MI_State.Image = (Bitmap)rm.GetObject("Disconnect");
+            if (Globals.Insp_Type[0] == 5)
+            {
+                if (Systems.AliveList[Systems.CurDisplayIndex].AF)
+                    Pb_AF.Image = (Bitmap)rm.GetObject("Connect");
+                else
+                    Pb_AF.Image = (Bitmap)rm.GetObject("Disconnect");
+            }
 
+            if (Systems.AliveList[Systems.CurDisplayIndex].Light)
+                Pb_Light.Image = (Bitmap)rm.GetObject("Connect");
+            else
+                Pb_Light.Image = (Bitmap)rm.GetObject("Disconnect");
         }
     }
 }

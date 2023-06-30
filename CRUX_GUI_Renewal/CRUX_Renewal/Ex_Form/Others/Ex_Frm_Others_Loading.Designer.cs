@@ -75,6 +75,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Ex_Frm_AccountManage";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Ex_Frm_Others_Loading_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Ex_Frm_Others_Loading_FormClosed);
             this.Load += new System.EventHandler(this.Ex_Frm_Others_Loading_Load);
             this.Shown += new System.EventHandler(this.Ex_Frm_Others_Loading_Shown);
             this.ResumeLayout(false);

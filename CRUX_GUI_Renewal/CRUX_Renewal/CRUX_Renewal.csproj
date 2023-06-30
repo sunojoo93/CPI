@@ -510,6 +510,12 @@
     <Compile Include="Main_Form\Main_Frm_Auto.Designer.cs">
       <DependentUpon>Main_Frm_Auto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main_Form\Main_Frm_Auto_For_CHIPPING.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_Form\Main_Frm_Auto_For_CHIPPING.Designer.cs">
+      <DependentUpon>Main_Frm_Auto_For_CHIPPING.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main_Form\Main_Frm_Auto_For_ALM.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -576,12 +582,6 @@
     <Compile Include="Frm_Main_Content.Designer.cs">
       <DependentUpon>Frm_Main_Content.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main_Form\Main_Frm_Auto_For_CHIPPING.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Main_Form\Main_Frm_Auto_For_CHIPPING.Designer.cs">
-      <DependentUpon>Main_Frm_Auto_For_CHIPPING.cs</DependentUpon>
-    </Compile>
     <Compile Include="Main_Form\Main_Frm_Manual.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -647,6 +647,9 @@
     <EmbeddedResource Include="Main_Form\Main_Frm_Auto.resx">
       <DependentUpon>Main_Frm_Auto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Main_Form\Main_Frm_Auto_For_CHIPPING.resx">
+      <DependentUpon>Main_Frm_Auto_For_CHIPPING.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main_Form\Main_Frm_Auto_For_ALM.resx">
       <DependentUpon>Main_Frm_Auto_For_ALM.cs</DependentUpon>
     </EmbeddedResource>
@@ -711,9 +714,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main_Form\Frm_Init.resx">
       <DependentUpon>Frm_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Main_Form\Main_Frm_Auto_For_CHIPPING.resx">
-      <DependentUpon>Main_Frm_Auto_For_CHIPPING.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main_Form\Main_Frm_Manual.resx">
       <DependentUpon>Main_Frm_Manual.cs</DependentUpon>

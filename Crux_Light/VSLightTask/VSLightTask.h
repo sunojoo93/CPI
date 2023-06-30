@@ -24,12 +24,15 @@
 #elif _EROOMLIGHT
 #include "EroomLight/EroomLightControl.h"
 #include "EroomLightTaskDlg.h"
+#elif _IPULSLIGHT
+#include "IPulsLight/IPulsLightControl.h"
+#include "IPulsLight/IPulsLightTaskDlg.h"
 #elif _LFINELIGHT
 #include "LFineLight/LFineLightControl.h"
 #include "LFineLightTaskDlg.h"
 #elif _LLIGHTLIGHT
 #include "LLightLight/LLightLightControl.h"
-#include "LLightLightTaskDlg.h"
+#include "LLightLight\LLightLightTaskDlg.h"
 #elif _TRIVISIONLIGHT
 #include "TrivisionLight/TrivisionLightControl.h"
 #include "TrivisionLightTaskDlg.h"

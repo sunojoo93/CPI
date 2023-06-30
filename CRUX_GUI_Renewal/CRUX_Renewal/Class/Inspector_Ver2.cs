@@ -29,6 +29,7 @@ namespace CRUX_Renewal.Class.InspVer2
     {
         private static Inspector_Collection Collection_Object;
         private List<Inspector_Ver2> Inspectors = new List<Inspector_Ver2>();
+       
         public static Inspector_Collection Instance()
         {
             if (Collection_Object == null)
@@ -861,6 +862,8 @@ namespace CRUX_Renewal.Class.InspVer2
                             public bool Busy = false;
                             public bool Finishe = false;
                             public CogJobManager Algorithm_Job = new CogJobManager();
+                            public string CellID;
+                            object obj1 = new object();
                             public Algorithm_Inspection(string name, int insp_id, string area_name, string ptn_name)
                             {
                                 Algorithm_Job.Name = name;
@@ -869,7 +872,6 @@ namespace CRUX_Renewal.Class.InspVer2
                                 PatternName = ptn_name;
                                 RegionName = name;
                                 Algorithm_Job.VisionToolMTEnable = true;
-								//CogJobManager. VisionToolMTEnable = true;
                             }
                             public void SetInspector(Algorithm algo)
                             {
@@ -888,7 +890,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                         CommonParams.PatternParam.Add(item.Name, item.Value);
                                     }
                                     Job.UserData.Add("Param", CommonParams);
-
+                                    Systems.LogWriter.Info($"Inspector ID : {Inspector_Id}");
                                     Algorithm_Job.JobAdd(Job);
                                 }
                                 catch (Exception ex)
@@ -910,6 +912,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                         Temp.VirID = data.VirID;
                                         Collection.Images.Add(i.ToString(), Temp);
                                     }
+                                    CellID = data.CellID;
                                     for (int i = 0; i < Algorithm_Job.JobCount; ++i)
                                         Algorithm_Job.Job(i).VisionTool.UserData.Add("Images", Collection);
                                     Systems.LogWriter.Info($"Inspector ID : {Inspector_Id}");
@@ -920,6 +923,7 @@ namespace CRUX_Renewal.Class.InspVer2
                                 {
                                     Console.WriteLine(ex.Message);
                                     Systems.LogWriter.Info($@"(Algo JobManager)Inspection Start Error, Job Manager Name : {Algorithm_Job.Name}, Exception : {ex}");
+                                     //Algorithm_Job.Run();
                                     //Busy = false;                               
                                 }
                             }
@@ -931,16 +935,63 @@ namespace CRUX_Renewal.Class.InspVer2
                                     {
                                         var Temp = sender as CogJob;
                                         Console.WriteLine($"Tact Time : {(Job.RunStatus as CogRunStatus).TotalTime.ToString()}");
-                                 
+
                                         Systems.LogWriter.Info($@"(Algorithm)Inspection Complete, ROI Name : {Temp.Manager.Name}, Algorithm Name : {Temp.Name}, State : {Temp.State.ToString()}, Job Message : {Temp.RunStatus.Message}");
                                         //Region_Inspector RgnInsp = Inspector_Collection.Instance().Inspectors.Find(x => x.Inspector_Id == Inspector_Id).Area_Insp.Find(x => x.AreaName == AreaName).Pattern_Insp.Find(x => x.PatternName == PatternName).Region_Insp.Find(x => x.RegionName == RegionName);
-                                        
+                                        bool InspOK = false;
+                                        string Result = Temp.RunStatus.Result.ToString();
+                                        InspOK = Result == "Accept" ? true : false;
+
                                         Busy = false;
                                         Finishe = true;
                                         //RgnInsp.CheckInspFinishe();
-                                        CogRecord ResultData = (Temp.VisionTool as CogToolGroup).UserData["Result"] as CogRecord;
-                                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Manual.DisplayResult(ResultData);
-                                    });
+                                        if (InspOK)
+                                        {
+                                            CogRecord ResultData = (Temp.VisionTool as CogToolGroup).UserData["Result"] as CogRecord;
+
+                                            string SavePath = $@"D:\SaveRecord\{CellID.Replace(":", "")}\";
+                                            if (!fileProc.DirExists(SavePath))
+                                            {
+                                                fileProc.CreateDirectory(SavePath);
+                                            }
+
+                                            CogSerializer.SaveObjectToFile(ResultData, $@"{SavePath}{AreaName}.vpp");
+                                            if (AreaName.ToUpper() == "Pad".ToUpper())
+                                            {
+                                                Thread t = new Thread(delegate ()
+                                                {
+                                                    (Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordPad(ResultData);
+                                                });
+                                                t.Start();
+                                            }
+
+                                            if (AreaName.ToUpper() == "Right".ToUpper())
+                                            {
+                                                Thread t = new Thread(delegate ()
+                                                {
+                                                    (Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordRight(ResultData);
+                                                });
+                                                t.Start();
+                                            }
+                                            if (AreaName.ToUpper() == "Top".ToUpper())
+                                            {
+                                                Thread t = new Thread(delegate ()
+                                                {
+                                                    (Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordTop(ResultData);
+                                                });
+                                                t.Start();
+                                            }
+                                            if (AreaName.ToUpper() == "Bottom".ToUpper())
+                                            {
+                                                Thread t = new Thread(delegate ()
+                                                {
+                                                    (Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordBottom(ResultData);
+                                                });
+                                                t.Start();
+                                            }
+                                        }
+                                    });                                      
+                                   
 
                                     Job.Running += new CogJob.CogJobRunningEventHandler((sender, e) =>
                                     {
