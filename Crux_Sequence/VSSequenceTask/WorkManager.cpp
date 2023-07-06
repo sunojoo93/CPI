@@ -6917,7 +6917,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 
 			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
 
-			//nRet += CmdEditSend(SEND_LIGHT_SEQUENCE_IDX_INIT, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_RES);
+			nRet += CmdEditSend(SEND_LIGHT_SEQUENCE_IDX_INIT, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_RES);
 
 			if (nRet == APP_OK)
 			{
@@ -7262,19 +7262,21 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			break;
 		case 2:
 			m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light Control Start. Pattern : %s"), nStepNo, "123");		// 조명 On 전에 로그 추가		180511 YSS
-
-			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
-
-			//nRet += CmdEditSend(SEND_LIGHT_ON, 0, sizeof(ST_LIGHT_COND_AOT), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_RES);
-
-			if (nRet == APP_OK)
+			if (theApp.m_Config.GetPcName() == _T("LEFT"))
 			{
-				m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON End. Pattern : %s"), nStepNo, "123"/*theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt + nNextStepInterval)*/);
-			}
-			else
-			{
-				m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON Error !!!"), nStepNo);
-				throw nRet;
+				stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
+
+				nRet += CmdEditSend(SEND_LIGHT_ON, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_RES);
+
+				if (nRet == APP_OK)
+				{
+					m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON End. Pattern : %s"), nStepNo, "123"/*theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt + nNextStepInterval)*/);
+				}
+				else
+				{
+					m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON Err or !!!"), nStepNo);
+					throw nRet;
+				}
 			}
 			break;
 
@@ -7406,7 +7408,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			_tcscpy(stWaitGrabEndParam.strPanelID, strPanelID);
 			stWaitGrabEndParam.GrabCnt =nGrabCnt;
 			//_tcscpy(stWaitGrabEndParam.strGrabStepName, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));
-			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 600000);
+			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 60000);
 
 			ImageSetTemp.ParticleImageCount = 1;
 			ImageSetTemp.SharedMemStartIdx = nGrabCnt;
@@ -7430,18 +7432,21 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 		case 10:
 			m_fnPrintLog(FALSE, _T("CASE %d : Light Off Start. Pattern : %s"), nStepNo, "123");		// 조명 On 전에 로그 추가		180511 YSS
 
-			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
-
-			//nRet += CmdEditSend(SEND_LIGHT_OFF, 0, sizeof(ST_LIGHT_COND_AOT), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_NORES);
-
-			if (nRet == APP_OK)
+			if (theApp.m_Config.GetPcName() == _T("LEFT"))
 			{
-				m_fnPrintLog(FALSE, _T("CASE %d : Light Off End. Pattern : %s"), nStepNo, "123"/*theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt + nNextStepInterval)*/);
-			}
-			else
-			{
-				m_fnPrintLog(FALSE, _T("CASE %d : Light Off Error !!!"), nStepNo);
-				throw nRet;
+				stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
+
+				nRet += CmdEditSend(SEND_LIGHT_OFF, 0, sizeof(ST_LIGHT_COND_AOT), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_NORES);
+
+				if (nRet == APP_OK)
+				{
+					m_fnPrintLog(FALSE, _T("CASE %d : Light Off End. Pattern : %s"), nStepNo, "123"/*theApp.m_Config.GetCurPatternName(strPosition, nGrabCnt + nNextStepInterval)*/);
+				}
+				else
+				{
+					m_fnPrintLog(FALSE, _T("CASE %d : Light Off Error !!!"), nStepNo);
+					throw nRet;
+				}
 			}
 			break;
 		case 11:
@@ -7456,10 +7461,10 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			memcpy((TCHAR *)prmInspStart->strArea, strAreaTemp, sizeof(prmInspStart->strArea));
 
 			// 검사 시작은 무조건 NoRes 로 변경
-			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_RES, 60000);
+			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_NORES);
 
-			//if (bFirstInspFlg)
-			//	nRet = Seq_TactTimeData(strPanelID, TACT_INSP, TACT_START);
+		//	if (bFirstInspFlg)
+		//		nRet = Seq_TactTimeData(strPanelID, TACT_INSP, TACT_START);
 			bFirstInspFlg = FALSE;
 
 			if (nRet == APP_OK)

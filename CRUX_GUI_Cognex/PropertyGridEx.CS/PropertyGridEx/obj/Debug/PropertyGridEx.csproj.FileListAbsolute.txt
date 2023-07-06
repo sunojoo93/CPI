@@ -1,0 +1,13 @@
+D:\CRUX\Source\CRUX_GUI_Renewal\PropertyGridEx.CS\PropertyGridEx\bin\Debug\PropertyGridEx.dll
+D:\CRUX\Source\CRUX_GUI_Renewal\PropertyGridEx.CS\PropertyGridEx\bin\Debug\PropertyGridEx.pdb
+D:\CRUX\Source\CRUX_GUI_Renewal\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridEx.csprojResolveAssemblyReference.cache
+D:\CRUX\Source\CRUX_GUI_Renewal\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridExt.PropertyGridEx.resources
+D:\CRUX\Source\CRUX_GUI_Renewal\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridEx.csproj.GenerateResource.Cache
+D:\CRUX\Source\CRUX_GUI_Renewal\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridEx.dll
+D:\CRUX\Source\CRUX_GUI_Renewal\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridEx.pdb
+D:\CRUX\Source\CRUX_GUI_Cognex\PropertyGridEx.CS\PropertyGridEx\bin\Debug\PropertyGridEx.dll
+D:\CRUX\Source\CRUX_GUI_Cognex\PropertyGridEx.CS\PropertyGridEx\bin\Debug\PropertyGridEx.pdb
+D:\CRUX\Source\CRUX_GUI_Cognex\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridExt.PropertyGridEx.resources
+D:\CRUX\Source\CRUX_GUI_Cognex\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridEx.csproj.GenerateResource.Cache
+D:\CRUX\Source\CRUX_GUI_Cognex\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridEx.dll
+D:\CRUX\Source\CRUX_GUI_Cognex\PropertyGridEx.CS\PropertyGridEx\obj\Debug\PropertyGridEx.pdb

@@ -90,6 +90,10 @@ private:
 	int					VS_SingleTurnOff		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	// Check
 	int					VS_CheckLight			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	/************************************************************************/
+	/*					IPuls Sequence Function                               */
+	/************************************************************************/
+	
 	int					VS_SequenceIndexReset	(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int					VS_GetTriggerCount		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 

@@ -1,4 +1,0 @@
-D:\BUMP\DieEdit\External Projects\PropertyGridEx.CS\PropertyGridEx\bin\Release\PropertyGridEx.dll
-D:\BUMP\DieEdit\External Projects\PropertyGridEx.CS\PropertyGridEx\obj\Release\PropertyGridEx.csproj.CoreCompileInputs.cache
-D:\BUMP\DieEdit\External Projects\PropertyGridEx.CS\PropertyGridEx\obj\Release\PropertyGridEx.dll
-D:\BUMP\DieEdit\External Projects\PropertyGridEx.CS\PropertyGridEx\obj\Release\PropertyGridEx.csproj.AssemblyReference.cache

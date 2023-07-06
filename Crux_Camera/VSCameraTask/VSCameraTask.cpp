@@ -225,6 +225,9 @@ BOOL CVSCameraTaskApp::InitInstance()
 	// Shared Memory ¿¬°á
 	int nImageCount = /*GetPrivateProfileInt(_T("Settings"), _T("ImageCount"), 30, m_strInitFilePath)*/30;
 	m_nPcNum = GetPrivateProfileInt(_T("Common"), _T("VISION PC NUM"), 1, INIT_FILE_PATH);
+	TCHAR szPcName[50] = { 0, };
+	GetPrivateProfileString(_T("PC_INFO"), _T("Name"), _T("LEFT"), szPcName, sizeof(szPcName), GUI_INIT_FILE_PATH);
+	m_strPcName.Format(_T("%s"), szPcName);
 	CString strDrv_CamNo = _T("");
 	strDrv_CamNo.Format(_T("%s_%d"), theApp.GETDRV(), GetTaskNum());
 

@@ -17,6 +17,7 @@
 
 #define VS_SEQUENCE_TASK_INI_FILE			theApp.m_Config.GETDRV() + _T(":\\CRUX\\Data\\INI\\CRUX_Sequence.ini")
 #define PATH_INIT_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\Initialize.ini")
+#define PATH_GUI_INIT_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\CRUX_GUI_Renewal.ini")
 #define PATH_DalsaLineCamera_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\DalsaLineCamera1.ini")
 #define PATH_DEVICE_FILE					theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\Device.cfg")
 #define PATH_MODEL_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\MODEL\\")
@@ -298,6 +299,7 @@ public:
 	int						GetPCCnt()												{   return m_nPcCnt															;};
 	int						GetSiteNum()											{	return m_nSiteNum														;};
 	int						GetShareImgCount()                                      {   return m_nImgCount                                                      ;};
+	CString					GetPcName()												{	return m_strPcName														;};
 	// PG 레시피 처리
 	ST_PG_DATA*				GetVoltageInfo(TCHAR* strCurStepName);
 	//ST_PG_INFO				GetPgInfo()											
@@ -359,6 +361,7 @@ private:
 	int						m_nSiteNum;
 
 	int						m_nImgCount;
+	CString					m_strPcName;
 
 	// Model Info
 	ST_RECIPE_INFO_AOT			m_stModelInfo;

@@ -1,0 +1,10 @@
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\bin\x64\Debug\SharingFormat_DLL.dll
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\bin\x64\Debug\SharingFormat_DLL.pdb
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\bin\x64\Debug\Cognex.VisionPro.Core.dll
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\bin\x64\Debug\Cognex.VisionPro.dll
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\bin\x64\Debug\Cognex.VisionPro.Interop.Core.dll
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\bin\x64\Debug\stdole.dll
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\bin\x64\Debug\Cognex.VisionPro.Core.xml
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\bin\x64\Debug\Cognex.VisionPro.xml
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\obj\x64\Debug\SharingFormat_DLL.dll
+D:\CRUX\Source\CRUX_GUI_Cognex\SharingFormat_DLL\obj\x64\Debug\SharingFormat_DLL.pdb

@@ -969,11 +969,14 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 			strSendMsg.Format("%sOK.%s.%s.", MAIN_PC_PACKET_GRAB_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
 			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
 
-			if (nTotalLine == 3)
+			if (theApp.GetInspType() == 5)
 			{
-				Sleep(2000);
-				strClassEnd.Format("%sOK.%s.%s.", MAIN_PC_PACKET_CLASSIFY_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
-				nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strClassEnd, strClassEnd.GetLength());
+					if (nTotalLine == 3)
+					{
+						Sleep(2000);
+						strClassEnd.Format("%sOK.%s.%s.", MAIN_PC_PACKET_CLASSIFY_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+						nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strClassEnd, strClassEnd.GetLength());
+					}
 			}
 			isSeqBusy = false;
 			if (nRet != APP_OK)
@@ -988,11 +991,14 @@ int	WorkManager::Seq_StartGrab_FromMainPc(byte* pParam, ULONG& nPrmSize, bool bA
 			strSendMsg.Format("%sERR.%s.%s.", MAIN_PC_PACKET_GRAB_END_REPLY, (CStringA)strVirtualID, strCellID);
 			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
 
-			if (nTotalLine == 3)
+			if (theApp.GetInspType() == 5)
 			{
-				Sleep(2000);
-				strClassEnd.Format("%sERR.%s.%s.", MAIN_PC_PACKET_CLASSIFY_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
-				nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strClassEnd, strClassEnd.GetLength());
+				if (nTotalLine == 3)
+				{
+					Sleep(2000);
+					strClassEnd.Format("%sERR.%s.%s.", MAIN_PC_PACKET_CLASSIFY_END_REPLY, (CStringA)strVirtualID, (CStringA)strCellID);
+					nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strClassEnd, strClassEnd.GetLength());
+				}
 			}
 			isSeqBusy = false;
 			if (nRet != APP_OK)
