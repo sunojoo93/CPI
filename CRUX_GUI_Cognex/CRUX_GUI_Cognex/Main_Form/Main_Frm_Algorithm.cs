@@ -28,38 +28,64 @@ namespace CRUX_GUI_Cognex.Main_Form
         public Recipes Shared_Recipe;
         public Main_Frm_Algorithm()
         {
-            InitializeComponent();
-            TopLevel = false;
-            Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;
-            Show();
-
-            foreach(Algorithm_Infomation item in Systems.Algo_Info)
+            try
             {
-                LstB_Algorithm.Items.Add(item.FileName);
+                InitializeComponent();
+                TopLevel = false;
+                Dock = DockStyle.Fill;
+                FormBorderStyle = FormBorderStyle.None;
+                Show();
+
+                foreach (Algorithm_Infomation item in Systems.Algo_Info)
+                {
+                    LstB_Algorithm.Items.Add(item.FileName);
+                }
+
+                if (LstB_Algorithm.Items.Count > 0)
+                {
+                    LstB_Algorithm.SelectedItem = LstB_Algorithm.Items[0];
+                    CTBE_Algorithm.SetSubjectAndInitialize(null);
+                }
             }
-
-            if (LstB_Algorithm.Items.Count > 0)
+            catch (Exception ex)
             {
-                LstB_Algorithm.SelectedItem = LstB_Algorithm.Items[0];
-                //ChangeJob(LstB_Algorithm.SelectedItem as string);
-                CTBE_Algorithm.SetSubjectAndInitialize(null);
+                throw ex;
             }
         }
         public void SetRecipe(ref Recipes recipe)
         {
-            Shared_Recipe = recipe;
+            try
+            {
+                Shared_Recipe = recipe;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void SetFormNameIndex(ref string name, ref int index)
         {
-            CurrentFormName = name;
-            CurFormIndex = index;
+            try
+            {
+                CurrentFormName = name;
+                CurFormIndex = index;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Main_Frm_Algorithm_Shown(object sender, EventArgs e)
         {
-            //WinApis.SetWindowRgn(Btn_Revert.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Revert.Width, Btn_Revert.Height, 15, 15), true);
-            WinApis.SetWindowRgn(Btn_Save.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Save.Width, Btn_Save.Height, 15, 15), true);
+            try
+            {
+                WinApis.SetWindowRgn(Btn_Save.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Save.Width, Btn_Save.Height, 15, 15), true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Main_Frm_Algorithm_Load(object sender, EventArgs e)
@@ -87,45 +113,57 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch(Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] Job Change Error : {ex.Message}", true, false);
-                //Systems.LogWriter.Error($"Change Job Error : {ex.Message}");
-                Console.WriteLine(ex.Message);
+                throw ex;
             }
         }
 
         private void LstB_Algorithm_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (LstB_Algorithm.Items.Count > 0 && LstB_Algorithm.SelectedItem != null)
+            try
             {
-                CTBE_Algorithm.Subject = null;
-                string VppName = LstB_Algorithm.SelectedItem as string;
-                Utility.LoadingStart();
-                Thread t = new Thread(() =>  ChangeJob(VppName));
-                t.Start();
-                t.Join();
-                Utility.LoadingStop();
-                CTBE_Algorithm.Subject = (CurrentOpenJob?.VisionTool as CogToolGroup).Tools[1] as CogToolBlock;                   
+                if (LstB_Algorithm.Items.Count > 0 && LstB_Algorithm.SelectedItem != null)
+                {
+                    CTBE_Algorithm.Subject = null;
+                    string VppName = LstB_Algorithm.SelectedItem as string;
+                    Utility.LoadingStart();
+                    Thread t = new Thread(() => ChangeJob(VppName));
+                    t.Start();
+                    t.Join();
+                    Utility.LoadingStop();
+                    CTBE_Algorithm.Subject = (CurrentOpenJob?.VisionTool as CogToolGroup).Tools[1] as CogToolBlock;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
         private void Btn_Save_Click(object sender, EventArgs e)
         {
-            Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
-            if (CTBE_Algorithm.Subject == null)
+            try
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, "[ GUI ] 현재 열린 알고리즘이 없습니다.", true, false);
-                //Systems.LogWriter.Error("현재 열린 알고리즘이 없습니다.");
-                return;
+                Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
+                if (CTBE_Algorithm.Subject == null)
+                {
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, "[ GUI ] 현재 열린 알고리즘이 없습니다.", true, false);
+                    return;
+                }
+                Utility.LoadingStart();
+                string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
+                string VppName = LstB_Algorithm.SelectedItem as string;
+                CogSerializer.SaveObjectToFile(CurrentOpenJob, $@"{AlgorithmPath}\{VppName}", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+                Utility.LoadingStop();
             }
-            Utility.LoadingStart();
-            string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
-            string VppName = LstB_Algorithm.SelectedItem as string;
-            CogSerializer.SaveObjectToFile(CurrentOpenJob, $@"{AlgorithmPath}\{VppName}", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
-            Utility.LoadingStop();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Btn_Revert_Click(object sender, EventArgs e)
         {
-            //JobManager.JobAdd(Cognex_Helper.LoadJob(@"V:\D_Drive\CRUX\DATA\Top Bot Inspect.vpp"));
+
         }
     }
 }

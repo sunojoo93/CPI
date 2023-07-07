@@ -44,8 +44,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
             Show();
             DgvInitialize();
-            LstV_Parameter.Columns.Add(new ColumnHeader("Name") { Text = "Name", Width = 235 });
-            LstV_Parameter.Columns.Add(new ColumnHeader("Value") { Text = "Value", Width = 235 });
+            LstV_Parameter.Columns.Add(new ColumnHeader("Name") { Text = "Name", Width = 160});
+            //LstV_Parameter.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            LstV_Parameter.Columns.Add(new ColumnHeader("Value") { Text = "Value"});
+            LstV_Parameter.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
             Tb_ParamEdit.KeyDown += InputBox_KeyDown;
             Tb_ParamEdit.Leave += InputBox_Leave;
             Tb_ParamEdit.Hide();
@@ -63,8 +65,9 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
             Dgv_Roi.DataSource = DtRoi;
 
-            Dgv_Roi.Columns[0].Width = 40;
-            Dgv_Roi.Columns[1].Width = 155;
+            Dgv_Roi.Columns[0].Width = 45;
+            //Dgv_Roi.Columns[1].Width = 155;
+            Dgv_Roi.Columns["Name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             foreach(DataGridViewColumn item in Dgv_Roi.Columns)
             {
@@ -78,11 +81,11 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
             Dgv_Pattern.DataSource = DtPtn;
 
-            Dgv_Pattern.Columns[0].Width = 40;
+            Dgv_Pattern.Columns[0].Width = 47;
             Dgv_Pattern.Columns[1].Width = 40;
-            Dgv_Pattern.Columns[2].Width = 40;
-            Dgv_Pattern.Columns[3].Width = 150;
-
+            Dgv_Pattern.Columns[2].Width = 47;
+            //Dgv_Pattern.Columns[3].Width = 150;
+            Dgv_Pattern.Columns["Name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Dgv_Roi.DefaultCellStyle.Font = new System.Drawing.Font("나눔스퀘어라운드", 9); ;
             Dgv_Pattern.DefaultCellStyle.Font = new System.Drawing.Font("나눔스퀘어라운드", 9);
             foreach (DataGridViewColumn item in Dgv_Pattern.Columns)

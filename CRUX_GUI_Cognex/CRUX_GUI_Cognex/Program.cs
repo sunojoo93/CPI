@@ -302,11 +302,17 @@ namespace CRUX_GUI_Cognex
                 procList = Process.GetProcessesByName("DalsaLineCameraTask");
                 foreach (var proc in procList)
                     proc.Kill();
-                //procList = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
-                //foreach (var proc in procList)
-                //    proc.Kill();
+                procList = Process.GetProcessesByName("IPulsLightTask");
+                foreach (var proc in procList)
+                    proc.Kill();
+                procList = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
+                foreach (var proc in procList)
+                    proc.Kill();
             }
-            catch { }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public static void KillAllTask ()

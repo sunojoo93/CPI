@@ -59,12 +59,10 @@ namespace CRUX_GUI_Cognex.Main_Form
                 bool Temp;
                 Finished = false;
                 StringBuilder SimulMode = new StringBuilder();
-                //WinApis.GetPrivateProfileString("Common", "SIMULATION Mode", "FALSE", SimulMode, 100, @"‪D:\CRUX\DATA\INI\Initialize.ini");
                 WinApis.GetPrivateProfileString("Common", "SIMULATION MODE", "FALSE", SimulMode, 50, "D:\\CRUX\\DATA\\INI\\Initialize.ini");
                 while ((int)Enums.InitFlag.MAX > InitFlag)
                 {
                     Temp = false;
-                    //Thread.Sleep(10);
                     switch (InitFlag)
                     {
                         case (int)Enums.InitFlag.CHK_PROGRAM:
@@ -72,7 +70,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Closing Program..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Closing Program...", false, false);
-                                //Systems.LogWriter.Info("Chk Program Log...");
                                 Program.KillTasks();
                                 ++InitFlag;
                             }
@@ -98,8 +95,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                                     t.Abort();
                                     throw new Exception("Set environment time out");
                                 }
-                                //if (Systems.LogWriter == null)
-                               //     throw new Exception("LogWriter 생성 실패");
                                 ++InitFlag;
                             }
                             catch (Exception ex)
@@ -112,7 +107,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Read Program Data...", false, false);
-                                //Systems.LogWriter.Info("Read Program Data...");
                                 CreateINIObject();
                                 ++InitFlag;
                             }
@@ -126,7 +120,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Read Program Data...", false, false);
-                                //Systems.LogWriter.Info("Read Program Data...");
                                 m_fnLoadInitInfo();
                                 ++InitFlag;
                             }
@@ -140,7 +133,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize IPC..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize IPC...", false, false);
-                                //Systems.LogWriter.Info("Initialize IPC...");
                                 InitializeIpc();
                                 Program.StartVSServer();
                                 Thread.Sleep(3000);
@@ -156,7 +148,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Camera Program...", false, false);
-                                //Systems.LogWriter.Info("Initialize CAM...");
                                 if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
                                     if (SimulMode.ToString() == "FALSE")
@@ -184,7 +175,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Access Shared Memory..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Access Shared Memory...", false, false);
-                                //Systems.LogWriter.Info("Access Shared Memory...");
                                 if (SimulMode.ToString() == "FALSE")
                                 {
                                     Systems.SharedMemory = new Class.SharedMem();
@@ -208,7 +198,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                                 setControlText(lbl_CurrentState, string.Format("Initialize Job..."));
                                 LoadRecipe(); // 모델 적용
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Job...", false, false);
-                                //Systems.LogWriter.Info("Initialize Job...");
                                 ++InitFlag;
                             }
                             catch (Exception ex)
@@ -221,7 +210,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Inspector..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Inspector...", false, false);
-                                //Systems.LogWriter.Info("Initialize Inspector...");
                                 Systems.Inspector_ = Inspector_Collection.Instance();
                                 for (int i = 0; i < Globals.MaxVisionCnt; ++i)
                                 {
@@ -243,7 +231,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Main Program..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Main Program...", false, false);
-                                //Systems.LogWriter.Info("Initialize Main...");
                                 Program.StartMainInterface();
                                 ++InitFlag;
                             }
@@ -257,7 +244,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize AF Program..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize AF Program...", false, false);
-                                //Systems.LogWriter.Info("Initialize AF...");
                                 if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
                                     if (SimulMode.ToString() == "FALSE")
@@ -290,7 +276,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Sequence Program..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Sequence Program...", false, false);
-                                //Systems.LogWriter.Info("Initialize Seq...");
                                 Program.StartSequence();
                                 ++InitFlag;
                             }
@@ -304,7 +289,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Light Program..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Light Program...", false, false);
-                                //Systems.LogWriter.Info("Initialize Light...");
                                 if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
                                     if (SimulMode.ToString() == "FALSE")
@@ -350,20 +334,15 @@ namespace CRUX_GUI_Cognex.Main_Form
                     }));
                     while (Temp != true) ;
                 }
-                //Systems.LogWriter.Info("Init Finished");
+
                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Program Opening...", false, false);
                 setControlText(lbl_CurrentState, string.Format("Program Opening... "));
                 Thread.Sleep(500);
                 DialogResult = DialogResult.Yes;
-                ////////this.Invoke(new MethodInvoker(delegate ()
-                ////////{
-                ////////    this.Close();
-                ////////}));
             }
             catch (Exception ex)
             {
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, "[ GUI ] 초기화 실패", false, false);
-                //Systems.LogWriter.Error("초기화 실패", ex);
                 if (ex.Message == "카메라 실행 실패")
                 {
                     setTextboxContent(lbl_CurrentState, string.Format("카메라 실행 실패"), Color.Red);
@@ -386,13 +365,11 @@ namespace CRUX_GUI_Cognex.Main_Form
                     Thread.Sleep(3000);
                     setTextboxContent(lbl_CurrentState, string.Format("프로그램을 종료합니다."), Color.Black);
                 }
-                //Systems.LogWriter.Error(ex.Message);
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", false, false);
                 CircleProgressBar.TimerStop();
                 Program.KillAllTask();
                 Application.Exit();
             }
-
         }
 
         public void TempBin()
@@ -408,7 +385,7 @@ namespace CRUX_GUI_Cognex.Main_Form
 
         private int SetInitCount(ref int nPercent)
         {
-            int nPersent = ++nPercent * (100 / /*(int)Enums.InitFlag.MAX) > 100 ? 100 : nPercent * (100 / */(int)Enums.InitFlag.MAX);
+            int nPersent = ++nPercent * (100 / (int)Enums.InitFlag.MAX);
 
             if (nPersent > 100)
                 nPersent = 100;
@@ -425,101 +402,93 @@ namespace CRUX_GUI_Cognex.Main_Form
         /// </summary>      
         private void m_fnLoadInitInfo()
         {
-            //m_fnAddLog(0, string.Format("{0}_Start", MethodBase.GetCurrentMethod().Name));
-            //Globals.MaxVisionCnt = Convert.ToInt32(iniUtl.GetIniValue("Common", "VISION PC COUNT", Paths.INIT_PATH));
-            Modes.NET_SIMULATION_MODE = Convert.ToBoolean(iniUtl.GetIniValue("Common", "SIMULATION Mode", Paths.INIT_PATH));
 
-            //Globals.LIGHT_CHANNEL = iniUtl.GetIniValue("Light Controller", "Max Channel Count", Paths.INIT_DEVICE_PATH).toInt();
-            // StringBuilder sb = new StringBuilder();
-            //iniUtl.GetPrivateProfileString("DiskInformation", "Last Used Drive", @"E:\", sb, 10, Paths.INIT_PATH);
-            //Globals.CurrentDrive = sb.ToString();
-            //Globals.DriveLimitSize = iniUtl.GetIniValue("DiskInformation", "DriveLimitSize", Paths.INIT_PATH).toInt();
+            try
+            {
+                Modes.NET_SIMULATION_MODE = Convert.ToBoolean(iniUtl.GetIniValue("Common", "SIMULATION Mode", Paths.INIT_PATH));
 
-            //Globals.Insp_Type = iniUtl.GetIniValue("Common", "TYPE", Paths.INIT_PATH).toInt();
-            Systems.SetIniEnvironment();
+                Systems.SetIniEnvironment();
 
-            //Globals.DrawRctColor = new Color[5]; // ROI 색은 5개까지
-            //for(int i = 0; i < Globals.DrawRctColor.Count(); i++)
-            //Globals.MAINFORM_NAME = new List<string>();
-            Paths.NET_DRIVE = new string[Globals.MaxVisionCnt];
-            Paths.NET_INITIAL_PATH = new string[Globals.MaxVisionCnt];
-            Paths.NET_ORIGIN_PATH = new string[Globals.MaxVisionCnt];
-            Paths.NET_RESULT_PATH = new string[Globals.MaxVisionCnt];
-            Paths.NET_INSPDATA_PATH = new string[Globals.MaxVisionCnt];
-            Paths.NET_ALGRESULT_PATH = new string[Globals.MaxVisionCnt];
-            Paths.NET_PANEL_INFO = new string[Globals.MaxVisionCnt];
-            Paths.NET_PANEL_MANUAL_INFO = new string[Globals.MaxVisionCnt];
-            Paths.NET_RECIPE_PATH = new string[Globals.MaxVisionCnt];
-            Paths.MANUAL_RESULT_DATA_DRIVE = new string[Globals.MaxVisionCnt];
-            Globals.Insp_Type = new int[Globals.MaxVisionCnt];
-            Program.Ui_LogPrint_Auto = new List<LogPrinter>();
-            Program.UI_LogPrint_Manual = new List<LogPrinter>();
+                //Globals.DrawRctColor = new Color[5]; // ROI 색은 5개까지
+                //for(int i = 0; i < Globals.DrawRctColor.Count(); i++)
+                //Globals.MAINFORM_NAME = new List<string>();
+                Paths.NET_DRIVE = new string[Globals.MaxVisionCnt];
+                Paths.NET_INITIAL_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_ORIGIN_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_RESULT_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_INSPDATA_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_ALGRESULT_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_PANEL_INFO = new string[Globals.MaxVisionCnt];
+                Paths.NET_PANEL_MANUAL_INFO = new string[Globals.MaxVisionCnt];
+                Paths.NET_RECIPE_PATH = new string[Globals.MaxVisionCnt];
+                Paths.MANUAL_RESULT_DATA_DRIVE = new string[Globals.MaxVisionCnt];
+                Globals.Insp_Type = new int[Globals.MaxVisionCnt];
+                Program.Ui_LogPrint_Auto = new List<LogPrinter>();
+                Program.UI_LogPrint_Manual = new List<LogPrinter>();
 
-            Systems.AliveList = new ALIVE_STATE[2];
+                Systems.AliveList = new ALIVE_STATE[2];
 
-            Systems.Ini_Collection = new List<Dictionary<string, IniFile>>();
-            Systems.RecipeData_Collection = new List<Dictionary<string, IniFile>>();
-            for (int i = 0; i < Globals.MaxVisionCnt; i++)
-            {              
-                Systems.Ini_Collection.Add(new Dictionary<string, IniFile>());
-                for (int j = 0; j < Globals.Ini_Init_Names.Length; ++j)
+                Systems.Ini_Collection = new List<Dictionary<string, IniFile>>();
+                Systems.RecipeData_Collection = new List<Dictionary<string, IniFile>>();
+                for (int i = 0; i < Globals.MaxVisionCnt; i++)
                 {
-                    IniFile Ini = new IniFile();
-                    string IniPath = $@"{Paths.INIT_FOLDER_PATH}{Globals.Ini_Init_Names[j]}";
-                    if (fileProc.FileExists(IniPath))
+                    Systems.Ini_Collection.Add(new Dictionary<string, IniFile>());
+                    for (int j = 0; j < Globals.Ini_Init_Names.Length; ++j)
                     {
-                        Ini.Load($@"{Paths.INIT_FOLDER_PATH}{Globals.Ini_Init_Names[j]}");
-                        Systems.Ini_Collection[i].Add(Globals.Ini_Init_Names[j], Ini);
+                        IniFile Ini = new IniFile();
+                        string IniPath = $@"{Paths.INIT_FOLDER_PATH}{Globals.Ini_Init_Names[j]}";
+                        if (fileProc.FileExists(IniPath))
+                        {
+                            Ini.Load($@"{Paths.INIT_FOLDER_PATH}{Globals.Ini_Init_Names[j]}");
+                            Systems.Ini_Collection[i].Add(Globals.Ini_Init_Names[j], Ini);
+                        }
+                        else
+                            continue;
                     }
+
+                    if (Modes.NET_SIMULATION_MODE)
+                        Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE_SIMUL", Paths.INIT_PATH);
                     else
-                        continue;
+                        Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE", Paths.INIT_PATH);
+                    Globals.Insp_Type[i] = Systems.Ini_Collection[i]["Initialize.ini"]["Common"]["TYPE"].toInt();
+
+
+                    //Paths.OPERATION_PATH = iniUtl.GetIniValue("OperationPC", "Address", Paths.INIT_PATH); // 0623 JSO
+                    Paths.NET_ORIGIN_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ORIGIN_PATH", Paths.INIT_PATH);
+                    Paths.NET_RESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RESULT_PATH", Paths.INIT_PATH);
+                    Paths.NET_INSPDATA_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INSPDATA_PATH", Paths.INIT_PATH);
+                    Paths.NET_PANEL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_PATH", Paths.INIT_PATH);
+                    Paths.NET_PANEL_MANUAL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_MANUAL_PATH", Paths.INIT_PATH);
+                    Paths.NET_ALGRESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ALGOLITHM_RESULT_PATH", Paths.INIT_PATH);
+                    Paths.NET_RECIPE_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RECIPE_PATH", Paths.INIT_PATH);
+
+                    string strInitPath = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INIT_PATH", Paths.INIT_PATH);
+                    Paths.NET_INITIAL_PATH[i] = Path.Combine(Paths.NET_DRIVE[i], strInitPath);
+                    Paths.MANUAL_RESULT_DATA_DRIVE[i] = iniUtl.GetIniValue("DiskInformation", "Simulation Drive", "D", Paths.NET_INITIAL_PATH[i]).ToString().toSplit(0, '_') + Consts.NET_DRIVE_NAME;
+
+                    Systems.AliveList[i].init();
+
+                    string AlgorithmPath = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_AlgorithmPath"]["Path"].ToString();
+                    ArrayList FileList = fileProc.getFileList(AlgorithmPath, ".vpp");
+                    foreach (string item in FileList)
+                    {
+                        string[] Temp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
+                        Algorithm_Infomation Info = new Algorithm_Infomation();
+
+                        string FileName = Temp[Temp.Length - 1];
+                        string[] Name = FileName.Split('.');
+                        Info.Name = Name[0];
+                        Info.Path = item;
+                        Info.FileName = FileName;
+                        Systems.Algo_Info.Add(Info);
+                    }
                 }
-
-                if (Modes.NET_SIMULATION_MODE)
-                    Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE_SIMUL", Paths.INIT_PATH);
-                else
-                    Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE", Paths.INIT_PATH);
-                Globals.Insp_Type[i] = Systems.Ini_Collection[i]["Initialize.ini"]["Common"]["TYPE"].toInt();
-                
-       
-                //Paths.OPERATION_PATH = iniUtl.GetIniValue("OperationPC", "Address", Paths.INIT_PATH); // 0623 JSO
-                Paths.NET_ORIGIN_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ORIGIN_PATH", Paths.INIT_PATH);
-                Paths.NET_RESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RESULT_PATH", Paths.INIT_PATH);
-                Paths.NET_INSPDATA_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INSPDATA_PATH", Paths.INIT_PATH);
-                Paths.NET_PANEL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_PATH", Paths.INIT_PATH);
-                Paths.NET_PANEL_MANUAL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_MANUAL_PATH", Paths.INIT_PATH);
-                Paths.NET_ALGRESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ALGOLITHM_RESULT_PATH", Paths.INIT_PATH);
-                Paths.NET_RECIPE_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RECIPE_PATH", Paths.INIT_PATH);
-
-                string strInitPath = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INIT_PATH", Paths.INIT_PATH);
-                Paths.NET_INITIAL_PATH[i] = Path.Combine(Paths.NET_DRIVE[i], strInitPath);
-                Paths.MANUAL_RESULT_DATA_DRIVE[i] = iniUtl.GetIniValue("DiskInformation", "Simulation Drive", "D", Paths.NET_INITIAL_PATH[i]).ToString().toSplit(0, '_') + Consts.NET_DRIVE_NAME;
-
-                Systems.AliveList[i].init();
-
-                string AlgorithmPath = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_AlgorithmPath"]["Path"].ToString();
-                ArrayList FileList = fileProc.getFileList(AlgorithmPath, ".vpp");
-                foreach (string item in FileList)
-                {
-                    string[] Temp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
-                    Algorithm_Infomation Info = new Algorithm_Infomation();
-
-                    string FileName = Temp[Temp.Length - 1];
-                    string[] Name = FileName.Split('.');
-                    Info.Name = Name[0];
-                    Info.Path = item;
-                    Info.FileName = FileName;
-                    Systems.Algo_Info.Add(Info);
-                }
+                Globals.nLanguageFlg = iniUtl.GetIniValue("common", "Language", Paths.INIT_PATH).toInt();
             }
-
-
-
-            Globals.nLanguageFlg = iniUtl.GetIniValue("common", "Language", Paths.INIT_PATH).toInt();
-
-
-
-            //m_fnAddLog(0, string.Format("{0}_End", MethodBase.GetCurrentMethod().Name));
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -535,8 +504,6 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             try
             {
-                //Systems.RecipeContent.MainRecipe = new List<Recipe>();
-                //Systems.RecipeContent.ViewRecipe = new List<Recipe>();
                 Systems.CurrentApplyRecipeName = new List<PropertyString>();
                 Systems.CurrentSelectedAreaName = new List<string>();
                 Systems.CurrentSelectedRecipe = new List<string>();
@@ -564,7 +531,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             {
                 Ex_Frm_Notification_Question Noti = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.ERROR, $"설정된 레시피가 없습니다. 에러 내용 : {ex.Message}");
                 Noti.ShowDialog();
-                throw;
+                throw ex;
             }
         }
 
@@ -579,10 +546,18 @@ namespace CRUX_GUI_Cognex.Main_Form
         /// </summary>      
         private void InitializeIpc()
         {
-            Thread thread = new Thread(new ThreadStart(delegate () { ThreadConnectVSServer(); }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+            try
+            {
+                Thread thread = new Thread(new ThreadStart(delegate () { ThreadConnectVSServer(); }));
+                thread.IsBackground = true;
+                thread.Start();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                throw;
+            }    }
 
         /// <summary>
         /// 기  능 : IPC 서버 커넥트
@@ -594,28 +569,35 @@ namespace CRUX_GUI_Cognex.Main_Form
         /// </summary>      
         private void ThreadConnectVSServer()
         {
-            int nRet = 0;
-            Systems.g_Ipc = new ServerInterface();
-            //Internal Server 시작
-            do
+            try
             {
-                nRet = Systems.g_Ipc.m_fnStartVsMsgReceiver();
+                int nRet = 0;
+                Systems.g_Ipc = new ServerInterface();
+                //Internal Server 시작
+                do
+                {
+                    nRet = Systems.g_Ipc.m_fnStartVsMsgReceiver();
 
-                if (Consts.APP_OK != nRet)
+                    if (Consts.APP_OK != nRet)
+                        Thread.Sleep(1000);
+                } while (Consts.APP_OK != nRet);
+
+                // VS 상태 체크
+                while (Systems.g_Ipc.m_fnGetIpcState())
+                {
+                    if (Systems.g_Ipc != null)
+                        if (!Systems.g_Ipc.m_fnGetIpcState())
+                            break;
                     Thread.Sleep(1000);
-            } while (Consts.APP_OK != nRet);
+                }
+                Systems.g_Ipc.Dispose();
 
-            // VS 상태 체크
-            while (Systems.g_Ipc.m_fnGetIpcState())
-            {
-                if (Systems.g_Ipc != null)
-                    if (!Systems.g_Ipc.m_fnGetIpcState())
-                        break;
-                Thread.Sleep(1000);
+                Systems.g_Ipc.m_fnEndVsMsgReceiver();
             }
-            Systems.g_Ipc.Dispose();
-
-            Systems.g_Ipc.m_fnEndVsMsgReceiver();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         ////////////////////////////////////////////////////////////////////////////
         //
@@ -625,28 +607,42 @@ namespace CRUX_GUI_Cognex.Main_Form
         delegate void setControlTextCallback(Control ctr, string text);
         private void setControlText(Control ctr, string text)
         {
-            if (ctr.InvokeRequired)
+            try
             {
-                setControlTextCallback CI = new setControlTextCallback(setControlText);
-                ctr.Invoke(CI, ctr, text);
+                if (ctr.InvokeRequired)
+                {
+                    setControlTextCallback CI = new setControlTextCallback(setControlText);
+                    ctr.Invoke(CI, ctr, text);
+                }
+                else
+                {
+                    ctr.Text = text;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ctr.Text = text;
+                throw ex;
             }
         }
         delegate void setTextboxContentCallback(Control ctr, string text, Color color);
         private void setTextboxContent(Control ctr, string text, Color color)
         {
-            if (ctr.InvokeRequired)
+            try
             {
-                setTextboxContentCallback CI = new setTextboxContentCallback(setTextboxContent);
-                ctr.Invoke(CI, ctr, text, color);
+                if (ctr.InvokeRequired)
+                {
+                    setTextboxContentCallback CI = new setTextboxContentCallback(setTextboxContent);
+                    ctr.Invoke(CI, ctr, text, color);
+                }
+                else
+                {
+                    ctr.Text = text;
+                    ctr.ForeColor = color;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ctr.Text = text;
-                ctr.ForeColor = color;
+                throw ex;
             }
         }
 
@@ -654,62 +650,98 @@ namespace CRUX_GUI_Cognex.Main_Form
         delegate void setControlVisibleCallback(Control ctr, bool flag);
         private void setControlVisible(Control ctr, bool flag)
         {
-            if (ctr.InvokeRequired)
+            try
             {
-                setControlVisibleCallback CI = new setControlVisibleCallback(setControlVisible);
-                ctr.Invoke(CI, ctr, flag);
+                if (ctr.InvokeRequired)
+                {
+                    setControlVisibleCallback CI = new setControlVisibleCallback(setControlVisible);
+                    ctr.Invoke(CI, ctr, flag);
+                }
+                else
+                {
+                    ctr.Visible = flag;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ctr.Visible = flag;
+                throw ex;
             }
         }
         delegate void FormHideCallback(Form dlg);
         private void FormHide(Form dlg)
         {
-            if (dlg.InvokeRequired)
+            try
             {
-                FormHideCallback CI = new FormHideCallback(FormHide);
-                dlg.Invoke(CI, dlg);
+                if (dlg.InvokeRequired)
+                {
+                    FormHideCallback CI = new FormHideCallback(FormHide);
+                    dlg.Invoke(CI, dlg);
+                }
+                else
+                {
+                    dlg.Hide();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                dlg.Hide();
+                throw ex;
             }
         }
         delegate void FormCloseCallback(Form dlg);
         private void FormClose(Form dlg)
         {
-            if (dlg.InvokeRequired)
+            try
             {
-                FormCloseCallback CI = new FormCloseCallback(FormClose);
-                dlg.Invoke(CI, dlg);
+                if (dlg.InvokeRequired)
+                {
+                    FormCloseCallback CI = new FormCloseCallback(FormClose);
+                    dlg.Invoke(CI, dlg);
+                }
+                else
+                {
+                    dlg.Close();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                dlg.Close();
+                throw ex;
             }
         }
 
         delegate void FormOpenCallback(Form dlg);
         private void FormOpen(Form dlg)
         {
-            if (dlg.InvokeRequired)
+            try
             {
-                FormOpenCallback CI = new FormOpenCallback(FormOpen);
-                dlg.BeginInvoke(CI, dlg);
+                if (dlg.InvokeRequired)
+                {
+                    FormOpenCallback CI = new FormOpenCallback(FormOpen);
+                    dlg.BeginInvoke(CI, dlg);
+                }
+                else
+                {
+                    dlg.BringToFront();
+                    dlg.ShowDialog();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                dlg.BringToFront();
-                dlg.ShowDialog();
+
+                throw ex;
             }
         }
 
         private void Init_Form_Load(object sender, EventArgs e)
         {
             /// 폼 둥글게
-            Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 600, 600));
+            try
+            {
+                Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 600, 600));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void ExcuteBatchFile(string file)
@@ -727,10 +759,8 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                //Systems.LogWriter.Error("배치파일 실행 실패", ex);
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", false, false);
-                return;
-                //throw;
+                throw ex;
             }
         }
     }

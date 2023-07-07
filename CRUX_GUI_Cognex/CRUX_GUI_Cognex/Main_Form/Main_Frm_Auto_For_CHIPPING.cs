@@ -60,7 +60,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                 //Cpb_RamStatus.Maximum = (long)Program.SysInfo.PC.Memory.TotalSize;
 
                 InitDgvDiskInfo();
-
+                InitDataGridView();
                 Tmr_SystemInfo.Start();
                 Tmr_HardDiskInfo.Start();
 
@@ -73,46 +73,71 @@ namespace CRUX_GUI_Cognex.Main_Form
         }
         public void InitDataGridView()
         {
-            DataTable Dt_Result = new DataTable();
+            try
+            {
+                DataTable Dt_Result = new DataTable();
+                Dt_Result.Columns.Add("Date");
+                Dt_Result.Columns.Add("ID");
+                Dt_Result.Columns.Add("Result");
+                Dgv_Result.DataSource = Dt_Result;
 
-            //Dt_Result.Columns.Add("Name");
-            //Dt_Result.Columns.Add("Cell ID");
+                Dgv_Result.Columns["Date"].Width = 130;
+                Dgv_Result.Columns["ID"].Width = 130;
+                Dgv_Result.Columns["Result"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            //Dgv_Result.Columns.Add("Date", "Date");
-            //Dgv_Result.Columns.Add("Date", "Date");
-            //Dgv_Result.Columns.Add("Date", "Date");
-            //Dgv_Result.Columns.Add("Date", "Date");
-            //Dgv_Result.Columns.Add("Date", "Date");
-            //Dgv_Result.Columns.Add("Date", "Date");
-
-
-
+                Dgv_Result.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void InitDgvDiskInfo()
         {
-            ObservableCollection<HardDiskClass> Hdc = Program.SysInfo.PC.HardDisk;
+            try
+            {
+                ObservableCollection<HardDiskClass> Hdc = Program.SysInfo.PC.HardDisk;
 
-            DataGridViewProgressColumn column = new DataGridViewProgressColumn();
+                DataGridViewProgressColumn column = new DataGridViewProgressColumn();
 
-            Dgv_DriveInfo.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewTextBoxColumn() { HeaderText = "Name", Name = "Name", ReadOnly = true, Width = 100 },
+                Dgv_DriveInfo.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewTextBoxColumn() { HeaderText = "Name", Name = "Name", ReadOnly = true, Width = 100 },
                 new DataGridViewProgressColumn(true) { AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, HeaderText = "Rate", Name = "Rate", ProgressBarColor = Color.LimeGreen, ReadOnly = true, DefaultCellStyle = new DataGridViewCellStyle() { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("나눔스퀘어라운드",10F, FontStyle.Bold), ForeColor = Color.Black, NullValue = 0 } } });
 
-            foreach (HardDiskClass row in Hdc)
+                foreach (HardDiskClass row in Hdc)
+                {
+                    double UseRate = ((double)row.UseSize) / (double)row.TotalSize * (double)100;
+                    object[] Temp = new object[] { row.Name.ToString(), Math.Round(UseRate, 2) };
+                    Dgv_DriveInfo.Rows.Add(Temp);
+                }
+            }
+            catch (Exception ex)
             {
-                double UseRate = ((double)row.UseSize) / (double)row.TotalSize * (double)100;
-                object[] Temp = new object[] { row.Name.ToString(), Math.Round(UseRate,2) };
-                Dgv_DriveInfo.Rows.Add(Temp);
+                throw ex;
             }
         }
 
         public void SetFormNameIndex(ref string name, ref int index)
         {
-            CurrentFormName = name;
-            CurFormIndex = index;
+            try
+            {
+                CurrentFormName = name;
+                CurFormIndex = index;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void SetRecipe(ref Recipes recipe)
         {
-            Shared_Recipe = recipe;
+            try
+            {
+                Shared_Recipe = recipe;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void SetRecordPad(CogRecord record)
@@ -246,6 +271,22 @@ namespace CRUX_GUI_Cognex.Main_Form
         private void Dgv_DriveInfo_SelectionChanged(object sender, EventArgs e)
         {
  
+        }
+        public void UpdateResult(ClassEndData data)
+        {
+            DataTable Dt = new DataTable();
+            Dt = Dgv_Result.DataSource as DataTable;
+
+            DataRow Dr = Dt.NewRow();
+
+            Dr["Date"] = data.Date;
+            Dr["ID"] = data.CellID;
+            Dr["Result"] = data.Result;
+
+            Dt.Rows.Add(Dr);
+
+            Dgv_Result.DataSource = Dt;
+            
         }
     }
 }

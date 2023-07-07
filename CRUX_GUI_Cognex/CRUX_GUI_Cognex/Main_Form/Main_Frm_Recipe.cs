@@ -105,7 +105,8 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Dgv_GrabArea.DefaultCellStyle.Font = new System.Drawing.Font("나눔스퀘어라운드", 9);
 
                 Dgv_GrabArea.Columns[0].Width = 45;
-                Dgv_GrabArea.Columns[1].Width = 130;
+                Dgv_GrabArea.Columns["Name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
                 foreach (DataGridViewColumn item in Dgv_GrabArea.Columns)
                 {
                     item.SortMode = DataGridViewColumnSortMode.NotSortable;
