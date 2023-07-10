@@ -48,8 +48,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 DgvInitialize();
                 LstV_Parameter.Columns.Add(new ColumnHeader("Name") { Text = "Name", Width = 160 });
                 //LstV_Parameter.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-                LstV_Parameter.Columns.Add(new ColumnHeader("Value") { Text = "Value" });
-                LstV_Parameter.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                LstV_Parameter.Columns.Add(new ColumnHeader("Value") { Text = "Value", Width = 120 });
+                LstV_Parameter.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.None);
                 Tb_ParamEdit.KeyDown += InputBox_KeyDown;
                 Tb_ParamEdit.Leave += InputBox_Leave;
                 Tb_ParamEdit.Hide();
@@ -472,12 +472,12 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data?.Area?.Find(x => x.Name == CurAreaName)?.Patterns.Find(x => x.Name == SelectedPtnName);
                 if (Temp != null)
                 {
-                    Frm_Roi.Init(Cog_ROI_Display.Image, Utility.DeepCopy(Temp));
+                    Frm_Roi.Init(Cog_ROI_Display.Image, ref Temp);
                     Frm_Roi.ShowDialog();
-                    if (Frm_Roi.DialogResult == DialogResult.OK)
-                    {
-                        Temp = Frm_Roi.CurPattern;
-                    }
+                    //if (Frm_Roi.DialogResult == DialogResult.OK)
+                    //{
+                    //    Temp = Frm_Roi.CurPattern;
+                    //}
 
                     UpdateROI();
                     UpdateAlgorithm();

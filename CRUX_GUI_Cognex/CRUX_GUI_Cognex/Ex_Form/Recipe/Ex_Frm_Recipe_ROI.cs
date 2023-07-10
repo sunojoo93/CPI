@@ -37,8 +37,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
         ToolTip Tip = new ToolTip();
         Recipes Recipe;
         public Pattern CurPattern;
-        Area Origin_Pattern;
-        string CurPtnName;
+        public Pattern OriginPattern;
+
         bool AltIsDown
         {
             get
@@ -132,13 +132,14 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 throw ex;
             }
         }
-        public void Init(ICogImage image, Pattern ptn)
+        public void Init(ICogImage image, ref Pattern ptn)
         {
             try
             {
                 Cog_ROI_Display.Image = image;
                 Cog_ROI_Display.AutoFit = true;
-                CurPattern = ptn;
+                OriginPattern = ptn;
+                CurPattern = Utility.DeepCopy(ptn);
                 InitControl();
                 RefeshRoiDataView();
             }
@@ -1336,7 +1337,9 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 //CurP
                 //Recipe.ViewRecipe.Patterns_Data.Pattern[CurPtnName] = 
                 //Origin_Pattern = Utility.DeepCopy(CurPattern);
+                OriginPattern.ROI_Data = CurPattern.ROI_Data;
                 DialogResult = DialogResult.OK;
+
             }
             catch (Exception ex)
             {
