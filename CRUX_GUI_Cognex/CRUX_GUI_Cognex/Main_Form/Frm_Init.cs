@@ -364,11 +364,13 @@ namespace CRUX_GUI_Cognex.Main_Form
                     setTextboxContent(lbl_CurrentState, string.Format("에러 발생"), Color.Red);
                     Thread.Sleep(3000);
                     setTextboxContent(lbl_CurrentState, string.Format("프로그램을 종료합니다."), Color.Black);
+                    DialogResult = DialogResult.No;
                 }
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", false, false);
                 CircleProgressBar.TimerStop();
-                Program.KillAllTask();
-                Application.Exit();
+                //DialogResult = DialogResult.No;
+                //Program.KillAllTask();
+                //Application.Exit();
             }
         }
 
@@ -385,11 +387,18 @@ namespace CRUX_GUI_Cognex.Main_Form
 
         private int SetInitCount(ref int nPercent)
         {
-            int nPersent = ++nPercent * (100 / (int)Enums.InitFlag.MAX);
+            try
+            {
+                int nPersent = ++nPercent * (100 / (int)Enums.InitFlag.MAX);
 
-            if (nPersent > 100)
-                nPersent = 100;
-            return nPersent;
+                if (nPersent > 100)
+                    nPersent = 100;
+                return nPersent;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -402,7 +411,6 @@ namespace CRUX_GUI_Cognex.Main_Form
         /// </summary>      
         private void m_fnLoadInitInfo()
         {
-
             try
             {
                 Modes.NET_SIMULATION_MODE = Convert.ToBoolean(iniUtl.GetIniValue("Common", "SIMULATION Mode", Paths.INIT_PATH));
@@ -556,8 +564,8 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 throw ex;
-                throw;
-            }    }
+            }
+        }
 
         /// <summary>
         /// 기  능 : IPC 서버 커넥트
@@ -754,6 +762,12 @@ namespace CRUX_GUI_Cognex.Main_Form
                 //Psi.RedirectStandardOutput = true;
                 Psi.CreateNoWindow = true;
                 Psi.UseShellExecute = false;
+
+                Psi.RedirectStandardInput = false;
+                // 출력 Stream 사용 여부
+                Psi.RedirectStandardOutput = false;
+                // 에러 Stream 사용 여부
+                Psi.RedirectStandardError = false;
                 Process Proc = Process.Start(Psi);
                 Proc.WaitForExit();
             }

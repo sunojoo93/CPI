@@ -92,14 +92,62 @@ namespace CRUX_GUI_Cognex.Main_Form
             Uctrl_LogWrite_Manual.Tag = "Manual";
 
             Program.UI_LogPrint_Manual.Add(Uctrl_LogWrite_Manual);
+            InitResultDataGridView();
+            InitDefectDataGridView();
         }
 
-        private void CogDisplay1_Click(object sender, EventArgs e)
+        public void InitResultDataGridView()
         {
- 
+            try
+            {
+                DataTable Dt_Result = new DataTable();
+                Dt_Result.Columns.Add("Date");
+                Dt_Result.Columns.Add("ID");
+                Dt_Result.Columns.Add("Result");
+                Dt_Result.Columns.Add("Tact");
+                Dgv_Result.DataSource = Dt_Result;
+
+                Dgv_Result.Columns["Date"].Width = 100;
+                Dgv_Result.Columns["ID"].Width = 120;
+                Dgv_Result.Columns["Result"].Width = 80;
+                Dgv_Result.Columns["Tact"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                Dgv_Result.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+        public void InitDefectDataGridView()
+        {
+            try
+            {
+                DataTable Dt_Defect = new DataTable();
+                Dt_Defect.Columns.Add("ID");
+                Dt_Defect.Columns.Add("Area");
+                Dt_Defect.Columns.Add("X");
+                Dt_Defect.Columns.Add("Y");
+                Dt_Defect.Columns.Add("Width");
+                Dt_Defect.Columns.Add("Height");
+                Dt_Defect.Columns.Add("Center");
+                Dgv_Defect.DataSource = Dt_Defect;
 
+                Dgv_Defect.Columns["ID"].Width = 120;
+                Dgv_Defect.Columns["Area"].Width = 70;
+                Dgv_Defect.Columns["X"].Width = 70;
+                Dgv_Defect.Columns["Y"].Width = 70;
+                Dgv_Defect.Columns["Width"].Width = 70;
+                Dgv_Defect.Columns["Height"].Width = 70;
+                Dgv_Defect.Columns["Center"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
+                Dgv_Defect.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private void CogDisplay1_MouseUp(object sender, MouseEventArgs e)
         {
             //if (e.Button == MouseButtons.Left)
@@ -129,6 +177,10 @@ namespace CRUX_GUI_Cognex.Main_Form
             //}
 
         }
+        public void ClassEnd_DisplayUpdate(ClassEndData data)
+        {
+
+        }
 
         private void MRect2_DraggingStopped(object sender, CogDraggingEventArgs e)
         {
@@ -136,7 +188,31 @@ namespace CRUX_GUI_Cognex.Main_Form
 
             int a = 0;
         }
+        public void UpdateResult(ClassEndData data)
+        {
+            Dgv_Result.Invoke(new MethodInvoker(delegate ()
+           {
+               DataTable Dt = new DataTable();
+               Dt = Dgv_Result.DataSource as DataTable;
 
+               DataRow Dr = Dt.NewRow();
+
+               Dr["Date"] = data.Date;
+               Dr["ID"] = data.CellID;
+               Dr["Result"] = data.Result;
+               Dr["Tact"] = data.TactTime;
+
+               Dt.Rows.Add(Dr);
+
+               Dgv_Result.DataSource = Dt;
+               if (Dgv_Result.Rows.Count > 0)
+               {
+                   Dgv_Result.Rows[Dgv_Result.Rows.Count - 1].Selected = true;
+                   Dgv_Result.FirstDisplayedScrollingRowIndex = Dgv_Result.SelectedRows[0].Index;
+               }
+               Dgv_Result.Refresh();
+           }));
+        }
         private void MRect2_Dragging(object sender, CogDraggingEventArgs e)
         {
             CogRectangle dragRect = (CogRectangle)e.DragGraphic;
@@ -408,7 +484,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                     Cog_Display.Image = Temp.OriginImage;
                 }
 
-                Tb_CellID.Text = DateTime.Now.ToString("yyyy-MM-ddhh:mm:ss.fff");
+                //Tb_CellID.Text = DateTime.Now.ToString("yyyy-MM-ddhh:mm:ss.fff");
                 Utility.LoadingStop();
                 CogRecordPad.Record = null;
                 CogRecordTop.Record = null;
@@ -543,21 +619,69 @@ namespace CRUX_GUI_Cognex.Main_Form
 
         private void Btn_StartInsp_Click(object sender, EventArgs e)
         {
-            Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, true);
-            CogRecordPad.Record = null;
-            CogRecordTop.Record = null;
-            CogRecordBottom.Record = null;
-            CogRecordRight.Record = null;
-            string CellID = Tb_CellID.Text == "" ? DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : Tb_CellID.Text;
-            foreach(InspData item in ManualInspImageData)
+            try
             {
-                item.CellID = CellID;
-            }
+                Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, true);
+                CogRecordPad.Record = null;
+                CogRecordTop.Record = null;
+                CogRecordBottom.Record = null;
+                CogRecordRight.Record = null;;
+                string CurDate = $"#_" + DateTime.Now.ToString("hh:mm:ss.fff");
 
-            foreach(InspData item in ManualInspImageData)
+                string AutoCellID = (Tb_CellID.Text == "" ? CurDate : Tb_CellID.Text);
+
+                if (Tb_CellID.Text.Contains("#_") || Tb_CellID.Text == "")
+                    AutoCellID = CurDate;
+
+                else
+                    AutoCellID = Tb_CellID.Text;
+                Tb_CellID.Text = AutoCellID;
+                               
+                foreach (InspData item in ManualInspImageData)
+                {
+                    item.CellID = Tb_CellID.Text;
+                }
+
+                foreach (InspData item in ManualInspImageData)
+                {
+                    Systems.Inspector_.Start_Insp(item);
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, $"[ GUI ] Manual Inspect Start, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex]}, Area : {item.Area}", true, true);
+                }
+
+            }
+            catch (Exception ex)
             {
-                Systems.Inspector_.Start_Insp(item);
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, $"[ GUI ] Manual Inspect Start, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex]}, Area : {item.Area}", true, true);
+                throw ex;
+            }
+        }
+
+        private void Dgv_Result_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewColumn item in Dgv_Result.Columns)
+                {
+                    item.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void Dgv_Defect_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewColumn item in Dgv_Defect.Columns)
+                {
+                    item.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

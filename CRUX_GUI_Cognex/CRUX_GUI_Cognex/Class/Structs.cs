@@ -1032,4 +1032,14 @@ namespace CRUX_GUI_Cognex.Class
         public LogLevel Lv { get; set; } = LogLevel.ALL;
         public string Data { get; set; } = string.Empty;
     }
+
+    public class ClassEndData
+    {
+        public string CellID { get; set; } = string.Empty;
+        public string Date { get; set; } = string.Empty;
+        public string StartTime { get; set; } = string.Empty;
+        public string EndTime { get; set; } = string.Empty;
+        public string TactTime { get; set; } = string.Empty;
+        public string Result { get; set; } = string.Empty;
+    }
 }

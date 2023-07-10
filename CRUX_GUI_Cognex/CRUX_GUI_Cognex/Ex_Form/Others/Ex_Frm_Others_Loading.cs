@@ -16,15 +16,29 @@ namespace CRUX_GUI_Cognex.Ex_Form
     {
         public Ex_Frm_Others_Loading()
         {
-            InitializeComponent();
-            Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;
+            try
+            {
+                InitializeComponent();
+                Dock = DockStyle.Fill;
+                FormBorderStyle = FormBorderStyle.None;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public Ex_Frm_Others_Loading(Point location)
         {
-            InitializeComponent();
-            Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;
+            try
+            {
+                InitializeComponent();
+                Dock = DockStyle.Fill;
+                FormBorderStyle = FormBorderStyle.None;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Ex_Frm_Others_Loading_Shown(object sender, EventArgs e)
@@ -38,7 +52,14 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void Ex_Frm_Others_Loading_Load(object sender, EventArgs e)
         {
-            Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 30,30));
+            try
+            {
+                Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 30, 30));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Ex_Frm_Others_Loading_FormClosing(object sender, FormClosingEventArgs e)

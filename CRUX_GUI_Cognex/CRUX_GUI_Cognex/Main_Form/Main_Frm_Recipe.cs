@@ -47,6 +47,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
         /// <summary>
@@ -63,6 +64,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
         public Main_Frm_Recipe()
@@ -88,6 +90,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
         /// <summary>
@@ -115,6 +118,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
         /// <summary>
@@ -141,6 +145,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
         /// <summary>
@@ -157,6 +162,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
 
@@ -234,6 +240,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
 
         }
@@ -270,6 +277,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
         /// <summary>
@@ -294,6 +302,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
         /// <summary>
@@ -342,6 +351,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
         /// <summary>
@@ -359,6 +369,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
 
@@ -376,13 +387,21 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", false, false);
+                throw ex;
             }
         }
 
 
         private void Tab_RecipeMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Refresh();
+            try
+            {
+                this.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void LstBoxRecipeList_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -426,7 +445,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             {
                 Utility.LoadingStop();
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
-                throw;
+                throw ex;
             }
         }
 
@@ -529,6 +548,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
 
@@ -619,6 +639,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
 
@@ -645,6 +666,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
 
@@ -667,12 +689,20 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
 
         private void Dgv_GrabArea_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            Dgv_GrabArea.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            try
+            {
+                Dgv_GrabArea.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Dgv_GrabArea_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -688,6 +718,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
+                throw ex;
             }
         }
 
@@ -698,7 +729,14 @@ namespace CRUX_GUI_Cognex.Main_Form
 
         private void Btn_Judge_Click(object sender, EventArgs e)
         {
-            Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
+            try
+            {
+                Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

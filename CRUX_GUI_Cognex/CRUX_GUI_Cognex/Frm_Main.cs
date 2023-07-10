@@ -46,7 +46,6 @@ namespace CRUX_GUI_Cognex
             try
             {
                 InitializeComponent();
-
                 
                 Systems.SetIniEnvironment();
          
@@ -76,58 +75,80 @@ namespace CRUX_GUI_Cognex
                 {
                     //Systems.LogWriter.Error("프로그램 시작 실패");
                     Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] 비정상 종료", false, false);
+                    throw new Exception("Ui Initialize 실패");
                 }
             }
             catch(Exception ex)
             {
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] 프로그램 시작 실패, Exception Message : {ex.Message}", false, false);
-
+                Program_Exit();
             }
             //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
         }
 
         public void InitMainForm(List<Recipes> recipe)
         {
-            // 리스트가 없다면 객체 생성
-            if (Program.Frm_MainContent_ == null)
-                Program.Frm_MainContent_ = new List<Frm_MainContent>();
-
-            // 현재 연결된 비전 PC 개수만큼 생성
-            for (int i = 0; i < Globals.MaxVisionCnt; ++i)
+            try
             {
-                Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i], CurFormIndex = i});
-                Recipes Temp = recipe[i];
-                // 레시피를 각 폼마다 Reference로 사용
-                Program.Frm_MainContent_[i].LinkRecipe(ref Temp);
-                Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
+                // 리스트가 없다면 객체 생성
+                if (Program.Frm_MainContent_ == null)
+                    Program.Frm_MainContent_ = new List<Frm_MainContent>();
 
-                // 현재 레시피를 변환하여 시퀀스에 적용
-                CmdMsgParam SendParam = new CmdMsgParam();
-                int Ret = Consts.APP_NG;
-                ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Temp.MainRecipe);
-                SendParam.SetStruct(ConvertedRecipe);
-                Ret = Systems.g_Ipc.SendCommand((ushort)((i + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_MODEL_INFO,
-                                                          IpcInterface.CMD_TYPE_RES, 100000, SendParam.GetByteSize(), SendParam.GetParam());
+                // 현재 연결된 비전 PC 개수만큼 생성
+                for (int i = 0; i < Globals.MaxVisionCnt; ++i)
+                {
+                    Program.Frm_MainContent_.Add(new Frm_MainContent() { Name = Globals.MAINFORM_NAME[i], CurFormIndex = i });
+                    Recipes Temp = recipe[i];
+                    // 레시피를 각 폼마다 Reference로 사용
+                    Program.Frm_MainContent_[i].LinkRecipe(ref Temp);
+                    Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
+
+                    // 현재 레시피를 변환하여 시퀀스에 적용
+                    CmdMsgParam SendParam = new CmdMsgParam();
+                    int Ret = Consts.APP_NG;
+                    ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Temp.MainRecipe);
+                    SendParam.SetStruct(ConvertedRecipe);
+                    Ret = Systems.g_Ipc.SendCommand((ushort)((i + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_MODEL_INFO,
+                                                              IpcInterface.CMD_TYPE_RES, 100000, SendParam.GetByteSize(), SendParam.GetParam());
+                }
+
+                // 초기 화면을 0번 PC로 지정
+                SetForm(Program.Frm_MainContent_[0]);
             }
-
-            // 초기 화면을 0번 PC로 지정
-            SetForm(Program.Frm_MainContent_[0]);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void SetForm(Frm_MainContent form)
         {
             // TableLayouPanel에서 기존 Form을 제거하고 변경할 Form을 등록
-            Tlp_Main.Controls.Add(form, 0, 1);
-            Tlp_Main.SetColumnSpan(form, 7);
-            Program.Frm_MainContent_[0].Show();
+            try
+            {
+                Tlp_Main.Controls.Add(form, 0, 1);
+                Tlp_Main.SetColumnSpan(form, 7);
+                Program.Frm_MainContent_[0].Show();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private void Frm_Main_Shown(object sender, EventArgs e)
         {
-            // Control Round 처리
-            WinApis.SetWindowRgn(Btn_Minimize.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Minimize.Width, Btn_Minimize.Height, 15, 15), true);
-            WinApis.SetWindowRgn(Btn_Exit.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Exit.Width, Btn_Exit.Height, 15, 15), true);
+            try
+            {
+                // Control Round 처리
+                WinApis.SetWindowRgn(Btn_Minimize.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Minimize.Width, Btn_Minimize.Height, 15, 15), true);
+                WinApis.SetWindowRgn(Btn_Exit.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Exit.Width, Btn_Exit.Height, 15, 15), true);
 
-            // 모든 폼이 사용하는 현재 적용 중인 레시피 이름
-            Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].SetString(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+                // 모든 폼이 사용하는 현재 적용 중인 레시피 이름
+                Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].SetString(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Btn_Minimize_Click(object sender, EventArgs e)
@@ -140,30 +161,43 @@ namespace CRUX_GUI_Cognex
         {
             try
             {
+                Program_Exit();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void Program_Exit()
+        {
+            try
+            {
+                if(Frm_Status != null)
                 // 현재 스테이터스 체크 종료
-                Frm_Status.StopCheckStatus();
-            
-                for(int i = 0; i < Globals.MaxVisionCnt; ++i)
-                {
-                    Program.Frm_MainContent_[i].Frm_Algorithm.CurrentOpenJob?.Shutdown();
-                    Program.Frm_MainContent_[i].Frm_Algorithm.Dispose();
-                    Program.Frm_MainContent_[i].Recipe?.Dispose();
-                    Program.Frm_MainContent_[i].Dispose();
-                    Program.Frm_MainContent_[i].Close();
+                    Frm_Status.StopCheckStatus();
 
-                    Systems.Inspector_.Dispose();
-                }
+                if(Program.Frm_MainContent_ != null)
+                    for (int i = 0; i < Globals.MaxVisionCnt; ++i)
+                    {
+                        Program.Frm_MainContent_[i].Frm_Algorithm.CurrentOpenJob?.Shutdown();
+                        Program.Frm_MainContent_[i].Frm_Algorithm.Dispose();
+                        Program.Frm_MainContent_[i].Recipe?.Dispose();
+                        Program.Frm_MainContent_[i].Dispose();
+                        Program.Frm_MainContent_[i].Close();
+
+                        Systems.Inspector_.Dispose();
+                    }
                 // 프로세스 리스트 종료
-                foreach (ProcessSet item in Program.GetProcessList())                
+                foreach (ProcessSet item in Program.GetProcessList())
                     item.Proc.Kill();
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
                 //Program.ProgramExit();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] 프로그램 종료 실패, Exception Message : {ex.Message}", false, false);
                 //Systems.LogWriter.Error($"Fail Close to Program, Exceiption Message : {ex.Message}");
-                Program.ProgramExit();
+                Program_Exit();
             }
         }
 
@@ -176,9 +210,16 @@ namespace CRUX_GUI_Cognex
         private void Pb_Logo_MouseMove(object sender, MouseEventArgs e)
         {
             // 창 잡고 끌기
-            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            try
             {
-                Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
+                if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+                {
+                    Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -191,9 +232,16 @@ namespace CRUX_GUI_Cognex
         private void Lb_JobName_MouseMove(object sender, MouseEventArgs e)
         {
             // 창 잡고 끌기
-            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            try
             {
-                Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
+                if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+                {
+                    Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         /// <summary>
@@ -237,7 +285,7 @@ namespace CRUX_GUI_Cognex
             {
                 //Systems.LogWriter.Error(ex);
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] PC 탭 전환 실패, Exception Message : {ex.Message}", true, false);
-                throw;
+                throw ex;
             }
         }
     }

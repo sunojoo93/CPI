@@ -60,7 +60,8 @@ namespace CRUX_GUI_Cognex.Main_Form
                 //Cpb_RamStatus.Maximum = (long)Program.SysInfo.PC.Memory.TotalSize;
 
                 InitDgvDiskInfo();
-                InitDataGridView();
+                InitResultDataGridView();
+                InitDefectDataGridView();
                 Tmr_SystemInfo.Start();
                 Tmr_HardDiskInfo.Start();
 
@@ -71,7 +72,36 @@ namespace CRUX_GUI_Cognex.Main_Form
                 throw ex;
             }
         }
-        public void InitDataGridView()
+        public void InitDefectDataGridView()
+        {
+            try
+            {
+                DataTable Dt_Defect = new DataTable();
+                Dt_Defect.Columns.Add("ID");
+                Dt_Defect.Columns.Add("Area");
+                Dt_Defect.Columns.Add("X");
+                Dt_Defect.Columns.Add("Y");
+                Dt_Defect.Columns.Add("Width");
+                Dt_Defect.Columns.Add("Height");
+                Dt_Defect.Columns.Add("Center");
+                Dgv_Defect.DataSource = Dt_Defect;
+
+                Dgv_Defect.Columns["ID"].Width = 120;
+                Dgv_Defect.Columns["Area"].Width = 70;
+                Dgv_Defect.Columns["X"].Width = 70;
+                Dgv_Defect.Columns["Y"].Width = 70;
+                Dgv_Defect.Columns["Width"].Width = 70;
+                Dgv_Defect.Columns["Height"].Width = 70;
+                Dgv_Defect.Columns["Center"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                Dgv_Defect.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void InitResultDataGridView()
         {
             try
             {
@@ -79,11 +109,13 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Dt_Result.Columns.Add("Date");
                 Dt_Result.Columns.Add("ID");
                 Dt_Result.Columns.Add("Result");
+                Dt_Result.Columns.Add("Tact");
                 Dgv_Result.DataSource = Dt_Result;
 
-                Dgv_Result.Columns["Date"].Width = 130;
-                Dgv_Result.Columns["ID"].Width = 130;
-                Dgv_Result.Columns["Result"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                Dgv_Result.Columns["Date"].Width = 100;
+                Dgv_Result.Columns["ID"].Width = 120;
+                Dgv_Result.Columns["Result"].Width = 80;
+                Dgv_Result.Columns["Tact"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 Dgv_Result.Refresh();
             }
@@ -274,19 +306,58 @@ namespace CRUX_GUI_Cognex.Main_Form
         }
         public void UpdateResult(ClassEndData data)
         {
-            DataTable Dt = new DataTable();
-            Dt = Dgv_Result.DataSource as DataTable;
+            Dgv_Result.Invoke(new MethodInvoker(delegate ()
+            {
+                DataTable Dt = new DataTable();
+                Dt = Dgv_Result.DataSource as DataTable;
 
-            DataRow Dr = Dt.NewRow();
+                DataRow Dr = Dt.NewRow();
 
-            Dr["Date"] = data.Date;
-            Dr["ID"] = data.CellID;
-            Dr["Result"] = data.Result;
+                Dr["Date"] = data.Date;
+                Dr["ID"] = data.CellID;
+                Dr["Result"] = data.Result;
+                Dr["Tact"] = data.TactTime;
 
-            Dt.Rows.Add(Dr);
+                Dt.Rows.Add(Dr);
 
-            Dgv_Result.DataSource = Dt;
-            
+                Dgv_Result.DataSource = Dt;
+                if (Dgv_Result.Rows.Count > 0)
+                {
+                    Dgv_Result.Rows[Dgv_Result.Rows.Count - 1].Selected = true;
+                    Dgv_Result.FirstDisplayedScrollingRowIndex = Dgv_Result.SelectedRows[0].Index;
+                }
+                Dgv_Result.Refresh();
+            }));
+        }
+
+        private void Dgv_Result_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewColumn item in Dgv_Result.Columns)
+                {
+                    item.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void Dgv_Defect_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewColumn item in Dgv_Defect.Columns)
+                {
+                    item.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

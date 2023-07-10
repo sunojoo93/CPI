@@ -54,10 +54,10 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogDisplayToolBar_Pad = new Cognex.VisionPro.CogDisplayToolbarV2();
             this.CogDisplayStatusBar_Pad = new Cognex.VisionPro.CogDisplayStatusBarV2();
             this.Tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
+            this.Grb_Defect = new System.Windows.Forms.GroupBox();
+            this.Dgv_Defect = new System.Windows.Forms.DataGridView();
             this.Grb_InspResultList = new System.Windows.Forms.GroupBox();
             this.Dgv_Result = new System.Windows.Forms.DataGridView();
-            this.Date = new Cognex.VisionPro.Implementation.CogGridViewTextBoxColumn();
-            this.ID = new Cognex.VisionPro.Implementation.CogGridViewTextBoxColumn();
             this.Grb_ImageInfo = new System.Windows.Forms.GroupBox();
             this.Tlp_ImageInfo = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_StartInsp = new System.Windows.Forms.Button();
@@ -78,7 +78,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Btn_Right = new System.Windows.Forms.Button();
             this.Btn_ImageSelect = new System.Windows.Forms.Button();
             this.Lb_CurImageNum = new System.Windows.Forms.Label();
-            this.Uctrl_LogWrite_Manual = new LogPrinter();
+            this.Uctrl_LogWrite_Manual = new CRUX_GUI_Cognex.User_Controls.LogPrinter();
             this.tab_Page_TotalSimul = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
             this.Tab_Simul.SuspendLayout();
@@ -91,6 +91,8 @@ namespace CRUX_GUI_Cognex.Main_Form
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordPad)).BeginInit();
             this.Tlp_Bottom.SuspendLayout();
+            this.Grb_Defect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Defect)).BeginInit();
             this.Grb_InspResultList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Result)).BeginInit();
             this.Grb_ImageInfo.SuspendLayout();
@@ -148,7 +150,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             // Tlp_Auto
             // 
             this.Tlp_Auto.ColumnCount = 1;
-            this.Tlp_Auto.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1100F));
+            this.Tlp_Auto.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1182F));
             this.Tlp_Auto.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Auto.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Auto.Controls.Add(this.Tlp_Records, 0, 0);
@@ -437,8 +439,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             // Tlp_Bottom
             // 
             this.Tlp_Bottom.ColumnCount = 2;
-            this.Tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.74406F));
-            this.Tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.25594F));
+            this.Tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.13945F));
+            this.Tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.86055F));
+            this.Tlp_Bottom.Controls.Add(this.Grb_Defect, 0, 0);
             this.Tlp_Bottom.Controls.Add(this.Grb_InspResultList, 0, 0);
             this.Tlp_Bottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Bottom.Location = new System.Drawing.Point(3, 517);
@@ -448,13 +451,43 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Bottom.Size = new System.Drawing.Size(1176, 148);
             this.Tlp_Bottom.TabIndex = 2;
             // 
+            // Grb_Defect
+            // 
+            this.Grb_Defect.Controls.Add(this.Dgv_Defect);
+            this.Grb_Defect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grb_Defect.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_Defect.Location = new System.Drawing.Point(427, 3);
+            this.Grb_Defect.Name = "Grb_Defect";
+            this.Grb_Defect.Size = new System.Drawing.Size(746, 142);
+            this.Grb_Defect.TabIndex = 4;
+            this.Grb_Defect.TabStop = false;
+            this.Grb_Defect.Text = "Defect";
+            // 
+            // Dgv_Defect
+            // 
+            this.Dgv_Defect.AllowUserToAddRows = false;
+            this.Dgv_Defect.AllowUserToDeleteRows = false;
+            this.Dgv_Defect.AllowUserToResizeColumns = false;
+            this.Dgv_Defect.AllowUserToResizeRows = false;
+            this.Dgv_Defect.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_Defect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_Defect.Location = new System.Drawing.Point(3, 17);
+            this.Dgv_Defect.MultiSelect = false;
+            this.Dgv_Defect.Name = "Dgv_Defect";
+            this.Dgv_Defect.ReadOnly = true;
+            this.Dgv_Defect.RowHeadersVisible = false;
+            this.Dgv_Defect.RowTemplate.Height = 23;
+            this.Dgv_Defect.Size = new System.Drawing.Size(740, 122);
+            this.Dgv_Defect.TabIndex = 0;
+            this.Dgv_Defect.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Defect_ColumnHeaderMouseClick);
+            // 
             // Grb_InspResultList
             // 
             this.Grb_InspResultList.Controls.Add(this.Dgv_Result);
             this.Grb_InspResultList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_InspResultList.Location = new System.Drawing.Point(3, 3);
             this.Grb_InspResultList.Name = "Grb_InspResultList";
-            this.Grb_InspResultList.Size = new System.Drawing.Size(226, 142);
+            this.Grb_InspResultList.Size = new System.Drawing.Size(418, 142);
             this.Grb_InspResultList.TabIndex = 1;
             this.Grb_InspResultList.TabStop = false;
             this.Grb_InspResultList.Text = "Results";
@@ -466,9 +499,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Result.AllowUserToResizeColumns = false;
             this.Dgv_Result.AllowUserToResizeRows = false;
             this.Dgv_Result.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dgv_Result.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Date,
-            this.ID});
             this.Dgv_Result.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Dgv_Result.Location = new System.Drawing.Point(3, 18);
             this.Dgv_Result.MultiSelect = false;
@@ -476,36 +506,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Result.ReadOnly = true;
             this.Dgv_Result.RowHeadersVisible = false;
             this.Dgv_Result.RowTemplate.Height = 23;
-            this.Dgv_Result.Size = new System.Drawing.Size(220, 121);
+            this.Dgv_Result.Size = new System.Drawing.Size(412, 121);
             this.Dgv_Result.TabIndex = 0;
-            // 
-            // Date
-            // 
-            this.Date.Electric = false;
-            this.Date.ElectricIconAlignment = System.Windows.Forms.ErrorIconAlignment.TopLeft;
-            this.Date.ElectricIconHidden = false;
-            this.Date.ElectricIconPadding = 0;
-            this.Date.ErrorIconAlignment = System.Windows.Forms.ErrorIconAlignment.MiddleRight;
-            this.Date.ErrorIconPadding = -36;
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            this.Date.Path = null;
-            this.Date.ReadOnly = true;
-            this.Date.SubjectInUseMode = Cognex.VisionPro.CogSubjectInUseModeConstants.ReadOnly;
-            // 
-            // ID
-            // 
-            this.ID.Electric = false;
-            this.ID.ElectricIconAlignment = System.Windows.Forms.ErrorIconAlignment.TopLeft;
-            this.ID.ElectricIconHidden = false;
-            this.ID.ElectricIconPadding = 0;
-            this.ID.ErrorIconAlignment = System.Windows.Forms.ErrorIconAlignment.MiddleRight;
-            this.ID.ErrorIconPadding = -36;
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.Path = null;
-            this.ID.ReadOnly = true;
-            this.ID.SubjectInUseMode = Cognex.VisionPro.CogSubjectInUseModeConstants.ReadOnly;
+            this.Dgv_Result.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Result_ColumnHeaderMouseClick);
             // 
             // Grb_ImageInfo
             // 
@@ -731,7 +734,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             // 
             // Btn_Left
             // 
-            this.Btn_Left.BackgroundImage = Properties.Resources.SingleLeftArrow;
+            this.Btn_Left.BackgroundImage = global::CRUX_GUI_Cognex.Properties.Resources.SingleLeftArrow;
             this.Btn_Left.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Btn_Left.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Left.Location = new System.Drawing.Point(0, 0);
@@ -744,7 +747,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             // 
             // Btn_Right
             // 
-            this.Btn_Right.BackgroundImage = Properties.Resources.SingleRightArrow;
+            this.Btn_Right.BackgroundImage = global::CRUX_GUI_Cognex.Properties.Resources.SingleRightArrow;
             this.Btn_Right.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Btn_Right.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Right.Location = new System.Drawing.Point(636, 0);
@@ -832,6 +835,8 @@ namespace CRUX_GUI_Cognex.Main_Form
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordRight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordPad)).EndInit();
             this.Tlp_Bottom.ResumeLayout(false);
+            this.Grb_Defect.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Defect)).EndInit();
             this.Grb_InspResultList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Result)).EndInit();
             this.Grb_ImageInfo.ResumeLayout(false);
@@ -877,8 +882,6 @@ namespace CRUX_GUI_Cognex.Main_Form
         private System.Windows.Forms.TableLayoutPanel Tlp_Bottom;
         private System.Windows.Forms.GroupBox Grb_InspResultList;
         private System.Windows.Forms.DataGridView Dgv_Result;
-        private Cognex.VisionPro.Implementation.CogGridViewTextBoxColumn Date;
-        private Cognex.VisionPro.Implementation.CogGridViewTextBoxColumn ID;
         private System.Windows.Forms.GroupBox Grb_ImageInfo;
         private System.Windows.Forms.TableLayoutPanel Tlp_ImageInfo;
         private System.Windows.Forms.Button Btn_StartInsp;
@@ -900,5 +903,7 @@ namespace CRUX_GUI_Cognex.Main_Form
         private System.Windows.Forms.Button Btn_ImageSelect;
         private System.Windows.Forms.Label Lb_CurImageNum;
         private User_Controls.LogPrinter Uctrl_LogWrite_Manual;
+        private System.Windows.Forms.GroupBox Grb_Defect;
+        private System.Windows.Forms.DataGridView Dgv_Defect;
     }
 }

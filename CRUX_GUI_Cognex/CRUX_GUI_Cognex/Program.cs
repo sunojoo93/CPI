@@ -70,43 +70,7 @@ namespace CRUX_GUI_Cognex
         {
             return ProcessList;
         }
-        public static void ProgramExit()
-        {
-           
-            while (Program.Frm_Main.Frm_Status.Checker.IsCompleted != true)
-            {
-                Thread.Sleep(10);
-            }
-            //if(Systems.RecipeContent.MainRecipe != null)
-            //{
-            //    //foreach (Recipe item in Systems.RecipeContent.MainRecipe)
-            //   //     item.Manager.Shutdown();
-            //}
-            //if(Systems.RecipeContent.ViewRecipe != null)
-            //{
-            //    //foreach (Recipe item in Systems.RecipeContent.ViewRecipe)
-            //    //    item.Manager.Shutdown();
-            //}
-
-            Program.KillAllTask();
-            Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Process Exit", false, false);
-
-            foreach (var item in Frm_MainContent_)
-            {
-                item.Dispose();
-                item.Close();
-            }
-          
-
-            Program.Frm_Main.Hide();
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
-   
-           
-            //Application.ExitThread();
-            //Environment.Exit(0);
-            //Application.Exit();
-
-        }
+      
         static Process IsExistProcess ()
         {
             List<Process> Process_ = Process.GetProcesses().ToList();

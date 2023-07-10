@@ -22,15 +22,22 @@ namespace CRUX_GUI_Cognex.Ex_Form
         }
         public Ex_Frm_Optic_Area ()
         {
-            InitializeComponent();
-            TopLevel = false;
-            Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;
-            Ex_Frm_Optic_Area_Content AreaContent = new Ex_Frm_Optic_Area_Content();
-            Tlp_AreaCam.Controls.Add(AreaContent,2,0);
-            Tlp_AreaCam.SetRowSpan(AreaContent, 3);
+            try
+            {
+                InitializeComponent();
+                TopLevel = false;
+                Dock = DockStyle.Fill;
+                FormBorderStyle = FormBorderStyle.None;
+                Ex_Frm_Optic_Area_Content AreaContent = new Ex_Frm_Optic_Area_Content();
+                Tlp_AreaCam.Controls.Add(AreaContent, 2, 0);
+                Tlp_AreaCam.SetRowSpan(AreaContent, 3);
 
-            AreaContent.Show();
+                AreaContent.Show();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

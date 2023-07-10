@@ -167,6 +167,38 @@ namespace CRUX_GUI_Cognex.User_Controls
                 //Systems.LogWriter.Error(string.Format("Exception Message : {0} Stack : {1} Func Name : {2} }", ex.Message.ToString(), ex.StackTrace.ToString(), $"{this.GetType().Name}"));
             }
         }
+
+        public Uct_main_View()
+        {
+            try
+            {
+                InitializeComponent();
+                InitRectData();            
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //Systems.LogWriter.Error(string.Format("Exception Message : {0} Stack : {1} Func Name : {2} }", ex.Message.ToString(), ex.StackTrace.ToString(), $"{this.GetType().Name}"));
+            }
+        }
+        public void SetInitData(Uct_Mini_View ucPicMiniMap, bool bUseMiniMap = false, int nWidth = 870, int nHeight = 700, int nLocX = 9, int nLocY = 47)
+        {
+            System.Drawing.Size sizeImg = new Size(nWidth / 4 * 4, nHeight / 4 * 4);
+            m_bUseMiniMap = bUseMiniMap;
+            m_ucPicMiniView = ucPicMiniMap;
+
+            this.MouseWheel += Pic_Main_MouseWheel;
+            this.MouseMove += Pic_Main_MouseMove;
+            this.MouseClick += Pic_Main_MouseClick;
+            this.MouseDown += Pic_Main_MouseDown;
+
+            if (m_bUseMiniMap) m_ucPicMiniView.Visible = true;
+            else m_ucPicMiniView.Visible = false;
+
+            this.Location = new Point(nLocX, nLocY);
+            this.Size = sizeImg;
+            Pic_Main.Size = sizeImg;
+        }
         public Thread GetThread()
         {
             return thread;

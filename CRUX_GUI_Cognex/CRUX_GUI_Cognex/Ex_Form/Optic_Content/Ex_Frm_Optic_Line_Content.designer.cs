@@ -43,7 +43,7 @@
             this.Tlp_LineCamContent.RowCount = 2;
             this.Tlp_LineCamContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.Tlp_LineCamContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_LineCamContent.Size = new System.Drawing.Size(1641, 1226);
+            this.Tlp_LineCamContent.Size = new System.Drawing.Size(1641, 1220);
             this.Tlp_LineCamContent.TabIndex = 0;
             // 
             // Ex_Frm_Optic_Line_Content
@@ -51,7 +51,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SeaGreen;
-            this.ClientSize = new System.Drawing.Size(1641, 1226);
+            this.ClientSize = new System.Drawing.Size(1641, 1220);
             this.Controls.Add(this.Tlp_LineCamContent);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

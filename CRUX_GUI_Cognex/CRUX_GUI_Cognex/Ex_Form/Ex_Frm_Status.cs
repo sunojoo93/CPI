@@ -20,21 +20,42 @@ namespace CRUX_GUI_Cognex.Ex_Form
         public Task Checker = null;
         public Ex_Frm_Status ()
         {
-            InitializeComponent();
-            TopLevel = false;
-            Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;
+            try
+            {
+                InitializeComponent();
+                TopLevel = false;
+                Dock = DockStyle.Fill;
+                FormBorderStyle = FormBorderStyle.None;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void StartCheckStatus()
         {
-            Timer_Time.Start();
-            TokenSource = new CancellationTokenSource();
-            Show();
-            Checker = Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));
+            try
+            {
+                Timer_Time.Start();
+                TokenSource = new CancellationTokenSource();
+                Show();
+                Checker = Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void StopCheckStatus()
         {
-            TokenSource.Cancel();
+            try
+            {
+                TokenSource.Cancel();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Ex_Frm_Status_Load(object sender, EventArgs e)
@@ -44,41 +65,83 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void Ex_Frm_Status_Shown(object sender, EventArgs e)
         {
-            Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 5, 5));
-            if(Globals.Insp_Type[0] == 5)
+            try
             {
-                Lb_AF.Visible = true;
-                Pb_AF.Visible = true;
+                Region = System.Drawing.Region.FromHrgn(WinApis.CreateRoundRectRgn(0, 0, this.Width, this.Height, 5, 5));
+                if (Globals.Insp_Type[0] == 5)
+                {
+                    Lb_AF.Visible = true;
+                    Pb_AF.Visible = true;
+                }
+                if (Globals.Insp_Type[0] == 6)
+                {
+                    Lb_AF.Visible = false;
+                    Pb_AF.Visible = false;
+                }
             }
-            if(Globals.Insp_Type[0] == 6)
+            catch (Exception ex)
             {
-                Lb_AF.Visible = false;
-                Pb_AF.Visible = false;
+                throw ex;
             }
         }
 
         private void Pb_VSS_State_Click(object sender, EventArgs e)
         {
-            ChageWindowState((sender as PictureBox)?.Name.ToString());
+            try
+            {
+                ChageWindowState((sender as PictureBox)?.Name.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Pb_MI_State_Click(object sender, EventArgs e)
         {
-            ChageWindowState((sender as PictureBox)?.Name.ToString());
+            try
+            {
+                ChageWindowState((sender as PictureBox)?.Name.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Pb_SEQ_State_Click(object sender, EventArgs e)
         {
-            ChageWindowState((sender as PictureBox)?.Name.ToString());
+            try
+            {
+                ChageWindowState((sender as PictureBox)?.Name.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void Pb_CAM_State_Click(object sender, EventArgs e)
         {
-            ChageWindowState((sender as PictureBox)?.Name.ToString());
+            try
+            {
+                ChageWindowState((sender as PictureBox)?.Name.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void StopTwinkleThread()
         {
-            TokenSource.Cancel();
+            try
+            {
+                TokenSource.Cancel();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void ChageWindowState(string name)
@@ -127,16 +190,23 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 WinApis.SetForegroundWindow(procHandler);
                 temp.State = State;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
 
         }
 
         private void Timer_Time_Tick(object sender, EventArgs e)
         {
-            Lb_DateTime.Text = System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+            try
+            {
+                Lb_DateTime.Text = System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// UI가 다른 Task의 상태를 확인하지 말고 다른 개별 Task가 UI로 상태를 보낸다?
@@ -239,48 +309,56 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 {
                     //Systems.LogWriter.Error("Error", ex);
                     Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] Task Status Check 실패, Exception Message : {ex.Message}", false, false);
+                    throw ex;
                 }
             }
         }
 
         private void SetState()
         {
-            System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
-            string resourceName = asm.GetName().Name + ".Properties.Resources";
-            var rm = new System.Resources.ResourceManager(resourceName, asm);
-
-            if (Systems.g_Ipc.m_fnGetConnected())
-                Pb_VSS_State.Image = (Bitmap)rm.GetObject("Connect");
-            else
-                Pb_VSS_State.Image = (Bitmap)rm.GetObject("Disconnect");
-            //Pb_VSS_State.Refresh();
-
-            if (Systems.AliveList[Systems.CurDisplayIndex].Camera)
-                Pb_CAM_State.Image = (Bitmap)rm.GetObject("Connect");
-            else
-                Pb_CAM_State.Image = (Bitmap)rm.GetObject("Disconnect");
-
-            if (Systems.AliveList[Systems.CurDisplayIndex].Sequence)
-                Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Connect");
-            else
-
-                Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Disconnect");
-            if (Systems.AliveList[Systems.CurDisplayIndex].MainPc)
-                Pb_MI_State.Image = (Bitmap)rm.GetObject("Connect");
-            else
-                Pb_MI_State.Image = (Bitmap)rm.GetObject("Disconnect");
-            if (Globals.Insp_Type[0] == 5)
+            try
             {
-                if (Systems.AliveList[Systems.CurDisplayIndex].AF)
-                    Pb_AF.Image = (Bitmap)rm.GetObject("Connect");
-                else
-                    Pb_AF.Image = (Bitmap)rm.GetObject("Disconnect");
-            }
+                System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
+                string resourceName = asm.GetName().Name + ".Properties.Resources";
+                var rm = new System.Resources.ResourceManager(resourceName, asm);
 
-            if (Systems.AliveList[Systems.CurDisplayIndex].Light)
-                Pb_Light.Image = (Bitmap)rm.GetObject("Connect");
-            else
-                Pb_Light.Image = (Bitmap)rm.GetObject("Disconnect");
+                if (Systems.g_Ipc.m_fnGetConnected())
+                    Pb_VSS_State.Image = (Bitmap)rm.GetObject("Connect");
+                else
+                    Pb_VSS_State.Image = (Bitmap)rm.GetObject("Disconnect");
+                //Pb_VSS_State.Refresh();
+
+                if (Systems.AliveList[Systems.CurDisplayIndex].Camera)
+                    Pb_CAM_State.Image = (Bitmap)rm.GetObject("Connect");
+                else
+                    Pb_CAM_State.Image = (Bitmap)rm.GetObject("Disconnect");
+
+                if (Systems.AliveList[Systems.CurDisplayIndex].Sequence)
+                    Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Connect");
+                else
+
+                    Pb_SEQ_State.Image = (Bitmap)rm.GetObject("Disconnect");
+                if (Systems.AliveList[Systems.CurDisplayIndex].MainPc)
+                    Pb_MI_State.Image = (Bitmap)rm.GetObject("Connect");
+                else
+                    Pb_MI_State.Image = (Bitmap)rm.GetObject("Disconnect");
+                if (Globals.Insp_Type[0] == 5)
+                {
+                    if (Systems.AliveList[Systems.CurDisplayIndex].AF)
+                        Pb_AF.Image = (Bitmap)rm.GetObject("Connect");
+                    else
+                        Pb_AF.Image = (Bitmap)rm.GetObject("Disconnect");
+                }
+
+                if (Systems.AliveList[Systems.CurDisplayIndex].Light)
+                    Pb_Light.Image = (Bitmap)rm.GetObject("Connect");
+                else
+                    Pb_Light.Image = (Bitmap)rm.GetObject("Disconnect");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

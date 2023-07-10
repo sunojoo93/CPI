@@ -167,7 +167,7 @@
             // Btn_ImageLoad
             // 
             this.Btn_ImageLoad.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ImageLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_ImageLoad.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_ImageLoad.Location = new System.Drawing.Point(430, 0);
             this.Btn_ImageLoad.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_ImageLoad.Name = "Btn_ImageLoad";
@@ -182,7 +182,7 @@
             this.Grb_ROI.Controls.Add(this.Tlp_Roi);
             this.Grb_ROI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_ROI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Grb_ROI.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_ROI.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_ROI.Location = new System.Drawing.Point(884, 0);
             this.Grb_ROI.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_ROI.Name = "Grb_ROI";
@@ -235,7 +235,7 @@
             // Btn_ROIManager
             // 
             this.Btn_ROIManager.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ROIManager.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_ROIManager.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_ROIManager.Location = new System.Drawing.Point(0, 484);
             this.Btn_ROIManager.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_ROIManager.Name = "Btn_ROIManager";
@@ -250,7 +250,7 @@
             this.Grb_Algorithm.Controls.Add(this.Tlp_Algorithm);
             this.Grb_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Algorithm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Grb_Algorithm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_Algorithm.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_Algorithm.Location = new System.Drawing.Point(1071, 0);
             this.Grb_Algorithm.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_Algorithm.Name = "Grb_Algorithm";
@@ -281,9 +281,8 @@
             this.LstB_RegistedAlgorithm.AllowDrop = true;
             this.LstB_RegistedAlgorithm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LstB_RegistedAlgorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstB_RegistedAlgorithm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstB_RegistedAlgorithm.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LstB_RegistedAlgorithm.FormattingEnabled = true;
-            this.LstB_RegistedAlgorithm.ItemHeight = 15;
             this.LstB_RegistedAlgorithm.Location = new System.Drawing.Point(0, 0);
             this.LstB_RegistedAlgorithm.Margin = new System.Windows.Forms.Padding(0);
             this.LstB_RegistedAlgorithm.Name = "LstB_RegistedAlgorithm";
@@ -299,7 +298,7 @@
             // Btn_AlgorithmManage
             // 
             this.Btn_AlgorithmManage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_AlgorithmManage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_AlgorithmManage.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_AlgorithmManage.Location = new System.Drawing.Point(0, 484);
             this.Btn_AlgorithmManage.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_AlgorithmManage.Name = "Btn_AlgorithmManage";
@@ -315,7 +314,7 @@
             this.Grb_Params.Controls.Add(this.Tb_ParamEdit);
             this.Grb_Params.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Params.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Grb_Params.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_Params.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_Params.Location = new System.Drawing.Point(1259, 0);
             this.Grb_Params.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_Params.Name = "Grb_Params";
@@ -341,7 +340,7 @@
             // LstV_Parameter
             // 
             this.LstV_Parameter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstV_Parameter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstV_Parameter.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LstV_Parameter.FullRowSelect = true;
             this.LstV_Parameter.LabelEdit = true;
             this.LstV_Parameter.Location = new System.Drawing.Point(3, 3);
@@ -366,7 +365,7 @@
             // 
             this.CAGB_Pattern.Controls.Add(this.tableLayoutPanel1);
             this.CAGB_Pattern.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CAGB_Pattern.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.CAGB_Pattern.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CAGB_Pattern.Location = new System.Drawing.Point(636, 0);
             this.CAGB_Pattern.Margin = new System.Windows.Forms.Padding(0);
             this.CAGB_Pattern.Name = "CAGB_Pattern";
