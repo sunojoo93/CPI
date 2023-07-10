@@ -494,16 +494,17 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                     RefeshRoiDataView();
                     AltIsDown = false;
+
                 }
                 else if (Cog_ROI_Display.Selection.Count > 0)
                 {
                     CogRectangle Rect = Cog_ROI_Display.Selection[0] as CogRectangle;
                     foreach (ListViewItem item in LstV_ROI.Items)
                     {
-                            if (item.SubItems["Object"].Tag as CogRectangle == Rect)
-                            {
-                                item.Selected = true;
-                            }
+                        if (item.SubItems["Object"].Tag as CogRectangle == Rect)
+                        {
+                            item.Selected = true;
+                        }
                     }
                     LstV_ROI.Invalidate();
                     LstV_ROI.Focus();
@@ -1334,12 +1335,9 @@ namespace CRUX_GUI_Cognex.Ex_Form
             try
             {
                 Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
-                //CurP
-                //Recipe.ViewRecipe.Patterns_Data.Pattern[CurPtnName] = 
-                //Origin_Pattern = Utility.DeepCopy(CurPattern);
+
                 OriginPattern.ROI_Data = CurPattern.ROI_Data;
                 DialogResult = DialogResult.OK;
-
             }
             catch (Exception ex)
             {

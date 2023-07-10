@@ -471,13 +471,32 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 //#endif
 
 	EXCEPTION_TRY
+#ifdef _MATROXCAMERA
+#elif _VISTEKCAMERA
+
+	theApp.m_pCamera->CameraExpose();
+#elif _IMICAMERA
+#elif _HIKCAMERA
+#elif _MATROXLINECAMERA
+#elif _NEDLINECAMERA
+#elif _DALSALINECAMERA
+	CString VirID;
+	CString PanelID;
+	CString Position;
+	VirID = (LPCTSTR)strVirtualID;
+	PanelID = (LPCTSTR)strPanelID;
+	Position = (LPCTSTR)strPosition;
+	theApp.m_pCamera->CameraExpose(PanelID, VirID, Position, nGrabLine);
+#elif _TestCam
 		CString VirID;
 	CString PanelID;
 	CString Position;
 	VirID = (LPCTSTR)strVirtualID;
 	PanelID = (LPCTSTR)strPanelID;
 	Position = (LPCTSTR)strPosition;
-		theApp.m_pCamera->CameraExpose(PanelID, VirID, Position, nGrabLine);
+	theApp.m_pCamera->CameraExpose(PanelID, VirID, Position, nGrabLine);
+#endif
+
 	EXCEPTION_CATCH
 
 	if ( nRet != APP_OK)
@@ -1115,12 +1134,24 @@ int VSMessageProcessor::VS_GrabStop(byte* pParam, ULONG& nPrmSize, bool bAlwaysR
 	double dAnalogGain = 0;
 
 	byte* tempParam = pParam;
-
+	int ProcessNum = 0;
 	// Sequence In LOG
 	m_fnPrintLog(_T("CAMLOG -- Seq9050_GrabStop Sequence Start. \n"));
 
 	EXCEPTION_TRY
-		int ProcessNum = theApp.m_pCamera->StopGrab(50);	
+#ifdef _MATROXCAMERA
+#elif _VISTEKCAMERA
+		//theApp.m_pCamera->StopGrab();
+#elif _IMICAMERA
+#elif _DALSACAMERA
+#elif _HIKCAMERA
+#elif _MATROXLINECAMERA
+#elif _NEDLINECAMERA
+#elif _DALSALINECAMERA
+		ProcessNum = theApp.m_pCamera->StopGrab(50);
+#elif _TestCam
+		ProcessNum = theApp.m_pCamera->StopGrab(50);	
+#endif
 		*(int*)tempParam = ProcessNum;
 	EXCEPTION_CATCH
 

@@ -173,7 +173,7 @@ public:
 	void StopGrab();
 	void AllocClearBuffer(int lineCount, bool onlyClear = false);
 	void m_fnMbufExport(CString strFilePath, MIL_ID milBuffer);
-	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void MPTYPE *HookDataPtr);
+	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr);
 #pragma endregion
 
 private:

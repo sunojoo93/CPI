@@ -71,7 +71,7 @@ public:
 
 	virtual int		GetImageCallBackState()								{	return 0		;};
 	virtual UINT	retryConnect()										{	return 0		;};
-	virtual	void	CameraExpose() { };
+	virtual	void	CameraExpose()										{	return;			 };
 	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
 	virtual int		SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID) { return 0; };
 #ifdef _MATROXCAMERA
@@ -97,8 +97,9 @@ public:
 	virtual void	CalcWhiteBalance(float* WhiteBalance)									{	return			;};
 	virtual void	SetWhiteBalance(float* WhiteBalance)									{	return			;};
 	virtual void	GetWhiteBalance(float* WhiteBalance)									{	return			;};
-	virtual	void	CameraExpose() = 0;
-	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
+	//virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt);
+	//virtual	void	CameraExpose() = 0;
+//	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
 #elif _IMICAMERA
 	/************************************************************/
 	/*						 Vistek Camera						*/
