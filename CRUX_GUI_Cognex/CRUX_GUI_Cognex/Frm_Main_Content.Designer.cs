@@ -41,8 +41,8 @@
             this.Tlp_MainForm.Name = "Tlp_MainForm";
             this.Tlp_MainForm.RowCount = 2;
             this.Tlp_MainForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_MainForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 67F));
-            this.Tlp_MainForm.Size = new System.Drawing.Size(1920, 1000);
+            this.Tlp_MainForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.Tlp_MainForm.Size = new System.Drawing.Size(1920, 980);
             this.Tlp_MainForm.TabIndex = 0;
             // 
             // Frm_MainContent
@@ -50,12 +50,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1920, 1000);
+            this.ClientSize = new System.Drawing.Size(1920, 980);
+            this.Controls.Add(this.Tlp_MainForm);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
-            this.Controls.Add(Tlp_MainForm);
             this.Name = "Frm_MainContent";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "CRUX";

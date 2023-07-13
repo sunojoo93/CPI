@@ -176,6 +176,7 @@ namespace CRUX_GUI_Cognex
                 // 현재 스테이터스 체크 종료
                     Frm_Status.StopCheckStatus();
 
+                // 각 폼에 생성된 비관리 자원 Dispose
                 if(Program.Frm_MainContent_ != null)
                     for (int i = 0; i < Globals.MaxVisionCnt; ++i)
                     {
@@ -189,7 +190,12 @@ namespace CRUX_GUI_Cognex
                     }
                 // 프로세스 리스트 종료
                 foreach (ProcessSet item in Program.GetProcessList())
-                    item.Proc.Kill();
+                {
+                    // 이미 종료된 프로세스인지 확인
+                    if (item.Proc.HasExited  != true)
+                        item.Proc.Kill();
+                }
+       
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
                 //Program.ProgramExit();
             }
@@ -197,7 +203,7 @@ namespace CRUX_GUI_Cognex
             {
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] 프로그램 종료 실패, Exception Message : {ex.Message}", false, false);
                 //Systems.LogWriter.Error($"Fail Close to Program, Exceiption Message : {ex.Message}");
-                Program_Exit();
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
         }
 

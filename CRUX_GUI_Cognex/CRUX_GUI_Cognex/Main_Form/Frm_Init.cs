@@ -151,7 +151,8 @@ namespace CRUX_GUI_Cognex.Main_Form
                                 if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
                                     if (SimulMode.ToString() == "FALSE")
-                                        Program.StartCameraTask("TestCamTask", 1,"TestCam1"); // 추후에 수정
+                                        //Program.StartCameraTask("TestCamTask", 1,"TestCam1"); // 추후에 수정
+                                    Program.StartCameraTask("VistekCameraTask", 1, "VistekCamera1"); // 추후에 수정
                                     else
                                         Program.StartSimulCameraTask();
                                 }
@@ -162,6 +163,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                                     else
                                         Program.StartSimulCameraTask();
                                 }
+ 
                                 Thread.Sleep(2000);
                                 ++InitFlag;
                             }

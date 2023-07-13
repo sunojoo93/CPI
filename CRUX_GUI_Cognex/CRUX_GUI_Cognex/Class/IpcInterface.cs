@@ -140,7 +140,7 @@ namespace CRUX_GUI_Cognex.Class
         public const int CMD_TYPE_NORES = 2;
         public const int CMD_TYPE_REPLY = 11;
         public const int CMD_TYPE_CMD = 12;
-        public const int CMD_TIMEOUT = 3000;
+        public const int CMD_TIMEOUT = 6000;
 
         public const int APP_OK = 0;
         public const int APP_NG = 1;

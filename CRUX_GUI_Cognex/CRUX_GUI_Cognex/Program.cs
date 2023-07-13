@@ -272,6 +272,9 @@ namespace CRUX_GUI_Cognex
                 procList = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
                 foreach (var proc in procList)
                     proc.Kill();
+                procList = Process.GetProcessesByName("VistekCameraTask");
+                foreach (var proc in procList)
+                    proc.Kill();
             }
             catch(Exception ex)
             {

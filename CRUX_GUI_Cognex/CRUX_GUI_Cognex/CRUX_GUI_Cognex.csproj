@@ -543,6 +543,7 @@
     <Compile Include="Frm_Main_Content.Designer.cs">
       <DependentUpon>Frm_Main_Content.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interface\ICamBase.cs" />
     <Compile Include="Main_Form\Frm_Init.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -610,17 +611,17 @@
     <Compile Include="User_Controls\LogPrinter.designer.cs">
       <DependentUpon>LogPrinter.cs</DependentUpon>
     </Compile>
-    <Compile Include="User_Controls\Uct_main_View.cs">
+    <Compile Include="User_Controls\Uctrl_MainPic.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="User_Controls\Uct_main_View.designer.cs">
-      <DependentUpon>Uct_main_View.cs</DependentUpon>
+    <Compile Include="User_Controls\Uctrl_MainPic.Designer.cs">
+      <DependentUpon>Uctrl_MainPic.cs</DependentUpon>
     </Compile>
-    <Compile Include="User_Controls\Uct_Mini_View.cs">
+    <Compile Include="User_Controls\Uctrl_MiniMap.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="User_Controls\Uct_Mini_View.designer.cs">
-      <DependentUpon>Uct_Mini_View.cs</DependentUpon>
+    <Compile Include="User_Controls\Uctrl_MiniMap.Designer.cs">
+      <DependentUpon>Uctrl_MiniMap.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Cognex_Helper.cs" />
     <Compile Include="Utils\CommonFunc.cs" />
@@ -744,11 +745,11 @@
     <EmbeddedResource Include="User_Controls\LogPrinter.resx">
       <DependentUpon>LogPrinter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User_Controls\Uct_main_View.resx">
-      <DependentUpon>Uct_main_View.cs</DependentUpon>
+    <EmbeddedResource Include="User_Controls\Uctrl_MainPic.resx">
+      <DependentUpon>Uctrl_MainPic.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User_Controls\Uct_Mini_View.resx">
-      <DependentUpon>Uct_Mini_View.cs</DependentUpon>
+    <EmbeddedResource Include="User_Controls\Uctrl_MiniMap.resx">
+      <DependentUpon>Uctrl_MiniMap.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

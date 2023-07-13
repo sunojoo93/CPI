@@ -291,7 +291,7 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 		SEQUENCE_TABLE (	90,		12	,	VS_WaitGrabEnd					, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		13	,	VS_GetGrabBuffer				, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		14	,	VS_GetGrabBufferNoRes			, false	,			false, &m_csSequenceLock_2)
-		SEQUENCE_TABLE (	90,		15	,	VS_LiveGrab						, false	,			false, &m_csSequenceLock_2)
+		SEQUENCE_TABLE (	90,		15	,	VS_LiveGrab						, false	,			false, &m_csSequenceLock_3)
 		SEQUENCE_TABLE (	90,		115	,	VS_ManualLoadImage				, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		16	,	VS_SaveGrabImage				, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		17	,	VS_WaitGrabEndSequence			, false	,			false, &m_csSequenceLock_4)
@@ -304,14 +304,14 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 		SEQUENCE_TABLE (	90,		25	,	VS_GetAnalogGain				, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		50	,	VS_GrabStop						, true ,			true, &m_csSequenceLock_3)
 
-		SEQUENCE_TABLE(     90,     26  ,   VS_SetTirgger                   , false ,           false, &m_csSequenceLock_2)
+		SEQUENCE_TABLE(     90,     26  ,   VS_SetTirgger                   , false ,           false, &m_csSequenceLock_5)
 																														
-		SEQUENCE_TABLE (	90,		30	,	VS_SetCameraConditions			, false	,			false, &m_csSequenceLock_2)
-		SEQUENCE_TABLE (	90,		31	,	VS_SetExposureTime				, false	,			false, &m_csSequenceLock_2)
-		SEQUENCE_TABLE (	90,		32	,	VS_SetAnalogGain				, false	,			false, &m_csSequenceLock_2)
-		SEQUENCE_TABLE (	90,		33	,	VS_SetSequenceMode				, false	,			false, &m_csSequenceLock_2)
-		SEQUENCE_TABLE (	90,		34	,	VS_SetTriggerMode				, false	,			false, &m_csSequenceLock_2)
-
+		SEQUENCE_TABLE (	90,		30	,	VS_SetCameraConditions			, false	,			false, &m_csSequenceLock_5)
+		SEQUENCE_TABLE (	90,		31	,	VS_SetExposureTime				, false	,			false, &m_csSequenceLock_5)
+		SEQUENCE_TABLE (	90,		32	,	VS_SetAnalogGain				, false	,			false, &m_csSequenceLock_5)
+		SEQUENCE_TABLE (	90,		33	,	VS_SetSequenceMode				, false	,			false, &m_csSequenceLock_5)
+		SEQUENCE_TABLE (	90,		34	,	VS_SetTriggerMode				, false	,			false, &m_csSequenceLock_5)
+		SEQUENCE_TABLE (	90,		34	,	VS_SetTriggerMode				, false	,			false, &m_csSequenceLock_5)
 		if( m_SeqenceCount <= 0 )
 		{
 			m_bSeqResetFlag = 0;
@@ -1372,6 +1372,37 @@ int VSMessageProcessor::VS_SetTriggerMode( byte* pParam, ULONG& nPrmSize, bool b
 		m_fnPrintLog(_T("CAMLOG -- Seq9034_Set_Trigger_Mode Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
 
 		return nRet;
+}
+
+int VSMessageProcessor::VS_GetCamInfo(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/)
+{
+	int nRet = APP_OK;
+	int nStepNo = 0;
+	UINT nTrigMode = 0;
+
+	byte* tempParam = pParam;
+
+	nTrigMode = *(UINT*)tempParam;		tempParam += sizeof(UINT);
+
+	// Sequence In LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq9034_Set_Trigger_Mode Sequence Start. nTrigMode=%d \n"), nTrigMode);
+
+	EXCEPTION_TRY
+		if (!theApp.m_pCamera->SetTriggerMode(nTrigMode))
+			nRet = APP_NG;
+	EXCEPTION_CATCH
+
+		if (nRet != APP_OK)
+		{
+			// Error Log
+			m_fnPrintLog(_T("CAMLOG -- Seq9034_Set_Trigger_Mode Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			return nRet;
+		}
+
+	// Sequence Out LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq9034_Set_Trigger_Mode Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+
+	return nRet;
 }
 
 BOOL VSMessageProcessor::GetVSState()	

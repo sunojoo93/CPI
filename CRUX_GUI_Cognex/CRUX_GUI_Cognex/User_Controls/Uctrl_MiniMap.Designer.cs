@@ -1,4 +1,4 @@
-﻿namespace CRUX_Renewal.User_Controls
+﻿namespace CRUX_GUI_Cognex.User_Controls
 {
     partial class Uctrl_MiniMap
     {
@@ -38,9 +38,9 @@
             // picMinImg
             // 
             this.picMinImg.BackColor = System.Drawing.SystemColors.MenuText;
-            this.picMinImg.Location = new System.Drawing.Point(2, 2);
+            this.picMinImg.Location = new System.Drawing.Point(0, 0);
             this.picMinImg.Name = "picMinImg";
-            this.picMinImg.Size = new System.Drawing.Size(266, 208);
+            this.picMinImg.Size = new System.Drawing.Size(200, 200);
             this.picMinImg.TabIndex = 4;
             this.picMinImg.TabStop = false;
             this.picMinImg.Click += new System.EventHandler(this.picMinImg_Click);
@@ -51,9 +51,10 @@
             // 
             this.pnlLoading.BackColor = System.Drawing.SystemColors.WindowText;
             this.pnlLoading.Controls.Add(this.lbLoading);
-            this.pnlLoading.Location = new System.Drawing.Point(2, 4);
+            this.pnlLoading.Location = new System.Drawing.Point(0, 0);
+            this.pnlLoading.Margin = new System.Windows.Forms.Padding(0);
             this.pnlLoading.Name = "pnlLoading";
-            this.pnlLoading.Size = new System.Drawing.Size(267, 206);
+            this.pnlLoading.Size = new System.Drawing.Size(200, 200);
             this.pnlLoading.TabIndex = 5;
             this.pnlLoading.Visible = false;
             // 
@@ -62,7 +63,7 @@
             this.lbLoading.AutoSize = true;
             this.lbLoading.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbLoading.ForeColor = System.Drawing.SystemColors.Window;
-            this.lbLoading.Location = new System.Drawing.Point(70, 96);
+            this.lbLoading.Location = new System.Drawing.Point(36, 92);
             this.lbLoading.Name = "lbLoading";
             this.lbLoading.Size = new System.Drawing.Size(138, 15);
             this.lbLoading.TabIndex = 0;
@@ -75,8 +76,9 @@
             this.Controls.Add(this.pnlLoading);
             this.Controls.Add(this.picMinImg);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Uctrl_MiniMap";
-            this.Size = new System.Drawing.Size(270, 212);
+            this.Size = new System.Drawing.Size(200, 200);
             ((System.ComponentModel.ISupportInitialize)(this.picMinImg)).EndInit();
             this.pnlLoading.ResumeLayout(false);
             this.pnlLoading.PerformLayout();

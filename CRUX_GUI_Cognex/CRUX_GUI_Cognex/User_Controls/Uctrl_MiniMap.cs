@@ -8,9 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing.Imaging;
-using CRUX_Renewal.Class;
+using CRUX_GUI_Cognex.Class;
 
-namespace CRUX_Renewal.User_Controls
+namespace CRUX_GUI_Cognex.User_Controls
 {
     public partial class Uctrl_MiniMap : UserControl
     {
@@ -187,7 +187,8 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
+                //Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -366,7 +367,7 @@ namespace CRUX_Renewal.User_Controls
              
                 using (Pen p = new Pen(Color.Red, 2))
                 {
-                    e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                     e.Graphics.TranslateTransform((float)(m_rectGuideLineArea.Width / 2) + m_rectGuideLineArea.X, (float)(m_rectGuideLineArea.Height / 2) + m_rectGuideLineArea.Y);
                     e.Graphics.RotateTransform((float)m_dGuideLineOffsetT);
                     e.Graphics.TranslateTransform(-(float)((m_rectGuideLineArea.Width / 2) + m_rectGuideLineArea.X), -(float)((m_rectGuideLineArea.Height / 2) + m_rectGuideLineArea.Y));
@@ -385,7 +386,7 @@ namespace CRUX_Renewal.User_Controls
                     m_fnDrawLine(e.Graphics, m_DicPnt[nPntCnt].GetPenVal(), m_DicPnt[nPntCnt].GetViewKind(), m_DicPnt[nPntCnt].GetPointListVal());
                 }
 
-                 Pen pRect = new Pen(Color.WhiteSmoke); // using (Pen p = new Pen(m_selectionColor))
+                 Pen pRect = new Pen(Color.Yellow); // using (Pen p = new Pen(m_selectionColor))
                  e.Graphics.DrawRectangle(pRect, m_rectSelectedArea);
 
                 //using (Pen penRoi = new Pen(Color.Red, 1))
@@ -508,7 +509,8 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
+                //Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
             }
         }

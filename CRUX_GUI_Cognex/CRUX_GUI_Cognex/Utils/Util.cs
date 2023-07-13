@@ -190,47 +190,59 @@ namespace CRUX_GUI_Cognex
                 ArrayList FullPathList = fileProc.getFileList(FullPath);
                 recipe.Path = path;
                 recipe.Name = name;
-                for (int t = 0; t < FullPathList.Count; ++t)
+                for (int pc_num = 0; pc_num < Globals.MaxVisionCnt; ++pc_num)
                 {
-                    for (int i = 0; i < Globals.RecipeItem_Names.Length; ++i)
+                    for (int t = 0; t < FullPathList.Count; ++t)
                     {
-                        string[] SplitTemp = (FullPathList[t] as string).Split(new string[] { "\\" }, StringSplitOptions.None);
-                        string FineName = SplitTemp[SplitTemp.Length - 1];
-                        if (FineName == Globals.RecipeItem_Names[i])
+                        for (int i = 0; i < Globals.RecipeItem_Names.Length; ++i)
                         {
-                            switch (FineName)
+                            string[] SplitTemp = (FullPathList[t] as string).Split(new string[] { "\\" }, StringSplitOptions.None);
+                            string FineName = SplitTemp[SplitTemp.Length - 1];
+                            if (FineName == Globals.RecipeItem_Names[i])
                             {
-                                case "ROI_Property.dat":
-                                    IniFile Temp = new IniFile();
-                                    Temp.Load(($@"{path}Recipes\{name}\ROI_Property.dat"));
+                                switch (FineName)
+                                {
+                                    case "ROI_Property.dat":
+                                        IniFile Temp = new IniFile();
+                                        Temp.Load(($@"{path}Recipes\{name}\ROI_Property.dat"));
 
-                                    foreach (IniSection item in Temp.Values)
-                                    {
-                                        //ROI_Property Prop = new ROI_Property();
-                                        //Prop.Name = item["Name"].ToString();
-                                        //Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["LineColor"].ToString());
-                                        //Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["LineStyle"].ToString());
-                                        //Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["SelectedLineStyle"].ToString());
-                                        //Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["SelectedColor"].ToString());
-                                        //Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["DragLineStyle"].ToString());
-                                        //Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["DragLineColor"].ToString());
-                                        //Prop.DefaultScale = item["DefaultScale"].ToDouble();
-                                        //recipe.ROI_Prop.Add(Prop);
-                                    }
-                                    break;
+                                        foreach (IniSection item in Temp.Values)
+                                        {
+                                            //ROI_Property Prop = new ROI_Property();
+                                            //Prop.Name = item["Name"].ToString();
+                                            //Prop.LineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["LineColor"].ToString());
+                                            //Prop.LineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["LineStyle"].ToString());
+                                            //Prop.SelectedLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["SelectedLineStyle"].ToString());
+                                            //Prop.SelectedLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["SelectedColor"].ToString());
+                                            //Prop.DragLineStyle = Utility.EnumUtil<CogGraphicLineStyleConstants>.Parse(item["DragLineStyle"].ToString());
+                                            //Prop.DragLineColor = Utility.EnumUtil<CogColorConstants>.Parse(item["DragLineColor"].ToString());
+                                            //Prop.DefaultScale = item["DefaultScale"].ToDouble();
+                                            //recipe.ROI_Prop.Add(Prop);
+                                        }
+                                        break;
 
-                                case "MainRecipe.xml":
-                                    recipe.Area_Data = null;
-                                    recipe.Area_Data = RecipeManager.RecipeDeserialize<Areas>($@"{FullPath}\", "MainRecipe.xml");
-                                    break;
-                                case "ImageMergeOffset.ini":
-                                    IniFile OffsetFile = new IniFile();
-                                    OffsetFile.Load($@"{FullPath}\ImageMergeOffset.ini");
-                                    Dictionary<string, IniFile> Data = new Dictionary<string, IniFile>();
-                                
-                                    Systems.RecipeData_Collection[0].Add("ImageMergeOffset.ini", OffsetFile);
-                                    //int aa = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
-                                    break;
+                                    case "MainRecipe.xml":
+                                        recipe.Area_Data = null;
+                                        recipe.Area_Data = RecipeManager.RecipeDeserialize<Areas>($@"{FullPath}\", "MainRecipe.xml");
+                                        break;
+                                    case "ImageMergeOffset.ini":
+                                        IniFile OffsetFile = new IniFile();
+                                        OffsetFile.Load($@"{FullPath}\ImageMergeOffset.ini");
+                                        //Dictionary<string, IniFile> Data = new Dictionary<string, IniFile>();
+
+                                        Systems.RecipeData_Collection[pc_num].Add("ImageMergeOffset.ini", OffsetFile);
+                                        //int aa = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
+                                        break;
+                                    case "GuideLine.ini":
+                                        IniFile GuideLineData = new IniFile();
+                                        GuideLineData.Load($@"{FullPath}\GuideLine.ini");
+                                        //Dictionary<string, IniFile> GuideLine = new Dictionary<string, IniFile>();
+
+                                        Systems.RecipeData_Collection[pc_num].Add("GuideLine.ini", GuideLineData);
+
+                                        //int aa = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
+                                        break;
+                                }
                             }
                         }
                     }

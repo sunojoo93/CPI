@@ -1,4 +1,4 @@
-﻿namespace CRUX_Renewal.User_Controls
+﻿namespace CRUX_GUI_Cognex.User_Controls
 {
     partial class Uctrl_MainPic
     {
@@ -40,18 +40,18 @@
             // 
             // vScrollBar1
             // 
-            this.vScrollBar1.Location = new System.Drawing.Point(872, 1);
+            this.vScrollBar1.Location = new System.Drawing.Point(600, 0);
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(20, 718);
+            this.vScrollBar1.Size = new System.Drawing.Size(19, 600);
             this.vScrollBar1.TabIndex = 7;
             this.vScrollBar1.Visible = false;
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             // 
             // hScrollBar1
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(3, 700);
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 600);
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(870, 19);
+            this.hScrollBar1.Size = new System.Drawing.Size(600, 19);
             this.hScrollBar1.TabIndex = 6;
             this.hScrollBar1.Visible = false;
             this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
@@ -59,11 +59,12 @@
             // picMainImg
             // 
             this.picMainImg.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.picMainImg.Location = new System.Drawing.Point(3, 0);
+            this.picMainImg.Location = new System.Drawing.Point(0, 0);
             this.picMainImg.Name = "picMainImg";
-            this.picMainImg.Size = new System.Drawing.Size(870, 700);
+            this.picMainImg.Size = new System.Drawing.Size(600, 600);
             this.picMainImg.TabIndex = 5;
             this.picMainImg.TabStop = false;
+            this.picMainImg.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.picMainImg.Paint += new System.Windows.Forms.PaintEventHandler(this.picMainImg_Paint);
             this.picMainImg.MouseClick += new System.Windows.Forms.MouseEventHandler(this.picMainImg_MouseClick);
             this.picMainImg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picMainImg_MouseDown);
@@ -79,7 +80,7 @@
             this.lbImgLoad.BackColor = System.Drawing.SystemColors.InfoText;
             this.lbImgLoad.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbImgLoad.ForeColor = System.Drawing.SystemColors.Window;
-            this.lbImgLoad.Location = new System.Drawing.Point(219, 232);
+            this.lbImgLoad.Location = new System.Drawing.Point(177, 248);
             this.lbImgLoad.Name = "lbImgLoad";
             this.lbImgLoad.Size = new System.Drawing.Size(255, 27);
             this.lbImgLoad.TabIndex = 8;
@@ -89,7 +90,7 @@
             // prbImgLoad
             // 
             this.prbImgLoad.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.prbImgLoad.Location = new System.Drawing.Point(193, 286);
+            this.prbImgLoad.Location = new System.Drawing.Point(151, 302);
             this.prbImgLoad.Maximum = 10;
             this.prbImgLoad.Name = "prbImgLoad";
             this.prbImgLoad.Size = new System.Drawing.Size(329, 33);
@@ -102,9 +103,10 @@
             this.pnlBackgrd.BackColor = System.Drawing.SystemColors.WindowText;
             this.pnlBackgrd.Controls.Add(this.lbImgLoad);
             this.pnlBackgrd.Controls.Add(this.prbImgLoad);
-            this.pnlBackgrd.Location = new System.Drawing.Point(109, 74);
+            this.pnlBackgrd.Location = new System.Drawing.Point(0, 0);
+            this.pnlBackgrd.Margin = new System.Windows.Forms.Padding(0);
             this.pnlBackgrd.Name = "pnlBackgrd";
-            this.pnlBackgrd.Size = new System.Drawing.Size(666, 479);
+            this.pnlBackgrd.Size = new System.Drawing.Size(600, 600);
             this.pnlBackgrd.TabIndex = 10;
             this.pnlBackgrd.Visible = false;
             // 
@@ -116,8 +118,9 @@
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.picMainImg);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Uctrl_MainPic";
-            this.Size = new System.Drawing.Size(894, 721);
+            this.Size = new System.Drawing.Size(620, 620);
             this.Load += new System.EventHandler(this.ucMainPic_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picMainImg)).EndInit();
             this.pnlBackgrd.ResumeLayout(false);

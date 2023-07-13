@@ -121,7 +121,7 @@ namespace CRUX_GUI_Cognex
         
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
-        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "ImageMergeOffset.ini" };
+        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini" };
         public static List<string> SelectRecipe = new List<string>();
 
        
@@ -498,18 +498,18 @@ namespace CRUX_GUI_Cognex
             [StringValue("LEFT_TOP")]
             //[Description("Crux_MainPcInterface")]
             LEFT_TOP = 1,
-            [StringValue("Btn_SEQ_State")]
+            [StringValue("RIGHT_TOP")]
             //[Description("VSSequenceTask")]
             RIGHT_TOP = 2,
-            [StringValue("RIGHT_TOP")]
+            [StringValue("LEFT_BOT")]
             //[Description("VSDalsaLineCamTask")]
             LEFT_BOT = 3,
-            [StringValue("LEFT_BOT")]
+            [StringValue("RIGHT_BOT")]
             //[Description("SimulationCameraTask")]
             RIGHT_BOT = 4,
             [StringValue("CENTER")]
             //[Description("SimulationCameraTask")]
-            Center = 5
+            CENTER = 5
             //MAX
         };
         public enum LogLevel
@@ -534,6 +534,11 @@ namespace CRUX_GUI_Cognex
             WARNNING,
             MAX
         }
+        public enum E_PNT_VIEW_KIND : int { CROSS = 0, POINT, POLYGON, MAX };
+        public enum DrawFocusROI : int { LEFT_TOP = 0, LEFT_BOTTOM, RIGHT_TOP, RIGHT_BOTTOM, RIGHT_CENTER, MAX }; //2021.11.01 KYH
+        public enum DrawPnt : int { WORK_ORIGN = 0, GD_ORIGIN, FDC_POINT, POLYGON_PAD_INSP, POLYGON_PAD_NONE, MAX };
+        public enum DrawRct : int { INSP = 0, RND, NON, PAD, FDC_MARK, ALIGN_MARK, PAD_INSP, PAD_NONE, HOLE, MAX }; //2019.02.20 for Hole ROI
+        public enum ImageLoadFlag : int { MANUAL_LOAD_IMG, MANUAL_INSP_IMG, RECIPE_LOAD_IMG, CAMERA_LOAD_IMG, CAMERA_MINI_MAP, PIXEL_PATTERN_LOAD_IMG, MAX };
     }
 
 class GlobalConstance

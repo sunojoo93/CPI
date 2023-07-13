@@ -1042,4 +1042,6 @@ namespace CRUX_GUI_Cognex.Class
         public string TactTime { get; set; } = string.Empty;
         public string Result { get; set; } = string.Empty;
     }
+
+    
 }

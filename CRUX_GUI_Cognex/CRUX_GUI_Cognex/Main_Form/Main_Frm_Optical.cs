@@ -35,10 +35,12 @@ namespace CRUX_GUI_Cognex.Main_Form
             //LineCamForm = new Ex_Frm_Optic_Line() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
             AreaCamForm = new Ex_Frm_Optic_Area_Content() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
 
-
+            //AreaCamForm.Dock = DockStyle.None;
             //LineCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
             AreaCamForm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
-            tab_CAM_1.Controls.Add(AreaCamForm);            
+            tab_caminfo.TabPages[0].Controls.Add(AreaCamForm);
+            //tab_caminfo.TabPages[0].Dock = DockStyle.Fill;
+            //tab_CAM_1.Controls.Add(AreaCamForm);            
             //LineCamForm.Show();
             //tab_CAM_2.Controls.Add(AreaCamForm);
             //AreaCamForm.Show();

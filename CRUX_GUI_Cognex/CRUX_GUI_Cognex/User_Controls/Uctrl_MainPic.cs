@@ -13,10 +13,10 @@ using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.IO;
-using CRUX_Renewal.Class;
-using CRUX_Renewal.Utils;
+using CRUX_GUI_Cognex.Class;
+using CRUX_GUI_Cognex.Utils;
 
-namespace CRUX_Renewal.User_Controls
+namespace CRUX_GUI_Cognex.User_Controls
 {
 
     [Serializable]
@@ -1028,7 +1028,7 @@ namespace CRUX_Renewal.User_Controls
                 m_bDivisionModeFlg = false;
 
 
-                //SetLiveFlg(false);   
+                SetLiveFlg(false);   
             }
             catch (Exception)
             {
@@ -2290,7 +2290,8 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
+                //Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
             }
 
@@ -3643,7 +3644,8 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
+                //Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -3970,7 +3972,8 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
+                //Systems.LogWriter.Error(ex);
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -3995,7 +3998,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -4021,7 +4024,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -4046,7 +4049,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -4073,7 +4076,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -4106,7 +4109,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -4130,7 +4133,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -4148,7 +4151,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -4165,7 +4168,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
                 //Systems.Msg.Confirm(ex.Message + "\r\n\n" + ex.StackTrace);
             }
@@ -4250,7 +4253,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
             }
         }
@@ -4271,7 +4274,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
             }
         }
@@ -4299,7 +4302,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
             }
         }
@@ -4320,7 +4323,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_nVisionNo, ex.StackTrace, ex.Message);
             }
         }
@@ -4369,7 +4372,7 @@ namespace CRUX_Renewal.User_Controls
             }
             catch (Exception ex)
             {
-                Systems.LogWriter.Error(ex);
+                throw ex;
                 //Systems.m_fnAddLog(m_fnGetVisionNo(), ex.StackTrace, ex.Message);
                 return m_imgLoaded;
             }
