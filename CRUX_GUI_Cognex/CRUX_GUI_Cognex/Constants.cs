@@ -143,6 +143,7 @@ namespace CRUX_GUI_Cognex
 
     static class IpcConst
     {
+        // Sequence
         public static ushort SEQ_TASK = (ushort)(21);
         public static ushort SEQ_FUNC = (ushort)(21);
         public static ushort SEQ_SEND_MODEL_INFO = (ushort)(10);
@@ -151,6 +152,7 @@ namespace CRUX_GUI_Cognex
         public static ushort SEQ_SEND_MANUAL_GRABAndINSP = (ushort)(20);
         public static ushort SEQ_SEND_GUI_CLASSIFY_END = (ushort)(31);
 
+        // Algorithm
         public static ushort ALGORITHM_TASK = (ushort)(50);
         public static ushort ALGORITHM_FUNC = (ushort)(50);
         public static ushort ALGORITHM_GET_ALIGN = (ushort)(10);
@@ -158,10 +160,12 @@ namespace CRUX_GUI_Cognex
         public static ushort ALGORITHM_FOCUS_FIGURE = (ushort)(30);
         public static ushort ALGORITHM_CCD_INDEX_WRITE = (ushort)(40);
 
+        // Light
         public static ushort LIGHT_TASK = (ushort)(80);
         public static ushort LIGHT_FUNC = (ushort)(80);
         public static ushort LIGHT_SET_DATA = (ushort)(20);
         
+        // Camera
         public static ushort CAMERA_TASK = (ushort)(90);
         public static ushort CAMERA_FUNC = (ushort)(90);        
         public static ushort CAMERA_SET_DATA = (ushort)(30);
@@ -175,7 +179,10 @@ namespace CRUX_GUI_Cognex
         public static ushort LIVE_GET_WIDTH =  (ushort)(20);
         public static ushort LIVE_GET_HEIGHT = (ushort)(21);
         public static ushort LIVE_GET_BANDWIDTH = (ushort)(23);
-
+        public static ushort GET_CAMINFO = (ushort)99;
+        public static ushort GET_CAMTEMPATURE = (ushort)98;
+		
+        // MainPcInterface
         public static ushort MAINPC_TASK = (ushort)(60);
         public static ushort MAINPC_FUNC = (ushort)(60);
         public static ushort MAINPC_MOVE_MOTION = (ushort)(53);
@@ -185,8 +192,10 @@ namespace CRUX_GUI_Cognex
         public static ushort MAINPC_PG_STAGE_NO = (ushort)(60);             // Stage No             2019.01.31 for CSOT
         public static ushort MAINPC_ALARM = (ushort)(52);                   // Alarm Send to MainPC(Directly) 2020.06.11 JSO
 
+        // AF
         public static ushort AF_TASK = (ushort)(70);
 
+        //Pattern Generator
         public static ushort PG_TASK = (ushort)(40);
         public static ushort PG_FUNC = (ushort)(40);
         public static ushort PG_ONOFF = (ushort)(11);
@@ -196,18 +205,18 @@ namespace CRUX_GUI_Cognex
         public static ushort PG_CHG_VOLTAGE = (ushort)(17);
         public static ushort PG_SEND_PATTERN_INFO = (ushort)(18);
 
+        // RMS
         public static ushort RMS_TASK = (ushort)(65);
         public static ushort RMS_FUNC = (ushort)(65);
         public static ushort RMS_RCP_LIST_DOWNLOAD = (ushort)(4);
         public static ushort RMS_RCP_VER_DOWNLOAD  = (ushort)(5);
-        
         public static ushort RMS_RCP_SEL_DATA_DOWNLOAD = (ushort)(7);
         public static ushort RMS_RCP_SEL_DATA_UPLOAD = (ushort)(9);
         public static ushort RMS_RCP_SEL_DATA_FORCED_UPLOAD = (ushort)(13);
         public static ushort RMS_RCP_CRR_SEND = (ushort)(12);
         public static ushort RMS_RCP_BASE_VER = (ushort)(11);
 
-
+        // GUI Internal
         public static ushort TASK_ALIVE_FUNC = (ushort)(10);
         public static ushort TASK_ALIVE_SIGNAL = (ushort)(1);
         public static ushort GUI_TASK = (ushort)10;
@@ -309,7 +318,7 @@ namespace CRUX_GUI_Cognex
         public const int MAX_LIGHT_COUNT = 4;
         public const int MAX_AF_MODULE_COUNT = 4;
 
-        public const int MAX_LIGHT_CHANNEL_COUNT = 8;
+        public const int MAX_LIGHT_CHANNEL_COUNT = 50;
 
     }
 

@@ -66,50 +66,83 @@ namespace CRUX_GUI_Cognex
     }
     public static class RecipeManager
     {
-        public static DataTable CvtDtLightInfo(Areas ptn_info)
-        {
-            DataTable Dt = new DataTable();
-
-            //for (int i = 0; i < ptn_info.Area.Count; ++i)
-            //{
-            //    Dt.Columns.Add($@"Ch_{ptn_info.Area[i].LightConditions.Count()}");
-            //}
-            return Dt;
-        }
         public static DataTable CvtDtAreaInfo(DataTable table, Areas areas)
         {
-            table.Clear();
-            DataTable Dt = table.Clone();
-            for (int i = 0; i < areas.Area.Count; ++i)
+            try
             {
-                DataRow Dr = Dt.NewRow();
+                table.Clear();
+                DataTable Dt = table.Clone();
+                for (int i = 0; i < areas.Area.Count; ++i)
+                {
+                    DataRow Dr = Dt.NewRow();
 
-                Dt.Rows.Add(false, areas.Area[i].Name);
+                    Dt.Rows.Add(false, areas.Area[i].Name);
+                }
+                return Dt;
             }
-            return Dt;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public static DataTable CvtDtPatternInfo(DataTable table, Area area)
         {
-            table.Clear();
-            DataTable Dt = table.Clone();
-            for (int i = 0; i < area.Patterns.Count; ++i)
+            try
             {
-                DataRow Dr = Dt.NewRow();
+                table.Clear();
+                DataTable Dt = table.Clone();
+                for (int i = 0; i < area.Patterns.Count; ++i)
+                {
+                    DataRow Dr = Dt.NewRow();
 
-                Dt.Rows.Add(false, area.Patterns[i].Name);
+                    Dt.Rows.Add(false, area.Patterns[i].Name);
+                }
+                return Dt;
             }
-            return Dt;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-        public static DataTable CvtDtGrabCond(DataTable table, Recipe recipe)
+        public static DataTable CvtDtGrabCond(DataTable table, Optics optics)
         {
-            DataTable Dt = new DataTable();
+            try
+            {
+                table.Clear();
+                DataTable Dt = table.Clone();
+                for (int i = 0; i < optics.Camera_Data.Count; ++i)
+                {
+                    DataRow Dr = Dt.NewRow();
 
-            return Dt;
+                    Dt.Rows.Add(optics.Camera_Data[i].Use, optics.Camera_Data[i].Name, optics.Camera_Data[i].CamType, optics.Camera_Data[i].Expose, optics.Camera_Data[i].Gain, optics.Camera_Data[i].PS, optics.Camera_Data[i].Delay, optics.Camera_Data[i].nCountF, optics.Camera_Data[i].nCountB, optics.Camera_Data[i].nStartF, optics.Camera_Data[i].nStartB, optics.Camera_Data[i].nStopF, optics.Camera_Data[i].nStopB, optics.Camera_Data[i].nPeriodF, optics.Camera_Data[i].nPeriodB);
+                }
+                return Dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-        //public static ST_LIGHT_COND GetLightInfo()
-        //{
+        public static DataTable CvtDtLightCond(DataTable table, Optics optics)
+        {
+            try
+            {
+                table.Clear();
+                DataTable Dt = table.Clone();
+                for (int i = 0; i < optics.Light_Data.Count; ++i)
+                {
+                    DataRow Dr = Dt.NewRow();
 
-        //}
+                    Dt.Rows.Add(optics.Light_Data[i].Use, optics.Light_Data[i].Port_No, optics.Light_Data[i].Controller_No, optics.Light_Data[i].LightModules);
+                }
+                return Dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static void RecipeSerialize<T>(string path, string name, T recipe)
         {
             string FullPath = $@"{path}\{name}";

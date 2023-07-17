@@ -112,6 +112,7 @@ private:
 	int		VS_SetTriggerMode		(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int		VS_SetCameraConditions_AOT(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int		VS_GetCamInfo			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	int		VS_GetCameraTemperature (byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 private:
 	CInterServerInterface*	m_pVisualStationInterface;
 	HANDLE					m_hSequenceResetEvent;

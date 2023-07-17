@@ -285,6 +285,33 @@ BOOL CVistekCamera::SetTriggerMode(int nMode)
 
 	return 0;
 }
+CString CVistekCamera::GetCameraName()
+{
+	char Temp[100];
+	char* ptrTemp = Temp;
+	ptrTemp = Camera_getModelName(m_InspCamera);
+	CString Name;
+	Name = ptrTemp;
+	return Name;
+}
+int CVistekCamera::GetCameraWidth()
+{
+	return m_nImageWidth;
+}
+int CVistekCamera::GetCameraHeight()
+{
+	return m_nImageHeight;
+}
+int CVistekCamera::GetCameraDepth()
+{
+	return m_nBandWidth;
+}
+unsigned int CVistekCamera::GetCameraTemperature()
+{
+	unsigned int Temp = 0;
+	Camera_getSensorTemperature(m_InspCamera, &Temp);
+	return Temp;
+}
 
 double CVistekCamera::GetAnalogGain()
 {

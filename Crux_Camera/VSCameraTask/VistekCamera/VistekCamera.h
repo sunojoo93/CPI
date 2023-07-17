@@ -70,6 +70,14 @@ public:
 	BOOL			SetStitchMode(int nCamMode);						// Cam Stitch Mode  180809 YSS
 	int				SetAnalogGain(double dGainValue);
 	BOOL			SetTriggerMode(int nMode);
+
+	CString			GetCameraName();
+	CString			GetCameraType();
+	int				GetCameraWidth();
+	int				GetCameraHeight();
+	int				GetCameraDepth();
+	unsigned int			GetCameraTemperature();
+
 	void			SetImgaeBandWidth(int nBandWidth);
 	BOOL			SetSequenceMode(int nSeqMode)							{	return TRUE		;};
 

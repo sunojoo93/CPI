@@ -1042,6 +1042,28 @@ namespace CRUX_GUI_Cognex.Class
         public string TactTime { get; set; } = string.Empty;
         public string Result { get; set; } = string.Empty;
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_CAM_INFOMATION
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] Name;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] Type;
+        public int Width;
+        public int Height;
+        public int Depth;
+        public uint Temp;
+        public ST_CAM_INFOMATION(int num)
+        {
+            Name = new byte[200];
+            Type = new byte[100];
+            Width = 0;
+            Height = 0;
+            Depth = 0;
+            Temp = 0;
+        }
+    }
 
-    
+
 }

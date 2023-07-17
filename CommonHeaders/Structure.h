@@ -264,6 +264,23 @@ struct ST_CAM_COND_AOT
 	}
 };
 
+struct ST_CAM_INFOMATION
+{
+	char Name[100];
+	char Type[100];
+	int Width;
+	int Height;
+	int Depth;
+	int Temp;
+	ST_CAM_INFOMATION()
+	{
+		Width = 0;
+		Height = 0;
+		Depth = 0;
+		Temp = 0;
+	}
+};
+
 struct ST_LIGHT_COND_AOT
 {
 	BOOL Use;

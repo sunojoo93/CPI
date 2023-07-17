@@ -160,7 +160,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         break;
 
                     case "Pb_CAM_State":
-                        if (Systems.Simulation)
+                        if (Modes.NET_SIMULATION_MODE)
                             ProcessName = EnumHelper.GetDescription(Enums.ProcessNames.Sim_Cam);
                         else
                             ProcessName = EnumHelper.GetDescription(Enums.ProcessNames.Camera);

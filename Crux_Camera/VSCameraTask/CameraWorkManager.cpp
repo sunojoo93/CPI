@@ -311,7 +311,8 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 		SEQUENCE_TABLE (	90,		32	,	VS_SetAnalogGain				, false	,			false, &m_csSequenceLock_5)
 		SEQUENCE_TABLE (	90,		33	,	VS_SetSequenceMode				, false	,			false, &m_csSequenceLock_5)
 		SEQUENCE_TABLE (	90,		34	,	VS_SetTriggerMode				, false	,			false, &m_csSequenceLock_5)
-		SEQUENCE_TABLE (	90,		34	,	VS_SetTriggerMode				, false	,			false, &m_csSequenceLock_5)
+		SEQUENCE_TABLE (	90,		99	,	VS_GetCamInfo					, false	,			false, &m_csSequenceLock_5)
+		SEQUENCE_TABLE (	90,		98	,	VS_GetCameraTemperature			, false	,			false, &m_csSequenceLock_5)
 		if( m_SeqenceCount <= 0 )
 		{
 			m_bSeqResetFlag = 0;
@@ -1378,33 +1379,67 @@ int VSMessageProcessor::VS_GetCamInfo(byte* pParam, ULONG& nPrmSize, bool bAlway
 {
 	int nRet = APP_OK;
 	int nStepNo = 0;
-	UINT nTrigMode = 0;
 
 	byte* tempParam = pParam;
-
-	nTrigMode = *(UINT*)tempParam;		tempParam += sizeof(UINT);
+	ST_CAM_INFOMATION stCurCamInfo;
+	stCurCamInfo = *(ST_CAM_INFOMATION *)tempParam;	
 
 	// Sequence In LOG
-	m_fnPrintLog(_T("CAMLOG -- Seq9034_Set_Trigger_Mode Sequence Start. nTrigMode=%d \n"), nTrigMode);
+	m_fnPrintLog(_T("CAMLOG -- Seq9099_Get_Cam_Information Sequence Start.\n"));
 
 	EXCEPTION_TRY
-		if (!theApp.m_pCamera->SetTriggerMode(nTrigMode))
-			nRet = APP_NG;
+
+		CString CamName = theApp.m_pCamera->GetCameraName();
+	int CamWidth = theApp.m_pCamera->GetCameraWidth();
+	int CamHeight = theApp.m_pCamera->GetCameraHeight();
+	int CamDepth = theApp.m_pCamera->GetCameraDepth();
+	unsigned int CamTemp = theApp.m_pCamera->GetCameraTemperature();
+
+	memcpy((*(ST_CAM_INFOMATION *)tempParam).Name, CamName, CamName.GetLength() * 2);
+	(*(ST_CAM_INFOMATION *)tempParam).Width = CamWidth;
+	(*(ST_CAM_INFOMATION *)tempParam).Height = CamHeight;
+	(*(ST_CAM_INFOMATION *)tempParam).Depth = CamDepth;
+	(*(ST_CAM_INFOMATION *)tempParam).Temp = CamTemp;
+		//if (!theApp.m_pCamera->SetTriggerMode(nTrigMode))
+		//	nRet = APP_NG;
 	EXCEPTION_CATCH
 
 		if (nRet != APP_OK)
 		{
 			// Error Log
-			m_fnPrintLog(_T("CAMLOG -- Seq9034_Set_Trigger_Mode Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			m_fnPrintLog(_T("CAMLOG -- Seq9099_Get_Cam_Information Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
 			return nRet;
 		}
 
 	// Sequence Out LOG
-	m_fnPrintLog(_T("CAMLOG -- Seq9034_Set_Trigger_Mode Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+	m_fnPrintLog(_T("CAMLOG -- Seq9099_Get_Cam_Information Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
 
 	return nRet;
 }
+int VSMessageProcessor::VS_GetCameraTemperature(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/)
+{
+	int nRet = APP_OK;
+	int nStepNo = 0;
+	EXCEPTION_TRY
 
+	byte* tempParam = pParam;
+	m_fnPrintLog(_T("CAMLOG -- Seq9098_Get_Cam_Temperature Sequence Start.\n"));
+	unsigned int CamTemp = theApp.m_pCamera->GetCameraTemperature();
+
+	*(unsigned int*)tempParam = CamTemp;
+	EXCEPTION_CATCH
+
+		if (nRet != APP_OK)
+		{
+			// Error Log
+			m_fnPrintLog(_T("CAMLOG -- Seq9098_Get_Cam_Temperature Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			return nRet;
+		}
+
+	// Sequence Out LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq9098_Get_Cam_Temperature Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+	return nRet;
+}
 BOOL VSMessageProcessor::GetVSState()	
 {	
 	return m_pVisualStationInterface->m_fnGetServerConnected()?TRUE:FALSE;

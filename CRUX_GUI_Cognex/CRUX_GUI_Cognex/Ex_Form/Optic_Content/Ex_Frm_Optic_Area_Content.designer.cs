@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Tlp_AreaCam = new System.Windows.Forms.TableLayoutPanel();
             this.Tlp_OpticMain = new System.Windows.Forms.TableLayoutPanel();
             this.Grb_CamControl = new System.Windows.Forms.GroupBox();
@@ -59,21 +60,20 @@
             this.Tlp_Status = new System.Windows.Forms.TableLayoutPanel();
             this.Grb_CamStatus = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Lb_TempContent = new System.Windows.Forms.Label();
+            this.Lb_Temp = new System.Windows.Forms.Label();
+            this.Lb_DepthContent = new System.Windows.Forms.Label();
+            this.Lb_Depth = new System.Windows.Forms.Label();
+            this.Lb_HeightContent = new System.Windows.Forms.Label();
+            this.Lb_Height = new System.Windows.Forms.Label();
+            this.Lb_WidthContent = new System.Windows.Forms.Label();
+            this.Lb_Width = new System.Windows.Forms.Label();
+            this.Lb_CameraNameContent = new System.Windows.Forms.Label();
             this.Lb_CamName = new System.Windows.Forms.Label();
             this.Grb_LightStatus = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.Pnl_ImageArea = new System.Windows.Forms.Panel();
+            this.Tmr_CamTemperature = new System.Windows.Forms.Timer(this.components);
             this.Tlp_AreaCam.SuspendLayout();
             this.Tlp_OpticMain.SuspendLayout();
             this.Grb_CamControl.SuspendLayout();
@@ -514,31 +514,30 @@
             this.Grb_CamStatus.Controls.Add(this.tableLayoutPanel5);
             this.Grb_CamStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_CamStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Grb_CamStatus.Location = new System.Drawing.Point(0, 0);
-            this.Grb_CamStatus.Margin = new System.Windows.Forms.Padding(0);
+            this.Grb_CamStatus.Location = new System.Drawing.Point(3, 0);
+            this.Grb_CamStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Grb_CamStatus.Name = "Grb_CamStatus";
             this.Grb_CamStatus.Padding = new System.Windows.Forms.Padding(0);
-            this.Grb_CamStatus.Size = new System.Drawing.Size(300, 219);
+            this.Grb_CamStatus.Size = new System.Drawing.Size(294, 219);
             this.Grb_CamStatus.TabIndex = 5;
             this.Grb_CamStatus.TabStop = false;
             this.Grb_CamStatus.Text = "Camera Status";
             // 
             // tableLayoutPanel5
             // 
+            this.tableLayoutPanel5.BackColor = System.Drawing.Color.Transparent;
             this.tableLayoutPanel5.ColumnCount = 2;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Controls.Add(this.label11, 1, 5);
-            this.tableLayoutPanel5.Controls.Add(this.label10, 0, 5);
-            this.tableLayoutPanel5.Controls.Add(this.label9, 1, 4);
-            this.tableLayoutPanel5.Controls.Add(this.label8, 0, 4);
-            this.tableLayoutPanel5.Controls.Add(this.label7, 1, 3);
-            this.tableLayoutPanel5.Controls.Add(this.label6, 0, 3);
-            this.tableLayoutPanel5.Controls.Add(this.label5, 1, 2);
-            this.tableLayoutPanel5.Controls.Add(this.label4, 0, 2);
-            this.tableLayoutPanel5.Controls.Add(this.label3, 1, 1);
-            this.tableLayoutPanel5.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel5.Controls.Add(this.label1, 1, 0);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_TempContent, 1, 4);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_Temp, 0, 4);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_DepthContent, 1, 3);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_Depth, 0, 3);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_HeightContent, 1, 2);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_Height, 0, 2);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_WidthContent, 1, 1);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_Width, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.Lb_CameraNameContent, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.Lb_CamName, 0, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 15);
@@ -552,168 +551,168 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(300, 204);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(294, 204);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
-            // label11
+            // Lb_TempContent
             // 
-            this.label11.AutoSize = true;
-            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Location = new System.Drawing.Point(103, 100);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(194, 20);
-            this.label11.TabIndex = 11;
-            this.label11.Text = "Name : ";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_TempContent.AutoSize = true;
+            this.Lb_TempContent.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_TempContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_TempContent.Location = new System.Drawing.Point(105, 80);
+            this.Lb_TempContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_TempContent.Name = "Lb_TempContent";
+            this.Lb_TempContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_TempContent.TabIndex = 9;
+            this.Lb_TempContent.Text = "-";
+            this.Lb_TempContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label10
+            // Lb_Temp
             // 
-            this.label10.AutoSize = true;
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(3, 100);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(94, 20);
-            this.label10.TabIndex = 10;
-            this.label10.Text = "Name : ";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_Temp.AutoSize = true;
+            this.Lb_Temp.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_Temp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_Temp.Location = new System.Drawing.Point(5, 80);
+            this.Lb_Temp.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_Temp.Name = "Lb_Temp";
+            this.Lb_Temp.Size = new System.Drawing.Size(90, 20);
+            this.Lb_Temp.TabIndex = 8;
+            this.Lb_Temp.Text = "Temperature :";
+            this.Lb_Temp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label9
+            // Lb_DepthContent
             // 
-            this.label9.AutoSize = true;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Location = new System.Drawing.Point(103, 80);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(194, 20);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "Name : ";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_DepthContent.AutoSize = true;
+            this.Lb_DepthContent.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_DepthContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_DepthContent.Location = new System.Drawing.Point(105, 60);
+            this.Lb_DepthContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_DepthContent.Name = "Lb_DepthContent";
+            this.Lb_DepthContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_DepthContent.TabIndex = 7;
+            this.Lb_DepthContent.Text = "-";
+            this.Lb_DepthContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label8
+            // Lb_Depth
             // 
-            this.label8.AutoSize = true;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Location = new System.Drawing.Point(3, 80);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(94, 20);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Name : ";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_Depth.AutoSize = true;
+            this.Lb_Depth.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_Depth.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_Depth.Location = new System.Drawing.Point(5, 60);
+            this.Lb_Depth.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_Depth.Name = "Lb_Depth";
+            this.Lb_Depth.Size = new System.Drawing.Size(90, 20);
+            this.Lb_Depth.TabIndex = 6;
+            this.Lb_Depth.Text = "Depth :";
+            this.Lb_Depth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label7
+            // Lb_HeightContent
             // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(103, 60);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(194, 20);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Name : ";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_HeightContent.AutoSize = true;
+            this.Lb_HeightContent.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_HeightContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_HeightContent.Location = new System.Drawing.Point(105, 40);
+            this.Lb_HeightContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_HeightContent.Name = "Lb_HeightContent";
+            this.Lb_HeightContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_HeightContent.TabIndex = 5;
+            this.Lb_HeightContent.Text = "-";
+            this.Lb_HeightContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label6
+            // Lb_Height
             // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Location = new System.Drawing.Point(3, 60);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(94, 20);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Name : ";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_Height.AutoSize = true;
+            this.Lb_Height.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_Height.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_Height.Location = new System.Drawing.Point(5, 40);
+            this.Lb_Height.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_Height.Name = "Lb_Height";
+            this.Lb_Height.Size = new System.Drawing.Size(90, 20);
+            this.Lb_Height.TabIndex = 4;
+            this.Lb_Height.Text = "Res Y :";
+            this.Lb_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label5
+            // Lb_WidthContent
             // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(103, 40);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(194, 20);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Name : ";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_WidthContent.AutoSize = true;
+            this.Lb_WidthContent.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_WidthContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_WidthContent.Location = new System.Drawing.Point(105, 20);
+            this.Lb_WidthContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_WidthContent.Name = "Lb_WidthContent";
+            this.Lb_WidthContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_WidthContent.TabIndex = 3;
+            this.Lb_WidthContent.Text = "-";
+            this.Lb_WidthContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label4
+            // Lb_Width
             // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 40);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(94, 20);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Name : ";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_Width.AutoSize = true;
+            this.Lb_Width.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_Width.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_Width.Location = new System.Drawing.Point(5, 20);
+            this.Lb_Width.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_Width.Name = "Lb_Width";
+            this.Lb_Width.Size = new System.Drawing.Size(90, 20);
+            this.Lb_Width.TabIndex = 2;
+            this.Lb_Width.Text = "Res X :";
+            this.Lb_Width.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label3
+            // Lb_CameraNameContent
             // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(103, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(194, 20);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Name : ";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 20);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Name : ";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(103, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(194, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Name : ";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_CameraNameContent.AutoSize = true;
+            this.Lb_CameraNameContent.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_CameraNameContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_CameraNameContent.Location = new System.Drawing.Point(105, 0);
+            this.Lb_CameraNameContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_CameraNameContent.Name = "Lb_CameraNameContent";
+            this.Lb_CameraNameContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_CameraNameContent.TabIndex = 1;
+            this.Lb_CameraNameContent.Text = "-";
+            this.Lb_CameraNameContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Lb_CamName
             // 
             this.Lb_CamName.AutoSize = true;
+            this.Lb_CamName.BackColor = System.Drawing.Color.Transparent;
             this.Lb_CamName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_CamName.Location = new System.Drawing.Point(3, 0);
+            this.Lb_CamName.Location = new System.Drawing.Point(5, 0);
+            this.Lb_CamName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_CamName.Name = "Lb_CamName";
-            this.Lb_CamName.Size = new System.Drawing.Size(94, 20);
+            this.Lb_CamName.Size = new System.Drawing.Size(90, 20);
             this.Lb_CamName.TabIndex = 0;
-            this.Lb_CamName.Text = "Name : ";
-            this.Lb_CamName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_CamName.Text = "Model Name :";
+            this.Lb_CamName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Grb_LightStatus
             // 
             this.Grb_LightStatus.Controls.Add(this.tableLayoutPanel6);
             this.Grb_LightStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Grb_LightStatus.Location = new System.Drawing.Point(300, 0);
-            this.Grb_LightStatus.Margin = new System.Windows.Forms.Padding(0);
+            this.Grb_LightStatus.Location = new System.Drawing.Point(303, 0);
+            this.Grb_LightStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Grb_LightStatus.Name = "Grb_LightStatus";
             this.Grb_LightStatus.Padding = new System.Windows.Forms.Padding(0);
-            this.Grb_LightStatus.Size = new System.Drawing.Size(300, 148);
+            this.Grb_LightStatus.Size = new System.Drawing.Size(294, 148);
             this.Grb_LightStatus.TabIndex = 6;
             this.Grb_LightStatus.TabStop = false;
             this.Grb_LightStatus.Text = "Light Status";
             // 
             // tableLayoutPanel6
             // 
+            this.tableLayoutPanel6.BackColor = System.Drawing.Color.Transparent;
             this.tableLayoutPanel6.ColumnCount = 2;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 15);
-            this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.tableLayoutPanel6.RowCount = 3;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(300, 133);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(294, 133);
             this.tableLayoutPanel6.TabIndex = 1;
             // 
             // Pnl_ImageArea
@@ -725,6 +724,11 @@
             this.Pnl_ImageArea.Name = "Pnl_ImageArea";
             this.Pnl_ImageArea.Size = new System.Drawing.Size(600, 600);
             this.Pnl_ImageArea.TabIndex = 1;
+            // 
+            // Tmr_CamTemperature
+            // 
+            this.Tmr_CamTemperature.Interval = 2000;
+            this.Tmr_CamTemperature.Tick += new System.EventHandler(this.Tmr_CamTemperature_Tick);
             // 
             // Ex_Frm_Optic_Area_Content
             // 
@@ -793,17 +797,15 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label Lb_CamName;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Lb_TempContent;
+        private System.Windows.Forms.Label Lb_Temp;
+        private System.Windows.Forms.Label Lb_DepthContent;
+        private System.Windows.Forms.Label Lb_Depth;
+        private System.Windows.Forms.Label Lb_HeightContent;
+        private System.Windows.Forms.Label Lb_Height;
+        private System.Windows.Forms.Label Lb_WidthContent;
+        private System.Windows.Forms.Label Lb_Width;
+        private System.Windows.Forms.Label Lb_CameraNameContent;
         private System.Windows.Forms.DataGridView Dgv_Area;
         private System.Windows.Forms.DataGridView Dgv_Pattern;
         private System.Windows.Forms.GroupBox Grb_Param;
@@ -814,5 +816,6 @@
         private System.Windows.Forms.TableLayoutPanel Tlp_ExOption;
         private System.Windows.Forms.Button Btn_ProperyApply;
         private System.Windows.Forms.Panel Pnl_ImageArea;
+        private System.Windows.Forms.Timer Tmr_CamTemperature;
     }
 }

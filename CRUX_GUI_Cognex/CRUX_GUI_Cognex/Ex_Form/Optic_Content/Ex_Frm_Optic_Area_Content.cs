@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using CRUX_GUI_Cognex.Interface;
 using System.Threading;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace CRUX_GUI_Cognex.Ex_Form
 {
@@ -96,21 +98,11 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                //int SelIdx = LstV_GuideLine.SelectedIndices.toInt();
-                //double dPxlSize = m_dResolution;
                 m_rectGuideLine = new Rectangle();
-
-
-                //  if (dPxlSize <= 0) dPxlSize = 1;
 
                 Point pntStartCoord = new Point();
 
-                //             if (bUseDivision)
-                //             {
-                //                 pntStartCoord.X = m_UcRcpTeachPic.m_fnGetImgSize().X / 2;
-                //                 pntStartCoord.Y = m_UcRcpTeachPic.m_fnGetImgSize().Y / 2;
-                //             }
-                //             else
+
                 pntStartCoord = MainView.m_fnGetImgSize();
 
 
@@ -141,8 +133,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
                             Width = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
                             Height = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
 
-                            m_rectGuideLine.X = -10;
-                            m_rectGuideLine.Y = -10;
+                            m_rectGuideLine.X = -30;
+                            m_rectGuideLine.Y = -30;
                             m_rectGuideLine.Width = (int)Width;
                             m_rectGuideLine.Height = (int)Height;
                         }
@@ -158,10 +150,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
                             Width = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
                             Height = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
 
-                            m_rectGuideLine.X = -10;
+                            m_rectGuideLine.X = -30;
                             m_rectGuideLine.Y = (int)Height;
                             m_rectGuideLine.Width = (int)Width;
-                            m_rectGuideLine.Height = pntStartCoord.Y + 10;
+                            m_rectGuideLine.Height = pntStartCoord.Y + 30;
                         }
                         break;
 
@@ -177,8 +169,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                             m_rectGuideLine.X = (int)Width;
                             m_rectGuideLine.Y = (int)Height;
-                            m_rectGuideLine.Width = pntStartCoord.X + 10;
-                            m_rectGuideLine.Height = pntStartCoord.Y + 10;
+                            m_rectGuideLine.Width = pntStartCoord.X + 30;
+                            m_rectGuideLine.Height = pntStartCoord.Y + 30;
                         }
                         break;
 
@@ -193,8 +185,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
                             Height = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
 
                             m_rectGuideLine.X = (int)Width;
-                            m_rectGuideLine.Y = -10;
-                            m_rectGuideLine.Width = pntStartCoord.X + 10;
+                            m_rectGuideLine.Y = -30;
+                            m_rectGuideLine.Width = pntStartCoord.X + 30;
                             m_rectGuideLine.Height = (int)Height;
                         }
                         break;
@@ -244,7 +236,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                 Dgv_Area.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+                for (int i = 0; i < Dgv_Area.Columns.Count; ++i)
                 {
                     Dgv_Area.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
                 }
@@ -256,7 +248,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                 Dgv_Pattern.DataSource = Dt_Pattern;
 
-                for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+                for (int i = 0; i < Dt_Pattern.Columns.Count; ++i)
                 {
                     Dgv_Pattern.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
                 }
@@ -265,40 +257,53 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 DataTable Dt_GrabCond = new DataTable();
                 Dt_GrabCond.Columns.Add("Use", typeof(bool));
                 Dt_GrabCond.Columns.Add("Name");
+                Dt_GrabCond.Columns.Add("Type");
                 Dt_GrabCond.Columns.Add("Exp");
                 Dt_GrabCond.Columns.Add("Gain");
+                Dt_GrabCond.Columns.Add("PS");
+                Dt_GrabCond.Columns.Add("Delay");
+                Dt_GrabCond.Columns.Add("CountF");
+                Dt_GrabCond.Columns.Add("COuntB");
+                Dt_GrabCond.Columns.Add("StartF");
+                Dt_GrabCond.Columns.Add("StartB");
+                Dt_GrabCond.Columns.Add("StopF");
+                Dt_GrabCond.Columns.Add("StopB");
+                Dt_GrabCond.Columns.Add("PeriodF");
+                Dt_GrabCond.Columns.Add("PeriodB");
 
                 Dgv_GrabCond.DataSource = Dt_GrabCond;
 
-                for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+                for (int i = 0; i < Dgv_GrabCond.Columns.Count; ++i)
                 {
                     Dgv_GrabCond.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
                 }
-                Dgv_GrabCond.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                Dgv_GrabCond.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
 
                 //////////// 조명 Dgv 초기화
                 DataTable Dt_LightCond = new DataTable();
                 Dt_LightCond.Columns.Add("Use", typeof(bool));
-                Dt_LightCond.Columns.Add("Name");
+                Dt_LightCond.Columns.Add("Port_No");
+                Dt_LightCond.Columns.Add("Crtl_No");
                 for (int i = 0; i < Consts.MAX_LIGHT_CHANNEL_COUNT; ++i)
                 {
                     Dt_LightCond.Columns.Add($"Ch_{i}");
                 }
                 Dgv_LightCond.DataSource = Dt_LightCond;
 
-                for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
-                {
-                    if (i == 0)
-                        Dgv_LightCond.Columns[0].Width = 50;
-                    else if (i == 1)
-                        Dgv_LightCond.Columns[1].Width = 50;
-                    else
-                        Dgv_LightCond.Columns[i].Width = 50;
-                }
+                //for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
+                //{
+                //    if (i == 0)
+                //        Dgv_LightCond.Columns[0].Width = 50;
+                //    else if (i == 1)
+                //        Dgv_LightCond.Columns[1].Width = 50;
+                //    else
+                //        Dgv_LightCond.Columns[i].Width = 50;
+                //}
                 for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
                 {
                     Dgv_LightCond.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
                 }
+                Dgv_LightCond.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             }
             catch (Exception ex)
             {
@@ -355,26 +360,62 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void Ex_Frm_Optic_Area_Content_Shown(object sender, EventArgs e)
         {
+            int nRet = Consts.APP_OK;
             try
             {
+           
                 DataTable AreasData = Dgv_Area.DataSource as DataTable;
                 Dgv_Area.DataSource = RecipeManager.CvtDtAreaInfo(AreasData, Shared_Recipe.ViewRecipe.Area_Data);
+                if (Dgv_Area.Rows.Count > 0)
+                {
+                    Dgv_Area.Rows[0].Selected = true;
+
+                    DataTable PatternsData = Dgv_Pattern.DataSource as DataTable;
+                    Dgv_Pattern.DataSource = RecipeManager.CvtDtPatternInfo(PatternsData, Shared_Recipe.ViewRecipe.Area_Data.Area[Dgv_Area.SelectedRows[0].Index]);
+                    if(Dgv_Pattern.Rows.Count > 0)
+                    {
+                        Dgv_Pattern.Rows[0].Selected = true;
+                        DataTable CamCond = Dgv_GrabCond.DataSource as DataTable;
+                        Dgv_GrabCond.DataSource = RecipeManager.CvtDtGrabCond(CamCond, Shared_Recipe.ViewRecipe.Area_Data.Area[Dgv_Area.SelectedRows[0].Index].Patterns[Dgv_Pattern.SelectedRows[0].Index].Grab_Data);
+
+                        DataTable LightCond = Dgv_LightCond.DataSource as DataTable;
+                        Dgv_LightCond.DataSource = RecipeManager.CvtDtLightCond(LightCond, Shared_Recipe.ViewRecipe.Area_Data.Area[Dgv_Area.SelectedRows[0].Index].Patterns[Dgv_Pattern.SelectedRows[0].Index].Grab_Data);
+                    }
+                }
+
+
+                if (!Modes.NET_SIMULATION_MODE)
+                {
+                    ST_CAM_INFOMATION CamInfo = new ST_CAM_INFOMATION();
+
+                    CmdMsgParam Param = new CmdMsgParam();
+                    Param.SetStruct(CamInfo);
+
+
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.CAMERA_TASK + CamIndex), IpcConst.CAMERA_FUNC, IpcConst.GET_CAMINFO,
+                                                    IpcInterface.CMD_TYPE_RES, 100000, Param.GetByteSize(), Param.GetParam());
+                    Param.SetOffset(0);
+                    CamInfo = (ST_CAM_INFOMATION)Param.GetStruct(typeof(ST_CAM_INFOMATION), (int)Param.GetByteSize());
+
+                    SetCameraInfo(CamInfo);
+
+                    Tmr_CamTemperature.Start();
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
-            //DataTable PatternData = Dgv_Pattern.DataSource as DataTable;
-            //Dgv_Pattern.DataSource = RecipeManager.CvtDtPatternInfo(PatternData, Shared_Recipe.ViewRecipe.Area_Data.Area);
-
-            //DataTable GrabCondData = Dgv_GrabCond.DataSource as DataTable;
-            //Dgv_GrabCond.DataSource = RecipeManager.CvtDtGrabCond(GrabCondData, Shared_Recipe.ViewRecipe.Area_Data);
-
-            //DataTable LightCodData = Dgv_LightCond.DataSource as DataTable;
-            //Dgv_LightCond.DataSource = RecipeManager.CvtDtLightInfo(LightCodData, Shared_Recipe.ViewRecipe.Area_Data);
         }
 
+        private void SetCameraInfo(ST_CAM_INFOMATION data)
+        {
+            Lb_CameraNameContent.Text = $"{data.Name.toUniString()}";
+            Lb_WidthContent.Text = $"{data.Width.ToString()} Pixel";
+            Lb_HeightContent.Text = $"{data.Height.ToString()} Pixel";
+            Lb_DepthContent.Text = $"{data.Depth.ToString()} Bit";
+            Lb_TempContent.Text = $"{data.Temp.ToString()} ℃";
+        }
         private void Btn_GrabStart_Click(object sender, EventArgs e)
         {
             LiveStart();
@@ -465,29 +506,62 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void LstV_GuideLine_MouseClick(object sender, MouseEventArgs e)
         {
-            int SelIdx = LstV_GuideLine.SelectedItems[0].Index;
-            switch (SelIdx)
+            try
             {
-                case 0:
-                    SetGuideLine(false, Enums.GuideLine.None, false);
-                    break;
-                case 1:
-                    SetGuideLine(true, Enums.GuideLine.LEFT_TOP, false);
-                    break;
-                case 2:
-                    SetGuideLine(true, Enums.GuideLine.RIGHT_TOP, false);
-                    break;
-                case 3:
-                    SetGuideLine(true, Enums.GuideLine.LEFT_BOT, false);
-                    break;
-                case 4:
-                    SetGuideLine(true, Enums.GuideLine.RIGHT_BOT, false);
-                    break;
-                case 5:
-                    SetGuideLine(true, Enums.GuideLine.CENTER, false);
-                    break;
-                default:
-                    break;
+                int SelIdx = LstV_GuideLine.SelectedItems[0].Index;
+                switch (SelIdx)
+                {
+                    case 0:
+                        SetGuideLine(false, Enums.GuideLine.None, false);
+                        break;
+                    case 1:
+                        SetGuideLine(true, Enums.GuideLine.LEFT_TOP, false);
+                        break;
+                    case 2:
+                        SetGuideLine(true, Enums.GuideLine.RIGHT_TOP, false);
+                        break;
+                    case 3:
+                        SetGuideLine(true, Enums.GuideLine.LEFT_BOT, false);
+                        break;
+                    case 4:
+                        SetGuideLine(true, Enums.GuideLine.RIGHT_BOT, false);
+                        break;
+                    case 5:
+                        SetGuideLine(true, Enums.GuideLine.CENTER, false);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void Tmr_CamTemperature_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                int nRet = Consts.APP_OK;
+                uint Temp = 0;
+                CmdMsgParam Param = new CmdMsgParam();
+                Param.ClearOffset();
+                Param.SetUInteger((uint)0);
+
+                nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.CAMERA_TASK + CamIndex), IpcConst.CAMERA_FUNC, IpcConst.GET_CAMTEMPATURE,
+                                                IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
+                if (nRet == Consts.APP_OK)
+                {
+                    Param.SetOffset(0);
+                    Temp = Param.GetUInteger();
+                }
+
+                Lb_TempContent.Text = $"{Temp.ToString()} ℃";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }
