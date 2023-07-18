@@ -75,8 +75,8 @@ namespace CRUX_GUI_Cognex
                 for (int i = 0; i < areas.Area.Count; ++i)
                 {
                     DataRow Dr = Dt.NewRow();
-
-                    Dt.Rows.Add(false, areas.Area[i].Name);
+                    Dr.ItemArray = new object[] { areas.Area[i].Use, areas.Area[i].Name };
+                    Dt.Rows.Add(Dr);
                 }
                 return Dt;
             }
@@ -94,8 +94,8 @@ namespace CRUX_GUI_Cognex
                 for (int i = 0; i < area.Patterns.Count; ++i)
                 {
                     DataRow Dr = Dt.NewRow();
-
-                    Dt.Rows.Add(false, area.Patterns[i].Name);
+                    Dr.ItemArray = new object[] { area.Patterns[i].Grab, area.Patterns[i].Name };
+                    Dt.Rows.Add(Dr);
                 }
                 return Dt;
             }
@@ -113,8 +113,8 @@ namespace CRUX_GUI_Cognex
                 for (int i = 0; i < optics.Camera_Data.Count; ++i)
                 {
                     DataRow Dr = Dt.NewRow();
-
-                    Dt.Rows.Add(optics.Camera_Data[i].Use, optics.Camera_Data[i].Name, optics.Camera_Data[i].CamType, optics.Camera_Data[i].Expose, optics.Camera_Data[i].Gain, optics.Camera_Data[i].PS, optics.Camera_Data[i].Delay, optics.Camera_Data[i].nCountF, optics.Camera_Data[i].nCountB, optics.Camera_Data[i].nStartF, optics.Camera_Data[i].nStartB, optics.Camera_Data[i].nStopF, optics.Camera_Data[i].nStopB, optics.Camera_Data[i].nPeriodF, optics.Camera_Data[i].nPeriodB);
+                    Dr.ItemArray = new object[] { optics.Camera_Data[i].Use, optics.Camera_Data[i].Name, optics.Camera_Data[i].CamType, optics.Camera_Data[i].Expose, optics.Camera_Data[i].Gain, optics.Camera_Data[i].PS, optics.Camera_Data[i].Delay, optics.Camera_Data[i].nCountF, optics.Camera_Data[i].nCountB, optics.Camera_Data[i].nStartF, optics.Camera_Data[i].nStartB, optics.Camera_Data[i].nStopF, optics.Camera_Data[i].nStopB, optics.Camera_Data[i].nPeriodF, optics.Camera_Data[i].nPeriodB};
+                    Dt.Rows.Add(Dr);
                 }
                 return Dt;
             }
@@ -132,8 +132,20 @@ namespace CRUX_GUI_Cognex
                 for (int i = 0; i < optics.Light_Data.Count; ++i)
                 {
                     DataRow Dr = Dt.NewRow();
+                    List<object> Temp = new List<object>();
+                    Temp.Add(optics.Light_Data[i].Use);
+                    Temp.Add(optics.Light_Data[i].Port_No);
+                    Temp.Add(optics.Light_Data[i].Controller_No);
+                    uint[] LightValueTemp = Enumerable.Repeat<uint>(0, Consts.MAX_LIGHT_CHANNEL_COUNT).ToArray();
 
-                    Dt.Rows.Add(optics.Light_Data[i].Use, optics.Light_Data[i].Port_No, optics.Light_Data[i].Controller_No, optics.Light_Data[i].LightModules);
+                    for (int j = 0; j < optics.Light_Data[i].LightValue.Count; ++j)
+                        LightValueTemp[j] = optics.Light_Data[i].LightValue[j];                    
+
+                    for (int j = 0; j < LightValueTemp.Length; ++j)
+                        Temp.Add(LightValueTemp[j]);                    
+
+                    Dr.ItemArray = Temp.ToArray();
+                    Dt.Rows.Add(Dr);
                 }
                 return Dt;
             }
@@ -337,16 +349,11 @@ namespace CRUX_GUI_Cognex
                         NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
                         NewLightInfo.Port_No = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Port_No;
                         NewLightInfo.Controller_No = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Controller_No;
-                        //NewLightInfo.LightChCnt = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightChCnt;
-                        for (int t = 0; t < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightModules.Count; ++t)
-                        {
-                            NewLightInfo.Modules[t] = new STRU_SERIAL_INFO_AOT(0);
-                            NewLightInfo.Modules[t].nChCnt = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightModules[t].Count;
-                            for (int s = 0; s < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightModules[t].Ch_Value.Count; ++s)
-                            {
-                                NewLightInfo.Modules[t].nLightVal[s] = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightModules[t].Ch_Value[s];
-                            }
-                     
+                        NewLightInfo.Modules[k] = new STRU_SERIAL_INFO_AOT(0);
+                        NewLightInfo.Modules[k].nChCnt = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightValue.Count;
+                        for (int t = 0; t < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightValue.Count; ++t)
+                        {                                                        
+                            NewLightInfo.Modules[k].nLightVal[t] = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightValue[t];                                             
                         }
                         NewPatternInfo.Light_Condition[k] = NewLightInfo;
                     }

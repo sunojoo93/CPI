@@ -119,7 +119,7 @@ namespace CRUX_GUI_Cognex
         public static List<string> MAINFORM_NAME { get; set; }
 
         
-        public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini" };
+        public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini", "Device.Cfg" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
         public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini" };
         public static List<string> SelectRecipe = new List<string>();

@@ -682,6 +682,8 @@ namespace CRUX_GUI_Cognex.Class
         {
             nChCnt = 0;
             nLightVal = new uint[Consts.MAX_LIGHT_CHANNEL_COUNT];
+            for (int i = 0; i < nLightVal.Length; ++i)
+                nLightVal[i] = 0;
         }
     }
     [Serializable]
@@ -755,26 +757,26 @@ namespace CRUX_GUI_Cognex.Class
         public int Port_No { get; set; } = 0;
         [XmlAttribute("Controller_No")]
         public int Controller_No { get; set; } = 0;
-        [XmlAttribute("ModuleCount")]
-        public int ModuleCount { get; set; } = 0;
-        [XmlArray("Modules")]
-        [XmlArrayItem("Module")]
-        public List<LightModule> LightModules { get; set; }
+        [XmlArray("ChVals")]
+        [XmlArrayItem("Ch")]
+        public List<uint> LightValue { get; set; }
         public LightInfo()
         {
-            LightModules = new List<LightModule>();
+            LightValue = new List<uint>() { Capacity = Consts.MAX_LIGHT_CHANNEL_COUNT };
         }
     }
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public class LightModule
-    {
-        [XmlAttribute("Count")]
-        public int Count { get; set; } = 0;       
-        [XmlArray("Ch_Value")]
-        [XmlArrayItem("Ch")]
-        public List<uint> Ch_Value { get; set; }
-    }
+    //[Serializable]
+    //[StructLayout(LayoutKind.Sequential, Pack = 1)]
+    //public class LightChannelValues
+    //{
+    //    [XmlArray("Ch_Value")]
+    //    [XmlArrayItem("Ch")]
+    //    public List<uint> Ch_Value { get; set; }
+    //    public LightChannelValues()
+    //    {
+    //        Ch_Value = new List<uint>();
+    //    }
+    //}
     /// <summary>
     /// Patterns Struct
     /// </summary>

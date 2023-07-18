@@ -230,40 +230,42 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 //////////// Area Dgv 초기화
                 DataTable Dt_Area = new DataTable();
                 Dt_Area.Columns.Add("Use", typeof(bool));
-                Dt_Area.Columns.Add("Name");
+                Dt_Area.Columns.Add(new DataColumn("Name") { ReadOnly = true });
 
-                Dgv_Area.DataSource = Dt_Area;
-
-                Dgv_Area.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                Dgv_Area.DataSource = Dt_Area;     
 
                 for (int i = 0; i < Dgv_Area.Columns.Count; ++i)
                 {
-                    Dgv_Area.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+                    Dgv_Area.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    if (i == Dgv_Area.ColumnCount - 1)
+                        Dgv_Area.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
-
+                Dgv_Area.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
                 //////////// 패턴 Dgv 초기화
                 DataTable Dt_Pattern = new DataTable();
                 Dt_Pattern.Columns.Add("Use", typeof(bool));
-                Dt_Pattern.Columns.Add("Name");
+                Dt_Pattern.Columns.Add(new DataColumn("Name") { ReadOnly = true });
 
                 Dgv_Pattern.DataSource = Dt_Pattern;
 
-                for (int i = 0; i < Dt_Pattern.Columns.Count; ++i)
+                for (int i = 0; i < Dgv_Pattern.Columns.Count; ++i)
                 {
-                    Dgv_Pattern.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+                    Dgv_Pattern.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    if (i == Dgv_Pattern.ColumnCount - 1)
+                        Dgv_Pattern.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
-                Dgv_Pattern.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                Dgv_Pattern.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
                 //////////// 카메라 컨디션 Dgv 초기화
                 DataTable Dt_GrabCond = new DataTable();
                 Dt_GrabCond.Columns.Add("Use", typeof(bool));
-                Dt_GrabCond.Columns.Add("Name");
-                Dt_GrabCond.Columns.Add("Type");
+                Dt_GrabCond.Columns.Add(new DataColumn("Name") { ReadOnly = true });
+                Dt_GrabCond.Columns.Add(new DataColumn("Type") { ReadOnly = true });
                 Dt_GrabCond.Columns.Add("Exp");
                 Dt_GrabCond.Columns.Add("Gain");
                 Dt_GrabCond.Columns.Add("PS");
                 Dt_GrabCond.Columns.Add("Delay");
                 Dt_GrabCond.Columns.Add("CountF");
-                Dt_GrabCond.Columns.Add("COuntB");
+                Dt_GrabCond.Columns.Add("CountB");
                 Dt_GrabCond.Columns.Add("StartF");
                 Dt_GrabCond.Columns.Add("StartB");
                 Dt_GrabCond.Columns.Add("StopF");
@@ -275,7 +277,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                 for (int i = 0; i < Dgv_GrabCond.Columns.Count; ++i)
                 {
-                    Dgv_GrabCond.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+                    Dgv_GrabCond.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    Dgv_GrabCond.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    if(i== Dgv_GrabCond.ColumnCount)
+                        Dgv_GrabCond.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
                 Dgv_GrabCond.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
 
@@ -290,18 +295,12 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 }
                 Dgv_LightCond.DataSource = Dt_LightCond;
 
-                //for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
-                //{
-                //    if (i == 0)
-                //        Dgv_LightCond.Columns[0].Width = 50;
-                //    else if (i == 1)
-                //        Dgv_LightCond.Columns[1].Width = 50;
-                //    else
-                //        Dgv_LightCond.Columns[i].Width = 50;
-                //}
                 for (int i = 0; i < Dgv_LightCond.Columns.Count; ++i)
                 {
-                    Dgv_LightCond.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+                    Dgv_LightCond.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    Dgv_LightCond.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    if (i == Dgv_LightCond.ColumnCount)
+                        Dgv_LightCond.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
                 Dgv_LightCond.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             }
@@ -563,6 +562,11 @@ namespace CRUX_GUI_Cognex.Ex_Form
             {
                 throw ex;
             }
+        }
+
+        private void Btn_ProperyApply_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

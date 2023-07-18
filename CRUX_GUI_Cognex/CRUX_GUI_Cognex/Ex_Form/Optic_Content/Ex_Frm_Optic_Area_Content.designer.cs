@@ -1,4 +1,6 @@
-﻿namespace CRUX_GUI_Cognex.Ex_Form
+﻿using CRUX_GUI_Cognex.User_Controls;
+
+namespace CRUX_GUI_Cognex.Ex_Form
 {
     partial class Ex_Frm_Optic_Area_Content
     {
@@ -35,7 +37,6 @@
             this.Tlp_CamControl = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_ProperyApply = new System.Windows.Forms.Button();
             this.Grb_Param = new System.Windows.Forms.GroupBox();
-            this.Dgv_GrabCond = new System.Windows.Forms.DataGridView();
             this.Btn_GrabStart = new System.Windows.Forms.Button();
             this.Btn_GrabStop = new System.Windows.Forms.Button();
             this.Grb_Area = new System.Windows.Forms.GroupBox();
@@ -47,7 +48,6 @@
             this.Tlp_LightControl = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_AllOn = new System.Windows.Forms.Button();
             this.Btn_AllOff = new System.Windows.Forms.Button();
-            this.Dgv_LightCond = new System.Windows.Forms.DataGridView();
             this.Grb_LightOption = new System.Windows.Forms.GroupBox();
             this.Grb_Motor = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -59,7 +59,7 @@
             this.Pnl_MiniMap = new System.Windows.Forms.Panel();
             this.Tlp_Status = new System.Windows.Forms.TableLayoutPanel();
             this.Grb_CamStatus = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.Tlp_CameraStatus = new System.Windows.Forms.TableLayoutPanel();
             this.Lb_TempContent = new System.Windows.Forms.Label();
             this.Lb_Temp = new System.Windows.Forms.Label();
             this.Lb_DepthContent = new System.Windows.Forms.Label();
@@ -71,30 +71,32 @@
             this.Lb_CameraNameContent = new System.Windows.Forms.Label();
             this.Lb_CamName = new System.Windows.Forms.Label();
             this.Grb_LightStatus = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.Tlp_LightStatus = new System.Windows.Forms.TableLayoutPanel();
             this.Pnl_ImageArea = new System.Windows.Forms.Panel();
             this.Tmr_CamTemperature = new System.Windows.Forms.Timer(this.components);
+            this.Dgv_GrabCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
+            this.Dgv_LightCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Tlp_AreaCam.SuspendLayout();
             this.Tlp_OpticMain.SuspendLayout();
             this.Grb_CamControl.SuspendLayout();
             this.Tlp_CamControl.SuspendLayout();
             this.Grb_Param.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabCond)).BeginInit();
             this.Grb_Area.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Area)).BeginInit();
             this.Grb_Pattern.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pattern)).BeginInit();
             this.Grb_Light.SuspendLayout();
             this.Tlp_LightControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).BeginInit();
             this.Grb_Motor.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.Grb_ExProc.SuspendLayout();
             this.Tlp_ExOption.SuspendLayout();
             this.Tlp_Status.SuspendLayout();
             this.Grb_CamStatus.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
+            this.Tlp_CameraStatus.SuspendLayout();
             this.Grb_LightStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabCond)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).BeginInit();
             this.SuspendLayout();
             // 
             // Tlp_AreaCam
@@ -158,7 +160,7 @@
             this.Tlp_CamControl.ColumnCount = 5;
             this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 124F));
-            this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 124F));
+            this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
             this.Tlp_CamControl.Controls.Add(this.Btn_ProperyApply, 0, 2);
@@ -181,46 +183,32 @@
             // Btn_ProperyApply
             // 
             this.Btn_ProperyApply.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ProperyApply.Location = new System.Drawing.Point(3, 119);
+            this.Btn_ProperyApply.Location = new System.Drawing.Point(3, 117);
             this.Btn_ProperyApply.Name = "Btn_ProperyApply";
-            this.Btn_ProperyApply.Size = new System.Drawing.Size(94, 52);
+            this.Btn_ProperyApply.Size = new System.Drawing.Size(94, 54);
             this.Btn_ProperyApply.TabIndex = 8;
             this.Btn_ProperyApply.Text = "Property Apply";
             this.Btn_ProperyApply.UseVisualStyleBackColor = true;
+            this.Btn_ProperyApply.Click += new System.EventHandler(this.Btn_ProperyApply_Click);
             // 
             // Grb_Param
             // 
             this.Grb_Param.Controls.Add(this.Dgv_GrabCond);
             this.Grb_Param.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_Param.Location = new System.Drawing.Point(351, 3);
+            this.Grb_Param.Location = new System.Drawing.Point(387, 3);
             this.Grb_Param.Name = "Grb_Param";
             this.Tlp_CamControl.SetRowSpan(this.Grb_Param, 3);
-            this.Grb_Param.Size = new System.Drawing.Size(606, 168);
+            this.Grb_Param.Size = new System.Drawing.Size(570, 168);
             this.Grb_Param.TabIndex = 7;
             this.Grb_Param.TabStop = false;
             this.Grb_Param.Text = "Grab Condition";
-            // 
-            // Dgv_GrabCond
-            // 
-            this.Dgv_GrabCond.AllowUserToAddRows = false;
-            this.Dgv_GrabCond.AllowUserToDeleteRows = false;
-            this.Dgv_GrabCond.AllowUserToResizeColumns = false;
-            this.Dgv_GrabCond.AllowUserToResizeRows = false;
-            this.Dgv_GrabCond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dgv_GrabCond.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Dgv_GrabCond.Location = new System.Drawing.Point(3, 18);
-            this.Dgv_GrabCond.Name = "Dgv_GrabCond";
-            this.Dgv_GrabCond.RowHeadersVisible = false;
-            this.Dgv_GrabCond.RowTemplate.Height = 23;
-            this.Dgv_GrabCond.Size = new System.Drawing.Size(600, 147);
-            this.Dgv_GrabCond.TabIndex = 0;
             // 
             // Btn_GrabStart
             // 
             this.Btn_GrabStart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_GrabStart.Location = new System.Drawing.Point(3, 3);
             this.Btn_GrabStart.Name = "Btn_GrabStart";
-            this.Btn_GrabStart.Size = new System.Drawing.Size(94, 52);
+            this.Btn_GrabStart.Size = new System.Drawing.Size(94, 51);
             this.Btn_GrabStart.TabIndex = 0;
             this.Btn_GrabStart.Text = "Live Start";
             this.Btn_GrabStart.UseVisualStyleBackColor = true;
@@ -229,9 +217,9 @@
             // Btn_GrabStop
             // 
             this.Btn_GrabStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_GrabStop.Location = new System.Drawing.Point(3, 61);
+            this.Btn_GrabStop.Location = new System.Drawing.Point(3, 60);
             this.Btn_GrabStop.Name = "Btn_GrabStop";
-            this.Btn_GrabStop.Size = new System.Drawing.Size(94, 52);
+            this.Btn_GrabStop.Size = new System.Drawing.Size(94, 51);
             this.Btn_GrabStop.TabIndex = 1;
             this.Btn_GrabStop.Text = "Live Stop";
             this.Btn_GrabStop.UseVisualStyleBackColor = true;
@@ -270,7 +258,7 @@
             this.Grb_Pattern.Location = new System.Drawing.Point(227, 3);
             this.Grb_Pattern.Name = "Grb_Pattern";
             this.Tlp_CamControl.SetRowSpan(this.Grb_Pattern, 3);
-            this.Grb_Pattern.Size = new System.Drawing.Size(118, 168);
+            this.Grb_Pattern.Size = new System.Drawing.Size(154, 168);
             this.Grb_Pattern.TabIndex = 3;
             this.Grb_Pattern.TabStop = false;
             this.Grb_Pattern.Text = "Pattern";
@@ -287,7 +275,7 @@
             this.Dgv_Pattern.Name = "Dgv_Pattern";
             this.Dgv_Pattern.RowHeadersVisible = false;
             this.Dgv_Pattern.RowTemplate.Height = 23;
-            this.Dgv_Pattern.Size = new System.Drawing.Size(112, 147);
+            this.Dgv_Pattern.Size = new System.Drawing.Size(148, 147);
             this.Dgv_Pattern.TabIndex = 1;
             // 
             // Grb_CamOptions
@@ -352,22 +340,6 @@
             this.Btn_AllOff.TabIndex = 1;
             this.Btn_AllOff.Text = "ALL OFF";
             this.Btn_AllOff.UseVisualStyleBackColor = true;
-            // 
-            // Dgv_LightCond
-            // 
-            this.Dgv_LightCond.AllowUserToAddRows = false;
-            this.Dgv_LightCond.AllowUserToDeleteRows = false;
-            this.Dgv_LightCond.AllowUserToResizeColumns = false;
-            this.Dgv_LightCond.AllowUserToResizeRows = false;
-            this.Dgv_LightCond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dgv_LightCond.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Dgv_LightCond.Location = new System.Drawing.Point(103, 3);
-            this.Dgv_LightCond.Name = "Dgv_LightCond";
-            this.Dgv_LightCond.RowHeadersVisible = false;
-            this.Tlp_LightControl.SetRowSpan(this.Dgv_LightCond, 2);
-            this.Dgv_LightCond.RowTemplate.Height = 23;
-            this.Dgv_LightCond.Size = new System.Drawing.Size(854, 189);
-            this.Dgv_LightCond.TabIndex = 2;
             // 
             // Grb_LightOption
             // 
@@ -511,7 +483,7 @@
             // 
             // Grb_CamStatus
             // 
-            this.Grb_CamStatus.Controls.Add(this.tableLayoutPanel5);
+            this.Grb_CamStatus.Controls.Add(this.Tlp_CameraStatus);
             this.Grb_CamStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_CamStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_CamStatus.Location = new System.Drawing.Point(3, 0);
@@ -523,46 +495,46 @@
             this.Grb_CamStatus.TabStop = false;
             this.Grb_CamStatus.Text = "Camera Status";
             // 
-            // tableLayoutPanel5
+            // Tlp_CameraStatus
             // 
-            this.tableLayoutPanel5.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel5.ColumnCount = 2;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Controls.Add(this.Lb_TempContent, 1, 4);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_Temp, 0, 4);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_DepthContent, 1, 3);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_Depth, 0, 3);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_HeightContent, 1, 2);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_Height, 0, 2);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_WidthContent, 1, 1);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_Width, 0, 1);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_CameraNameContent, 1, 0);
-            this.tableLayoutPanel5.Controls.Add(this.Lb_CamName, 0, 0);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 15);
-            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 7;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(294, 204);
-            this.tableLayoutPanel5.TabIndex = 0;
+            this.Tlp_CameraStatus.BackColor = System.Drawing.Color.Transparent;
+            this.Tlp_CameraStatus.ColumnCount = 2;
+            this.Tlp_CameraStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.Tlp_CameraStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_TempContent, 1, 4);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_Temp, 0, 4);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_DepthContent, 1, 3);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_Depth, 0, 3);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_HeightContent, 1, 2);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_Height, 0, 2);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_WidthContent, 1, 1);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_Width, 0, 1);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_CameraNameContent, 1, 0);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_CamName, 0, 0);
+            this.Tlp_CameraStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_CameraStatus.Location = new System.Drawing.Point(0, 15);
+            this.Tlp_CameraStatus.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Tlp_CameraStatus.Name = "Tlp_CameraStatus";
+            this.Tlp_CameraStatus.Padding = new System.Windows.Forms.Padding(5, 10, 0, 5);
+            this.Tlp_CameraStatus.RowCount = 6;
+            this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_CameraStatus.Size = new System.Drawing.Size(294, 204);
+            this.Tlp_CameraStatus.TabIndex = 0;
             // 
             // Lb_TempContent
             // 
             this.Lb_TempContent.AutoSize = true;
             this.Lb_TempContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_TempContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_TempContent.Location = new System.Drawing.Point(105, 80);
+            this.Lb_TempContent.Location = new System.Drawing.Point(110, 110);
             this.Lb_TempContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_TempContent.Name = "Lb_TempContent";
-            this.Lb_TempContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_TempContent.Size = new System.Drawing.Size(179, 25);
             this.Lb_TempContent.TabIndex = 9;
             this.Lb_TempContent.Text = "-";
             this.Lb_TempContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -572,10 +544,10 @@
             this.Lb_Temp.AutoSize = true;
             this.Lb_Temp.BackColor = System.Drawing.Color.Transparent;
             this.Lb_Temp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Temp.Location = new System.Drawing.Point(5, 80);
+            this.Lb_Temp.Location = new System.Drawing.Point(10, 110);
             this.Lb_Temp.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_Temp.Name = "Lb_Temp";
-            this.Lb_Temp.Size = new System.Drawing.Size(90, 20);
+            this.Lb_Temp.Size = new System.Drawing.Size(90, 25);
             this.Lb_Temp.TabIndex = 8;
             this.Lb_Temp.Text = "Temperature :";
             this.Lb_Temp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -585,10 +557,10 @@
             this.Lb_DepthContent.AutoSize = true;
             this.Lb_DepthContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_DepthContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_DepthContent.Location = new System.Drawing.Point(105, 60);
+            this.Lb_DepthContent.Location = new System.Drawing.Point(110, 85);
             this.Lb_DepthContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_DepthContent.Name = "Lb_DepthContent";
-            this.Lb_DepthContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_DepthContent.Size = new System.Drawing.Size(179, 25);
             this.Lb_DepthContent.TabIndex = 7;
             this.Lb_DepthContent.Text = "-";
             this.Lb_DepthContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -598,10 +570,10 @@
             this.Lb_Depth.AutoSize = true;
             this.Lb_Depth.BackColor = System.Drawing.Color.Transparent;
             this.Lb_Depth.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Depth.Location = new System.Drawing.Point(5, 60);
+            this.Lb_Depth.Location = new System.Drawing.Point(10, 85);
             this.Lb_Depth.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_Depth.Name = "Lb_Depth";
-            this.Lb_Depth.Size = new System.Drawing.Size(90, 20);
+            this.Lb_Depth.Size = new System.Drawing.Size(90, 25);
             this.Lb_Depth.TabIndex = 6;
             this.Lb_Depth.Text = "Depth :";
             this.Lb_Depth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -611,10 +583,10 @@
             this.Lb_HeightContent.AutoSize = true;
             this.Lb_HeightContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_HeightContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_HeightContent.Location = new System.Drawing.Point(105, 40);
+            this.Lb_HeightContent.Location = new System.Drawing.Point(110, 60);
             this.Lb_HeightContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_HeightContent.Name = "Lb_HeightContent";
-            this.Lb_HeightContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_HeightContent.Size = new System.Drawing.Size(179, 25);
             this.Lb_HeightContent.TabIndex = 5;
             this.Lb_HeightContent.Text = "-";
             this.Lb_HeightContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -624,10 +596,10 @@
             this.Lb_Height.AutoSize = true;
             this.Lb_Height.BackColor = System.Drawing.Color.Transparent;
             this.Lb_Height.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Height.Location = new System.Drawing.Point(5, 40);
+            this.Lb_Height.Location = new System.Drawing.Point(10, 60);
             this.Lb_Height.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_Height.Name = "Lb_Height";
-            this.Lb_Height.Size = new System.Drawing.Size(90, 20);
+            this.Lb_Height.Size = new System.Drawing.Size(90, 25);
             this.Lb_Height.TabIndex = 4;
             this.Lb_Height.Text = "Res Y :";
             this.Lb_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -637,10 +609,10 @@
             this.Lb_WidthContent.AutoSize = true;
             this.Lb_WidthContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_WidthContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_WidthContent.Location = new System.Drawing.Point(105, 20);
+            this.Lb_WidthContent.Location = new System.Drawing.Point(110, 35);
             this.Lb_WidthContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_WidthContent.Name = "Lb_WidthContent";
-            this.Lb_WidthContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_WidthContent.Size = new System.Drawing.Size(179, 25);
             this.Lb_WidthContent.TabIndex = 3;
             this.Lb_WidthContent.Text = "-";
             this.Lb_WidthContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -650,10 +622,10 @@
             this.Lb_Width.AutoSize = true;
             this.Lb_Width.BackColor = System.Drawing.Color.Transparent;
             this.Lb_Width.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Width.Location = new System.Drawing.Point(5, 20);
+            this.Lb_Width.Location = new System.Drawing.Point(10, 35);
             this.Lb_Width.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_Width.Name = "Lb_Width";
-            this.Lb_Width.Size = new System.Drawing.Size(90, 20);
+            this.Lb_Width.Size = new System.Drawing.Size(90, 25);
             this.Lb_Width.TabIndex = 2;
             this.Lb_Width.Text = "Res X :";
             this.Lb_Width.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -663,10 +635,10 @@
             this.Lb_CameraNameContent.AutoSize = true;
             this.Lb_CameraNameContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_CameraNameContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_CameraNameContent.Location = new System.Drawing.Point(105, 0);
+            this.Lb_CameraNameContent.Location = new System.Drawing.Point(110, 10);
             this.Lb_CameraNameContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_CameraNameContent.Name = "Lb_CameraNameContent";
-            this.Lb_CameraNameContent.Size = new System.Drawing.Size(184, 20);
+            this.Lb_CameraNameContent.Size = new System.Drawing.Size(179, 25);
             this.Lb_CameraNameContent.TabIndex = 1;
             this.Lb_CameraNameContent.Text = "-";
             this.Lb_CameraNameContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -676,17 +648,17 @@
             this.Lb_CamName.AutoSize = true;
             this.Lb_CamName.BackColor = System.Drawing.Color.Transparent;
             this.Lb_CamName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_CamName.Location = new System.Drawing.Point(5, 0);
+            this.Lb_CamName.Location = new System.Drawing.Point(10, 10);
             this.Lb_CamName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_CamName.Name = "Lb_CamName";
-            this.Lb_CamName.Size = new System.Drawing.Size(90, 20);
+            this.Lb_CamName.Size = new System.Drawing.Size(90, 25);
             this.Lb_CamName.TabIndex = 0;
             this.Lb_CamName.Text = "Model Name :";
             this.Lb_CamName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Grb_LightStatus
             // 
-            this.Grb_LightStatus.Controls.Add(this.tableLayoutPanel6);
+            this.Grb_LightStatus.Controls.Add(this.Tlp_LightStatus);
             this.Grb_LightStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_LightStatus.Location = new System.Drawing.Point(303, 0);
             this.Grb_LightStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
@@ -697,23 +669,23 @@
             this.Grb_LightStatus.TabStop = false;
             this.Grb_LightStatus.Text = "Light Status";
             // 
-            // tableLayoutPanel6
+            // Tlp_LightStatus
             // 
-            this.tableLayoutPanel6.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel6.ColumnCount = 2;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 15);
-            this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.tableLayoutPanel6.RowCount = 3;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(294, 133);
-            this.tableLayoutPanel6.TabIndex = 1;
+            this.Tlp_LightStatus.BackColor = System.Drawing.Color.Transparent;
+            this.Tlp_LightStatus.ColumnCount = 2;
+            this.Tlp_LightStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_LightStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_LightStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_LightStatus.Location = new System.Drawing.Point(0, 15);
+            this.Tlp_LightStatus.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Tlp_LightStatus.Name = "Tlp_LightStatus";
+            this.Tlp_LightStatus.Padding = new System.Windows.Forms.Padding(5, 10, 5, 0);
+            this.Tlp_LightStatus.RowCount = 3;
+            this.Tlp_LightStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.Tlp_LightStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.Tlp_LightStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_LightStatus.Size = new System.Drawing.Size(294, 133);
+            this.Tlp_LightStatus.TabIndex = 1;
             // 
             // Pnl_ImageArea
             // 
@@ -729,6 +701,37 @@
             // 
             this.Tmr_CamTemperature.Interval = 2000;
             this.Tmr_CamTemperature.Tick += new System.EventHandler(this.Tmr_CamTemperature_Tick);
+            // 
+            // Dgv_GrabCond
+            // 
+            this.Dgv_GrabCond.AllowUserToAddRows = false;
+            this.Dgv_GrabCond.AllowUserToDeleteRows = false;
+            this.Dgv_GrabCond.AllowUserToResizeColumns = false;
+            this.Dgv_GrabCond.AllowUserToResizeRows = false;
+            this.Dgv_GrabCond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_GrabCond.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_GrabCond.Location = new System.Drawing.Point(3, 18);
+            this.Dgv_GrabCond.Name = "Dgv_GrabCond";
+            this.Dgv_GrabCond.RowHeadersVisible = false;
+            this.Dgv_GrabCond.RowTemplate.Height = 23;
+            this.Dgv_GrabCond.Size = new System.Drawing.Size(564, 147);
+            this.Dgv_GrabCond.TabIndex = 0;
+            // 
+            // Dgv_LightCond
+            // 
+            this.Dgv_LightCond.AllowUserToAddRows = false;
+            this.Dgv_LightCond.AllowUserToDeleteRows = false;
+            this.Dgv_LightCond.AllowUserToResizeColumns = false;
+            this.Dgv_LightCond.AllowUserToResizeRows = false;
+            this.Dgv_LightCond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_LightCond.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_LightCond.Location = new System.Drawing.Point(103, 3);
+            this.Dgv_LightCond.Name = "Dgv_LightCond";
+            this.Dgv_LightCond.RowHeadersVisible = false;
+            this.Tlp_LightControl.SetRowSpan(this.Dgv_LightCond, 2);
+            this.Dgv_LightCond.RowTemplate.Height = 23;
+            this.Dgv_LightCond.Size = new System.Drawing.Size(854, 189);
+            this.Dgv_LightCond.TabIndex = 2;
             // 
             // Ex_Frm_Optic_Area_Content
             // 
@@ -748,23 +751,23 @@
             this.Grb_CamControl.ResumeLayout(false);
             this.Tlp_CamControl.ResumeLayout(false);
             this.Grb_Param.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabCond)).EndInit();
             this.Grb_Area.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Area)).EndInit();
             this.Grb_Pattern.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pattern)).EndInit();
             this.Grb_Light.ResumeLayout(false);
             this.Tlp_LightControl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).EndInit();
             this.Grb_Motor.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.Grb_ExProc.ResumeLayout(false);
             this.Tlp_ExOption.ResumeLayout(false);
             this.Tlp_Status.ResumeLayout(false);
             this.Grb_CamStatus.ResumeLayout(false);
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel5.PerformLayout();
+            this.Tlp_CameraStatus.ResumeLayout(false);
+            this.Tlp_CameraStatus.PerformLayout();
             this.Grb_LightStatus.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabCond)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -787,15 +790,15 @@
         private System.Windows.Forms.TableLayoutPanel Tlp_LightControl;
         private System.Windows.Forms.Button Btn_AllOn;
         private System.Windows.Forms.Button Btn_AllOff;
-        private System.Windows.Forms.DataGridView Dgv_LightCond;
+        private DoubleBufferdDataGridView Dgv_LightCond;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.GroupBox Grb_CamStatus;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Panel Pnl_MiniMap;
         private System.Windows.Forms.TableLayoutPanel Tlp_Status;
         private System.Windows.Forms.GroupBox Grb_LightStatus;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.TableLayoutPanel Tlp_CameraStatus;
+        private System.Windows.Forms.TableLayoutPanel Tlp_LightStatus;
         private System.Windows.Forms.Label Lb_CamName;
         private System.Windows.Forms.Label Lb_TempContent;
         private System.Windows.Forms.Label Lb_Temp;
@@ -809,7 +812,7 @@
         private System.Windows.Forms.DataGridView Dgv_Area;
         private System.Windows.Forms.DataGridView Dgv_Pattern;
         private System.Windows.Forms.GroupBox Grb_Param;
-        private System.Windows.Forms.DataGridView Dgv_GrabCond;
+        private DoubleBufferdDataGridView Dgv_GrabCond;
         private System.Windows.Forms.GroupBox Grb_CamOptions;
         private System.Windows.Forms.GroupBox Grb_LightOption;
         private System.Windows.Forms.GroupBox Grb_ExProc;
