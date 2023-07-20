@@ -150,7 +150,7 @@ namespace CRUX_GUI_Cognex.Utils
             catch(Exception ex)
             {
                 throw ex;
-            }
+            }            
         }
         /// <summary>
         /// JobManager를 종료한다.
@@ -252,11 +252,8 @@ namespace CRUX_GUI_Cognex.Utils
                         }
                         RegionTool.Run();
                         //Result_CogImg = (CogImage8Grey)RegionTool.OutputImage.CopyBase(CogImageCopyModeConstants.CopyPixels);
-                        //Result_CogImg = RegionTool.OutputImage;
-                      
+                        //Result_CogImg = RegionTool.OutputImage;                      
                     }
-
-
 
                     CogImage8Grey ResultALL_CogImg;
                     ResultALL_CogImg = new CogImage8Grey(RegionTool.OutputImage.Width, RegionTool.OutputImage.Height);

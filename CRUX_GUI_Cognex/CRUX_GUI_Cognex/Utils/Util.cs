@@ -94,7 +94,7 @@ namespace CRUX_GUI_Cognex
                 for (int i = 0; i < area.Patterns.Count; ++i)
                 {
                     DataRow Dr = Dt.NewRow();
-                    Dr.ItemArray = new object[] { area.Patterns[i].Grab, area.Patterns[i].Name };
+                    Dr.ItemArray = new object[] { area.Patterns[i].Grab, area.Patterns[i].Vacuum, area.Patterns[i].Name };
                     Dt.Rows.Add(Dr);
                 }
                 return Dt;

@@ -389,7 +389,7 @@ namespace CRUX_GUI_Cognex.Class
             int a = 0;
         }
         [Description("ROI 이름입니다.")]
-        [ReadOnly(true)]
+        [ReadOnly(true)]        
         public string Name
         {
             get
@@ -712,8 +712,78 @@ namespace CRUX_GUI_Cognex.Class
 
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
+
     public class CameraInfo
     {
+        public Object this [int index]
+        {
+            get
+            {
+                if (index == 0)
+                    return Use;
+                else if (index == 1)
+                    return Name;
+                else if (index == 2)
+                    return CamType;
+                else if (index == 3)
+                    return Expose;
+                else if (index == 4)
+                    return Gain;
+                else if (index == 5)
+                    return PS;
+                else if (index == 6)
+                    return Delay;
+                else if (index == 7)
+                    return nCountF;
+                else if (index == 8)
+                    return nCountB;
+                else if (index == 9)
+                    return nStartF;
+                else if (index == 10)
+                    return nStartB;
+                else if (index == 11)
+                    return nStopF;
+                else if (index == 12)
+                    return nStopB;
+                else if (index == 13)
+                    return nPeriodF;
+                else
+                    return nPeriodB;
+            }
+            set
+            {
+                if (index == 0)
+                    Use = value.toBool();
+                else if (index == 1)
+                    Name = value.ToString();
+                else if (index == 2)
+                    CamType = value.ToString();
+                else if (index == 3)
+                    Expose = value.toDbl();
+                else if (index == 4)
+                    Gain = value.toDbl();
+                else if (index == 5)
+                    PS = value.toInt();
+                else if (index == 6)
+                    Delay = value.toInt();
+                else if (index == 7)
+                    nCountF = value.toInt();
+                else if (index == 8)
+                    nCountB = value.toInt();
+                else if (index == 9)
+                    nStartF = value.toInt();
+                else if (index == 10)
+                    nStartB = value.toInt();
+                else if (index == 11)
+                    nStopF = value.toInt();
+                else if (index == 12)
+                    nStopB = value.toInt();
+                else if (index == 13)
+                    nPeriodF = value.toInt();
+                else
+                    nPeriodB = value.toInt();
+            }
+        }
         [XmlAttribute("Name")]
         public string Name { get; set; } = string.Empty;
         [XmlAttribute("Use")]

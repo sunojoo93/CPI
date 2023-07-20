@@ -10,6 +10,8 @@ using CRUX_GUI_Cognex.Interface;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Reflection;
+using System.Linq;
 
 namespace CRUX_GUI_Cognex.Ex_Form
 {
@@ -38,11 +40,11 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 //Show();
                 // ListView 가로 스크롤 제거
                 WinApis.ShowScrollBar(LstV_GuideLine.Handle, 1, true);
-                
 
-                MiniView = new Uctrl_MiniMap(CurFormIndex) { Location = new Point(0,0), Margin = new Padding(0, 0, 0, 0) };
-                MainView = new Uctrl_MainPic() { Location = new Point(0,0), Margin = new Padding(0, 0, 0, 0) };
-                
+
+                MiniView = new Uctrl_MiniMap(CurFormIndex) { Location = new Point(0, 0), Margin = new Padding(0, 0, 0, 0) };
+                MainView = new Uctrl_MainPic() { Location = new Point(0, 0), Margin = new Padding(0, 0, 0, 0) };
+
                 Label lblb1 = new Label();
                 Label lblb2 = new Label();
                 Label lblb3 = new Label();
@@ -52,15 +54,15 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Label lblb7 = new Label();
                 Label lblb8 = new Label();
                 Label lblb9 = new Label();
-                Label lblb10= new Label();
+                Label lblb10 = new Label();
                 Label lblb11 = new Label();
                 Label lblb12 = new Label();
-                Label lblb13= new Label();
+                Label lblb13 = new Label();
                 Label lblb14 = new Label();
                 Label lblb15 = new Label();
                 Label lblb16 = new Label();
                 Label lblb17 = new Label();
-                MainView.Initialize(this, ref MiniView, ref lblb1, (int)Enums.ImageLoadFlag.CAMERA_LOAD_IMG, CurFormIndex, true, Pnl_ImageArea.Width,Pnl_ImageArea.Height, Pnl_ImageArea.Location.X, Pnl_ImageArea.Location.Y);
+                MainView.Initialize(this, ref MiniView, ref lblb1, (int)Enums.ImageLoadFlag.CAMERA_LOAD_IMG, CurFormIndex, true, Pnl_ImageArea.Width, Pnl_ImageArea.Height, Pnl_ImageArea.Location.X, Pnl_ImageArea.Location.Y);
 
                 MiniView.ucRefMainImg(ref MainView);
                 MainView.m_fnLinkCurCoord(ref lblb2, ref lblb3);
@@ -83,7 +85,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Pnl_ImageArea.Controls.Add(MainView);
                 Pnl_MiniMap.Controls.Add(MiniView);
 
-         
+
                 //MainView.Show();
                 InitGuideLine();
 
@@ -92,7 +94,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             catch (Exception ex)
             {
                 throw ex;
-            }            
+            }
         }
         private void SetGuideLine(bool use, Enums.GuideLine pos, bool bUseDivision = false)
         {
@@ -200,7 +202,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                             Section.TryGetValue("Y", out y);
                             Section.TryGetValue("Width", out width);
                             Section.TryGetValue("Height", out height);
- 
+
                             int CoordX = (int)Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
                             int CoordY = (int)Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
                             Width = Math.Abs(pntStartCoord.X * Convert.ToDouble(width.Value?.ToString()));
@@ -232,7 +234,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Dt_Area.Columns.Add("Use", typeof(bool));
                 Dt_Area.Columns.Add(new DataColumn("Name") { ReadOnly = true });
 
-                Dgv_Area.DataSource = Dt_Area;     
+                Dgv_Area.DataSource = Dt_Area;
 
                 for (int i = 0; i < Dgv_Area.Columns.Count; ++i)
                 {
@@ -244,6 +246,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 //////////// 패턴 Dgv 초기화
                 DataTable Dt_Pattern = new DataTable();
                 Dt_Pattern.Columns.Add("Use", typeof(bool));
+                Dt_Pattern.Columns.Add("Vac", typeof(bool));
                 Dt_Pattern.Columns.Add(new DataColumn("Name") { ReadOnly = true });
 
                 Dgv_Pattern.DataSource = Dt_Pattern;
@@ -279,7 +282,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 {
                     Dgv_GrabCond.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                     Dgv_GrabCond.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    if(i== Dgv_GrabCond.ColumnCount)
+                    if (i == Dgv_GrabCond.ColumnCount)
                         Dgv_GrabCond.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
                 Dgv_GrabCond.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
@@ -325,11 +328,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
         }
 
-        private void BtnTemp_Click(object sender, EventArgs e)
-        {
-      
-        }
-
         public void SetFormNameIndex(ref string name, ref int index)
         {
             CurrentFormName = name;
@@ -354,7 +352,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void Btn_AllOn_Click(object sender, EventArgs e)
         {
-    
+
         }
 
         private void Ex_Frm_Optic_Area_Content_Shown(object sender, EventArgs e)
@@ -362,7 +360,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             int nRet = Consts.APP_OK;
             try
             {
-           
+
                 DataTable AreasData = Dgv_Area.DataSource as DataTable;
                 Dgv_Area.DataSource = RecipeManager.CvtDtAreaInfo(AreasData, Shared_Recipe.ViewRecipe.Area_Data);
                 if (Dgv_Area.Rows.Count > 0)
@@ -371,7 +369,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                     DataTable PatternsData = Dgv_Pattern.DataSource as DataTable;
                     Dgv_Pattern.DataSource = RecipeManager.CvtDtPatternInfo(PatternsData, Shared_Recipe.ViewRecipe.Area_Data.Area[Dgv_Area.SelectedRows[0].Index]);
-                    if(Dgv_Pattern.Rows.Count > 0)
+                    if (Dgv_Pattern.Rows.Count > 0)
                     {
                         Dgv_Pattern.Rows[0].Selected = true;
                         DataTable CamCond = Dgv_GrabCond.DataSource as DataTable;
@@ -420,10 +418,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             LiveStart();
         }
 
-        //public void LiveStart()
-        //{
-
-        //}
         delegate void DelLiveStopCallBack();
         public void LiveStop()
         {
@@ -441,10 +435,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 //checkUseGV.Checked = false;
                 //chkDivision.Checked = false;
                 //if (SendLightOff() == Consts.APP_OK)
-                    SetGuideLine(false, Enums.GuideLine.None, false);
+                SetGuideLine(false, Enums.GuideLine.None, false);
                 MainView.initImage();
                 //btnLiveStart.Text = "Live Start";
-               // btnFocusFigure.Enabled = false;
+                // btnFocusFigure.Enabled = false;
                 //pnlTeachMenu.Enabled = false;
                 //grbGuideLineCtrl.Enabled = false;
 
@@ -502,7 +496,124 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
 
         }
+        private void UpdatePattern()
+        {
+            try
+            {
+                if (Dgv_Area.SelectedRows.Count > 0)
+                {
+                    //ClearRecipeControl();
+                    Area Temp = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString());
+                    if (Temp == null)
+                        return;
 
+                    DataTable Dt = Dgv_Pattern.DataSource as DataTable;
+                    Dt.Rows.Clear();
+                    Dgv_Pattern.DataSource = Dt;
+                    Dgv_Pattern.Refresh();
+
+                    foreach (Pattern item in Temp.Patterns)
+                    {
+                        Dt.Rows.Add(item.Grab, item.Vacuum, item.Name);
+                    }
+                    Dgv_Pattern.DataSource = Dt;
+                    if (Dgv_Pattern.Rows.Count > 0)
+                    {
+                        Dgv_Pattern.Rows[0].Selected = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void UpdateGrabCondition()
+        {
+            try
+            {
+                if (Dgv_Pattern.SelectedRows.Count > 0 && Dgv_Area.SelectedRows.Count > 0)
+                {
+                    string selAreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                    string SelPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                    Optics FindOpticInfo = Shared_Recipe?.ViewRecipe?.Area_Data?.Area?.Find(x => x.Name == selAreaName)?.Patterns?.Find(x => x.Name == SelPtnName)?.Grab_Data;
+
+                    List<CameraInfo> CamInfoList = FindOpticInfo.Camera_Data;
+
+                    DataTable Dt = Dgv_GrabCond.DataSource as DataTable;
+                    Dt.Clear();
+
+                    int MemberCount = typeof(CameraInfo).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length;
+                    for (int i = 0; i < CamInfoList.Count; ++i)
+                    {
+                        DataRow Dr = Dt.NewRow();
+                        List<object> ArrayTemp = new List<object>();
+
+                        for (int j = 0; j < MemberCount; ++j)
+                        {
+                            ArrayTemp.Add(CamInfoList[i][j]);
+                        }
+                        Dr.ItemArray = ArrayTemp.ToArray();/*new object[] {CamInfoList[i].Use, CamInfoList[i].Name, CamInfoList[i].CamType, CamInfoList[i].Expose, CamInfoList[i].Gain, CamInfoList[i].PS, CamInfoList[i].Delay, CamInfoList[i].nCountF, CamInfoList[i].nCountB, CamInfoList[i].nStartF, CamInfoList[i].nStartB, CamInfoList[i].nStopF, CamInfoList[i].nStopB, CamInfoList[i].nPeriodF, CamInfoList[i].nPeriodB};*/
+                        Dt.Rows.Add(Dr);
+                    }
+
+                    Dgv_GrabCond.DataSource = Dt;
+                    Dgv_GrabCond.Refresh();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        private void UpdateLightCondition()
+        {
+            try
+            {
+                if (Dgv_Pattern.SelectedRows.Count > 0 && Dgv_Area.SelectedRows.Count > 0)
+                {
+                    string selAreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                    string SelPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                    Optics FindOpticInfo = Shared_Recipe?.ViewRecipe?.Area_Data?.Area?.Find(x => x.Name == selAreaName)?.Patterns?.Find(x => x.Name == SelPtnName)?.Grab_Data;
+
+                    List<LightInfo> LightInfoList = FindOpticInfo.Light_Data;
+
+                    DataTable Dt = Dgv_LightCond.DataSource as DataTable;
+                    Dt.Clear();
+
+                    foreach (LightInfo item in LightInfoList)
+                    {
+                        List<object> ArrayTemp = new List<object>();
+
+                        uint[] LightValueTemp = Enumerable.Repeat<uint>(0, Consts.MAX_LIGHT_CHANNEL_COUNT + 3).ToArray();
+
+                        for (int j = 0; j < LightValueTemp.Length; ++j)
+                            ArrayTemp.Add(LightValueTemp[j]);
+                      
+                        DataRow Dr = Dt.NewRow();
+
+                        ArrayTemp[0] = item.Use;
+                        ArrayTemp[1] = item.Port_No;
+                        ArrayTemp[2] = item.Controller_No;
+
+                        for (int j = 0; j < item.LightValue.Count; ++j)
+                            ArrayTemp[j+3] = item.LightValue[j];     
+
+                        Dr.ItemArray = ArrayTemp.ToArray();
+                        Dt.Rows.Add(Dr);
+                    }
+
+                    Dgv_LightCond.DataSource = Dt;
+                    Dgv_LightCond.Refresh();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private void LstV_GuideLine_MouseClick(object sender, MouseEventArgs e)
         {
             try
@@ -567,6 +678,23 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private void Btn_ProperyApply_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Dgv_Area_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (Dgv_Area.SelectedRows.Count > 0)
+            {
+                //string AreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                UpdatePattern();
+                UpdateGrabCondition();
+                UpdateLightCondition();
+            }
+        }
+
+        private void Dgv_Pattern_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            UpdateGrabCondition();
+            UpdateLightCondition();
         }
     }
 }

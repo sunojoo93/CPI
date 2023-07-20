@@ -42,9 +42,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Btn_Save = new System.Windows.Forms.Button();
             this.Btn_Revert = new System.Windows.Forms.Button();
             this.Lb_UnderLine1 = new System.Windows.Forms.Label();
-            this.Cagb_Jobs = new CenterAlignedGroupBox();
+            this.Cagb_Jobs = new CRUX_GUI_Cognex.User_Controls.CenterAlignedGroupBox();
             this.Dgv_GrabArea = new System.Windows.Forms.DataGridView();
-            this.Cagb_Recipe = new CenterAlignedGroupBox();
+            this.Cagb_Recipe = new CRUX_GUI_Cognex.User_Controls.CenterAlignedGroupBox();
             this.LstBoxRecipeList = new System.Windows.Forms.ListBox();
             this.Tlp_RecipeLayout.SuspendLayout();
             this.Tab_RecipeMain.SuspendLayout();
@@ -109,7 +109,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.tab_Link.Padding = new System.Windows.Forms.Padding(3);
             this.tab_Link.Size = new System.Drawing.Size(1453, 753);
             this.tab_Link.TabIndex = 5;
-            this.tab_Link.Text = "Link";
+            this.tab_Link.Text = "Manage";
             this.tab_Link.UseVisualStyleBackColor = true;
             // 
             // tab_optic

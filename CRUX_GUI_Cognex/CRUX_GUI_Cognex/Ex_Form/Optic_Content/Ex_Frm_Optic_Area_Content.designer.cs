@@ -160,7 +160,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_CamControl.ColumnCount = 5;
             this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 124F));
-            this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 203F));
             this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_CamControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
             this.Tlp_CamControl.Controls.Add(this.Btn_ProperyApply, 0, 2);
@@ -183,9 +183,9 @@ namespace CRUX_GUI_Cognex.Ex_Form
             // Btn_ProperyApply
             // 
             this.Btn_ProperyApply.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_ProperyApply.Location = new System.Drawing.Point(3, 117);
+            this.Btn_ProperyApply.Location = new System.Drawing.Point(3, 119);
             this.Btn_ProperyApply.Name = "Btn_ProperyApply";
-            this.Btn_ProperyApply.Size = new System.Drawing.Size(94, 54);
+            this.Btn_ProperyApply.Size = new System.Drawing.Size(94, 52);
             this.Btn_ProperyApply.TabIndex = 8;
             this.Btn_ProperyApply.Text = "Property Apply";
             this.Btn_ProperyApply.UseVisualStyleBackColor = true;
@@ -195,10 +195,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
             // 
             this.Grb_Param.Controls.Add(this.Dgv_GrabCond);
             this.Grb_Param.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_Param.Location = new System.Drawing.Point(387, 3);
+            this.Grb_Param.Location = new System.Drawing.Point(430, 3);
             this.Grb_Param.Name = "Grb_Param";
             this.Tlp_CamControl.SetRowSpan(this.Grb_Param, 3);
-            this.Grb_Param.Size = new System.Drawing.Size(570, 168);
+            this.Grb_Param.Size = new System.Drawing.Size(527, 168);
             this.Grb_Param.TabIndex = 7;
             this.Grb_Param.TabStop = false;
             this.Grb_Param.Text = "Grab Condition";
@@ -208,7 +208,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Btn_GrabStart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_GrabStart.Location = new System.Drawing.Point(3, 3);
             this.Btn_GrabStart.Name = "Btn_GrabStart";
-            this.Btn_GrabStart.Size = new System.Drawing.Size(94, 51);
+            this.Btn_GrabStart.Size = new System.Drawing.Size(94, 52);
             this.Btn_GrabStart.TabIndex = 0;
             this.Btn_GrabStart.Text = "Live Start";
             this.Btn_GrabStart.UseVisualStyleBackColor = true;
@@ -217,9 +217,9 @@ namespace CRUX_GUI_Cognex.Ex_Form
             // Btn_GrabStop
             // 
             this.Btn_GrabStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_GrabStop.Location = new System.Drawing.Point(3, 60);
+            this.Btn_GrabStop.Location = new System.Drawing.Point(3, 61);
             this.Btn_GrabStop.Name = "Btn_GrabStop";
-            this.Btn_GrabStop.Size = new System.Drawing.Size(94, 51);
+            this.Btn_GrabStop.Size = new System.Drawing.Size(94, 52);
             this.Btn_GrabStop.TabIndex = 1;
             this.Btn_GrabStop.Text = "Live Stop";
             this.Btn_GrabStop.UseVisualStyleBackColor = true;
@@ -248,8 +248,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Dgv_Area.Name = "Dgv_Area";
             this.Dgv_Area.RowHeadersVisible = false;
             this.Dgv_Area.RowTemplate.Height = 23;
+            this.Dgv_Area.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.Dgv_Area.Size = new System.Drawing.Size(112, 147);
             this.Dgv_Area.TabIndex = 0;
+            this.Dgv_Area.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Area_CellMouseUp);
             // 
             // Grb_Pattern
             // 
@@ -258,7 +260,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Grb_Pattern.Location = new System.Drawing.Point(227, 3);
             this.Grb_Pattern.Name = "Grb_Pattern";
             this.Tlp_CamControl.SetRowSpan(this.Grb_Pattern, 3);
-            this.Grb_Pattern.Size = new System.Drawing.Size(154, 168);
+            this.Grb_Pattern.Size = new System.Drawing.Size(197, 168);
             this.Grb_Pattern.TabIndex = 3;
             this.Grb_Pattern.TabStop = false;
             this.Grb_Pattern.Text = "Pattern";
@@ -275,8 +277,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Dgv_Pattern.Name = "Dgv_Pattern";
             this.Dgv_Pattern.RowHeadersVisible = false;
             this.Dgv_Pattern.RowTemplate.Height = 23;
-            this.Dgv_Pattern.Size = new System.Drawing.Size(148, 147);
+            this.Dgv_Pattern.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_Pattern.Size = new System.Drawing.Size(191, 147);
             this.Dgv_Pattern.TabIndex = 1;
+            this.Dgv_Pattern.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseUp);
             // 
             // Grb_CamOptions
             // 
@@ -714,7 +718,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Dgv_GrabCond.Name = "Dgv_GrabCond";
             this.Dgv_GrabCond.RowHeadersVisible = false;
             this.Dgv_GrabCond.RowTemplate.Height = 23;
-            this.Dgv_GrabCond.Size = new System.Drawing.Size(564, 147);
+            this.Dgv_GrabCond.Size = new System.Drawing.Size(521, 147);
             this.Dgv_GrabCond.TabIndex = 0;
             // 
             // Dgv_LightCond
