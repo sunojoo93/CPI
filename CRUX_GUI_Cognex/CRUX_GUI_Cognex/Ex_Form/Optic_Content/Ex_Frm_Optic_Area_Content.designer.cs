@@ -76,6 +76,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tmr_CamTemperature = new System.Windows.Forms.Timer(this.components);
             this.Dgv_GrabCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Dgv_LightCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
+            this.Lb_BoardName = new System.Windows.Forms.Label();
+            this.Lb_BoardNameContent = new System.Windows.Forms.Label();
             this.Tlp_AreaCam.SuspendLayout();
             this.Tlp_OpticMain.SuspendLayout();
             this.Grb_CamControl.SuspendLayout();
@@ -505,22 +507,25 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_CameraStatus.ColumnCount = 2;
             this.Tlp_CameraStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_CameraStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_TempContent, 1, 4);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_Temp, 0, 4);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_DepthContent, 1, 3);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_Depth, 0, 3);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_HeightContent, 1, 2);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_Height, 0, 2);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_WidthContent, 1, 1);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_Width, 0, 1);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_CameraNameContent, 1, 0);
-            this.Tlp_CameraStatus.Controls.Add(this.Lb_CamName, 0, 0);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_TempContent, 1, 5);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_Temp, 0, 5);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_DepthContent, 1, 4);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_Depth, 0, 4);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_HeightContent, 1, 3);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_Height, 0, 3);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_WidthContent, 1, 2);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_Width, 0, 2);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_CameraNameContent, 1, 1);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_CamName, 0, 1);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_BoardName, 0, 0);
+            this.Tlp_CameraStatus.Controls.Add(this.Lb_BoardNameContent, 1, 0);
             this.Tlp_CameraStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_CameraStatus.Location = new System.Drawing.Point(0, 15);
             this.Tlp_CameraStatus.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Tlp_CameraStatus.Name = "Tlp_CameraStatus";
             this.Tlp_CameraStatus.Padding = new System.Windows.Forms.Padding(5, 10, 0, 5);
-            this.Tlp_CameraStatus.RowCount = 6;
+            this.Tlp_CameraStatus.RowCount = 7;
+            this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.Tlp_CameraStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
@@ -535,7 +540,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_TempContent.AutoSize = true;
             this.Lb_TempContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_TempContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_TempContent.Location = new System.Drawing.Point(110, 110);
+            this.Lb_TempContent.Location = new System.Drawing.Point(110, 135);
             this.Lb_TempContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_TempContent.Name = "Lb_TempContent";
             this.Lb_TempContent.Size = new System.Drawing.Size(179, 25);
@@ -548,12 +553,12 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_Temp.AutoSize = true;
             this.Lb_Temp.BackColor = System.Drawing.Color.Transparent;
             this.Lb_Temp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Temp.Location = new System.Drawing.Point(10, 110);
+            this.Lb_Temp.Location = new System.Drawing.Point(10, 135);
             this.Lb_Temp.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_Temp.Name = "Lb_Temp";
             this.Lb_Temp.Size = new System.Drawing.Size(90, 25);
             this.Lb_Temp.TabIndex = 8;
-            this.Lb_Temp.Text = "Temperature :";
+            this.Lb_Temp.Text = "Temp. :";
             this.Lb_Temp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Lb_DepthContent
@@ -561,7 +566,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_DepthContent.AutoSize = true;
             this.Lb_DepthContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_DepthContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_DepthContent.Location = new System.Drawing.Point(110, 85);
+            this.Lb_DepthContent.Location = new System.Drawing.Point(110, 110);
             this.Lb_DepthContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_DepthContent.Name = "Lb_DepthContent";
             this.Lb_DepthContent.Size = new System.Drawing.Size(179, 25);
@@ -574,7 +579,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_Depth.AutoSize = true;
             this.Lb_Depth.BackColor = System.Drawing.Color.Transparent;
             this.Lb_Depth.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Depth.Location = new System.Drawing.Point(10, 85);
+            this.Lb_Depth.Location = new System.Drawing.Point(10, 110);
             this.Lb_Depth.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_Depth.Name = "Lb_Depth";
             this.Lb_Depth.Size = new System.Drawing.Size(90, 25);
@@ -587,7 +592,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_HeightContent.AutoSize = true;
             this.Lb_HeightContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_HeightContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_HeightContent.Location = new System.Drawing.Point(110, 60);
+            this.Lb_HeightContent.Location = new System.Drawing.Point(110, 85);
             this.Lb_HeightContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_HeightContent.Name = "Lb_HeightContent";
             this.Lb_HeightContent.Size = new System.Drawing.Size(179, 25);
@@ -600,7 +605,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_Height.AutoSize = true;
             this.Lb_Height.BackColor = System.Drawing.Color.Transparent;
             this.Lb_Height.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Height.Location = new System.Drawing.Point(10, 60);
+            this.Lb_Height.Location = new System.Drawing.Point(10, 85);
             this.Lb_Height.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_Height.Name = "Lb_Height";
             this.Lb_Height.Size = new System.Drawing.Size(90, 25);
@@ -613,7 +618,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_WidthContent.AutoSize = true;
             this.Lb_WidthContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_WidthContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_WidthContent.Location = new System.Drawing.Point(110, 35);
+            this.Lb_WidthContent.Location = new System.Drawing.Point(110, 60);
             this.Lb_WidthContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_WidthContent.Name = "Lb_WidthContent";
             this.Lb_WidthContent.Size = new System.Drawing.Size(179, 25);
@@ -626,7 +631,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_Width.AutoSize = true;
             this.Lb_Width.BackColor = System.Drawing.Color.Transparent;
             this.Lb_Width.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Width.Location = new System.Drawing.Point(10, 35);
+            this.Lb_Width.Location = new System.Drawing.Point(10, 60);
             this.Lb_Width.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_Width.Name = "Lb_Width";
             this.Lb_Width.Size = new System.Drawing.Size(90, 25);
@@ -639,7 +644,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_CameraNameContent.AutoSize = true;
             this.Lb_CameraNameContent.BackColor = System.Drawing.Color.Transparent;
             this.Lb_CameraNameContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_CameraNameContent.Location = new System.Drawing.Point(110, 10);
+            this.Lb_CameraNameContent.Location = new System.Drawing.Point(110, 35);
             this.Lb_CameraNameContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_CameraNameContent.Name = "Lb_CameraNameContent";
             this.Lb_CameraNameContent.Size = new System.Drawing.Size(179, 25);
@@ -652,7 +657,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_CamName.AutoSize = true;
             this.Lb_CamName.BackColor = System.Drawing.Color.Transparent;
             this.Lb_CamName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_CamName.Location = new System.Drawing.Point(10, 10);
+            this.Lb_CamName.Location = new System.Drawing.Point(10, 35);
             this.Lb_CamName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Lb_CamName.Name = "Lb_CamName";
             this.Lb_CamName.Size = new System.Drawing.Size(90, 25);
@@ -718,8 +723,11 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Dgv_GrabCond.Name = "Dgv_GrabCond";
             this.Dgv_GrabCond.RowHeadersVisible = false;
             this.Dgv_GrabCond.RowTemplate.Height = 23;
+            this.Dgv_GrabCond.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.Dgv_GrabCond.Size = new System.Drawing.Size(521, 147);
             this.Dgv_GrabCond.TabIndex = 0;
+            this.Dgv_GrabCond.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_GrabCond_CellMouseUp);
+            this.Dgv_GrabCond.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Dgv_GrabCond_MouseUp);
             // 
             // Dgv_LightCond
             // 
@@ -736,6 +744,34 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Dgv_LightCond.RowTemplate.Height = 23;
             this.Dgv_LightCond.Size = new System.Drawing.Size(854, 189);
             this.Dgv_LightCond.TabIndex = 2;
+            this.Dgv_LightCond.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_LightCond_CellMouseUp);
+            this.Dgv_LightCond.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Dgv_LightCond_MouseUp);
+            // 
+            // Lb_BoardName
+            // 
+            this.Lb_BoardName.AutoSize = true;
+            this.Lb_BoardName.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_BoardName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_BoardName.Location = new System.Drawing.Point(10, 10);
+            this.Lb_BoardName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_BoardName.Name = "Lb_BoardName";
+            this.Lb_BoardName.Size = new System.Drawing.Size(90, 25);
+            this.Lb_BoardName.TabIndex = 10;
+            this.Lb_BoardName.Text = "Grb. Name :";
+            this.Lb_BoardName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Lb_BoardNameContent
+            // 
+            this.Lb_BoardNameContent.AutoSize = true;
+            this.Lb_BoardNameContent.BackColor = System.Drawing.Color.Transparent;
+            this.Lb_BoardNameContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_BoardNameContent.Location = new System.Drawing.Point(110, 10);
+            this.Lb_BoardNameContent.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_BoardNameContent.Name = "Lb_BoardNameContent";
+            this.Lb_BoardNameContent.Size = new System.Drawing.Size(179, 25);
+            this.Lb_BoardNameContent.TabIndex = 11;
+            this.Lb_BoardNameContent.Text = "-";
+            this.Lb_BoardNameContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Ex_Frm_Optic_Area_Content
             // 
@@ -824,5 +860,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private System.Windows.Forms.Button Btn_ProperyApply;
         private System.Windows.Forms.Panel Pnl_ImageArea;
         private System.Windows.Forms.Timer Tmr_CamTemperature;
+        private System.Windows.Forms.Label Lb_BoardName;
+        private System.Windows.Forms.Label Lb_BoardNameContent;
     }
 }

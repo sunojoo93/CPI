@@ -29,7 +29,7 @@ namespace CRUX_GUI_Cognex
         public static List<Algorithm_Infomation> Algo_Info = new List<Algorithm_Infomation>();
         public static List<string> CurrentSelectedRecipe;
 
-
+        public static Camera_Connection_Environment Camera_Con_Environment;
         public static List<PropertyString> CurrentApplyRecipeName;
         public static List<string> CurrentSelectedAreaName;
 

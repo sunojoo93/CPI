@@ -696,5 +696,119 @@ namespace CRUX_GUI_Cognex.Ex_Form
             UpdateGrabCondition();
             UpdateLightCondition();
         }
+
+        private void Dgv_GrabCond_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+        }
+        private void m_GrabCondItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            switch (e.ClickedItem.Text)
+            {
+                case "추가":
+                    foreach (DataGridViewCell cell in Dgv_GrabCond.SelectedCells)
+                    {
+                        cell.OwningRow.Cells["Check"].Value = true;
+                    }
+                    break;
+                case "삭제":
+                    foreach (DataGridViewCell cell in Dgv_GrabCond.SelectedCells)
+                    {
+                        cell.OwningRow.Cells["Check"].Value = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        private void m_LightCondItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            switch (e.ClickedItem.Text)
+            {
+                case "추가":
+                    foreach (DataGridViewCell cell in Dgv_LightCond.SelectedCells)
+                    {
+                        cell.OwningRow.Cells["Check"].Value = true;
+                    }
+                    break;
+                case "삭제":
+                    foreach (DataGridViewCell cell in Dgv_LightCond.SelectedCells)
+                    {
+                        cell.OwningRow.Cells["Check"].Value = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        private void Dgv_LightCond_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+        }
+
+        private void Dgv_GrabCond_MouseUp(object sender, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hitTestInfo; //Hit 위치 
+
+            if (e.Button == MouseButtons.Right)
+            {
+                hitTestInfo = Dgv_GrabCond.HitTest(e.X, e.Y);
+
+                int col = hitTestInfo.ColumnIndex;
+                int row = hitTestInfo.RowIndex;
+
+                ContextMenuStrip m = new ContextMenuStrip();
+
+                m.Items.Add("추가");
+                m.Items.Add("삭제");
+
+                if (row == -1)
+                    // 선택한 Row가 0일 때 삭제 버튼 Enable = false
+                    m.Items[1].Enabled = false;
+
+                if (col < 0) col = 0;
+                if (row < 0) row = 0;
+
+                if(Dgv_GrabCond.Rows.Count > 0)
+                    this.Dgv_GrabCond.CurrentCell = this.Dgv_GrabCond[col, row]; //선택되게 설정  
+
+                m.ItemClicked += new ToolStripItemClickedEventHandler(m_GrabCondItemClicked);
+
+                m.Show(Dgv_GrabCond, new Point(e.X, e.Y));
+            }
+        }
+
+        private void Dgv_LightCond_MouseUp(object sender, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hitTestInfo; //Hit 위치 
+
+            if (e.Button == MouseButtons.Right)
+            {
+                hitTestInfo = Dgv_LightCond.HitTest(e.X, e.Y);
+
+                int col = hitTestInfo.ColumnIndex;
+                int row = hitTestInfo.RowIndex;
+
+                ContextMenuStrip m = new ContextMenuStrip();
+
+                m.Items.Add("추가");
+                m.Items.Add("삭제");
+
+                if (row == -1)
+                    // 선택한 Row가 0일 때 삭제 버튼 Enable = false
+                    m.Items[1].Enabled = false;
+
+                if (col < 0) col = 0;
+                if (row < 0) row = 0;
+                if (Dgv_GrabCond.Rows.Count > 0)
+                    this.Dgv_LightCond.CurrentCell = this.Dgv_LightCond[col, row]; //선택되게 설정  
+
+                m.ItemClicked += new ToolStripItemClickedEventHandler(m_LightCondItemClicked);
+
+                m.Show(Dgv_LightCond, new Point(e.X, e.Y));
+            }
+        }
     }
 }

@@ -44,9 +44,9 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             return RecipeList.Count > 0 ? RecipeList : null;
         }
-        private void CreateINIObject()
+        private void Camera_Info_Init()
         {
-
+            //Systems.Ini_Collection[Globals.CurrentPCno]["Device.cfg"][""]
 
         }
 
@@ -102,19 +102,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                                 throw ex;
                             }
                             break;
-                        case (int)Enums.InitFlag.INI:
-                            try
-                            {
-                                setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Read Program Data...", false, false);
-                                CreateINIObject();
-                                ++InitFlag;
-                            }
-                            catch (Exception ex)
-                            {
-                                throw ex;
-                            }
-                            break;
+  
                         case (int)Enums.InitFlag.DATA:
                             try
                             {
@@ -126,6 +114,19 @@ namespace CRUX_GUI_Cognex.Main_Form
                             catch (Exception ex)
                             {
                                 throw;
+                            }
+                            break;
+                        case (int)Enums.InitFlag.CAMERA_INIT:
+                            try
+                            {
+                                setControlText(lbl_CurrentState, string.Format("Read Camera Information..."));
+                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Read Camera Information...", false, false);
+                                Camera_Info_Init();
+                                ++InitFlag;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw ex;
                             }
                             break;
                         case (int)Enums.InitFlag.IPC:

@@ -103,10 +103,6 @@ namespace CRUX_GUI_Cognex
         public static int MaxVisionCnt = 0;
         public static int CurrentPCno = 0;
         public static string PcName;
-        public static string CurrentUIName;
-        //private static string[] SelectRecipe;
-        private static int[] SelectRecipeNo;
-        private static int[] CurrentRecipeNo;
         private static string[] CurGrabVersion;
         //private static string[] CurInspVersion;
         public static int CurLogView = 0;
@@ -114,7 +110,6 @@ namespace CRUX_GUI_Cognex
         public static int[] Insp_Type;
       //  public static string[][] PatternName;
         public static int nLanguageFlg = 0;
-        private static bool[] bIsSavedRecipe;
         public static double ROI_RATIO = 0.8;
         public static List<string> MAINFORM_NAME { get; set; }
 
@@ -123,22 +118,6 @@ namespace CRUX_GUI_Cognex
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
         public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini" };
         public static List<string> SelectRecipe = new List<string>();
-
-       
-        public static void m_fnSetCurGrabVersion(int nVisionNo, string strGrabVer)
-        {
-            Globals.CurGrabVersion[nVisionNo] = strGrabVer;
-        }
-        
-        //public static void m_fnSetCurInspVersion(int nVisionNo, string strInspVer)
-        //{
-        //    Globals.CurInspVersion[nVisionNo] = strInspVer;
-        //}
-        
-        public static bool m_fnGetSelRcpSaved(int nVisionNo)
-        {
-            return Globals.bIsSavedRecipe[nVisionNo];
-        }
     }
 
     static class IpcConst
@@ -407,9 +386,9 @@ namespace CRUX_GUI_Cognex
         {
             //GUI_DATA = 0, 
             CHK_PROGRAM = 0,
-            SET_ENVIRONMENT,
-            INI,
+            SET_ENVIRONMENT,         
             DATA,
+            CAMERA_INIT,
             IPC,
             CAM_TASK,
             SharedMemory,

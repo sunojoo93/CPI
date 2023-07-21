@@ -1136,6 +1136,30 @@ namespace CRUX_GUI_Cognex.Class
             Temp = 0;
         }
     }
+    public class Camera_Connection_Environment
+    {
+        private static Camera_Connection_Environment Collection_Object;
+        public static Camera_Connection_Environment Instance()
+        {
+            if (Collection_Object == null)            
+                Collection_Object = new Camera_Connection_Environment();
+            
+            return Collection_Object;
+        }
+        List<Grabber_Board> Grabber;
 
-
+        private Camera_Connection_Environment()
+        {
+            Grabber = new List<Grabber_Board>();
+        }
+    }
+    public class Grabber_Board
+    {
+        public bool Use { get; set; } = false;
+        public List<bool> Digitizer { get; set; }
+        public Grabber_Board()
+        {
+            Digitizer = new List<bool>();
+        }
+    }
 }
