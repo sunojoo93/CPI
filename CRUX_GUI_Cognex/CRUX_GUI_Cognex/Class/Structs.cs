@@ -1136,30 +1136,57 @@ namespace CRUX_GUI_Cognex.Class
             Temp = 0;
         }
     }
+
+
     public class Camera_Connection_Environment
     {
-        private static Camera_Connection_Environment Collection_Object;
+        private static Camera_Connection_Environment Collection_Camera;
+        public List<Grabber_Connection> Grabber;
         public static Camera_Connection_Environment Instance()
         {
-            if (Collection_Object == null)            
-                Collection_Object = new Camera_Connection_Environment();
-            
-            return Collection_Object;
+            if (Collection_Camera == null)
+                Collection_Camera = new Camera_Connection_Environment();
+
+            return Collection_Camera;
         }
-        List<Grabber_Board> Grabber;
 
         private Camera_Connection_Environment()
         {
-            Grabber = new List<Grabber_Board>();
+            Grabber = new List<Grabber_Connection>();
         }
     }
-    public class Grabber_Board
+    public class Light_Connection_Environment
+    {
+        private static Light_Connection_Environment Collection_Light;
+        public Light_Connection Light_Cond;
+        public static Light_Connection_Environment Instance()
+        {
+            if (Collection_Light == null)
+                Collection_Light = new Light_Connection_Environment();
+
+            return Collection_Light;
+        }
+        private Light_Connection_Environment()
+        {
+            Light_Cond = new Light_Connection();
+        }
+    }
+
+    public class Grabber_Connection
     {
         public bool Use { get; set; } = false;
         public List<bool> Digitizer { get; set; }
-        public Grabber_Board()
+        public Grabber_Connection()
         {
             Digitizer = new List<bool>();
+        }
+    }
+    public class Light_Connection
+    {
+        public List<bool> PortNum { get; set; }
+        public Light_Connection()
+        {
+            PortNum = new List<bool>();
         }
     }
 }

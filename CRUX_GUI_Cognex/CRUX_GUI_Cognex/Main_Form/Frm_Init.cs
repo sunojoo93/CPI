@@ -44,9 +44,32 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             return RecipeList.Count > 0 ? RecipeList : null;
         }
-        private void Camera_Info_Init()
+        private void Device_Info_Init()
         {
-            //Systems.Ini_Collection[Globals.CurrentPCno]["Device.cfg"][""]
+            for(int i = 0; i < Consts.MAX_CAMERA_COUNT; ++i)
+            {
+                bool GrabberUseFlag = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Grabber_Board_{i}"].ToString().Trim() == "T" ? true : false;
+
+                Grabber_Connection Temp = new Grabber_Connection();
+                Temp.Use = GrabberUseFlag;
+                if (GrabberUseFlag)
+                {
+                    for (int j = 0; j < Consts.MAX_CAMERA_COUNT; ++j)
+                    {
+                        bool CameraFlag = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Grabber_Board_{i}"][$"Frame Grabber_{j}"].ToString().Trim() == "T" ? true : false;
+                        Temp.Digitizer.Add(CameraFlag);
+                    }
+                }
+    
+                Camera_Connection_Environment.Instance().Grabber.Add(Temp);
+            }
+
+            for (int i = 0; i < Consts.MAX_LIGHT_PORT_COUNT; ++i)
+            {
+                bool LightUseFlag = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Light Controller"][$"PORT_{i+1}"].ToString().Trim() == "1" ? true : false;
+
+                Light_Connection_Environment.Instance().Light_Cond.PortNum.Add(LightUseFlag);
+            }
 
         }
 
@@ -121,7 +144,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Read Camera Information..."));
                                 Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Read Camera Information...", false, false);
-                                Camera_Info_Init();
+                                Device_Info_Init();
                                 ++InitFlag;
                             }
                             catch (Exception ex)

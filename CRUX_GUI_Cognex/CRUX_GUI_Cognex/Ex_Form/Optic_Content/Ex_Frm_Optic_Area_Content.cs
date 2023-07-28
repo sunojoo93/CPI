@@ -104,21 +104,14 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                 Point pntStartCoord = new Point();
 
-
                 pntStartCoord = MainView.m_fnGetImgSize();
 
-
-                // 얼라인 좌표 등록 사용 안함
                 MainView.InitGuideLineData(Color.Red);
                 MainView.InitLineProfileData(Color.Yellow);
                 MainView.InitContrastData(Color.LightBlue);
                 MainView.m_fnUseEventGuideLineView(use);
-                //Thread.Sleep(100);
-                //MainView.DataToSetGuideLineArea(m_rectGuideLine, m_dGuideLineOffsetT);
-
-
-                //2021.10.28 KYH
-
+                double X = 0;
+                double Y = 0;
                 double Width = 0;
                 double Height = 0;
                 IniSection Section;
@@ -132,11 +125,16 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         {
                             Section.TryGetValue("X", out x);
                             Section.TryGetValue("Y", out y);
-                            Width = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
-                            Height = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Section.TryGetValue("Width", out width);
+                            Section.TryGetValue("Height", out height);
 
-                            m_rectGuideLine.X = -30;
-                            m_rectGuideLine.Y = -30;
+                            X = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
+                            Y = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Width = Math.Abs((pntStartCoord.X * Convert.ToDouble(width.Value?.ToString())) - X);
+                            Height = Math.Abs((pntStartCoord.Y * Convert.ToDouble(height.Value?.ToString())) - Y);
+
+                            m_rectGuideLine.X = (int)X - 30;
+                            m_rectGuideLine.Y = (int)Y - 30;
                             m_rectGuideLine.Width = (int)Width;
                             m_rectGuideLine.Height = (int)Height;
                         }
@@ -149,13 +147,18 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         {
                             Section.TryGetValue("X", out x);
                             Section.TryGetValue("Y", out y);
-                            Width = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
-                            Height = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Section.TryGetValue("Width", out width);
+                            Section.TryGetValue("Height", out height);
 
-                            m_rectGuideLine.X = -30;
-                            m_rectGuideLine.Y = (int)Height;
+                            X = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
+                            Y = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Width = Math.Abs((pntStartCoord.X * Convert.ToDouble(width.Value?.ToString())) - X);
+                            Height = Math.Abs((pntStartCoord.Y * Convert.ToDouble(height.Value?.ToString())) - Y);
+
+                            m_rectGuideLine.X = (int)X - 30;
+                            m_rectGuideLine.Y = (int)Y;
                             m_rectGuideLine.Width = (int)Width;
-                            m_rectGuideLine.Height = pntStartCoord.Y + 30;
+                            m_rectGuideLine.Height = (int)Height + 30;
                         }
                         break;
 
@@ -166,13 +169,18 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         {
                             Section.TryGetValue("X", out x);
                             Section.TryGetValue("Y", out y);
-                            Width = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
-                            Height = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Section.TryGetValue("Width", out width);
+                            Section.TryGetValue("Height", out height);
 
-                            m_rectGuideLine.X = (int)Width;
-                            m_rectGuideLine.Y = (int)Height;
-                            m_rectGuideLine.Width = pntStartCoord.X + 30;
-                            m_rectGuideLine.Height = pntStartCoord.Y + 30;
+                            X = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
+                            Y = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Width = Math.Abs((pntStartCoord.X * Convert.ToDouble(width.Value?.ToString())) - X);
+                            Height = Math.Abs((pntStartCoord.Y * Convert.ToDouble(height.Value?.ToString())) - Y);
+
+                            m_rectGuideLine.X = (int)X;
+                            m_rectGuideLine.Y = (int)Y - 30;
+                            m_rectGuideLine.Width = (int)Width + 30;
+                            m_rectGuideLine.Height = (int)Height;
                         }
                         break;
 
@@ -183,13 +191,18 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         {
                             Section.TryGetValue("X", out x);
                             Section.TryGetValue("Y", out y);
-                            Width = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
-                            Height = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Section.TryGetValue("Width", out width);
+                            Section.TryGetValue("Height", out height);
 
-                            m_rectGuideLine.X = (int)Width;
-                            m_rectGuideLine.Y = -30;
-                            m_rectGuideLine.Width = pntStartCoord.X + 30;
-                            m_rectGuideLine.Height = (int)Height;
+                            X = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
+                            Y = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Width = Math.Abs((pntStartCoord.X * Convert.ToDouble(width.Value?.ToString())) - X);
+                            Height = Math.Abs((pntStartCoord.Y * Convert.ToDouble(height.Value?.ToString())) - Y);
+
+                            m_rectGuideLine.X = (int)X;
+                            m_rectGuideLine.Y = (int)Y;
+                            m_rectGuideLine.Width = (int)Width + 30;
+                            m_rectGuideLine.Height = (int)Height + 30;
                         }
                         break;
 
@@ -203,15 +216,15 @@ namespace CRUX_GUI_Cognex.Ex_Form
                             Section.TryGetValue("Width", out width);
                             Section.TryGetValue("Height", out height);
 
-                            int CoordX = (int)Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
-                            int CoordY = (int)Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
-                            Width = Math.Abs(pntStartCoord.X * Convert.ToDouble(width.Value?.ToString()));
-                            Height = Math.Abs(pntStartCoord.Y * Convert.ToDouble(height.Value?.ToString()));
+                            X = Math.Abs(pntStartCoord.X * Convert.ToDouble(x.Value?.ToString()));
+                            Y = Math.Abs(pntStartCoord.Y * Convert.ToDouble(y.Value?.ToString()));
+                            Width = Math.Abs((pntStartCoord.X * Convert.ToDouble(width.Value?.ToString())) - X);
+                            Height = Math.Abs((pntStartCoord.Y * Convert.ToDouble(height.Value?.ToString())) - Y);
 
-                            m_rectGuideLine.X = CoordX;
-                            m_rectGuideLine.Y = CoordY;
-                            m_rectGuideLine.Width = (int)(Width - CoordX);
-                            m_rectGuideLine.Height = (int)(Height - CoordY);
+                            m_rectGuideLine.X = (int)X;
+                            m_rectGuideLine.Y = (int)Y;
+                            m_rectGuideLine.Width = (int)(Width);
+                            m_rectGuideLine.Height = (int)(Height);
                         }
                         break;
                 }
@@ -277,6 +290,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Dt_GrabCond.Columns.Add("PeriodB");
 
                 Dgv_GrabCond.DataSource = Dt_GrabCond;
+
+               
 
                 for (int i = 0; i < Dgv_GrabCond.Columns.Count; ++i)
                 {
@@ -808,6 +823,72 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 m.ItemClicked += new ToolStripItemClickedEventHandler(m_LightCondItemClicked);
 
                 m.Show(Dgv_LightCond, new Point(e.X, e.Y));
+            }
+        }
+
+        private void Dgv_GrabCond_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (Dgv_GrabCond.SelectedRows.Count > 0)
+                {
+                    string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                    string SelectedCamName = Dgv_GrabCond.SelectedRows[0].Cells["Name"].Value.ToString();
+                    if (SelectedPtnName != null && SelectedCamName != null)
+                    {
+                        DataGridViewRow SelItem = Dgv_GrabCond.Rows[e.RowIndex];
+                        CameraInfo Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName).Grab_Data.Camera_Data.Find( x => x.Name == SelectedCamName);
+                        Temp.Expose = SelItem.Cells["Exp"].Value.toDbl();
+                        Temp.Gain = SelItem.Cells["Gain"].Value.toDbl();
+                        Temp.PS = SelItem.Cells["PS"].Value.toInt();
+                        Temp.Delay = SelItem.Cells["Delay"].Value.toInt();
+                        Temp.nCountF = SelItem.Cells["CountF"].Value.toInt();
+                        Temp.nCountB= SelItem.Cells["CountB"].Value.toInt();
+                        Temp.nStartF= SelItem.Cells["StartF"].Value.toInt();
+                        Temp.nStartB = SelItem.Cells["StartB"].Value.toInt();
+                        Temp.nStopF= SelItem.Cells["StopF"].Value.toInt();
+                        Temp.nStopB = SelItem.Cells["StopB"].Value.toInt();
+                        Temp.nPeriodF = SelItem.Cells["PeriodF"].Value.toInt();
+                        Temp.nPeriodB = SelItem.Cells["PeriodB"].Value.toInt();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void Dgv_LightCond_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (Dgv_GrabCond.SelectedRows.Count > 0)
+                {
+                    string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                    string SelectedLightName = Dgv_LightCond.SelectedRows[0].Cells["Name"].Value.ToString();
+                    if (SelectedPtnName != null && SelectedLightName != null)
+                    {
+                        DataGridViewRow SelItem = Dgv_GrabCond.Rows[e.RowIndex];
+                        CameraInfo Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName).Grab_Data.Camera_Data.Find(x => x.Name == SelectedLightName);
+                        Temp.Expose = SelItem.Cells["Exp"].Value.toDbl();
+                        Temp.Gain = SelItem.Cells["Gain"].Value.toDbl();
+                        Temp.PS = SelItem.Cells["PS"].Value.toInt();
+                        Temp.Delay = SelItem.Cells["Delay"].Value.toInt();
+                        Temp.nCountF = SelItem.Cells["CountF"].Value.toInt();
+                        Temp.nCountB = SelItem.Cells["CountB"].Value.toInt();
+                        Temp.nStartF = SelItem.Cells["StartF"].Value.toInt();
+                        Temp.nStartB = SelItem.Cells["StartB"].Value.toInt();
+                        Temp.nStopF = SelItem.Cells["StopF"].Value.toInt();
+                        Temp.nStopB = SelItem.Cells["StopB"].Value.toInt();
+                        Temp.nPeriodF = SelItem.Cells["PeriodF"].Value.toInt();
+                        Temp.nPeriodB = SelItem.Cells["PeriodB"].Value.toInt();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }
