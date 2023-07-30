@@ -37,6 +37,9 @@ namespace CRUX_GUI_Cognex
         public static List<Dictionary<string, IniFile>> Ini_Collection;
         public static List<Dictionary<string, IniFile>> RecipeData_Collection;
         //public static IniFile[] ROI_Property;        
+        public static List<string> AvaliableCamNameList = new List<string>();
+        public static List<string> AvaliableLightNameList = new List<string>();
+
 
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;

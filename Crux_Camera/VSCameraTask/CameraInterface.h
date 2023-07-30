@@ -75,7 +75,11 @@ public:
 	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };	
 	virtual int		SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID) { return 0; };
 
-
+	virtual CString GetCameraName() { return _T(""); };
+	virtual int GetCameraWidth() { return 0; };
+	virtual int GetCameraHeight() { return 0; };
+	virtual int GetCameraDepth() { return 0; };
+	virtual unsigned int GetCameraTemperature() { return 0; };
 
 
 #ifdef _MATROXCAMERA
@@ -102,11 +106,6 @@ public:
 	virtual void	SetWhiteBalance(float* WhiteBalance)									{	return			;};
 	virtual void	GetWhiteBalance(float* WhiteBalance)									{	return			;};
 
-	virtual CString GetCameraName() { return _T(""); };
-	virtual int GetCameraWidth() { return 0; };
-	virtual int GetCameraHeight() { return 0; };
-	virtual int GetCameraDepth() { return 0; };
-	virtual unsigned int GetCameraTemperature() { return 0; };
 	//virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt);
 	//virtual	void	CameraExpose() = 0;
 //	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };

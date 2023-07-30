@@ -293,11 +293,28 @@ namespace CRUX_GUI_Cognex.Main_Form
                 string RecipePath = Shared_Recipe.ViewRecipe.Path;
                 string RecipeName = Shared_Recipe.ViewRecipe.Name;
                 RecipeManager.SaveRecipe(Shared_Recipe.ViewRecipe);
-                RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "MainRecipe.xml", Shared_Recipe.ViewRecipe.Area_Data);
+                //RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "MainRecipe.xml", Shared_Recipe.ViewRecipe.Area_Data);
 
                 Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
                 Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
-                Console.WriteLine($"Job: 0 Saved");
+
+                // ImageMergeOffset
+                IniFile IniData = Systems.RecipeData_Collection[CurFormIndex]["ImageMergeOffset.ini"];
+                IniSection IniSec = IniData["Offset"];
+                IniSec.Clear();
+
+                DataTable MergeOffset = Frm_Link?.GetImageMergeOffset();
+
+                foreach(DataRow dr in MergeOffset.Rows)
+                {
+                    string Name = dr["Name"].ToString();
+                    string Value = dr["Value"].ToString();
+                    IniSec.Add(Name, Value);
+                }
+                IniData.Save(Systems.RecipeData_Collection[CurFormIndex]["ImageMergeOffset.ini"].GetIniPath());
+                //
+
+                
             }
             catch (Exception ex)
             {

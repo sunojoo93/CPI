@@ -22,6 +22,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
         Uctrl_MiniMap MiniView;
         public string CurrentFormName = string.Empty;
         public int CurFormIndex = 0;
+        public string CamName;
         int CamIndex = 0;
         public Recipes Shared_Recipe;
         // 티칭용 가이드라인
@@ -343,10 +344,11 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
         }
 
-        public void SetFormNameIndex(ref string name, ref int index)
+        public void SetFormNameIndex(ref string name, ref int index, string cam_name)
         {
             CurrentFormName = name;
             CurFormIndex = index;
+            CamName = cam_name;
         }
         public void SetRecipe(ref Recipes recipe)
         {
@@ -718,18 +720,41 @@ namespace CRUX_GUI_Cognex.Ex_Form
         }
         private void m_GrabCondItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            DataTable Dt = Dgv_GrabCond.DataSource as DataTable;
+
             switch (e.ClickedItem.Text)
             {
                 case "추가":
-                    foreach (DataGridViewCell cell in Dgv_GrabCond.SelectedCells)
+                    if (Dgv_Area.SelectedRows.Count > 0 && Dgv_Pattern.SelectedRows.Count > 0)
                     {
-                        cell.OwningRow.Cells["Check"].Value = true;
+                        string AreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                        string PatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                    
+                        Optics GrabData = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == AreaName)?.Patterns.Find(x => x.Name == PatternName).Grab_Data;
+                        CameraInfo Temp;
+                        foreach (string item in Systems.AvaliableCamNameList)
+                        {
+                            Temp = GrabData.Camera_Data.Find(x => x.Name == item);
+                            if()
+                        }
+                     
+
+                       // GrabData.Camera_Data.
+                    DataRow Dr = Dt.NewRow();
+                        object[] Temp = { true, "AAA", "Type", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                        Dr.ItemArray = Temp;
+                        //foreach (DataGridViewCell cell in Dgv_GrabCond.SelectedCells)
+                        //{
+                        //cell.OwningRow.Cells["Check"].Value = true;
+                        //}
+                        Dt.Rows.Add(Dr);
+                        Dgv_GrabCond.DataSource = Dt;
                     }
                     break;
                 case "삭제":
                     foreach (DataGridViewCell cell in Dgv_GrabCond.SelectedCells)
                     {
-                        cell.OwningRow.Cells["Check"].Value = false;
+                        //cell.OwningRow.Cells["Check"].Value = false;
                     }
                     break;
 
@@ -744,13 +769,13 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 case "추가":
                     foreach (DataGridViewCell cell in Dgv_LightCond.SelectedCells)
                     {
-                        cell.OwningRow.Cells["Check"].Value = true;
+                        //cell.OwningRow.Cells["Check"].Value = true;
                     }
                     break;
                 case "삭제":
                     foreach (DataGridViewCell cell in Dgv_LightCond.SelectedCells)
                     {
-                        cell.OwningRow.Cells["Check"].Value = false;
+                        //cell.OwningRow.Cells["Check"].Value = false;
                     }
                     break;
 

@@ -150,6 +150,34 @@ BOOL CTestCam::InitializeCamera(CString strInitFilePath)
 	return bRet;
 }
 
+CString CTestCam::GetCameraName()
+{
+	char Temp[100];
+	char* ptrTemp = Temp;
+	ptrTemp = Camera_getModelName(m_InspCamera);
+	CString Name;
+	Name = ptrTemp;
+	return Name;
+}
+int CTestCam::GetCameraWidth()
+{
+	return m_nImageWidth;
+}
+int CTestCam::GetCameraHeight()
+{
+	return m_nImageHeight;
+}
+int CTestCam::GetCameraDepth()
+{
+	return m_nBandWidth;
+}
+unsigned int CTestCam::GetCameraTemperature()
+{
+	unsigned int Temp = 0;
+	Camera_getSensorTemperature(m_InspCamera, &Temp);
+	return Temp;
+}
+
 bool CTestCam::InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile)
 {
 	// MIL APP - SYSTEM

@@ -235,6 +235,7 @@ namespace CRUX_GUI_Cognex
                 ArrayList FullPathList = fileProc.getFileList(FullPath);
                 recipe.Path = path;
                 recipe.Name = name;
+                Systems.RecipeData_Collection[Globals.CurrentPCno].Clear();
                 for (int pc_num = 0; pc_num < Globals.MaxVisionCnt; ++pc_num)
                 {
                     for (int t = 0; t < FullPathList.Count; ++t)

@@ -52,6 +52,8 @@
             this.CAGB_Pattern = new CRUX_GUI_Cognex.User_Controls.CenterAlignedGroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Dgv_Pattern = new System.Windows.Forms.DataGridView();
+            this.CAGB_ImageMergeOffset = new CRUX_GUI_Cognex.User_Controls.CenterAlignedGroupBox();
+            this.Dgv_MergeOffset = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Tlp_Link.SuspendLayout();
             this.Tlp_Display.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cog_ROI_Display)).BeginInit();
@@ -66,6 +68,8 @@
             this.CAGB_Pattern.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pattern)).BeginInit();
+            this.CAGB_ImageMergeOffset.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_MergeOffset)).BeginInit();
             this.SuspendLayout();
             // 
             // Tlp_Link
@@ -81,6 +85,7 @@
             this.Tlp_Link.Controls.Add(this.Grb_Algorithm, 3, 0);
             this.Tlp_Link.Controls.Add(this.Grb_Params, 4, 0);
             this.Tlp_Link.Controls.Add(this.CAGB_Pattern, 1, 0);
+            this.Tlp_Link.Controls.Add(this.CAGB_ImageMergeOffset, 1, 1);
             this.Tlp_Link.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Link.Location = new System.Drawing.Point(0, 0);
             this.Tlp_Link.Name = "Tlp_Link";
@@ -411,6 +416,32 @@
             this.Dgv_Pattern.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_ColumnHeaderMouseClick);
             this.Dgv_Pattern.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Dgv_Pattern_EditingControlShowing);
             // 
+            // CAGB_ImageMergeOffset
+            // 
+            this.CAGB_ImageMergeOffset.Controls.Add(this.Dgv_MergeOffset);
+            this.CAGB_ImageMergeOffset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CAGB_ImageMergeOffset.Location = new System.Drawing.Point(639, 583);
+            this.CAGB_ImageMergeOffset.Name = "CAGB_ImageMergeOffset";
+            this.CAGB_ImageMergeOffset.Size = new System.Drawing.Size(242, 254);
+            this.CAGB_ImageMergeOffset.TabIndex = 14;
+            this.CAGB_ImageMergeOffset.TabStop = false;
+            this.CAGB_ImageMergeOffset.Text = "Merge Offset";
+            // 
+            // Dgv_MergeOffset
+            // 
+            this.Dgv_MergeOffset.AllowUserToAddRows = false;
+            this.Dgv_MergeOffset.AllowUserToDeleteRows = false;
+            this.Dgv_MergeOffset.AllowUserToResizeColumns = false;
+            this.Dgv_MergeOffset.AllowUserToResizeRows = false;
+            this.Dgv_MergeOffset.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_MergeOffset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_MergeOffset.Location = new System.Drawing.Point(3, 17);
+            this.Dgv_MergeOffset.Name = "Dgv_MergeOffset";
+            this.Dgv_MergeOffset.RowHeadersVisible = false;
+            this.Dgv_MergeOffset.RowTemplate.Height = 23;
+            this.Dgv_MergeOffset.Size = new System.Drawing.Size(236, 234);
+            this.Dgv_MergeOffset.TabIndex = 0;
+            // 
             // Ex_Frm_Recipe_Link
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -438,6 +469,8 @@
             this.CAGB_Pattern.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pattern)).EndInit();
+            this.CAGB_ImageMergeOffset.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_MergeOffset)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -466,5 +499,7 @@
         private User_Controls.CenterAlignedGroupBox CAGB_Pattern;
         private System.Windows.Forms.DataGridView Dgv_Pattern;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private User_Controls.CenterAlignedGroupBox CAGB_ImageMergeOffset;
+        private User_Controls.DoubleBufferdDataGridView Dgv_MergeOffset;
     }
 }

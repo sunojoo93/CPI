@@ -247,7 +247,8 @@ namespace CRUX_GUI_Cognex
           public const int MAX_MEM_SIZE_GRAB_STEP_COUNT = 150;
           //public const int MAX_MEM_SIZE_E_DEFECT_JUDGMENT_COUNT = 40;
           public const int MAX_MEM_SIZE_E_DEFECT_JUDGMENT_COUNT = 60;
-
+        public const int MAX_GRABBER_COUNT = 4;
+        public const int MAX_DIGITIZER_COUNT = 4;
           public const int MAX_LIGHT_PORT_COUNT = 4;
           public const int MAX_CONTROLLER_COUNT = 4;
           //public const int MAX_LIGHT_CHANNEL_COUNT = 24;
@@ -499,6 +500,18 @@ namespace CRUX_GUI_Cognex
             //[Description("SimulationCameraTask")]
             CENTER = 5
             //MAX
+        };
+        public enum CamNames
+        {
+            [Description("CAM#1")]
+            CAM1 = 0,
+            [Description("CAM#2")]
+            CAM2 = 1,
+            [Description("CAM#3")]
+            CAM3 = 2,
+            [Description("CAM#4")]
+            CAM4 = 3,
+            MAX
         };
         public enum LogLevel
         {

@@ -60,10 +60,7 @@ public:
 	void			SaveFileCurBuffer(TCHAR* strSavePath);			// 현재 Grab Image 파일로 저장
 	//int				StopGrab(int nBufCnt);
 	// Get
-	int				GetImageWidth()									{ return	m_lDigSizeX;}
-	int				GetImageHeight()								{ return	m_lDigSizeY;}
-	int				GetImageBitrate()								{ return	m_lDigBit;}
-	int				GetImageBandwidth()								{ return	m_lDigBand;}
+
 	int				GetImageSize()									{ return 0  ;}
 
 	double			GetExposureTime();
@@ -110,6 +107,18 @@ public:
 	void			SetWhiteBalance(float* WhiteBalance);
 	void			GetWhiteBalance(float* WhiteBalance);
 	void			SetCameraModel(eCamModel eCamModel)	{ m_eCamModel = eCamModel; }
+
+	int				GetImageWidth() { return	m_lDigSizeX; }
+	int				GetImageHeight() { return	m_lDigSizeY; }
+	int				GetImageBitrate() { return	m_lDigBit; }
+	int				GetImageBandwidth() { return	m_lDigBand; }
+
+	CString			GetCameraName();
+	CString			GetCameraType();
+	int				GetCameraWidth();
+	int				GetCameraHeight();
+	int				GetCameraDepth();
+	unsigned int			GetCameraTemperature();
 
 	//void			SetDisplayImage(MIL_ID milImage, HWND hDispWnd = NULL);
 	//void			ChangeDisplayMap(HWND hDispWnd, MIL_ID milImage = M_NULL);

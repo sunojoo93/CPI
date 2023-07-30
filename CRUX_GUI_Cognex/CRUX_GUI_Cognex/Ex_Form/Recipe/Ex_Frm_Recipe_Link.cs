@@ -67,20 +67,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                DataTable DtRoi = new DataTable();
-                DtRoi.Columns.Add("Use", typeof(bool));
-                DtRoi.Columns.Add("Name");
-
-                Dgv_Roi.DataSource = DtRoi;
-
-                Dgv_Roi.Columns[0].Width = 45;
-                //Dgv_Roi.Columns[1].Width = 155;
-                Dgv_Roi.Columns["Name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-                foreach (DataGridViewColumn item in Dgv_Roi.Columns)
-                {
-                    item.SortMode = DataGridViewColumnSortMode.NotSortable;
-                }
+                // Pattern
                 DataTable DtPtn = new DataTable();
                 DtPtn.Columns.Add("Grab", typeof(bool));
                 DtPtn.Columns.Add("Vac", typeof(bool));
@@ -97,6 +84,39 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Dgv_Roi.DefaultCellStyle.Font = new System.Drawing.Font("나눔스퀘어라운드", 9); ;
                 Dgv_Pattern.DefaultCellStyle.Font = new System.Drawing.Font("나눔스퀘어라운드", 9);
                 foreach (DataGridViewColumn item in Dgv_Pattern.Columns)
+                {
+                    item.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+
+                // ROI
+                DataTable DtRoi = new DataTable();
+                DtRoi.Columns.Add("Use", typeof(bool));
+                DtRoi.Columns.Add("Name");
+
+                Dgv_Roi.DataSource = DtRoi;
+
+                Dgv_Roi.Columns[0].Width = 45;
+                //Dgv_Roi.Columns[1].Width = 155;
+                Dgv_Roi.Columns["Name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                foreach (DataGridViewColumn item in Dgv_Roi.Columns)
+                {
+                    item.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+
+                // Merge Offset
+                DataTable DtOffset = new DataTable();
+                DtOffset.Columns.Add("Name");
+                DtOffset.Columns.Add("Value");
+
+                Dgv_MergeOffset.DataSource = DtOffset;
+
+                Dgv_MergeOffset.Columns[0].Width = 65;
+                Dgv_MergeOffset.Columns[0].ReadOnly = true;
+                //Dgv_Roi.Columns[1].Width = 155;
+                Dgv_MergeOffset.Columns["Value"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                foreach (DataGridViewColumn item in Dgv_MergeOffset.Columns)
                 {
                     item.SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
@@ -138,6 +158,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             {
                 ClearRecipeControl();
                 UpdatePattern();
+                UpdateMergeOffset();
                 UpdateROI();
                 UpdateAlgorithm();
                 UpdateParameter();
@@ -146,6 +167,38 @@ namespace CRUX_GUI_Cognex.Ex_Form
             {
                 throw ex;
             }
+        }
+
+        public void UpdateMergeOffset()
+        {
+            try
+            {
+                IniSection Section = Systems.RecipeData_Collection[Systems.CurDisplayIndex]["ImageMergeOffset.ini"]["Offset"];
+
+                DataTable Dt = new DataTable();
+                Dt = Dgv_MergeOffset.DataSource as DataTable;
+                Dt.Rows.Clear();
+
+                foreach (KeyValuePair<string, IniValue> item in Section)
+                {
+                    DataRow Dr = Dt.NewRow();
+                    string SectionName = item.Key.ToString();
+                    string SectionValue = item.Value.ToString();
+                    string[] Temp = new string[] { SectionName, SectionValue };
+                    Dr.ItemArray = Temp;
+                    Dt.Rows.Add(Dr);
+                }
+
+                Dgv_MergeOffset.DataSource = Dt;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public DataTable GetImageMergeOffset()
+        {
+            return Dgv_MergeOffset.DataSource as DataTable;
         }
         public void UpdatePattern()
         {
