@@ -305,7 +305,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 DataTable Dt_LightCond = new DataTable();
                 Dt_LightCond.Columns.Add("Use", typeof(bool));
                 Dt_LightCond.Columns.Add("Port_No");
-                Dt_LightCond.Columns.Add("Crtl_No");
+                Dt_LightCond.Columns.Add("Ctrl_No");
                 for (int i = 0; i < Consts.MAX_LIGHT_CHANNEL_COUNT; ++i)
                 {
                     Dt_LightCond.Columns.Add($"Ch_{i}");
@@ -731,27 +731,26 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         Optics GrabData = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == AreaName)?.Patterns.Find(x => x.Name == PatternName).Grab_Data;
                         List<string> CamNames = new List<string>();
 
+                        CameraInfo Temp = new CameraInfo();
+                        Temp.Use = true;
+                        Temp.Name = "NewCam";
+                        Temp.CamType = "Area";
+                        Temp.Expose = 0;
+                        Temp.Gain = 0;
+                        Temp.PS = 0;
+                        Temp.Delay = 0;
+                        Temp.nCountF = 0;
+                        Temp.nCountB = 0;
+                        Temp.nStartF = 0;
+                        Temp.nStartB = 0;
+                        Temp.nStopF = 0;
+                        Temp.nStopB = 0;
+                        Temp.nPeriodF =0;
+                        Temp.nPeriodB = 0;
 
+                        GrabData.Camera_Data.Add(Temp);
+                        UpdateGrabCondition();
 
-
-                        CameraInfo Temp;
-                        foreach (string item in Systems.AvaliableCamNameList)
-                        {
-                            Temp = GrabData.Camera_Data.Find(x => x.Name == item);
-                           // if()
-                        }
-                     
-
-                       // GrabData.Camera_Data.
-                    DataRow Dr = Dt.NewRow();
-                        object[] Temp = { true, "AAA", "Type", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-                        Dr.ItemArray = Temp;
-                        //foreach (DataGridViewCell cell in Dgv_GrabCond.SelectedCells)
-                        //{
-                        //cell.OwningRow.Cells["Check"].Value = true;
-                        //}
-                        Dt.Rows.Add(Dr);
-                        Dgv_GrabCond.DataSource = Dt;
                     }
                     break;
                 case "삭제":
@@ -785,32 +784,33 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         //}
 
                         //GrabData.Light_Data.
-
-                        CameraInfo Temp;
-                        foreach (string item in Systems.AvaliableCamNameList)
+                        LightInfo Temp = new LightInfo();
+                        Temp.Use = true;
+                        Temp.Port_No = 0;
+                        Temp.Controller_No = 0;
+                        
+                        for(int i = 0; i < Consts.MAX_LIGHT_CHANNEL_COUNT; ++i)
                         {
-                            Temp = GrabData.Camera_Data.Find(x => x.Name == item);
-                            // if()
+                            Temp.LightValue.Add((uint)0);
                         }
+                        GrabData.Light_Data.Add(Temp);
 
-
-                        // GrabData.Camera_Data.
-                        DataRow Dr = Dt.NewRow();
-                        //  object[] Temp = { true, "AAA", "Type", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-                        //  Dr.ItemArray = Temp;
-                        //foreach (DataGridViewCell cell in Dgv_GrabCond.SelectedCells)
-                        //{
-                        //cell.OwningRow.Cells["Check"].Value = true;
-                        //}
-                        Dt.Rows.Add(Dr);
-                        Dgv_GrabCond.DataSource = Dt;
+                        UpdateLightCondition();
                     }
                     break;
                 case "삭제":
-                    foreach (DataGridViewCell cell in Dgv_LightCond.SelectedCells)
+                    if (Dgv_LightCond.SelectedRows.Count > 0)
                     {
-                        //cell.OwningRow.Cells["Check"].Value = false;
+                        string AreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                        string PatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                        int SelectedRowIdx = Dgv_LightCond.SelectedRows[0].Index;
+                        Optics GrabData = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == AreaName)?.Patterns.Find(x => x.Name == PatternName).Grab_Data;
+                        GrabData.Light_Data.RemoveAt(SelectedRowIdx);
+
+                        UpdateLightCondition();
+
                     }
+
                     break;
 
                 default:
@@ -928,7 +928,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                     int SelectedIndex = Dgv_LightCond.SelectedRows[0].Index;
                     if (SelectedPtnName != null && SelectedIndex > 0)
                     {
-                        DataGridViewRow SelItem = Dgv_GrabCond.Rows[e.RowIndex];
+                        DataGridViewRow SelItem = Dgv_LightCond.Rows[e.RowIndex];
                         LightInfo Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName).Grab_Data.Light_Data[SelectedIndex];
                         Temp.Use = SelItem.Cells["Use"].Value.toBool();
                         Temp.Port_No = SelItem.Cells["Port_No"].Value.toInt();
@@ -936,7 +936,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         Temp.LightValue.Clear();
                         for(int i = 0; i < Consts.MAX_LIGHT_CHANNEL_COUNT; ++i)
                         {
-                            Temp.LightValue.Add((uint)SelItem.Cells[$"Ch_{0}"].Value.toInt());
+                            Temp.LightValue.Add((uint)SelItem.Cells[$"Ch_{i}"].Value.toInt());
                         } 
                     }
                 }
