@@ -290,9 +290,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Dt_GrabCond.Columns.Add("PeriodF");
                 Dt_GrabCond.Columns.Add("PeriodB");
 
-                Dgv_GrabCond.DataSource = Dt_GrabCond;
-
-               
+                Dgv_GrabCond.DataSource = Dt_GrabCond;               
 
                 for (int i = 0; i < Dgv_GrabCond.Columns.Count; ++i)
                 {
@@ -731,11 +729,16 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         string PatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
                     
                         Optics GrabData = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == AreaName)?.Patterns.Find(x => x.Name == PatternName).Grab_Data;
+                        List<string> CamNames = new List<string>();
+
+
+
+
                         CameraInfo Temp;
                         foreach (string item in Systems.AvaliableCamNameList)
                         {
                             Temp = GrabData.Camera_Data.Find(x => x.Name == item);
-                            if()
+                           // if()
                         }
                      
 
@@ -764,12 +767,43 @@ namespace CRUX_GUI_Cognex.Ex_Form
         }
         private void m_LightCondItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            DataTable Dt = Dgv_GrabCond.DataSource as DataTable;
             switch (e.ClickedItem.Text)
             {
                 case "추가":
-                    foreach (DataGridViewCell cell in Dgv_LightCond.SelectedCells)
+                    if (Dgv_Area.SelectedRows.Count > 0 && Dgv_Pattern.SelectedRows.Count > 0)
                     {
+                        string AreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                        string PatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+
+                        Optics GrabData = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == AreaName)?.Patterns.Find(x => x.Name == PatternName).Grab_Data;
+                        List<string> CamNames = new List<string>();
+
+                        //foreach (CameraInfo item in GrabData.Camera_Data)
+                        //{
+                        //    CamNames.Add(item.Name);
+                        //}
+
+                        //GrabData.Light_Data.
+
+                        CameraInfo Temp;
+                        foreach (string item in Systems.AvaliableCamNameList)
+                        {
+                            Temp = GrabData.Camera_Data.Find(x => x.Name == item);
+                            // if()
+                        }
+
+
+                        // GrabData.Camera_Data.
+                        DataRow Dr = Dt.NewRow();
+                        //  object[] Temp = { true, "AAA", "Type", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                        //  Dr.ItemArray = Temp;
+                        //foreach (DataGridViewCell cell in Dgv_GrabCond.SelectedCells)
+                        //{
                         //cell.OwningRow.Cells["Check"].Value = true;
+                        //}
+                        Dt.Rows.Add(Dr);
+                        Dgv_GrabCond.DataSource = Dt;
                     }
                     break;
                 case "삭제":
@@ -891,23 +925,19 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 if (Dgv_GrabCond.SelectedRows.Count > 0)
                 {
                     string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-                    string SelectedLightName = Dgv_LightCond.SelectedRows[0].Cells["Name"].Value.ToString();
-                    if (SelectedPtnName != null && SelectedLightName != null)
+                    int SelectedIndex = Dgv_LightCond.SelectedRows[0].Index;
+                    if (SelectedPtnName != null && SelectedIndex > 0)
                     {
                         DataGridViewRow SelItem = Dgv_GrabCond.Rows[e.RowIndex];
-                        CameraInfo Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName).Grab_Data.Camera_Data.Find(x => x.Name == SelectedLightName);
-                        Temp.Expose = SelItem.Cells["Exp"].Value.toDbl();
-                        Temp.Gain = SelItem.Cells["Gain"].Value.toDbl();
-                        Temp.PS = SelItem.Cells["PS"].Value.toInt();
-                        Temp.Delay = SelItem.Cells["Delay"].Value.toInt();
-                        Temp.nCountF = SelItem.Cells["CountF"].Value.toInt();
-                        Temp.nCountB = SelItem.Cells["CountB"].Value.toInt();
-                        Temp.nStartF = SelItem.Cells["StartF"].Value.toInt();
-                        Temp.nStartB = SelItem.Cells["StartB"].Value.toInt();
-                        Temp.nStopF = SelItem.Cells["StopF"].Value.toInt();
-                        Temp.nStopB = SelItem.Cells["StopB"].Value.toInt();
-                        Temp.nPeriodF = SelItem.Cells["PeriodF"].Value.toInt();
-                        Temp.nPeriodB = SelItem.Cells["PeriodB"].Value.toInt();
+                        LightInfo Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName).Grab_Data.Light_Data[SelectedIndex];
+                        Temp.Use = SelItem.Cells["Use"].Value.toBool();
+                        Temp.Port_No = SelItem.Cells["Port_No"].Value.toInt();
+                        Temp.Controller_No = SelItem.Cells["Ctrl_No"].Value.toInt();
+                        Temp.LightValue.Clear();
+                        for(int i = 0; i < Consts.MAX_LIGHT_CHANNEL_COUNT; ++i)
+                        {
+                            Temp.LightValue.Add((uint)SelItem.Cells[$"Ch_{0}"].Value.toInt());
+                        } 
                     }
                 }
             }
