@@ -410,6 +410,7 @@
     <Compile Include="Class\ShareMem.cs" />
     <Compile Include="Class\ShreadMemory.cs" />
     <Compile Include="Class\Structs.cs" />
+    <Compile Include="Class\SocketManager.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Ex_Form\Account\Ex_Frm_Account_Login.cs">
       <SubType>Form</SubType>
