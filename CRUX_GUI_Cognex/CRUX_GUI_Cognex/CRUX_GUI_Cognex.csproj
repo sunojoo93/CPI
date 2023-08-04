@@ -882,6 +882,10 @@
     <Content Include="Res\Unstable.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BinaryFormatterStructs_DLL\BinaryFormatterStructs_DLL.csproj">
+      <Project>{9c68ffd9-dca5-45c8-8adb-9a0ea04d34a8}</Project>
+      <Name>BinaryFormatterStructs_DLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PropertyGridEx.CS\PropertyGridEx\PropertyGridEx.csproj">
       <Project>{b0bb47f2-21c4-41fc-b6e6-40757adfc4a1}</Project>
       <Name>PropertyGridEx</Name>

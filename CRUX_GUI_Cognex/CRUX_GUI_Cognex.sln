@@ -6,12 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUX_GUI_Cognex", "CRUX_GUI_Cognex\CRUX_GUI_Cognex.csproj", "{EFA24A1A-40FD-4C94-B307-D961B894461C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{EAC022A0-91C7-472D-9C09-80A759629120} = {EAC022A0-91C7-472D-9C09-80A759629120}
+		{9C68FFD9-DCA5-45C8-8ADB-9A0EA04D34A8} = {9C68FFD9-DCA5-45C8-8ADB-9A0EA04D34A8}
 		{B0BB47F2-21C4-41FC-B6E6-40757ADFC4A1} = {B0BB47F2-21C4-41FC-B6E6-40757ADFC4A1}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyGridEx", "PropertyGridEx.CS\PropertyGridEx\PropertyGridEx.csproj", "{B0BB47F2-21C4-41FC-B6E6-40757ADFC4A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharingFormat_DLL", "SharingFormat_DLL\SharingFormat_DLL.csproj", "{EAC022A0-91C7-472D-9C09-80A759629120}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryFormatterStructs_DLL", "BinaryFormatterStructs_DLL\BinaryFormatterStructs_DLL.csproj", "{9C68FFD9-DCA5-45C8-8ADB-9A0EA04D34A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
