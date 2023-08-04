@@ -33,11 +33,11 @@
             this.Tlp_AlgorithmList = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_Save = new System.Windows.Forms.Button();
             this.LstB_Algorithm = new System.Windows.Forms.ListBox();
-            this.CTBE_Algorithm = new Cognex.VisionPro.ToolBlock.CogToolBlockEditV2();
+            this.CTGB_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
             this.Tlp_Algorithm.SuspendLayout();
             this.Grb_Algorithm.SuspendLayout();
             this.Tlp_AlgorithmList.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CTBE_Algorithm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CTGB_Algorithm)).BeginInit();
             this.SuspendLayout();
             // 
             // Tlp_Algorithm
@@ -46,7 +46,7 @@
             this.Tlp_Algorithm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.2405F));
             this.Tlp_Algorithm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 83.75951F));
             this.Tlp_Algorithm.Controls.Add(this.Grb_Algorithm, 0, 0);
-            this.Tlp_Algorithm.Controls.Add(this.CTBE_Algorithm, 1, 0);
+            this.Tlp_Algorithm.Controls.Add(this.CTGB_Algorithm, 1, 0);
             this.Tlp_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Algorithm.Location = new System.Drawing.Point(0, 0);
             this.Tlp_Algorithm.Name = "Tlp_Algorithm";
@@ -113,19 +113,18 @@
             this.LstB_Algorithm.TabIndex = 0;
             this.LstB_Algorithm.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstB_Algorithm_MouseDoubleClick);
             // 
-            // CTBE_Algorithm
+            // CTGB_Algorithm
             // 
-            this.CTBE_Algorithm.AllowDrop = true;
-            this.CTBE_Algorithm.ContextMenuCustomizer = null;
-            this.CTBE_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CTBE_Algorithm.Font = new System.Drawing.Font("나눔스퀘어라운드 Regular", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.CTBE_Algorithm.Location = new System.Drawing.Point(269, 3);
-            this.CTBE_Algorithm.MinimumSize = new System.Drawing.Size(489, 0);
-            this.CTBE_Algorithm.Name = "CTBE_Algorithm";
-            this.CTBE_Algorithm.ShowNodeToolTips = true;
-            this.CTBE_Algorithm.Size = new System.Drawing.Size(1369, 851);
-            this.CTBE_Algorithm.SuspendElectricRuns = false;
-            this.CTBE_Algorithm.TabIndex = 1;
+            this.CTGB_Algorithm.AllowDrop = true;
+            this.CTGB_Algorithm.ContextMenuCustomizer = null;
+            this.CTGB_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CTGB_Algorithm.Location = new System.Drawing.Point(269, 3);
+            this.CTGB_Algorithm.MinimumSize = new System.Drawing.Size(489, 0);
+            this.CTGB_Algorithm.Name = "CTGB_Algorithm";
+            this.CTGB_Algorithm.ShowNodeToolTips = true;
+            this.CTGB_Algorithm.Size = new System.Drawing.Size(1369, 851);
+            this.CTGB_Algorithm.SuspendElectricRuns = false;
+            this.CTGB_Algorithm.TabIndex = 1;
             // 
             // Main_Frm_Algorithm
             // 
@@ -145,7 +144,7 @@
             this.Grb_Algorithm.ResumeLayout(false);
             this.Tlp_AlgorithmList.ResumeLayout(false);
             this.Tlp_AlgorithmList.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CTBE_Algorithm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CTGB_Algorithm)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -157,6 +156,6 @@
         private System.Windows.Forms.TableLayoutPanel Tlp_AlgorithmList;
         private System.Windows.Forms.ListBox LstB_Algorithm;
         private System.Windows.Forms.Button Btn_Save;
-        private Cognex.VisionPro.ToolBlock.CogToolBlockEditV2 CTBE_Algorithm;
+        private Cognex.VisionPro.ToolGroup.CogToolGroupEditV2 CTGB_Algorithm;
     }
 }

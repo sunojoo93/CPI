@@ -332,13 +332,14 @@ namespace CRUX_GUI_Cognex.Utils
 
 
                     //string Path = ($@"D:\ImageSave\{cell_id}{area}_{ptn_name}_{dir}_Test.bmp");
-                    CogImageFileTool SaveImage = new CogImageFileTool();
+                    //CogImageFileTool SaveImage = new CogImageFileTool();
 
-                    SaveImage.InputImage = Result_CogImg;
-                    SaveImage.Operator.Open(Path, CogImageFileModeConstants.Write);
-                    SaveImage.Run();
-					
-					//Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height);
+                    //SaveImage.InputImage = Result_CogImg;
+              
+                    //SaveImage.Operator.Open(Path, CogImageFileModeConstants.Write);
+                    //SaveImage.Run();
+                    SaveToFile(Result_CogImg, Path);
+                    //Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height);
                     //Bitmap Temp = new Bitmap(Result_CogImg.Width, Result_CogImg.Height, Result_CogImg.Width, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Result_CogImg.ToBitmap().GetHbitmap());
                     //Bitmap Temp = new Bitmap(Result_CogImg.Width, Result_CogImg.Height, Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height).Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height).Scan0);
                     //Bitmap Temp = Result_CogImg.ToBitmap();
@@ -443,15 +444,9 @@ namespace CRUX_GUI_Cognex.Utils
                             break;
                     }
 
-
-
-
-          
-
                     ipoTool.Operators.Add(filp);
                     ipoTool.InputImage = RegionTool.OutputImage;
-                    ipoTool.Run();
-                      
+                    ipoTool.Run();                      
 
                     int dir = direction == true ? 0 : 1;
                     Result_CogImg = (CogImage8Grey)ipoTool.OutputImage;
@@ -465,19 +460,18 @@ namespace CRUX_GUI_Cognex.Utils
 
                     //string Path = ($@"D:\ImageSave\{area}_{ptn_name}_{dir}_Test.bmp");
 
-                    CogImageFileTool SaveImage = new CogImageFileTool();
+                    //CogImageFileTool SaveImage = new CogImageFileTool();
 
-                    SaveImage.InputImage = Result_CogImg;
-                    SaveImage.Operator.Open(Path, CogImageFileModeConstants.Write);
-                    SaveImage.Run();
+                    //SaveImage.InputImage = Result_CogImg;
+                    //SaveImage.Operator.Open(Path, CogImageFileModeConstants.Write);
+                    //SaveImage.Run();
+
+                    SaveToFile(Result_CogImg, Path);
                     //Bitmap Temp = new Bitmap(Result_CogImg.Width, Result_CogImg.Height, Result_CogImg.Width%4, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, ((IntPtr)Result_CogImg.ToBitmap().GetHbitmap())).Clone() as Bitmap;
                     //Bitmap Temp = new Bitmap(Result_CogImg.Width, Result_CogImg.Height, Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height).Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height).Scan0);
                     //Bitmap Temp = Result_CogImg.ToBitmap();
                     //Temp.Save(Path);
-
-                }
-
-               
+                }               
                 //////////////////좌표리셋 복사
                 CogImage8Grey Temp_Copy_CogImg = new CogImage8Grey(Result_CogImg.Width, Result_CogImg.Height);
 
@@ -500,13 +494,18 @@ namespace CRUX_GUI_Cognex.Utils
 
                 //////////////////
 
-
-
-
                 return Last_Image;
             }
             else
-                return null;
+                return null;       
+        }
+        public static void SaveToFile(CogImage8Grey image, string path)
+        {
+            CogImageFileTool SaveImage = new CogImageFileTool();
+
+            SaveImage.InputImage = image;
+            SaveImage.Operator.Open(path, CogImageFileModeConstants.Write);
+            SaveImage.Run();
         }
     }
 }

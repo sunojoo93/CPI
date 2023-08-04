@@ -11,6 +11,7 @@ using Cognex.VisionPro.ToolBlock;
 using Cognex.VisionPro.ToolGroup;
 using CRUX_GUI_Cognex;
 using CRUX_GUI_Cognex.Ex_Form;
+using CRUX_GUI_Cognex.Main_Form;
 using CRUX_GUI_Cognex.Utils;
 using SharingFormat_DLL;
 using System;
@@ -242,7 +243,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     }
                     else
                     {
-                        Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Chipping.UpdateResult(Result);
+                        (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING).UpdateResult(Result);
                     }
 
                     Clear();

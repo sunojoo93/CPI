@@ -44,7 +44,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                 if (LstB_Algorithm.Items.Count > 0)
                 {
                     LstB_Algorithm.SelectedItem = LstB_Algorithm.Items[0];
-                    CTBE_Algorithm.SetSubjectAndInitialize(null);
+                    CTGB_Algorithm.SetSubjectAndInitialize(null);
                 }
             }
             catch (Exception ex)
@@ -107,8 +107,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                     Cognex_Helper.ClearJob(CurrentOpenJob);
                 }                           
 
-                CurrentOpenJob = CogSerializer.DeepCopyObject(Cognex_Helper.LoadJob(TotalPath)) as CogJob;
-                
+                CurrentOpenJob = CogSerializer.DeepCopyObject(Cognex_Helper.LoadJob(TotalPath)) as CogJob;                
             }
             catch(Exception ex)
             {
@@ -123,14 +122,14 @@ namespace CRUX_GUI_Cognex.Main_Form
             {
                 if (LstB_Algorithm.Items.Count > 0 && LstB_Algorithm.SelectedItem != null)
                 {
-                    CTBE_Algorithm.Subject = null;
+                    CTGB_Algorithm.Subject = null;
                     string VppName = LstB_Algorithm.SelectedItem as string;
                     Utility.LoadingStart();
                     Thread t = new Thread(() => ChangeJob(VppName));
                     t.Start();
                     t.Join();
                     Utility.LoadingStop();
-                    CTBE_Algorithm.Subject = (CurrentOpenJob?.VisionTool as CogToolGroup).Tools[1] as CogToolBlock;
+                    CTGB_Algorithm.Subject = (CurrentOpenJob?.VisionTool as CogToolGroup);
                 }
             }
             catch (Exception ex)
@@ -144,7 +143,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             try
             {
                 Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
-                if (CTBE_Algorithm.Subject == null)
+                if (CTGB_Algorithm.Subject == null)
                 {
                     Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, "[ GUI ] 현재 열린 알고리즘이 없습니다.", true, false);
                     return;

@@ -154,7 +154,7 @@ CString CTestCam::GetCameraName()
 {
 	char Temp[100];
 	char* ptrTemp = Temp;
-
+	ptrTemp = Camera_getModelName(m_InspCamera);
 	CString Name;
 	Name = ptrTemp;
 	return Name;
@@ -174,12 +174,8 @@ int CTestCam::GetCameraDepth()
 unsigned int CTestCam::GetCameraTemperature()
 {
 	unsigned int Temp = 0;
-	MIL_STRING Temperature;
-	MsysInquire(m_milSystem, M_TEMPERATURE_FPGA, Temperature);
-	CString Buf;
-	Buf.Format(_T("%s"), Temperature);
-
-	return (unsigned int)_ttoi(Buf);
+	Camera_getSensorTemperature(m_InspCamera, &Temp);
+	return Temp;
 }
 
 bool CTestCam::InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile)
