@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace CRUX_GUI_Cognex.Class
 {
-    // TCP 통신 클래스 작성 중 YWS
+    // TCP 통신 클래스 작성 중 YWS_Test
     public class SocketManager
     {
 
