@@ -932,6 +932,8 @@ namespace CRUX_GUI_Cognex.Class
         [XmlArray("Lights")]
         [XmlArrayItem("Light")]
         public List<LightInfo> Light_Data { get; set; }
+        [XmlElement("LightSequencer")]
+        public LightSequencer LightSequencer { get; set; }
         [XmlArray("AutoFocus")]
         [XmlArrayItem("Module")]
         public List<AutoFocus> AutoFocus { get; set; }
@@ -943,6 +945,13 @@ namespace CRUX_GUI_Cognex.Class
             Light_Data = new List<LightInfo>();
             AutoFocus = new List<AutoFocus>();
         }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class LightSequencer
+    {
+        [XmlAttribute("Sequencer")]
+        public int Sequencer { get; set; } = 1;
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -1187,6 +1196,30 @@ namespace CRUX_GUI_Cognex.Class
         public Light_Connection()
         {
             PortNum = new List<bool>();
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_CAMERA_PROPERTY
+    {
+        public bool SequencerMode;
+        public bool TriggerMode;
+        public ST_CAMERA_PROPERTY(int num)
+        {
+            SequencerMode = false;
+            TriggerMode = false;
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_LIGHT_PROPERTY
+    {
+        public bool SequencerMode;
+        public int EmitMode;        
+        public ST_LIGHT_PROPERTY(int num)
+        {
+            SequencerMode = false;
+            EmitMode = 0;
         }
     }
 }

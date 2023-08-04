@@ -108,6 +108,8 @@
   -->
   <Import Project="$(MSBuildBinPath)/Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) ..\..\..\..\..\..\EXE\</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) ..\..\..\..\..\..\EXE\
+copy $(TargetPath) ..\..\..\..\CRUX_GUI_Cognex\bin\Debug\
+copy $(TargetPath) ..\..\..\..\CRUX_GUI_Cognex\bin\Release\</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -52,7 +52,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Btn_AllOff = new System.Windows.Forms.Button();
             this.Dgv_LightCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Grb_LightOption = new System.Windows.Forms.GroupBox();
-            this.ChkListBox_Light = new System.Windows.Forms.CheckedListBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.Btn_Seq = new System.Windows.Forms.Button();
             this.Grb_Motor = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -80,8 +81,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_LightStatus = new System.Windows.Forms.TableLayoutPanel();
             this.Pnl_ImageArea = new System.Windows.Forms.Panel();
             this.Tmr_CamTemperature = new System.Windows.Forms.Timer(this.components);
-            this.Btn_Seq = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.ChkListBox_Light = new System.Windows.Forms.CheckedListBox();
             this.Tlp_AreaCam.SuspendLayout();
             this.Tlp_OpticMain.SuspendLayout();
             this.Grb_CamControl.SuspendLayout();
@@ -97,6 +97,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_LightControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).BeginInit();
             this.Grb_LightOption.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.Grb_Motor.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.Grb_ExProc.SuspendLayout();
@@ -105,7 +106,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Grb_CamStatus.SuspendLayout();
             this.Tlp_CameraStatus.SuspendLayout();
             this.Grb_LightStatus.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_AreaCam
@@ -156,7 +156,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_OpticMain.SetColumnSpan(this.Grb_CamControl, 2);
             this.Grb_CamControl.Controls.Add(this.Tlp_CamControl);
             this.Grb_CamControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_CamControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_CamControl.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_CamControl.Location = new System.Drawing.Point(4, 422);
             this.Grb_CamControl.Name = "Grb_CamControl";
             this.Grb_CamControl.Size = new System.Drawing.Size(1106, 195);
@@ -326,7 +326,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.chkListBox_Cam.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkListBox_Cam.FormattingEnabled = true;
             this.chkListBox_Cam.Items.AddRange(new object[] {
-            "Sequencer"});
+            "Sequencer",
+            "Trigger"});
             this.chkListBox_Cam.Location = new System.Drawing.Point(3, 18);
             this.chkListBox_Cam.Name = "chkListBox_Cam";
             this.chkListBox_Cam.Size = new System.Drawing.Size(128, 135);
@@ -337,7 +338,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_OpticMain.SetColumnSpan(this.Grb_Light, 2);
             this.Grb_Light.Controls.Add(this.Tlp_LightControl);
             this.Grb_Light.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_Light.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_Light.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_Light.Location = new System.Drawing.Point(4, 624);
             this.Grb_Light.Name = "Grb_Light";
             this.Grb_Light.Size = new System.Drawing.Size(1106, 216);
@@ -403,6 +404,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Dgv_LightCond.TabIndex = 2;
             this.Dgv_LightCond.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_LightCond_CellMouseUp);
             this.Dgv_LightCond.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_LightCond_CellValueChanged);
+            this.Dgv_LightCond.CurrentCellChanged += new System.EventHandler(this.Dgv_LightCond_CurrentCellChanged);
+            this.Dgv_LightCond.SelectionChanged += new System.EventHandler(this.Dgv_LightCond_SelectionChanged);
             this.Dgv_LightCond.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Dgv_LightCond_MouseUp);
             // 
             // Grb_LightOption
@@ -417,23 +420,38 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Grb_LightOption.TabStop = false;
             this.Grb_LightOption.Text = "Option";
             // 
-            // ChkListBox_Light
+            // tableLayoutPanel1
             // 
-            this.ChkListBox_Light.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChkListBox_Light.FormattingEnabled = true;
-            this.ChkListBox_Light.Items.AddRange(new object[] {
-            "Sequencer"});
-            this.ChkListBox_Light.Location = new System.Drawing.Point(3, 3);
-            this.ChkListBox_Light.Name = "ChkListBox_Light";
-            this.ChkListBox_Light.Size = new System.Drawing.Size(122, 127);
-            this.ChkListBox_Light.TabIndex = 0;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.ChkListBox_Light, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.Btn_Seq, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(128, 168);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // Btn_Seq
+            // 
+            this.Btn_Seq.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Seq.Location = new System.Drawing.Point(3, 136);
+            this.Btn_Seq.Name = "Btn_Seq";
+            this.Btn_Seq.Size = new System.Drawing.Size(122, 29);
+            this.Btn_Seq.TabIndex = 1;
+            this.Btn_Seq.Text = "Edit Sequencer";
+            this.Btn_Seq.UseVisualStyleBackColor = true;
+            this.Btn_Seq.Click += new System.EventHandler(this.Btn_Seq_Click);
             // 
             // Grb_Motor
             // 
             this.Tlp_OpticMain.SetColumnSpan(this.Grb_Motor, 2);
             this.Grb_Motor.Controls.Add(this.tableLayoutPanel3);
             this.Grb_Motor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_Motor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_Motor.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_Motor.Location = new System.Drawing.Point(4, 4);
             this.Grb_Motor.Name = "Grb_Motor";
             this.Grb_Motor.Size = new System.Drawing.Size(1106, 411);
@@ -477,7 +495,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             // 
             this.Grb_ExProc.Controls.Add(this.Tlp_ExOption);
             this.Grb_ExProc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_ExProc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_ExProc.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_ExProc.Location = new System.Drawing.Point(3, 203);
             this.Grb_ExProc.Name = "Grb_ExProc";
             this.Grb_ExProc.Padding = new System.Windows.Forms.Padding(0);
@@ -510,7 +528,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.LstV_GuideLine.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Header1});
             this.LstV_GuideLine.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LstV_GuideLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LstV_GuideLine.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LstV_GuideLine.FullRowSelect = true;
             this.LstV_GuideLine.GridLines = true;
             this.LstV_GuideLine.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -561,7 +579,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             // 
             this.Grb_CamStatus.Controls.Add(this.Tlp_CameraStatus);
             this.Grb_CamStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_CamStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_CamStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_CamStatus.Location = new System.Drawing.Point(3, 0);
             this.Grb_CamStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Grb_CamStatus.Name = "Grb_CamStatus";
@@ -764,7 +782,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             // Grb_LightStatus
             // 
             this.Grb_LightStatus.Controls.Add(this.Tlp_LightStatus);
-            this.Grb_LightStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Grb_LightStatus.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_LightStatus.Location = new System.Drawing.Point(303, 0);
             this.Grb_LightStatus.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Grb_LightStatus.Name = "Grb_LightStatus";
@@ -807,30 +825,17 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tmr_CamTemperature.Interval = 2000;
             this.Tmr_CamTemperature.Tick += new System.EventHandler(this.Tmr_CamTemperature_Tick);
             // 
-            // Btn_Seq
+            // ChkListBox_Light
             // 
-            this.Btn_Seq.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Seq.Location = new System.Drawing.Point(3, 136);
-            this.Btn_Seq.Name = "Btn_Seq";
-            this.Btn_Seq.Size = new System.Drawing.Size(122, 29);
-            this.Btn_Seq.TabIndex = 1;
-            this.Btn_Seq.Text = "Details";
-            this.Btn_Seq.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.ChkListBox_Light, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.Btn_Seq, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 18);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(128, 168);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.ChkListBox_Light.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChkListBox_Light.FormattingEnabled = true;
+            this.ChkListBox_Light.Items.AddRange(new object[] {
+            "Sequencer",
+            "Pulse"});
+            this.ChkListBox_Light.Location = new System.Drawing.Point(3, 3);
+            this.ChkListBox_Light.Name = "ChkListBox_Light";
+            this.ChkListBox_Light.Size = new System.Drawing.Size(122, 127);
+            this.ChkListBox_Light.TabIndex = 0;
             // 
             // Ex_Frm_Optic_Area_Content
             // 
@@ -860,6 +865,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_LightControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).EndInit();
             this.Grb_LightOption.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.Grb_Motor.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.Grb_ExProc.ResumeLayout(false);
@@ -869,7 +875,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_CameraStatus.ResumeLayout(false);
             this.Tlp_CameraStatus.PerformLayout();
             this.Grb_LightStatus.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -925,8 +930,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private System.Windows.Forms.Label Lb_BoardName;
         private System.Windows.Forms.Label Lb_BoardNameContent;
         private System.Windows.Forms.CheckedListBox chkListBox_Cam;
-        private System.Windows.Forms.CheckedListBox ChkListBox_Light;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button Btn_Seq;
+        private System.Windows.Forms.CheckedListBox ChkListBox_Light;
     }
 }
