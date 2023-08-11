@@ -113,6 +113,8 @@ void CDalsaLineCamera::StartGrab(CString PanelID, CString VirID, CString Positio
 	AllocClearBuffer(nBufCnt);
 	CString TotalPath_;
 	CString TotalPath;
+
+	// 통합을 위해 임시처리 1=Left, 2=Center, 3=Right
 	if (theApp.GetPcName() == _T("LEFT"))
 	{
 		TotalPath_.Format(_T("W:\\PC1\\%s"), VirID);
@@ -123,7 +125,7 @@ void CDalsaLineCamera::StartGrab(CString PanelID, CString VirID, CString Positio
 		TotalPath_.Format(_T("D:\\NetWorkDrive_10G\\Image\\PC2\\%s"), VirID);
 		TotalPath.Format(_T("D:\\NetWorkDrive_10G\\Image\\PC2\\%s\\%s"), VirID, Position);
 	}
-	else
+	else if (theApp.GetPcName() == _T("RIGHT"))
 	{
 		TotalPath_.Format(_T("W:\\PC3\\%s"), VirID);
 		TotalPath.Format(_T("W:\\PC3\\%s\\%s"), VirID, Position);
@@ -413,6 +415,8 @@ MIL_INT CDalsaLineCamera::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, vo
 			filePath.Format(_T("%s\\%4d%02d%02d-%02d%02d%02d.bmp"), UserHookDataPtr->SavePath, curr_tm.tm_year + 1900, curr_tm.tm_mon + 1, curr_tm.tm_mday, curr_tm.tm_hour, curr_tm.tm_min, curr_tm.tm_sec);
 			CString filePath_Run;
 			//filePath.Format(_T("D:\\NetWorkDrive_10G\\Image\\GrabTest-PC2.bmp"));
+
+			// 통합을 위해 임시처리 1=Left, 2=Center, 3=Right
 			if (theApp.GetPcName() == _T("LEFT"))
 			{
 				filePath_Run.Format(_T("W:\\Image_Run\\1.bmp"));
@@ -421,7 +425,7 @@ MIL_INT CDalsaLineCamera::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, vo
 			{
 				filePath_Run.Format(_T("D:\\NetWorkDrive_10G\\Image\\Image_Run\\2.bmp"));
 			}
-			else
+			else if(theApp.GetPcName() == _T("RIGHT"))
 			{
 				filePath_Run.Format(_T("W:\\Image_Run\\3.bmp"));
 			}
@@ -429,7 +433,6 @@ MIL_INT CDalsaLineCamera::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, vo
 			//temp->m_Trigger->TriggerGenCount0();
 			MbufSave(filePath, UserHookDataPtr->obj->m_milMergeImage);
 			MbufSave(filePath_Run, UserHookDataPtr->obj->m_milMergeImage);
-
 			//MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milMergeImage);
 			//MbufExport(filePath_Run, M_BMP, UserHookDataPtr->obj->m_milMergeImage);
 			theApp.m_fnWriteLineScanLog(_T("image save End."));

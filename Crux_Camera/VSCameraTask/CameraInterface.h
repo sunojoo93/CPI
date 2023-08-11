@@ -108,7 +108,7 @@ public:
 
 	//virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt);
 	//virtual	void	CameraExpose() = 0;
-//	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
+	//	virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
 #elif _IMICAMERA
 	/************************************************************/
 	/*						 Vistek Camera						*/

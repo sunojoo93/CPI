@@ -7274,7 +7274,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 				}
 				else
 				{
-					m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON Err or !!!"), nStepNo);
+					m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON Error !!!"), nStepNo);
 					throw nRet;
 				}
 			}
@@ -7408,7 +7408,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			_tcscpy(stWaitGrabEndParam.strPanelID, strPanelID);
 			stWaitGrabEndParam.GrabCnt =nGrabCnt;
 			//_tcscpy(stWaitGrabEndParam.strGrabStepName, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));
-			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 60000);
+			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 600000);
 
 			ImageSetTemp.ParticleImageCount = 1;
 			ImageSetTemp.SharedMemStartIdx = nGrabCnt;
@@ -7461,10 +7461,10 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			memcpy((TCHAR *)prmInspStart->strArea, strAreaTemp, sizeof(prmInspStart->strArea));
 
 			// 검사 시작은 무조건 NoRes 로 변경
-			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_NORES);
+			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_RES, 60000);
 
-		//	if (bFirstInspFlg)
-		//		nRet = Seq_TactTimeData(strPanelID, TACT_INSP, TACT_START);
+			//if (bFirstInspFlg)
+			//	nRet = Seq_TactTimeData(strPanelID, TACT_INSP, TACT_START);
 			bFirstInspFlg = FALSE;
 
 			if (nRet == APP_OK)
