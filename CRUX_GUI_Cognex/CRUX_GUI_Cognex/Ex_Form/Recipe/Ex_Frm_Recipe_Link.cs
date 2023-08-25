@@ -506,9 +506,9 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
-
         }
 
         private void Btn_ROIManager_Click(object sender, EventArgs e)
@@ -806,7 +806,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 else
                 {
                 }
-                //오른쪽 메뉴를 만듭니다
                 ContextMenu m = new ContextMenu();
 
                 //메뉴에 들어갈 아이템을 만듭니다
@@ -815,6 +814,16 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                 m1.Text = "추가";
                 m2.Text = "삭제";
+                //오른쪽 메뉴를 만듭니다
+                if (LstV_Parameter.SelectedItems.Count <= 0)
+                {
+                    m2.Enabled = false;
+                }
+                else
+                {
+                    m2.Enabled = true;
+                }
+
 
                 m1.Click += (senders, es) =>
                 {
@@ -1120,10 +1129,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 {
                     //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
                     string SelPatternName = string.Empty;
-                    if (Dgv_Pattern.SelectedRows.Count > 0)
-                        SelPatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-
-                    //오른쪽 메뉴를 만듭니다
                     ContextMenu m = new ContextMenu();
 
                     //메뉴에 들어갈 아이템을 만듭니다
@@ -1132,6 +1137,19 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                     m0.Text = "New Pattern";
                     m1.Text = "Delete";
+
+                    if (Dgv_Pattern.SelectedRows.Count > 0)
+                    {
+                        SelPatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                        m1.Enabled = true;
+                    }
+                    else
+                    {
+                        m1.Enabled = false;
+                    }
+
+                    //오른쪽 메뉴를 만듭니다
+                  
                     m0.Click += (senders, ex) =>
                     {
                         try

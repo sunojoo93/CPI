@@ -45,24 +45,29 @@ namespace CRUX_GUI_Cognex
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            #if !DEBUG
+            {
             var Temp = IsExistProcess();
             if ( Temp != null )
             {
                 DialogResult dr = MessageBox.Show($"현재 프로그램이 실행 중 입니다. \nPID : {Temp.Id}, Start Time : {Temp.StartTime} \n (Yes : 기존 프로그램 활성화) (No : 모두 종료)", "알림", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 IntPtr procHandler = WinApis.FindWindow(null, Temp.MainWindowTitle);
-                if ( dr == DialogResult.Yes )
+                if (dr == DialogResult.Yes)
                 {
                     //활성화
                     WinApis.ShowWindow(procHandler, (int)Enums.WINDOWS_STATE.SW_SHOW);
                     WinApis.SetForegroundWindow(procHandler);
                 }
-                else if ( dr == DialogResult.No )                
+                else if (dr == DialogResult.No)
+                {
                     Temp.Kill();
-                
-                Application.Exit();
+                    Application.Exit();
+                }               
+
                 return;
             }
+            #endif
             Frm_Main = new Frm_Main();
             Application.Run(Frm_Main);
         }

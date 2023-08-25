@@ -98,8 +98,8 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             try
             {
-                string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
-           
+                string AlgorithmPath = Paths.NET_DRIVE[CurFormIndex] + Paths.FIXED_DRIVE[CurFormIndex] + Paths.PROGRAM_PATH[CurFormIndex] + Paths.NET_ALGORITHM_PATH[CurFormIndex];
+
                 string TotalPath = $@"{AlgorithmPath}\{name}";
 
                 if (CurrentOpenJob != null)
@@ -149,13 +149,14 @@ namespace CRUX_GUI_Cognex.Main_Form
                     return;
                 }
                 Utility.LoadingStart();
-                string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
+                string AlgorithmPath = Paths.NET_DRIVE[CurFormIndex] + Paths.FIXED_DRIVE[CurFormIndex] + Paths.PROGRAM_PATH[CurFormIndex] + Paths.NET_ALGORITHM_PATH[CurFormIndex];
                 string VppName = LstB_Algorithm.SelectedItem as string;
                 CogSerializer.SaveObjectToFile(CurrentOpenJob, $@"{AlgorithmPath}\{VppName}", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
                 Utility.LoadingStop();
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }

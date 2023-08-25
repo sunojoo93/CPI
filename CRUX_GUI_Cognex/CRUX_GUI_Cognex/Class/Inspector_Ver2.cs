@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
@@ -28,7 +29,7 @@ using System.Threading.Tasks;
 namespace CRUX_GUI_Cognex.Class.InspVer2
 {
     class Inspector_Collection : IDisposable
-    {
+    {     
         private static Inspector_Collection Collection_Object;
         private List<Inspector_Ver2> Inspectors = new List<Inspector_Ver2>();
        
@@ -37,19 +38,35 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
             if (Collection_Object == null)
             {
                 Collection_Object = new Inspector_Collection();
+
                 Parallel.For(0, Globals.MaxInspectorCount, (i) =>
                 {
                     Inspector_Ver2 NewInsp = new Inspector_Ver2() { Inspector_Id = i };
-                    Collection_Object.Inspectors.Add(NewInsp);
+                    Collection_Object.Inspectors.Add(NewInsp);              
                 });
-                //for (int i = 0; i < Globals.MaxInspectorCount; ++i)
-                //{
-
-
-                //}
             }
             return Collection_Object;
         }
+        public int GetAvaliableInspCount()
+        {
+            List<Inspector_Ver2> Temp = Inspectors.FindAll(x => x.Busy == false);
+            return Temp?.Count ?? 0;
+
+        }
+        public bool ResetInspector(string cell_id)
+        {
+            try
+            {
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Start Worker Reset", false, false);
+                Collection_Object.Inspectors.Find(x => x.CellID.ToUpper() == cell_id.ToUpper()).Reset(); 
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] Worker Reset Error, Exception Message : {ex.Message}", false, false);
+                return false;
+            }
+        } 
 
         public void Dispose()
         {
@@ -76,22 +93,51 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                             {
                                 if (!data.FirstPattern)
                                 {
+                                    item.Busy = true;
+                                    item.Finishe = false;                    
                                     item.Start_Insp(data);
                                     return 0;
                                 }
                                 else
-                                    throw new Exception("이미 동일한 셀이 검사 중");
+                                {
+                                    item.Reset();
+                                    item.Busy = true;
+                                    item.Finishe = false;
+                                    item.Start_Insp(data);
+                                    return 0;
+                                }
                             }
-                            else
+                            else                              
                                 continue;
                         }
                         else
                         {
+                            item.Busy = true;
+                            item.Finishe = false;
                             item.Start_Insp(data);
                             return 0;
                         }                    
                     }
-                    throw new Exception("모든 Worker 사용 중");
+                 
+                    foreach (Inspector_Ver2 item in Collection_Object.Inspectors)
+                    {
+                        if(item.Busy)
+                        {
+                            List<Inspector_Ver2.Area_Inspector> Find_Temp = item.GetAreaInsp().FindAll(x => x.Finished == true);
+                            int BusyCount = item.GetAreaInsp().Count;
+                            if (Find_Temp.Count < BusyCount)
+                            {
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Worker Reset, Inspector ID : {item.Inspector_Id}", false, false);
+                                item.Reset();
+                            }
+                        }
+                    }
+                    if(GetAvaliableInspCount() <= 0)
+                        throw new Exception("모든 Worker 사용 중");
+                    else
+
+                        Start_Insp(data);
+                    return 0;
                 }
                 else
                 {
@@ -124,12 +170,20 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     Noti.ShowDialog();
                     return -3;
                 }
+                else if (ex.Message == "이미지와 레시피가 호환되지 않음")
+                {
+                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "현재 레시피로 검사할 수 없는 이미지");
+                    //Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] 현재 레시피로 검사할 수 없는 이미지, Exception Message : {ex.Message}", false, false);
+                    Noti.ShowDialog();
+                    return -4;
+                }
                 else
                 {
                     //Systems.LogWriter.Error($@"Exception Message : {ex.Message}, StackTrace : {ex.StackTrace}");
 
                     Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] Worker 관련 기타 에러, Exception Message : {ex.Message}", false, false);
-                    return -4;
+                    return -5;
                 }
             }
         }
@@ -176,11 +230,15 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                 return false;
             }
         }
+        [Serializable]
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
         // Inspector 객체는 싱글톤으로 생성
         class Inspector_Ver2 : IDisposable
         {
             private string RecipeName = string.Empty;
             public int Inspector_Id;
+            public string Active = string.Empty;
+            public string Stage = string.Empty;
             public string Date = string.Empty;
             public string CellID = string.Empty;
             public string VirID = string.Empty;
@@ -192,6 +250,11 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
             public bool InitError = false;
             public bool Manual { get; set; } = false;
             private object obj1 = new object();
+            Area_InspResult_Collection Area_Results = new Area_InspResult_Collection();
+            public List<Area_Inspector> GetAreaInsp()
+            {
+                return Area_Insp;
+            }
             public void CheckAreaInspResult()
             {
                 int ChkCnt = 0;
@@ -205,39 +268,50 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                 }
                 if(ChkCnt == Area_Insp.Count)
                 {
+                    Area_Results.Area_Result.Clear();
                     foreach (Area_Inspector item in Area_Insp)
                     {
                         item.Busy = false;
                         item.Finished = false;
+                        Area_Results.Area_Result.Add(item.AreaName, item.Insp_Result);
                     }
 
-                    EndTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                    EndTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
                     // 한 셀에 대한 검사가 끝났다.
-                    Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Inspection Done... Cell ID : {CellID}", true, Manual);
+              
 
-                    Judgement();
+                    Judgement(Area_Results);
+                    Busy = false;
+                    Finishe = true;
+                    Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Inspection Done... Cell ID : {CellID}", true, Manual);
+                    Clear();
                 }
             }
-            public void Judgement()
+            public void Judgement(Area_InspResult_Collection insp_result )
             {
                 try
                 {
                     Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Judge Start...CellID : { CellID}", true, Manual);
                     // 판정을 한다.
-                    Busy = false;
-                    Finishe = false;
-                    Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Judge Done... CellID : { CellID}", true, Manual);
+
                     string InspectionResult = "OK";
+
                     ClassEndData Result = new ClassEndData();
+                    Result.RecipeName = RecipeName;
+                    Result.Active = Active;
+                    Result.Stage = Stage;
                     Result.Date = Date;
                     Result.StartTime = StartTime;
                     Result.EndTime = EndTime;
                     Result.CellID = CellID;
-                    Result.Result = InspectionResult;
+                    Result.InspResult = InspectionResult;
+                    
 
                     TimeSpan Tact = Convert.ToDateTime(EndTime) - Convert.ToDateTime(StartTime);
                     Result.TactTime = Tact.ToString(@"mm\:ss\.fff");
-                    if(Manual == true)
+
+                    WriteCellResultData(Result);
+                    if (Manual == true)
                     {
                         Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual.UpdateResult(Result);
                     }
@@ -246,23 +320,60 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING).UpdateResult(Result);
                     }
 
-                    Clear();
+                    Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Judge Done... CellID : { CellID}", true, Manual);
                 }
                 catch(Exception ex)
                 {
                     throw ex;
                 }
             }
+            private void WriteCellResultData(ClassEndData result)
+            {
+                IniFile ResultFile = new IniFile();
+                ResultFile.SaveEmptySections = true;
+
+                ResultFile.Add("DATA");
+
+                ResultFile["DATA"].Add("RECIPE_NAME", result.RecipeName);
+                ResultFile["DATA"].Add("ACTIVE", result.Active);
+                ResultFile["DATA"].Add("STAGE", result.Stage);
+                ResultFile["DATA"].Add("CELL_ID", CellID);
+                ResultFile["DATA"].Add("INNER_ID", VirID);
+                ResultFile["DATA"].Add("INSPECTION_TIME", StartTime);
+                ResultFile["DATA"].Add("TACT_TIME", result.TactTime);
+                ResultFile["DATA"].Add("GRAB_TIME", "AAA");
+                ResultFile["DATA"].Add("CLASS_TIME", "AAA");
+                ResultFile["DATA"].Add("검사결과", result.InspResult);
+                ResultFile["DATA"].Add("검사_CLASS", "AAA");
+                ResultFile["DATA"].Add("검사대표불량명", "AAA");
+                ResultFile["DATA"].Add("검사_RESULT_결과", "AAA");
+                ResultFile["DATA"].Add("불량코드", "AAA");
+                string FileName = CellID.Replace(":", "");
+                string ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
+
+                foreach (KeyValuePair<string, Pattern_InspResult_Collection> item in Area_Results.Area_Result)
+                {
+                    ResultFile.Add(item.Key);
+                }
+                if (!fileProc.DirExists(ResultPath))                
+                    fileProc.CreateDirectory(ResultPath);
+                
+                ResultFile.Save($@"{ResultPath}{FileName}.ini", FileMode.Create);
+            }
             public void Clear()
             {
                 try
                 {
+                    RecipeName = string.Empty;
+                    Active = string.Empty;
+                    Stage = string.Empty;
                     CellID = string.Empty;
                     VirID = string.Empty;
                     StartTime = string.Empty;
                     EndTime = string.Empty;
                     RecipeName = string.Empty;
-                    Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Inspector Clearing Done...", true, Manual);
+                    Area_Results.Area_Result.Clear();
+                    Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Inspector Clearing Done...", true, Manual);
                 }
                 catch(Exception ex)
                 {
@@ -300,19 +411,29 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                 {
                     if (Area_Insp != null && Area_Insp.Count > 0)
                     {
-                        Busy = true;      
+       
+                        RecipeName = data.RecipeName;
+                        Active = data.Active;
+                        Stage = data.Stage;
                         CellID = data.CellID;
                         VirID = data.VirID;
-                        DateTime Now = DateTime.Now;
-                        StartTime = StartTime == string.Empty ? Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : StartTime;
-                        Date = Date == string.Empty ? Now.ToString("yyyy-MM-dd") : Date;
                         Manual = data.Manual;
+                        Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Inspection Start... Cell ID : {CellID}", true, Manual);
+                        DateTime Now = DateTime.Now;
+                        StartTime = StartTime == string.Empty ? Now.ToString("yyyy-MM-dd HH:mm:ss.fff") : StartTime;
+                        Date = Date == string.Empty ? Now.ToString("yyyy-MM-dd") : Date;
+                
                         foreach (Area_Inspector item in Area_Insp)
                         {
                             if (data.Area.ToUpper() == item.AreaName.ToUpper())
                             {
-                                item.Start_Insp(data); 
+                                item.Busy = true;
+                                item.Start_Insp(data);
                             }
+                        }
+                        if (!Busy)
+                        {
+                            throw new Exception("이미지와 레시피가 호환되지 않음");
                         }
                     }
                 }
@@ -326,6 +447,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                 try
                 {
                     Manual = data[0].Manual;
+
                     if (Area_Insp != null && Area_Insp.Count > 0)
                     {
                         foreach (Area_Inspector item in Area_Insp)
@@ -352,11 +474,26 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
             {
                 try
                 {
+                    Busy = false;
+                    RecipeName = string.Empty;
+                    //Inspector_Id = -1;
+                    Date = string.Empty;
+                    CellID = string.Empty;
+                    VirID = string.Empty;
+                    StartTime = string.Empty;
+                    EndTime = string.Empty;
+    
+                    Busy = false;
+                    Finishe = false;
+                    InitError = false;
+                    Manual = false;
+                    obj1 = new object();
                     if (Area_Insp != null)
                     {
                         foreach (Area_Inspector item in Area_Insp)
                         {
                             item.Dispose();
+                            InitError = false;
                         }
                     }
                     Area_Insp = null;
@@ -366,8 +503,32 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     throw ex;
                 }
             }
+            public void Reset()
+            {
+                RecipeName = string.Empty;
+                Active = string.Empty;
+                Stage = string.Empty;
+                Busy = false;
+                //Inspector_Id = -1;
+                Date = string.Empty;
+                CellID = string.Empty;
+                VirID = string.Empty;
+                StartTime = string.Empty;
+                EndTime = string.Empty;
 
-            class Area_Inspector : IDisposable
+                Busy = false;
+                Finishe = false;
+                InitError = false;
+                Manual = false;
+                obj1 = new object();
+                foreach (Area_Inspector item in Area_Insp)
+                {
+                    item.Reset();         
+                }
+            }
+            [Serializable]
+            [StructLayout(LayoutKind.Sequential, Pack = 1)]
+            public class Area_Inspector : IDisposable
             {
                 public int Inspector_Id = 0;
                 public bool Finished = false;
@@ -379,10 +540,26 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                 List<Pattern_Inspector> Pattern_Insp = new List<Pattern_Inspector>();
                 public bool Manual { get; set; } = false;
                 private object obj1 = new object();
+                public Pattern_InspResult_Collection Insp_Result = new Pattern_InspResult_Collection();
+
+                public void Reset()
+                {
+                    //Inspector_Id = 0;
+                    Finished = false;
+                    Busy = false;
+                    Date = string.Empty;
+                    StartTime = string.Empty;
+                    EndTime = string.Empty;
+                    //AreaName = string.Empty;
+                    foreach(Pattern_Inspector item in Pattern_Insp)
+                    {
+                        item.Reset();
+                    }
+                }
                 public void CheckPatternInspResult()
                 {
-                    int ChkCnt = 0;
-                    foreach(Pattern_Inspector item in Pattern_Insp)
+                    int ChkCnt = 0;       
+                    foreach (Pattern_Inspector item in Pattern_Insp)
                     {
                         if (item.Finishe)
                             lock (obj1)
@@ -392,19 +569,27 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     }
                     if(ChkCnt == Pattern_Insp.Count)
                     {
+                        Insp_Result.Pattern_Result.Clear();    
                         foreach (Pattern_Inspector item in Pattern_Insp)
                         {
                             item.Busy = false;
                             item.Finishe = false;
+
+                            Insp_Result.Pattern_Result.Add(item.PatternName, item.ROI_Results);
                         }
                         EndTime = EndTime == string.Empty ? DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : EndTime;
                         Busy = false;
                         Finished = true;
+                        WriteAreaResultData();
                         Inspector_Ver2 Insp = Inspector_Collection.Instance().Inspectors.Find(x => x.Inspector_Id == Inspector_Id);
-                        Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Area 검사 종료, AreaName : {AreaName}", true, Manual);
+                        Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Area Inspection Done..., AreaName : {AreaName}", true, Manual);
                         Insp.CheckAreaInspResult();
                         // 한 면에 대한 검사가 끝났다
                     }
+                }
+                public void WriteAreaResultData()
+                {
+
                 }
                 public Area_Inspector(Area area, int insp_id, string area_name)
                 {
@@ -436,7 +621,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     try
                     {
                         if (Pattern_Insp != null)
-                        {
+                        {         
                             DateTime Now = DateTime.Now;
                             StartTime = StartTime == string.Empty ? Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : StartTime;
                             Date = Date == string.Empty ? Now.ToString("yyyy-MM-dd") : Date;
@@ -447,11 +632,12 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                 {
                                     if (item.PatternName == data.PatternName)
                                     {
+                                        item.Busy = true;
                                         item.Start_Insp(data);
                                     }
                                 });
                                 t.Start();
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Area Inspection Start Done...", true, Manual);
+                                Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Area Inspection Start...", true, Manual);
                                 //Systems.LogWriter.Info($@"Start to Area inspection, AreaName : {AreaName}, Pattern Name : {item.PatternName}");
                             }
                         }
@@ -471,8 +657,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         {
                             Console.WriteLine($"CogFailureQueueOverflowedEventHandler");
                             var Temp = sender as CogJobManager;
-                            //Systems.LogWriter.Info($@"CogFailureQueueOverflowedEventHandler, JobNamager Name : {Temp.Name}");
-                            //Systems.WriteLog(0, Enums.LogLevel.INFO, $"Inspection Done...", true);
+                            //Systems.LogWriter.Info($@"CogFailureQueueOverflowedEventHandler, JobNamager Name : {Temp.Name}");      
                         });
                         manager.FailureItemAvailable -= new CogJobManager.CogFailureItemAvailableEventHandler((sender, e) =>
                         {
@@ -559,7 +744,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         //Judge.Dispose();
                         disposedValue = true;
                         //Systems.LogWriter.Info($@"Clear Inspection");
-                        Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Cleare Inspection...", true, Manual);
+                        Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Cleare Inspection...", true, Manual);
                         //for (int i = 0; i < JobManager.JobCount; ++i)
                         //{
                         //    JobManager.Job(i).ImageQueueFlush();
@@ -636,6 +821,8 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     // GC.SuppressFinalize(this);
                 }
                 #endregion
+                [Serializable]
+                [StructLayout(LayoutKind.Sequential, Pack = 1)]
                 class Pattern_Inspector : IDisposable
                 {
                     public int Inspector_Id = 0;
@@ -649,6 +836,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     List<Region_Inspector> Region_Insp = new List<Region_Inspector>();
                     public bool Manual { get; set; } = false;
                     private object obj1 = new object();
+                    public ROI_InspResult_Collection ROI_Results = new ROI_InspResult_Collection();
                     public void CheckAreaInspResult()
                     {
                         int TotalCount = 0;
@@ -662,19 +850,48 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         }
                         if(TotalCount == Region_Insp.Count)
                         {
+                            ROI_Results.Roi_Result.Clear();
                             foreach (Region_Inspector item in Region_Insp)
                             {
                                 item.Busy = false;
                                 item.Finishe = false;
                             }
-                            EndTime = EndTime == string.Empty ? DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : EndTime;
+                            EndTime = EndTime == string.Empty ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") : EndTime;
                             Busy = false;
                             Finishe = true;
-                            Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Pattern 검사 종료, Pattern : {PatternName}", true, Manual);
-                            // 모든 ROI에 대한 검사가 끝났다.
-                            Area_Inspector AreaInsp = Inspector_Collection.Instance().Inspectors.Find(x => x.Inspector_Id == Inspector_Id).Area_Insp.Find(x => x.AreaName == AreaName);
+                            Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Pattern Inspection Done..., Pattern : {PatternName}", true, Manual);
+                            // 모든 ROI에 대한 검사가 끝났다.                  
+                            foreach(Region_Inspector item in Region_Insp)
+                            {
+                                ROI_Results.Roi_Result.Add(item.RegionName, item.Algo_Result);
+                            }
+                            WritePatternResultData();
+                                 Area_Inspector AreaInsp = Inspector_Collection.Instance().Inspectors.Find(x => x.Inspector_Id == Inspector_Id).Area_Insp.Find(x => x.AreaName == AreaName);
                             AreaInsp.CheckPatternInspResult();
                         }
+                    }
+                    public void Reset()
+                    {
+                        //Inspector_Id = 0;
+                        //AreaName = string.Empty;
+                        //PatternName = string.Empty;
+                        Date = string.Empty;
+                        StartTime = string.Empty;
+                        EndTime = string.Empty;
+                        Busy = false;
+                        Finishe = false;
+                        Manual = false;
+                        obj1 = new object();
+
+                        foreach(Region_Inspector item in Region_Insp)
+                        {
+                            item.Reset();
+                        }
+                    }
+
+                    public void WritePatternResultData()
+                    {
+
                     }
                     public Pattern_Inspector(Pattern pattern, int insp_id, string area_name)
                     {
@@ -703,7 +920,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     public void Start_Insp(InspData data)
                     {
                         try
-                        {
+                        {                
                             Manual = data.Manual;
                             DateTime Now = DateTime.Now;
                             StartTime = StartTime == string.Empty ? Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : StartTime;
@@ -714,6 +931,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                 {
                                     if (item?.AlgoInsp?.Algorithm_Job != null)
                                     {
+                                        item.Busy = true;
                                         item.Start_Insp(data);
                                     }
                                 }
@@ -736,7 +954,8 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                             }
                         }
                     }
-
+                    [Serializable]
+                    [StructLayout(LayoutKind.Sequential, Pack = 1)]
                     class Region_Inspector : IDisposable
                     {
                         public int Inspector_Id;
@@ -753,6 +972,26 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         public bool Finishe = false;
                         public bool Manual = false;
                         private object obj1 = new object();
+                        public Algorithm_InspResult_Collection Algo_Result = new Algorithm_InspResult_Collection();
+
+                        public void Reset()
+                        {
+                            //AreaName = string.Empty;
+                            //PatternName = string.Empty;
+                            //RegionName = string.Empty;
+                            Date = string.Empty;
+                            StartTime = string.Empty;
+                            EndTime = string.Empty;
+                            //if(Thread_Insp.Status == TaskStatus.Running)
+                            //   {
+                            //       Thread_Insp.
+                            //   }                       
+                            Busy = false;
+                            Finishe = false;
+                            Manual = false;
+                            obj1 = new object();
+                            AlgoInsp.Reset();
+                        }
                         private void AddJobManagerEvent(CogJobManager manager)
                         {
                             try
@@ -813,16 +1052,25 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                         else
                                             Systems.WriteLog(0, Enums.LogLevel.INFO, $@"Inspection Error, Algorithm Name: { Manager.Job(i).Name }, RunStatus Message : {RunStatusMessage}, Result : {Result} ", true, Manual);
                                     }
-                                    EndTime = EndTime == string.Empty ? DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff") : EndTime;
+                                    EndTime = EndTime == string.Empty ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") : EndTime;
                                     if (Manager.JobCount == TotalAccetpCount)
                                     {
+                                        Algo_Result.AlgoResult.Clear();
+                                        for (int i = 0; i < AlgoInsp.Algorithm_Job.JobCount; ++i)
+                                        {
+                                            if ((AlgoInsp.Algorithm_Job.Job(i).VisionTool as CogToolGroup)?.UserData["Result"] != null)
+                                            {
+                                                CogRecord Insp_Result = (AlgoInsp.Algorithm_Job.Job(i).VisionTool as CogToolGroup)?.UserData["Result"] as CogRecord;
+                                                Algo_Result.AlgoResult.Add(AlgoInsp.Algorithm_Job.Job(i).Name, Insp_Result);
+                                            }                                        
+                                        }                               
                                         Console.WriteLine($"[ GUI ] ROI 검사완료 , ROI Name : {Manager.Name} RunState : {Manager.StateFlags.Flags}");
                                     }
                                     else
                                     {
                                         Console.WriteLine($"[ GUI ] ROI 검사에러 발생 ,  ROI Name : {Manager.Name} RunState : {Manager.StateFlags.Flags}");
                                     }
-
+                                    WriteROIResultData();
                                     Pattern_Inspector PtnInsp = Inspector_Collection.Instance().Inspectors.Find(x => x.Inspector_Id == Inspector_Id).Area_Insp.Find(x => x.AreaName == AreaName).Pattern_Insp.Find(x => x.PatternName == PatternName);
                                     PtnInsp.CheckAreaInspResult();
                                 });
@@ -851,6 +1099,10 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                             {
                                 throw ex;
                             }
+
+                        }
+                        public void WriteROIResultData()
+                        {
 
                         }
                         public void CheckInspFinishe()
@@ -938,7 +1190,8 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                 AlgoInsp.Dispose();
                             }
                         }
-
+                        [Serializable]
+                        [StructLayout(LayoutKind.Sequential, Pack = 1)]
                         public class Algorithm_Inspection : IDisposable
                         {
                             public int Inspector_Id;
@@ -951,6 +1204,20 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                             public string CellID;
                             object obj1 = new object();
                             public bool Manual = false;
+
+                            public void Reset()
+                            {
+                                //AreaName = string.Empty;
+                                //PatternName = string.Empty;
+                                //RegionName = string.Empty;
+                                Busy = false;
+                                Finishe = false;
+                                if (Algorithm_Job.JobsRunningState == CogJobsRunningStateConstants.None)
+                                    Algorithm_Job.Stop();
+                                CellID = string.Empty;
+                                obj1 = new object();
+                                Manual = false;
+                            }
                             public Algorithm_Inspection(string name, int insp_id, string area_name, string ptn_name)
                             {
                                 Algorithm_Job.Name = name;
@@ -973,7 +1240,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                         CommonParams.PatternParam.Add(item.Name, item.Value);
                                     }
                                     Job.UserData.Add("Param", CommonParams);
-                                    Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Inspector ID : {Inspector_Id}", false, Manual);
+                                    Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Inspector ID : {Inspector_Id}", false, Manual);
                                     Algorithm_Job.JobAdd(Job);
                                 }
                                 catch (Exception ex)
@@ -1000,7 +1267,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                     for (int i = 0; i < Algorithm_Job.JobCount; ++i)
                                         Algorithm_Job.Job(i).VisionTool.UserData.Add("Images", Collection);
 
-                                    Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Inspector ID : {Inspector_Id}", true, Manual);
+                                    Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Job Start... Inspector ID : {Inspector_Id}", true, Manual);
                                     Algorithm_Job.Run();
 
                                 }
@@ -1008,6 +1275,10 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                 {
                                     throw ex;
                                 }
+                            }
+                            public void WriteAlgorithmResultData()
+                            {
+
                             }
                             private void AddJobEvent(CogJob Job)
                             {
@@ -1032,7 +1303,16 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                             /// Auto
                                             if (!Manual)
                                             {
-                                                string AutoRunSavePath = $@"D:\Automation\SaveRecord\{CellID.Replace(":", "")}\";
+                                                lock (Systems.LockObj1)
+                                                {
+                                                    string RecordPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}\RecordImages\";
+                                                    if (!fileProc.DirExists(RecordPath))
+                                                    {
+                                                        fileProc.CreateDirectory($@"{RecordPath}{CellID.Replace(":", "")}");
+                                                    }
+                                                }
+                                                //string AutoRunSavePath_Temp = $@"{Paths.NET_DRIVE}{Paths.NET_CURRENT_DRIVE}\Automation\SaveRecord\{CellID.Replace(":", "")}\";
+                                                string AutoRunSavePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}\Automation\SaveRecord\{CellID.Replace(":", "")}\";
                                                 if (!fileProc.DirExists(AutoRunSavePath))
                                                 {
                                                     fileProc.CreateDirectory(AutoRunSavePath);
@@ -1044,7 +1324,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                 {
                                                     Thread t = new Thread(delegate ()
                                                     {
-                                                        (Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordPad(ResultData);
+                                                        (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordPad(ResultData, CellID.Replace(":", ""));
                                                     });
                                                     t.Start();
                                                 }
@@ -1053,7 +1333,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                 {
                                                     Thread t = new Thread(delegate ()
                                                     {
-                                                        (Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordRight(ResultData);
+                                                        (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordRight(ResultData, CellID.Replace(":", ""));
                                                     });
                                                     t.Start();
                                                 }
@@ -1061,7 +1341,8 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                 {
                                                     Thread t = new Thread(delegate ()
                                                     {
-                                                        (Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordTop(ResultData);
+                                                        (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordTop(ResultData, CellID.Replace(":", ""));
+                                                        //(Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).GetRecordTopImage();
                                                     });
                                                     t.Start();
                                                 }
@@ -1069,27 +1350,29 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                 {
                                                     Thread t = new Thread(delegate ()
                                                     {
-                                                        (Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordBottom(ResultData);
+                                                        (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Form.Main_Frm_Auto_For_CHIPPING).SetRecordBottom(ResultData, CellID.Replace(":", ""));
                                                     });
                                                     t.Start();
                                                 }
+                                                WriteAlgorithmResultData();
                                             }
                                             /// Manual
                                             else
                                             {
-                                                string AutoRunSavePath = $@"D:\Simulation\SaveRecord\{CellID.Replace(":", "")}\";
-                                                if (!fileProc.DirExists(AutoRunSavePath))
+                                                string ManualRunSavePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}Simulation\SaveRecord\{CellID.Replace(":", "")}\";
+                                                //string AutoRunSavePath = $@"D:\Simulation\SaveRecord\{CellID.Replace(":", "")}\";
+                                                if (!fileProc.DirExists(ManualRunSavePath))
                                                 {
-                                                    fileProc.CreateDirectory(AutoRunSavePath);
+                                                    fileProc.CreateDirectory(ManualRunSavePath);
                                                 }
 
-                                                CogSerializer.SaveObjectToFile(ResultData, $@"{AutoRunSavePath}{AreaName}.vpp", typeof(BinaryFormatter),CogSerializationOptionsConstants.Results);
+                                                CogSerializer.SaveObjectToFile(ResultData, $@"{ManualRunSavePath}{AreaName}.vpp", typeof(BinaryFormatter),CogSerializationOptionsConstants.Results);
 
                                                 if (AreaName.ToUpper() == "Pad".ToUpper())
                                                 {
                                                     Thread t = new Thread(delegate ()
                                                     {
-                                                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Manual.SetRecordPad(ResultData);
+                                                        Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual.SetRecordPad(ResultData);
                                                     });
                                                     t.Start();
                                                 }
@@ -1098,7 +1381,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                 {
                                                     Thread t = new Thread(delegate ()
                                                     {
-                                                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Manual.SetRecordRight(ResultData);
+                                                        Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual.SetRecordRight(ResultData);
                                                     });
                                                     t.Start();
                                                 }
@@ -1106,7 +1389,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                 {
                                                     Thread t = new Thread(delegate ()
                                                     {
-                                                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Manual.SetRecordTop(ResultData);
+                                                        Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual.SetRecordTop(ResultData);
                                                     });
                                                     t.Start();
                                                 }
@@ -1114,10 +1397,11 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                 {
                                                     Thread t = new Thread(delegate ()
                                                     {
-                                                        Program.Frm_MainContent_[Systems.CurDisplayIndex].Frm_Manual.SetRecordBottom(ResultData);
+                                                        Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual.SetRecordBottom(ResultData);
                                                     });
                                                     t.Start();
                                                 }
+                                                WriteAlgorithmResultData();
                                             }
                                         }
                                     });

@@ -120,7 +120,7 @@ namespace CRUX_GUI_Cognex.Utils
             }
             catch(Exception ex)
             {
-                //Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, ex.Message, false);
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] Cognex_Helper_ Load Image Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -202,7 +202,7 @@ namespace CRUX_GUI_Cognex.Utils
         /// direction : true - 정방향
         /// direction : false - 역방향
         /// <returns></returns>
-        public static CogImage8Grey MergeImages(int shift_x, int shift_y, int shift_all, CogImage8Grey[] image_list, int ptn_no, int img_len, string area, string ptn_name, bool direction, string cell_id)
+        public static CogImage8Grey MergeImages(int shift_x, int shift_y, int shift_all, CogImage8Grey[] image_list, int ptn_no, int img_len, string area, string ptn_name, bool direction, string cell_id, string path)
         {
 
             if (img_len > 0)
@@ -323,12 +323,11 @@ namespace CRUX_GUI_Cognex.Utils
 
                     Result_CogImg = (CogImage8Grey)ipoTool.OutputImage;
 
-                    string Directory_Path = $@"D:\ImageSave\{cell_id}\";
-                    if (!fileProc.DirExists(Directory_Path))
+                    if (!fileProc.DirExists(path))
                     {
-                        fileProc.CreateDirectory(Directory_Path);
+                        fileProc.CreateDirectory(path);
                     }
-                    string Path = ($@"{Directory_Path}{ImageName}.bmp");
+                    string Path = ($@"{path}{ImageName}.bmp");
 
 
                     //string Path = ($@"D:\ImageSave\{cell_id}{area}_{ptn_name}_{dir}_Test.bmp");
@@ -449,14 +448,13 @@ namespace CRUX_GUI_Cognex.Utils
                     ipoTool.Run();                      
 
                     int dir = direction == true ? 0 : 1;
-                    Result_CogImg = (CogImage8Grey)ipoTool.OutputImage;
-                   
-                    string Directory_Path = $@"D:\ImageSave\{cell_id}\";
-                    if (!fileProc.DirExists(Directory_Path))
+                    Result_CogImg = (CogImage8Grey)ipoTool.OutputImage;                  
+            
+                    if (!fileProc.DirExists(path))
                     {
-                        fileProc.CreateDirectory(Directory_Path);
+                        fileProc.CreateDirectory(path);
                     }
-                    string Path = ($@"{Directory_Path}{ImageName}.bmp");
+                    string Path = ($@"{path}{ImageName}.bmp");
 
                     //string Path = ($@"D:\ImageSave\{area}_{ptn_name}_{dir}_Test.bmp");
 

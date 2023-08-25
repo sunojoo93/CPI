@@ -16,7 +16,7 @@
 #define  MAX_CAMERA_COUNT  4
 #define  MAX_AUTOFOCUS_COUNT 4
 #define  MAX_LIGHT_COUNT  4
-#define  MAX_LIGHT_CHANNEL_COUNT  28
+#define  MAX_LIGHT_CHANNEL_COUNT  50
 
 #define MAX_IMAGE_RATIO				1
 
@@ -266,12 +266,13 @@ struct ST_CAM_COND_AOT
 
 struct ST_CAM_INFOMATION
 {
+	char BoardName[100];
 	char Name[100];
 	char Type[100];
 	int Width;
 	int Height;
 	int Depth;
-	int Temp;
+	double Temp;
 	ST_CAM_INFOMATION()
 	{
 		Width = 0;
@@ -284,8 +285,8 @@ struct ST_CAM_INFOMATION
 struct ST_LIGHT_COND_AOT
 {
 	BOOL Use;
-	int Port_No;
-	int Controller_No;
+	UINT Port_No;
+	UINT Controller_No;
 	STRU_SERIAL_INFO_AOT LightModule[MAX_LIGHT_COUNT];
 
 	ST_LIGHT_COND_AOT()
@@ -402,6 +403,20 @@ struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 		GrabLine = 0;
 		CamNo = 0;
 		FirstPattern = false;
+	}
+};
+struct PARAM_INSPECTOR_RESET
+{
+	wchar_t strVirtualID[50];
+	wchar_t strPanelID[50];
+	int Result;
+	int PCNum;
+	PARAM_INSPECTOR_RESET()
+	{
+		memset(strVirtualID, 0, sizeof(strVirtualID));
+		memset(strPanelID, 0, sizeof(strPanelID));	
+		Result = 0;
+		PCNum = -1;
 	}
 };
 /////////////////////////////// AOT ///////////////////////////////

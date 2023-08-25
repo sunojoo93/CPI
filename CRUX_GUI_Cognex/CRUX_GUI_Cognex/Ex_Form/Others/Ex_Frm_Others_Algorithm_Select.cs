@@ -116,7 +116,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                DialogResult = DialogResult.Cancel;
+                DialogResult = DialogResult.OK;
+                CurrentAlgoList = Utility.DeepCopy(CurrentAlgoList_Temp);
                 return;
             }
             catch (Exception ex)
@@ -129,22 +130,30 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                string SelectedItem = LstB_AvailableAlgo.SelectedItem as string;
-                Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString() + $"Add {SelectedItem}", true, false);
-                if (SelectedItem == null || SelectedItem == "")
-                    return;
-
-                Algorithm_Infomation AlgoInfo = Systems.Algo_Info?.Find(x => x.Name == SelectedItem);
-                if (AlgoInfo == null)
+                if (LstB_AvailableAlgo.SelectedItem != null)
                 {
-                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "선택하신 알고리즘이 존재하지 않습니다.");
-                    Noti.ShowDialog();
-                    return;
-                }
+                    string SelectedItem = LstB_AvailableAlgo.SelectedItem as string;
 
-                Algorithm Algo = new Algorithm() { Name = SelectedItem, Param = new List<InspParam>(), Use = false, Path = AlgoInfo.Path };
-                CurrentAlgoList_Temp.Add(Algo);
-                UpdateDisplay();
+                    if (LstB_RegistedAlgo.Items.Contains(SelectedItem))
+                    {
+                        return;
+                    }
+                    Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString() + $"Add {SelectedItem}", true, false);
+                    if (SelectedItem == null || SelectedItem == "")
+                        return;
+
+                    Algorithm_Infomation AlgoInfo = Systems.Algo_Info?.Find(x => x.Name == SelectedItem);
+                    if (AlgoInfo == null)
+                    {
+                        Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "선택하신 알고리즘이 존재하지 않습니다.");
+                        Noti.ShowDialog();
+                        return;
+                    }
+
+                    Algorithm Algo = new Algorithm() { Name = SelectedItem, Param = new List<InspParam>(), Use = false, Path = AlgoInfo.Path };
+                    CurrentAlgoList_Temp.Add(Algo);
+                    UpdateDisplay();
+                }
             }
             catch (Exception ex)
             {
@@ -156,17 +165,21 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                string SelectedItem = LstB_RegistedAlgo.SelectedItem as string;
-                Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString() + $"Remove {SelectedItem}", true, false);
-                if (SelectedItem == null || SelectedItem == "")
-                    return;
+                if (LstB_RegistedAlgo.SelectedItem != null)
+                {
+                    string SelectedItem = LstB_RegistedAlgo.SelectedItem as string;
+                    Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString() + $"Remove {SelectedItem}", true, false);
+                    if (SelectedItem == null || SelectedItem == "")
+                        return;
 
-                Algorithm FindItem = CurrentAlgoList_Temp.Find(x => x.Name == SelectedItem);
-                CurrentAlgoList_Temp.Remove(FindItem);
-                UpdateDisplay();
+                    Algorithm FindItem = CurrentAlgoList_Temp.Find(x => x.Name == SelectedItem);
+                    CurrentAlgoList_Temp.Remove(FindItem);
+                    UpdateDisplay();
+                }
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -221,6 +234,59 @@ namespace CRUX_GUI_Cognex.Ex_Form
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private void LstB_AvailableAlgo_DoubleClick(object sender, EventArgs e)
+        {
+            int aa = 0;
+            ListBox Temp = sender as ListBox;
+            if(Temp.SelectedItem != null)
+            {
+                string SelAlgo = Temp.SelectedItem.ToString();
+                if (!LstB_RegistedAlgo.Items.Contains(SelAlgo))
+                {
+                    //LstB_RegistedAlgo.Items.Add(SelAlgo);
+                    Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString() + $"Add {SelAlgo}", true, false);
+                    if (SelAlgo == null || SelAlgo == "")
+                        return;
+
+                    Algorithm_Infomation AlgoInfo = Systems.Algo_Info?.Find(x => x.Name == SelAlgo);
+                    if (AlgoInfo == null)
+                    {
+                        Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "선택하신 알고리즘이 존재하지 않습니다.");
+                        Noti.ShowDialog();
+                        return;
+                    }
+
+                    Algorithm Algo = new Algorithm() { Name = SelAlgo, Param = new List<InspParam>(), Use = false, Path = AlgoInfo.Path };
+                    CurrentAlgoList_Temp.Add(Algo);
+                    UpdateDisplay();
+                }
+            }
+        }
+
+        private void LstB_RegistedAlgo_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                ListBox Temp = sender as ListBox;
+                if (Temp?.SelectedItem != null)
+                {
+                    string SelAlgo = Temp.SelectedItem.ToString();
+
+                    Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString() + $"Remove {SelAlgo}", true, false);
+                    if (SelAlgo == null || SelAlgo == "")
+                        return;
+
+                    Algorithm FindItem = CurrentAlgoList_Temp.Find(x => x.Name == SelAlgo);
+                    CurrentAlgoList_Temp.Remove(FindItem);
+                    UpdateDisplay();
+                }
+            }
+            catch(Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
             }
         }
     }

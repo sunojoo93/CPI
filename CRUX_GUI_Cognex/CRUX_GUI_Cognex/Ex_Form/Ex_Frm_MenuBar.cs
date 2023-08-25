@@ -57,6 +57,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -68,10 +69,13 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
                 if (Temp != null)
                     Temp.ChangeMainForm(Temp.Frm_Recipe);
+
+                Temp.Frm_Recipe.RefeshRecipe();
                 Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -83,10 +87,13 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 var Temp = Program.Frm_MainContent_?.Find(x => x.Name == Program.Frm_Main.CurDisplayForm) ?? null;
                 if (Temp != null)
                     Temp.ChangeMainForm(Temp.Frm_Optical);
+
+                Temp.Frm_Optical.FrmUpdate();
                 Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -102,6 +109,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -119,6 +127,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -134,6 +143,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }

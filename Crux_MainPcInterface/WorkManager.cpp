@@ -199,7 +199,8 @@ int WorkManager::AnalyzeMsg(CMDMSG* pCmdMsg)
 	SEQUENCE_TABLE (	60,		57	,	Seq_PGChangePatternCmd_FromInspPc	, true	,			false					,	NULL				)	// PG Change Pattern Command. AMT 설비에서 운영 프로그램을 통해서 PG 제어	180801 YSS
 	SEQUENCE_TABLE (	60,		58	,	Seq_PGOffCmd_FromInspPc				, true	,			false					,	NULL				)	// PG Off Command. AMT 설비에서 운영 프로그램을 통해서 PG 제어	180801 YSS
 	SEQUENCE_TABLE (	60,		59	,	Seq_PGOnCmd_FromInspPc				, true	,			false					,	NULL				)	// PG On Command. AMT 설비에서 운영 프로그램을 통해서 PG 제어	180822 YSS
-
+	SEQUENCE_TABLE(60, 99, Seq_GrabSeqReset, true, false, NULL)
+		SEQUENCE_TABLE(60, 98, Seq_GrabSeqReset_FromInspPc, true, false, NULL)
 /*******************************************************************************************************************/
 /*****             Child Sequence, 이하는 다른 타스크에서 호출되지 않고, 내부적으로만 사용된다.               ******/
 /*******************************************************************************************************************/
@@ -3193,6 +3194,34 @@ int WorkManager::m_fnAnalyzeMainPcCmd(char* buffer, int nBuffSize)
 			return nRet;
 		}
 	}
+	else if (stRcvPacket.Find(MAIN_PC_PACKET_GRAB_RESET_REQ) != -1)
+	{
+		int nStartPos = 0, nEndPos = 0;
+		CString strVirId, strPanelId;
+		byte* pParamTemp = bParam;
+
+		stRcvPacket.Replace(MAIN_PC_PACKET_GRAB_RESET_REQ, "");
+
+		nStartPos = 0;
+		nEndPos = stRcvPacket.Find(".");
+		strVirId = stRcvPacket.Mid(nStartPos, nEndPos - nStartPos);
+
+		nStartPos = 0;
+		nEndPos = stRcvPacket.Find(".");
+		strPanelId = stRcvPacket.Mid(nStartPos, nEndPos - nStartPos);
+
+		_tcsncpy((TCHAR*)pParamTemp, (LPCTSTR)strVirId, strVirId.GetLength());
+		pParamTemp += SIZE_VIRTUAL_ID;
+		_tcsncpy((TCHAR*)pParamTemp, (LPCTSTR)strPanelId, strPanelId.GetLength());
+		pParamTemp += SIZE_CELL_ID;
+
+		nRet = CmdEditSend(RECIPE_CHANGE_REQ_FROM_MAIN_PC, 0, sizeof(bParam), VS_MAIN_PC_TASK, bParam, CMD_TYPE_RES);
+		if (nRet != APP_OK)
+		{
+			m_fnPrintLog(_T("m_fnAnalyzeMainPcCmd: <START_GRAB_REQ_FROM_MAIN_PC> command send Error = %d \n"), nRet);
+			return nRet;
+		}
+	}
 	else if (stRcvPacket.Find(MAIN_PC_PACKET_SYSTEM_TIME_SET) != -1)
 	{
 		int nStartPos = 0, nEndPos = 0;
@@ -3997,6 +4026,121 @@ int	WorkManager::Seq_PGOnCmd_FromInspPc(byte* pParam, ULONG& nPrmSize, bool bAlw
 	m_fnPrintLog(_T("SEQLOG6059 -- Seq_PGOnCmd_FromInspPc Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
 
 	isSeqBusy = false;
+
+	return nRet;
+}
+
+int	WorkManager::Seq_GrabSeqReset(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
+{
+	int nRet = APP_OK;
+	bool isRunSequence = false;
+	int nStepNo = 0, nAsyncFlag = 0, nTestMode = 0, nStartLine = 0, nTotalLine = 0;
+	int			nStageNo = 0;
+	static bool isSeqBusy = false;
+	byte*		pParamTemp = pParam;
+
+	CString		strCellID;
+	CString		strVirtualID;
+
+
+	TCHAR		cTemp[500] = { 0, };
+	CStringA	strSendMsg;
+	CStringA	strClassEnd;
+
+	memcpy(cTemp, pParamTemp, SIZE_VIRTUAL_ID);
+	pParamTemp += SIZE_VIRTUAL_ID;
+	strVirtualID = cTemp;
+
+	memcpy(cTemp, pParamTemp, SIZE_CELL_ID);
+	pParamTemp += SIZE_CELL_ID;
+	strCellID = cTemp;
+
+	EXCEPTION_TRY
+
+		isSeqBusy = true;
+
+	// Sequence In LOG
+	m_fnPrintLog(_T("SEQLOG -- GrabSeqReset Sequence Start StepNo=%d, RetVal=%d \n"), nStepNo++, nRet);
+
+
+	byte bParam[1000] = { 0, };
+	byte* bpTempParam = bParam;
+
+	_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strVirtualID);
+	bpTempParam += SIZE_VIRTUAL_ID;
+	_tcscpy((TCHAR*)bpTempParam, (LPCTSTR)strCellID);
+	bpTempParam += SIZE_CELL_ID;
+
+	nRet = CmdEditSend(START_GRAB_SEQ_RESET, 0, sizeof(bParam), VS_SEQUENCE_TASK, bParam, CMD_TYPE_NORES);
+
+	EXCEPTION_CATCH
+
+		if (nRet == APP_OK)
+		{
+			isSeqBusy = false;
+		}
+		else
+		{
+			throw MAINPCINTERFACE_TASK_SEQUENCE_FAIL;
+		}
+
+	return nRet;
+}
+int	WorkManager::Seq_GrabSeqReset_FromInspPc(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
+{
+
+		int nRet = APP_OK;
+	bool isRunSequence = false;
+	int nStepNo = 0, PCNum = -1;
+	int			Result = 0;
+
+	static bool isSeqBusy = false;
+	byte*		pParamTemp = pParam;
+
+	CString		strCellID;
+	CString		strVirtualID;
+
+
+	TCHAR		cTemp[500] = { 0, };
+	CStringA	strSendMsg;
+	CStringA	strClassEnd;
+	PARAM_INSPECTOR_RESET* ParamReset = new PARAM_INSPECTOR_RESET;
+
+	EXCEPTION_TRY
+		ParamReset = (PARAM_INSPECTOR_RESET *)pParamTemp;
+
+		strVirtualID = (LPCTSTR)ParamReset->strVirtualID;
+		strCellID = (LPCTSTR)ParamReset->strPanelID;
+		Result = ParamReset->Result;
+		PCNum = ParamReset->PCNum;
+
+
+		isSeqBusy = true;
+		// Sequence In LOG
+		m_fnPrintLog(_T("SEQLOG -- GrabSeqReset Sequence Start StepNo=%d, RetVal=%d \n"), nStepNo++, nRet);
+
+		if (Result == 0)
+		{
+			strSendMsg.Format("%sOK.%s.%s.%d.", MAIN_PC_PACKET_GRAB_RESET_REQ, (CStringA)strVirtualID, (CStringA)strCellID, PCNum);
+			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+		}
+		else
+		{
+			strSendMsg.Format("%sERR.%s.%s.%d.", MAIN_PC_PACKET_GRAB_RESET_REQ, (CStringA)strVirtualID, (CStringA)strCellID, PCNum);
+			nRet = m_fnSendMessageToMainPc((char*)(LPCSTR)strSendMsg, strSendMsg.GetLength());
+		}
+		m_fnPrintLog(_T("SEQLOG -- GrabSeqReset Sequence End StepNo=%d, RetVal=%d \n"), nStepNo++, nRet);
+	EXCEPTION_CATCH
+
+		if (nRet == APP_OK)
+		{
+			isSeqBusy = false;
+		}
+		else
+		{
+			m_fnPrintLog(_T("SEQLOG -- GrabSeqReset Sequence Err StepNo=%d, RetVal=%d \n"), nStepNo++, MAINPCINTERFACE_TASK_SEQUENCE_FAIL);
+			throw MAINPCINTERFACE_TASK_SEQUENCE_FAIL;
+		}
 
 	return nRet;
 }

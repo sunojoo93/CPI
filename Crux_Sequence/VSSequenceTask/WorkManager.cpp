@@ -165,6 +165,7 @@ int WorkManager::AnalyzeMsg(CMDMSG* pCmdMsg)
 		//SEQUENCE_TABLE(21, 50, Seq_AlignCamera, false, true, &m_csSequenceLock_2)
 		// Async Sequence
 		SEQUENCE_TABLE(21, 88, Seq_AsyncSequence, false, false, NULL)
+		SEQUENCE_TABLE(21, 87, Seq_GrabSeqReset, false, false, NULL)
 		// Receive Dust End
 		//SEQUENCE_TABLE(21, 90, Seq_RcvCheckDustEnd, false, false, NULL)
 		// Reset
@@ -4461,6 +4462,88 @@ int WorkManager::VS_Send_Alarm_To_MainPC(int nAlarmID, int nAlarmType)
 //
 //	return nRet;
 //}
+int	WorkManager::Seq_GrabSeqReset(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
+{
+	// Receive //////////////////////////////////////////////////////////////////////////////////////////////////////
+	byte*	pReceiveParam = pParam;
+
+	byte bParam[1000] = { 0, };
+	byte* bpTempParam = bParam;
+
+
+	CString		strCellID;
+	CString		strVirtualID;
+
+
+	TCHAR		cTemp[500] = { 0, };
+	CStringA	strSendMsg;
+	CStringA	strClassEnd;
+
+	memcpy(cTemp, pReceiveParam, 100);
+	pReceiveParam += 100;
+	strVirtualID = cTemp;
+
+	memcpy(cTemp, pReceiveParam, 100);
+	pReceiveParam += 100;
+	strCellID = cTemp;
+
+	int nRet = APP_OK;
+	bool isRunSequence = true;
+	int nStepNo = 0;
+	static bool isSeqBusy = false;	
+	PARAM_INSPECTOR_RESET*	Param_Reset = new PARAM_INSPECTOR_RESET;
+	do
+	{
+
+		if (nStepNo == 0 && isSeqBusy && bAlwaysRunMode == false)	// 시퀀스가 Busy 인경우 에러 리턴되게 하려면 bAlwaysRunMode가 false 이어야 한다.
+			return SEQUENCE_TASK_SEQUENCE_IS_BUSY;
+		else if (nStepNo == 0 && bBusyCheck == true && isSeqBusy == false)
+		{
+			return SEQUENCE_TASK_SEQUENCE_IS_NOT_BUSY;
+		}
+
+		isSeqBusy = true;
+
+		if (m_bSeqResetFlag && bSeqResetPossible)
+			throw 9999;
+
+		// Sequence In LOG
+		m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2187_Seq_GrabSeqReset Sequence Start StepNo=%d, RetVal=%d"), nStepNo, nRet);
+
+		nStepNo++;
+		switch (nStepNo)
+		{
+		case 1:
+			memcpy(cTemp, pReceiveParam, 100);
+			pReceiveParam += 100;
+			strVirtualID = cTemp;
+
+			memcpy(cTemp, pReceiveParam, 100);
+			pReceiveParam += 100;
+			strCellID = cTemp;
+			break;
+
+		case 2: 	
+			_tcscpy(Param_Reset->strVirtualID, (LPCTSTR)strVirtualID);
+			_tcscpy(Param_Reset->strPanelID, (LPCTSTR)strCellID);
+		case 3:
+			nRet = CmdEditSend(SEND_UI_INSP_RESET, 0, sizeof(PARAM_INSPECTOR_RESET), VS_UI_TASK, (byte*)Param_Reset, CMD_TYPE_RES, 6000);
+			delete[] Param_Reset;
+
+		default:
+			isRunSequence = false;
+			break;
+		}
+
+	} while (isRunSequence);
+
+	// Sequence Out LOG
+	m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2187_Seq_GrabSeqReset Sequence End StepNo=%d, RetVal=%d"), nStepNo, nRet);
+
+	isSeqBusy = false;
+
+	return nRet;
+}
 
 int	WorkManager::Seq_AsyncSequence(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
 {
@@ -7002,7 +7085,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 
 		case 6:
 			// 스테이지 이동 확인			
-			nRet = WaitForSingleObject(m_hSeqStageMoveDone, 60000);
+			nRet = WaitForSingleObject(m_hSeqStageMoveDone, 10000);
 
 			if (nRet == WAIT_TIMEOUT)
 			{
@@ -7090,7 +7173,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 			memcpy((TCHAR *)prmInspStart->strPanelID, strPanelID, sizeof(prmInspStart->strPanelID));
 			memcpy((TCHAR *)prmInspStart->strVirtualID, strVirtualPanelID, sizeof(prmInspStart->strVirtualID));
 			memcpy((TCHAR *)prmInspStart->strArea, strAreaTemp, sizeof(prmInspStart->strArea));
-			prmInspStart->FirstPattern = true;
+			//prmInspStart->FirstPattern = true;
 			// 검사 시작은 무조건 NoRes 로 변경
 			nRet = CmdEditSend(SEND_UI_INSP_START, 0, (ULONG)sizeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), VS_UI_TASK, (byte *)prmInspStart, CMD_TYPE_RES, 60000);
 
@@ -7274,7 +7357,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 				}
 				else
 				{
-					m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON Error !!!"), nStepNo);
+					m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light ON Err or !!!"), nStepNo);
 					throw nRet;
 				}
 			}
@@ -7408,7 +7491,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, boo
 			_tcscpy(stWaitGrabEndParam.strPanelID, strPanelID);
 			stWaitGrabEndParam.GrabCnt =nGrabCnt;
 			//_tcscpy(stWaitGrabEndParam.strGrabStepName, theApp.m_Config.GetCurStepName(strPosition, nGrabCnt));
-			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 600000);
+			nRet = CmdEditSend(SEND_WAIT_CAMERA_GRAB_END_SEQUENCE, 0, sizeof(PARAM_WAIT_GRAB_END), VS_CAMERA_TASK, (byte *)&stWaitGrabEndParam, CMD_TYPE_RES, 60000);
 
 			ImageSetTemp.ParticleImageCount = 1;
 			ImageSetTemp.SharedMemStartIdx = nGrabCnt;

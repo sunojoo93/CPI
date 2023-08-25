@@ -138,6 +138,7 @@
             this.LstB_InspLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LstB_InspLog.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstB_InspLog.FormattingEnabled = true;
+            this.LstB_InspLog.HorizontalScrollbar = true;
             this.LstB_InspLog.Location = new System.Drawing.Point(0, 0);
             this.LstB_InspLog.Margin = new System.Windows.Forms.Padding(0);
             this.LstB_InspLog.Name = "LstB_InspLog";
@@ -163,6 +164,7 @@
             this.LstB_OpLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LstB_OpLog.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.LstB_OpLog.FormattingEnabled = true;
+            this.LstB_OpLog.HorizontalScrollbar = true;
             this.LstB_OpLog.Location = new System.Drawing.Point(0, 0);
             this.LstB_OpLog.Margin = new System.Windows.Forms.Padding(0);
             this.LstB_OpLog.Name = "LstB_OpLog";

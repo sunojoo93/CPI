@@ -267,11 +267,18 @@ namespace CRUX_GUI_Cognex.Ex_Form
             // 
             this.Pb_Light.BackgroundImage = Properties.Resources.Unstable;
             this.Pb_Light.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Pb_Light.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Pb_Light.Location = new System.Drawing.Point(47, 25);
             this.Pb_Light.Name = "Pb_Light";
             this.Pb_Light.Size = new System.Drawing.Size(36, 16);
+            this.Pb_Light.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Pb_Light.TabIndex = 16;
             this.Pb_Light.TabStop = false;
+            // 
+            // Timer_Time
+            // 
+            this.Timer_Time.Interval = 500;
+            this.Timer_Time.Tick += new System.EventHandler(this.Timer_Time_Tick);
             // 
             // Ex_Frm_Status
             // 

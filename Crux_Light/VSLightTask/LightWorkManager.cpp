@@ -285,6 +285,7 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 
 	SEQUENCE_TABLE (	80,		40	,	VS_CheckLight					, false	,			false					,	&m_csSequenceLock_2	)	
 	SEQUENCE_TABLE (	80,		41	,	VS_SequenceIndexReset			, false	,			false					,	&m_csSequenceLock_3	)
+	SEQUENCE_TABLE (	80,		42	,	VS_GetAlarmCode					, false	,			false					,	&m_csSequenceLock_4	)
 
 	if( m_SeqenceCount <= 0 )
 	{
@@ -540,6 +541,36 @@ int VSMessageProcessor::VS_SequenceIndexReset(byte* pParam, ULONG& nPrmSize, boo
 
 	// Sequence Out LOG
 	m_fnPrintLog(_T("SEQLOG -- Seq8041_Sequence Index Count Reset Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+
+	return nRet;
+
+}
+int VSMessageProcessor::VS_GetAlarmCode(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/)
+{
+	int nRet = APP_OK;
+	int nStepNo = 0;
+
+	byte* tempParam = pParam;
+
+	/**(UINT*)tempParam = */
+	//UINT AlarmCode = theApp.m_pLight->GetAlarmCode();
+	//	theApp.m_
+	EXCEPTION_TRY
+		/**(UINT*)tempParam = */
+		UINT AlarmCode = theApp.OccuredAlaramCode;
+	*(UINT*)tempParam = AlarmCode;
+
+	EXCEPTION_CATCH
+
+		if (nRet != APP_OK)
+		{
+			// Error Log
+			m_fnPrintLog(_T("SEQLOG -- Seq8042_Get Alarm Code Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			return nRet;
+		}
+
+	// Sequence Out LOG
+	m_fnPrintLog(_T("SEQLOG -- Seq8042_Get Alarm Code Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
 
 	return nRet;
 

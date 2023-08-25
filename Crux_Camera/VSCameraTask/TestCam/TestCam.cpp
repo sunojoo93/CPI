@@ -149,14 +149,45 @@ BOOL CTestCam::InitializeCamera(CString strInitFilePath)
 
 	return bRet;
 }
+CString CTestCam::GetBoardName()
+{
+	CString Name;
+	MIL_INT SystemDescriptorStringSize = 0;
+	MsysInquire(m_milSystem, M_SYSTEM_DESCRIPTOR_SIZE, &SystemDescriptorStringSize);
+	MIL_TEXT_PTR SystemDescriptorPtr = new MIL_TEXT_CHAR[SystemDescriptorStringSize];
+	MsysInquire(m_milSystem, M_SYSTEM_DESCRIPTOR, SystemDescriptorPtr);
+	Name.Format(_T("%s"), SystemDescriptorPtr);
+	delete[] SystemDescriptorPtr;
+	return Name;
+}
+CString CTestCam::GetCameraType()
+{
+	CString Name;
+	MIL_INT64 DeviceScanTypeStringSize = 0;
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE + M_STRING_SIZE, MIL_TEXT("DeviceScanType"), M_TYPE_MIL_INT, &DeviceScanTypeStringSize);
+	MIL_TEXT_PTR DeviceScanTypePtr = new MIL_TEXT_CHAR[DeviceScanTypeStringSize];
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("DeviceScanType"), M_TYPE_STRING, DeviceScanTypePtr);
+	Name.Format(_T("%s"), DeviceScanTypePtr);
+	delete[] DeviceScanTypePtr;
 
+	return Name;
+}
 CString CTestCam::GetCameraName()
 {
-	char Temp[100];
-	char* ptrTemp = Temp;
+	//char Temp[100];
+	//char* ptrTemp = Temp;
 
 	CString Name;
-	Name = ptrTemp;
+	//Name = ptrTemp;
+
+
+	MIL_INT DeviceModelNameStringSize = 0;
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE + M_STRING_SIZE, MIL_TEXT("DeviceModelName"), M_TYPE_MIL_INT, &DeviceModelNameStringSize);
+	MIL_TEXT_PTR DeviceModelNamePtr = new MIL_TEXT_CHAR[DeviceModelNameStringSize];
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("DeviceModelName"), M_TYPE_STRING, DeviceModelNamePtr);
+	Name.Format(_T("%s"), DeviceModelNamePtr);
+
+	delete[] DeviceModelNamePtr;
 	return Name;
 }
 int CTestCam::GetCameraWidth()
@@ -171,15 +202,12 @@ int CTestCam::GetCameraDepth()
 {
 	return m_nBandWidth;
 }
-unsigned int CTestCam::GetCameraTemperature()
+double CTestCam::GetCameraTemperature()
 {
-	unsigned int Temp = 0;
-	MIL_STRING Temperature;
-	MsysInquire(m_milSystem, M_TEMPERATURE_FPGA, Temperature);
-	CString Buf;
-	Buf.Format(_T("%s"), Temperature);
+	MIL_DOUBLE Temp = 0;
+	MsysInquire(m_milSystem, M_TEMPERATURE_FPGA, &Temp);
 
-	return (unsigned int)_ttoi(Buf);
+	return (double)Temp;
 }
 
 bool CTestCam::InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile)
@@ -293,38 +321,35 @@ void CTestCam::StartGrab(CString PanelID, CString VirID, CString Position, int n
 	}
 	ProcessGrabCnt = 0;
 	// 그랩 스타트
+	SetTriggerMode(eStandard);
+	SetSequenceMode(1);
+	SetSequenceIndex(0);
+
 	m_GrabFlag = true;
-	MIL_INT64 SequencerModeStringSize = 0;
-	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE + M_STRING_SIZE, MIL_TEXT("SequencerMode"), M_TYPE_MIL_INT, &SequencerModeStringSize);
-	theApp.m_fnWriteLineScanLog(_T("Current Sequencer Prop Size : %d"), SequencerModeStringSize);
+	//MIL_INT64 SequencerModeStringSize = 0;
+	//MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE + M_STRING_SIZE, MIL_TEXT("SequencerMode"), M_TYPE_MIL_INT, &SequencerModeStringSize);
+	//theApp.m_fnWriteLineScanLog(_T("Current Sequencer Prop Size : %d"), SequencerModeStringSize);
 
 
-	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
-	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("On"));
-	//MIL_BOOL SequencerFeatureEnable_TRUE = M_TRUE;
-	//MIL_BOOL SequencerFeatureEnable_FALSE = M_FALSE;
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable_TRUE);
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("On"));
 
-	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetSelector"), M_TYPE_STRING, MIL_TEXT("1"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetSelector"), M_TYPE_STRING, MIL_TEXT("1"));
 
-	MIL_INT64 SequencerSetNext = 0;
-	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
+	//MIL_INT64 SequencerSetNext = 0;
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
 
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable_FALSE);
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_EXECUTE, MIL_TEXT("SequencerSetSave"), M_DEFAULT, M_NULL);
-
-	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
-	theApp.m_fnWriteLineScanLog(_T("Current Sequencer Value : %d"), SequencerSetNext);
+	//MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
+	//theApp.m_fnWriteLineScanLog(_T("Current Sequencer Value : %d"), SequencerSetNext);
 
 
-	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("Off"));
-	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("On"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("On"));
 
 	
 
 	theApp.m_fnWriteLineScanLog(_T("MdigProcess Start"));
-	// M_SEQUENCE + M_COUNT(Count) : 패킷의 총 길이
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_EXECUTE, MIL_TEXT("AcquisitionStart"), M_DEFAULT, M_NULL);
+
 	MdigProcess(m_milDigitizer, m_milLineImage, nBufCnt, M_SEQUENCE + M_COUNT(nBufCnt), M_ASYNCHRONOUS, ProcessingFunction, &UserHookData);
 	theApp.m_fnWriteLineScanLog(_T("MdigProcess End"));
 	if (sync)
@@ -562,7 +587,27 @@ int CTestCam::GetTriggerMode()
 
 BOOL CTestCam::SetTriggerMode(int nMode)
 {
-	return 0;
+	CString Temp;
+
+	
+	MIL_INT64 TriggerModeStringSize = 0;
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("TriggerSelector"), M_TYPE_STRING, MIL_TEXT("ExposureStart"));
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE + M_STRING_SIZE, MIL_TEXT("TriggerMode"), M_TYPE_MIL_INT, &TriggerModeStringSize);
+	MIL_TEXT_PTR TriggerModePtr = new MIL_TEXT_CHAR[TriggerModeStringSize];
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("TriggerMode"), M_TYPE_STRING, TriggerModePtr);
+	Temp.Format(_T("%s"), TriggerModePtr);
+	theApp.m_pLogWriter->m_fnWriteLog(_T("Current Trigger Mode : %s"), *Temp);
+
+	if (nMode == 0)
+	{
+		MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("TriggerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	}
+	else
+	{
+		MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("TriggerMode"), M_TYPE_STRING, MIL_TEXT("On"));
+	}
+	delete[] TriggerModePtr;
+	return TRUE;
 }
 
 double CTestCam::GetAnalogGain()
@@ -660,31 +705,65 @@ BOOL CTestCam::StartLiveGrab()
 	theApp.m_fnWriteTactLog(_T("Start LiveGrab"));
 
 
-	//SetSequenceMode(eNone);
-	//SetTriggerMode(eFreeRun);
-	//Sleep(10);
+	SetSequenceMode(eNone);
+	SetTriggerMode(eFreeRun);
+	Sleep(10);
 
-	//m_GrabTime.Start();
+	m_GrabTime.Start();
 
-	//// Serial 통신 오류로 인해 Camera Mode 변경되지 않았을 경우 연속 Grab 호출 -> 사용 안함
-	//if (GetTriggerMode() != eFreeRun)
-	//{
-	//	AfxMessageBox(_T("Trigger Mode Error !!"));
-	//	bRet = FALSE;
-	//	// 		m_bTriggerLive = TRUE;
-	//	// 		m_fnSnapAndTrigger();
-	//}
-	//else
-	//{
-	//	m_bFreeRunLive = TRUE;
-	//	MdigGrabContinuous(m_milDigitizer, m_LiveImage);
-	//	bRet = TRUE;
-	//}
+	// Serial 통신 오류로 인해 Camera Mode 변경되지 않았을 경우 연속 Grab 호출 -> 사용 안함
+	if (GetTriggerMode() != eFreeRun)
+	{
+		AfxMessageBox(_T("Trigger Mode Error !!"));
+		//bRet = FALSE;
+		// 		m_bTriggerLive = TRUE;
+		// 		m_fnSnapAndTrigger();
+	}
+	else
+	{
+		m_bFreeRunLive = TRUE;
+		MdigGrabContinuous(m_milDigitizer, m_LiveImage);
+		//bRet = TRUE;
+	}
 
 
 	return TRUE;
 }
+BOOL CTestCam::SetSequenceMode(int nSeqMode)
+{	
+	MIL_INT64 SequencerModeStringSize = 0;
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE + M_STRING_SIZE, MIL_TEXT("SequencerMode"), M_TYPE_MIL_INT, &SequencerModeStringSize);
+	theApp.m_fnWriteLineScanLog(_T("Current Sequencer Prop Size : %d"), SequencerModeStringSize);
 
+	if(nSeqMode == 0)
+		MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	if (nSeqMode == 1)
+		MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("On"));
+	return TRUE;
+}
+BOOL CTestCam::SetSequenceIndex(int nSeqIdx)
+{
+	theApp.m_fnWriteLineScanLog(_T("Start Set Sequence Index"));
+	MIL_INT64 SequencerModeStringSize = 0;
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE + M_STRING_SIZE, MIL_TEXT("SequencerMode"), M_TYPE_MIL_INT, &SequencerModeStringSize);
+	theApp.m_fnWriteLineScanLog(_T("Current Sequencer Prop Size : %d"), SequencerModeStringSize);
+
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("On"));
+
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetSelector"), M_TYPE_STRING, MIL_TEXT("1"));
+
+	MIL_INT64 SequencerSetNext = nSeqIdx;
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
+
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerSetNext"), M_TYPE_INT64, &SequencerSetNext);
+	theApp.m_fnWriteLineScanLog(_T("Current Sequencer Value : %d"), SequencerSetNext);
+
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("On"));
+
+	return TRUE;
+}
 BOOL CTestCam::StopLiveGrab()
 {
 	m_bLiveMode = FALSE;
@@ -719,29 +798,133 @@ void CTestCam::GetGrabImage(byte* byteImgArr)
 {
 }
 
+//void CTestCam::GetGrabImage(int nImgCnt, BOOL bIsLiveImage, byte* byteImgArr, ULONG lOffsetX, ULONG lOffsetY, ULONG lCropSizeX, ULONG lCropSizeY, ULONG lWindowSizeX, ULONG lWindowSizeY)
+//{
+	//Mat matResize;
+	//Rect rect(lOffsetX,lOffsetY,lCropSizeX,lCropSizeY);
+	//Sleep(30);
+	//ResetEvent(g_hGrabEnd);
+	//if(bIsLiveImage)
+	//{
+	//	
+
+	//	//Mat matLive = cv::Mat(GetImageHeight(), GetImageWidth(), CV_8UC3, pRGBBuffer);
+	//	//cv::resize(matLive(rect), matResize, cv::Size(lWindowSizeX, lWindowSizeY), 0, 0, CV_INTER_AREA);
+	//	//
+	//	//GlobalFree(pRGBBuffer);
+	//}	
+	//else
+	//{		
+	//	cv::resize( m_srcImage[nImgCnt](rect), matResize, cv::Size(lWindowSizeX ,lWindowSizeY), 0, 0, CV_INTER_AREA);
+	//}
+	//	
+	//if(matResize.channels() == 1 && matResize.depth() == CV_16U) matResize.convertTo(matResize, CV_8UC1, 1./16.);		
+
+	//memcpy(byteImgArr, matResize.data, matResize.total() * matResize.elemSize());
+//}
+//MIL_ID CTestCam::GetMilGrabBuffer()
+//{
+	//CameraExpose();
+	//WaitGrabEnd();
+	//ResetEvent(g_hExpEnd[0]);
+
+	//if (m_lDigBand == 1)
+	//{
+	//	return m_milGrabBuffer;
+	//}
+	//else if (m_lDigBand == 3)
+	//{
+	//	// YSKIM
+	//	MbufBayer(m_milGrabBuffer, m_ColorImage, m_MilWBCoefficients, M_BAYER_GR);		// YUV to GRBG
+	//	return m_ColorImage;
+	//}
+
+	//return m_milGrabBuffer;
+//}
+MIL_ID CTestCam::GetLiveGrabImage()
+{
+	//MbufCopy(m_LiveImage, m_milLiveGrabBuffer);
+
+	//2019.04.11
+	if (m_lDigBand == 1)
+	{
+		return m_LiveImage;
+	}
+	else if (m_lDigBand == 3)
+	{
+		//MbufBayer(m_milLiveGrabBuffer, m_ColorImage, m_MilWBCoefficients, M_BAYER_GR);		// YUV to GRBG
+		//return m_ColorImage;
+	}
+
+	return m_milLiveGrabBuffer;
+}
 void CTestCam::GetGrabImage(int nImgCnt, BOOL bIsLiveImage, byte* byteImgArr, ULONG lOffsetX, ULONG lOffsetY, ULONG lCropSizeX, ULONG lCropSizeY, ULONG lWindowSizeX, ULONG lWindowSizeY)
 {
-	Mat matResize;
-	Rect rect(lOffsetX,lOffsetY,lCropSizeX,lCropSizeY);
-	Sleep(30);
-	ResetEvent(g_hGrabEnd);
-	if(bIsLiveImage)
+	MIL_ID milGrab, milCrop;
+	Mat matResize, matLive;
+
+	Rect rect(lOffsetX, lOffsetY, lCropSizeX, lCropSizeY);
+	//Sleep(10);
+	if (bIsLiveImage) // LIVE 영상 호출인지 확인
 	{
-		
+		if (m_bTriggerLive || m_bFreeRunLive)
+		{
+			milGrab = GetLiveGrabImage();
+		}
+		else
+		{
+			//milGrab = GetMilGrabBuffer();
+		}
 
-		//Mat matLive = cv::Mat(GetImageHeight(), GetImageWidth(), CV_8UC3, pRGBBuffer);
-		//cv::resize(matLive(rect), matResize, cv::Size(lWindowSizeX, lWindowSizeY), 0, 0, CV_INTER_AREA);
-		//
-		//GlobalFree(pRGBBuffer);
-	}	
-	else
-	{		
-		cv::resize( m_srcImage[nImgCnt](rect), matResize, cv::Size(lWindowSizeX ,lWindowSizeY), 0, 0, CV_INTER_AREA);
+		if (m_lDigBand == 1 && m_lDigBit == 12)
+		{
+			MbufTransfer(milGrab, m_milCropImage,
+				lOffsetX, lOffsetY, lCropSizeX, lCropSizeY, M_ALL_BANDS,
+				0, 0, lWindowSizeX, lWindowSizeY, M_ALL_BANDS,
+				M_COPY + M_SCALE, M_DEFAULT, M_NULL, M_NULL);
+
+			byte* pByteInput = new byte[lWindowSizeX * lWindowSizeY * CV_16U];
+			MbufGet2d(m_milCropImage, 0, 0, lWindowSizeX, lWindowSizeY, pByteInput);
+			matResize = cv::Mat(lWindowSizeX, lWindowSizeY, CV_16UC1, pByteInput);
+			matResize.convertTo(matResize, CV_8UC1, 1. / 16.);
+			memcpy(byteImgArr, matResize.data, matResize.total() * matResize.elemSize());
+			SAFE_DELETE_ARR(pByteInput);
+
+		}
+		else if (m_lDigBand == 3 && m_lDigBit == 8)
+		{
+			// YSKIM
+			int nBufferSize = GetImageWidth() * GetImageHeight() * GetImageBandwidth();
+			byte* Image = new byte[nBufferSize];
+			MbufGetColor(milGrab, M_PACKED + M_BGR24, M_ALL_BANDS, Image);
+			matLive = cv::Mat(GetImageHeight(), GetImageWidth(), CV_8UC3, Image);
+			cv::resize(matLive(rect), matResize, cv::Size(lWindowSizeX, lWindowSizeY), 0, 0, CV_INTER_AREA);
+			memcpy(byteImgArr, matResize.data, matResize.total() * matResize.elemSize());
+			SAFE_DELETE_ARR(Image);
+		}
+		else
+		{
+			MbufTransfer(milGrab, m_milCropImage,
+				lOffsetX, lOffsetY, lCropSizeX, lCropSizeY, M_ALL_BANDS,
+				0, 0, lWindowSizeX, lWindowSizeY, M_ALL_BANDS,
+				M_COPY + M_SCALE, M_DEFAULT, M_NULL, M_NULL);
+
+			MbufGet2d(m_milCropImage, 0, 0, lWindowSizeX, lWindowSizeY, byteImgArr);
+		}
 	}
-		
-	if(matResize.channels() == 1 && matResize.depth() == CV_16U) matResize.convertTo(matResize, CV_8UC1, 1./16.);		
+	// 2017.01.09 add by ikm GUI Image Load 용 - S
+	else // GUI 이미지 호출
+	{
+		//Rect rect(lOffsetX,lOffsetY,lCropSizeX,lCropSizeY);	
+		cv::resize(m_srcImage[nImgCnt](rect), matResize, cv::Size(lWindowSizeX, lWindowSizeY), 0, 0, CV_INTER_AREA);
 
-	memcpy(byteImgArr, matResize.data, matResize.total() * matResize.elemSize());
+		int nChCnt = matResize.channels();  int imgDepth = matResize.depth();
+		if (nChCnt == 1 && imgDepth == CV_16U) matResize.convertTo(matResize, CV_8UC1, 1. / 16.);
+		memcpy(byteImgArr, matResize.data, matResize.total() * matResize.elemSize());
+	}
+	// 	int nChCnt = matResize.channels();  int imgDepth = matResize.depth();
+	// 	if(nChCnt == 1 && imgDepth == CV_16U) matResize.convertTo(matResize, CV_8UC1, 1./16.);		
+
 }
 
 double CTestCam::GetMeanValue(cv::Mat &matBuf, CRect rect)

@@ -17,8 +17,8 @@
 
 #define VS_SEQUENCE_TASK_INI_FILE			theApp.m_Config.GETDRV() + _T(":\\CRUX\\Data\\INI\\CRUX_Sequence.ini")
 #define PATH_INIT_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\Initialize.ini")
-#define PATH_GUI_INIT_FILE					theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\CRUX_GUI_Renewal.ini")
-#define PATH_DalsaLineCamera_FILE			theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\DalsaLineCamera1.ini")
+#define PATH_GUI_INIT_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\CRUX_GUI_Renewal.ini")
+#define PATH_DalsaLineCamera_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\DalsaLineCamera1.ini")
 #define PATH_DEVICE_FILE					theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\Device.cfg")
 #define PATH_MODEL_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\MODEL\\")
 #define PATH_PG_INIT_FILE					theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\PGController.ini")

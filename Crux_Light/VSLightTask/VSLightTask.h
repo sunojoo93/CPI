@@ -89,6 +89,7 @@ public:
 	LightInterface*	m_pLight;				// 카메라
 	VSMessageProcessor*	m_pInternalServer;		// IPC Driver
  	CLogWriter*			m_pLogWriter;								// 로그관리자 객체
+	UINT32				OccuredAlaramCode = 0;
 // 
 // 	// Function
  	void				m_fnWriteLog(const TCHAR* pszLog, ...);		// 로그 기록 함수

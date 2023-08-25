@@ -31,7 +31,6 @@
             this.Tlp_ROI = new System.Windows.Forms.TableLayoutPanel();
             this.Tlp_Title = new System.Windows.Forms.TableLayoutPanel();
             this.Lb_ROIManage = new System.Windows.Forms.Label();
-            this.Btn_Apply = new System.Windows.Forms.Button();
             this.Btn_Close = new System.Windows.Forms.Button();
             this.Dgv_LightSequencer = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Tlp_ROI.SuspendLayout();
@@ -65,7 +64,6 @@
             this.Tlp_Title.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_Title.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_Title.Controls.Add(this.Lb_ROIManage, 0, 0);
-            this.Tlp_Title.Controls.Add(this.Btn_Apply, 1, 0);
             this.Tlp_Title.Controls.Add(this.Btn_Close, 2, 0);
             this.Tlp_Title.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Title.Location = new System.Drawing.Point(0, 0);
@@ -80,28 +78,16 @@
             // 
             this.Lb_ROIManage.AutoSize = true;
             this.Lb_ROIManage.BackColor = System.Drawing.Color.Silver;
+            this.Tlp_Title.SetColumnSpan(this.Lb_ROIManage, 2);
             this.Lb_ROIManage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_ROIManage.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_ROIManage.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_ROIManage.Location = new System.Drawing.Point(0, 0);
             this.Lb_ROIManage.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_ROIManage.Name = "Lb_ROIManage";
-            this.Lb_ROIManage.Size = new System.Drawing.Size(169, 26);
+            this.Lb_ROIManage.Size = new System.Drawing.Size(269, 26);
             this.Lb_ROIManage.TabIndex = 0;
             this.Lb_ROIManage.Text = "조명 Seq. 설정";
             this.Lb_ROIManage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // Btn_Apply
-            // 
-            this.Btn_Apply.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Apply.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Apply.Location = new System.Drawing.Point(169, 0);
-            this.Btn_Apply.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_Apply.Name = "Btn_Apply";
-            this.Btn_Apply.Size = new System.Drawing.Size(100, 26);
-            this.Btn_Apply.TabIndex = 1;
-            this.Btn_Apply.Text = "Apply";
-            this.Btn_Apply.UseVisualStyleBackColor = true;
-            this.Btn_Apply.Click += new System.EventHandler(this.Btn_Apply_Click);
             // 
             // Btn_Close
             // 
@@ -128,8 +114,10 @@
             this.Dgv_LightSequencer.Name = "Dgv_LightSequencer";
             this.Dgv_LightSequencer.RowHeadersVisible = false;
             this.Dgv_LightSequencer.RowTemplate.Height = 23;
+            this.Dgv_LightSequencer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.Dgv_LightSequencer.Size = new System.Drawing.Size(363, 163);
             this.Dgv_LightSequencer.TabIndex = 135;
+            this.Dgv_LightSequencer.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_LightSequencer_CellValueChanged);
             // 
             // Ex_Frm_Light_Sequencer
             // 
@@ -155,7 +143,6 @@
         private System.Windows.Forms.TableLayoutPanel Tlp_ROI;
         private System.Windows.Forms.TableLayoutPanel Tlp_Title;
         private System.Windows.Forms.Label Lb_ROIManage;
-        private System.Windows.Forms.Button Btn_Apply;
         private System.Windows.Forms.Button Btn_Close;
         private User_Controls.DoubleBufferdDataGridView Dgv_LightSequencer;
     }

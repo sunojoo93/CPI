@@ -77,7 +77,8 @@ public:
 	BOOL			SetAnalogGain(double dGainValue);
 	BOOL			SetTriggerMode(int nMode);
 	void			SetImgaeBandWidth(int nBandWidth);
-	BOOL			SetSequenceMode(int nSeqMode)							{	return TRUE		;};
+	BOOL			SetSequenceMode(int nSeqMode);
+		BOOL			SetSequenceIndex(int nSeqIdx);
 
 	BOOL			SetDataBit(int nDataBit)								{	return TRUE		;};
 
@@ -114,11 +115,15 @@ public:
 	int				GetImageBandwidth() { return	m_lDigBand; }
 
 	CString			GetCameraName();
+	CString			GetBoardName();
 	CString			GetCameraType();
 	int				GetCameraWidth();
 	int				GetCameraHeight();
 	int				GetCameraDepth();
-	unsigned int			GetCameraTemperature();
+	double			GetCameraTemperature();
+
+	//MIL_ID			GetMilGrabBuffer();
+	MIL_ID			GetLiveGrabImage();
 
 	//void			SetDisplayImage(MIL_ID milImage, HWND hDispWnd = NULL);
 	//void			ChangeDisplayMap(HWND hDispWnd, MIL_ID milImage = M_NULL);
@@ -203,6 +208,11 @@ public:
 	void AllocClearBuffer(int nBufCnt, bool onlyClear = false);
 	void m_fnMbufExport(CString strFilePath, MIL_ID milBuffer);
 	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr);
+	MIL_ID			m_LiveImage;
+	MIL_ID			m_milLiveGrabBuffer;
+	MIL_ID			m_milCropImage;
+
+	bool m_bTriggerLive;
 #pragma endregion
 
 private:

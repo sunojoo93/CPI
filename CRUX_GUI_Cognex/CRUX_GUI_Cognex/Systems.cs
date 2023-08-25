@@ -39,7 +39,7 @@ namespace CRUX_GUI_Cognex
         //public static IniFile[] ROI_Property;        
         public static List<string> AvaliableCamNameList = new List<string>();
         public static List<string> AvaliableLightNameList = new List<string>();
-
+        public static object LockObj1 = new object();
 
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;
@@ -71,19 +71,19 @@ namespace CRUX_GUI_Cognex
                     //Systems.LogWriter.
                     break;                    
                 case Enums.LogLevel.OPERATION:
-                    Systems.LogWriter?.Debug(FullLog);
+                    Systems.LogWriter?.Fatal(FullLog);
                     break;
                 case Enums.LogLevel.ERROR:
                     Systems.LogWriter?.Error(FullLog);
                     break;
-                case Enums.LogLevel.FATAL:
-                    Systems.LogWriter?.Fatal(FullLog);
+                case Enums.LogLevel.WARNNING:
+                    Systems.LogWriter?.Warn(FullLog);
                     break;
                 case Enums.LogLevel.INFO:
                     Systems.LogWriter?.Info(FullLog);
                     break;
-                case Enums.LogLevel.WARNNING:
-                    Systems.LogWriter?.Warn(FullLog);
+                case Enums.LogLevel.DEBUG:
+                    Systems.LogWriter?.Debug(FullLog);
                     break;
                 default:
                     break;

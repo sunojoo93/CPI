@@ -210,6 +210,8 @@ private:
 	int	Seq_PGChangePatternCmd_FromInspPc	(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// AMT 설비 PG 제어 Command 추가 180801 YSS
 	int	Seq_PGOffCmd_FromInspPc				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// AMT 설비 PG 제어 Command 추가 180801 YSS
 	int	Seq_PGOnCmd_FromInspPc				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// AMT 설비 PG 제어 Command 추가 180822 YSS
+	int	Seq_GrabSeqReset					(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	int	Seq_GrabSeqReset_FromInspPc			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 
 	int	Seq_StartSimulation					(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	/************************************************************************/

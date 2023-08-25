@@ -765,6 +765,12 @@ UINT CIPulsLight::ThreadCheckLight(LPVOID lParam)
 	return 0;
 }
 
+UINT32 CIPulsLight::GetAlarmCode()
+{
+	return 0;
+	//theApp.m_pInternalServer->m_fnCmdEditSend()	
+}
+
 BYTE CIPulsLight::CheckProtocol(BYTE *pBuff, WORD nByte)
 {
 	WORD					nCRC;

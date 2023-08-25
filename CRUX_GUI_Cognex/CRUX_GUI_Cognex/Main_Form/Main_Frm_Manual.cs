@@ -41,10 +41,12 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             CurrentFormName = name;
             CurFormIndex = index;
+            Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, "[ GUI ] SetFormName Done", true, false);
         }
         public void SetRecipe(ref Recipes recipe)
         {
             Shared_Recipe = recipe;
+            Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, "[ GUI ] Manual_SetRecipe Done", true, false);
         }
         public Main_Frm_Manual ()
         {
@@ -73,13 +75,13 @@ namespace CRUX_GUI_Cognex.Main_Form
 
             CogRecordPad.AutoFit = true;
             CogRecordRight.AutoFit = true;
-            CogRecordBottom.AutoFit = true;
             CogRecordTop.AutoFit = true;
+            CogRecordBottom.AutoFit = true;
 
             CogRecordPad.AutoFitWithGraphics = true;
             CogRecordRight.AutoFitWithGraphics = true;
-            CogRecordTop.AutoFitWithGraphics = true;
             CogRecordBottom.AutoFitWithGraphics = true;
+            CogRecordTop.AutoFitWithGraphics = true;
 
             mRect2 = new CogRectangle();
             mRect2.Dragging += new CogDraggingEventHandler(MRect2_Dragging);
@@ -94,6 +96,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             Program.UI_LogPrint_Manual.Add(Uctrl_LogWrite_Manual);
             InitResultDataGridView();
             InitDefectDataGridView();
+            Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Create Done", true, false);
         }
 
         public void InitResultDataGridView()
@@ -185,8 +188,6 @@ namespace CRUX_GUI_Cognex.Main_Form
         private void MRect2_DraggingStopped(object sender, CogDraggingEventArgs e)
         {
             MRect2_Dragging(sender, e);
-
-            int a = 0;
         }
         public void UpdateResult(ClassEndData data)
         {
@@ -199,7 +200,7 @@ namespace CRUX_GUI_Cognex.Main_Form
 
                Dr["Date"] = data.Date;
                Dr["ID"] = data.CellID;
-               Dr["Result"] = data.Result;
+               Dr["Result"] = data.InspResult;
                Dr["Tact"] = data.TactTime;
 
                Dt.Rows.Add(Dr);
@@ -211,6 +212,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                    Dgv_Result.FirstDisplayedScrollingRowIndex = Dgv_Result.SelectedRows[0].Index;
                }
                Dgv_Result.Refresh();
+               Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Update Result Done", true, false);
            }));
         }
         private void MRect2_Dragging(object sender, CogDraggingEventArgs e)
@@ -322,7 +324,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             CogImage8Grey image8Grey = CogImageConvert.GetIntensityImage(img[0], 0, 0, img[0].Width, img[0].Height);
 
             img.Close();
-
+            Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_LoadImage ", true, false);
             return image8Grey;
         }       
         private void cogDisplay1_KeyDown(object sender, KeyEventArgs e)
@@ -463,6 +465,10 @@ namespace CRUX_GUI_Cognex.Main_Form
                             Data.OriginImage = Cognex_Helper.Load_Image(ImagePath);
                             Data.PatternName = PatternName;
                             Data.Area = AreaName;
+
+                            ManualInspData.Stage = Globals.PcName.ToString();
+                            ManualInspData.RecipeName = Systems.CurrentApplyRecipeName[Globals.CurrentPCno].GetString();
+                            ManualInspData.Active = Globals.PcName[Globals.CurrentPCno].ToString().Contains("L") ? "Backside" : "Upside";
                             ManualInspData.PatternName = ManualInspData.PatternName ?? PatternName;
                             ManualInspData.Area = AreaName;
                             ManualInspData.Datas.Add(Data);
@@ -487,9 +493,10 @@ namespace CRUX_GUI_Cognex.Main_Form
                 //Tb_CellID.Text = DateTime.Now.ToString("yyyy-MM-ddhh:mm:ss.fff");
                 Utility.LoadingStop();
                 CogRecordPad.Record = null;
-                CogRecordTop.Record = null;
                 CogRecordBottom.Record = null;
+                CogRecordTop.Record = null;
                 CogRecordRight.Record = null;
+                Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_ImageLoad Done", true, false);
             }
             catch(Exception ex)
             {
@@ -511,7 +518,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
             }
         }
 
@@ -525,7 +532,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch(Exception ex)
             {
-
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
             }
         }
         private void SetManualImageSeq(bool dir)
@@ -568,22 +575,34 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             CogRecordPad.Invoke(new MethodInvoker(delegate ()
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Pad Start", true, true);
-                CogRecordPad.Record = null; ;
-                CogRecordPad.Record = record;
-                CogRecordPad.Refresh();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Pad Start", true, true);
+                try
+                {
+                    CogRecordPad.Record = null; ;
+                    CogRecordPad.Record = record;
+                    CogRecordPad.Refresh();
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Pad Done", true, true);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
         public void SetRecordRight(CogRecord record)
         {
             CogRecordRight.Invoke(new MethodInvoker(delegate ()
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Right Start", true, true);
-                CogRecordRight.Record = null;
-                CogRecordRight.Record = record;
-                CogRecordRight.Refresh();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Right Done", true, true);
+                try
+                {
+                    CogRecordRight.Record = null;
+                    CogRecordRight.Record = record;
+                    CogRecordRight.Refresh();
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Right Done", true, true);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
 
@@ -591,11 +610,17 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             CogRecordBottom.Invoke(new MethodInvoker(delegate ()
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Bottom Start", true, true);
-                CogRecordBottom.Record = null;
-                CogRecordBottom.Record = record;
-                CogRecordBottom.Refresh();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Bottom Done", true, true);
+                try
+                {
+                    CogRecordBottom.Record = null;
+                    CogRecordBottom.Record = record;
+                    CogRecordBottom.Refresh();
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Bottom Done", true, true);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
 
@@ -603,12 +628,17 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             CogRecordTop.Invoke(new MethodInvoker(delegate ()
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord TOP Start", true, true);
-                //Systems.LogWriter.Info("SetReordTop Start");
-                CogRecordTop.Record = null;
-                CogRecordTop.Record = record;
-                CogRecordTop.Refresh();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord TOP Done", true, true);
+                try
+                {
+                    CogRecordTop.Record = null;
+                    CogRecordTop.Record = record;
+                    CogRecordTop.Refresh();
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord TOP Done", true, true);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
 
@@ -623,10 +653,10 @@ namespace CRUX_GUI_Cognex.Main_Form
             {
                 Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, true);
                 CogRecordPad.Record = null;
-                CogRecordTop.Record = null;
                 CogRecordBottom.Record = null;
+                CogRecordTop.Record = null;
                 CogRecordRight.Record = null;;
-                string CurDate = $"#_" + DateTime.Now.ToString("hh:mm:ss.fff");
+                string CurDate = $"#_" + DateTime.Now.ToString("yyMMddHHmmssfff");
 
                 string AutoCellID = (Tb_CellID.Text == "" ? CurDate : Tb_CellID.Text);
 
@@ -644,13 +674,21 @@ namespace CRUX_GUI_Cognex.Main_Form
 
                 foreach (InspData item in ManualInspImageData)
                 {
-                    Systems.Inspector_.Start_Insp(item);
-                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, $"[ GUI ] Manual Inspect Start, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex]}, Area : {item.Area}", true, true);
+                    int Rtn = Systems.Inspector_.Start_Insp(item);
+                    if (Rtn == -1 || Rtn == -3 || Rtn == -2 || Rtn == -4 || Rtn == -5)
+                    {
+                        Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Inspect Start Error, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex].ToString()}, Area : {item.Area}", true, true);
+                        break;
+                    }
+                    else
+                    {
+                        Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Inspect Start, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex].ToString()}, Area : {item.Area}", true, true);
+                    }                    
                 }
-
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }

@@ -860,7 +860,7 @@ namespace CRUX_GUI_Cognex.User_Controls
                 Param.ClearOffset();
                 Param.SetUInteger(Consts.TRUE);
                 nRet = Systems.g_Ipc.SendCommand((ushort)((m_fnGetVisionNo() + 1) * 100 + IpcConst.CAMERA_TASK + m_nCamIndex), IpcConst.CAMERA_FUNC, IpcConst.LIVE_START_END,
-                                                    IpcInterface.CMD_TYPE_RES, 100, Param.GetByteSize(), Param.GetParam());
+                                                    IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
                 if (nRet == Consts.APP_NG) return false;
                 Param.SetOffset(0);
 
@@ -1150,6 +1150,7 @@ namespace CRUX_GUI_Cognex.User_Controls
 
                             if (m_imgRect.X >= 0 && m_imgRect.Y >= -100)
                             {
+                                #region Devide Mode
                                 if (m_bDivisionModeFlg)
                                 {
                                     nWidth = nWidth / 2 / 4 * 4;
@@ -1175,9 +1176,11 @@ namespace CRUX_GUI_Cognex.User_Controls
                                         m_DivLoad.m_imgDivLoaded[i] = m_fnLiveImageGrab(m_nDivStartX, m_nDivStartY, m_nDivEndX, m_nDivEndY, nWidth, nHeight);
                                     }
                                 }
+                                #endregion
                                 else
                                 {
                                     m_imgLoaded = m_fnLiveImageGrab(m_imgRect.X, m_imgRect.Y, m_imgRect.Width, m_imgRect.Height, nWidth, nHeight);
+                                    //m_imgLoaded.Save($@"D:\AA.bmp");
                                 }
 
 

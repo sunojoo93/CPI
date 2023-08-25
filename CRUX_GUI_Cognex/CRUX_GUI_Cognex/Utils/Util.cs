@@ -4,6 +4,10 @@ using CRUX_GUI_Cognex;
 using CRUX_GUI_Cognex.Class;
 using CRUX_GUI_Cognex.Ex_Form;
 using CRUX_GUI_Cognex.Utils;
+using log4net;
+using log4net.Appender;
+using log4net.Layout;
+using log4net.Repository.Hierarchy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -274,19 +278,17 @@ namespace CRUX_GUI_Cognex
                                     case "ImageMergeOffset.ini":
                                         IniFile OffsetFile = new IniFile();
                                         OffsetFile.Load($@"{FullPath}\ImageMergeOffset.ini");
-                                        //Dictionary<string, IniFile> Data = new Dictionary<string, IniFile>();
-
                                         Systems.RecipeData_Collection[pc_num].Add("ImageMergeOffset.ini", OffsetFile);
-                                        //int aa = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
                                         break;
                                     case "GuideLine.ini":
                                         IniFile GuideLineData = new IniFile();
                                         GuideLineData.Load($@"{FullPath}\GuideLine.ini");
-                                        //Dictionary<string, IniFile> GuideLine = new Dictionary<string, IniFile>();
-
-                                        Systems.RecipeData_Collection[pc_num].Add("GuideLine.ini", GuideLineData);
-
-                                        //int aa = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
+                                        Systems.RecipeData_Collection[pc_num].Add("GuideLine.ini", GuideLineData);  
+                                        break;
+                                    case "GrabData.ini":
+                                        IniFile GrabData = new IniFile();
+                                        GrabData.Load($@"{FullPath}\GrabData.ini");
+                                        Systems.RecipeData_Collection[pc_num].Add("GrabData.ini", GrabData);
                                         break;
                                 }
                             }
@@ -840,5 +842,4 @@ namespace CRUX_GUI_Cognex
     {
 
     }
-
 }

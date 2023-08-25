@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.QuickBuild;
 using CRUX_GUI_Cognex.User_Controls;
 using CRUX_GUI_Cognex.Utils;
@@ -29,9 +30,12 @@ namespace CRUX_GUI_Cognex.Class
     class InspData
     {
         public List<ImageData> Datas = new List<ImageData>();
+        public string RecipeName { get; set; } = null;
         public string Area { get; set; } = null;
+        public string Stage { get; set; } = null;
+        public string Active { get; set; } = null;
         public string VirID { get; set; } = null;
-        public string Face { get; set; } = null;
+
         public string CellID { get; set; } = null;
         public string AreaInspStartTime { get; set; } = null;
         public string AreaInspEndTime { get; set; } = null;
@@ -1116,17 +1120,28 @@ namespace CRUX_GUI_Cognex.Class
 
     public class ClassEndData
     {
+        public string RecipeName { get; set; } = string.Empty;
+        public string Active { get; set; } = string.Empty;
+        public string Stage { get; set; } = string.Empty;
         public string CellID { get; set; } = string.Empty;
+        public string VirID { get; set; } = string.Empty;
         public string Date { get; set; } = string.Empty;
         public string StartTime { get; set; } = string.Empty;
-        public string EndTime { get; set; } = string.Empty;
         public string TactTime { get; set; } = string.Empty;
-        public string Result { get; set; } = string.Empty;
+        public string GrabTime { get; set; } = string.Empty;
+        public string ClassTime { get; set; } = string.Empty;
+        public string InspResult { get; set; } = string.Empty;
+        public string ResultClass { get; set; } = string.Empty;
+        public string MajorDefectName { get; set; } = string.Empty;
+        public string DefectCode { get; set; } = string.Empty;
+        public string EndTime { get; set; } = string.Empty;
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_CAM_INFOMATION
     {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] BoardName;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Name;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
@@ -1134,10 +1149,11 @@ namespace CRUX_GUI_Cognex.Class
         public int Width;
         public int Height;
         public int Depth;
-        public uint Temp;
+        public double Temp;
         public ST_CAM_INFOMATION(int num)
         {
-            Name = new byte[200];
+            BoardName = new byte[100];
+            Name = new byte[100];
             Type = new byte[100];
             Width = 0;
             Height = 0;
@@ -1220,6 +1236,55 @@ namespace CRUX_GUI_Cognex.Class
         {
             SequencerMode = false;
             EmitMode = 0;
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Algorithm_InspResult_Collection
+    {
+        public Dictionary<string, CogRecord> AlgoResult = new Dictionary<string, CogRecord>();
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class ROI_InspResult_Collection
+    {
+        public Dictionary<string, Algorithm_InspResult_Collection> Roi_Result = new Dictionary<string, Algorithm_InspResult_Collection>();
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Pattern_InspResult_Collection
+    {
+        public Dictionary<string, ROI_InspResult_Collection> Pattern_Result = new Dictionary<string, ROI_InspResult_Collection>();
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Area_InspResult_Collection
+    {
+        public Dictionary<string, Pattern_InspResult_Collection> Area_Result = new Dictionary<string, Pattern_InspResult_Collection>();
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Panel_InspResult_Collection
+    {
+        public Dictionary<string, Area_InspResult_Collection> Insp_Result = new Dictionary<string, Area_InspResult_Collection>();
+    }
+
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct PARAM_INSPECTOR_RESET
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] VirID;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] CellID;
+        public int Result;
+        public int PCNum;
+        public PARAM_INSPECTOR_RESET(int n)
+        {
+            VirID = new byte[100];
+            CellID = new byte[100];
+            Result = 0;
+            PCNum = -1;
         }
     }
 }

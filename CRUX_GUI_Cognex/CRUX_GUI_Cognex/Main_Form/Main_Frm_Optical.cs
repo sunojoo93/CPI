@@ -32,6 +32,14 @@ namespace CRUX_GUI_Cognex.Main_Form
             CurrentFormName = name;
             CurFormIndex = index;
         }
+
+        public void FrmUpdate()
+        {
+            foreach(Ex_Frm_Optic_Area_Content item in AreaCamForm)
+            {
+                item.AllDgvUpdate();
+            }
+        }
         private void Initialize()
         {
             foreach(string item in Systems.AvaliableCamNameList)

@@ -32,6 +32,7 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Frm_Auto_For_CHIPPING));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Tmr_SystemInfo = new System.Windows.Forms.Timer(this.components);
             this.Tlp_Auto = new System.Windows.Forms.TableLayoutPanel();
             this.Tlp_Records = new System.Windows.Forms.TableLayoutPanel();
@@ -41,11 +42,11 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogDisplayToolBar_Bottom = new Cognex.VisionPro.CogDisplayToolbarV2();
             this.CogDisplayToolBar_Top = new Cognex.VisionPro.CogDisplayToolbarV2();
             this.CogDisplayToolBar_Right = new Cognex.VisionPro.CogDisplayToolbarV2();
-            this.CogRecordTop = new Cognex.VisionPro.CogRecordDisplay();
             this.CogRecordBottom = new Cognex.VisionPro.CogRecordDisplay();
+            this.CogRecordTop = new Cognex.VisionPro.CogRecordDisplay();
             this.CogRecordRight = new Cognex.VisionPro.CogRecordDisplay();
-            this.Lb_Top = new System.Windows.Forms.Label();
             this.Lb_Bottom = new System.Windows.Forms.Label();
+            this.Lb_Top = new System.Windows.Forms.Label();
             this.Lb_Right = new System.Windows.Forms.Label();
             this.Lb_Pad = new System.Windows.Forms.Label();
             this.CogRecordPad = new Cognex.VisionPro.CogRecordDisplay();
@@ -70,8 +71,8 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tmr_HardDiskInfo = new System.Windows.Forms.Timer(this.components);
             this.Tlp_Auto.SuspendLayout();
             this.Tlp_Records.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CogRecordTop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordBottom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CogRecordTop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordPad)).BeginInit();
             this.CAGB_SystemInfo.SuspendLayout();
@@ -109,7 +110,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Auto.Size = new System.Drawing.Size(0, 0);
+            this.Tlp_Auto.Size = new System.Drawing.Size(1537, 813);
             this.Tlp_Auto.TabIndex = 0;
             // 
             // Tlp_Records
@@ -125,18 +126,18 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Records.Controls.Add(this.CogDisplayToolBar_Bottom, 3, 1);
             this.Tlp_Records.Controls.Add(this.CogDisplayToolBar_Top, 2, 1);
             this.Tlp_Records.Controls.Add(this.CogDisplayToolBar_Right, 1, 1);
-            this.Tlp_Records.Controls.Add(this.CogRecordTop, 3, 2);
-            this.Tlp_Records.Controls.Add(this.CogRecordBottom, 2, 2);
+            this.Tlp_Records.Controls.Add(this.CogRecordBottom, 3, 2);
+            this.Tlp_Records.Controls.Add(this.CogRecordTop, 2, 2);
             this.Tlp_Records.Controls.Add(this.CogRecordRight, 1, 2);
-            this.Tlp_Records.Controls.Add(this.Lb_Top, 3, 0);
-            this.Tlp_Records.Controls.Add(this.Lb_Bottom, 2, 0);
+            this.Tlp_Records.Controls.Add(this.Lb_Bottom, 3, 0);
+            this.Tlp_Records.Controls.Add(this.Lb_Top, 2, 0);
             this.Tlp_Records.Controls.Add(this.Lb_Right, 1, 0);
             this.Tlp_Records.Controls.Add(this.Lb_Pad, 0, 0);
             this.Tlp_Records.Controls.Add(this.CogRecordPad, 0, 2);
             this.Tlp_Records.Controls.Add(this.CogDisplayToolBar_Pad, 0, 1);
             this.Tlp_Records.Controls.Add(this.CogDisplayStatusBar_Pad, 0, 3);
             this.Tlp_Records.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Records.Location = new System.Drawing.Point(-549, 0);
+            this.Tlp_Records.Location = new System.Drawing.Point(218, 0);
             this.Tlp_Records.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_Records.Name = "Tlp_Records";
             this.Tlp_Records.RowCount = 4;
@@ -145,7 +146,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Records.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.92929F));
             this.Tlp_Records.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.Tlp_Records.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Records.Size = new System.Drawing.Size(1100, 1);
+            this.Tlp_Records.Size = new System.Drawing.Size(1100, 626);
             this.Tlp_Records.TabIndex = 0;
             this.Tlp_Records.Paint += new System.Windows.Forms.PaintEventHandler(this.Tlp_Records_Paint);
             // 
@@ -156,7 +157,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogDisplayStatusBar_Bottom.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CogDisplayStatusBar_Bottom.CoordinateSpaceName = "*\\#";
             this.CogDisplayStatusBar_Bottom.CoordinateSpaceName3D = "*\\#";
-            this.CogDisplayStatusBar_Bottom.Location = new System.Drawing.Point(825, -22);
+            this.CogDisplayStatusBar_Bottom.Location = new System.Drawing.Point(825, 602);
             this.CogDisplayStatusBar_Bottom.Margin = new System.Windows.Forms.Padding(0);
             this.CogDisplayStatusBar_Bottom.Name = "CogDisplayStatusBar_Bottom";
             this.CogDisplayStatusBar_Bottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -173,7 +174,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogDisplayStatusBar_Top.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CogDisplayStatusBar_Top.CoordinateSpaceName = "*\\#";
             this.CogDisplayStatusBar_Top.CoordinateSpaceName3D = "*\\#";
-            this.CogDisplayStatusBar_Top.Location = new System.Drawing.Point(550, -22);
+            this.CogDisplayStatusBar_Top.Location = new System.Drawing.Point(550, 602);
             this.CogDisplayStatusBar_Top.Margin = new System.Windows.Forms.Padding(0);
             this.CogDisplayStatusBar_Top.Name = "CogDisplayStatusBar_Top";
             this.CogDisplayStatusBar_Top.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -190,7 +191,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogDisplayStatusBar_Right.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CogDisplayStatusBar_Right.CoordinateSpaceName = "*\\#";
             this.CogDisplayStatusBar_Right.CoordinateSpaceName3D = "*\\#";
-            this.CogDisplayStatusBar_Right.Location = new System.Drawing.Point(275, -22);
+            this.CogDisplayStatusBar_Right.Location = new System.Drawing.Point(275, 602);
             this.CogDisplayStatusBar_Right.Margin = new System.Windows.Forms.Padding(0);
             this.CogDisplayStatusBar_Right.Name = "CogDisplayStatusBar_Right";
             this.CogDisplayStatusBar_Right.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -202,7 +203,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             // CogDisplayToolBar_Bottom
             // 
             this.CogDisplayToolBar_Bottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CogDisplayToolBar_Bottom.Location = new System.Drawing.Point(825, -3);
+            this.CogDisplayToolBar_Bottom.Location = new System.Drawing.Point(825, 40);
             this.CogDisplayToolBar_Bottom.Margin = new System.Windows.Forms.Padding(0);
             this.CogDisplayToolBar_Bottom.Name = "CogDisplayToolBar_Bottom";
             this.CogDisplayToolBar_Bottom.Size = new System.Drawing.Size(275, 25);
@@ -211,7 +212,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             // CogDisplayToolBar_Top
             // 
             this.CogDisplayToolBar_Top.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CogDisplayToolBar_Top.Location = new System.Drawing.Point(550, -3);
+            this.CogDisplayToolBar_Top.Location = new System.Drawing.Point(550, 40);
             this.CogDisplayToolBar_Top.Margin = new System.Windows.Forms.Padding(0);
             this.CogDisplayToolBar_Top.Name = "CogDisplayToolBar_Top";
             this.CogDisplayToolBar_Top.Size = new System.Drawing.Size(275, 25);
@@ -220,30 +221,11 @@ namespace CRUX_GUI_Cognex.Main_Form
             // CogDisplayToolBar_Right
             // 
             this.CogDisplayToolBar_Right.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CogDisplayToolBar_Right.Location = new System.Drawing.Point(275, -3);
+            this.CogDisplayToolBar_Right.Location = new System.Drawing.Point(275, 40);
             this.CogDisplayToolBar_Right.Margin = new System.Windows.Forms.Padding(0);
             this.CogDisplayToolBar_Right.Name = "CogDisplayToolBar_Right";
             this.CogDisplayToolBar_Right.Size = new System.Drawing.Size(275, 25);
             this.CogDisplayToolBar_Right.TabIndex = 13;
-            // 
-            // CogRecordTop
-            // 
-            this.CogRecordTop.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.CogRecordTop.ColorMapLowerRoiLimit = 0D;
-            this.CogRecordTop.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.CogRecordTop.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.CogRecordTop.ColorMapUpperRoiLimit = 1D;
-            this.CogRecordTop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CogRecordTop.DoubleTapZoomCycleLength = 2;
-            this.CogRecordTop.DoubleTapZoomSensitivity = 2.5D;
-            this.CogRecordTop.Location = new System.Drawing.Point(825, 22);
-            this.CogRecordTop.Margin = new System.Windows.Forms.Padding(0);
-            this.CogRecordTop.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.CogRecordTop.MouseWheelSensitivity = 1D;
-            this.CogRecordTop.Name = "CogRecordTop";
-            this.CogRecordTop.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("CogRecordTop.OcxState")));
-            this.CogRecordTop.Size = new System.Drawing.Size(275, 1);
-            this.CogRecordTop.TabIndex = 7;
             // 
             // CogRecordBottom
             // 
@@ -255,14 +237,33 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogRecordBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CogRecordBottom.DoubleTapZoomCycleLength = 2;
             this.CogRecordBottom.DoubleTapZoomSensitivity = 2.5D;
-            this.CogRecordBottom.Location = new System.Drawing.Point(550, 22);
+            this.CogRecordBottom.Location = new System.Drawing.Point(825, 65);
             this.CogRecordBottom.Margin = new System.Windows.Forms.Padding(0);
             this.CogRecordBottom.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.CogRecordBottom.MouseWheelSensitivity = 1D;
             this.CogRecordBottom.Name = "CogRecordBottom";
             this.CogRecordBottom.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("CogRecordBottom.OcxState")));
-            this.CogRecordBottom.Size = new System.Drawing.Size(275, 1);
+            this.CogRecordBottom.Size = new System.Drawing.Size(275, 535);
             this.CogRecordBottom.TabIndex = 6;
+            // 
+            // CogRecordTop
+            // 
+            this.CogRecordTop.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.CogRecordTop.ColorMapLowerRoiLimit = 0D;
+            this.CogRecordTop.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.CogRecordTop.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.CogRecordTop.ColorMapUpperRoiLimit = 1D;
+            this.CogRecordTop.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CogRecordTop.DoubleTapZoomCycleLength = 2;
+            this.CogRecordTop.DoubleTapZoomSensitivity = 2.5D;
+            this.CogRecordTop.Location = new System.Drawing.Point(550, 65);
+            this.CogRecordTop.Margin = new System.Windows.Forms.Padding(0);
+            this.CogRecordTop.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.CogRecordTop.MouseWheelSensitivity = 1D;
+            this.CogRecordTop.Name = "CogRecordTop";
+            this.CogRecordTop.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("CogRecordTop.OcxState")));
+            this.CogRecordTop.Size = new System.Drawing.Size(275, 535);
+            this.CogRecordTop.TabIndex = 7;
             // 
             // CogRecordRight
             // 
@@ -274,29 +275,14 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogRecordRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CogRecordRight.DoubleTapZoomCycleLength = 2;
             this.CogRecordRight.DoubleTapZoomSensitivity = 2.5D;
-            this.CogRecordRight.Location = new System.Drawing.Point(275, 22);
+            this.CogRecordRight.Location = new System.Drawing.Point(275, 65);
             this.CogRecordRight.Margin = new System.Windows.Forms.Padding(0);
             this.CogRecordRight.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.CogRecordRight.MouseWheelSensitivity = 1D;
             this.CogRecordRight.Name = "CogRecordRight";
             this.CogRecordRight.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("CogRecordRight.OcxState")));
-            this.CogRecordRight.Size = new System.Drawing.Size(275, 1);
+            this.CogRecordRight.Size = new System.Drawing.Size(275, 535);
             this.CogRecordRight.TabIndex = 5;
-            // 
-            // Lb_Top
-            // 
-            this.Lb_Top.AutoSize = true;
-            this.Lb_Top.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.Lb_Top.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_Top.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Top.Location = new System.Drawing.Point(825, 0);
-            this.Lb_Top.Margin = new System.Windows.Forms.Padding(0);
-            this.Lb_Top.Name = "Lb_Top";
-            this.Lb_Top.Size = new System.Drawing.Size(275, 1);
-            this.Lb_Top.TabIndex = 3;
-            this.Lb_Top.Text = "Bottom";
-            this.Lb_Top.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Lb_Top.Click += new System.EventHandler(this.label4_Click);
             // 
             // Lb_Bottom
             // 
@@ -304,13 +290,28 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Lb_Bottom.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Lb_Bottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_Bottom.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_Bottom.Location = new System.Drawing.Point(550, 0);
+            this.Lb_Bottom.Location = new System.Drawing.Point(825, 0);
             this.Lb_Bottom.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_Bottom.Name = "Lb_Bottom";
-            this.Lb_Bottom.Size = new System.Drawing.Size(275, 1);
-            this.Lb_Bottom.TabIndex = 2;
-            this.Lb_Bottom.Text = "Top";
+            this.Lb_Bottom.Size = new System.Drawing.Size(275, 40);
+            this.Lb_Bottom.TabIndex = 3;
+            this.Lb_Bottom.Text = "Bottom";
             this.Lb_Bottom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_Bottom.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // Lb_Top
+            // 
+            this.Lb_Top.AutoSize = true;
+            this.Lb_Top.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Lb_Top.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_Top.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_Top.Location = new System.Drawing.Point(550, 0);
+            this.Lb_Top.Margin = new System.Windows.Forms.Padding(0);
+            this.Lb_Top.Name = "Lb_Top";
+            this.Lb_Top.Size = new System.Drawing.Size(275, 40);
+            this.Lb_Top.TabIndex = 2;
+            this.Lb_Top.Text = "Top";
+            this.Lb_Top.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Lb_Right
             // 
@@ -321,7 +322,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Lb_Right.Location = new System.Drawing.Point(275, 0);
             this.Lb_Right.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_Right.Name = "Lb_Right";
-            this.Lb_Right.Size = new System.Drawing.Size(275, 1);
+            this.Lb_Right.Size = new System.Drawing.Size(275, 40);
             this.Lb_Right.TabIndex = 1;
             this.Lb_Right.Text = "Right";
             this.Lb_Right.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -335,7 +336,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Lb_Pad.Location = new System.Drawing.Point(0, 0);
             this.Lb_Pad.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_Pad.Name = "Lb_Pad";
-            this.Lb_Pad.Size = new System.Drawing.Size(275, 1);
+            this.Lb_Pad.Size = new System.Drawing.Size(275, 40);
             this.Lb_Pad.TabIndex = 0;
             this.Lb_Pad.Text = "Pad";
             this.Lb_Pad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -350,19 +351,19 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogRecordPad.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CogRecordPad.DoubleTapZoomCycleLength = 2;
             this.CogRecordPad.DoubleTapZoomSensitivity = 2.5D;
-            this.CogRecordPad.Location = new System.Drawing.Point(0, 22);
+            this.CogRecordPad.Location = new System.Drawing.Point(0, 65);
             this.CogRecordPad.Margin = new System.Windows.Forms.Padding(0);
             this.CogRecordPad.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.CogRecordPad.MouseWheelSensitivity = 1D;
             this.CogRecordPad.Name = "CogRecordPad";
             this.CogRecordPad.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("CogRecordPad.OcxState")));
-            this.CogRecordPad.Size = new System.Drawing.Size(275, 1);
+            this.CogRecordPad.Size = new System.Drawing.Size(275, 535);
             this.CogRecordPad.TabIndex = 4;
             // 
             // CogDisplayToolBar_Pad
             // 
             this.CogDisplayToolBar_Pad.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CogDisplayToolBar_Pad.Location = new System.Drawing.Point(0, -3);
+            this.CogDisplayToolBar_Pad.Location = new System.Drawing.Point(0, 40);
             this.CogDisplayToolBar_Pad.Margin = new System.Windows.Forms.Padding(0);
             this.CogDisplayToolBar_Pad.Name = "CogDisplayToolBar_Pad";
             this.CogDisplayToolBar_Pad.Size = new System.Drawing.Size(275, 25);
@@ -377,7 +378,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CogDisplayStatusBar_Pad.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CogDisplayStatusBar_Pad.CoordinateSpaceName = "*\\#";
             this.CogDisplayStatusBar_Pad.CoordinateSpaceName3D = "*\\#";
-            this.CogDisplayStatusBar_Pad.Location = new System.Drawing.Point(0, -22);
+            this.CogDisplayStatusBar_Pad.Location = new System.Drawing.Point(0, 602);
             this.CogDisplayStatusBar_Pad.Margin = new System.Windows.Forms.Padding(0);
             this.CogDisplayStatusBar_Pad.Name = "CogDisplayStatusBar_Pad";
             this.CogDisplayStatusBar_Pad.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -393,7 +394,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CAGB_SystemInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.CAGB_SystemInfo.Location = new System.Drawing.Point(3, 3);
             this.CAGB_SystemInfo.Name = "CAGB_SystemInfo";
-            this.CAGB_SystemInfo.Size = new System.Drawing.Size(1, 1);
+            this.CAGB_SystemInfo.Size = new System.Drawing.Size(212, 620);
             this.CAGB_SystemInfo.TabIndex = 3;
             this.CAGB_SystemInfo.TabStop = false;
             this.CAGB_SystemInfo.Text = "System";
@@ -416,7 +417,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 195F));
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_SystemsInfo.Size = new System.Drawing.Size(0, 0);
+            this.Tlp_SystemsInfo.Size = new System.Drawing.Size(206, 595);
             this.Tlp_SystemsInfo.TabIndex = 0;
             // 
             // Tlp_CpuMemArea
@@ -549,6 +550,14 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_DriveInfo.AllowUserToDeleteRows = false;
             this.Dgv_DriveInfo.AllowUserToResizeColumns = false;
             this.Dgv_DriveInfo.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_DriveInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.Dgv_DriveInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Dgv_DriveInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Dgv_DriveInfo.Location = new System.Drawing.Point(4, 253);
@@ -558,7 +567,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_DriveInfo.RowHeadersVisible = false;
             this.Dgv_DriveInfo.RowTemplate.Height = 23;
             this.Dgv_DriveInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dgv_DriveInfo.Size = new System.Drawing.Size(384, 1);
+            this.Dgv_DriveInfo.Size = new System.Drawing.Size(384, 338);
             this.Dgv_DriveInfo.TabIndex = 3;
             this.Dgv_DriveInfo.SelectionChanged += new System.EventHandler(this.Dgv_DriveInfo_SelectionChanged);
             // 
@@ -573,11 +582,11 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_AutoBot.Controls.Add(this.Grb_Log, 0, 0);
             this.Tlp_AutoBot.Controls.Add(this.Grb_InspResultList, 1, 0);
             this.Tlp_AutoBot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_AutoBot.Location = new System.Drawing.Point(3, 3);
+            this.Tlp_AutoBot.Location = new System.Drawing.Point(3, 629);
             this.Tlp_AutoBot.Name = "Tlp_AutoBot";
             this.Tlp_AutoBot.RowCount = 1;
             this.Tlp_AutoBot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_AutoBot.Size = new System.Drawing.Size(1, 1);
+            this.Tlp_AutoBot.Size = new System.Drawing.Size(1531, 181);
             this.Tlp_AutoBot.TabIndex = 4;
             // 
             // Grb_Defect
@@ -585,9 +594,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_Defect.Controls.Add(this.Dgv_Defect);
             this.Grb_Defect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Defect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Grb_Defect.Location = new System.Drawing.Point(374, 3);
+            this.Grb_Defect.Location = new System.Drawing.Point(877, 3);
             this.Grb_Defect.Name = "Grb_Defect";
-            this.Grb_Defect.Size = new System.Drawing.Size(1, 1);
+            this.Grb_Defect.Size = new System.Drawing.Size(651, 175);
             this.Grb_Defect.TabIndex = 3;
             this.Grb_Defect.TabStop = false;
             this.Grb_Defect.Text = "Defect";
@@ -606,7 +615,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Defect.ReadOnly = true;
             this.Dgv_Defect.RowHeadersVisible = false;
             this.Dgv_Defect.RowTemplate.Height = 23;
-            this.Dgv_Defect.Size = new System.Drawing.Size(0, 0);
+            this.Dgv_Defect.Size = new System.Drawing.Size(645, 155);
             this.Dgv_Defect.TabIndex = 0;
             this.Dgv_Defect.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Defect_ColumnHeaderMouseClick);
             // 
@@ -617,7 +626,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_Log.Location = new System.Drawing.Point(3, 3);
             this.Grb_Log.Name = "Grb_Log";
-            this.Grb_Log.Size = new System.Drawing.Size(546, 1);
+            this.Grb_Log.Size = new System.Drawing.Size(546, 175);
             this.Grb_Log.TabIndex = 2;
             this.Grb_Log.TabStop = false;
             this.Grb_Log.Text = "Log";
@@ -629,7 +638,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Uctrl_LogPrinter.Location = new System.Drawing.Point(3, 17);
             this.Uctrl_LogPrinter.Margin = new System.Windows.Forms.Padding(0);
             this.Uctrl_LogPrinter.Name = "Uctrl_LogPrinter";
-            this.Uctrl_LogPrinter.Size = new System.Drawing.Size(540, 0);
+            this.Uctrl_LogPrinter.Size = new System.Drawing.Size(540, 155);
             this.Uctrl_LogPrinter.TabIndex = 0;
             // 
             // Grb_InspResultList
@@ -639,7 +648,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_InspResultList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_InspResultList.Location = new System.Drawing.Point(555, 3);
             this.Grb_InspResultList.Name = "Grb_InspResultList";
-            this.Grb_InspResultList.Size = new System.Drawing.Size(1, 1);
+            this.Grb_InspResultList.Size = new System.Drawing.Size(316, 175);
             this.Grb_InspResultList.TabIndex = 1;
             this.Grb_InspResultList.TabStop = false;
             this.Grb_InspResultList.Text = "Results";
@@ -659,7 +668,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Result.ReadOnly = true;
             this.Dgv_Result.RowHeadersVisible = false;
             this.Dgv_Result.RowTemplate.Height = 23;
-            this.Dgv_Result.Size = new System.Drawing.Size(0, 0);
+            this.Dgv_Result.Size = new System.Drawing.Size(310, 155);
             this.Dgv_Result.TabIndex = 0;
             this.Dgv_Result.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Result_CellContentClick);
             this.Dgv_Result.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Result_ColumnHeaderMouseClick);
@@ -674,15 +683,15 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(0, 0);
+            this.ClientSize = new System.Drawing.Size(1537, 813);
             this.Controls.Add(this.Tlp_Auto);
             this.Name = "Main_Frm_Auto_For_CHIPPING";
             this.Shown += new System.EventHandler(this.Main_Frm_Auto_For_CHIPPING_Shown);
             this.Tlp_Auto.ResumeLayout(false);
             this.Tlp_Records.ResumeLayout(false);
             this.Tlp_Records.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CogRecordTop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordBottom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CogRecordTop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordRight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordPad)).EndInit();
             this.CAGB_SystemInfo.ResumeLayout(false);
@@ -704,8 +713,8 @@ namespace CRUX_GUI_Cognex.Main_Form
 
         private System.Windows.Forms.TableLayoutPanel Tlp_Auto;
         private System.Windows.Forms.TableLayoutPanel Tlp_Records;
-        private System.Windows.Forms.Label Lb_Top;
         private System.Windows.Forms.Label Lb_Bottom;
+        private System.Windows.Forms.Label Lb_Top;
         private System.Windows.Forms.Label Lb_Right;
         private System.Windows.Forms.Label Lb_Pad;
         private Cognex.VisionPro.CogRecordDisplay CogRecordTop;

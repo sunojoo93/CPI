@@ -77,6 +77,16 @@ namespace CRUX_GUI_Cognex
                     Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] 비정상 종료", false, false);
                     throw new Exception("Ui Initialize 실패");
                 }
+                ToolTip RunModelTooltip = new ToolTip();
+
+                RunModelTooltip.AutoPopDelay = 5000;
+                RunModelTooltip.InitialDelay = 0;
+                RunModelTooltip.ReshowDelay = 0;
+                RunModelTooltip.ShowAlways = true;
+                RunModelTooltip.IsBalloon = false;
+                       
+                RunModelTooltip.SetToolTip(this.Lb_RunModel, "Run Model");
+                RunModelTooltip.SetToolTip(this.Lb_ViewModel, "View Model");
             }
             catch(Exception ex)
             {
@@ -254,9 +264,13 @@ namespace CRUX_GUI_Cognex
         /// 레시피 이름 지정
         /// </summary>
         /// <param name="name"></param>
-        public void SetRecipeName(string name)
+        public void SetRunModelName(string name)
         {
-            Lb_RecipeName.Text = name;
+            Lb_RunModel.Text = name;
+        }
+        public void SetViewModelName(string name)
+        {
+            Lb_ViewModel.Text = name;
         }
         /// <summary>
         /// PC간 UI 전환
@@ -291,6 +305,28 @@ namespace CRUX_GUI_Cognex
             {
                 //Systems.LogWriter.Error(ex);
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] PC 탭 전환 실패, Exception Message : {ex.Message}", true, false);
+                throw ex;
+            }
+        }
+
+        private void Lb_ViewModel_MouseDown(object sender, MouseEventArgs e)
+        {
+            // 창 잡고 끌기
+            CurWindowPosition = new Point(e.X, e.Y);
+        }
+
+        private void Lb_ViewModel_MouseMove(object sender, MouseEventArgs e)
+        {
+            // 창 잡고 끌기
+            try
+            {
+                if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+                {
+                    Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
+                }
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

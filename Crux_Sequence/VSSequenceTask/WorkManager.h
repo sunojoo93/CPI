@@ -29,6 +29,7 @@
 #define SEND_UI_NOTIFY_INIT							10, 90	
 #define SEND_UI_TACT_TIME_DATA						10, 100	
 #define SEND_UI_INSP_START							10, 10
+#define SEND_UI_INSP_RESET							10, 11
 
 // Algoithm
 #define SEND_INSPECT_START							21, 1
@@ -235,6 +236,7 @@ private:
 
 	// Async Sequence
 	int	Seq_AsyncSequence			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	int	Seq_GrabSeqReset			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	// Receive Dust End
 	//int	Seq_RcvCheckDustEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 

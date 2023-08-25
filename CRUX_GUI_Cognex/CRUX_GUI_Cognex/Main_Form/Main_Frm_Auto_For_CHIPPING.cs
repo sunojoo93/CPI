@@ -1,12 +1,16 @@
-﻿using Cognex.VisionPro.Implementation;
+﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Implementation;
 using CRUX_GUI_Cognex.Class;
 using CRUX_GUI_Cognex.User_Controls;
+using CRUX_GUI_Cognex.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -66,9 +70,11 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Tmr_HardDiskInfo.Start();
 
                 Show();
+                Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Create Done", true, false);
             }
             catch(Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -114,7 +120,7 @@ namespace CRUX_GUI_Cognex.Main_Form
 
                 Dgv_Result.Columns["Date"].Width = 100;
                 Dgv_Result.Columns["ID"].Width = 120;
-                Dgv_Result.Columns["Result"].Width = 80;
+                Dgv_Result.Columns["Result"].Width = 50;
                 Dgv_Result.Columns["Tact"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 Dgv_Result.Refresh();
@@ -132,18 +138,26 @@ namespace CRUX_GUI_Cognex.Main_Form
 
                 DataGridViewProgressColumn column = new DataGridViewProgressColumn();
 
-                Dgv_DriveInfo.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewTextBoxColumn() { HeaderText = "Name", Name = "Name", ReadOnly = true, Width = 100 },
-                new DataGridViewProgressColumn(true) { AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, HeaderText = "Rate", Name = "Rate", ProgressBarColor = Color.LimeGreen, ReadOnly = true, DefaultCellStyle = new DataGridViewCellStyle() { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("나눔스퀘어라운드",10F, FontStyle.Bold), ForeColor = Color.Black, NullValue = 0 } } });
+                Dgv_DriveInfo.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewTextBoxColumn() { HeaderText = "Name", Name = "Name", ReadOnly = true, Width = 100, DefaultCellStyle=new DataGridViewCellStyle() {Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("나눔스퀘어라운드",10F, FontStyle.Bold)} },
+                new DataGridViewProgressColumn(true) { Width = 240 , HeaderText = "Rate", Name = "Rate", ProgressBarColor = Color.LimeGreen, ReadOnly = true, DefaultCellStyle = new DataGridViewCellStyle() { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("나눔스퀘어라운드",10F, FontStyle.Bold), ForeColor = Color.Black, NullValue = 0 } } ,
+                new DataGridViewCheckBoxColumn() { AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, HeaderText = "Cur", Name = "Cur" } } );
 
+                for(int i = 0; i < Dgv_DriveInfo.Rows.Count; ++i)
+                {
+                    
+                }
+   
                 foreach (HardDiskClass row in Hdc)
                 {
                     double UseRate = ((double)row.UseSize) / (double)row.TotalSize * (double)100;
-                    object[] Temp = new object[] { row.Name.ToString(), Math.Round(UseRate, 2) };
+                    object[] Temp = new object[] { row.Name.ToString(), Math.Round(UseRate, 2) , true};
                     Dgv_DriveInfo.Rows.Add(Temp);
                 }
+                Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_InitDiskInfo Done", true, false);
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -154,9 +168,11 @@ namespace CRUX_GUI_Cognex.Main_Form
             {
                 CurrentFormName = name;
                 CurFormIndex = index;
+                Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetFormName Done", true, false);
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -165,58 +181,104 @@ namespace CRUX_GUI_Cognex.Main_Form
             try
             {
                 Shared_Recipe = recipe;
+                Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecipeDone ", true, false);
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
 
-        public void SetRecordPad(CogRecord record)
+        public void SetRecordPad(CogRecord record, string id)
         {
             CogRecordPad.Invoke(new MethodInvoker(delegate ()
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Pad Start", true, false);
-                CogRecordPad.Record = null; ;
-                CogRecordPad.Record = record;
-                CogRecordPad.Refresh();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Pad Start", true, false);
+                try
+                {
+                    CogRecordPad.Record = null; ;
+                    CogRecordPad.Record = record;
+                    CogRecordPad.Refresh();
+
+                    CogRecordPad.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"D:\RecordImages\{id}\Pad.bmp", ImageFormat.Bmp);
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Pad Done", true, false);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
-        public void SetRecordRight(CogRecord record)
+        public void SetRecordRight(CogRecord record, string id)
         {
             CogRecordRight.Invoke(new MethodInvoker(delegate ()
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Right Start", true, false);
-                CogRecordRight.Record = null;
-                CogRecordRight.Record = record;
-                CogRecordRight.Refresh();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Right Done", true, false);
+                try
+                {
+                    CogRecordRight.Record = null;
+                    CogRecordRight.Record = record;
+                    CogRecordRight.Refresh();
+                    //Cognex_Helper.SaveToFile(CogRecordRight.Image as CogImage8Grey, $@"D:\TestRight.bmp");
+                    CogRecordRight.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"D:\RecordImages\{id}\Right.bmp", ImageFormat.Bmp);
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Right Done", true, false);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
 
-        public void SetRecordBottom(CogRecord record)
+        public void SetRecordBottom(CogRecord record, string id)
         {
             CogRecordBottom.Invoke(new MethodInvoker(delegate ()
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Bottom Start", true, false);
-                CogRecordBottom.Record = null;
-                CogRecordBottom.Record = record;
-                CogRecordBottom.Refresh();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord Bottom Done", true, false);
+                try
+                {
+                    CogRecordBottom.Record = null;
+                    CogRecordBottom.Record = record;
+                    CogRecordBottom.Refresh();
+                    CogRecordBottom.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"D:\RecordImages\{id}\Bottom.bmp", ImageFormat.Bmp);
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Bottom Done", true, false);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
 
-        public void SetRecordTop(CogRecord record)
+        public void SetRecordTop(CogRecord record, string id)
         {
             CogRecordTop.Invoke(new MethodInvoker(delegate ()
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord TOP Start", true, false);
-                //Systems.LogWriter.Info("SetReordTop Start");
-                CogRecordTop.Record = null;
-                CogRecordTop.Record = record;
-                CogRecordTop.Refresh();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.INFO, "[ GUI ] SetRecord TOP Done", true, false);
+                try
+                {
+                    CogRecordTop.Record = null;
+                    CogRecordTop.Record = record;
+                    CogRecordTop.Refresh();
+                    CogRecordTop.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"D:\RecordImages\{id}\Top.bmp", ImageFormat.Bmp);
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord TOP Done", true, false);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
+            }));
+        }
+        public void GetRecordTopImage()
+        {
+            CogRecordTop.Invoke(new MethodInvoker(delegate ()
+            {
+                try
+                {
+                    Cognex_Helper.SaveToFile(CogRecordTop.Image as CogImage8Grey, $@"D:\TestTop.bmp");
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord TOP Done", true, false);
+                }
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
         private void label4_Click(object sender, EventArgs e)
@@ -308,25 +370,33 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             Dgv_Result.Invoke(new MethodInvoker(delegate ()
             {
-                DataTable Dt = new DataTable();
-                Dt = Dgv_Result.DataSource as DataTable;
-
-                DataRow Dr = Dt.NewRow();
-
-                Dr["Date"] = data.Date;
-                Dr["ID"] = data.CellID;
-                Dr["Result"] = data.Result;
-                Dr["Tact"] = data.TactTime;
-
-                Dt.Rows.Add(Dr);
-
-                Dgv_Result.DataSource = Dt;
-                if (Dgv_Result.Rows.Count > 0)
+                try
                 {
-                    Dgv_Result.Rows[Dgv_Result.Rows.Count - 1].Selected = true;
-                    Dgv_Result.FirstDisplayedScrollingRowIndex = Dgv_Result.SelectedRows[0].Index;
+                    DataTable Dt = new DataTable();
+                    Dt = Dgv_Result.DataSource as DataTable;
+
+                    DataRow Dr = Dt.NewRow();
+
+                    Dr["Date"] = data.StartTime;
+                    Dr["ID"] = data.CellID;
+                    Dr["Result"] = data.InspResult;
+                    Dr["Tact"] = data.TactTime;
+
+                    Dt.Rows.Add(Dr);
+
+                    Dgv_Result.DataSource = Dt;
+                    if (Dgv_Result.Rows.Count > 0)
+                    {
+                        Dgv_Result.Rows[Dgv_Result.Rows.Count - 1].Selected = true;
+                        Dgv_Result.FirstDisplayedScrollingRowIndex = Dgv_Result.SelectedRows[0].Index;
+                    }
+                    Dgv_Result.Refresh();
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_UpdateResult Done", true, false);
                 }
-                Dgv_Result.Refresh();
+                catch(Exception ex)
+                {
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
+                }
             }));
         }
 

@@ -847,7 +847,7 @@ int VSMessageProcessor::VS_LiveGrab( byte* pParam, ULONG& nPrmSize, bool bAlways
 		if (bLive)
 			nRet = theApp.m_pCamera->StartLiveGrab() ? APP_OK : APP_NG;
 		else
-			nRet = theApp.m_pCamera->StopLiveGrab() ? APP_OK : APP_NG;;
+			nRet = theApp.m_pCamera->StopLiveGrab() ? APP_OK : APP_NG;
 
 		if(theApp.m_pCamera->GetImageCallBackState() == 0)  break;
 		else theApp.m_pCamera->retryConnect();
@@ -1388,20 +1388,23 @@ int VSMessageProcessor::VS_GetCamInfo(byte* pParam, ULONG& nPrmSize, bool bAlway
 	m_fnPrintLog(_T("CAMLOG -- Seq9099_Get_Cam_Information Sequence Start.\n"));
 
 	EXCEPTION_TRY
-
+		CString BoardName = theApp.m_pCamera->GetBoardName();
+	CString CamType = theApp.m_pCamera->GetCameraType();
 		CString CamName = theApp.m_pCamera->GetCameraName();
 	int CamWidth = theApp.m_pCamera->GetCameraWidth();
 	int CamHeight = theApp.m_pCamera->GetCameraHeight();
 	int CamDepth = theApp.m_pCamera->GetCameraDepth();
-	unsigned int CamTemp = theApp.m_pCamera->GetCameraTemperature();
+	double CamTemp = theApp.m_pCamera->GetCameraTemperature();
 
+	memcpy((*(ST_CAM_INFOMATION *)tempParam).BoardName, BoardName, BoardName.GetLength() * 2);
 	memcpy((*(ST_CAM_INFOMATION *)tempParam).Name, CamName, CamName.GetLength() * 2);
+	memcpy((*(ST_CAM_INFOMATION *)tempParam).Type, CamType, CamType.GetLength() * 2);
 	(*(ST_CAM_INFOMATION *)tempParam).Width = CamWidth;
 	(*(ST_CAM_INFOMATION *)tempParam).Height = CamHeight;
 	(*(ST_CAM_INFOMATION *)tempParam).Depth = CamDepth;
 	(*(ST_CAM_INFOMATION *)tempParam).Temp = CamTemp;
-		//if (!theApp.m_pCamera->SetTriggerMode(nTrigMode))
-		//	nRet = APP_NG;
+	//if (!theApp.m_pCamera->SetTriggerMode(nTrigMode))
+	//	nRet = APP_NG;
 	EXCEPTION_CATCH
 
 		if (nRet != APP_OK)
@@ -1424,9 +1427,9 @@ int VSMessageProcessor::VS_GetCameraTemperature(byte* pParam, ULONG& nPrmSize, b
 
 	byte* tempParam = pParam;
 	m_fnPrintLog(_T("CAMLOG -- Seq9098_Get_Cam_Temperature Sequence Start.\n"));
-	unsigned int CamTemp = theApp.m_pCamera->GetCameraTemperature();
+	double CamTemp = theApp.m_pCamera->GetCameraTemperature();
 
-	*(unsigned int*)tempParam = CamTemp;
+	*(double*)tempParam = CamTemp;
 	EXCEPTION_CATCH
 
 		if (nRet != APP_OK)

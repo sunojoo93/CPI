@@ -57,6 +57,8 @@ public:
 
 	WORD			GetCrc(BYTE *pBuff, WORD nByte);
 	WORD			ConvertWord(WORD nValue);
+
+	UINT32			GetAlarmCode();
 	
 	// Modbus 조명 통신
 	FLOAT			Read_Func3_FLOAT(BYTE SlaveID, BYTE Func, WORD StartRegister, WORD Quantity);
