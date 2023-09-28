@@ -275,11 +275,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Pb_Light.TabIndex = 16;
             this.Pb_Light.TabStop = false;
             // 
-            // Timer_Time
-            // 
-            this.Timer_Time.Interval = 500;
-            this.Timer_Time.Tick += new System.EventHandler(this.Timer_Time_Tick);
-            // 
             // Ex_Frm_Status
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);

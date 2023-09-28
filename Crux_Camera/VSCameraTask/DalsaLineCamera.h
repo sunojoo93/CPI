@@ -37,7 +37,7 @@ public:
 	BOOL			OpenCameraComPort(int nComPort, int nBaudrate, eCamModel eModel);	
 	// Grab
 	void			CameraExpose();									// Exposure Time 동안만 대기 후 반환
-	void			WaitGrabEnd();									// Wait Image Grab End	
+	int			WaitGrabEnd();									// Wait Image Grab End	
 	BYTE*			GetGrabBuffer();
 	BOOL			DoRotateImage(cv::Mat matSrcBuffer, cv::Mat& matDstBuffer, double dAngle);
 	void			GetGrabImage(byte* byteImgArr);

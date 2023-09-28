@@ -32,6 +32,7 @@
             this.Grb_Algorithm = new System.Windows.Forms.GroupBox();
             this.Tlp_AlgorithmList = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_Save = new System.Windows.Forms.Button();
+            this.Btn_Refesh = new System.Windows.Forms.Button();
             this.LstB_Algorithm = new System.Windows.Forms.ListBox();
             this.CTGB_Algorithm = new Cognex.VisionPro.ToolGroup.CogToolGroupEditV2();
             this.Tlp_Algorithm.SuspendLayout();
@@ -73,6 +74,7 @@
             this.Tlp_AlgorithmList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.Tlp_AlgorithmList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.Tlp_AlgorithmList.Controls.Add(this.Btn_Save, 0, 1);
+            this.Tlp_AlgorithmList.Controls.Add(this.Btn_Refesh, 0, 1);
             this.Tlp_AlgorithmList.Controls.Add(this.LstB_Algorithm, 0, 0);
             this.Tlp_AlgorithmList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_AlgorithmList.Location = new System.Drawing.Point(3, 18);
@@ -87,7 +89,6 @@
             // 
             this.Btn_Save.AutoSize = true;
             this.Btn_Save.BackColor = System.Drawing.Color.LimeGreen;
-            this.Tlp_AlgorithmList.SetColumnSpan(this.Btn_Save, 2);
             this.Btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Save.FlatAppearance.BorderSize = 0;
             this.Btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -95,11 +96,28 @@
             this.Btn_Save.Location = new System.Drawing.Point(0, 780);
             this.Btn_Save.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Save.Name = "Btn_Save";
-            this.Btn_Save.Size = new System.Drawing.Size(254, 50);
-            this.Btn_Save.TabIndex = 3;
+            this.Btn_Save.Size = new System.Drawing.Size(127, 50);
+            this.Btn_Save.TabIndex = 4;
             this.Btn_Save.Text = "저장";
             this.Btn_Save.UseVisualStyleBackColor = false;
             this.Btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
+            // 
+            // Btn_Refesh
+            // 
+            this.Btn_Refesh.AutoSize = true;
+            this.Btn_Refesh.BackColor = System.Drawing.Color.Cornsilk;
+            this.Btn_Refesh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Refesh.FlatAppearance.BorderSize = 0;
+            this.Btn_Refesh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Refesh.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Refesh.Location = new System.Drawing.Point(127, 780);
+            this.Btn_Refesh.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_Refesh.Name = "Btn_Refesh";
+            this.Btn_Refesh.Size = new System.Drawing.Size(127, 50);
+            this.Btn_Refesh.TabIndex = 3;
+            this.Btn_Refesh.Text = "새로고침";
+            this.Btn_Refesh.UseVisualStyleBackColor = false;
+            this.Btn_Refesh.Click += new System.EventHandler(this.Btn_Refesh_Click);
             // 
             // LstB_Algorithm
             // 
@@ -125,6 +143,12 @@
             this.CTGB_Algorithm.Size = new System.Drawing.Size(1369, 851);
             this.CTGB_Algorithm.SuspendElectricRuns = false;
             this.CTGB_Algorithm.TabIndex = 1;
+            this.CTGB_Algorithm.ShapeClick += new Cognex.VisionPro.CogShapeEventHandler(this.CTGB_Algorithm_ShapeClick);
+            this.CTGB_Algorithm.ShapeDragStop += new Cognex.VisionPro.CogShapeEventHandler(this.CTGB_Algorithm_ShapeDragStop);
+            this.CTGB_Algorithm.SubjectChanged += new System.EventHandler(this.CTGB_Algorithm_SubjectChanged);
+            this.CTGB_Algorithm.Click += new System.EventHandler(this.CTGB_Algorithm_Click);
+            this.CTGB_Algorithm.Enter += new System.EventHandler(this.CTGB_Algorithm_Enter);
+            this.CTGB_Algorithm.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CTGB_Algorithm_MouseClick);
             // 
             // Main_Frm_Algorithm
             // 
@@ -155,7 +179,8 @@
         private System.Windows.Forms.GroupBox Grb_Algorithm;
         private System.Windows.Forms.TableLayoutPanel Tlp_AlgorithmList;
         private System.Windows.Forms.ListBox LstB_Algorithm;
-        private System.Windows.Forms.Button Btn_Save;
+        private System.Windows.Forms.Button Btn_Refesh;
         private Cognex.VisionPro.ToolGroup.CogToolGroupEditV2 CTGB_Algorithm;
+        private System.Windows.Forms.Button Btn_Save;
     }
 }

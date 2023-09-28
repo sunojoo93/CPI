@@ -585,19 +585,30 @@ LRESULT CVSSequenceTaskDlg::m_fnPrintUiMsgMultiByte(WPARAM wParam, LPARAM lParam
 void CVSSequenceTaskDlg::OnBnClickedButton2()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	PARAM_MOVE_MOTION*	prmMoveMotion = new PARAM_MOVE_MOTION;
+	//PARAM_MOVE_MOTION*	prmMoveMotion = new PARAM_MOVE_MOTION;
 
-	byte* pReceiveParam[100];
+	//byte* pReceiveParam[100];
 
-	int nPCno = 1;
+	//int nPCno = 1;
 
-	int nRet = 0;
+	//int nRet = 0;
 
-	_tcscpy(prmMoveMotion->strMotor, _T("MOTOR_T"));
-	prmMoveMotion->nMovePoint = nPCno;
+	//_tcscpy(prmMoveMotion->strMotor, _T("MOTOR_T"));
+	//prmMoveMotion->nMovePoint = nPCno;
 
-	nRet = theApp.m_SequenceTask->CmdEditSend_TEST(REQ_MOVE_MOTION, 0, (ULONG)sizeof(PARAM_MOVE_MOTION), VS_MAIN_PC_TASK, (byte *)prmMoveMotion, CMD_TYPE_RES);
+	//nRet = theApp.m_SequenceTask->CmdEditSend_TEST(REQ_MOVE_MOTION, 0, (ULONG)sizeof(PARAM_MOVE_MOTION), VS_MAIN_PC_TASK, (byte *)prmMoveMotion, CMD_TYPE_RES);
+	SYSTEMTIME cur_time;
+	GetLocalTime(&cur_time);
+	CString strPCTime;
 
+	strPCTime.Format(_T("%04d-%02d-%02d %02d:%02d:%02d.%03ld"),
+		cur_time.wYear,
+		cur_time.wMonth,
+		cur_time.wDay,
+		cur_time.wHour,
+		cur_time.wMinute,
+		cur_time.wSecond,
+		cur_time.wMilliseconds);
 }
 BOOL CVSSequenceTaskDlg::ShowWindowEx(int nCmdShow)
 {

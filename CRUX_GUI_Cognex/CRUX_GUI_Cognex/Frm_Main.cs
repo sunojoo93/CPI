@@ -118,6 +118,8 @@ namespace CRUX_GUI_Cognex
                     int Ret = Consts.APP_NG;
                     ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Temp.MainRecipe);
                     SendParam.SetStruct(ConvertedRecipe);
+                    ST_GRABIMAGE_LINK_LIST ConvertedLinkData = RecipeManager.CreateSeqLinkDataFromRecipe(Systems.RecipeData_Collection[Globals.CurrentPCno]["GrabData.ini"]);
+                    SendParam.SetStruct(ConvertedLinkData);
                     Ret = Systems.g_Ipc.SendCommand((ushort)((i + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_MODEL_INFO,
                                                               IpcInterface.CMD_TYPE_RES, 100000, SendParam.GetByteSize(), SendParam.GetParam());
                 }

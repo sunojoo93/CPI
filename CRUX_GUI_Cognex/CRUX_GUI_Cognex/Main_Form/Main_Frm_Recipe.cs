@@ -17,6 +17,7 @@ using CRUX_GUI_Cognex.Class.InspVer2;
 using static System.Windows.Forms.ListView;
 using System.Data;
 using System.Threading;
+using System.Text;
 
 namespace CRUX_GUI_Cognex.Main_Form
 {
@@ -46,7 +47,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
                 throw ex;
             }
         }
@@ -63,7 +63,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
                 throw ex;
             }
         }
@@ -89,8 +88,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
         /// <summary>
@@ -117,7 +115,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
                 throw ex;
             }
         }
@@ -144,7 +141,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
                 throw ex;
             }
         }
@@ -162,7 +158,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", true, false);
                 throw ex;
             }
         }
@@ -207,8 +202,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", false, false);
-                return null;
+                throw ex;
             }
         }
         /// <summary>
@@ -243,7 +237,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", false, false);
                 throw ex;
             }
 
@@ -281,7 +274,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -300,13 +292,13 @@ namespace CRUX_GUI_Cognex.Main_Form
                 RecipeManager.SaveRecipe(Shared_Recipe.ViewRecipe);
                 //RecipeManager.RecipeSerialize($@"{RecipePath}{RecipeName}", "MainRecipe.xml", Shared_Recipe.ViewRecipe.Area_Data);
 
-                Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
-                Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
+                Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath(), Encoding.Unicode);
+                Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath(), Encoding.Unicode);
 
                 // ImageMergeOffset
-                IniFile IniData = Systems.RecipeData_Collection[CurFormIndex]["ImageMergeOffset.ini"];
-                IniSection IniSec = IniData["Offset"];
-                IniSec.Clear();
+                IniFile IniData_MergeOffset = Systems.RecipeData_Collection[CurFormIndex]["ImageMergeOffset.ini"];
+                IniSection IniSec_MergeOffset = IniData_MergeOffset["Offset"];
+                IniSec_MergeOffset.Clear();
 
                 DataTable MergeOffset = Frm_Link?.GetImageMergeOffset();
 
@@ -314,17 +306,35 @@ namespace CRUX_GUI_Cognex.Main_Form
                 {
                     string Name = dr["Name"].ToString();
                     string Value = dr["Value"].ToString();
-                    IniSec.Add(Name, Value);
+                    IniSec_MergeOffset.Add(Name, Value);
                 }
-                IniData.Save(Systems.RecipeData_Collection[CurFormIndex]["ImageMergeOffset.ini"].GetIniPath());
-                
+                IniData_MergeOffset.Save(Systems.RecipeData_Collection[CurFormIndex]["ImageMergeOffset.ini"].GetIniPath(), Encoding.Unicode);
+
+                //IniFile IniData_GrabData = Systems.RecipeData_Collection[CurFormIndex]["GrabData.ini"];
+                //IniSection IniSec_GrabData = IniData_GrabData["Offset"];
+                //IniSec_GrabData.Clear();
+
+                ////DataTable MergeOffset = Frm_Link?.GetImageMergeOffset();
+
+                //foreach (DataRow dr in MergeOffset.Rows)
+                //{
+                //    string Name = dr["Name"].ToString();
+                //    string Value = dr["Value"].ToString();
+                //    IniSec_GrabData.Add(Name, Value);
+                //}
+                //IniData_GrabData.Save(Systems.RecipeData_Collection[CurFormIndex]["ImageMergeOffset.ini"].GetIniPath(), Encoding.Unicode);
+
+
+
+
+
+
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Recipe Save Done", false, false);
 
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", false, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
         /// <summary>
@@ -368,14 +378,16 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Shared_Recipe.MainRecipe = Utility.DeepCopy(Shared_Recipe.ViewRecipe);
                 //Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"][$@"PC{CurFormIndex + 1}_PATH"]["RecipePath"] = Shared_Recipe.MainRecipe.Path;
                 Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"][$@"PC{CurFormIndex + 1}_LastUsedRecipe"]["RecipeName"] = Shared_Recipe.MainRecipe.Name;
-                Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath());
-                Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath());
+                Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].Save(Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"].GetIniPath(), Encoding.Unicode);
+                Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].Save(Systems.Ini_Collection[CurFormIndex]["Initialize.ini"].GetIniPath(), Encoding.Unicode);
 
                 CmdMsgParam SendParam = new CmdMsgParam();
 
                 int Ret = Consts.APP_NG;
                 ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Shared_Recipe.MainRecipe);
                 SendParam.SetStruct(ConvertedRecipe);
+                ST_GRABIMAGE_LINK_LIST ConvertedLinkData = RecipeManager.CreateSeqLinkDataFromRecipe(Systems.RecipeData_Collection[CurFormIndex]["GrabData.ini"]);
+                SendParam.SetStruct(ConvertedLinkData);
                 Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_MODEL_INFO,
                                                           IpcInterface.CMD_TYPE_RES, 100000, SendParam.GetByteSize(), SendParam.GetParam());
 
@@ -384,8 +396,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", false, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
         /// <summary>
@@ -402,8 +413,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", false, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -420,8 +430,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", false, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -434,7 +443,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -480,8 +489,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             catch (Exception ex)
             {
                 Utility.LoadingStop();
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_Change Recipe Error. {ex.Message}", true, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -552,7 +560,8 @@ namespace CRUX_GUI_Cognex.Main_Form
                                 }
                                 RecipeManager.ReadRecipe(RecipePath, Shared_Recipe.ViewRecipe, Input.ResultName);
                             }
-                            RefeshRecipe();
+                            SetRecipeList();
+							// RefeshRecipe();
                             Systems.WriteLog(CurFormIndex, Enums.LogLevel.OPERATION, $@"[ GUI ] {Name}_New Recipe Click", true, false);
                         }
                         else
@@ -619,8 +628,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", true, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -642,7 +650,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                     if (e.RowIndex == -1)
                         return;
                     DataGridViewRow Row = Dgv_GrabArea.SelectedRows[0];
-                    Systems.CurrentSelectedAreaName[CurFormIndex] = Row.Cells["Name"].Value.ToString(); ;
+                    Systems.CurrentSelectedAreaName[CurFormIndex] = Row.Cells["Name"].Value.ToString();
 
                     Frm_Link.UpdatePattern();
                     Frm_Link.UpdateROI();
@@ -683,6 +691,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                         if (Input.DialogResult == DialogResult.OK)
                         {
                             Area NewInspArea = new Area();
+
                             NewInspArea.Name = Input.ResultName;
                             Shared_Recipe.ViewRecipe.Area_Data.Area.Add(NewInspArea);
                             RefeshRecipe();
@@ -715,8 +724,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", true, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -742,8 +750,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", true, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -765,8 +772,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", true, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -778,7 +784,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -794,8 +800,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $@"[ GUI ] {Name}_{ex.Message}", true, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -809,11 +814,13 @@ namespace CRUX_GUI_Cognex.Main_Form
             try
             {
                 Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
+                Ex_Frm_Judgement Judgement_Form = new Ex_Frm_Judgement();
+                Judgement_Form.SetJudgeData(Shared_Recipe.ViewRecipe.JudgementData);
+                Judgement_Form.ShowDialog();
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
     }

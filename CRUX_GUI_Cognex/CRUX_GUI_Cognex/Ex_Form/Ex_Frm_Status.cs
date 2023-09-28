@@ -29,7 +29,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
         public void StartCheckStatus()
@@ -39,6 +39,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Timer_Time.Start();
                 TokenSource = new CancellationTokenSource();
                 Show();
+                          
                 Checker = Task.Factory.StartNew(() => ThreadTaskAlive(TokenSource.Token));
             }
             catch (Exception ex)
@@ -81,7 +82,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -93,7 +94,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -105,7 +106,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -117,7 +118,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -129,7 +130,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
         public void StopTwinkleThread()
@@ -205,7 +206,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
         /// <summary>
@@ -244,25 +245,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
                     else
                         Systems.AliveList[Systems.CurDisplayIndex].Sequence = false;
                     #endregion                    
-                    //#region LIGHT Check
-                    //Param.ClearOffset();
-                    //nRet = Systems.g_Ipc.SendCommand((ushort)((Systems.CurDisplayIndex + 1) * 100 + IpcConst.LIGHT_TASK),
-                    //                                          IpcConst.TASK_ALIVE_FUNC,
-                    //                                          IpcConst.TASK_ALIVE_SIGNAL,
-                    //                                          IpcInterface.CMD_TYPE_RES,
-                    //                                          nTimeOutCnt,
-                    //                                          Param.GetByteSize(),
-                    //                                          Param.GetParam());
-                    //if (nRet != Consts.APP_OK)
-                    //    break;
-
-
-                    //if (nRet == Consts.APP_OK)
-                    //    Systems.AliveList[Systems.CurDisplayIndex].light = true;
-                    //else
-                    //    Systems.AliveList[Systems.CurDisplayIndex].light = false;
-                    //#endregion
-                    // Check Main PC Task Alive
                     #region Main Check
                     Param.ClearOffset();
                     Param.SetInteger(1);
@@ -307,9 +289,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 }
                 catch (Exception ex)
                 {
-                    //Systems.LogWriter.Error("Error", ex);
-                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] Task Status Check 실패, Exception Message : {ex.Message}", false, false);
-                    throw ex;
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
                 }
             }
         }

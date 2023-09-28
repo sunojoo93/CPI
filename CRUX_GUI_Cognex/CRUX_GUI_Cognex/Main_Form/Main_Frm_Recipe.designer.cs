@@ -138,7 +138,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Btn_Judge.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Judge.FlatAppearance.BorderSize = 0;
             this.Btn_Judge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Judge.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Judge.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Judge.Location = new System.Drawing.Point(0, 744);
             this.Btn_Judge.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.Btn_Judge.Name = "Btn_Judge";
@@ -184,7 +184,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Btn_Apply.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Apply.FlatAppearance.BorderSize = 0;
             this.Btn_Apply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Apply.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Apply.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Apply.Location = new System.Drawing.Point(0, 0);
             this.Btn_Apply.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Apply.Name = "Btn_Apply";
@@ -201,7 +201,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Save.FlatAppearance.BorderSize = 0;
             this.Btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Btn_Save.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Save.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Btn_Save.Location = new System.Drawing.Point(0, 0);
             this.Btn_Save.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Save.Name = "Btn_Save";

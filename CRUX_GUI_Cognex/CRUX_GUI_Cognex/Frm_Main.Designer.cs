@@ -190,6 +190,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
             this.Name = "Frm_Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Shown += new System.EventHandler(this.Frm_Main_Shown);
             this.Tlp_Main.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Pb_Logo)).EndInit();

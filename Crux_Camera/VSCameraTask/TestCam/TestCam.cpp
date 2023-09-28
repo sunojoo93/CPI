@@ -149,6 +149,23 @@ BOOL CTestCam::InitializeCamera(CString strInitFilePath)
 
 	return bRet;
 }
+BOOL CTestCam::m_fnInitializeImageBuffer()
+{
+	BOOL bRet = FALSE;
+
+	// m_nSizeBit가 8,16bit외에 다른 bit는 들어 온다면?
+	if (m_lDigBit == 12 || m_lDigBit == 8)
+	{
+		bRet = m_fnPrepareGrabBuffer();
+	}
+	else
+	{
+		::AfxMessageBox(_T(" image bit 8 or 16 are supported.Bit check images!!!!!!!!"));
+		bRet = FALSE;
+	}
+
+	return bRet;
+}
 CString CTestCam::GetBoardName()
 {
 	CString Name;
@@ -171,6 +188,47 @@ CString CTestCam::GetCameraType()
 	delete[] DeviceScanTypePtr;
 
 	return Name;
+}
+int CTestCam::SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data)
+{
+	ST_GRAB_AREA_INFO_AOT Data = *data;
+
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("On"));
+
+	//MIL_BOOL SequencerFeatureEnable = M_TRUE;
+
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureSelector"), M_TYPE_STRING, MIL_TEXT("GainDigitalAll"));
+
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable);
+
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerPathSelector"), M_TYPE_STRING, SequenceSelector.c_str);
+
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("GainSelector"), M_TYPE_STRING, MIL_TEXT("DigitalAll"));
+
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("Gain"), M_TYPE_DOUBLE, &Value);
+
+	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+
+	for (int i = 0; i < Data.PtnCount; ++i)
+	{
+		for (int j = 0; j < Data.PatternList[i].CamCondCount; ++j)
+		{
+			ST_GRAB_CAMERA_VALUE_SET_AOT Temp;
+			Temp.PtnIndex = i;
+			Temp.CamIndex = j;
+			Temp.Expose = Data.PatternList[i].Cam_Condition[j].Expose;
+			Temp.Gain = Data.PatternList[i].Cam_Condition[j].Gain;
+			Temp.Use = Data.PatternList[i].Cam_Condition[j].Use;
+			ApplyProperty(Temp);
+		}	
+	}
+	return 0;
+}
+int CTestCam::ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data)
+{
+	ST_GRAB_CAMERA_VALUE_SET_AOT Data = data;
+
+	return 0;
 }
 CString CTestCam::GetCameraName()
 {
@@ -209,7 +267,35 @@ double CTestCam::GetCameraTemperature()
 
 	return (double)Temp;
 }
+long MFTYPE HookFrameStart(long HookType, MIL_ID EventId, void *UserDataPtr)
+{
+	CTestCam *pData = (CTestCam*)UserDataPtr;
 
+	if (pData->m_bTriggerLive || pData->m_bFreeRunLive)
+		return 0;
+
+	theApp.m_fnWriteTactLog(_T(">> Frame Start : %3.3f"), pData->m_GrabTime.Stop(false));
+
+	return 0;
+}
+
+long MFTYPE HookFrameEnd(long HookType, MIL_ID EventId, void *UserDataPtr)
+{
+	CTestCam *pData = (CTestCam*)UserDataPtr;
+
+	if (pData->m_bTriggerLive)
+		return 0;
+
+	if (pData->m_bFreeRunLive)
+	{
+		MbufCopy(pData->m_LiveImage, pData->m_milLiveGrabBuffer);
+		return 0;
+	}
+
+	theApp.m_fnWriteTactLog(_T(">> Frame End : %3.3f"), pData->m_GrabTime.Stop(false));
+
+	return 0;
+}
 bool CTestCam::InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile)
 {
 	// MIL APP - SYSTEM
@@ -241,17 +327,79 @@ bool CTestCam::InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile)
 		if ((m_lDigSizeX < 0)|| (m_lDigSizeY < 0) ||(m_lDigBit < 0 )||(m_lDigBand < 0))
 			return FALSE;
 	
-		
+		// 16.06.30 Live 화면 출력 추가 by CWH
+		// Allocate a display
+	//	if (m_milDisplay == NULL)
+	//		MdispAlloc(m_milSystem, M_DEFAULT, M_DISPLAY_SETUP, M_WINDOWED, &m_milDisplay);
 
-	//MdigHookFunction(m_milDigitizer, M_GRAB_START, (MIL_DIG_HOOK_FUNCTION_PTR)HookGrabStart, this);
-	//MdigHookFunction(m_milDigitizer, M_GRAB_END, (MIL_DIG_HOOK_FUNCTION_PTR)HookGrabEnd, this);
 	//MdigHookFunction(m_milDigitizer, M_GRAB_FRAME_START, (MIL_DIG_HOOK_FUNCTION_PTR)HookFrameStart, this);
 	//MdigHookFunction(m_milDigitizer, M_GRAB_FRAME_END, (MIL_DIG_HOOK_FUNCTION_PTR)HookFrameEnd, this);
 
-	//if (!m_fnInitializeImageBuffer())
-	//	return FALSE;
+	if (!m_fnInitializeImageBuffer())
+		/*return FALSE;*/
 
 	return true;
+}
+
+
+BOOL CTestCam::m_fnPrepareGrabBuffer()
+{
+	int nBufIndex;
+	int nDigBitOffset = 8 * (int)(m_lDigBit == 8 ? 1 : 2);
+	MIL_ID milRet = M_NULL;
+
+
+	// 16.06.30 Live 화면 출력 추가 by CWH
+	if (MbufAlloc2d(m_milSystem, m_lDigSizeX, m_lDigSizeY, nDigBitOffset + M_UNSIGNED, M_IMAGE + M_GRAB + M_DISP, &m_LiveImage) == M_NULL)
+		return FALSE;
+	if (MbufAlloc2d(m_milSystem, m_lDigSizeX, m_lDigSizeY, nDigBitOffset + M_UNSIGNED, M_IMAGE + M_PROC, &m_milLiveGrabBuffer) == M_NULL)
+		return FALSE;
+	if (MbufAlloc2d(m_milSystem, m_lDigSizeX, m_lDigSizeY, nDigBitOffset + M_UNSIGNED, M_IMAGE + M_GRAB + M_DISP, &m_milDispImage) == M_NULL)
+		return FALSE;
+
+	//2019.04.11
+	if (m_lDigBand > 1)
+	{
+		MbufAllocColor(m_milSystem, 3L, m_lDigSizeX, m_lDigSizeY, nDigBitOffset + M_UNSIGNED, M_IMAGE + M_GRAB + M_DISP, &m_ColorImage);
+		MbufAllocColor(m_milSystem, 3L, m_lDigSizeX, m_lDigSizeY, nDigBitOffset + M_UNSIGNED, M_IMAGE + M_GRAB + M_DISP, &m_milCropLoadClrImg);
+		// 16.06.01 WhiteBalance 보정치
+		MbufAlloc1d(m_milSystem, 3L, 32 + M_FLOAT, M_ARRAY, &m_MilWBCoefficients);
+	}
+
+	// 16.07.19 Live 화면 UI 추가 by CWH
+	if (m_lDigBit == 12)
+	{
+		MdispControl(m_milDisplay, M_VIEW_MODE, M_BIT_SHIFT);
+		MdispControl(m_milDisplay, M_VIEW_BIT_SHIFT, 4);
+	}
+	else if (m_lDigBit == 8)
+	{
+		MdispControl(m_milDisplay, M_VIEW_MODE, M_DEFAULT);
+	}
+
+	// Minimap, UI 표시 Image Buffer
+	if (MbufAlloc2d(m_milSystem, m_lDigSizeX, m_lDigSizeY, nDigBitOffset + M_UNSIGNED, M_IMAGE + M_PROC, &m_milCropImage) == M_NULL)
+		return FALSE;
+	// 	if (MbufAlloc2d(m_milSystem, m_lDigSizeX, m_lDigSizeY, nDigBitOffset+M_UNSIGNED, M_IMAGE+M_PROC, &m_milCropLoadImg) == M_NULL)
+	// 		return FALSE;
+	// 	if (MbufAllocColor(m_milSystem, 3L, m_lDigSizeX, m_lDigSizeY , nDigBitOffset+M_UNSIGNED, M_IMAGE+M_PROC+M_BGR24+M_PACKED, &m_milCropLoadClrImg) == M_NULL)
+	//		return FALSE;
+	// 
+	// 	// 2017.01.09 add by ikm GUI Image Load 용 - S  
+	// 	for(int i = 0 ; i < NUM_LOAD_IMAGE_MAX; i++)
+	// 	{		
+	// 		if(MbufAlloc2d(m_milSystem, m_lDigSizeX, m_lDigSizeY, nDigBitOffset+M_UNSIGNED, M_IMAGE+M_PROC, &m_milLoadImgBuff[i])== M_NULL)
+	// 			return FALSE;
+	// 		if(MbufAllocColor(m_milSystem, 3L, m_lDigSizeX , m_lDigSizeY  , nDigBitOffset+M_UNSIGNED, M_IMAGE+M_PROC+M_BGR24+M_PACKED, &m_milLoadClrImgBuff[i]) == M_NULL)
+	// 			return FALSE;
+	// 	}
+	// 	// 2017.01.09 add by ikm GUI Image Load 용 - E
+
+	// for test0627
+	// for test0627
+	//m_milTEST = MbufImport(theApp.GETDRV() + _T(":\\Doc\\Image\\Test\\Active1.bmp"), M_DEFAULT, M_RESTORE, m_milSystem, M_NULL);
+
+	return TRUE;
 }
 
 void CTestCam::StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos ,bool sync, bool fileSave)
@@ -295,10 +443,10 @@ void CTestCam::StartGrab(CString PanelID, CString VirID, CString Position, int n
 
 	AllocClearBuffer(nBufCnt);
 	CString TotalPath_;
-	TotalPath_.Format(_T("D:\\CamGrabTest\\%s"), PanelID);
+	TotalPath_.Format(_T("E:\\CamGrabTest\\%s"), PanelID); // 경로변경 임시
 	// UserHookData 초기화
 	CString TotalPath;
-	TotalPath.Format(_T("D:\\CamGrabTest\\%s\\%s"), PanelID, Position);
+	TotalPath.Format(_T("E:\\CamGrabTest\\%s\\%s"), PanelID, Position);// 경로변경 임시
 
 
 	UserHookData.obj = this;
@@ -379,9 +527,9 @@ int CTestCam::StopGrab(int nBufCnt)
 
 
 	theApp.m_fnWriteLineScanLog(_T("Grab Stop Enter, BufCnt : %d, Proc Cnt : %d"), nBufCnt, ProcessGrabCnt);
-	MIL_BOOL AcquisitionStatus = M_FALSE;
-	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("AcquisitionStatus"), M_TYPE_BOOLEAN, &AcquisitionStatus);
-	theApp.m_fnWriteLineScanLog(_T("MdigProcess Acquisition Status : %d"), AcquisitionStatus);
+	//MIL_BOOL AcquisitionStatus = M_FALSE;
+	//MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("AcquisitionStatus"), M_TYPE_BOOLEAN, &AcquisitionStatus);
+	//theApp.m_fnWriteLineScanLog(_T("MdigProcess Acquisition Status : %d"), AcquisitionStatus);
 
 	MdigProcess(m_milDigitizer, m_milLineImage, nBufCnt, M_STOP, M_DEFAULT, ProcessingFunction, &UserHookData);	
 
@@ -500,7 +648,7 @@ MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *Hook
 
 					theApp.m_fnWriteLineScanLog(_T("image save Start."));
 					//temp->m_Trigger->TriggerGenCount0();
-					MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[idx]);
+					MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[idx]); // 콜백 시간 단축
 					theApp.m_fnWriteLineScanLog(_T("image save End."));
 				}
 			}
@@ -626,13 +774,34 @@ void CTestCam::DisplayLive(HWND hDispWnd)
 
 }
 
-void CTestCam::WaitGrabEnd()
+int CTestCam::WaitGrabEnd(int proc_num)
 {	
+	int nRet = 0;
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera WaitGrabEnd Start"));
-	//WaitForSingleObject(UserHookData.hGrabEnd, 10000);
-	//ResetEvent(UserHookData.hGrabEnd);
+	nRet = WaitForSingleObject(UserHookData.hGrabEnd, 10000);
+
+	if (nRet == WAIT_TIMEOUT)
+	{
+		theApp.m_pLogWriter->m_fnWriteLog(_T("SEQLOG -- Wait Timeout. Code = %d"), nRet);
+		StopGrab(proc_num);
+	}
+	else if (nRet == WAIT_FAILED)
+	{
+		theApp.m_pLogWriter->m_fnWriteLog(_T("SEQLOG -- Wait Grab End Fail. Code = %d"), nRet);
+		StopGrab(proc_num);
+	}
+	else if (nRet == WAIT_ABANDONED)
+	{
+		theApp.m_pLogWriter->m_fnWriteLog(_T("SEQLOG -- Wait Abandoned. Code = %d"), nRet);
+		StopGrab(proc_num);
+	}
+	else
+		theApp.m_pLogWriter->m_fnWriteLog(_T("CASE %d : Wait Grab End OK"), nRet);
+
+	ResetEvent(UserHookData.hGrabEnd);
 	m_GrabTime.End();	
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera WaitGrabEnd End"));
+	return nRet;
 }
 
 void CTestCam::SetSMemCurBuffer(int TriggerCountF, int TriggerCountB, UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode)
@@ -728,6 +897,8 @@ BOOL CTestCam::StartLiveGrab()
 
 
 	return TRUE;
+
+
 }
 BOOL CTestCam::SetSequenceMode(int nSeqMode)
 {	

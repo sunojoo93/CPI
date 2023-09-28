@@ -689,6 +689,11 @@ void CVSLightTaskDlg::OnTimer(UINT_PTR nIDEvent)
 			CString SequenceIndex;
 			SequenceIndex.Format(_T("%d"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0106, 2));
 			GetDlgItem(IDC_TB_SEQIDX)->SetWindowTextW(SequenceIndex);
+
+			CString Temperature;
+			Temperature.Format(_T("%f"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x010E, 2));
+			//GetDlgItem(IDC_TB_ALARMCNT)->SetWindowTextW(AlarmCount);
+			theApp.Temperature = _ttoi(Temperature);
 		}
 	}	
 

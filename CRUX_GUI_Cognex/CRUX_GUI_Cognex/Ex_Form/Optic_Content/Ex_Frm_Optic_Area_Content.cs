@@ -686,21 +686,24 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                int nRet = Consts.APP_OK;
-                double Temp = 0;
-                CmdMsgParam Param = new CmdMsgParam();
-                Param.ClearOffset();
-                Param.SetDbl((double)0);
-
-                nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.CAMERA_TASK + CamIndex), IpcConst.CAMERA_FUNC, IpcConst.GET_CAMTEMPATURE,
-                                                IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
-                if (nRet == Consts.APP_OK)
+                if (Systems.AliveList[Systems.CurDisplayIndex].Camera)
                 {
-                    Param.SetOffset(0);
-                    Temp = Param.GetDbl();
-                }
+                    int nRet = Consts.APP_OK;
+                    double Temp = 0;
+                    CmdMsgParam Param = new CmdMsgParam();
+                    Param.ClearOffset();
+                    Param.SetDbl((double)0);
 
-                Lb_TempContent.Text = $"{Math.Ceiling(Temp)}℃";
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.CAMERA_TASK + CamIndex), IpcConst.CAMERA_FUNC, IpcConst.GET_CAMTEMPATURE,
+                                                    IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                    {
+                        Param.SetOffset(0);
+                        Temp = Param.GetDbl();
+                    }
+
+                    Lb_TempContent.Text = $"{Math.Ceiling(Temp)}℃";
+                }
             }
             catch (Exception ex)
             {
@@ -999,21 +1002,27 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                int nRet = Consts.APP_OK;
-                UInt32 Temp = 0;
-                CmdMsgParam Param = new CmdMsgParam();
-                Param.ClearOffset();
-                Param.SetUInteger((UInt32)0);
-
-                nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.LIGHT_TASK + CamIndex+0), IpcConst.LIGHT_FUNC, IpcConst.LIGHT_GET_ERRORCODE,
-                                                IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
-                if (nRet == Consts.APP_OK)
+                if (Systems.AliveList[Systems.CurDisplayIndex].Light)
                 {
-                    Param.SetOffset(0);
-                    Temp = Param.GetUInteger();
-                }
+                    int nRet = Consts.APP_OK;
+                    UInt32 ErrorCode = 0;
+                    UInt32 Temperature = 0;
+                    CmdMsgParam Param = new CmdMsgParam();
+                    Param.ClearOffset();
+                    Param.SetUInteger((UInt32)0);
+                    Param.SetUInteger((UInt32)0);
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.LIGHT_TASK + CamIndex + 0), IpcConst.LIGHT_FUNC, IpcConst.LIGHT_GET_ERRORCODE,
+                                                    IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                    {
+                        Param.SetOffset(0);
+                        ErrorCode = Param.GetUInteger();
+                        Temperature = Param.GetUInteger();
+                    }
 
-                Lb_LightErrorCodeContent.Text = $"{Temp}";
+                    Lb_LightErrorCodeContent.Text = $"{ErrorCode}";
+                    Lb_LightTempContent.Text = $"{Temperature}℃";
+                }
             }
             catch (Exception ex)
             {

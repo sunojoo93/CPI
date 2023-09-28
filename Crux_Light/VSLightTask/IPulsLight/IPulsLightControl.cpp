@@ -427,7 +427,81 @@ void CIPulsLight::GetHighLowByte(BYTE &high, BYTE &low, WORD val)
 	high = val >> 8;
 }
 
+int	CIPulsLight::ApplyLightProperty(ST_GRAB_AREA_INFO_AOT* param)
+{
+	ST_GRAB_AREA_INFO_AOT Data = *param;
 
+	WORD SeqStart = _ttoi(_T("0"));
+	//theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0306, SeqStart);
+
+	WORD SeqCount = (WORD)Data.PtnCount;
+	//theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0307, SeqCount);
+
+	for (int i = 0; i < Data.PtnCount; ++i)
+	{
+		ST_GRAB_LIGHT_VALUE_SET_AOT Temp;
+		for (int j = 0; j < Data.PatternList[i].LightCondCount; ++j)
+		{
+			Temp.Use = Data.PatternList[i].Light_Condition[j].Use;
+			Temp.CtrlNo = Data.PatternList[i].Light_Condition[j].Controller_No;
+			Temp.LightValues = Data.PatternList[i].Light_Condition[j].LightModule.nLightVal[0];
+			ApplyValues(Temp);
+		}	
+		WORD Sequencer = (WORD)Data.PatternList[i].LightSequencer;
+		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0380 + i, Sequencer);
+	}
+	return 0;
+}
+int CIPulsLight::ApplyValues(ST_GRAB_LIGHT_VALUE_SET_AOT param)
+{
+	WORD BrightValue;
+	WORD Sequencer;
+	switch (param.CtrlNo)
+	{
+	case 1:
+		if (param.Use)
+			theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0320, 1);
+		else
+			theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0320, 0);
+
+		BrightValue = (WORD)param.LightValues;
+		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0340, BrightValue);
+
+		break;
+	case 2:
+		if (param.Use)
+			theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0321, 1);
+		else
+			theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0321, 0);
+
+		BrightValue = (WORD)param.LightValues;
+		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0341, BrightValue);
+
+		break;
+	case 3:
+		if (param.Use)
+			theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0322, 1);
+		else
+			theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0322, 0);
+
+		BrightValue = (WORD)param.LightValues;
+		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0342, BrightValue);
+
+		break;
+	case 4:
+		if (param.Use)
+			theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0323, 1);
+		else
+			theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0323, 0);
+
+		BrightValue = (WORD)param.LightValues;
+		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0343, BrightValue);
+
+		break;
+	}
+
+	return 0;
+}
 
 UINT32 CIPulsLight::Read_Func3_UINT32(BYTE SlaveID, BYTE Func, WORD StartRegister, WORD Quantity)
 {

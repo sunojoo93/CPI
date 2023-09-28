@@ -545,6 +545,12 @@
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Select_Color.designer.cs">
       <DependentUpon>Ex_Frm_Others_Select_Color.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Judgement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_Judgement.designer.cs">
+      <DependentUpon>Ex_Frm_Judgement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Recipe_Link.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -594,11 +600,23 @@
     <Compile Include="Main_Form\Main_Frm_Auto_For_ALM.designer.cs">
       <DependentUpon>Main_Frm_Auto_For_ALM.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main_Form\Main_Frm_Auto_For_CHIPPING_Ver2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_Form\Main_Frm_Auto_For_CHIPPING_Ver2.designer.cs">
+      <DependentUpon>Main_Frm_Auto_For_CHIPPING_Ver2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main_Form\Main_Frm_Auto_For_CHIPPING.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main_Form\Main_Frm_Auto_For_CHIPPING.designer.cs">
       <DependentUpon>Main_Frm_Auto_For_CHIPPING.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main_Form\Main_Frm_Manual_Ver2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_Form\Main_Frm_Manual_Ver2.designer.cs">
+      <DependentUpon>Main_Frm_Manual_Ver2.cs</DependentUpon>
     </Compile>
     <Compile Include="Main_Form\Main_Frm_Manual.cs">
       <SubType>Form</SubType>
@@ -631,6 +649,12 @@
       <DependentUpon>ColorfulComboBox.cs</DependentUpon>
     </Compile>
     <Compile Include="User_Controls\Controls.cs" />
+    <Compile Include="User_Controls\CellPrinter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User_Controls\CellPrinter.designer.cs">
+      <DependentUpon>CellPrinter.cs</DependentUpon>
+    </Compile>
     <Compile Include="User_Controls\LogPrinter.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -728,6 +752,9 @@
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Select_Color.resx">
       <DependentUpon>Ex_Frm_Others_Select_Color.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Judgement.resx">
+      <DependentUpon>Ex_Frm_Judgement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Recipe_Link.resx">
       <DependentUpon>Ex_Frm_Recipe_Link.cs</DependentUpon>
     </EmbeddedResource>
@@ -752,8 +779,14 @@
     <EmbeddedResource Include="Main_Form\Main_Frm_Auto_For_ALM.resx">
       <DependentUpon>Main_Frm_Auto_For_ALM.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Main_Form\Main_Frm_Auto_For_CHIPPING_Ver2.resx">
+      <DependentUpon>Main_Frm_Auto_For_CHIPPING_Ver2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main_Form\Main_Frm_Auto_For_CHIPPING.resx">
       <DependentUpon>Main_Frm_Auto_For_CHIPPING.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_Form\Main_Frm_Manual_Ver2.resx">
+      <DependentUpon>Main_Frm_Manual_Ver2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main_Form\Main_Frm_Manual.resx">
       <DependentUpon>Main_Frm_Manual.cs</DependentUpon>
@@ -776,6 +809,9 @@
     </Compile>
     <EmbeddedResource Include="User_Controls\CircularProgressBar.resx">
       <DependentUpon>CircularProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User_Controls\CellPrinter.resx">
+      <DependentUpon>CellPrinter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User_Controls\LogPrinter.resx">
       <DependentUpon>LogPrinter.cs</DependentUpon>

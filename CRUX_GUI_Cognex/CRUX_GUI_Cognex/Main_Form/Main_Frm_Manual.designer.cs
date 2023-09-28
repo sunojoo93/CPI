@@ -439,15 +439,15 @@ namespace CRUX_GUI_Cognex.Main_Form
             // Tlp_Bottom
             // 
             this.Tlp_Bottom.ColumnCount = 2;
-            this.Tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.13945F));
-            this.Tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.86055F));
+            this.Tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_Bottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.Tlp_Bottom.Controls.Add(this.Grb_Defect, 0, 0);
             this.Tlp_Bottom.Controls.Add(this.Grb_InspResultList, 0, 0);
             this.Tlp_Bottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Bottom.Location = new System.Drawing.Point(3, 517);
             this.Tlp_Bottom.Name = "Tlp_Bottom";
             this.Tlp_Bottom.RowCount = 1;
-            this.Tlp_Bottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_Bottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Bottom.Size = new System.Drawing.Size(1176, 148);
             this.Tlp_Bottom.TabIndex = 2;
             // 
@@ -456,9 +456,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_Defect.Controls.Add(this.Dgv_Defect);
             this.Grb_Defect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Defect.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Grb_Defect.Location = new System.Drawing.Point(427, 3);
+            this.Grb_Defect.Location = new System.Drawing.Point(591, 3);
             this.Grb_Defect.Name = "Grb_Defect";
-            this.Grb_Defect.Size = new System.Drawing.Size(746, 142);
+            this.Grb_Defect.Size = new System.Drawing.Size(582, 142);
             this.Grb_Defect.TabIndex = 4;
             this.Grb_Defect.TabStop = false;
             this.Grb_Defect.Text = "Defect";
@@ -477,7 +477,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Defect.ReadOnly = true;
             this.Dgv_Defect.RowHeadersVisible = false;
             this.Dgv_Defect.RowTemplate.Height = 23;
-            this.Dgv_Defect.Size = new System.Drawing.Size(740, 122);
+            this.Dgv_Defect.Size = new System.Drawing.Size(576, 122);
             this.Dgv_Defect.TabIndex = 0;
             this.Dgv_Defect.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Defect_ColumnHeaderMouseClick);
             // 
@@ -487,7 +487,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_InspResultList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_InspResultList.Location = new System.Drawing.Point(3, 3);
             this.Grb_InspResultList.Name = "Grb_InspResultList";
-            this.Grb_InspResultList.Size = new System.Drawing.Size(418, 142);
+            this.Grb_InspResultList.Size = new System.Drawing.Size(582, 142);
             this.Grb_InspResultList.TabIndex = 1;
             this.Grb_InspResultList.TabStop = false;
             this.Grb_InspResultList.Text = "Results";
@@ -506,7 +506,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Result.ReadOnly = true;
             this.Dgv_Result.RowHeadersVisible = false;
             this.Dgv_Result.RowTemplate.Height = 23;
-            this.Dgv_Result.Size = new System.Drawing.Size(412, 121);
+            this.Dgv_Result.Size = new System.Drawing.Size(576, 121);
             this.Dgv_Result.TabIndex = 0;
             this.Dgv_Result.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Result_ColumnHeaderMouseClick);
             // 

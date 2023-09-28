@@ -34,22 +34,30 @@ namespace SharingFormat_DLL
         public double Width { get; set; }
         public double Height { get; set; }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class CommonParam
     {
         public Dictionary<string, string> PatternParam = new Dictionary<string, string>();
     }
-
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Insp_Images
     {
         public CogImage8Grey Image = new CogImage8Grey();
+       // public string AreaName;
         public string PatternName;
         public string CellID;
         public string VirID;
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Image_Collection
     {
         public Dictionary<string, Insp_Images> Images = new Dictionary<string, Insp_Images>();
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class CommonParamItem
     {
         public Dictionary<string, string> ParamList = new Dictionary<string, string>();

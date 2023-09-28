@@ -16,10 +16,9 @@ public:
 	/************************************************************/
 	// Init
 	virtual	BOOL	InitializeCamera(CString strInitFilePath)			{	return	FALSE	;};
-
 	// Grab
 	/*virtual	void	CameraExpose()										= 0;*/
-	virtual	void	WaitGrabEnd()										= 0;
+	virtual	int		WaitGrabEnd(int proc_num)										= 0;
 	virtual	void	GetGrabImage(byte* byteImgArr)						= 0;	
 	virtual	void	GetGrabImage(int nImgCnt, BOOL bIsLiveImage, byte* byteImgArr, ULONG lOffsetX, ULONG lOffsetY, ULONG lCropSizeX, ULONG lCropSizeY, ULONG lWindowSizeX, ULONG lWindowSizeY)	
 																		= 0;	
@@ -100,7 +99,8 @@ public:
 	virtual int		GetMonitoringInterval()								{	return -1		;};
 	virtual void	SetMonitoringInterval(int nInterval)				{	return			;};
 	//virtual void	SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode) { return; };
-
+#elif _SIMULATIONCAMERA
+	virtual	int	SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data) { return 0; };
 #elif _VISTEKCAMERA
 	/************************************************************/
 	/*						 Vistek Camera						*/
@@ -192,7 +192,8 @@ public:
 	virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt) {};
 	virtual void	SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID, int nSeqMode) { return; };
 	virtual int	StopGrab(int nBufCnt) { return 0; };
-
+	virtual	int	SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data) { return 0; };
+	virtual int	ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data) { return 0; };
 #endif
 };
 

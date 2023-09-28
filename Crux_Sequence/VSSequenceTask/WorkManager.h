@@ -40,6 +40,7 @@
 #define SEND_LIGHT_ON								80, 20
 #define SEND_LIGHT_SEQUENCE_IDX_INIT				80, 41
 #define SEND_LIGHT_OFF								80, 30
+#define SEND_APPLY_LIGHT_PROPERTY					80, 15
 
 // PG
 #define SEND_PATTERN_ON_OFF							40, 11
@@ -56,6 +57,7 @@
 // Camera
 #define SEND_CAMERA_EXPOSE							90, 11
 #define SEND_CAMERA_TRIGGER							90, 26
+#define SEND_CAMERA_APPLY_PROPERTY					90, 97
 
 #define SEND_WAIT_CAMERA_GRAB_END					90, 12
 #define SEND_WAIT_CAMERA_GRAB_END_SEQUENCE			90, 17

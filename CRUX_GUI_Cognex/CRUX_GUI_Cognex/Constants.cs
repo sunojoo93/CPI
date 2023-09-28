@@ -85,6 +85,9 @@ namespace CRUX_GUI_Cognex
         public const string DEFAULT_DRIVE = "D:\\";
         public static string[] NET_CURRENT_DRIVE;
         public static string[] PROGRAM_PATH;
+        public static string[] FINAL_RESULT;
+        public static string[] RECORD_PATH;
+        public static string[] RECORD_IMAGE_PATH;
 
         public static string RECIPE_PATH_RENEWAL = @"D:\CRUX\DATA\Recipes\";
         public static string ROI_PROPERTY = @"D:\CRUX\DATA\TXT\";
@@ -106,6 +109,7 @@ namespace CRUX_GUI_Cognex
         public static int MaxVisionCnt = 0;
         public static int CurrentPCno = 0;
         public static string PcName;
+        public static string PcActiveName;
         private static string[] CurGrabVersion;
         //private static string[] CurInspVersion;
         public static int CurLogView = 0;
@@ -119,7 +123,7 @@ namespace CRUX_GUI_Cognex
         
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini", "Device.Cfg" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
-        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini", "GrabData.ini" };
+        public static string[] RecipeItem_Names = { "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini", "GrabData.ini", "Judgement.xml" };
         public static List<string> SelectRecipe = new List<string>();
     }
 
@@ -147,6 +151,7 @@ namespace CRUX_GUI_Cognex
         public static ushort LIGHT_FUNC = (ushort)(80);
         public static ushort LIGHT_SET_DATA = (ushort)(20);
         public static ushort LIGHT_GET_ERRORCODE = (ushort)(42);
+        public static ushort LIGHT_GET_TEMPERATURE = (ushort)(43);
         // Camera
         public static ushort CAMERA_TASK = (ushort)(90);
         public static ushort CAMERA_FUNC = (ushort)(90);        
@@ -174,6 +179,7 @@ namespace CRUX_GUI_Cognex
         public static ushort MAINPC_PG_STAGE_NO = (ushort)(60);             // Stage No             2019.01.31 for CSOT
         public static ushort MAINPC_ALARM = (ushort)(52);                   // Alarm Send to MainPC(Directly) 2020.06.11 JSO
         public static ushort MAINPC_GRAB_RESET_REQ = (ushort)(98);
+        public static ushort MAINPC_CLASS_END = (ushort)(97);
 
         // AF
         public static ushort AF_TASK = (ushort)(70);

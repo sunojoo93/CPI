@@ -51,7 +51,7 @@ public:
 	void			CameraExpose(ST_LINE_INFO stLine)									{	return					;};
 	BOOL			DoRotateImage(cv::Mat matSrcBuffer, cv::Mat& matDstBuffer, double dAngle);
 	void			GetGrabImage(int nImgCnt, BOOL bIsLiveImage, byte* byteImgArr, ULONG lOffsetX, ULONG lOffsetY, ULONG lCropSizeX, ULONG lCropSizeY, ULONG lWindowSizeX, ULONG lWindowSizeY);
-	void			WaitGrabEnd();
+	int			WaitGrabEnd();
 	void			SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode);
 	void			SaveFileCurBuffer(TCHAR* strSavePath);
 
@@ -80,7 +80,7 @@ public:
 	void			GetGrabImage(byte* byteImgArr)					{	return			;};
 	int				GetDataBit()									{	return 8		;};
 
-
+	int	SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data) { return 0; };
 	BOOL	SetExposureTime(double nExpTime)					{	return TRUE	;};
 	BOOL	SetStitchMode(int nCamMode)							{	return TRUE ;};		// 180809 YSS
 	BOOL	SetAnalogGain(int nGain)							{	return TRUE	;};	

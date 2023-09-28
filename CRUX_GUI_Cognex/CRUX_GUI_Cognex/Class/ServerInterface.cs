@@ -19,6 +19,8 @@ using Cognex.VisionPro.ImageFile;
 using CRUX_GUI_Cognex.Utils;
 using OpenCvSharp;
 using CRUX_GUI_Cognex.Class.InspVer2;
+using System.Globalization;
+using CRUX_GUI_Cognex.Main_Form;
 
 namespace CRUX_GUI_Cognex.Class
 {
@@ -335,7 +337,7 @@ namespace CRUX_GUI_Cognex.Class
             // 영상 공유메모리에서 받아와서 검사  
             try
             {
-                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Start Inspection_GUI", true, false);
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Inspection_GUI Start", true, false);
                 //Systems.LogWriter.Info("Start Inspection_GUI_Inspection Start Seq");
                 //return 0;
                 // AOT CHIPPING 일 때 파싱
@@ -346,7 +348,6 @@ namespace CRUX_GUI_Cognex.Class
                 #region For CHIPPING
                 if (Globals.Insp_Type[0] == 5)
                 {
-
                     PARAM_INSPECT_START_AOT_CHIPPING_ALM Inspection_Data = new PARAM_INSPECT_START_AOT_CHIPPING_ALM(0);
 
                     Inspection_Data = (PARAM_INSPECT_START_AOT_CHIPPING_ALM)param.GetStruct(typeof(PARAM_INSPECT_START_AOT_CHIPPING_ALM), Marshal.SizeOf(Inspection_Data));
@@ -362,10 +363,14 @@ namespace CRUX_GUI_Cognex.Class
                     string Area = Encoding.Default.GetString(Inspection_Data.Area).Trim('\0').Replace("\0", "").ToUpper();
                     string Drive = @"D:\";//Systems.DiskManagers.CheckDrive();
                                           //int ImageTotalCount = Inspection_Data.ParticleTotalCount;
-                    string FilePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CellID}\{Paths.NET_ORIGIN_PATH[Globals.CurrentPCno]}{CellID}";
+                    string FilePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CellID}\{Paths.NET_ORIGIN_PATH[Globals.CurrentPCno]}";
                     bool FirstPattern = Inspection_Data.FirstPattern;
                     //Systems.LogWriter.Info("Done Inspection_GUI_Parse");
-                    Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Done Inspection_GUI Parse", true, false);
+                 
+                    int AreaIndex = Inspection_Data.AreaIndex;
+                    int RepeatIndex = Inspection_Data.RepeatIndex;
+
+                    Systems.WriteLog(0, Enums.LogLevel.DEBUG, $@"[ GUI ] Parse End... Cell ID : {CellID}, Vir ID : {VirID}, AreaIndex :{AreaIndex}, RepeatCnt : {RepeatIndex}", true, false);
                     // 오토런 검사
                     // 공유메모리에서 이미지 불러들여 검사
                     //
@@ -384,9 +389,11 @@ namespace CRUX_GUI_Cognex.Class
                             RcvInspData.CellID = CellID;
                             RcvInspData.Area = Area;
                             RcvInspData.VirID = VirID;
-                            RcvInspData.Active = Globals.PcName.ToString().Contains("L") ? "Backside" : "Upside";
-                            RcvInspData.Stage = Globals.PcName.ToString();
+                            RcvInspData.Active = Globals.PcActiveName;
+                            RcvInspData.Stage = Globals.PcName;
                             RcvInspData.FirstPattern = FirstPattern;
+                            RcvInspData.AreaIndex = AreaIndex;
+                            RcvInspData.Crop = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).GetUseCrop();
                             //Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx)).Clone() as Bitmap);
 
                             /////// Byte to CogRoot 23-03-08 검증 필요함 ///////
@@ -421,15 +428,29 @@ namespace CRUX_GUI_Cognex.Class
 
                                 bool Direction = false;
 
-                                switch (Area.ToUpper())
+                                //switch (Area.ToUpper())
+                                //{
+                                //    case "PAD":
+                                //    case "BOTTOM":
+                                //        Direction = false;
+                                //        break;
+
+                                //    case "RIGHT":
+                                //    case "TOP":
+                                //        Direction = true;
+                                //        break;
+                                //    default:
+                                //        break;
+                                //}
+                                switch (AreaIndex)
                                 {
-                                    case "PAD":
-                                    case "BOTTOM":
+                                    case 0:
+                                    case 2:
                                         Direction = false;
                                         break;
 
-                                    case "RIGHT":
-                                    case "TOP":
+                                    case 1:
+                                    case 3:
                                         Direction = true;
                                         break;
                                     default:
@@ -453,13 +474,13 @@ namespace CRUX_GUI_Cognex.Class
 
                                 }
                                 string ParticldPtnName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
-                                //Systems.LogWriter.Info($"Start Inspection_GUI_Merge, Area : {Area}, Ptn : {ParticldPtnName} ");
-                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Start Inspection_GUI_Merge, Area : {Area}, Ptn : {ParticldPtnName} ", true, false);
-                                PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["XShift"].ToInt(), Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["YShift"].ToInt(), AllShift, Particles_Image.ToArray(), ptn_idx, PtnbyParticleCnt / 2, Area, ParticldPtnName, Direction, CellID, FilePath) : Particles_Image[0];
+
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Inspection_GUI_Merge Start,  Cell ID : {CellID}, Vir ID : {VirID}, Area : {Area}, Ptn : {ParticldPtnName} ", true, false);
+                                PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["XShift"].ToInt(), Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["YShift"].ToInt(), AllShift, Particles_Image.ToArray(), ptn_idx, PtnbyParticleCnt / 2, AreaIndex, ParticldPtnName, Direction, CellID, FilePath) : Particles_Image[0];
                                 GrabImages[ptn_idx] = new GrabImageInfo(PtnArray[ptn_idx], ParticldPtnName, Area, ptn_idx);
                             }
                             //Systems.LogWriter.Info("Done Inspection_GUI_Merge");
-                            Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] One Inspection_GUI Merge", true, false);
+                            Systems.WriteLog(0, Enums.LogLevel.DEBUG, $@"[ GUI ] Inspection_GUI_Merge End... Cell ID : {CellID}, Vir ID : {VirID}", true, false);
 
                             foreach (GrabImageInfo item in GrabImages)
                             {
@@ -479,9 +500,10 @@ namespace CRUX_GUI_Cognex.Class
                                 {
                                     ImageSave(Path, item.Image);
                                 });
-                                //ImageSaveTask.Start();
+                                ImageSaveTask.Start();
                             }
-
+                            if ((Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).GetUseGrabMode())
+                                return 0;
                             for (int i = 0; i < PtnCnt; ++i)
                             {
                                 ImageData ImgData = new ImageData();
@@ -495,8 +517,23 @@ namespace CRUX_GUI_Cognex.Class
 
                               
                             }
-                            Systems.Inspector_.Start_Insp(RcvInspData);
-                            Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Done Inspection_GUI Insp Start Seq ", true, false);
+                            string StartGrabTactTemp = Encoding.Default.GetString(Inspection_Data.GrabStartTime).Trim('\0').Replace("\0", "");
+                            DateTime StartGrabTact;
+                            DateTime EndGrabTact = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                            TimeSpan GrabTact = new TimeSpan();
+                            if (DateTime.TryParse(StartGrabTactTemp, out StartGrabTact))
+                            {
+                                GrabTact = EndGrabTact - StartGrabTact;
+                            }
+                            else
+                            {
+                                GrabTact = DateTime.Now - DateTime.Now;                                
+                            }
+                            RcvInspData.GrabTact = GrabTact.ToString();
+                            //RcvInspData.GrabTact = "0";
+                            Systems.Inspector_.Enqueue(RcvInspData);
+                            //Systems.Inspector_.Start_Insp(RcvInspData);
+                            Systems.WriteLog(0, Enums.LogLevel.DEBUG, $@"[ GUI ] Inspection_GUI End ... Cell ID : {CellID}, Vir ID : {VirID}", true, false);
                             //Systems.LogWriter.Info("Done Inspection_GUI_Inspection Start Seq");
                             #endregion
                             #region Mat Version
@@ -789,13 +826,13 @@ namespace CRUX_GUI_Cognex.Class
                     ResetParam.VirID = Encoding.UTF8.GetBytes(VirID);
                     ResetParam.CellID = Encoding.UTF8.GetBytes(CellID);
                     ResetParam.Result = Result;
-                    if (Globals.PcName == "L1")
+                    if (Globals.PcActiveName == "Rear" && Globals.PcName == "1")
                         ResetParam.PCNum = 0;
-                    else if (Globals.PcName == "L2")
+                    else if (Globals.PcActiveName == "Rear" && Globals.PcName == "2")
                         ResetParam.PCNum = 1;
-                    else if (Globals.PcName == "U1")
+                    else if (Globals.PcActiveName == "Front" && Globals.PcName == "1")
                         ResetParam.PCNum = 2;
-                    else if (Globals.PcName == "U2")
+                    else if (Globals.PcActiveName == "Front" && Globals.PcName == "2")
                         ResetParam.PCNum = 3;                
                     SendParam.SetStruct(ResetParam);
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.MAINPC_TASK), IpcConst.MAINPC_FUNC, IpcConst.MAINPC_GRAB_RESET_REQ,
@@ -849,7 +886,7 @@ namespace CRUX_GUI_Cognex.Class
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 05, rcvThetaAuto);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 20, CreateInspectorFromRecipe);
             m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 10, InspectionStart);
-            m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 11, InspectionStart);
+            m_IpcAnalyzeMsg[taskNumber++].REG_RCV_THREAD_QUEUE(10, 11, InspectorReset);
             m_nRcvTaskCnt = taskNumber;
         }
 

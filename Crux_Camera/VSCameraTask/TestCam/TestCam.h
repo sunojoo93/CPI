@@ -44,7 +44,7 @@ public:
 	BOOL			OpenCameraComPort(int nComPort, int nBaudrate, eCamModel eModel);	
 	// Grab
 	void			CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt);									// Exposure Time 동안만 대기 후 반환
-	void			WaitGrabEnd();									// Wait Image Grab End	
+	int				WaitGrabEnd(int proc_num);									// Wait Image Grab End	
 	BYTE*			GetGrabBuffer();
 	BOOL			DoRotateImage(cv::Mat matSrcBuffer, cv::Mat& matDstBuffer, double dAngle);
 	void			GetGrabImage(byte* byteImgArr);
@@ -122,6 +122,8 @@ public:
 	int				GetCameraDepth();
 	double			GetCameraTemperature();
 
+	int				SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data);
+	int				ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data);
 	//MIL_ID			GetMilGrabBuffer();
 	MIL_ID			GetLiveGrabImage();
 
@@ -143,6 +145,19 @@ public:
 
 	double m_dStartTime;
 	double m_dEndTime;
+
+	LONGLONG m_i64Freq;
+	LONGLONG m_i64Start;
+	LONGLONG m_i64End;
+
+	LONGLONG m_i64Start2;
+	LONGLONG m_i64End2;
+
+	int g_nHookCount = 0;
+	int g_nHookGrabStart = 0;
+	int g_nHookGrabEnd = 0;
+
+	//HANDLE g_hExpEnd[MAX_BUFFER_NUMBER] = { NULL, };		// Exposure End 시점
 
 #pragma region Trigger 관련
 	CTriggerControl* m_Trigger;
@@ -211,8 +226,17 @@ public:
 	MIL_ID			m_LiveImage;
 	MIL_ID			m_milLiveGrabBuffer;
 	MIL_ID			m_milCropImage;
-
+	MIL_ID			m_milDisplay;
+	MIL_ID			m_ColorImage;
+	MIL_ID			m_milCropLoadClrImg;
+	MIL_ID			m_MilWBCoefficients;			// White Balance 보정치
 	bool m_bTriggerLive;
+
+	BOOL			m_fnInitializeImageBuffer();
+	BOOL			m_fnPrepareGrabBuffer();
+
+
+	//bool m_bTriggerLive;
 #pragma endregion
 
 private:
