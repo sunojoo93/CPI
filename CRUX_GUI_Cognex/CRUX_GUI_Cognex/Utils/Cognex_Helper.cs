@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,13 +28,20 @@ namespace CRUX_GUI_Cognex.Utils
         /// <returns></returns>
         public static T GetJobList<T>(CogJobManager manager) where T : List<string> ,new ()
         {
-            T Temp =null;
-            for(int i = 0; i < manager.JobCount; ++i)
+            try
             {
-                Temp = Temp ?? new T();
-                Temp.Add(manager.Job(i).Name);
+                T Temp = null;
+                for (int i = 0; i < manager.JobCount; ++i)
+                {
+                    Temp = Temp ?? new T();
+                    Temp.Add(manager.Job(i).Name);
+                }
+                return Temp;
             }
-            return Temp;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Manager에 포함된 Job 객체를 반환한다.
@@ -42,13 +50,20 @@ namespace CRUX_GUI_Cognex.Utils
         /// <returns></returns>
         public static List<CogJob> GetJobs(CogJobManager manager)
         {
-            List<CogJob> Temp = null;
-            for (int i = 0; i < manager.JobCount; ++i)
+            try
             {
-                Temp = Temp ?? new List<CogJob>();
-                Temp.Add(manager.Job(i));
+                List<CogJob> Temp = null;
+                for (int i = 0; i < manager.JobCount; ++i)
+                {
+                    Temp = Temp ?? new List<CogJob>();
+                    Temp.Add(manager.Job(i));
+                }
+                return Temp;
             }
-            return Temp;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Manager에 포함된 Job의 이름을 변경한다.
@@ -58,9 +73,16 @@ namespace CRUX_GUI_Cognex.Utils
         /// <param name="result_name"></param>
         public static void ChangeJobName(CogJobManager manager, string source_name, string result_name)
         {
-            for (int i = 0; i < manager.JobCount; ++i)
-                if (manager.Job(i).Name == source_name)
-                    manager.Job(i).Name = result_name;
+            try
+            {
+                for (int i = 0; i < manager.JobCount; ++i)
+                    if (manager.Job(i).Name == source_name)
+                        manager.Job(i).Name = result_name;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Manager에 포함된 Job을 이름을 기준으로 삭제한다.
@@ -69,7 +91,14 @@ namespace CRUX_GUI_Cognex.Utils
         /// <param name="name"></param>
         public static void DeleteJob(CogJobManager manager, string name)
         {
-            manager?.JobRemove(name);
+            try
+            {
+                manager?.JobRemove(name);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Manager에 포함된 Job을 삭제한다.
@@ -78,7 +107,14 @@ namespace CRUX_GUI_Cognex.Utils
         /// <param name="job"></param>
         public static void DeleteJob(CogJobManager manager, CogJob job)
         {
-            manager?.JobRemove(job);
+            try
+            {
+                manager?.JobRemove(job);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Manager에 포함된 Job 중 Name을 기준으로 Job을 반환한다.
@@ -88,7 +124,14 @@ namespace CRUX_GUI_Cognex.Utils
         /// <returns></returns>
         public static CogJob GetJob(CogJobManager manager, string name)
         {
-            return manager?.Job(name) ?? null;
+            try
+            {
+                return manager?.Job(name) ?? null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// Manager에 포함된 Job 중 인덱스를 기준으로 Job을 반환한다.
@@ -98,7 +141,14 @@ namespace CRUX_GUI_Cognex.Utils
         /// <returns></returns>
         public static CogJob GetJob(CogJobManager manager, int idx)
         {
-            return manager?.Job(idx) ?? null;
+            try
+            {
+                return manager?.Job(idx) ?? null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// 경로에서 이미지를 CogImage8Grey로 불러온다.
@@ -120,7 +170,6 @@ namespace CRUX_GUI_Cognex.Utils
             }
             catch(Exception ex)
             {
-                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] Cognex_Helper_ Load Image Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -131,8 +180,15 @@ namespace CRUX_GUI_Cognex.Utils
         /// <returns></returns>
         public static CogJob CreateNewJob(Recipe recipe)
         {
-            CogJob Temp = new CogJob();
-            return Temp;
+            try
+            {
+                CogJob Temp = new CogJob();
+                return Temp;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// 경로에서 Vpp를 읽어서 Job으로 반환한다.
@@ -144,7 +200,7 @@ namespace CRUX_GUI_Cognex.Utils
         {
             try
             {
-                CogJob Job = CogSerializer.LoadObjectFromFile(path) as CogJob;
+                CogJob Job = CogSerializer.LoadObjectFromFile(path, typeof(BinaryFormatter), CogSerializationOptionsConstants.Minimum) as CogJob;
                 return Job;
             }
             catch(Exception ex)
@@ -158,20 +214,34 @@ namespace CRUX_GUI_Cognex.Utils
         /// <param name="manager"></param>
         public static void ClearJobMnager(CogJobManager manager)
         {
-            if(manager != null)
+            try
             {
-                manager.Shutdown();               
-                manager = null;
-                GC.Collect();
+                if (manager != null)
+                {
+                    manager.Shutdown();
+                    manager = null;
+                    GC.Collect();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public static void ClearJob(CogJob job)
         {
-            if (job != null)
+            try
             {
-                job.Shutdown();
-                //GC.Collect();
-                //job = new CogJob();
+                if (job != null)
+                {
+                    job.Shutdown();
+                    //GC.Collect();
+                    //job = new CogJob();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         /// <summary>
@@ -181,7 +251,14 @@ namespace CRUX_GUI_Cognex.Utils
         /// <returns></returns>
         public static CogColorConstants GetColorFromString(string data)
         {
-            return EnumUtil<CogColorConstants>.Parse(data);
+            try
+            {
+                return EnumUtil<CogColorConstants>.Parse(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// string으로 받은 데이터를 해당하는 CogGraphicLineStyleConstants로 변환한다.
@@ -190,7 +267,170 @@ namespace CRUX_GUI_Cognex.Utils
         /// <returns></returns>
         public static CogGraphicLineStyleConstants GetLineStyleFromString(string data)
         {
-            return EnumUtil<CogGraphicLineStyleConstants>.Parse(data);
+            try
+            {
+                return EnumUtil<CogGraphicLineStyleConstants>.Parse(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void ParseDefectData(string data, ref Defect_Property obj)
+        {
+            try
+            {
+                //if (Globals.PcActiveName.ToUpper().Contains("REAR"))
+                //{
+                    string Temp = data;
+
+                    int C_E = Temp.IndexOf("C_E");
+                    int C_S = Temp.IndexOf("C_S");
+                    int F_E = Temp.IndexOf("F_E");
+                    int F_S = Temp.IndexOf("F_S");
+                    int AreaIdx = Temp.IndexOf("면적");
+                    int VicinityIdx = Temp.IndexOf("주변");
+                    int IDIdx = Temp.IndexOf("ID");       
+
+                    string C_E_Data = Temp.Substring(C_E).Replace(" ", "");
+                    string Result1 = Temp.Remove(C_E);
+
+
+                    string C_S_Temp = Result1.Substring(C_S).Replace(" ", "").Trim();
+                    string C_S_Data = C_S_Temp.Remove(C_S_Temp.Length -1);
+                    string Result2 = Result1.Remove(C_S);
+
+                string F_E_Temp = Result2.Substring(F_E).Replace(" ", "").Trim();
+                string F_E_Data = F_E_Temp.Remove(F_E_Temp.Length - 1);
+                string Result3 = Result2.Remove(F_E);
+
+                string F_S_Temp = Result3.Substring(F_S).Replace(" ", "").Trim();
+                string F_S_Data = F_S_Temp.Remove(F_S_Temp.Length - 1);
+                string Result4 = Result3.Remove(F_S);              
+
+                string AreaIdx_Data = Result4.Substring(AreaIdx).Replace(",", "").Trim();
+                    string Result5 = Result4.Remove(AreaIdx);
+
+                    string Vici_Data = Result5.Substring(VicinityIdx).Replace(",", "").Trim();
+                    string Result6 = Result5.Remove(VicinityIdx);
+
+                    string IDTemp = Result6.Replace(",", "").Trim();
+
+                    string[] C_E_Coords = C_E_Data.Split('(')[1].Replace(")", "").Split(',');
+                    string[] C_S_Coords = C_S_Data.Split('(')[1].Replace(")", "").Split(',');
+
+                    string[] F_E_Coords = F_E_Data.Split('(')[1].Replace(")", "").Split(',');
+                    string[] F_S_Coords = F_S_Data.Split('(')[1].Replace(")", "").Split(',');
+
+                    string C_EX = C_E_Coords[0];
+                    string C_EY = C_E_Coords[1];
+
+
+                    string C_SX = C_S_Coords[0];
+                    string C_SY = C_S_Coords[1];
+
+                    string F_EX = F_E_Coords[0];
+                    string F_EY = F_E_Coords[1];
+
+                    string F_SX = F_S_Coords[0];
+                    string F_SY = F_S_Coords[1];
+
+                    string Area = AreaIdx_Data.Split('=')[1];
+                    string Vicinity = Vici_Data.Split('=')[1];
+                    string ID = IDTemp.Split('=')[1].Trim();
+
+                    if (!Int32.TryParse(C_EX, out obj.CE_X))
+                        obj.CE_X = 0;
+
+                    if (!Int32.TryParse(C_EY, out obj.CE_Y))
+                        obj.CE_Y = 0;
+
+                    if (!Int32.TryParse(C_SX, out obj.CS_X))
+                        obj.CS_X = 0;
+
+                    if (!Int32.TryParse(C_SY, out obj.CS_Y))
+                        obj.CS_Y = 0;
+
+                    if (!Int32.TryParse(F_EX, out obj.FE_X))
+                        obj.FE_X = 0;
+
+                    if (!Int32.TryParse(F_EY, out obj.FE_Y))
+                        obj.FE_Y = 0;
+
+                    if (!Int32.TryParse(F_SX, out obj.FS_X))
+                        obj.FS_X = 0;
+
+                    if (!Int32.TryParse(F_SY, out obj.FS_Y))
+                        obj.FS_Y = 0;
+
+
+                    if (!double.TryParse(Area, out obj.Area))
+                        obj.Area = 0;
+
+                    if (!double.TryParse(Vicinity, out obj.Vicinity))
+                        obj.Vicinity = 0;
+
+                    if (!Int32.TryParse(ID, out obj.Id))
+                        obj.Id = 0;
+                //}
+                //else
+                //{
+                    //string Temp = data;
+
+                    //int CoordIdx = Temp.IndexOf("질량 중심 XY");
+                    //int AreaIdx = Temp.IndexOf("면적");
+                    //int VicinityIdx = Temp.IndexOf("주변");
+                    //int IDIdx = Temp.IndexOf("ID");
+                    //int FxS = Temp.IndexOf("OXOY");
+
+                    //string CoordTemp_Origin = Temp.Substring(FxS).Replace(" ", "");
+                    //string Result0 = Temp.Remove(FxS);
+                    //string CoordTemp = Temp.Substring(CoordIdx).Replace(" ", "");
+                    //string Result1 = Temp.Remove(CoordIdx);
+                    //string AreaTemp = Result1.Substring(AreaIdx).Replace(",", "").Trim();
+                    //string Result2 = Result1.Remove(AreaIdx);
+                    //string VicinityTemp = Result2.Substring(VicinityIdx).Replace(",", "").Trim();
+                    //string Result3 = Result2.Remove(VicinityIdx);
+                    //string IDTemp = Result3.Replace(",", "").Trim();
+
+                    //string[] Coords = CoordTemp.Split('(')[1].Replace(")", "").Split(',');
+                    //string[] Coords_Origin = CoordTemp_Origin.Split('(')[1].Replace(")", "").Split(',');
+                    //string OX = Coords_Origin[0];
+                    //string OY = Coords_Origin[1];
+                    //string X = Coords[0];
+                    //string Y = Coords[1];
+                    //string Area = AreaTemp.Split('=')[1];
+                    //string Vicinity = VicinityTemp.Split('=')[1];
+                    //string ID = IDTemp.Split('=')[1].Trim();
+
+                    //if (!Int32.TryParse(OX, out obj.OX))
+                    //    obj.OX = 0;
+
+                    //if (!Int32.TryParse(OY, out obj.OY))
+                    //    obj.OY = 0;
+
+                    //if (!Int32.TryParse(X, out obj.X))
+                    //    obj.X = 0;
+
+                    //if (!Int32.TryParse(Y, out obj.Y))
+                    //    obj.X = 0;
+
+                    //if (!double.TryParse(Area, out obj.Area))
+                    //    obj.Area = 0;
+
+                    //if (!double.TryParse(Vicinity, out obj.Vicinity))
+                    //    obj.Vicinity = 0;
+
+                    //if (!Int32.TryParse(ID, out obj.Id))
+                    //    obj.Id = 0;
+               // }
+
+            }
+            catch (Exception ex)
+            {                
+                throw ex;
+            }
         }
         /// <summary>
         /// 이미지를 합성한다.
@@ -202,8 +442,10 @@ namespace CRUX_GUI_Cognex.Utils
         /// direction : true - 정방향
         /// direction : false - 역방향
         /// <returns></returns>
-        public static CogImage8Grey MergeImages(int shift_x, int shift_y, int shift_all, CogImage8Grey[] image_list, int ptn_no, int img_len, string area, string ptn_name, bool direction, string cell_id, string path)
+        public static CogImage8Grey MergeImages(int shift_x, int shift_y, int shift_all, CogImage8Grey[] image_list, int ptn_no, int img_len, int area_idx, string ptn_name, bool direction, string cell_id, string path)
         {
+            try
+            {
 
             if (img_len > 0)
             {
@@ -214,7 +456,7 @@ namespace CRUX_GUI_Cognex.Utils
 
                 CogImage8Grey Result_CogImg = new CogImage8Grey(nImage_Width, (nImage_Height * 2) + (nImage_Height - Math.Abs(shift_y)) * (img_len - 2));
                 CogRectangle OriRegion = new CogRectangle();
-                string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", ptn_no, 0, area, ptn_name);
+                //string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", ptn_no, 0, area, ptn_name);
                 // RegionTool.RunParams.ImageAlignmentEnabled = true;
                 if (direction)
                 {
@@ -286,24 +528,23 @@ namespace CRUX_GUI_Cognex.Utils
 
                     CogIPOneImageFlipRotate filp = new CogIPOneImageFlipRotate();
 
-                    switch (area)
+                    switch (area_idx)
                     {
-                        case "PAD":
-                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Flip;
-
-                            break;
-
-                        case "BOTTOM":
+                        case 0:
                             filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate180Deg;
 
-
                             break;
 
-                        case "RIGHT":
+                         case 2:
+                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate90Deg;
                             break;
 
-                        case "TOP":
-                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.FlipAndRotate180Deg;
+                       case 1:
+                                filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate180Deg;
+                                break;
+
+                         case 3:
+                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate90Deg;
                             break;
 
                         default:
@@ -327,7 +568,7 @@ namespace CRUX_GUI_Cognex.Utils
                     {
                         fileProc.CreateDirectory(path);
                     }
-                    string Path = ($@"{path}{ImageName}.bmp");
+                    //string Path = ($@"{path}{ImageName}.bmp");
 
 
                     //string Path = ($@"D:\ImageSave\{cell_id}{area}_{ptn_name}_{dir}_Test.bmp");
@@ -337,7 +578,7 @@ namespace CRUX_GUI_Cognex.Utils
               
                     //SaveImage.Operator.Open(Path, CogImageFileModeConstants.Write);
                     //SaveImage.Run();
-                    SaveToFile(Result_CogImg, Path);
+                    //SaveToFile(Result_CogImg, Path);
                     //Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height);
                     //Bitmap Temp = new Bitmap(Result_CogImg.Width, Result_CogImg.Height, Result_CogImg.Width, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Result_CogImg.ToBitmap().GetHbitmap());
                     //Bitmap Temp = new Bitmap(Result_CogImg.Width, Result_CogImg.Height, Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height).Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height).Scan0);
@@ -419,24 +660,25 @@ namespace CRUX_GUI_Cognex.Utils
 
                     CogIPOneImageFlipRotate filp = new CogIPOneImageFlipRotate();
 
-                    switch (area)
+                    switch (area_idx)
                     {
-                        case "PAD":
-                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Flip;
+                        case 0:
+                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate180Deg;
 
                             break;
 
-                        case "BOTTOM":
-                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate180Deg;
+                        case 2:
+                           filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate90Deg;
 
                       
                             break;
 
-                        case "RIGHT":
-                            break;
+                         case 1:
+                                filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate180Deg;
+                                break;
 
-                        case "TOP":
-                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.FlipAndRotate180Deg;
+                        case 3:
+                            filp.OperationInPixelSpace = CogIPOneImageFlipRotateOperationConstants.Rotate90Deg;
                             break;
 
                         default:
@@ -454,7 +696,7 @@ namespace CRUX_GUI_Cognex.Utils
                     {
                         fileProc.CreateDirectory(path);
                     }
-                    string Path = ($@"{path}{ImageName}.bmp");
+                    //string Path = ($@"{path}{ImageName}.bmp");
 
                     //string Path = ($@"D:\ImageSave\{area}_{ptn_name}_{dir}_Test.bmp");
 
@@ -464,7 +706,7 @@ namespace CRUX_GUI_Cognex.Utils
                     //SaveImage.Operator.Open(Path, CogImageFileModeConstants.Write);
                     //SaveImage.Run();
 
-                    SaveToFile(Result_CogImg, Path);
+                    //SaveToFile(Result_CogImg, Path);
                     //Bitmap Temp = new Bitmap(Result_CogImg.Width, Result_CogImg.Height, Result_CogImg.Width%4, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, ((IntPtr)Result_CogImg.ToBitmap().GetHbitmap())).Clone() as Bitmap;
                     //Bitmap Temp = new Bitmap(Result_CogImg.Width, Result_CogImg.Height, Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height).Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Result_CogImg.Get8GreyPixelMemory(CogImageDataModeConstants.ReadWrite, 0, 0, Result_CogImg.Width, Result_CogImg.Height).Scan0);
                     //Bitmap Temp = Result_CogImg.ToBitmap();
@@ -478,32 +720,91 @@ namespace CRUX_GUI_Cognex.Utils
 
                 Rect.X = 0;
                 Rect.Y = 0;
-                Rect.Width = Result_CogImg.Width;
-                Rect.Height = Result_CogImg.Height;
+
+
+                    switch (area_idx)
+                    {
+                        case 0:
+                            Rect.Width = Result_CogImg.Width;
+                            Rect.Height = Result_CogImg.Height;
+
+                            break;
+
+                        case 2:
+                            Rect.Width = Result_CogImg.Height;
+                            Rect.Height = Result_CogImg.Width;
+
+
+                            break;
+
+                        case 1:
+                            Rect.Width = Result_CogImg.Width;
+                            Rect.Height = Result_CogImg.Height;
+                            break;
+
+                        case 3:
+                            Rect.Width = Result_CogImg.Height;
+                            Rect.Height = Result_CogImg.Width;
+                            break;
+
+                        default:
+                            break;
+                    }
+                  
 
                 CopyTool.InputImage = Result_CogImg;
                 CopyTool.DestinationImage = Temp_Copy_CogImg;
+                
                 CopyTool.Region = Rect;
 
                 CopyTool.Run();
 
-                CogImage8Grey Last_Image = (CogImage8Grey)CopyTool.OutputImage;
-                //////////////////     
+               CogImage8Grey Last_Image = (CogImage8Grey)CopyTool.OutputImage;
+                   
+                    //////////////////     
 
-                //////////////////
+                    //////////////////
 
-                return Last_Image;
+                    return Last_Image;
             }
             else
-                return null;       
+                return null;   
+                            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }    
         }
         public static void SaveToFile(CogImage8Grey image, string path)
         {
-            CogImageFileTool SaveImage = new CogImageFileTool();
+            try
+            {
+                CogImageFileTool SaveImage = new CogImageFileTool();
+                
+                SaveImage.InputImage = image;
+                SaveImage.Operator.Open(path, CogImageFileModeConstants.Write);
+            
+                SaveImage.Run();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static void SaveToFile_ImageColor(CogImage24PlanarColor image, string path)
+        {
+            try
+            {
+                CogImageFileTool SaveImage = new CogImageFileTool();
 
-            SaveImage.InputImage = image;
-            SaveImage.Operator.Open(path, CogImageFileModeConstants.Write);
-            SaveImage.Run();
+                SaveImage.InputImage = image;
+                SaveImage.Operator.Open(path, CogImageFileModeConstants.Write);
+                SaveImage.Run();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

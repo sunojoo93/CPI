@@ -30,6 +30,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 throw ex;
             }
         }
+        public void RefreshCurrentUser(User user)
+        {
+            Lb_CurUserInfo.Text = user.Id;
+        }
 
         private void Btn_Connect_Click(object sender, EventArgs e)
         {

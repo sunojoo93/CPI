@@ -380,8 +380,9 @@ int VSMessageProcessor::VS_ApplyLightProperty(byte* pParam, ULONG& nPrmSize, boo
 
 	byte* tempParam = pParam;
 
-	ST_GRAB_AREA_INFO_AOT *LightValue = new ST_GRAB_AREA_INFO_AOT;
-	LightValue = (ST_GRAB_AREA_INFO_AOT *)tempParam;
+	ST_GRAB_AREA_INFO_AOT LightValue = *(ST_GRAB_AREA_INFO_AOT*)tempParam;
+	//memcpy(&LightValue, &tempParam, sizeof(ST_GRAB_AREA_INFO_AOT));
+	//LightValue = (ST_GRAB_AREA_INFO_AOT *)tempParam;
 
 	EXCEPTION_TRY
 		theApp.m_pLight->ApplyLightProperty(LightValue);

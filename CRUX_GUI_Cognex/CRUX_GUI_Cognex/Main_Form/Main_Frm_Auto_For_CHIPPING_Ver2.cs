@@ -1,6 +1,7 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.Implementation;
 using CRUX_GUI_Cognex.Class;
+using CRUX_GUI_Cognex.Ex_Form;
 using CRUX_GUI_Cognex.User_Controls;
 using CRUX_GUI_Cognex.Utils;
 using System;
@@ -11,6 +12,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -26,6 +28,7 @@ namespace CRUX_GUI_Cognex.Main_Form
         public string CurrentFormName = string.Empty;
         public int CurFormIndex { get; set; }
         public Recipes Shared_Recipe;
+        private DefectTrend Trend;
         public Main_Frm_Auto_For_CHIPPING_Ver2()
         {
             try
@@ -69,9 +72,8 @@ namespace CRUX_GUI_Cognex.Main_Form
                 InitDefectDataGridView();
                 Tmr_SystemInfo.Start();
                 Tmr_HardDiskInfo.Start();
-
-
-
+                InitDgvTrendInfo();
+                LoadResultDataGridView();
                 Show();
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Create Done", true, false);
             }
@@ -80,23 +82,59 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
+
         public bool GetUseCrop()
         {
-            int Idx = Clb_Options.Items.IndexOf("Crop");
-            CheckedItemCollection Temp = Clb_Options.CheckedItems as CheckedItemCollection;
-
-            if (Temp.Contains("Crop"))            
-                return true;            
+            CheckedItemCollection Temp = null;
+            Clb_Options.Invoke(new MethodInvoker(delegate ()
+            {
+                int Idx = Clb_Options.Items.IndexOf("Crop");
+                Temp = Clb_Options.CheckedItems as CheckedItemCollection;
+            }));
+            if (Temp != null)
+            {
+                if (Temp.Contains("Crop"))
+                    return true;
+                else
+                    return false;
+            }
             else
-                return false;     
+                return false;
         }
 
         public bool GetUseGrabMode()
         {
-            int Idx = Clb_Options.Items.IndexOf("Only Image");
-           CheckedItemCollection Temp = Clb_Options.CheckedItems as CheckedItemCollection;
-            if (Temp.Contains("Only Image"))
-                return true;
+            CheckedItemCollection Temp = null;
+            Clb_Options.Invoke(new MethodInvoker(delegate()
+            {
+                int Idx = Clb_Options.Items.IndexOf("Only Image");
+                Temp = Clb_Options.CheckedItems as CheckedItemCollection;
+            }));
+            if (Temp != null)
+            {
+                if (Temp.Contains("Only Image"))
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+        public bool GetUseSaveParticleImage()
+        {
+            CheckedItemCollection Temp = null;
+            Clb_Options.Invoke(new MethodInvoker(delegate ()
+            {
+                int Idx = Clb_Options.Items.IndexOf("Save Particle Image");
+                Temp = Clb_Options.CheckedItems as CheckedItemCollection;
+            }));
+            if (Temp != null)
+            {
+                if (Temp.Contains("Save Particle Image"))
+                    return true;
+                else
+                    return false;
+            }
             else
                 return false;
         }
@@ -135,17 +173,31 @@ namespace CRUX_GUI_Cognex.Main_Form
             try
             {
                 DataTable Dt_Defect = new DataTable();
-                Dt_Defect.Columns.Add("Area");            
-                Dt_Defect.Columns.Add("X");
-                Dt_Defect.Columns.Add("Y");
-                Dt_Defect.Columns.Add("Vicinity");
+                Dt_Defect.Columns.Add("Pos.");
+                Dt_Defect.Columns.Add("Name");
+                Dt_Defect.Columns.Add("F_SX");
+                Dt_Defect.Columns.Add("F_SY");
+                Dt_Defect.Columns.Add("F_EX");
+                Dt_Defect.Columns.Add("F_EY");
+                Dt_Defect.Columns.Add("C_SX");
+                Dt_Defect.Columns.Add("C_SY");
+                Dt_Defect.Columns.Add("C_EX");
+                Dt_Defect.Columns.Add("C_EY");
+                Dt_Defect.Columns.Add("Area");
                 Dt_Defect.Columns.Add("ID");
                 Dgv_Defect.DataSource = Dt_Defect;
 
-                Dgv_Defect.Columns["Area"].Width = 120;      
-                Dgv_Defect.Columns["X"].Width = 70;
-                Dgv_Defect.Columns["Y"].Width = 70;
-                Dgv_Defect.Columns["Vicinity"].Width = 70;
+                Dgv_Defect.Columns["Pos."].Width = 120;
+                Dgv_Defect.Columns["Name"].Width = 120;  
+                Dgv_Defect.Columns["F_SX"].Width = 70;
+                Dgv_Defect.Columns["F_SY"].Width = 70;
+                Dgv_Defect.Columns["F_EX"].Width = 70;
+                Dgv_Defect.Columns["F_EY"].Width = 70;
+                Dgv_Defect.Columns["C_SX"].Width = 70;
+                Dgv_Defect.Columns["C_SY"].Width = 70;
+                Dgv_Defect.Columns["C_EX"].Width = 70;
+                Dgv_Defect.Columns["C_EY"].Width = 70;
+                Dgv_Defect.Columns["Area"].Width = 70;
                 Dgv_Defect.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 Dgv_Defect.Refresh();
@@ -192,17 +244,13 @@ namespace CRUX_GUI_Cognex.Main_Form
                 new DataGridViewProgressColumn(true) { Width = 240 , HeaderText = "Rate", Name = "Rate", ProgressBarColor = Color.LimeGreen, ReadOnly = true, DefaultCellStyle = new DataGridViewCellStyle() { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("나눔스퀘어라운드",10F, FontStyle.Bold), ForeColor = Color.Black, NullValue = 0 } } ,
                 new DataGridViewCheckBoxColumn() { AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, HeaderText = "Cur", Name = "Cur" } } );
 
-                for(int i = 0; i < Dgv_DriveInfo.Rows.Count; ++i)
-                {
-                    
-                }
    
-                foreach (HardDiskClass row in Hdc)
-                {
-                    double UseRate = ((double)row.UseSize) / (double)row.TotalSize * (double)100;
-                    object[] Temp = new object[] { row.Name.ToString(), Math.Round(UseRate, 2) , true};
-                    Dgv_DriveInfo.Rows.Add(Temp);
-                }
+                //foreach (HardDiskClass row in Hdc)
+                //{
+                //    double UseRate = ((double)row.UseSize) / (double)row.TotalSize * (double)100;
+                //    object[] Temp = new object[] { row.Name.ToString(), Math.Round(UseRate, 2) , true};
+                //    Dgv_DriveInfo.Rows.Add(Temp);
+                //}
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_InitDiskInfo Done", true, false);
             }
             catch (Exception ex)
@@ -211,11 +259,40 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
         }
 
-        public void UpdateDisplayRecord(Dictionary<string, CogRecord> records, string path, string id)
+        public void InitDgvTrendInfo()
         {
+            try
+            {
+                //DataGridViewProgressColumn column = new DataGridViewProgressColumn();
 
+                DataTable Dt = new DataTable();
+
+                Dt.Columns.Add("Defect Name");
+                Dt.Columns.Add("Count");
+
+                Dgv_DefectTrend.DataSource = Dt;
+                Dgv_DefectTrend.Columns["Defect Name"].Width = 270;
+                Dgv_DefectTrend.Columns["Count"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                Dgv_DefectTrend.Refresh();
+
+                //Dgv_DefectTrend.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewTextBoxColumn() { HeaderText = "Defect Name", Name = "Defect Name", ReadOnly = true, Width = 270, DefaultCellStyle=new DataGridViewCellStyle() {Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("나눔스퀘어라운드",10F, FontStyle.Bold)} },
+                //    new DataGridViewTextBoxColumn() { HeaderText = "Count", Name = "Count", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, DefaultCellStyle=new DataGridViewCellStyle() {Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("나눔스퀘어라운드",10F, FontStyle.Bold)} }
+                ////new DataGridViewProgressColumn(true) { AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill , HeaderText = "Count", Name = "Count", ProgressBarColor = Color.LimeGreen, ReadOnly = true, DefaultCellStyle = new DataGridViewCellStyle() { Alignment = DataGridViewContentAlignment.MiddleCenter, Font = new Font("나눔스퀘어라운드",10F, FontStyle.Bold), ForeColor = Color.Black, NullValue = 0 }
+                //});
+
+                //UpdateTrend();
+                //foreach (Defect_Info item in Shared_Recipe.MainRecipe.DefectList.Defects)
+                //{
+                //    object[] Temp = new object[] { item.DefectName, "0"};
+                //    Dgv_DefectTrend.Rows.Add(Temp);
+                //}
+                Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_InitDefectTrend Done", true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-
         public void SetRecordPad(CogRecord record, string path, string id, bool manaul)
         {
             CellPrinter_Auto.Invoke(new MethodInvoker(delegate ()
@@ -292,7 +369,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                 throw ex;
             }
         }
-        public void SetRecipe(ref Recipes recipe)
+        new public void SetRecipe(ref Recipes recipe)
         {
             try
             {
@@ -304,26 +381,30 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
-
-        
-        private void label4_Click(object sender, EventArgs e)
+        public void TrendInitialize()
         {
-
+            try
+            {
+                string RecipePath = Shared_Recipe.MainRecipe.Path;
+                string RecipeName = Shared_Recipe.MainRecipe.Name;
+                string FullPath = $@"{RecipePath}{RecipeName}\";
+                Trend = Utility.XMLDeserialize<DefectTrend>(FullPath, "DefectTrend.xml");
+                if (Trend != null)
+                    UpdateTrend();
+                else
+                    Trend = new DefectTrend();
+                Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Load Defect Trend Done", true, false);
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
 
-        private void Tlp_Records_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void Dgv_Result_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-        }
-
-        private void Main_Frm_Auto_For_CHIPPING_Shown(object sender, EventArgs e)
-        {
-         
         }
 
         private void Tmr_SystemInfo_Tick(object sender, EventArgs e)
@@ -388,10 +469,12 @@ namespace CRUX_GUI_Cognex.Main_Form
                 ObservableCollection<HardDiskClass> Hdc = Program.SysInfo.PC.HardDisk;
 
                 Dgv_DriveInfo.Rows.Clear();
+                string CurDrive = Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno][0].ToString();
                 foreach (HardDiskClass row in Hdc)
                 {
+                    bool CheckCurDrive = CurDrive.Contains(row.Name[0].ToString());
                     double UseRate = ((double)row.UseSize) / (double)row.TotalSize * (double)100;
-                    object[] Temp = new object[] { row.Name.ToString(), Math.Round(UseRate, 2) };
+                    object[] Temp = new object[] { row.Name.ToString(), Math.Round(UseRate, 2), CheckCurDrive };
                     Dgv_DriveInfo.Rows.Add(Temp);
                 }
             }
@@ -431,18 +514,8 @@ namespace CRUX_GUI_Cognex.Main_Form
                         Dgv_Result.FirstDisplayedScrollingRowIndex = Dgv_Result.SelectedRows[0].Index;
                     }
                     Dgv_Result.Refresh();
-
-                    DataTable DefectTable = Dgv_Defect.DataSource as DataTable;
-                    DefectTable.Rows.Clear();
-                    foreach (Defect_Property item in data.DefectList)
-                    {
-                        DataRow ItemDr = DefectTable.NewRow();
-                        ItemDr.ItemArray = new object[] { item.AreaName, item.X, item.Y, item.Vicinity, item.Id };
-                        DefectTable.Rows.Add(ItemDr);
-                    }
-
-                    Dgv_Defect.DataSource = DefectTable;
-                    Dgv_Defect.Refresh();
+                    WriteResultHistory(data);
+                    UpdateDefectList(data.DefectList);
                     Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_UpdateResult Done", true, false);
                 }
                 catch(Exception ex)
@@ -451,7 +524,87 @@ namespace CRUX_GUI_Cognex.Main_Form
                 }
             }));
         }
+        public void WriteResultHistory(ClassEndData data)
+        {
+            string HistoryPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}{Paths.PROGRAM_PATH[Globals.CurrentPCno]}{Paths.RESULT_HISTORY_PATH[Globals.CurrentPCno]}Auto\";
+            string FileName = $@"{data.Date}.ini";
+            string FullPath = $@"{HistoryPath}{FileName}";
+            if (!fileProc.FileExists(FullPath))
+            {
+                using (var Writer = new StreamWriter(FullPath, false))
+                {
+                    Writer.WriteLine($@"Date,ID,Result,GrabTact,InspTact");
+                }
+            }
+            using (var Writer = new StreamWriter(FullPath, true))
+            {
+                Writer.WriteLine($@"{data.StartTime},{data.CellID},{data.InspResult},{data.GrabTime}{data.TactTime}");
+            }
+        }
+        public void LoadResultDataGridView()
+        {
+            string HistoryPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}{Paths.PROGRAM_PATH[Globals.CurrentPCno]}{Paths.RESULT_HISTORY_PATH[Globals.CurrentPCno]}Auto\";
+            string FileName = $@"{DateTime.Now.ToString("yyyy-MM-dd")}.ini";
+            string FullPath = $@"{HistoryPath}{FileName}";
 
+            if (fileProc.FileExists(FullPath))
+            {
+                List<InspHistoryData> ReadCellData = new List<InspHistoryData>();
+                using (var Reader = new StreamReader(FullPath))
+                {
+                    while (!Reader.EndOfStream)
+                    {
+                        string Line = Reader.ReadLine();
+                        if (Line.Contains("Date,ID,Result,GrabTact,InspTact"))
+                            continue;
+
+                        string[] SplitTemp = Line.Split(',');
+                        InspHistoryData ReadData = new InspHistoryData();
+                        ReadData.Data = SplitTemp[0];
+                        ReadData.CellID = SplitTemp[1];
+                        ReadData.InspResult = SplitTemp[2];
+                        ReadData.GrabTact = SplitTemp[3];
+                        ReadData.InspTact = SplitTemp[4];
+              
+
+                        ReadCellData.Add(ReadData);
+                    }
+                }
+                UpdateResult(ReadCellData);
+            }
+            else
+            {
+
+            }
+        }
+        public void UpdateResult(List<InspHistoryData> data)
+        {
+            DataTable Dt = Dgv_Result.DataSource as DataTable;
+            Dt.Rows.Clear();
+            foreach (InspHistoryData item in data)
+            {
+                DataRow Dr = Dt.NewRow();
+                Dr.ItemArray = new object[] { item.Data, item.CellID, item.GrabTact, item.InspTact, item.InspResult };
+                Dt.Rows.Add(Dr);
+            }
+
+            Dgv_Result.DataSource = Dt;
+        }
+
+        public void UpdateDefectList(List<Defect_Property> data)
+        {
+            DataTable DefectTable = Dgv_Defect.DataSource as DataTable;
+            DefectTable.Rows.Clear();
+            foreach (Defect_Property item in data)
+            {
+                DataRow ItemDr = DefectTable.NewRow();
+                ItemDr.ItemArray = new object[] { item.AreaName, item.DefectName, item.FS_X, item.FS_Y, item.FE_X, item.FE_Y, item.CS_X, item.CS_Y, item.CE_X, item.CE_Y, item.Area, item.Id };
+                DefectTable.Rows.Add(ItemDr);
+            }
+
+            Dgv_Defect.DataSource = DefectTable;
+            Dgv_Defect.Refresh();
+        }
         private void Dgv_Result_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -494,6 +647,323 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
             //}));
+        }
+
+        private void Clb_Options_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            //string SelName = Clb_Options.Items[e.Index].ToString();
+            //int Ret = Consts.APP_NG;
+
+            //CmdMsgParam SendParam = new CmdMsgParam();
+
+            //if (SelName == "Save Particle Image")
+            //{
+            //    bool Temp = GetUseSaveParticleImage();
+            //    SendParam.ClearOffset();
+            //    SendParam.SetByte(Convert.ToByte(Temp));               
+            //    Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_PARTICLE_IMAGE_SAVE,
+            //                                              IpcInterface.CMD_TYPE_RES, 5000, SendParam.GetByteSize(), SendParam.GetParam());
+            //}
+        }
+
+        private void Clb_Options_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Clb_Options_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //string SelName = Clb_Options.Items[e.].ToString();
+            int Ret = Consts.APP_NG;
+            CheckedItemCollection Temp = Clb_Options.CheckedItems as CheckedItemCollection;
+            string CurItem = Clb_Options.SelectedItem.ToString(); 
+            CmdMsgParam SendParam = new CmdMsgParam();
+            if (CurItem == "Save Particle Image")
+            {
+                bool CurState = GetUseSaveParticleImage();
+                SendParam.ClearOffset();
+                SendParam.SetByte(Convert.ToByte(CurState));
+                Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_PARTICLE_IMAGE_SAVE,
+                                                          IpcInterface.CMD_TYPE_RES, 5000, SendParam.GetByteSize(), SendParam.GetParam());
+            }
+        }
+        public bool GetUseSaveIdForTrend()
+        {
+            CheckedItemCollection Temp = Clb_Options.CheckedItems as CheckedItemCollection;
+
+            if (Temp.Contains("Save ID for Trend"))
+                return true;
+            else
+                return false;
+        }
+
+        private void Main_Frm_Auto_For_CHIPPING_Ver2_Shown(object sender, EventArgs e)
+        {
+            WinApis.SetWindowRgn(Lb_OK_Text.Handle, WinApis.CreateRoundRectRgn(0, 0, Lb_OK_Text.Width, Lb_OK_Text.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Lb_NG_Text.Handle, WinApis.CreateRoundRectRgn(0, 0, Lb_NG_Text.Width, Lb_NG_Text.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Lb_Cpu.Handle, WinApis.CreateRoundRectRgn(0, 0, Lb_Cpu.Width, Lb_Cpu.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Lb_Mem.Handle, WinApis.CreateRoundRectRgn(0, 0, Lb_Mem.Width, Lb_Mem.Height, 15, 15), true);
+            WinApis.SetWindowRgn(Lb_Disk.Handle, WinApis.CreateRoundRectRgn(0, 0, Lb_Disk.Width, Lb_Disk.Height, 15, 15), true);
+            WinApis.SetWindowRgn(CellPrinter_Auto.Lb_Pad.Handle, WinApis.CreateRoundRectRgn(0, 0, CellPrinter_Auto.Lb_Pad.Width, CellPrinter_Auto.Lb_Pad.Height, 15, 15), true);
+            WinApis.SetWindowRgn(CellPrinter_Auto.Lb_Right.Handle, WinApis.CreateRoundRectRgn(0, 0, CellPrinter_Auto.Lb_Right.Width, CellPrinter_Auto.Lb_Right.Height, 15, 15), true);
+            WinApis.SetWindowRgn(CellPrinter_Auto.Lb_Bottom.Handle, WinApis.CreateRoundRectRgn(0, 0, CellPrinter_Auto.Lb_Bottom.Width, CellPrinter_Auto.Lb_Bottom.Height, 15, 15), true);
+            WinApis.SetWindowRgn(CellPrinter_Auto.Lb_Top.Handle, WinApis.CreateRoundRectRgn(0, 0, CellPrinter_Auto.Lb_Top.Width, CellPrinter_Auto.Lb_Top.Height, 15, 15), true);
+        }
+
+        private void Btn_TrendReset_Click(object sender, EventArgs e)
+        {
+            Ex_Frm_Notification_Question Frm_Question = new Ex_Frm_Notification_Question(Enums.ENUM_NOTIFICAION.CAUTION, "기존 Trend를 백업하시겠습니까?");
+            Frm_Question.ShowDialog();
+            if (Frm_Question.DialogResult == DialogResult.OK)
+            {
+                Utility.LoadingStart();
+                string FileName = $@"{DateTime.Now.ToString("HH-mm-ss")}_{"DefectTrend.xml"}";
+                string FilePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}{Paths.NET_DEFECTTREND_BACKUP_PATH[Globals.CurrentPCno]}{DateTime.Now.ToString("yyyy-MM-dd")}\";
+
+                if (!fileProc.DirExists(FilePath))
+                    fileProc.CreateDirectory(FilePath);
+                string FullName = $@"{FilePath}\{FileName}";
+                Utility.XMLSerialize($"{FilePath}", FileName, Trend);
+                Utility.LoadingStop();
+                Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.INFO, $@"{ FullName } 경로에 저장되었습니다.");
+                Noti.ShowDialog();
+            }
+
+            string CurFileName = $@"{"DefectTrend.xml"}";
+            string CurFilePath = $@"{ Shared_Recipe.MainRecipe.Path}{Shared_Recipe.MainRecipe.Name}\";
+            string CurFullName = $@"{CurFilePath}\{CurFileName}";
+            Trend.TrendData.Clear();
+            Utility.XMLSerialize($"{CurFilePath}", CurFileName, Trend);
+            UpdateTrend();
+            Lb_NG_Cnt.Text = "0";
+            Lb_OK_Cnt.Text = "0";
+
+        }
+
+        private void Btn_Extract_Click(object sender, EventArgs e)
+        {
+            Utility.LoadingStart();
+            string FileName = $@"{DateTime.Now.ToString("yyyyMMdd HHmmss")}_{"DefectTrend_Extract.txt"}";
+            string FilePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}{Paths.NET_DEFECTTREND_EXTRACT_PATH[Globals.CurrentPCno]}{DateTime.Now.ToString("yyyy-MM-dd")}\";
+
+            if (!fileProc.DirExists(FilePath))
+                fileProc.CreateDirectory(FilePath);
+
+            string FullName = $@"{FilePath}\{FileName}";
+
+            using (StreamWriter sw = new StreamWriter(FullName,false, Encoding.Unicode))
+            {
+                sw.WriteLine("Defect Name,Count,Cell ID");
+                foreach (DefectTrendData item in Trend.TrendData)
+                {
+                    sw.WriteLine($@"{item.DefectName},{item.DefectCount}");
+                    foreach(CellID_ForDefectTrend item2 in item.CellID)
+                    {
+                        sw.WriteLine($@",,{item2.CellID}");
+                    }
+                    sw.WriteLine($@"{Environment.NewLine}");
+                }
+            }
+            Utility.LoadingStop();
+        }
+        public void UpdateTrend()
+        {
+            Dgv_DefectTrend.Invoke(new MethodInvoker(delegate ()
+            {
+                DataTable Dt = Dgv_DefectTrend.DataSource as DataTable;
+
+            Dt.Rows.Clear();
+      
+            foreach (DefectTrendData item in Trend.TrendData)
+            {
+                DataRow Dr = Dt.NewRow();
+                   
+                object[] Temp = new object[] { };
+                Dr.ItemArray = new object[] { item.DefectName, item.DefectCount };
+                Dt.Rows.Add(Dr);
+            }
+
+
+                Dgv_DefectTrend.DataSource = Dt;
+                Dgv_DefectTrend.Refresh();
+            }));
+            //Dgv_DefectTrend.Rows.Add(Temp);
+        }
+
+        public void AddDefectTrend(ClassEndData data)
+        {
+            try
+            {
+                if (Trend.TrendData.Count > 1000000)
+                {
+                    Trend.TrendData.Clear();
+                }
+                bool SaveID = GetUseSaveIdForTrend();
+                     
+                DefectTrendData FindItem = Trend.TrendData.Find(x => x.DefectName == data.MajorDefectName);
+                if (FindItem != null)
+                {
+                    FindItem.DefectCount++;
+                    if (SaveID)
+                        FindItem.CellID.Add(new CellID_ForDefectTrend() { CellID = data.CellID });
+                }
+                else
+                {
+                    DefectTrendData Temp = new DefectTrendData();
+                    Temp.DefectName = data.MajorDefectName;
+                    Temp.DefectCount = 1;
+                    if (SaveID)
+                        Temp.CellID.Add(new CellID_ForDefectTrend() { CellID = data.CellID });
+                    Trend.TrendData.Add(Temp);
+                }
+  
+                UpdateTrend();    
+
+                string CurFileName = $@"{"DefectTrend.xml"}";
+                string CurFilePath = $@"{ Shared_Recipe.MainRecipe.Path}{Shared_Recipe.MainRecipe.Name}\";
+                string CurFullName = $@"{CurFilePath}\{CurFileName}";
+                Utility.XMLSerialize($"{CurFilePath}", CurFileName, Trend);
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
+        }
+
+        private void Dgv_Result_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                if (Dgv_Result.SelectedRows.Count > 0)
+                {
+                    DataGridViewRow SelRow = Dgv_Result.SelectedRows[0];
+                    List<Defect_Property> DefectList = new List<Defect_Property>();
+                    string Date = SelRow.Cells["Date"].Value.ToString().Remove(10);
+                    string CellID = SelRow.Cells["ID"].Value.ToString();
+                    bool Find = false;
+                    ObservableCollection<HardDiskClass> DiskList = Program.SysInfo.PC.HardDisk;
+                    foreach (HardDiskClass item in DiskList)
+                    {
+                        if (item.Name != "C:\\" && item.Name != "D:\\")
+                        {
+                            string DataPath = $@"{item.Name}\Result\{Date}\{CellID}";
+                            if (!fileProc.DirExists(DataPath))
+                            {
+                                Find = false;
+                                //DataTable Dt = Dgv_Defect.DataSource as DataTable;
+                                //Dt.Rows.Clear();
+                                //Dgv_Defect.DataSource = Dt;
+                            }
+                            else
+                            {
+                                Find = true;
+                                string ResultPath = $@"{DataPath}\Defect_Info\Result\";
+                                if (!fileProc.DirExists(ResultPath))
+                                {
+                                    Find = false;
+                                    //DataTable Dt = Dgv_Defect.DataSource as DataTable;
+                                    //Dt.Rows.Clear();
+                                    //Dgv_Defect.DataSource = Dt;
+                                }
+                                else
+                                {
+                                    string FullPath = $@"{ResultPath}{CellID}.ini";
+                                    if (!fileProc.FileExists(FullPath))
+                                    {
+                                        Find = false;
+                                    }
+                                    else
+                                    {
+                                        string Separator = Globals.PcActiveName.ToString().ToUpper() + "_";
+
+                                        using (var Reader = new StreamReader(FullPath, Encoding.Default))
+                                        {
+                                            bool isData = false;
+                                            string Pos = string.Empty;
+                                            while (!Reader.EndOfStream)
+                                            {
+
+                                                string Line = Reader.ReadLine();
+
+                                                if (isData)
+                                                {
+                                                    if (Line.Contains(Separator))
+                                                    {
+                                                        string[] PosDataTemp = Line.Split('_');
+                                                        Pos = PosDataTemp[1].Replace("]", "");
+                                                        isData = true;
+                                                        continue;
+                                                    }
+
+                                                    string[] ParseData = Line.Split(',');
+                                                    Defect_Property Dp = new Defect_Property();
+                                                    Dp.AreaName = Pos;
+                                                    Dp.DefectCode = ParseData[0];
+                                                    Dp.DefectName = ParseData[1];
+                                                    Dp.FS_X = ParseData[2].toInt();
+                                                    Dp.FS_Y = ParseData[3].toInt();
+                                                    Dp.FE_X = ParseData[4].toInt();
+                                                    Dp.FE_Y = ParseData[5].toInt();
+                                                    Dp.CS_X = ParseData[6].toInt();
+                                                    Dp.CS_Y = ParseData[7].toInt();
+                                                    Dp.CE_X = ParseData[8].toInt();
+                                                    Dp.CE_Y = ParseData[9].toInt();
+                                                    Dp.Reserve1 = ParseData[10].toInt();
+                                                    Dp.Reserve2 = ParseData[11].toInt();
+                                                    Dp.Reserve3 = ParseData[12].toInt();
+                                                    Dp.Reserve4 = ParseData[13].toInt();
+                                                    Dp.Reserve5 = ParseData[14].toInt();
+                                                    Dp.Reserve6 = ParseData[15].toInt();
+                                                    Dp.Reserve7 = ParseData[16].toInt();
+                                                    Dp.Reserve8 = ParseData[17].toInt();
+                                                    Dp.Reserve9 = ParseData[18].toInt();
+                                                    Dp.Reserve10 = ParseData[19].toInt();
+                                                    Dp.Reserve11 = ParseData[20].toInt();
+                                                    Dp.Reserve12 = ParseData[21].toInt();
+                                                    Dp.Reserve13 = ParseData[22].toInt();
+                                                    Dp.Reserve14 = ParseData[23].toInt();
+                                                    Dp.Reserve15 = ParseData[24].toInt();
+                                                    Dp.Reserve16 = ParseData[25].toInt();
+                                                    Dp.Reserve17 = ParseData[26].toInt();
+                                                    Dp.Reserve18 = ParseData[27].toInt();
+                                                    Dp.Reserve19 = ParseData[28].toInt();
+                                                    Dp.Reserve20 = ParseData[29].toInt();
+                                                    Dp.Reserve21 = ParseData[30].toInt();
+                                                    Dp.Reserve22 = ParseData[31].toInt();
+                                                    Dp.Reserve23 = ParseData[32].toInt();
+                                                    Dp.Reserve24 = ParseData[33].toInt();
+                                                    Dp.Reserve25 = ParseData[34].toInt();
+                                                    Dp.Reserve26 = ParseData[35].toInt();
+                                                    Dp.Reserve27 = ParseData[36].toInt();
+                                                    Dp.Reserve28 = ParseData[37].toInt();
+                                                    DefectList.Add(Dp);
+                                                    Find = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (Find)
+                            break;
+                    }
+                    if (!Find)
+                    {
+                        DataTable Dt = Dgv_Defect.DataSource as DataTable;
+                        Dt.Rows.Clear();
+                        Dgv_Defect.DataSource = Dt;
+                    }
+                    else
+                    {
+                        UpdateDefectList(DefectList);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
     }
 }

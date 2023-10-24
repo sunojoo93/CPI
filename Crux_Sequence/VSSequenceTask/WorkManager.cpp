@@ -157,6 +157,7 @@ int WorkManager::AnalyzeMsg(CMDMSG* pCmdMsg)
 		SEQUENCE_TABLE(21, 20, Seq_AutoInspectGrabImage, false, true, &m_csSequenceLock_2)
 		SEQUENCE_TABLE(21, 23, Seq_AFReady, true, true, NULL)
 		SEQUENCE_TABLE(21, 24, Seq_GrabEnd_FromMainPC, false, true, &m_csSequenceLock_3)
+		SEQUENCE_TABLE(21, 35, Seq_SetParticleImage, false, true, NULL)
 		//SEQUENCE_TABLE(21, 21, Seq_AutoChangeModel, false, true, &m_csSequenceLock_2)
 		// Sequence
 		//SEQUENCE_TABLE(21, 30, Seq_ClassifyEnd, false, true, NULL)
@@ -6822,6 +6823,70 @@ int	WorkManager::Seq_AFReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode 
 
 	return nRet;
 }
+int	WorkManager::Seq_SetParticleImage(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
+{
+	byte* pReceiveParam = pParam;
+
+	bool isRunSequence = true;
+	int nStepNo = 0;
+	static bool isSeqBusy = false;
+	int nRet = APP_OK;
+
+	bool SaveParticleImageTemp = FALSE;
+
+	SaveParticleImageTemp = *(bool*)pReceiveParam;	pReceiveParam += sizeof(SaveParticleImageTemp);
+
+	do
+	{
+		EXCEPTION_TRY
+
+			if (nStepNo == 0 && isSeqBusy && bAlwaysRunMode == false)	// 시퀀스가 Busy 인dddd경우 에러 리턴되게 하려면 bAlwaysRunMode가 false 이어야 한다.
+				return SEQUENCE_TASK_SEQUENCE_IS_BUSY;
+			else if (nStepNo == 0 && bBusyCheck == true && isSeqBusy == false)
+			{
+				return SEQUENCE_TASK_SEQUENCE_IS_NOT_BUSY;
+			}
+
+		isSeqBusy = true;
+
+		if (m_bSeqResetFlag && bSeqResetPossible)
+			throw 9999;
+
+		nStepNo++;
+		// Sequence In LOG
+		m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2135_SaveParticleImage. StepNo=%d, RetVal=%d"), nStepNo, nRet);
+
+		switch (nStepNo)
+		{
+		case 1:
+			// 조각 이미지 저장
+			theApp.m_Config.SetSaveParticleImage(SaveParticleImageTemp);
+			break;
+		default:
+			isRunSequence = false;
+			break;
+		}
+		EXCEPTION_CATCH
+
+			if (nRet != APP_OK)
+			{
+				// Error Log
+				m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2135_SaveParticleImage. StepNo=%d, RetVal=%d"), nStepNo, nRet);
+
+				int nErrRet = APP_OK;
+
+				isRunSequence = false;
+				int nRetExcept = APP_OK;
+			}
+
+	} while (isRunSequence);
+
+	m_fnPrintLog(FALSE, _T("SEQLOG -- Seq2135_SaveParticleImage END. StepNo=%d, RetVal=%d"), nStepNo, nRet);
+
+	isSeqBusy = false;
+
+	return nRet;
+}
 int	WorkManager::Seq_GrabEnd_FromMainPC(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible)
 {
 	byte* pReceiveParam = pParam;
@@ -6950,7 +7015,7 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 	double dExposeTime = 0.0;
 
 	ST_LIGHT_COND_AOT stCurLightInfo;
-
+	ST_GRAB_AREA_INFO_AOT stCurGrabInfo;
 	ST_CAM_COND_AOT stCurCamCond;
 
 	PARAM_WAIT_GRAB_END		stWaitGrabEndParam;
@@ -7047,9 +7112,11 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 			m_fnPrintLog(FALSE, _T("CASE %d : Set Next Light Control Start. Pattern : %s"), nStepNo, PatternName);		// 조명 On 전에 로그 추가		180511 YSS
 
 			stCurLightInfo = theApp.m_Config.GetLightInfo(strPosition, nGrabCnt, 0);
+			stCurGrabInfo = theApp.m_Config.GetAreaInfo(strPosition);
 
+			// 다중 조명 불가
 			nRet += CmdEditSend(SEND_LIGHT_SEQUENCE_IDX_INIT, 0, sizeof(STRU_LIGHT_INFO), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_RES);
-			//nRet += CmdEditSend(SEND_APPLY_LIGHT_PROPERTY, 0, sizeof(ST_LIGHT_COND_AOT), VS_LIGHT_TASK, (byte *)&stCurLightInfo, CMD_TYPE_RES);
+			//nRet += CmdEditSend(SEND_APPLY_LIGHT_PROPERTY, 0, sizeof(ST_GRAB_AREA_INFO_AOT), VS_LIGHT_TASK, (byte *)&stCurGrabInfo, CMD_TYPE_RES);
 
 			if (nRet == APP_OK)
 			{
@@ -7063,9 +7130,10 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 			break;
 
 		case 3:
-			//stCurCamCond = /*theApp.m_Config.GetCamExposeVal(nGrabCnt, 0)*/theApp.m_Config.GetCameraConditions(strPosition, nGrabCnt,0);
+			stCurGrabInfo = theApp.m_Config.GetAreaInfo(strPosition);
 
-			nRet = 0/*CmdEditSend(SEND_SET_CAMERA_EXPOSE_TIME, 0, sizeof(dExposeTime), VS_CAMERA_TASK, (byte *)&dExposeTime, CMD_TYPE_RES, 6000)*/;
+			// 다중 카메라 불가
+			//nRet = CmdEditSend(SEND_CAMERA_APPLY_PROPERTY, 0, sizeof(ST_GRAB_AREA_INFO_AOT), VS_CAMERA_TASK, (byte *)&stCurGrabInfo, CMD_TYPE_RES, 6000);
 
 			if (nRet == APP_OK)
 			{
@@ -7106,8 +7174,10 @@ int	WorkManager::Seq_AutoInspectGrabImage_AOT_CHIPPING(byte* pParam, ULONG& nPrm
 
 			*(int*)bpTempParam4 = ProcessCnt;
 			bpTempParam4 += sizeof(int);
-			_tcscpy((TCHAR*)bpTempParam4, (LPCTSTR)Temp1);
+			_tcscpy((TCHAR*)bpTempParam4, (LPCTSTR)strPosition);
 			bpTempParam4 += 100;
+			*(BOOL*)bpTempParam4 = theApp.m_Config.GetSaveParticleImage();
+			bpTempParam4 += sizeof(BOOL);
 			//stCurCamCond = theApp.m_Config.GetLineInfo(strPosition, 0, 0);
 			nRet = CmdEditSend(SEND_CAMERA_EXPOSE, 0, sizeof(bParam4), VS_CAMERA_TASK, (byte *)&bParam4, CMD_TYPE_RES);
 

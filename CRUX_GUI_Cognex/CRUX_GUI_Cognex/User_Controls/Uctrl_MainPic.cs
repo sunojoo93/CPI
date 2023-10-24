@@ -860,7 +860,7 @@ namespace CRUX_GUI_Cognex.User_Controls
                 Param.ClearOffset();
                 Param.SetUInteger(Consts.TRUE);
                 nRet = Systems.g_Ipc.SendCommand((ushort)((m_fnGetVisionNo() + 1) * 100 + IpcConst.CAMERA_TASK + m_nCamIndex), IpcConst.CAMERA_FUNC, IpcConst.LIVE_START_END,
-                                                    IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
+                                                    IpcInterface.CMD_TYPE_RES, 10000, Param.GetByteSize(), Param.GetParam());
                 if (nRet == Consts.APP_NG) return false;
                 Param.SetOffset(0);
 

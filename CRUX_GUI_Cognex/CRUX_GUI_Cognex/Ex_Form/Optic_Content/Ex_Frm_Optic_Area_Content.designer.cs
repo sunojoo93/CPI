@@ -37,7 +37,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_CamControl = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_ProperyApply = new System.Windows.Forms.Button();
             this.Grb_Param = new System.Windows.Forms.GroupBox();
-            this.Dgv_GrabCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Btn_GrabStart = new System.Windows.Forms.Button();
             this.Btn_GrabStop = new System.Windows.Forms.Button();
             this.Grb_Area = new System.Windows.Forms.GroupBox();
@@ -51,15 +50,15 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Btn_GrabImageCnt = new System.Windows.Forms.Button();
             this.Grb_Light = new System.Windows.Forms.GroupBox();
             this.Tlp_LightControl = new System.Windows.Forms.TableLayoutPanel();
+            this.Btn_LightApply = new System.Windows.Forms.Button();
             this.Btn_AllOn = new System.Windows.Forms.Button();
+            this.Btn_Seq = new System.Windows.Forms.Button();
             this.Btn_AllOff = new System.Windows.Forms.Button();
-            this.Dgv_LightCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Grb_LightOption = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ChkListBox_Light = new System.Windows.Forms.CheckedListBox();
-            this.Btn_Seq = new System.Windows.Forms.Button();
             this.Grb_Motor = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.Tlp_Event = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.Grb_ExProc = new System.Windows.Forms.GroupBox();
             this.Tlp_ExOption = new System.Windows.Forms.TableLayoutPanel();
@@ -90,12 +89,13 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Pnl_ImageArea = new System.Windows.Forms.Panel();
             this.Tmr_CamTemperature = new System.Windows.Forms.Timer(this.components);
             this.Tmr_LightErrorCode = new System.Windows.Forms.Timer(this.components);
+            this.Dgv_GrabCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
+            this.Dgv_LightCond = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Tlp_AreaCam.SuspendLayout();
             this.Tlp_OpticMain.SuspendLayout();
             this.Grb_CamControl.SuspendLayout();
             this.Tlp_CamControl.SuspendLayout();
             this.Grb_Param.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabCond)).BeginInit();
             this.Grb_Area.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Area)).BeginInit();
             this.Grb_Pattern.SuspendLayout();
@@ -104,7 +104,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_GrabOption.SuspendLayout();
             this.Grb_Light.SuspendLayout();
             this.Tlp_LightControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).BeginInit();
             this.Grb_LightOption.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.Grb_Motor.SuspendLayout();
@@ -116,6 +115,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_CameraStatus.SuspendLayout();
             this.Grb_LightStatus.SuspendLayout();
             this.Tlp_LightStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabCond)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).BeginInit();
             this.SuspendLayout();
             // 
             // Tlp_AreaCam
@@ -222,25 +223,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Grb_Param.TabIndex = 7;
             this.Grb_Param.TabStop = false;
             this.Grb_Param.Text = "Grab Condition";
-            // 
-            // Dgv_GrabCond
-            // 
-            this.Dgv_GrabCond.AllowUserToAddRows = false;
-            this.Dgv_GrabCond.AllowUserToDeleteRows = false;
-            this.Dgv_GrabCond.AllowUserToResizeColumns = false;
-            this.Dgv_GrabCond.AllowUserToResizeRows = false;
-            this.Dgv_GrabCond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dgv_GrabCond.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Dgv_GrabCond.Location = new System.Drawing.Point(3, 18);
-            this.Dgv_GrabCond.Name = "Dgv_GrabCond";
-            this.Dgv_GrabCond.RowHeadersVisible = false;
-            this.Dgv_GrabCond.RowTemplate.Height = 23;
-            this.Dgv_GrabCond.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_GrabCond.Size = new System.Drawing.Size(527, 153);
-            this.Dgv_GrabCond.TabIndex = 0;
-            this.Dgv_GrabCond.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_GrabCond_CellMouseUp);
-            this.Dgv_GrabCond.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GrabCond_CellValueChanged);
-            this.Dgv_GrabCond.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Dgv_GrabCond_MouseUp);
             // 
             // Btn_GrabStart
             // 
@@ -408,61 +390,66 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_LightControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_LightControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_LightControl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
+            this.Tlp_LightControl.Controls.Add(this.Btn_LightApply, 0, 2);
             this.Tlp_LightControl.Controls.Add(this.Btn_AllOn, 0, 0);
+            this.Tlp_LightControl.Controls.Add(this.Btn_Seq, 2, 2);
             this.Tlp_LightControl.Controls.Add(this.Btn_AllOff, 0, 1);
             this.Tlp_LightControl.Controls.Add(this.Dgv_LightCond, 1, 0);
             this.Tlp_LightControl.Controls.Add(this.Grb_LightOption, 2, 0);
             this.Tlp_LightControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_LightControl.Location = new System.Drawing.Point(0, 15);
             this.Tlp_LightControl.Name = "Tlp_LightControl";
-            this.Tlp_LightControl.RowCount = 2;
-            this.Tlp_LightControl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_LightControl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_LightControl.RowCount = 3;
+            this.Tlp_LightControl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.Tlp_LightControl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.Tlp_LightControl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.Tlp_LightControl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_LightControl.Size = new System.Drawing.Size(1106, 201);
             this.Tlp_LightControl.TabIndex = 0;
+            // 
+            // Btn_LightApply
+            // 
+            this.Btn_LightApply.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_LightApply.Location = new System.Drawing.Point(3, 137);
+            this.Btn_LightApply.Name = "Btn_LightApply";
+            this.Btn_LightApply.Size = new System.Drawing.Size(94, 61);
+            this.Btn_LightApply.TabIndex = 4;
+            this.Btn_LightApply.Text = "Property Apply";
+            this.Btn_LightApply.UseVisualStyleBackColor = true;
+            this.Btn_LightApply.Click += new System.EventHandler(this.Btn_LightApply_Click);
             // 
             // Btn_AllOn
             // 
             this.Btn_AllOn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_AllOn.Location = new System.Drawing.Point(3, 3);
             this.Btn_AllOn.Name = "Btn_AllOn";
-            this.Btn_AllOn.Size = new System.Drawing.Size(94, 94);
+            this.Btn_AllOn.Size = new System.Drawing.Size(94, 61);
             this.Btn_AllOn.TabIndex = 0;
             this.Btn_AllOn.Text = "ALL ON";
             this.Btn_AllOn.UseVisualStyleBackColor = true;
             this.Btn_AllOn.Click += new System.EventHandler(this.Btn_AllOn_Click);
             // 
+            // Btn_Seq
+            // 
+            this.Btn_Seq.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Seq.Location = new System.Drawing.Point(966, 134);
+            this.Btn_Seq.Margin = new System.Windows.Forms.Padding(0);
+            this.Btn_Seq.Name = "Btn_Seq";
+            this.Btn_Seq.Size = new System.Drawing.Size(140, 67);
+            this.Btn_Seq.TabIndex = 1;
+            this.Btn_Seq.Text = "Edit Sequencer";
+            this.Btn_Seq.UseVisualStyleBackColor = true;
+            this.Btn_Seq.Click += new System.EventHandler(this.Btn_Seq_Click);
+            // 
             // Btn_AllOff
             // 
             this.Btn_AllOff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_AllOff.Location = new System.Drawing.Point(3, 103);
+            this.Btn_AllOff.Location = new System.Drawing.Point(3, 70);
             this.Btn_AllOff.Name = "Btn_AllOff";
-            this.Btn_AllOff.Size = new System.Drawing.Size(94, 95);
+            this.Btn_AllOff.Size = new System.Drawing.Size(94, 61);
             this.Btn_AllOff.TabIndex = 1;
             this.Btn_AllOff.Text = "ALL OFF";
             this.Btn_AllOff.UseVisualStyleBackColor = true;
-            // 
-            // Dgv_LightCond
-            // 
-            this.Dgv_LightCond.AllowUserToAddRows = false;
-            this.Dgv_LightCond.AllowUserToDeleteRows = false;
-            this.Dgv_LightCond.AllowUserToResizeColumns = false;
-            this.Dgv_LightCond.AllowUserToResizeRows = false;
-            this.Dgv_LightCond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dgv_LightCond.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Dgv_LightCond.Location = new System.Drawing.Point(103, 3);
-            this.Dgv_LightCond.Name = "Dgv_LightCond";
-            this.Dgv_LightCond.RowHeadersVisible = false;
-            this.Tlp_LightControl.SetRowSpan(this.Dgv_LightCond, 2);
-            this.Dgv_LightCond.RowTemplate.Height = 23;
-            this.Dgv_LightCond.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_LightCond.Size = new System.Drawing.Size(860, 195);
-            this.Dgv_LightCond.TabIndex = 2;
-            this.Dgv_LightCond.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_LightCond_CellMouseUp);
-            this.Dgv_LightCond.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_LightCond_CellValueChanged);
-            this.Dgv_LightCond.CurrentCellChanged += new System.EventHandler(this.Dgv_LightCond_CurrentCellChanged);
-            this.Dgv_LightCond.SelectionChanged += new System.EventHandler(this.Dgv_LightCond_SelectionChanged);
-            this.Dgv_LightCond.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Dgv_LightCond_MouseUp);
             // 
             // Grb_LightOption
             // 
@@ -471,7 +458,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Grb_LightOption.Location = new System.Drawing.Point(969, 3);
             this.Grb_LightOption.Name = "Grb_LightOption";
             this.Tlp_LightControl.SetRowSpan(this.Grb_LightOption, 2);
-            this.Grb_LightOption.Size = new System.Drawing.Size(134, 195);
+            this.Grb_LightOption.Size = new System.Drawing.Size(134, 128);
             this.Grb_LightOption.TabIndex = 3;
             this.Grb_LightOption.TabStop = false;
             this.Grb_LightOption.Text = "Option";
@@ -481,14 +468,13 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.ChkListBox_Light, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.Btn_Seq, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 18);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(128, 174);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(128, 107);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // ChkListBox_Light
@@ -501,25 +487,14 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.ChkListBox_Light.Location = new System.Drawing.Point(0, 0);
             this.ChkListBox_Light.Margin = new System.Windows.Forms.Padding(0);
             this.ChkListBox_Light.Name = "ChkListBox_Light";
-            this.ChkListBox_Light.Size = new System.Drawing.Size(128, 139);
+            this.tableLayoutPanel1.SetRowSpan(this.ChkListBox_Light, 2);
+            this.ChkListBox_Light.Size = new System.Drawing.Size(128, 107);
             this.ChkListBox_Light.TabIndex = 0;
-            // 
-            // Btn_Seq
-            // 
-            this.Btn_Seq.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Seq.Location = new System.Drawing.Point(0, 139);
-            this.Btn_Seq.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_Seq.Name = "Btn_Seq";
-            this.Btn_Seq.Size = new System.Drawing.Size(128, 35);
-            this.Btn_Seq.TabIndex = 1;
-            this.Btn_Seq.Text = "Edit Sequencer";
-            this.Btn_Seq.UseVisualStyleBackColor = true;
-            this.Btn_Seq.Click += new System.EventHandler(this.Btn_Seq_Click);
             // 
             // Grb_Motor
             // 
             this.Tlp_OpticMain.SetColumnSpan(this.Grb_Motor, 2);
-            this.Grb_Motor.Controls.Add(this.tableLayoutPanel3);
+            this.Grb_Motor.Controls.Add(this.Tlp_Event);
             this.Grb_Motor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Motor.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_Motor.Location = new System.Drawing.Point(4, 4);
@@ -530,21 +505,21 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Grb_Motor.TabStop = false;
             this.Grb_Motor.Text = "Event";
             // 
-            // tableLayoutPanel3
+            // Tlp_Event
             // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 15);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1106, 396);
-            this.tableLayoutPanel3.TabIndex = 0;
+            this.Tlp_Event.ColumnCount = 2;
+            this.Tlp_Event.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_Event.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_Event.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_Event.Location = new System.Drawing.Point(0, 15);
+            this.Tlp_Event.Name = "Tlp_Event";
+            this.Tlp_Event.RowCount = 2;
+            this.Tlp_Event.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_Event.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_Event.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.Tlp_Event.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.Tlp_Event.Size = new System.Drawing.Size(1106, 396);
+            this.Tlp_Event.TabIndex = 0;
             // 
             // tableLayoutPanel4
             // 
@@ -816,12 +791,12 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Lb_CamName.AutoSize = true;
             this.Lb_CamName.BackColor = System.Drawing.Color.Transparent;
             this.Lb_CamName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_CamName.Location = new System.Drawing.Point(10, 35);
-            this.Lb_CamName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.Lb_CamName.Location = new System.Drawing.Point(8, 35);
+            this.Lb_CamName.Margin = new System.Windows.Forms.Padding(3, 0, 5, 0);
             this.Lb_CamName.Name = "Lb_CamName";
-            this.Lb_CamName.Size = new System.Drawing.Size(90, 25);
+            this.Lb_CamName.Size = new System.Drawing.Size(92, 25);
             this.Lb_CamName.TabIndex = 0;
-            this.Lb_CamName.Text = "Model Name :";
+            this.Lb_CamName.Text = "Cam. Name :";
             this.Lb_CamName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Lb_BoardName
@@ -958,6 +933,47 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tmr_LightErrorCode.Interval = 2000;
             this.Tmr_LightErrorCode.Tick += new System.EventHandler(this.Tmr_LightErrorCode_Tick);
             // 
+            // Dgv_GrabCond
+            // 
+            this.Dgv_GrabCond.AllowUserToAddRows = false;
+            this.Dgv_GrabCond.AllowUserToDeleteRows = false;
+            this.Dgv_GrabCond.AllowUserToResizeColumns = false;
+            this.Dgv_GrabCond.AllowUserToResizeRows = false;
+            this.Dgv_GrabCond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_GrabCond.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_GrabCond.Location = new System.Drawing.Point(3, 18);
+            this.Dgv_GrabCond.Name = "Dgv_GrabCond";
+            this.Dgv_GrabCond.RowHeadersVisible = false;
+            this.Dgv_GrabCond.RowTemplate.Height = 23;
+            this.Dgv_GrabCond.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_GrabCond.Size = new System.Drawing.Size(527, 153);
+            this.Dgv_GrabCond.TabIndex = 0;
+            this.Dgv_GrabCond.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_GrabCond_CellMouseUp);
+            this.Dgv_GrabCond.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GrabCond_CellValueChanged);
+            this.Dgv_GrabCond.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Dgv_GrabCond_MouseUp);
+            // 
+            // Dgv_LightCond
+            // 
+            this.Dgv_LightCond.AllowUserToAddRows = false;
+            this.Dgv_LightCond.AllowUserToDeleteRows = false;
+            this.Dgv_LightCond.AllowUserToResizeColumns = false;
+            this.Dgv_LightCond.AllowUserToResizeRows = false;
+            this.Dgv_LightCond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dgv_LightCond.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_LightCond.Location = new System.Drawing.Point(103, 3);
+            this.Dgv_LightCond.Name = "Dgv_LightCond";
+            this.Dgv_LightCond.RowHeadersVisible = false;
+            this.Tlp_LightControl.SetRowSpan(this.Dgv_LightCond, 3);
+            this.Dgv_LightCond.RowTemplate.Height = 23;
+            this.Dgv_LightCond.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_LightCond.Size = new System.Drawing.Size(860, 195);
+            this.Dgv_LightCond.TabIndex = 2;
+            this.Dgv_LightCond.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_LightCond_CellMouseUp);
+            this.Dgv_LightCond.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_LightCond_CellValueChanged);
+            this.Dgv_LightCond.CurrentCellChanged += new System.EventHandler(this.Dgv_LightCond_CurrentCellChanged);
+            this.Dgv_LightCond.SelectionChanged += new System.EventHandler(this.Dgv_LightCond_SelectionChanged);
+            this.Dgv_LightCond.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Dgv_LightCond_MouseUp);
+            // 
             // Ex_Frm_Optic_Area_Content
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -976,7 +992,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Grb_CamControl.ResumeLayout(false);
             this.Tlp_CamControl.ResumeLayout(false);
             this.Grb_Param.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabCond)).EndInit();
             this.Grb_Area.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Area)).EndInit();
             this.Grb_Pattern.ResumeLayout(false);
@@ -985,7 +1000,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_GrabOption.ResumeLayout(false);
             this.Grb_Light.ResumeLayout(false);
             this.Tlp_LightControl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).EndInit();
             this.Grb_LightOption.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.Grb_Motor.ResumeLayout(false);
@@ -999,6 +1013,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Grb_LightStatus.ResumeLayout(false);
             this.Tlp_LightStatus.ResumeLayout(false);
             this.Tlp_LightStatus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_GrabCond)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_LightCond)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1022,7 +1038,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private System.Windows.Forms.Button Btn_AllOn;
         private System.Windows.Forms.Button Btn_AllOff;
         private DoubleBufferdDataGridView Dgv_LightCond;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel Tlp_Event;
         private System.Windows.Forms.GroupBox Grb_CamStatus;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Panel Pnl_MiniMap;
@@ -1065,5 +1081,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private System.Windows.Forms.Timer Tmr_LightErrorCode;
         private System.Windows.Forms.Label Lb_LightTemp;
         private System.Windows.Forms.Label Lb_LightTempContent;
+        private System.Windows.Forms.Button Btn_LightApply;
     }
 }

@@ -15,6 +15,21 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>게시\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -397,9 +412,27 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.7.2\lib\net461\System.Drawing.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Management.Instrumentation" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -411,6 +444,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\Account.cs" />
+    <Compile Include="Class\DiskManager.cs" />
     <Compile Include="Class\Inspector.cs" />
     <Compile Include="Class\Inspector_Ver2.cs" />
     <Compile Include="Class\IpcInterface.cs" />
@@ -544,6 +579,12 @@
     </Compile>
     <Compile Include="Ex_Form\Others\Ex_Frm_Others_Select_Color.designer.cs">
       <DependentUpon>Ex_Frm_Others_Select_Color.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_DefectList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ex_Form\Recipe\Ex_Frm_DefectList.designer.cs">
+      <DependentUpon>Ex_Frm_DefectList.cs</DependentUpon>
     </Compile>
     <Compile Include="Ex_Form\Recipe\Ex_Frm_Judgement.cs">
       <SubType>Form</SubType>
@@ -689,6 +730,7 @@
     <Compile Include="Utils\System_Information.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="Utils\WinApis.cs" />
+    <Content Include="Res\UpArrow.png" />
     <EmbeddedResource Include="Ex_Form\Account\Ex_Frm_Account_Login.resx">
       <DependentUpon>Ex_Frm_Account_Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -751,6 +793,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Others\Ex_Frm_Others_Select_Color.resx">
       <DependentUpon>Ex_Frm_Others_Select_Color.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_DefectList.resx">
+      <DependentUpon>Ex_Frm_DefectList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ex_Form\Recipe\Ex_Frm_Judgement.resx">
       <DependentUpon>Ex_Frm_Judgement.cs</DependentUpon>
@@ -928,6 +973,7 @@
     <Content Include="Res\Close.png" />
     <Content Include="Res\Connect.png" />
     <Content Include="Res\Disconnect.png" />
+    <Content Include="Res\DownArrow.png" />
     <Content Include="Res\Icon.ico" />
     <Content Include="Res\Icon.png" />
     <Content Include="Res\LeftArrow.png" />
@@ -950,7 +996,18 @@
       <Name>SharingFormat_DLL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8%28x86 및 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

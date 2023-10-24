@@ -38,6 +38,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Tmr_SystemInfo = new System.Windows.Forms.Timer(this.components);
             this.Tlp_Auto = new System.Windows.Forms.TableLayoutPanel();
             this.CAGB_SystemInfo = new CRUX_GUI_Cognex.User_Controls.CenterAlignedGroupBox();
@@ -60,6 +63,14 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Extend = new System.Windows.Forms.TableLayoutPanel();
             this.Grb_Option = new System.Windows.Forms.GroupBox();
             this.Clb_Options = new System.Windows.Forms.CheckedListBox();
+            this.Tlp_TrendLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.Lb_NG_Cnt = new System.Windows.Forms.Label();
+            this.Lb_OK_Cnt = new System.Windows.Forms.Label();
+            this.Lb_NG_Text = new System.Windows.Forms.Label();
+            this.Btn_TrendReset = new System.Windows.Forms.Button();
+            this.Btn_Extract = new System.Windows.Forms.Button();
+            this.Lb_OK_Text = new System.Windows.Forms.Label();
+            this.Dgv_DefectTrend = new System.Windows.Forms.DataGridView();
             this.Tmr_HardDiskInfo = new System.Windows.Forms.Timer(this.components);
             this.Tlp_Auto.SuspendLayout();
             this.CAGB_SystemInfo.SuspendLayout();
@@ -74,6 +85,8 @@ namespace CRUX_GUI_Cognex.Main_Form
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Result)).BeginInit();
             this.Tlp_Extend.SuspendLayout();
             this.Grb_Option.SuspendLayout();
+            this.Tlp_TrendLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_DefectTrend)).BeginInit();
             this.SuspendLayout();
             // 
             // Tmr_SystemInfo
@@ -100,7 +113,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Auto.Size = new System.Drawing.Size(3428, 1695);
+            this.Tlp_Auto.Size = new System.Drawing.Size(0, 0);
             this.Tlp_Auto.TabIndex = 0;
             // 
             // CAGB_SystemInfo
@@ -110,7 +123,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CAGB_SystemInfo.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CAGB_SystemInfo.Location = new System.Drawing.Point(3, 3);
             this.CAGB_SystemInfo.Name = "CAGB_SystemInfo";
-            this.CAGB_SystemInfo.Size = new System.Drawing.Size(1158, 1299);
+            this.CAGB_SystemInfo.Size = new System.Drawing.Size(1, 1);
             this.CAGB_SystemInfo.TabIndex = 3;
             this.CAGB_SystemInfo.TabStop = false;
             this.CAGB_SystemInfo.Text = "System";
@@ -133,7 +146,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 195F));
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_SystemsInfo.Size = new System.Drawing.Size(1152, 1274);
+            this.Tlp_SystemsInfo.Size = new System.Drawing.Size(0, 0);
             this.Tlp_SystemsInfo.TabIndex = 0;
             // 
             // Tlp_CpuMemArea
@@ -283,7 +296,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_DriveInfo.RowHeadersVisible = false;
             this.Dgv_DriveInfo.RowTemplate.Height = 23;
             this.Dgv_DriveInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dgv_DriveInfo.Size = new System.Drawing.Size(384, 1017);
+            this.Dgv_DriveInfo.Size = new System.Drawing.Size(384, 1);
             this.Dgv_DriveInfo.TabIndex = 3;
             this.Dgv_DriveInfo.SelectionChanged += new System.EventHandler(this.Dgv_DriveInfo_SelectionChanged);
             // 
@@ -298,11 +311,11 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_AutoBot.Controls.Add(this.Grb_Log, 0, 0);
             this.Tlp_AutoBot.Controls.Add(this.Grb_InspResultList, 1, 0);
             this.Tlp_AutoBot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_AutoBot.Location = new System.Drawing.Point(3, 1308);
+            this.Tlp_AutoBot.Location = new System.Drawing.Point(3, 3);
             this.Tlp_AutoBot.Name = "Tlp_AutoBot";
             this.Tlp_AutoBot.RowCount = 1;
             this.Tlp_AutoBot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_AutoBot.Size = new System.Drawing.Size(3422, 384);
+            this.Tlp_AutoBot.Size = new System.Drawing.Size(1, 1);
             this.Tlp_AutoBot.TabIndex = 4;
             // 
             // Grb_Defect
@@ -310,9 +323,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_Defect.Controls.Add(this.Dgv_Defect);
             this.Grb_Defect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_Defect.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Grb_Defect.Location = new System.Drawing.Point(2277, 3);
+            this.Grb_Defect.Location = new System.Drawing.Point(225, 3);
             this.Grb_Defect.Name = "Grb_Defect";
-            this.Grb_Defect.Size = new System.Drawing.Size(1142, 378);
+            this.Grb_Defect.Size = new System.Drawing.Size(1, 1);
             this.Grb_Defect.TabIndex = 3;
             this.Grb_Defect.TabStop = false;
             this.Grb_Defect.Text = "Defect";
@@ -355,7 +368,8 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Defect.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.Dgv_Defect.RowHeadersVisible = false;
             this.Dgv_Defect.RowTemplate.Height = 23;
-            this.Dgv_Defect.Size = new System.Drawing.Size(1136, 358);
+            this.Dgv_Defect.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_Defect.Size = new System.Drawing.Size(0, 0);
             this.Dgv_Defect.TabIndex = 0;
             this.Dgv_Defect.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Defect_ColumnHeaderMouseClick);
             // 
@@ -366,7 +380,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_Log.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_Log.Location = new System.Drawing.Point(3, 3);
             this.Grb_Log.Name = "Grb_Log";
-            this.Grb_Log.Size = new System.Drawing.Size(546, 378);
+            this.Grb_Log.Size = new System.Drawing.Size(546, 1);
             this.Grb_Log.TabIndex = 2;
             this.Grb_Log.TabStop = false;
             this.Grb_Log.Text = "Log";
@@ -378,7 +392,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Uctrl_LogPrinter.Location = new System.Drawing.Point(3, 17);
             this.Uctrl_LogPrinter.Margin = new System.Windows.Forms.Padding(0);
             this.Uctrl_LogPrinter.Name = "Uctrl_LogPrinter";
-            this.Uctrl_LogPrinter.Size = new System.Drawing.Size(540, 358);
+            this.Uctrl_LogPrinter.Size = new System.Drawing.Size(540, 0);
             this.Uctrl_LogPrinter.TabIndex = 0;
             // 
             // Grb_InspResultList
@@ -388,7 +402,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_InspResultList.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grb_InspResultList.Location = new System.Drawing.Point(555, 3);
             this.Grb_InspResultList.Name = "Grb_InspResultList";
-            this.Grb_InspResultList.Size = new System.Drawing.Size(1716, 378);
+            this.Grb_InspResultList.Size = new System.Drawing.Size(1, 1);
             this.Grb_InspResultList.TabIndex = 1;
             this.Grb_InspResultList.TabStop = false;
             this.Grb_InspResultList.Text = "Results";
@@ -432,18 +446,20 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Result.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.Dgv_Result.RowHeadersVisible = false;
             this.Dgv_Result.RowTemplate.Height = 23;
-            this.Dgv_Result.Size = new System.Drawing.Size(1710, 358);
+            this.Dgv_Result.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_Result.Size = new System.Drawing.Size(0, 0);
             this.Dgv_Result.TabIndex = 0;
             this.Dgv_Result.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Result_CellContentClick);
+            this.Dgv_Result.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Result_CellMouseUp);
             this.Dgv_Result.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Result_ColumnHeaderMouseClick);
             // 
             // CellPrinter_Auto
             // 
             this.CellPrinter_Auto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CellPrinter_Auto.Location = new System.Drawing.Point(1164, 0);
+            this.CellPrinter_Auto.Location = new System.Drawing.Point(-549, 0);
             this.CellPrinter_Auto.Margin = new System.Windows.Forms.Padding(0);
             this.CellPrinter_Auto.Name = "CellPrinter_Auto";
-            this.CellPrinter_Auto.Size = new System.Drawing.Size(1100, 1305);
+            this.CellPrinter_Auto.Size = new System.Drawing.Size(1100, 1);
             this.CellPrinter_Auto.TabIndex = 5;
             // 
             // Tlp_Extend
@@ -451,22 +467,23 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Extend.ColumnCount = 1;
             this.Tlp_Extend.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Extend.Controls.Add(this.Grb_Option, 0, 1);
+            this.Tlp_Extend.Controls.Add(this.Tlp_TrendLayout, 0, 0);
             this.Tlp_Extend.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Extend.Location = new System.Drawing.Point(2267, 3);
+            this.Tlp_Extend.Location = new System.Drawing.Point(554, 3);
             this.Tlp_Extend.Name = "Tlp_Extend";
             this.Tlp_Extend.RowCount = 2;
             this.Tlp_Extend.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Extend.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.Tlp_Extend.Size = new System.Drawing.Size(1158, 1299);
+            this.Tlp_Extend.Size = new System.Drawing.Size(1, 1);
             this.Tlp_Extend.TabIndex = 6;
             // 
             // Grb_Option
             // 
             this.Grb_Option.Controls.Add(this.Clb_Options);
             this.Grb_Option.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grb_Option.Location = new System.Drawing.Point(3, 1202);
+            this.Grb_Option.Location = new System.Drawing.Point(3, -96);
             this.Grb_Option.Name = "Grb_Option";
-            this.Grb_Option.Size = new System.Drawing.Size(1152, 94);
+            this.Grb_Option.Size = new System.Drawing.Size(1, 94);
             this.Grb_Option.TabIndex = 0;
             this.Grb_Option.TabStop = false;
             this.Grb_Option.Text = "검사 옵션";
@@ -478,12 +495,159 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Clb_Options.FormattingEnabled = true;
             this.Clb_Options.Items.AddRange(new object[] {
             "Crop",
-            "Only Image"});
+            "Only Image",
+            "Save Particle Image",
+            "Save ID for Trend"});
             this.Clb_Options.Location = new System.Drawing.Point(3, 17);
             this.Clb_Options.Margin = new System.Windows.Forms.Padding(0);
             this.Clb_Options.Name = "Clb_Options";
-            this.Clb_Options.Size = new System.Drawing.Size(1146, 74);
+            this.Clb_Options.Size = new System.Drawing.Size(0, 74);
             this.Clb_Options.TabIndex = 0;
+            this.Clb_Options.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.Clb_Options_ItemCheck);
+            this.Clb_Options.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Clb_Options_MouseClick);
+            this.Clb_Options.SelectedIndexChanged += new System.EventHandler(this.Clb_Options_SelectedIndexChanged);
+            // 
+            // Tlp_TrendLayout
+            // 
+            this.Tlp_TrendLayout.ColumnCount = 2;
+            this.Tlp_TrendLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_TrendLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_TrendLayout.Controls.Add(this.Lb_NG_Cnt, 1, 1);
+            this.Tlp_TrendLayout.Controls.Add(this.Lb_OK_Cnt, 0, 1);
+            this.Tlp_TrendLayout.Controls.Add(this.Lb_NG_Text, 1, 0);
+            this.Tlp_TrendLayout.Controls.Add(this.Btn_TrendReset, 0, 3);
+            this.Tlp_TrendLayout.Controls.Add(this.Btn_Extract, 1, 3);
+            this.Tlp_TrendLayout.Controls.Add(this.Lb_OK_Text, 0, 0);
+            this.Tlp_TrendLayout.Controls.Add(this.Dgv_DefectTrend, 0, 2);
+            this.Tlp_TrendLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_TrendLayout.Location = new System.Drawing.Point(0, 0);
+            this.Tlp_TrendLayout.Margin = new System.Windows.Forms.Padding(0);
+            this.Tlp_TrendLayout.Name = "Tlp_TrendLayout";
+            this.Tlp_TrendLayout.RowCount = 4;
+            this.Tlp_TrendLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.Tlp_TrendLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.Tlp_TrendLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_TrendLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.Tlp_TrendLayout.Size = new System.Drawing.Size(1, 1);
+            this.Tlp_TrendLayout.TabIndex = 1;
+            // 
+            // Lb_NG_Cnt
+            // 
+            this.Lb_NG_Cnt.AutoSize = true;
+            this.Lb_NG_Cnt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_NG_Cnt.Font = new System.Drawing.Font("나눔스퀘어 네오 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_NG_Cnt.Location = new System.Drawing.Point(3, 60);
+            this.Lb_NG_Cnt.Name = "Lb_NG_Cnt";
+            this.Lb_NG_Cnt.Size = new System.Drawing.Size(1, 60);
+            this.Lb_NG_Cnt.TabIndex = 5;
+            this.Lb_NG_Cnt.Text = "0";
+            this.Lb_NG_Cnt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Lb_OK_Cnt
+            // 
+            this.Lb_OK_Cnt.AutoSize = true;
+            this.Lb_OK_Cnt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_OK_Cnt.Font = new System.Drawing.Font("나눔스퀘어 네오 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_OK_Cnt.Location = new System.Drawing.Point(3, 60);
+            this.Lb_OK_Cnt.Name = "Lb_OK_Cnt";
+            this.Lb_OK_Cnt.Size = new System.Drawing.Size(1, 60);
+            this.Lb_OK_Cnt.TabIndex = 4;
+            this.Lb_OK_Cnt.Text = "0";
+            this.Lb_OK_Cnt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Lb_NG_Text
+            // 
+            this.Lb_NG_Text.AutoSize = true;
+            this.Lb_NG_Text.BackColor = System.Drawing.Color.LightPink;
+            this.Lb_NG_Text.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_NG_Text.Font = new System.Drawing.Font("나눔스퀘어 네오 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_NG_Text.Location = new System.Drawing.Point(3, 0);
+            this.Lb_NG_Text.Name = "Lb_NG_Text";
+            this.Lb_NG_Text.Size = new System.Drawing.Size(1, 60);
+            this.Lb_NG_Text.TabIndex = 3;
+            this.Lb_NG_Text.Text = "NG";
+            this.Lb_NG_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Btn_TrendReset
+            // 
+            this.Btn_TrendReset.BackColor = System.Drawing.Color.Khaki;
+            this.Btn_TrendReset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_TrendReset.Font = new System.Drawing.Font("나눔스퀘어 네오 Regular", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_TrendReset.Location = new System.Drawing.Point(3, -46);
+            this.Btn_TrendReset.Name = "Btn_TrendReset";
+            this.Btn_TrendReset.Size = new System.Drawing.Size(1, 44);
+            this.Btn_TrendReset.TabIndex = 0;
+            this.Btn_TrendReset.Text = "Reset";
+            this.Btn_TrendReset.UseVisualStyleBackColor = false;
+            this.Btn_TrendReset.Click += new System.EventHandler(this.Btn_TrendReset_Click);
+            // 
+            // Btn_Extract
+            // 
+            this.Btn_Extract.BackColor = System.Drawing.Color.LightBlue;
+            this.Btn_Extract.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Extract.Font = new System.Drawing.Font("나눔스퀘어 네오 Regular", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Extract.Location = new System.Drawing.Point(3, -46);
+            this.Btn_Extract.Name = "Btn_Extract";
+            this.Btn_Extract.Size = new System.Drawing.Size(1, 44);
+            this.Btn_Extract.TabIndex = 1;
+            this.Btn_Extract.Text = "Extract";
+            this.Btn_Extract.UseVisualStyleBackColor = false;
+            this.Btn_Extract.Click += new System.EventHandler(this.Btn_Extract_Click);
+            // 
+            // Lb_OK_Text
+            // 
+            this.Lb_OK_Text.AutoSize = true;
+            this.Lb_OK_Text.BackColor = System.Drawing.Color.LightGreen;
+            this.Lb_OK_Text.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_OK_Text.Font = new System.Drawing.Font("나눔스퀘어 네오 Bold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_OK_Text.Location = new System.Drawing.Point(3, 0);
+            this.Lb_OK_Text.Name = "Lb_OK_Text";
+            this.Lb_OK_Text.Size = new System.Drawing.Size(1, 60);
+            this.Lb_OK_Text.TabIndex = 2;
+            this.Lb_OK_Text.Text = "OK";
+            this.Lb_OK_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Dgv_DefectTrend
+            // 
+            this.Dgv_DefectTrend.AllowUserToAddRows = false;
+            this.Dgv_DefectTrend.AllowUserToDeleteRows = false;
+            this.Dgv_DefectTrend.AllowUserToResizeColumns = false;
+            this.Dgv_DefectTrend.AllowUserToResizeRows = false;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("나눔스퀘어 네오 Regular", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_DefectTrend.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            this.Dgv_DefectTrend.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Tlp_TrendLayout.SetColumnSpan(this.Dgv_DefectTrend, 2);
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("나눔스퀘어 네오 Regular", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_DefectTrend.DefaultCellStyle = dataGridViewCellStyle9;
+            this.Dgv_DefectTrend.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dgv_DefectTrend.Location = new System.Drawing.Point(3, 123);
+            this.Dgv_DefectTrend.MultiSelect = false;
+            this.Dgv_DefectTrend.Name = "Dgv_DefectTrend";
+            this.Dgv_DefectTrend.ReadOnly = true;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("나눔스퀘어 네오 Regular", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_DefectTrend.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            this.Dgv_DefectTrend.RowHeadersVisible = false;
+            this.Dgv_DefectTrend.RowTemplate.Height = 23;
+            this.Dgv_DefectTrend.Size = new System.Drawing.Size(1, 1);
+            this.Dgv_DefectTrend.TabIndex = 6;
             // 
             // Tmr_HardDiskInfo
             // 
@@ -495,10 +659,10 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(3428, 1695);
+            this.ClientSize = new System.Drawing.Size(0, 0);
             this.Controls.Add(this.Tlp_Auto);
             this.Name = "Main_Frm_Auto_For_CHIPPING_Ver2";
-            this.Shown += new System.EventHandler(this.Main_Frm_Auto_For_CHIPPING_Shown);
+            this.Shown += new System.EventHandler(this.Main_Frm_Auto_For_CHIPPING_Ver2_Shown);
             this.Tlp_Auto.ResumeLayout(false);
             this.CAGB_SystemInfo.ResumeLayout(false);
             this.Tlp_SystemsInfo.ResumeLayout(false);
@@ -513,6 +677,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Result)).EndInit();
             this.Tlp_Extend.ResumeLayout(false);
             this.Grb_Option.ResumeLayout(false);
+            this.Tlp_TrendLayout.ResumeLayout(false);
+            this.Tlp_TrendLayout.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_DefectTrend)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -542,5 +709,13 @@ namespace CRUX_GUI_Cognex.Main_Form
         private System.Windows.Forms.TableLayoutPanel Tlp_Extend;
         private System.Windows.Forms.GroupBox Grb_Option;
         private System.Windows.Forms.CheckedListBox Clb_Options;
+        private System.Windows.Forms.TableLayoutPanel Tlp_TrendLayout;
+        private System.Windows.Forms.Label Lb_NG_Cnt;
+        private System.Windows.Forms.Label Lb_OK_Cnt;
+        private System.Windows.Forms.Label Lb_NG_Text;
+        private System.Windows.Forms.Button Btn_TrendReset;
+        private System.Windows.Forms.Button Btn_Extract;
+        private System.Windows.Forms.Label Lb_OK_Text;
+        private System.Windows.Forms.DataGridView Dgv_DefectTrend;
     }
 }

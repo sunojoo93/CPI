@@ -114,6 +114,8 @@ public:
 	//	}		
 	//};
 	BOOL					IsDust(int nGrabCnt)									{	return m_bIsUseLight[nGrabCnt]											;};
+	BOOL					GetSaveParticleImage()									{	return m_bSaveParticleImage												;};
+	void					SetSaveParticleImage(BOOL temp)							{	m_bSaveParticleImage = temp												;};
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	int		GetGrabCount(CString AreaName)
 	{
@@ -191,6 +193,18 @@ public:
 			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
+			}
+		}
+	};
+	ST_LIGHT_COND_AOT*		GetAllLightInfo(CString AreaName, int nGrabCnt)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition;
 			}
 		}
 	};
@@ -393,6 +407,7 @@ private:
 
 	// 조명 사용 유무 (DUST 판단용)
 	BOOL					m_bIsUseLight[MAX_GRAB_STEP_COUNT];
+	BOOL					m_bSaveParticleImage;
 //	ST_PG_INFO				m_stPgInfo;
 	// 	BOOL					m_bUseStep;
 	// 	CString					m_strGrabName[MAX_GRAB_COUNT];

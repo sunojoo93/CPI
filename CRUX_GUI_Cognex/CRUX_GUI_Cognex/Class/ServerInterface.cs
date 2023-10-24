@@ -21,6 +21,7 @@ using OpenCvSharp;
 using CRUX_GUI_Cognex.Class.InspVer2;
 using System.Globalization;
 using CRUX_GUI_Cognex.Main_Form;
+using static CRUX_GUI_Cognex.Class.InspVer2.Inspector_Collection;
 
 namespace CRUX_GUI_Cognex.Class
 {
@@ -363,7 +364,26 @@ namespace CRUX_GUI_Cognex.Class
                     string Area = Encoding.Default.GetString(Inspection_Data.Area).Trim('\0').Replace("\0", "").ToUpper();
                     string Drive = @"D:\";//Systems.DiskManagers.CheckDrive();
                                           //int ImageTotalCount = Inspection_Data.ParticleTotalCount;
-                    string FilePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CellID}\{Paths.NET_ORIGIN_PATH[Globals.CurrentPCno]}";
+                    string CurDate;
+
+                    string OriginImagePath = string.Empty;
+                    string JpgImagePath = string.Empty;
+
+                    Inspector_Ver2 FoundInspector = Inspector_Collection.Instance().FindInspector(CellID);
+
+                    if(FoundInspector != null)
+                    {
+                        CurDate = FoundInspector.Date;
+                        OriginImagePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CurDate}\{CellID}\{Paths.NET_ORIGIN_PATH[Globals.CurrentPCno]}";
+                        JpgImagePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CurDate}\{CellID}\{Paths.NET_JPG_PATH[Globals.CurrentPCno]}";
+                    }
+                    else
+                    {
+                        CurDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        OriginImagePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CurDate}\{CellID}\{Paths.NET_ORIGIN_PATH[Globals.CurrentPCno]}";
+                        JpgImagePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CurDate}\{CellID}\{Paths.NET_JPG_PATH[Globals.CurrentPCno]}";
+                    }                 
+
                     bool FirstPattern = Inspection_Data.FirstPattern;
                     //Systems.LogWriter.Info("Done Inspection_GUI_Parse");
                  
@@ -393,6 +413,8 @@ namespace CRUX_GUI_Cognex.Class
                             RcvInspData.Stage = Globals.PcName;
                             RcvInspData.FirstPattern = FirstPattern;
                             RcvInspData.AreaIndex = AreaIndex;
+                            RcvInspData.StartTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                            RcvInspData.StartDate = DateTime.Now.ToString("yyyy-MM-dd");
                             RcvInspData.Crop = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).GetUseCrop();
                             //Bitmap Temp = (new Bitmap(ImgWidth, ImgHeight, Stride, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, (IntPtr)Systems.SharedMemory.GetImgAddress(Inspection_Data.ImageData[i].SharedMemIdx)).Clone() as Bitmap);
 
@@ -476,7 +498,7 @@ namespace CRUX_GUI_Cognex.Class
                                 string ParticldPtnName = Encoding.Default.GetString(Inspection_Data.ImageData[ptn_idx].PatternName).Trim('\0').Replace("\0", "");
 
                                 Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Inspection_GUI_Merge Start,  Cell ID : {CellID}, Vir ID : {VirID}, Area : {Area}, Ptn : {ParticldPtnName} ", true, false);
-                                PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["XShift"].ToInt(), Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["YShift"].ToInt(), AllShift, Particles_Image.ToArray(), ptn_idx, PtnbyParticleCnt / 2, AreaIndex, ParticldPtnName, Direction, CellID, FilePath) : Particles_Image[0];
+                                PtnArray[ptn_idx] = PtnbyParticleCnt != 1 ? Cognex_Helper.MergeImages(Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["XShift"].ToInt(), Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["YShift"].ToInt(), AllShift, Particles_Image.ToArray(), ptn_idx, PtnbyParticleCnt / 2, AreaIndex, ParticldPtnName, Direction, CellID, OriginImagePath) : Particles_Image[0];
                                 GrabImages[ptn_idx] = new GrabImageInfo(PtnArray[ptn_idx], ParticldPtnName, Area, ptn_idx);
                             }
                             //Systems.LogWriter.Info("Done Inspection_GUI_Merge");
@@ -486,21 +508,51 @@ namespace CRUX_GUI_Cognex.Class
                             {
 
                                 string ImageName = string.Format("{0}_CAM{1}_{2}_{3}", item.PtnNo, item.CamNo, item.AreaName, item.PatternName);
-
-
-                                fileProc.CreateDirectory(FilePath);
+                                
+                                fileProc.CreateDirectory(OriginImagePath);
+                                fileProc.CreateDirectory(JpgImagePath);
                                 if (ImgBitrate == 8)
                                     ImageName = ImageName + (".bmp");
                                 else
                                     ImageName = ImageName + (".tiff");
 
-                                string Path = string.Format("{0}{1}", FilePath, ImageName);
+                                string OrgImageFullPath = string.Format("{0}{1}", OriginImagePath, ImageName);
 
                                 Task ImageSaveTask = new Task(delegate
                                 {
-                                    ImageSave(Path, item.Image);
+                                    ImageSave(OrgImageFullPath, item.Image);
                                 });
                                 ImageSaveTask.Start();
+                                string JpgImageFullPath = string.Format("{0}{1}", JpgImagePath, ImageName);
+                                //string Path
+                                Task ImageSaveForJpg = new Task(delegate
+                                {
+                                    Systems.WriteLog(0, Enums.LogLevel.DEBUG, $@"[ GUI ] Inspection_GUI Jpg Save ... Cell ID : {CellID}, Vir ID : {VirID}", true, false);
+                                    //Systems.WriteLog(0, Enums.LogLevel.DEBUG, $@"[ GUI ] {DateTime.Now.ToString("HH/mm/ss.fff")}", true, false);
+                                    using (var BitmapImage = item.Image.ToBitmap())
+                                    {
+                                        int bpp = Image.GetPixelFormatSize(BitmapImage.PixelFormat) / 8;
+
+                                        BitmapData src_data = BitmapImage.LockBits(new Rectangle(0, 0, BitmapImage.Width, BitmapImage.Height), ImageLockMode.WriteOnly, BitmapImage.PixelFormat);
+
+                                        byte[] src_bytes = new byte[src_data.Stride * src_data.Height];
+                                        Marshal.Copy(src_data.Scan0, src_bytes, 0, src_bytes.Length);
+                                        // Copy the bytes from the image into a byte array
+                                        byte[] dst_bytes = new byte[BitmapImage.Height * BitmapImage.Width];
+
+                                        for (int i = 0; i < dst_bytes.Length; ++i)
+                                            dst_bytes[i] = (byte)((src_bytes[i * bpp + 0] + src_bytes[i * bpp + 1] + src_bytes[i * bpp + 2]) / 3);
+
+                                        //Parallel.For(0, dst_bytes.Length, i =>
+                                        //{
+                                        //    dst_bytes[i] = (byte)((src_bytes[i * bpp + 0] + src_bytes[i * bpp + 1] + src_bytes[i * bpp + 2]) / 3);
+                                        //});
+                                        BitmapImage.UnlockBits(src_data);
+                                        BitmapImage.Save($@"{JpgImageFullPath}", ImageFormat.Jpeg);
+                                    }
+                                    Systems.WriteLog(0, Enums.LogLevel.DEBUG, $@"[ GUI ] Inspection_GUI Jpg Save ... Cell ID : {CellID}, Vir ID : {VirID}", true, false);
+                                });
+                                ImageSaveForJpg.Start();
                             }
                             if ((Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).GetUseGrabMode())
                                 return 0;
@@ -508,14 +560,11 @@ namespace CRUX_GUI_Cognex.Class
                             {
                                 ImageData ImgData = new ImageData();
 
-
                                 ImgData.PatternName = GrabImages[i].PatternName;
-
                                 ImgData.OriginImage = GrabImages[i].Image;
-
-                                RcvInspData.Datas.Add(ImgData);                     
-
-                              
+                                ImgData.CamIndex = GrabImages[i].CamNo;
+                                ImgData.PatternIndex = GrabImages[i].PtnNo;
+                                RcvInspData.Datas.Add(ImgData);                                                         
                             }
                             string StartGrabTactTemp = Encoding.Default.GetString(Inspection_Data.GrabStartTime).Trim('\0').Replace("\0", "");
                             DateTime StartGrabTact;
@@ -531,7 +580,8 @@ namespace CRUX_GUI_Cognex.Class
                             }
                             RcvInspData.GrabTact = GrabTact.ToString();
                             //RcvInspData.GrabTact = "0";
-                            Systems.Inspector_.Enqueue(RcvInspData);
+                            //Systems.Inspector_.Enqueue(RcvInspData);
+                            Inspector_Collection.Instance().Enqueue(RcvInspData);
                             //Systems.Inspector_.Start_Insp(RcvInspData);
                             Systems.WriteLog(0, Enums.LogLevel.DEBUG, $@"[ GUI ] Inspection_GUI End ... Cell ID : {CellID}, Vir ID : {VirID}", true, false);
                             //Systems.LogWriter.Info("Done Inspection_GUI_Inspection Start Seq");

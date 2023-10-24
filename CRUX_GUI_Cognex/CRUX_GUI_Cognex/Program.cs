@@ -30,6 +30,7 @@ namespace CRUX_GUI_Cognex
         // For multi ui thread
         public static Ex_Frm_Others_Loading LoadingForm;
         public static System_Information SysInfo;
+        public static DiskManager DiskManagement;
         /// <summary>
         /// 해당 응용 프로그램의 주 진입점입니다.
         /// </summary>

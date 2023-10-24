@@ -920,7 +920,7 @@ void CVSLightTaskDlg::OnBnClickedBtnGetAlarmcnt()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	CString AlarmCount;
-	AlarmCount.Format(_T("%d"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0104, 2));
+	AlarmCount.Format(_T("%x"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0104, 2));
 	GetDlgItem(IDC_TB_ALARMCNT)->SetWindowTextW(AlarmCount);
 }
 

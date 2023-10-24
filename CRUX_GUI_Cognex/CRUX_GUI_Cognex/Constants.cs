@@ -75,6 +75,7 @@ namespace CRUX_GUI_Cognex
         public static string[] NET_RECIPE_PATH;
         public static string[] NET_DRIVE;
         public static string[] NET_ORIGIN_PATH;
+        public static string[] NET_JPG_PATH;
         public static string[] NET_RESULT_PATH;
         public static string[] NET_REFERENCE_PATH;
         public static string[] NET_ALGORITHM_PATH;
@@ -88,16 +89,19 @@ namespace CRUX_GUI_Cognex
         public static string[] FINAL_RESULT;
         public static string[] RECORD_PATH;
         public static string[] RECORD_IMAGE_PATH;
+        public static string[] RESULT_HISTORY_PATH;
 
         public static string RECIPE_PATH_RENEWAL = @"D:\CRUX\DATA\Recipes\";
         public static string ROI_PROPERTY = @"D:\CRUX\DATA\TXT\";
         public const string INIT_FOLDER_PATH = DEFAULT_DRIVE + @"CRUX\DATA\INI\";
         public const string TXT_FOLDER_PATH = DEFAULT_DRIVE + @"CRUX\DATA\TXT\";
-
+        public static string[] NET_DEFECTTREND_BACKUP_PATH;
+        public static string[] NET_DEFECTTREND_EXTRACT_PATH;
         //public static List<string> 
 
 
     }
+
     static class Globals
     {
         // 5 : CHIPPING, 6 : ALM
@@ -123,7 +127,7 @@ namespace CRUX_GUI_Cognex
         
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini", "Device.Cfg" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
-        public static string[] RecipeItem_Names = { "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini", "GrabData.ini", "Judgement.xml" };
+        public static string[] RecipeItem_Names = { "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini", "GrabData.ini", "Judgement.xml", "DefectList.xml" };
         public static List<string> SelectRecipe = new List<string>();
     }
 
@@ -137,6 +141,7 @@ namespace CRUX_GUI_Cognex
         public static ushort SEQ_SEND_MANUAL_INSP = (ushort)(12);
         public static ushort SEQ_SEND_MANUAL_GRABAndINSP = (ushort)(20);
         public static ushort SEQ_SEND_GUI_CLASSIFY_END = (ushort)(31);
+        public static ushort SEQ_SEND_PARTICLE_IMAGE_SAVE = (ushort)(35);
 
         // Algorithm
         public static ushort ALGORITHM_TASK = (ushort)(50);
@@ -152,6 +157,7 @@ namespace CRUX_GUI_Cognex
         public static ushort LIGHT_SET_DATA = (ushort)(20);
         public static ushort LIGHT_GET_ERRORCODE = (ushort)(42);
         public static ushort LIGHT_GET_TEMPERATURE = (ushort)(43);
+        public static ushort LIGHT_PROPERY_APPLY = (ushort)(15);
         // Camera
         public static ushort CAMERA_TASK = (ushort)(90);
         public static ushort CAMERA_FUNC = (ushort)(90);        
@@ -523,6 +529,24 @@ namespace CRUX_GUI_Cognex
             CAM4 = 3,
             MAX
         };
+        public enum AccountLevel
+        {
+            [Description("마스터")]
+            Master,
+            [Description("게스트")]
+            // 버튼 조작에 대한 로그
+            Guest,
+            // 예외 상황에 대한 로그
+            [Description("오퍼레이터")]
+            Operator,
+            // 치명적 상황에 대한 로그
+            [Description("엔지니어")]
+            Engineer,
+            // 검사에 대한 일련의 시퀀스 로그
+            [Description("매니저")]
+            Manager,
+            MAX
+        }
         public enum LogLevel
         {
             // 모든 로그 기입

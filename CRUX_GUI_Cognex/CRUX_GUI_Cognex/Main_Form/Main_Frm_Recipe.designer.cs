@@ -31,6 +31,7 @@ namespace CRUX_GUI_Cognex.Main_Form
         private void InitializeComponent ()
         {
             this.Tlp_RecipeLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.Btn_DefectList = new System.Windows.Forms.Button();
             this.Tab_RecipeMain = new System.Windows.Forms.TabControl();
             this.tab_Link = new System.Windows.Forms.TabPage();
             this.tab_optic = new System.Windows.Forms.TabPage();
@@ -62,6 +63,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_RecipeLayout.ColumnCount = 2;
             this.Tlp_RecipeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.Tlp_RecipeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_RecipeLayout.Controls.Add(this.Btn_DefectList, 0, 7);
             this.Tlp_RecipeLayout.Controls.Add(this.Tab_RecipeMain, 1, 0);
             this.Tlp_RecipeLayout.Controls.Add(this.Btn_Judge, 0, 6);
             this.Tlp_RecipeLayout.Controls.Add(this.Lb_UnderLine2, 0, 5);
@@ -74,7 +76,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_RecipeLayout.Location = new System.Drawing.Point(0, 0);
             this.Tlp_RecipeLayout.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_RecipeLayout.Name = "Tlp_RecipeLayout";
-            this.Tlp_RecipeLayout.RowCount = 7;
+            this.Tlp_RecipeLayout.RowCount = 8;
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
@@ -82,8 +84,26 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.Tlp_RecipeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.Tlp_RecipeLayout.Size = new System.Drawing.Size(1641, 779);
             this.Tlp_RecipeLayout.TabIndex = 0;
+            // 
+            // Btn_DefectList
+            // 
+            this.Btn_DefectList.AutoSize = true;
+            this.Btn_DefectList.BackColor = System.Drawing.Color.Lavender;
+            this.Btn_DefectList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_DefectList.FlatAppearance.BorderSize = 0;
+            this.Btn_DefectList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_DefectList.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_DefectList.Location = new System.Drawing.Point(0, 743);
+            this.Btn_DefectList.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.Btn_DefectList.Name = "Btn_DefectList";
+            this.Btn_DefectList.Size = new System.Drawing.Size(176, 36);
+            this.Btn_DefectList.TabIndex = 9;
+            this.Btn_DefectList.Text = "Defect List";
+            this.Btn_DefectList.UseVisualStyleBackColor = false;
+            this.Btn_DefectList.Click += new System.EventHandler(this.Btn_DefectList_Click);
             // 
             // Tab_RecipeMain
             // 
@@ -96,7 +116,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tab_RecipeMain.Location = new System.Drawing.Point(180, 0);
             this.Tab_RecipeMain.Margin = new System.Windows.Forms.Padding(0);
             this.Tab_RecipeMain.Name = "Tab_RecipeMain";
-            this.Tlp_RecipeLayout.SetRowSpan(this.Tab_RecipeMain, 7);
+            this.Tlp_RecipeLayout.SetRowSpan(this.Tab_RecipeMain, 8);
             this.Tab_RecipeMain.SelectedIndex = 0;
             this.Tab_RecipeMain.Size = new System.Drawing.Size(1461, 779);
             this.Tab_RecipeMain.TabIndex = 0;
@@ -139,7 +159,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Btn_Judge.FlatAppearance.BorderSize = 0;
             this.Btn_Judge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Judge.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Judge.Location = new System.Drawing.Point(0, 744);
+            this.Btn_Judge.Location = new System.Drawing.Point(0, 708);
             this.Btn_Judge.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.Btn_Judge.Name = "Btn_Judge";
             this.Btn_Judge.Size = new System.Drawing.Size(176, 35);
@@ -154,7 +174,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Lb_UnderLine2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Lb_UnderLine2.Dock = System.Windows.Forms.DockStyle.Top;
             this.Lb_UnderLine2.Font = new System.Drawing.Font("굴림", 3F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_UnderLine2.Location = new System.Drawing.Point(3, 742);
+            this.Lb_UnderLine2.Location = new System.Drawing.Point(3, 706);
             this.Lb_UnderLine2.Margin = new System.Windows.Forms.Padding(3);
             this.Lb_UnderLine2.Name = "Lb_UnderLine2";
             this.Lb_UnderLine2.Size = new System.Drawing.Size(174, 1);
@@ -162,7 +182,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Location = new System.Drawing.Point(0, 704);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 668);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -219,7 +239,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Btn_Revert.FlatAppearance.BorderSize = 0;
             this.Btn_Revert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Revert.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Revert.Location = new System.Drawing.Point(0, 669);
+            this.Btn_Revert.Location = new System.Drawing.Point(0, 633);
             this.Btn_Revert.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.Btn_Revert.Name = "Btn_Revert";
             this.Btn_Revert.Size = new System.Drawing.Size(176, 35);
@@ -235,7 +255,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Lb_UnderLine1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Lb_UnderLine1.Dock = System.Windows.Forms.DockStyle.Top;
             this.Lb_UnderLine1.Font = new System.Drawing.Font("굴림", 3F);
-            this.Lb_UnderLine1.Location = new System.Drawing.Point(3, 169);
+            this.Lb_UnderLine1.Location = new System.Drawing.Point(3, 160);
             this.Lb_UnderLine1.Margin = new System.Windows.Forms.Padding(3);
             this.Lb_UnderLine1.Name = "Lb_UnderLine1";
             this.Lb_UnderLine1.Size = new System.Drawing.Size(174, 1);
@@ -247,10 +267,10 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Cagb_Jobs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cagb_Jobs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Cagb_Jobs.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Cagb_Jobs.Location = new System.Drawing.Point(0, 171);
+            this.Cagb_Jobs.Location = new System.Drawing.Point(0, 162);
             this.Cagb_Jobs.Margin = new System.Windows.Forms.Padding(0);
             this.Cagb_Jobs.Name = "Cagb_Jobs";
-            this.Cagb_Jobs.Size = new System.Drawing.Size(180, 498);
+            this.Cagb_Jobs.Size = new System.Drawing.Size(180, 471);
             this.Cagb_Jobs.TabIndex = 7;
             this.Cagb_Jobs.TabStop = false;
             this.Cagb_Jobs.Text = "Grab Area";
@@ -269,7 +289,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_GrabArea.RowHeadersVisible = false;
             this.Dgv_GrabArea.RowTemplate.Height = 23;
             this.Dgv_GrabArea.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_GrabArea.Size = new System.Drawing.Size(174, 477);
+            this.Dgv_GrabArea.Size = new System.Drawing.Size(174, 450);
             this.Dgv_GrabArea.TabIndex = 0;
             this.Dgv_GrabArea.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_GrabArea_CellEndEdit);
             this.Dgv_GrabArea.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_GrabArea_CellMouseUp);
@@ -286,7 +306,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Cagb_Recipe.Location = new System.Drawing.Point(0, 0);
             this.Cagb_Recipe.Margin = new System.Windows.Forms.Padding(0);
             this.Cagb_Recipe.Name = "Cagb_Recipe";
-            this.Cagb_Recipe.Size = new System.Drawing.Size(180, 166);
+            this.Cagb_Recipe.Size = new System.Drawing.Size(180, 157);
             this.Cagb_Recipe.TabIndex = 8;
             this.Cagb_Recipe.TabStop = false;
             this.Cagb_Recipe.Text = "Recipe";
@@ -301,7 +321,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.LstBoxRecipeList.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.LstBoxRecipeList.Name = "LstBoxRecipeList";
             this.LstBoxRecipeList.ScrollAlwaysVisible = true;
-            this.LstBoxRecipeList.Size = new System.Drawing.Size(174, 145);
+            this.LstBoxRecipeList.Size = new System.Drawing.Size(174, 136);
             this.LstBoxRecipeList.TabIndex = 3;
             this.LstBoxRecipeList.SelectedIndexChanged += new System.EventHandler(this.LstBoxRecipeList_SelectedIndexChanged);
             this.LstBoxRecipeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LstBoxRecipeList_MouseDoubleClick);
@@ -354,5 +374,6 @@ namespace CRUX_GUI_Cognex.Main_Form
         private System.Windows.Forms.TabPage tab_align;
         private System.Windows.Forms.TabPage tab_Link;
         private System.Windows.Forms.DataGridView Dgv_GrabArea;
+        private System.Windows.Forms.Button Btn_DefectList;
     }
 }

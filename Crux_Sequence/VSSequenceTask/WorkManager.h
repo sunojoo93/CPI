@@ -64,8 +64,7 @@
 #define SEND_SET_CAMERA_COND						90, 30
 #define SEND_SET_CAMERA_EXPOSE_TIME					90, 31	// 2021.12.15~ MDJ Modify Camera ExposeTime
 #define SEND_SET_TRIGGER_MODE						90, 34
-#define SEND_GRAB_STOP								90, 50
-#define SEND_ALARM_OCCURRED							60, 52
+#define SEND_GRAB_STOP								90, 50		
 
 // Main PC Interface
 #define REQ_MOVE_MOTION								60, 53
@@ -79,6 +78,7 @@
 #define REQ_PG_OFF									60, 58		// PG OFF				180801 YSS
 #define REQ_PG_ON									60, 59		// PG OFF				180822 YSS
 #define REQ_GRAB_START								60, 04
+#define SEND_ALARM_OCCURRED							60, 52
 
 // Other PC Sequence Task
 #define SEND_ASYNC_SEQUENCE							21, 88
@@ -221,7 +221,8 @@ private:
 	int	Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 ALM JSO
 	int Seq_AFReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int Seq_GrabEnd_FromMainPC(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	
+	int Seq_SetParticleImage(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+
 	//int	Seq_AutoChangeModel			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	
 	// Sequence
 	//int	Seq_ClassifyEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);

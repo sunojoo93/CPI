@@ -587,7 +587,7 @@ void CVSSequenceTaskDlg::OnBnClickedButton2()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	//PARAM_MOVE_MOTION*	prmMoveMotion = new PARAM_MOVE_MOTION;
 
-	//byte* pReceiveParam[100];
+	byte* pReceiveParam[100];
 
 	//int nPCno = 1;
 
@@ -597,18 +597,13 @@ void CVSSequenceTaskDlg::OnBnClickedButton2()
 	//prmMoveMotion->nMovePoint = nPCno;
 
 	//nRet = theApp.m_SequenceTask->CmdEditSend_TEST(REQ_MOVE_MOTION, 0, (ULONG)sizeof(PARAM_MOVE_MOTION), VS_MAIN_PC_TASK, (byte *)prmMoveMotion, CMD_TYPE_RES);
-	SYSTEMTIME cur_time;
-	GetLocalTime(&cur_time);
-	CString strPCTime;
+	ST_GRAB_AREA_INFO_AOT Temp1;
+	memcpy(&Temp1, &theApp.m_Config.GetAreaInfo(_T("PAD")), sizeof(ST_GRAB_AREA_INFO_AOT));
 
-	strPCTime.Format(_T("%04d-%02d-%02d %02d:%02d:%02d.%03ld"),
-		cur_time.wYear,
-		cur_time.wMonth,
-		cur_time.wDay,
-		cur_time.wHour,
-		cur_time.wMinute,
-		cur_time.wSecond,
-		cur_time.wMilliseconds);
+	
+	int nRet = 0;
+	nRet = theApp.m_SequenceTask->CmdEditSend_TEST(SEND_APPLY_LIGHT_PROPERTY, 0, (ULONG)sizeof(ST_GRAB_AREA_INFO_AOT), VS_LIGHT_TASK, (byte *)&Temp1, CMD_TYPE_NORES);
+	
 }
 BOOL CVSSequenceTaskDlg::ShowWindowEx(int nCmdShow)
 {

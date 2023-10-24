@@ -289,7 +289,7 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 		SEQUENCE_TABLE (	90,		10	,	VS_InitCamera					, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		11	,	VS_CameraExpose					, true	,			true, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		12	,	VS_WaitGrabEnd					, false	,			false, &m_csSequenceLock_2)
-		SEQUENCE_TABLE (	90,		13	,	VS_GetGrabBuffer				, false	,			false, &m_csSequenceLock_2)
+		SEQUENCE_TABLE (	90,		13	,	VS_GetGrabBuffer				, false	,			false, NULL)
 		SEQUENCE_TABLE (	90,		14	,	VS_GetGrabBufferNoRes			, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		15	,	VS_LiveGrab						, false	,			false, &m_csSequenceLock_3)
 		SEQUENCE_TABLE (	90,		115	,	VS_ManualLoadImage				, false	,			false, &m_csSequenceLock_2)
@@ -392,7 +392,9 @@ int VSMessageProcessor::VS_SetCameraProperty(byte* pParam, ULONG& nPrmSize, bool
 	m_fnPrintLog(_T("CAMLOG -- Seq9097_Set Camera Property Sequence Start. strInitFilePath=%s \n"), strInitFilePath);
 
 	EXCEPTION_TRY
-		//theApp.m_pCamera->SetCamSequencerProperty(&CamProperty);
+	#ifdef _TestCam
+		theApp.m_pCamera->SetCamSequencerProperty(&CamProperty);
+	#endif
 	EXCEPTION_CATCH
 
 		if (nRet != APP_OK)
@@ -442,7 +444,7 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 {
 	int nRet = APP_OK;
 	int nStepNo = 0;
-	
+	m_fnPrintLog(_T("CAMLOG -- Seq9011_Camera_Expose Sequence Start(). \n"));
 
 	//byte* tempParam	= pParam;
 	//int dd = sizeof(int);
@@ -458,6 +460,7 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 	//stLineParam = *(ST_LINE_INFO *)tempParam;
 
 	/////// 아이디 추가 ////
+
 	TCHAR strPanelID[50] = { 0, };		// 100 byte
 	memcpy(strPanelID, tempParam, sizeof(strPanelID));
 	tempParam += sizeof(strPanelID);
@@ -473,10 +476,12 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 	memcpy(strPosition, tempParam, sizeof(strPosition));
 	tempParam += sizeof(strPosition);
 
+	BOOL bSaveParticleImage = *(BOOL*)tempParam;
+	tempParam += sizeof(BOOL);
 	/////// 아이디 추가 ////
-
+	m_fnPrintLog(_T("CAMLOG -- Seq9011_Camera_Expose Sequence Parse Done, %d. \n"), nGrabLine);
 	// Sequence In LOG
-	m_fnPrintLog(_T("CAMLOG -- Seq9011_Camera_Expose Sequence Start(), %d. \n"), nGrabLine);
+
 	
 //#ifdef _DALSALINECAMERA 1221
 //	CDalsaLineCamera* temp = (CDalsaLineCamera*)theApp.m_pCamera;
@@ -525,7 +530,12 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 	VirID = (LPCTSTR)strVirtualID;
 	PanelID = (LPCTSTR)strPanelID;
 	Position = (LPCTSTR)strPosition;
-	theApp.m_pCamera->CameraExpose(PanelID, VirID, Position, nGrabLine);
+	CString IniPath;
+	IniPath = theApp.GetInitFilePath();
+	int DirectSave = GetPrivateProfileInt(_T("Settings"), _T("DirectSave"), 0, IniPath);
+
+	BOOL bDirectSave = DirectSave == 1 ? TRUE : FALSE;
+	theApp.m_pCamera->CameraExpose(PanelID, VirID, Position, nGrabLine, bSaveParticleImage, bDirectSave);
 #endif
 
 	EXCEPTION_CATCH
@@ -869,27 +879,27 @@ int VSMessageProcessor::VS_LiveGrab( byte* pParam, ULONG& nPrmSize, bool bAlways
 	BOOL bLive;
 
 	byte* tempParam	= pParam;
-	bLive = *(BOOL *)tempParam;		tempParam += sizeof(BOOL);
+	bLive = *(BOOL *)tempParam;		//tempParam += sizeof(BOOL);
 
 	// Sequence In LOG
 	m_fnPrintLog(_T("CAMLOG -- Seq9015_Live_Grab Sequence Start. bLive=%s \n"), bLive?_T("TRUE"):_T("FALSE"));	
 	
 	EXCEPTION_TRY
 	int nRetryCnt = 3;
-	for (int i =0 ; i < nRetryCnt; i++)
-	{
+	//for (int i =0 ; i < nRetryCnt; i++)
+	//{
 		if (bLive)
 			nRet = theApp.m_pCamera->StartLiveGrab() ? APP_OK : APP_NG;
 		else
 			nRet = theApp.m_pCamera->StopLiveGrab() ? APP_OK : APP_NG;
 
-		if(theApp.m_pCamera->GetImageCallBackState() == 0)  break;
-		else theApp.m_pCamera->retryConnect();
-		//*(int *)pParam = theApp.m_pCamera->GetImageCallBackState();	pParam   += sizeof(int);
-	}
+		//if(theApp.m_pCamera->GetImageCallBackState() == 0)  break;
+		//else theApp.m_pCamera->retryConnect();
+		//*(int *)tempParam = theApp.m_pCamera->GetImageCallBackState();	tempParam += sizeof(int);
+	//}
 
 	nChCnt = theApp.m_pCamera->GetImageBandwidth();
-	*(int *)pParam = nChCnt;	pParam   += sizeof(int);
+	*(int *)tempParam = nChCnt;	tempParam += sizeof(int);
 	EXCEPTION_CATCH
 
 	if ( nRet != APP_OK)

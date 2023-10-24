@@ -69,7 +69,7 @@ namespace CRUX_GUI_Cognex
             {
                 if (Globals.Insp_Type[0] == 5)
                 {
-                    Frm_Auto_Default.SetRecipe(ref recipe);
+                    (Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).SetRecipe(ref recipe);
                 }
                 if (Globals.Insp_Type[0] == 6)
                 {
@@ -80,7 +80,25 @@ namespace CRUX_GUI_Cognex
                 Frm_Recipe.SetRecipe(ref recipe);
                 Frm_Optical.SetRecipe(ref recipe);
                 Frm_Algorithm.SetRecipe(ref Recipe);
-                Frm_Recipe.RefeshRecipe();
+                Frm_Recipe.RefeshRecipe();                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void TrendInitialize()
+        {
+            try
+            {
+                if (Globals.Insp_Type[0] == 5)
+                {
+                    (Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).TrendInitialize();
+                }
+                if (Globals.Insp_Type[0] == 6)
+                {
+        
+                }
             }
             catch (Exception ex)
             {

@@ -51,7 +51,7 @@ public:
 	virtual UINT32 Write_Func6_UINT32(BYTE SlaveID, BYTE Func, WORD StartRegister, UINT32 Value) { return 0; };
 
 	virtual UINT16	ApplySequenceIndexer() { return 0; };
-	virtual int	ApplyLightProperty(ST_GRAB_AREA_INFO_AOT* data) { return 0; };
+	virtual int	ApplyLightProperty(ST_GRAB_AREA_INFO_AOT data) { return 0; };
 
 };
 

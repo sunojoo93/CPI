@@ -1529,8 +1529,8 @@ int CMatroxCamera::WaitGrabEnd()
 {	
 	if (m_bFreeRunLive || m_bTriggerLive)
 	{
-		//MdigGrabWait(m_milDigitizer, M_FRAME_END);
-		return;
+		MdigGrabWait(m_milDigitizer, M_FRAME_END);
+		return 0;
 	}
 
 	if (m_bIsMultiShot)

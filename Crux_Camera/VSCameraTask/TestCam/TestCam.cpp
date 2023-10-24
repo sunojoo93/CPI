@@ -48,7 +48,7 @@ void CTestCam::CloseApp()
 	
 }
 
-void CTestCam::CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt)
+void CTestCam::CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt, BOOL bSpi, BOOL bDctS)
 {	
 
 	//int nTriggerCountF = stLine.stLineData[stLine.stLineData[0].nCurrentGrab].nCOUNTF;
@@ -75,7 +75,7 @@ void CTestCam::CameraExpose(CString PanelID, CString VirID, CString Position, in
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposrorcp ure Start, Max Count : %d"), nBufCnt);
 	StopGrab(nBufCnt);
 	m_GrabTime.Start();
-	StartGrab(PanelID, VirID, Position, nBufCnt, false, true);
+	StartGrab(PanelID, VirID, Position, nBufCnt, false, bSpi, bDctS);
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera Exposure End, Max Count : %d"), nBufCnt);
 }
 
@@ -193,21 +193,14 @@ int CTestCam::SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data)
 {
 	ST_GRAB_AREA_INFO_AOT Data = *data;
 
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("On"));
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("On"));
 
-	//MIL_BOOL SequencerFeatureEnable = M_TRUE;
+	MIL_BOOL SequencerFeatureEnable = M_TRUE;
+	MIL_BOOL SequencerFeatureDisable = M_FALSE;
 
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureSelector"), M_TYPE_STRING, MIL_TEXT("GainDigitalAll"));
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureSelector"), M_TYPE_STRING, MIL_TEXT("GainDigitalAll"));
 
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable);
-
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerPathSelector"), M_TYPE_STRING, SequenceSelector.c_str);
-
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("GainSelector"), M_TYPE_STRING, MIL_TEXT("DigitalAll"));
-
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("Gain"), M_TYPE_DOUBLE, &Value);
-
-	//MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable);	
 
 	for (int i = 0; i < Data.PtnCount; ++i)
 	{
@@ -219,17 +212,48 @@ int CTestCam::SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data)
 			Temp.Expose = Data.PatternList[i].Cam_Condition[j].Expose;
 			Temp.Gain = Data.PatternList[i].Cam_Condition[j].Gain;
 			Temp.Use = Data.PatternList[i].Cam_Condition[j].Use;
-			ApplyProperty(Temp);
+			ApplyProperty(Temp, i);
 		}	
 	}
+
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureDisable);
+
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("Off"));
 	return 0;
 }
-int CTestCam::ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data)
+
+int CTestCam::ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data, int seq_idx)
 {
 	ST_GRAB_CAMERA_VALUE_SET_AOT Data = data;
+	CString Index;
+	Index.Format(_T(""), seq_idx);
+
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerPathSelector"), M_TYPE_STRING, Index);
+
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("GainSelector"), M_TYPE_STRING, MIL_TEXT("DigitalAll"));
+
+	MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("Gain"), M_TYPE_DOUBLE, &Data.Gain);
 
 	return 0;
 }
+//void MatroxGrabber::SetGainSequencerValue(std::string SequenceSelector, float Value)
+//{
+//	try
+//	{
+//		MdigControlFeature(MilDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("On"));
+//		MIL_BOOL SequencerFeatureEnable = M_TRUE;
+//		MdigControlFeature(MilDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureSelector"), M_TYPE_STRING, MIL_TEXT("GainDigitalAll"));
+//		MdigControlFeature(MilDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerFeatureEnable"), M_TYPE_BOOLEAN, &SequencerFeatureEnable);
+//		MdigControlFeature(MilDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerPathSelector"), M_TYPE_STRING, SequenceSelector.c_str);
+//		MdigControlFeature(MilDigitizer, M_FEATURE_VALUE, MIL_TEXT("GainSelector"), M_TYPE_STRING, MIL_TEXT("DigitalAll"));
+//		MdigControlFeature(MilDigitizer, M_FEATURE_VALUE, MIL_TEXT("Gain"), M_TYPE_DOUBLE, &Value);
+//		MdigControlFeature(MilDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerConfigurationMode"), M_TYPE_STRING, MIL_TEXT("Off"));
+//	}
+//	catch (const std::exception &e)
+//	{
+//	}
+//}
+
 CString CTestCam::GetCameraName()
 {
 	//char Temp[100];
@@ -270,7 +294,7 @@ double CTestCam::GetCameraTemperature()
 long MFTYPE HookFrameStart(long HookType, MIL_ID EventId, void *UserDataPtr)
 {
 	CTestCam *pData = (CTestCam*)UserDataPtr;
-
+	//theApp.m_pCamera->SetImageCallBackState(-1);
 	if (pData->m_bTriggerLive || pData->m_bFreeRunLive)
 		return 0;
 
@@ -282,6 +306,8 @@ long MFTYPE HookFrameStart(long HookType, MIL_ID EventId, void *UserDataPtr)
 long MFTYPE HookFrameEnd(long HookType, MIL_ID EventId, void *UserDataPtr)
 {
 	CTestCam *pData = (CTestCam*)UserDataPtr;
+
+	//theApp.m_pCamera->SetImageCallBackState(0);
 
 	if (pData->m_bTriggerLive)
 		return 0;
@@ -308,6 +334,7 @@ bool CTestCam::InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile)
 
 		// 프레임 보드 할당
 		MsysAlloc(M_SYSTEM_RAPIXOCXP, nGrabberNo, M_DEFAULT, &m_milSystem);
+		//MsysAlloc(M_SYSTEM_RADIENTCXP, nGrabberNo, M_DEFAULT, &m_milSystem);
 		if (m_milSystem == M_NULL)	return false;
 
 		// 디지타이저 할당
@@ -329,18 +356,17 @@ bool CTestCam::InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile)
 	
 		// 16.06.30 Live 화면 출력 추가 by CWH
 		// Allocate a display
-	//	if (m_milDisplay == NULL)
-	//		MdispAlloc(m_milSystem, M_DEFAULT, M_DISPLAY_SETUP, M_WINDOWED, &m_milDisplay);
+		//if (m_milDisplay )
+		//	MdispAlloc(m_milSystem, M_DEFAULT, M_DISPLAY_SETUP, M_WINDOWED, &m_milDisplay);
 
 	//MdigHookFunction(m_milDigitizer, M_GRAB_FRAME_START, (MIL_DIG_HOOK_FUNCTION_PTR)HookFrameStart, this);
 	//MdigHookFunction(m_milDigitizer, M_GRAB_FRAME_END, (MIL_DIG_HOOK_FUNCTION_PTR)HookFrameEnd, this);
 
 	if (!m_fnInitializeImageBuffer())
-		/*return FALSE;*/
+		return FALSE;
 
 	return true;
 }
-
 
 BOOL CTestCam::m_fnPrepareGrabBuffer()
 {
@@ -413,7 +439,7 @@ void CTestCam::StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos 
 	UserHookData.isGrabEnd = false;
 	UserHookData.ProcessedImageCount = 0;
 	UserHookData.MaxCount = count;
-	UserHookData.isSaveImage = true/*fileSave*/;
+	UserHookData.isSaveParticleImage = true/*fileSave*/;
 	ResetEvent(UserHookData.hGrabEnd);
 
 	// 그랩 스타트
@@ -430,7 +456,7 @@ void CTestCam::StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos 
 	}
 }
 
-void CTestCam::StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave)
+void CTestCam::StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool particleSave, bool directSave)
 {
 	//count -= 1;
 	// 버퍼할당
@@ -453,11 +479,11 @@ void CTestCam::StartGrab(CString PanelID, CString VirID, CString Position, int n
 	UserHookData.isGrabEnd = false;
 	UserHookData.ProcessedImageCount = 0;
 	UserHookData.MaxCount = nBufCnt;
-	UserHookData.isSaveImage = fileSave;
+	UserHookData.isSaveParticleImage = particleSave;
 	UserHookData.PanelID = PanelID;
 	UserHookData.VirID = VirID;
 	UserHookData.SavePath = TotalPath;
-	UserHookData.DirectSave = true;
+	UserHookData.DirectSave = directSave;
 	ResetEvent(UserHookData.hGrabEnd);
 	if (GetFileAttributes((LPCTSTR)TotalPath_) == INVALID_FILE_ATTRIBUTES)
 	{
@@ -621,6 +647,22 @@ MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *Hook
 	UserHookDataPtr->ProcessedImageCount = ModifiedBufferIndex + 1;
 	ProcessGrabCnt = UserHookDataPtr->ProcessedImageCount;
 	theApp.m_fnWriteLineScanLog(_T("ProcessingFunction - %d/%d"), UserHookDataPtr->ProcessedImageCount, UserHookDataPtr->MaxCount);
+	if (UserHookDataPtr->isSaveParticleImage)
+	{
+		//if (UserHookDataPtr->DirectSave)
+		//{
+			struct tm curr_tm;
+			time_t curr_time = time(nullptr);
+			_localtime64_s(&curr_tm, &curr_time);
+			CString filePath;
+			filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, UserHookDataPtr->ProcessedImageCount);
+
+			theApp.m_fnWriteLineScanLog(_T("image save Start."));
+			//temp->m_Trigger->TriggerGenCount0();
+			MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[ModifiedBufferIndex]);
+			theApp.m_fnWriteLineScanLog(_T("image save End."));
+		//}
+	}
 
 	if (UserHookDataPtr->MaxCount == UserHookDataPtr->ProcessedImageCount)
 	{
@@ -634,43 +676,39 @@ MIL_INT CTestCam::ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *Hook
 		//MdigControlFeature(UserHookDataPtr->obj->m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
 		theApp.m_fnWriteLineScanLog(_T("Grab End, MaxCount : %d"), UserHookDataPtr->MaxCount);
 		UserHookDataPtr->obj->m_GrabFlag = false;
-		if (UserHookDataPtr->isSaveImage)
-		{
-			if (!UserHookDataPtr->DirectSave)
-			{
-				for (int idx = 0; idx < ModifiedBufferIndex; ++idx)
-				{
-					struct tm curr_tm;
-					time_t curr_time = time(nullptr);
-					_localtime64_s(&curr_tm, &curr_time);
-					CString filePath;
-					filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, idx);
-
-					theApp.m_fnWriteLineScanLog(_T("image save Start."));
-					//temp->m_Trigger->TriggerGenCount0();
-					MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[idx]); // 콜백 시간 단축
-					theApp.m_fnWriteLineScanLog(_T("image save End."));
-				}
-			}
-		}
-
-	}
-	if (UserHookDataPtr->isSaveImage)
-	{
+		
 		if (UserHookDataPtr->DirectSave)
 		{
 			struct tm curr_tm;
 			time_t curr_time = time(nullptr);
 			_localtime64_s(&curr_tm, &curr_time);
 			CString filePath;
-			filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, UserHookDataPtr->ProcessedImageCount);
+			filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, _T("Origin"));
 
 			theApp.m_fnWriteLineScanLog(_T("image save Start."));
 			//temp->m_Trigger->TriggerGenCount0();
-			MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[ModifiedBufferIndex]);
+			MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milMergeImage);
 			theApp.m_fnWriteLineScanLog(_T("image save End."));
 		}
+		//if (UserHookDataPtr->isSaveImage)
+		//{
+		//	if (!UserHookDataPtr->DirectSave)
+		//	{
+		//		for (int idx = 0; idx < ModifiedBufferIndex; ++idx)
+		//		{
+		//			struct tm curr_tm;
+		//			time_t curr_time = time(nullptr);
+		//			_localtime64_s(&curr_tm, &curr_time);
+		//			CString filePath;
+		//			filePath.Format(_T("%s\\%d.bmp"), UserHookDataPtr->SavePath, idx);
 
+		//			theApp.m_fnWriteLineScanLog(_T("image save Start."));
+		//			//temp->m_Trigger->TriggerGenCount0();
+		//			MbufExport(filePath, M_BMP, UserHookDataPtr->obj->m_milLineImage[idx]); // 콜백 시간 단축
+		//			theApp.m_fnWriteLineScanLog(_T("image save End."));
+		//		}
+		//	}
+		//}
 	}
 	return 0;
 }
@@ -712,7 +750,7 @@ int CTestCam::freeCamera()
 BOOL CTestCam::SetExposureTime(double dExpOnTime)
 {
 	BOOL bRet = TRUE;
-	m_Camera->SetProperty("set", (int)(dExpOnTime * 1000));
+	//m_Camera->SetProperty("set", (int)(dExpOnTime * 1000));
 	
 	return bRet;
 }
@@ -744,7 +782,7 @@ BOOL CTestCam::SetTriggerMode(int nMode)
 	MIL_TEXT_PTR TriggerModePtr = new MIL_TEXT_CHAR[TriggerModeStringSize];
 	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("TriggerMode"), M_TYPE_STRING, TriggerModePtr);
 	Temp.Format(_T("%s"), TriggerModePtr);
-	theApp.m_pLogWriter->m_fnWriteLog(_T("Current Trigger Mode : %s"), *Temp);
+	theApp.m_pLogMonitoring->m_fnWriteLog(_T("Current Trigger Mode : ") + Temp);
 
 	if (nMode == 0)
 	{
@@ -778,6 +816,11 @@ int CTestCam::WaitGrabEnd(int proc_num)
 {	
 	int nRet = 0;
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera WaitGrabEnd Start"));
+	//if (m_bFreeRunLive || m_bTriggerLive)
+	//{
+	//	MdigGrabWait(m_milDigitizer, M_FRAME_END);
+	//	return 0;
+	//}
 	nRet = WaitForSingleObject(UserHookData.hGrabEnd, 10000);
 
 	if (nRet == WAIT_TIMEOUT)
@@ -876,9 +919,9 @@ BOOL CTestCam::StartLiveGrab()
 
 	SetSequenceMode(eNone);
 	SetTriggerMode(eFreeRun);
-	Sleep(10);
+	Sleep(100);
 
-	m_GrabTime.Start();
+	//m_GrabTime.Start();
 
 	// Serial 통신 오류로 인해 Camera Mode 변경되지 않았을 경우 연속 Grab 호출 -> 사용 안함
 	if (GetTriggerMode() != eFreeRun)
@@ -902,9 +945,16 @@ BOOL CTestCam::StartLiveGrab()
 }
 BOOL CTestCam::SetSequenceMode(int nSeqMode)
 {	
+	CString Temp;
 	MIL_INT64 SequencerModeStringSize = 0;
 	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE + M_STRING_SIZE, MIL_TEXT("SequencerMode"), M_TYPE_MIL_INT, &SequencerModeStringSize);
-	theApp.m_fnWriteLineScanLog(_T("Current Sequencer Prop Size : %d"), SequencerModeStringSize);
+
+	MIL_TEXT_PTR SequencerModePtr = new MIL_TEXT_CHAR[SequencerModeStringSize];
+	MdigInquireFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, SequencerModePtr);
+
+	Temp.Format(_T("%s"), SequencerModePtr);
+	theApp.m_pLogMonitoring->m_fnWriteLog(_T("Current Sequencer Mode : ") + Temp);
+	theApp.m_pLogWriter->m_fnWriteLog(_T("Current Sequencer Mode : ") + Temp);
 
 	if(nSeqMode == 0)
 		MdigControlFeature(m_milDigitizer, M_FEATURE_VALUE, MIL_TEXT("SequencerMode"), M_TYPE_STRING, MIL_TEXT("Off"));
@@ -937,7 +987,21 @@ BOOL CTestCam::SetSequenceIndex(int nSeqIdx)
 }
 BOOL CTestCam::StopLiveGrab()
 {
-	m_bLiveMode = FALSE;
+	//WaitGrabEnd(0);
+
+	SetSequenceMode(1);
+	SetTriggerMode(1);
+
+	if (m_bFreeRunLive)
+	{
+		m_bFreeRunLive = FALSE;
+		MdigHalt(m_milDigitizer);
+	}	
+	
+	Sleep(10);
+
+
+
 	theApp.m_fnWriteTactLog(_T("StopLiveGrab"));
 	return TRUE;
 }
@@ -1014,12 +1078,12 @@ void CTestCam::GetGrabImage(byte* byteImgArr)
 //}
 MIL_ID CTestCam::GetLiveGrabImage()
 {
-	//MbufCopy(m_LiveImage, m_milLiveGrabBuffer);
-
+	MbufCopy(m_LiveImage, m_milLiveGrabBuffer);
+	//MbufCopy(pData->m_LiveImage, pData->m_milLiveGrabBuffer);
 	//2019.04.11
 	if (m_lDigBand == 1)
 	{
-		return m_LiveImage;
+		return m_milLiveGrabBuffer;
 	}
 	else if (m_lDigBand == 3)
 	{

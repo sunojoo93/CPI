@@ -9,6 +9,7 @@ using Cognex.VisionPro.QuickBuild.Implementation.Internal;
 using Cognex.VisionPro.ToolGroup;
 using CRUX_GUI_Cognex;
 using CRUX_GUI_Cognex.Class;
+using CRUX_GUI_Cognex.Class.InspVer2;
 using CRUX_GUI_Cognex.Ex_Form;
 using CRUX_GUI_Cognex.Utils;
 using System;
@@ -245,7 +246,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                foreach(Defect_Property item in data.DefectList)
                {
                    DataRow ItemDr = DefectTable.NewRow();
-                   ItemDr.ItemArray = new object[] { item.AreaName, item.X, item.Y, item.Vicinity, item.Id };
+                   ItemDr.ItemArray = new object[] { item.AreaName, item.FS_X, item.FS_Y, item.Vicinity, item.Id };
                    DefectTable.Rows.Add(ItemDr);
                }
 
@@ -704,17 +705,19 @@ namespace CRUX_GUI_Cognex.Main_Form
                 
                 foreach (InspData item in ManualInspImageData)
                 {
-                    int Rtn = Systems.Inspector_.Start_Insp(item);
-                    if (Rtn == -1 || Rtn == -3 || Rtn == -2 || Rtn == -4 || Rtn == -5)
-                    {
-                        Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Inspect Start Error, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex].ToString()}, Area : {item.Area}", true, true);
-                        break;
-                    }
-                    else
-                    {
-                        Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Inspect Start, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex].ToString()}, Area : {item.Area}", true, true);
-                    }                    
+                    Inspector_Collection.Instance().Enqueue(item);
+                    //if (Rtn == -1 || Rtn == -3 || Rtn == -2 || Rtn == -4 || Rtn == -5)
+                    //{
+                    //    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Inspect Start Error, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex].ToString()}, Area : {item.Area}", true, true);
+                    //    break;
+                    //}
+                    //else
+                    //{
+                    //    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Inspect Start, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex].ToString()}, Area : {item.Area}", true, true);
+                    //}             
+                    Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Inspect Start, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex].ToString()}, Area : {item.Area}", true, true);
                 }
+
             }
             catch (Exception ex)
             {

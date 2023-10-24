@@ -532,7 +532,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private void UpdatePattern()
         {
             try
-            {
+            {              
                 if (Dgv_Area.SelectedRows.Count > 0)
                 {
                     //ClearRecipeControl();
@@ -713,7 +713,51 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void Btn_ProperyApply_Click(object sender, EventArgs e)
         {
+            ST_CAM_COND SendCamParam = new ST_CAM_COND(0); 
+            if (Dgv_Area.SelectedRows.Count > 0)
+            {
+                string CurAreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                string CurPatternName = string.Empty;
+                if(Dgv_Pattern.SelectedRows.Count > 0)
+                {
+                    CurPatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
 
+                    Pattern FindPtn = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == CurAreaName)?.Patterns.Find(x => x.Name == CurPatternName);
+
+                    if(FindPtn != null)
+                    {
+                        foreach(CameraInfo item in FindPtn.Grab_Data.Camera_Data)
+                        {
+                            if(item.Use)
+                            {
+
+                                SendCamParam.Use = item.Use;
+                                SendCamParam.Name = Encoding.UTF8.GetBytes(item.Name);
+                                SendCamParam.Expose = item.Expose;
+
+                                SendCamParam.Gain = item.Gain;
+                                SendCamParam.PS = item.PS;
+                                SendCamParam.Delay = item.Delay;
+                                SendCamParam.nCountF = item.nCountF;
+                                SendCamParam.nCountB = item.nCountB;
+                                SendCamParam.nStartF = item.nStartF;
+                                SendCamParam.nStartB = item.nStartB;
+                                SendCamParam.nStopF = item.nStopF;
+                                SendCamParam.nStopB = item.nStopB;
+                                SendCamParam.nPeriodF = item.nPeriodF;
+                                SendCamParam.nPeriodB = item.nPeriodB;
+
+                                CmdMsgParam Param = new CmdMsgParam();
+                                Param.ClearOffset();
+
+                                Param.SetStruct(SendCamParam);
+                                int Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.CAMERA_TASK + item.Name.toInt()), IpcConst.CAMERA_FUNC, IpcConst.CAMERA_SET_DATA,
+                                                                     IpcInterface.CMD_TYPE_RES, 100000, Param.GetByteSize(), Param.GetParam());
+                            }
+                        }
+                    }         
+                }
+            }
         }
 
         private void Dgv_Area_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -1053,6 +1097,22 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Frm.SetRecipe(ref Shared_Recipe);
                 Frm.ShowDialog();
             }
+        }
+
+        private void Btn_LightApply_Click(object sender, EventArgs e)
+        {
+            //CmdMsgParam Param = new CmdMsgParam();
+            //Param.ClearOffset();
+            //Param.SetUInteger((UInt32)0);
+            //Param.SetUInteger((UInt32)0);
+            //nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.LIGHT_TASK + CamIndex + 0), IpcConst.LIGHT_FUNC, IpcConst.LIGHT_PROPERY_APPLY,
+            //                                IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
+            //if (nRet == Consts.APP_OK)
+            //{
+            //    Param.SetOffset(0);
+            //    ErrorCode = Param.GetUInteger();
+            //    Temperature = Param.GetUInteger();
+            //}
         }
     }
 }

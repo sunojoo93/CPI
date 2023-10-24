@@ -427,15 +427,15 @@ void CIPulsLight::GetHighLowByte(BYTE &high, BYTE &low, WORD val)
 	high = val >> 8;
 }
 
-int	CIPulsLight::ApplyLightProperty(ST_GRAB_AREA_INFO_AOT* param)
+int	CIPulsLight::ApplyLightProperty(ST_GRAB_AREA_INFO_AOT param)
 {
-	ST_GRAB_AREA_INFO_AOT Data = *param;
+	ST_GRAB_AREA_INFO_AOT Data = param;
 
 	WORD SeqStart = _ttoi(_T("0"));
-	//theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0306, SeqStart);
+	theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0306, SeqStart);
 
 	WORD SeqCount = (WORD)Data.PtnCount;
-	//theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0307, SeqCount);
+	theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0307, SeqCount);
 
 	for (int i = 0; i < Data.PtnCount; ++i)
 	{

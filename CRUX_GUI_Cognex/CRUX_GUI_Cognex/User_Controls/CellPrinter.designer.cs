@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CellPrinter));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.Tlp_CellPrinterLayout = new System.Windows.Forms.TableLayoutPanel();
             this.Tlp_Right = new System.Windows.Forms.TableLayoutPanel();
             this.CogDisplayToolBar_Right = new Cognex.VisionPro.CogDisplayToolbarV2();
             this.CogDisplayStatusBar_Right = new Cognex.VisionPro.CogDisplayStatusBarV2();
@@ -51,7 +51,7 @@
             this.CogDisplayStatusBar_Pad = new Cognex.VisionPro.CogDisplayStatusBarV2();
             this.CogRecordPad = new Cognex.VisionPro.CogRecordDisplay();
             this.Lb_Pad = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.Tlp_CellPrinterLayout.SuspendLayout();
             this.Tlp_Right.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordRight)).BeginInit();
             this.Tlp_Bottom.SuspendLayout();
@@ -62,27 +62,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordPad)).BeginInit();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // Tlp_CellPrinterLayout
             // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 208F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 208F));
-            this.tableLayoutPanel1.Controls.Add(this.Tlp_Right, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.Tlp_Bottom, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.Tlp_Top, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.Tlp_Pad, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Font = new System.Drawing.Font("나눔스퀘어라운드 Regular", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 238F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 238F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1071, 499);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.Tlp_CellPrinterLayout.BackColor = System.Drawing.Color.White;
+            this.Tlp_CellPrinterLayout.ColumnCount = 3;
+            this.Tlp_CellPrinterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 208F));
+            this.Tlp_CellPrinterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_CellPrinterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 208F));
+            this.Tlp_CellPrinterLayout.Controls.Add(this.Tlp_Right, 2, 0);
+            this.Tlp_CellPrinterLayout.Controls.Add(this.Tlp_Bottom, 1, 2);
+            this.Tlp_CellPrinterLayout.Controls.Add(this.Tlp_Top, 1, 0);
+            this.Tlp_CellPrinterLayout.Controls.Add(this.Tlp_Pad, 0, 0);
+            this.Tlp_CellPrinterLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tlp_CellPrinterLayout.Font = new System.Drawing.Font("나눔스퀘어라운드 Regular", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Tlp_CellPrinterLayout.Location = new System.Drawing.Point(0, 0);
+            this.Tlp_CellPrinterLayout.Name = "Tlp_CellPrinterLayout";
+            this.Tlp_CellPrinterLayout.RowCount = 3;
+            this.Tlp_CellPrinterLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 238F));
+            this.Tlp_CellPrinterLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Tlp_CellPrinterLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 238F));
+            this.Tlp_CellPrinterLayout.Size = new System.Drawing.Size(1071, 499);
+            this.Tlp_CellPrinterLayout.TabIndex = 0;
             // 
             // Tlp_Right
             // 
@@ -98,7 +98,7 @@
             this.Tlp_Right.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_Right.Name = "Tlp_Right";
             this.Tlp_Right.RowCount = 3;
-            this.tableLayoutPanel1.SetRowSpan(this.Tlp_Right, 3);
+            this.Tlp_CellPrinterLayout.SetRowSpan(this.Tlp_Right, 3);
             this.Tlp_Right.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.Tlp_Right.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Right.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -248,9 +248,9 @@
             this.Tlp_Top.Name = "Tlp_Top";
             this.Tlp_Top.RowCount = 4;
             this.Tlp_Top.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.Tlp_Top.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55.55556F));
-            this.Tlp_Top.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.Tlp_Top.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77778F));
+            this.Tlp_Top.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 76.92308F));
+            this.Tlp_Top.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.07693F));
+            this.Tlp_Top.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.Tlp_Top.Size = new System.Drawing.Size(655, 238);
             this.Tlp_Top.TabIndex = 1;
             // 
@@ -261,9 +261,9 @@
             this.Lb_Top.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_Top.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_Top.ForeColor = System.Drawing.Color.Black;
-            this.Lb_Top.Location = new System.Drawing.Point(3, 179);
+            this.Lb_Top.Location = new System.Drawing.Point(3, 187);
             this.Lb_Top.Name = "Lb_Top";
-            this.Lb_Top.Size = new System.Drawing.Size(649, 59);
+            this.Lb_Top.Size = new System.Drawing.Size(649, 51);
             this.Lb_Top.TabIndex = 4;
             this.Lb_Top.Text = "TOP";
             this.Lb_Top.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -273,10 +273,10 @@
             this.CogDisplayStatusBar_Top.CoordinateSpaceName = "*\\#";
             this.CogDisplayStatusBar_Top.CoordinateSpaceName3D = "*\\#";
             this.CogDisplayStatusBar_Top.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CogDisplayStatusBar_Top.Location = new System.Drawing.Point(3, 148);
+            this.CogDisplayStatusBar_Top.Location = new System.Drawing.Point(3, 154);
             this.CogDisplayStatusBar_Top.Name = "CogDisplayStatusBar_Top";
             this.CogDisplayStatusBar_Top.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.CogDisplayStatusBar_Top.Size = new System.Drawing.Size(649, 28);
+            this.CogDisplayStatusBar_Top.Size = new System.Drawing.Size(649, 30);
             this.CogDisplayStatusBar_Top.TabIndex = 0;
             this.CogDisplayStatusBar_Top.Use3DCoordinateSpaceTree = false;
             // 
@@ -303,7 +303,7 @@
             this.CogRecordTop.MouseWheelSensitivity = 1D;
             this.CogRecordTop.Name = "CogRecordTop";
             this.CogRecordTop.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("CogRecordTop.OcxState")));
-            this.CogRecordTop.Size = new System.Drawing.Size(649, 109);
+            this.CogRecordTop.Size = new System.Drawing.Size(649, 115);
             this.CogRecordTop.TabIndex = 2;
             // 
             // Tlp_Pad
@@ -320,7 +320,7 @@
             this.Tlp_Pad.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_Pad.Name = "Tlp_Pad";
             this.Tlp_Pad.RowCount = 3;
-            this.tableLayoutPanel1.SetRowSpan(this.Tlp_Pad, 3);
+            this.Tlp_CellPrinterLayout.SetRowSpan(this.Tlp_Pad, 3);
             this.Tlp_Pad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.Tlp_Pad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Pad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -386,11 +386,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.Tlp_CellPrinterLayout);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "CellPrinter";
             this.Size = new System.Drawing.Size(1071, 499);
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.Tlp_CellPrinterLayout.ResumeLayout(false);
             this.Tlp_Right.ResumeLayout(false);
             this.Tlp_Right.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CogRecordRight)).EndInit();
@@ -409,7 +409,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel Tlp_CellPrinterLayout;
         private System.Windows.Forms.TableLayoutPanel Tlp_Right;
         private System.Windows.Forms.TableLayoutPanel Tlp_Bottom;
         private System.Windows.Forms.TableLayoutPanel Tlp_Top;
@@ -426,9 +426,9 @@
         private Cognex.VisionPro.CogDisplayToolbarV2 CogDisplayToolBar_Pad;
         private Cognex.VisionPro.CogDisplayStatusBarV2 CogDisplayStatusBar_Pad;
         private Cognex.VisionPro.CogRecordDisplay CogRecordPad;
-        private System.Windows.Forms.Label Lb_Right;
-        private System.Windows.Forms.Label Lb_Bottom;
-        private System.Windows.Forms.Label Lb_Top;
-        private System.Windows.Forms.Label Lb_Pad;
+        public System.Windows.Forms.Label Lb_Right;
+        public System.Windows.Forms.Label Lb_Bottom;
+        public System.Windows.Forms.Label Lb_Top;
+        public System.Windows.Forms.Label Lb_Pad;
     }
 }

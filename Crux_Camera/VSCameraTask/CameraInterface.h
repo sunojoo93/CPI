@@ -189,11 +189,12 @@ public:
 	virtual void	SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID, int nSeqMode) { return; };
 	virtual int	StopGrab(int nBufCnt) { return 0; };
 #elif _TestCam
-	virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt) {};
+	virtual	void	CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt, BOOL BSpi, BOOL bDctS) {};
 	virtual void	SetSMemCurBuffer(int nBufCnt, TCHAR* strPanelID, int nSeqMode) { return; };
 	virtual int	StopGrab(int nBufCnt) { return 0; };
 	virtual	int	SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data) { return 0; };
 	virtual int	ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data) { return 0; };
+	virtual void SetImageCallBackState(int nState) { return; };
 #endif
 };
 

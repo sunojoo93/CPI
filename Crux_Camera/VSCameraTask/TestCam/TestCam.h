@@ -29,7 +29,8 @@
 //KYH
 #define BUFFER_COUNT	200
 #define BUFFREE(milBuffer)		if(milBuffer == 0) { MbufFree	(milBuffer);	milBuffer=M_NULL;	/*MbufClear(milBuffer,0);*/}
-
+long MFTYPE HookFrameStart(long HookType, MIL_ID EventId, void *UserDataPtr);
+long MFTYPE HookFrameEnd(long HookType, MIL_ID EventId, void *UserDataPtr);
 class CTestCam : public CameraInterface
 {
 public:
@@ -43,7 +44,7 @@ public:
 	BOOL			InitializeGrabber(int nGrabberNo, int nDigCh, CString strDcfFilePath);
 	BOOL			OpenCameraComPort(int nComPort, int nBaudrate, eCamModel eModel);	
 	// Grab
-	void			CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt);									// Exposure Time 동안만 대기 후 반환
+	void			CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt, BOOL BSpi, BOOL bDctS);									// Exposure Time 동안만 대기 후 반환
 	int				WaitGrabEnd(int proc_num);									// Wait Image Grab End	
 	BYTE*			GetGrabBuffer();
 	BOOL			DoRotateImage(cv::Mat matSrcBuffer, cv::Mat& matDstBuffer, double dAngle);
@@ -123,7 +124,7 @@ public:
 	double			GetCameraTemperature();
 
 	int				SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data);
-	int				ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data);
+	int				ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data, int seq_idx);
 	//MIL_ID			GetMilGrabBuffer();
 	MIL_ID			GetLiveGrabImage();
 
@@ -140,7 +141,8 @@ public:
 
 	
 	// 16.07.04 Live 사용 여부
-	BOOL			m_bFreeRunLive;
+	BOOL			m_bFreeRunLive = FALSE;
+	BOOL			m_bTriggerLive = FALSE;
 	BOOL			m_bLiveMode;
 
 	double m_dStartTime;
@@ -193,7 +195,7 @@ public:
 		int		MaxCount;
 		int		ProcessedImageCount;
 		bool	isGrabEnd;
-		bool	isSaveImage;
+		bool	isSaveParticleImage;
 		HANDLE	hGrabEnd;
 		CString SavePath;
 		CString Position;
@@ -217,7 +219,7 @@ public:
 	bool	m_GrabFlag = false;
 	bool InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile);
 	void StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos ,bool sync, bool fileSave = false);
-	void StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave = false);
+	void StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave = false, bool directSave = false);
 	void StopGrab(int nTriggerCountF, int nTriggerCountB);
 	int StopGrab(int nBufCnt);
 	void AllocClearBuffer(int nBufCnt, bool onlyClear = false);
@@ -230,7 +232,7 @@ public:
 	MIL_ID			m_ColorImage;
 	MIL_ID			m_milCropLoadClrImg;
 	MIL_ID			m_MilWBCoefficients;			// White Balance 보정치
-	bool m_bTriggerLive;
+
 
 	BOOL			m_fnInitializeImageBuffer();
 	BOOL			m_fnPrepareGrabBuffer();

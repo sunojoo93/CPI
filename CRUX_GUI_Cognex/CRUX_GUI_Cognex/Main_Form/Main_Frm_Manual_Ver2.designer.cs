@@ -36,6 +36,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.tab_Page_ImageSimul = new System.Windows.Forms.TabPage();
             this.Tlp_Simul = new System.Windows.Forms.TableLayoutPanel();
             this.Tlp_Auto = new System.Windows.Forms.TableLayoutPanel();
+            this.CellPrinter_Manual = new CRUX_GUI_Cognex.User_Controls.CellPrinter();
             this.Tlp_Bottom = new System.Windows.Forms.TableLayoutPanel();
             this.Grb_Defect = new System.Windows.Forms.GroupBox();
             this.Dgv_Defect = new System.Windows.Forms.DataGridView();
@@ -62,14 +63,13 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.Tlp_DivideID = new System.Windows.Forms.TableLayoutPanel();
+            this.Chb_Crop = new System.Windows.Forms.CheckBox();
             this.Tb_CellID = new System.Windows.Forms.TextBox();
             this.Ckb_MultiInsp = new System.Windows.Forms.CheckBox();
             this.Btn_StartInsp = new System.Windows.Forms.Button();
+            this.Uctrl_LogWrite_Manual = new CRUX_GUI_Cognex.User_Controls.LogPrinter();
             this.tab_Page_TotalSimul = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
-            this.CellPrinter_Manual = new CRUX_GUI_Cognex.User_Controls.CellPrinter();
-            this.Uctrl_LogWrite_Manual = new CRUX_GUI_Cognex.User_Controls.LogPrinter();
-            this.Chb_Crop = new System.Windows.Forms.CheckBox();
             this.Tab_Simul.SuspendLayout();
             this.tab_Page_ImageSimul.SuspendLayout();
             this.Tlp_Simul.SuspendLayout();
@@ -107,10 +107,10 @@ namespace CRUX_GUI_Cognex.Main_Form
             // tab_Page_ImageSimul
             // 
             this.tab_Page_ImageSimul.Controls.Add(this.Tlp_Simul);
-            this.tab_Page_ImageSimul.Location = new System.Drawing.Point(4, 25);
+            this.tab_Page_ImageSimul.Location = new System.Drawing.Point(4, 23);
             this.tab_Page_ImageSimul.Name = "tab_Page_ImageSimul";
             this.tab_Page_ImageSimul.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Page_ImageSimul.Size = new System.Drawing.Size(1916, 817);
+            this.tab_Page_ImageSimul.Size = new System.Drawing.Size(1916, 819);
             this.tab_Page_ImageSimul.TabIndex = 0;
             this.tab_Page_ImageSimul.Text = "Image Simulation";
             this.tab_Page_ImageSimul.UseVisualStyleBackColor = true;
@@ -132,7 +132,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Simul.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Simul.Size = new System.Drawing.Size(1910, 811);
+            this.Tlp_Simul.Size = new System.Drawing.Size(1910, 813);
             this.Tlp_Simul.TabIndex = 0;
             // 
             // Tlp_Auto
@@ -153,6 +153,17 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Auto.Size = new System.Drawing.Size(1182, 644);
             this.Tlp_Auto.TabIndex = 6;
             // 
+            // CellPrinter_Manual
+            // 
+            this.Tlp_Auto.SetColumnSpan(this.CellPrinter_Manual, 2);
+            this.CellPrinter_Manual.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CellPrinter_Manual.Location = new System.Drawing.Point(0, 0);
+            this.CellPrinter_Manual.Margin = new System.Windows.Forms.Padding(0);
+            this.CellPrinter_Manual.Name = "CellPrinter_Manual";
+            this.Tlp_Auto.SetRowSpan(this.CellPrinter_Manual, 2);
+            this.CellPrinter_Manual.Size = new System.Drawing.Size(1182, 644);
+            this.CellPrinter_Manual.TabIndex = 0;
+            // 
             // Tlp_Bottom
             // 
             this.Tlp_Bottom.ColumnCount = 2;
@@ -165,7 +176,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Bottom.Name = "Tlp_Bottom";
             this.Tlp_Bottom.RowCount = 1;
             this.Tlp_Bottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Bottom.Size = new System.Drawing.Size(1182, 155);
+            this.Tlp_Bottom.Size = new System.Drawing.Size(1182, 157);
             this.Tlp_Bottom.TabIndex = 2;
             // 
             // Grb_Defect
@@ -175,7 +186,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_Defect.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Grb_Defect.Location = new System.Drawing.Point(594, 3);
             this.Grb_Defect.Name = "Grb_Defect";
-            this.Grb_Defect.Size = new System.Drawing.Size(585, 149);
+            this.Grb_Defect.Size = new System.Drawing.Size(585, 151);
             this.Grb_Defect.TabIndex = 4;
             this.Grb_Defect.TabStop = false;
             this.Grb_Defect.Text = "Defect";
@@ -194,7 +205,8 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Defect.ReadOnly = true;
             this.Dgv_Defect.RowHeadersVisible = false;
             this.Dgv_Defect.RowTemplate.Height = 23;
-            this.Dgv_Defect.Size = new System.Drawing.Size(579, 129);
+            this.Dgv_Defect.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_Defect.Size = new System.Drawing.Size(579, 131);
             this.Dgv_Defect.TabIndex = 0;
             this.Dgv_Defect.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Defect_ColumnHeaderMouseClick);
             // 
@@ -204,7 +216,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_InspResultList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_InspResultList.Location = new System.Drawing.Point(3, 3);
             this.Grb_InspResultList.Name = "Grb_InspResultList";
-            this.Grb_InspResultList.Size = new System.Drawing.Size(585, 149);
+            this.Grb_InspResultList.Size = new System.Drawing.Size(585, 151);
             this.Grb_InspResultList.TabIndex = 1;
             this.Grb_InspResultList.TabStop = false;
             this.Grb_InspResultList.Text = "Results";
@@ -223,8 +235,10 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Result.ReadOnly = true;
             this.Dgv_Result.RowHeadersVisible = false;
             this.Dgv_Result.RowTemplate.Height = 23;
-            this.Dgv_Result.Size = new System.Drawing.Size(579, 128);
+            this.Dgv_Result.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dgv_Result.Size = new System.Drawing.Size(579, 130);
             this.Dgv_Result.TabIndex = 0;
+            this.Dgv_Result.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Result_CellMouseUp);
             this.Dgv_Result.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Result_ColumnHeaderMouseClick);
             // 
             // Tlp_Images
@@ -371,7 +385,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Simul.SetRowSpan(this.tableLayoutPanel4, 2);
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(716, 205);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(716, 207);
             this.tableLayoutPanel4.TabIndex = 7;
             // 
             // Grb_ImageInfo
@@ -511,7 +525,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.label1.Location = new System.Drawing.Point(0, 6);
             this.label1.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 24);
+            this.label1.Size = new System.Drawing.Size(83, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "ID : ";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -534,6 +548,20 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_DivideID.Size = new System.Drawing.Size(454, 41);
             this.Tlp_DivideID.TabIndex = 1;
             // 
+            // Chb_Crop
+            // 
+            this.Chb_Crop.AutoSize = true;
+            this.Chb_Crop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Chb_Crop.Location = new System.Drawing.Point(304, 3);
+            this.Chb_Crop.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
+            this.Chb_Crop.Name = "Chb_Crop";
+            this.Chb_Crop.Size = new System.Drawing.Size(67, 18);
+            this.Chb_Crop.TabIndex = 3;
+            this.Chb_Crop.Text = "Crop";
+            this.Chb_Crop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Chb_Crop.UseVisualStyleBackColor = true;
+            this.Chb_Crop.CheckedChanged += new System.EventHandler(this.Chb_Crop_CheckedChanged);
+            // 
             // Tb_CellID
             // 
             this.Tb_CellID.Dock = System.Windows.Forms.DockStyle.Top;
@@ -550,7 +578,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Ckb_MultiInsp.Location = new System.Drawing.Point(384, 3);
             this.Ckb_MultiInsp.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.Ckb_MultiInsp.Name = "Ckb_MultiInsp";
-            this.Ckb_MultiInsp.Size = new System.Drawing.Size(67, 20);
+            this.Ckb_MultiInsp.Size = new System.Drawing.Size(67, 18);
             this.Ckb_MultiInsp.TabIndex = 2;
             this.Ckb_MultiInsp.Text = "Multi";
             this.Ckb_MultiInsp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -569,13 +597,22 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Btn_StartInsp.UseVisualStyleBackColor = true;
             this.Btn_StartInsp.Click += new System.EventHandler(this.Btn_StartInsp_Click);
             // 
+            // Uctrl_LogWrite_Manual
+            // 
+            this.Uctrl_LogWrite_Manual.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Uctrl_LogWrite_Manual.Location = new System.Drawing.Point(0, 105);
+            this.Uctrl_LogWrite_Manual.Margin = new System.Windows.Forms.Padding(0);
+            this.Uctrl_LogWrite_Manual.Name = "Uctrl_LogWrite_Manual";
+            this.Uctrl_LogWrite_Manual.Size = new System.Drawing.Size(716, 102);
+            this.Uctrl_LogWrite_Manual.TabIndex = 5;
+            // 
             // tab_Page_TotalSimul
             // 
             this.tab_Page_TotalSimul.Controls.Add(this.button3);
-            this.tab_Page_TotalSimul.Location = new System.Drawing.Point(4, 25);
+            this.tab_Page_TotalSimul.Location = new System.Drawing.Point(4, 23);
             this.tab_Page_TotalSimul.Name = "tab_Page_TotalSimul";
             this.tab_Page_TotalSimul.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Page_TotalSimul.Size = new System.Drawing.Size(1916, 817);
+            this.tab_Page_TotalSimul.Size = new System.Drawing.Size(1916, 819);
             this.tab_Page_TotalSimul.TabIndex = 1;
             this.tab_Page_TotalSimul.Text = "Full Sequence Simulation";
             this.tab_Page_TotalSimul.UseVisualStyleBackColor = true;
@@ -589,43 +626,9 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // CellPrinter_Manual
-            // 
-            this.Tlp_Auto.SetColumnSpan(this.CellPrinter_Manual, 2);
-            this.CellPrinter_Manual.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CellPrinter_Manual.Location = new System.Drawing.Point(0, 0);
-            this.CellPrinter_Manual.Margin = new System.Windows.Forms.Padding(0);
-            this.CellPrinter_Manual.Name = "CellPrinter_Manual";
-            this.Tlp_Auto.SetRowSpan(this.CellPrinter_Manual, 2);
-            this.CellPrinter_Manual.Size = new System.Drawing.Size(1182, 644);
-            this.CellPrinter_Manual.TabIndex = 0;
-            // 
-            // Uctrl_LogWrite_Manual
-            // 
-            this.Uctrl_LogWrite_Manual.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Uctrl_LogWrite_Manual.Location = new System.Drawing.Point(0, 105);
-            this.Uctrl_LogWrite_Manual.Margin = new System.Windows.Forms.Padding(0);
-            this.Uctrl_LogWrite_Manual.Name = "Uctrl_LogWrite_Manual";
-            this.Uctrl_LogWrite_Manual.Size = new System.Drawing.Size(716, 100);
-            this.Uctrl_LogWrite_Manual.TabIndex = 5;
-            // 
-            // Chb_Crop
-            // 
-            this.Chb_Crop.AutoSize = true;
-            this.Chb_Crop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Chb_Crop.Location = new System.Drawing.Point(304, 3);
-            this.Chb_Crop.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
-            this.Chb_Crop.Name = "Chb_Crop";
-            this.Chb_Crop.Size = new System.Drawing.Size(67, 20);
-            this.Chb_Crop.TabIndex = 3;
-            this.Chb_Crop.Text = "Crop";
-            this.Chb_Crop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Chb_Crop.UseVisualStyleBackColor = true;
-            this.Chb_Crop.CheckedChanged += new System.EventHandler(this.Chb_Crop_CheckedChanged);
-            // 
             // Main_Frm_Manual_Ver2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(1924, 846);

@@ -20,6 +20,44 @@ using static CRUX_GUI_Cognex.Enums;
 
 namespace CRUX_GUI_Cognex.Class
 {
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [XmlRoot("DefectTrend")]
+    public class DefectTrend
+    {
+        [XmlArray("Defects")]
+        [XmlArrayItem("Item")]
+        public List<DefectTrendData> TrendData = new List<DefectTrendData>();
+        public DefectTrend()
+        {
+
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class DefectTrendData
+    {
+        [XmlAttribute("DefectName")]
+        public string DefectName { get; set; } = string.Empty;
+        [XmlAttribute("DefectCount")]
+        public int DefectCount { get; set; } = -1;
+        [XmlArray("Cells")]
+        [XmlArrayItem("Id")]
+        public List<CellID_ForDefectTrend> CellID = new List<CellID_ForDefectTrend>();
+
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class CellID_ForDefectTrend
+    {
+        [XmlAttribute("Name")]
+        public string CellID { get; set; } = string.Empty;
+        public CellID_ForDefectTrend()
+        {
+
+        }
+    }
+
     class Structs
     {
     }
@@ -36,7 +74,8 @@ namespace CRUX_GUI_Cognex.Class
         public string Stage { get; set; } = null;
         public string Active { get; set; } = null;
         public string VirID { get; set; } = null;
-
+        public string StartTime { get; set; } = string.Empty;
+        public string StartDate { get; set; } = string.Empty;
         public string CellID { get; set; } = null;
         public string AreaInspStartTime { get; set; } = null;
         public string AreaInspEndTime { get; set; } = null;
@@ -60,6 +99,8 @@ namespace CRUX_GUI_Cognex.Class
         public int SharedMemIdx { get; set; } = 0;
         public string PatternName { get; set; } = string.Empty;
         public string Direction { get; set; } = null;
+        public int CamIndex { get; set; } = -1;
+        public int PatternIndex { get; set; } = -1;
         public void Dispose()
         {
          
@@ -319,6 +360,7 @@ namespace CRUX_GUI_Cognex.Class
 
         public Areas Area_Data = new Areas();
         public Judgement_Data JudgementData = new Judgement_Data();
+        public DefectItem_List DefectList = new DefectItem_List();
         #region IDisposable Support
         private bool disposedValue = false; // 중복 호출을 검색하려면
 
@@ -682,7 +724,7 @@ namespace CRUX_GUI_Cognex.Class
             Type = new byte[100];
             Name = new byte[100];
             Use = false;
-            Expose = 100;
+            Expose = 0;
             Gain = 1;
             PS = 0;
             Delay = 0;
@@ -888,6 +930,33 @@ namespace CRUX_GUI_Cognex.Class
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [XmlRoot("DefectList")]
+    public class DefectItem_List
+    {
+        [XmlArray("Defects")]
+        [XmlArrayItem("item")]
+        public List<Defect_Info> Defects { get; set; }
+        public DefectItem_List()
+        {
+            Defects = new List<Defect_Info>();
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Defect_Info
+    {
+        [XmlAttribute("DefectName")]
+        public string DefectName { get; set; } = string.Empty;
+        [XmlAttribute("DefectCode")]
+        public string DefectCode { get; set; } = string.Empty;
+
+        public Defect_Info()
+        {
+          
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Grade
     {
         [XmlAttribute("GradeName")]
@@ -900,6 +969,14 @@ namespace CRUX_GUI_Cognex.Class
         {
             Defects = new List<Defect>();
         }
+        public Grade DeepCopy()
+        {
+            Grade Temp = new Grade();
+            Temp.GradeName = GradeName;
+            foreach(Defect item in Defects)            
+                Temp.Defects.Add(item.DeepCopy());
+            return Temp;
+        }
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -908,17 +985,33 @@ namespace CRUX_GUI_Cognex.Class
         [XmlAttribute("DefectName")]
         public string DefectName { get; set; } = string.Empty;
         [XmlAttribute("Sign")]
-        public string Sign { get; set; } = string.Empty;
+        public string Sign { get; set; } = ">";
         [XmlAttribute("Count")]
         public int Count { get; set; } = 0;
         [XmlAttribute("Priority")]
-        public string Priority { get; set; } = string.Empty;
-        public string DefectCode { get; set; } = string.Empty;
+        public string Priority { get; set; } = "0";
+        [XmlAttribute("Code")]
+        public string DefectCode { get; set; } = "0";
 
         public Defect()
         {
 
         }
+        public Defect DeepCopy()
+        {
+            Defect Temp = new Defect();
+            Temp.DefectName = DefectName;
+            Temp.Sign = Sign;
+            Temp.Count = Count;
+            Temp.Priority = Priority;
+            Temp.DefectCode = DefectCode;
+            return Temp;
+        }
+    }
+    public class JudgementDefectResult : Defect
+    {
+        public int DefectCount { get; set; } = -1;
+        public bool Find { get; set; } = false;
     }
     /// <summary>
     /// Patterns Struct
@@ -1392,13 +1485,121 @@ namespace CRUX_GUI_Cognex.Class
         public string ROIName { get; set; } = string.Empty;
         public string AlgName { get; set; } = string.Empty;
         public int Id = 0;
-        public double Area = 0;
+
         public double Vicinity = 0;
-        public int OX = 0;
-        public int OY = 0;
-        public int X = 0;
-        public int Y = 0;
+
+        public int CE_Y = 0;
+        public int CE_X = 0;
+        public int CS_Y = 0;
+        public int CS_X = 0;
+        public int FE_Y = 0;
+        public int FE_X = 0;
+        public int FS_Y = 0;
+        public int FS_X = 0;
+        public double Area = 0;
+        public int Reserve1 = 0;
+        public int Reserve2 = 0;
+        public int Reserve3 = 0;
+        public int Reserve4 = 0;
+        public int Reserve5 = 0;
+        public int Reserve6 = 0;
+        public int Reserve7 = 0;
+        public int Reserve8 = 0;
+        public int Reserve9 = 0;
+        public int Reserve10 = 0;
+        public int Reserve11 = 0;
+        public int Reserve12 = 0;
+        public int Reserve13 = 0;
+        public int Reserve14 = 0;
+        public int Reserve15 = 0;
+        public int Reserve16 = 0;
+        public int Reserve17 = 0;
+        public int Reserve18 = 0;
+        public int Reserve19 = 0;
+        public int Reserve20 = 0;
+        public int Reserve21 = 0;
+        public int Reserve22 = 0;
+        public int Reserve23 = 0;
+        public int Reserve24 = 0;
+        public int Reserve25 = 0;
+        public int Reserve26 = 0;
+        public int Reserve27 = 0;
+        public int Reserve28 = 0;
+        public int Reserve29 = 0;
+        public int Reserve30 = 0;
+        public int Reserve31 = 0;
+        public int Reserve32 = 0;
+        public int Reserve33 = 0;
+        public int Reserve34 = 0;
+        public int Reserve35 = 0;
+        public int Reserve36 = 0;
+        public int Reserve37 = 0;
+        public int Reserve38 = 0;
+        public int Reserve39 = 0;
+        public int Reserve40 = 0;
+        public int Reserve41 = 0;
+        public int Reserve42 = 0;
+        public int Reserve43 = 0;
+        public int Reserve44 = 0;
+        public int Reserve45 = 0;
+        public int Reserve46 = 0;
+        public int Reserve47 = 0;
+        public int Reserve48 = 0;
+        public int Reserve49 = 0;
+        public int Reserve50 = 0;
+        public int Reserve51 = 0;
+        public int Reserve52 = 0;
+        public int Reserve53 = 0;
+        public int Reserve54 = 0;
+        public int Reserve55 = 0;
+        public int Reserve56 = 0;
+        public int Reserve57 = 0;
+        public int Reserve58 = 0;
+        public int Reserve59 = 0;
+        public int Reserve60 = 0;
+        public int Reserve61 = 0;
+        public int Reserve62 = 0;
+        public int Reserve63 = 0;
+        public int Reserve64 = 0;
+        public int Reserve65 = 0;
+        public int Reserve66 = 0;
+        public int Reserve67 = 0;
+        public int Reserve68 = 0;
+        public int Reserve69 = 0;
+        public int Reserve70 = 0;
+        public int Reserve71 = 0;
+        public int Reserve72 = 0;
+        public int Reserve73 = 0;
+        public int Reserve74 = 0;
+        public int Reserve75 = 0;
+        public int Reserve76 = 0;
+        public int Reserve77 = 0;
+        public int Reserve78 = 0;
+        public int Reserve79 = 0;
+        public int Reserve80 = 0;
+        public int Reserve81 = 0;
+        public int Reserve82 = 0;
+        public int Reserve83 = 0;
+        public int Reserve84 = 0;
+        public int Reserve85 = 0;
+        public int Reserve86 = 0;
+        public int Reserve87 = 0;
+        public int Reserve88 = 0;
+        public int Reserve89 = 0;
+        public int Reserve90 = 0;
+        public int Reserve91 = 0;
+        public int Reserve92 = 0;
+        public int Reserve93 = 0;
+        public int Reserve94 = 0;
+        public int Reserve95 = 0;
+        public int Reserve96 = 0;
+        public int Reserve97 = 0;
+        public int Reserve98 = 0;
+        public int Reserve99 = 0;
+        public int Reserve100 = 0;
+
         public int Priority = 0;
+        public string DefectCode { get; set; } = string.Empty;
     }
     public class JudgeFilterDefect
     {
@@ -1420,5 +1621,15 @@ namespace CRUX_GUI_Cognex.Class
         public string Grade { get; set; } = string.Empty;
         public string MajorDefectName { get; set; } = string.Empty;
         public string DefectCede { get; set; } = string.Empty;
+    }
+
+    public class InspHistoryData
+    {
+        public string Data { get; set; } = string.Empty;
+        public string CellID { get; set; } = string.Empty;
+        public string GrabTact { get; set; } = string.Empty;
+        public string InspTact { get; set; } = string.Empty;
+        public string InspResult { get; set; } = string.Empty;
+
     }
 }

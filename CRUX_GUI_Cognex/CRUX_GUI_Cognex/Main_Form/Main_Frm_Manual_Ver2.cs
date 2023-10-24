@@ -9,11 +9,13 @@ using Cognex.VisionPro.QuickBuild.Implementation.Internal;
 using Cognex.VisionPro.ToolGroup;
 using CRUX_GUI_Cognex;
 using CRUX_GUI_Cognex.Class;
+using CRUX_GUI_Cognex.Class.InspVer2;
 using CRUX_GUI_Cognex.Ex_Form;
 using CRUX_GUI_Cognex.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -21,10 +23,13 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static CRUX_GUI_Cognex.Class.InspVer2.Inspector_Collection;
+using static CRUX_GUI_Cognex.Utils.System_Information;
 
 namespace CRUX_GUI_Cognex.Main_Form
 {
@@ -95,12 +100,63 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Program.UI_LogPrint_Manual.Add(Uctrl_LogWrite_Manual);
                 InitResultDataGridView();
                 InitDefectDataGridView();
+                LoadResultDataGridView();
                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Create Done", true, false);
             }
             catch (Exception ex)
             {
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
+        }
+        public void LoadResultDataGridView()
+        {
+            string HistoryPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}{Paths.PROGRAM_PATH[Globals.CurrentPCno]}{Paths.RESULT_HISTORY_PATH[Globals.CurrentPCno]}Simul\";
+            string FileName = $@"{DateTime.Now.ToString("yyyy-MM-dd")}.ini";
+            string FullPath = $@"{HistoryPath}{FileName}";
+
+            if (fileProc.FileExists(FullPath))
+            {
+                List<InspHistoryData> ReadCellData = new List<InspHistoryData>();
+                using (var Reader = new StreamReader(FullPath))
+                {
+                    while (!Reader.EndOfStream)
+                    {                       
+                        string Line = Reader.ReadLine();
+                        if (Line.Contains("Date,ID,Result,GrabTact,InspTact"))
+                            continue;
+
+                        string[] SplitTemp = Line.Split(',');
+                        InspHistoryData ReadData = new InspHistoryData();
+                        ReadData.Data = SplitTemp[0];
+                        ReadData.CellID = SplitTemp[1];
+                        ReadData.InspResult = SplitTemp[2];
+                        ReadData.GrabTact = SplitTemp[3];
+                        ReadData.InspTact = SplitTemp[4];
+                  
+
+                        ReadCellData.Add(ReadData);
+                    }
+                }
+                UpdateResult(ReadCellData);
+            }
+            else
+            {
+
+            }
+        }
+
+        public void UpdateResult(List<InspHistoryData> data)
+        {
+            DataTable Dt = Dgv_Result.DataSource as DataTable;
+            Dt.Rows.Clear();
+            foreach (InspHistoryData item in data)
+            {
+                DataRow Dr = Dt.NewRow();
+                Dr.ItemArray = new object[] { item.Data, item.CellID, item.InspResult, item.InspTact, };
+                Dt.Rows.Add(Dr);
+            }
+
+            Dgv_Result.DataSource = Dt;
         }
 
         public void InitResultDataGridView()
@@ -131,17 +187,31 @@ namespace CRUX_GUI_Cognex.Main_Form
             try
             {
                 DataTable Dt_Defect = new DataTable();
-                Dt_Defect.Columns.Add("Area");              
-                Dt_Defect.Columns.Add("X");
-                Dt_Defect.Columns.Add("Y");
-                Dt_Defect.Columns.Add("Vicinity");
+                Dt_Defect.Columns.Add("Pos.");
+                Dt_Defect.Columns.Add("Name");              
+                Dt_Defect.Columns.Add("F_SX");
+                Dt_Defect.Columns.Add("F_SY");
+                Dt_Defect.Columns.Add("F_EX");
+                Dt_Defect.Columns.Add("F_EY");
+                Dt_Defect.Columns.Add("C_SX");
+                Dt_Defect.Columns.Add("C_SY");
+                Dt_Defect.Columns.Add("C_EX");
+                Dt_Defect.Columns.Add("C_EY");
+                Dt_Defect.Columns.Add("Area");    
                 Dt_Defect.Columns.Add("ID");
                 Dgv_Defect.DataSource = Dt_Defect;
 
-                Dgv_Defect.Columns["Area"].Width = 120;
-                Dgv_Defect.Columns["X"].Width = 70;
-                Dgv_Defect.Columns["Y"].Width = 70;
-                Dgv_Defect.Columns["Vicinity"].Width = 70;
+                Dgv_Defect.Columns["Pos."].Width = 120;
+                Dgv_Defect.Columns["Name"].Width = 120;
+                Dgv_Defect.Columns["F_SX"].Width = 70;
+                Dgv_Defect.Columns["F_SY"].Width = 70;
+                Dgv_Defect.Columns["F_EX"].Width = 70;
+                Dgv_Defect.Columns["F_EY"].Width = 70;
+                Dgv_Defect.Columns["C_SX"].Width = 70;
+                Dgv_Defect.Columns["C_SY"].Width = 70;
+                Dgv_Defect.Columns["C_EX"].Width = 70;
+                Dgv_Defect.Columns["C_EY"].Width = 70;
+                Dgv_Defect.Columns["Area"].Width = 70;
                 Dgv_Defect.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 Dgv_Defect.Refresh();
@@ -221,18 +291,10 @@ namespace CRUX_GUI_Cognex.Main_Form
                       Dgv_Result.FirstDisplayedScrollingRowIndex = Dgv_Result.SelectedRows[0].Index;
                   }
                   Dgv_Result.Refresh();
-                  
-                                 DataTable DefectTable = Dgv_Defect.DataSource as DataTable;
-               DefectTable.Rows.Clear();
-               foreach(Defect_Property item in data.DefectList)
-               {
-                   DataRow ItemDr = DefectTable.NewRow();
-                   ItemDr.ItemArray = new object[] { item.AreaName, item.X, item.Y, item.Vicinity, item.Id };
-                   DefectTable.Rows.Add(ItemDr);
-               }
 
-               Dgv_Defect.DataSource = DefectTable;
-               Dgv_Defect.Refresh();
+                  WriteResultHistory(data);
+
+                  UpdateDefectList(data.DefectList);
 
                   Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_Update Result Done", true, false);
               }));
@@ -241,6 +303,39 @@ namespace CRUX_GUI_Cognex.Main_Form
             {
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
+        }
+
+        public void WriteResultHistory(ClassEndData data)
+        {
+            string HistoryPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}{Paths.PROGRAM_PATH[Globals.CurrentPCno]}{Paths.RESULT_HISTORY_PATH[Globals.CurrentPCno]}Simul\";
+            string FileName = $@"{data.Date}.ini";
+            string FullPath = $@"{HistoryPath}{FileName}";
+            if (!fileProc.FileExists(FullPath))
+            {
+                using (var Writer = new StreamWriter(FullPath, false))
+                {
+                    Writer.WriteLine($@"Date,ID,Result,GrabTact,InspTact");
+                }
+            }
+            using (var Writer = new StreamWriter(FullPath, true))
+            {
+                Writer.WriteLine($@"{data.StartTime},{data.CellID},{data.InspResult},{data.GrabTime},{data.TactTime}");
+            }
+        }
+
+        public void UpdateDefectList(List<Defect_Property> data)
+        {
+            DataTable DefectTable = Dgv_Defect.DataSource as DataTable;
+            DefectTable.Rows.Clear();
+            foreach (Defect_Property item in data)
+            {
+                DataRow ItemDr = DefectTable.NewRow();
+                ItemDr.ItemArray = new object[] { item.AreaName, item.DefectName, item.FS_X, item.FS_Y, item.FE_X, item.FE_Y, item.CS_X, item.CS_Y, item.CE_X, item.CE_Y, item.Area, item.Id };
+                DefectTable.Rows.Add(ItemDr);
+            }
+
+            Dgv_Defect.DataSource = DefectTable;
+            Dgv_Defect.Refresh();
         }
         private void MRect2_Dragging(object sender, CogDraggingEventArgs e)
         {
@@ -445,13 +540,19 @@ namespace CRUX_GUI_Cognex.Main_Form
                     string AreaNameTemp = PathSplit[PathSplit.Length - 1];
                     string[] Temp2 = AreaNameTemp.Split('_');
                     string AreaName = Temp2[2];
+                    string PtnIndex = Temp2[0];
+                    string CamIndex = Temp2[1];
                     string PatternName = Temp2[3].Replace(".bmp", "");
                     if (item == AreaName)
                     {
                         Data.OriginImage = Cognex_Helper.Load_Image(ImagePath);
                         Data.PatternName = PatternName;
+                       
                         Data.Area = AreaName;
+                        Data.CamIndex = CamIndex.toInt(); ;
+                        Data.PatternIndex = PtnIndex.toInt();
 
+                       
                         ManualInspData.Stage = Globals.PcName;
                         ManualInspData.RecipeName = Systems.CurrentApplyRecipeName[Globals.CurrentPCno].GetString();
                         ManualInspData.Active = Globals.PcActiveName;
@@ -461,7 +562,9 @@ namespace CRUX_GUI_Cognex.Main_Form
                         ManualInspData.GrabTact = "00:00:00.000";
                         ManualInspData.Manual = true;
                         ManualInspData.Crop = Crop;
+
                         ManualImage.Add(Data);
+
                         
                         TotalImageCnt++;
                     }
@@ -794,14 +897,67 @@ namespace CRUX_GUI_Cognex.Main_Form
                                     }
                                 }
                             }));
-         
+
+                            string OriginImagePath = string.Empty;
+                            string JpgImagePath = string.Empty;                        
+
+                            Inspector_Ver2 FoundInspector = null;
                             foreach (InspData item in Data)
                             {
-                                Systems.Inspector_.Enqueue(item);
+                                FoundInspector = Inspector_Collection.Instance().FindInspector($"{item.CellID}");
+
+                                if (FoundInspector != null)
+                                {
+                                    item.StartTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                                    item.StartDate = DateTime.Now.ToString("yyyy-MM-dd");
+                                }
+                                else
+                                {
+                                    item.StartTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                                    item.StartDate = DateTime.Now.ToString("yyyy-MM-dd");
+                                }
+
+                                OriginImagePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}SimulationResult\{item.StartDate}\{item.CellID}\{Paths.NET_ORIGIN_PATH[Globals.CurrentPCno]}";
+                                JpgImagePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}SimulationResult\{item.StartDate}\{item.CellID}\{Paths.NET_JPG_PATH[Globals.CurrentPCno]}";
+
+                                fileProc.CreateDirectory(OriginImagePath);
+                                fileProc.CreateDirectory(JpgImagePath);
+
+                                Inspector_Collection.Instance().Enqueue(item);
+                                foreach (ImageData item2 in item.Datas)
+                                {
+                                    Task ImageSaveForJpg = new Task(delegate
+                                    {
+                                        //Systems.WriteLog(0, Enums.LogLevel.DEBUG, $@"[ GUI ] {DateTime.Now.ToString("HH/mm/ss.fff")}", true, false);
+                                        using (var BitmapImage = item2.OriginImage.ToBitmap())
+                                        {
+                                            int bpp = Image.GetPixelFormatSize(BitmapImage.PixelFormat) / 8;
+
+                                            BitmapData src_data = BitmapImage.LockBits(new Rectangle(0, 0, BitmapImage.Width, BitmapImage.Height), ImageLockMode.WriteOnly, BitmapImage.PixelFormat);
+
+                                            byte[] src_bytes = new byte[src_data.Stride * src_data.Height];
+                                            Marshal.Copy(src_data.Scan0, src_bytes, 0, src_bytes.Length);
+                                            // Copy the bytes from the image into a byte array
+                                            byte[] dst_bytes = new byte[BitmapImage.Height * BitmapImage.Width];
+
+                                            for (int i = 0; i < dst_bytes.Length; ++i)
+                                                dst_bytes[i] = (byte)((src_bytes[i * bpp + 0] + src_bytes[i * bpp + 1] + src_bytes[i * bpp + 2]) / 3);
+
+                                            //Parallel.For(0, dst_bytes.Length, i =>
+                                            //{
+                                            //    dst_bytes[i] = (byte)((src_bytes[i * bpp + 0] + src_bytes[i * bpp + 1] + src_bytes[i * bpp + 2]) / 3);
+                                            //});
+                                            BitmapImage.UnlockBits(src_data);
+                                            BitmapImage.Save($@"{JpgImagePath}{item2.PatternIndex}_CAM{item2.CamIndex}_{item.Area}_{item2.PatternName}.jpg", ImageFormat.Jpeg);
+                                        }
+                                    });
+                                    ImageSaveForJpg.Start();
+                                }
+
                                 Systems.WriteLog(CurFormIndex, Enums.LogLevel.DEBUG, $@"[ GUI ] Manual Inspect Start, Cell ID : {item.CellID}, RecipeName : {Systems.CurrentApplyRecipeName[CurFormIndex].ToString()}, Area : {item.Area}", true, true);                                
                             }
 
-                            while (Systems.Inspector_.GetAvaliableInspCount() <= 0)
+                            while (Inspector_Collection.Instance().GetAvaliableInspCount() <= 0)
                             {
                                 RetryCount++;
                                 Thread.Sleep(200);
@@ -901,6 +1057,149 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Crop = true;
             else
                 Crop = false;
+        }
+
+        private void Dgv_Result_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                if (Dgv_Result.SelectedRows.Count > 0)
+                {
+                    DataGridViewRow SelRow = Dgv_Result.SelectedRows[0];
+                    List<Defect_Property> DefectList = new List<Defect_Property>();
+                    string Date = SelRow.Cells["Date"].Value.ToString().Remove(10);
+                    string CellID = SelRow.Cells["ID"].Value.ToString();
+                    bool Find = false;
+                    ObservableCollection<HardDiskClass> DiskList = Program.SysInfo.PC.HardDisk;
+                    foreach (HardDiskClass item in DiskList)
+                    {
+                        if (item.Name != "C:\\" && item.Name != "D:\\")
+                        {
+                            string DataPath = $@"{item.Name}\SimulationResult\{Date}\{CellID}";
+                            if (!fileProc.DirExists(DataPath))
+                            {
+                                Find = false;
+                                //DataTable Dt = Dgv_Defect.DataSource as DataTable;
+                                //Dt.Rows.Clear();
+                                //Dgv_Defect.DataSource = Dt;
+                            }
+                            else
+                            {
+                                Find = true;
+                                string ResultPath = $@"{DataPath}\Defect_Info\Result\";
+                                if (!fileProc.DirExists(ResultPath))
+                                {
+                                    Find = false;
+                                    //DataTable Dt = Dgv_Defect.DataSource as DataTable;
+                                    //Dt.Rows.Clear();
+                                    //Dgv_Defect.DataSource = Dt;
+                                }
+                                else
+                                {
+                                    string FullPath = $@"{ResultPath}{CellID}.ini";
+                                    if (!fileProc.FileExists(FullPath))
+                                    {
+                                        Find = false;
+                                    }
+                                    else
+                                    {
+                                        string Separator = Globals.PcActiveName.ToString().ToUpper() + "_";
+
+                                        using (var Reader = new StreamReader(FullPath, Encoding.Default))
+                                        {
+                                            bool isData = false;
+                                            string Pos = string.Empty;
+                                            while (!Reader.EndOfStream)
+                                            {
+                                               
+                                                string Line = Reader.ReadLine();
+
+                                                if (isData)
+                                                {
+                                                    if (Line.Contains(Separator))
+                                                    {
+                                                        string[] PosDataTemp = Line.Split('_');
+                                                        Pos = PosDataTemp[1].Replace("]","");
+                                                        isData = false;
+                                                        continue;
+                                                    }
+
+                                                    string[] ParseData = Line.Split(',');
+                                                    Defect_Property Dp = new Defect_Property();
+                                                    Dp.AreaName = Pos;
+                                                    Dp.DefectCode = ParseData[0];
+                                                    Dp.DefectName = ParseData[1];
+                                                    Dp.FS_X = ParseData[2].toInt();
+                                                    Dp.FS_Y = ParseData[3].toInt();
+                                                    Dp.FE_X = ParseData[4].toInt();
+                                                    Dp.FE_Y = ParseData[5].toInt();
+                                                    Dp.CS_X = ParseData[6].toInt();
+                                                    Dp.CS_Y = ParseData[7].toInt();
+                                                    Dp.CE_X = ParseData[8].toInt();
+                                                    Dp.CE_Y = ParseData[9].toInt();
+                                                    Dp.Reserve1 = ParseData[10].toInt();
+                                                    Dp.Reserve2 = ParseData[11].toInt();
+                                                    Dp.Reserve3 = ParseData[12].toInt();
+                                                    Dp.Reserve4 = ParseData[13].toInt();
+                                                    Dp.Reserve5 = ParseData[14].toInt();
+                                                    Dp.Reserve6 = ParseData[15].toInt();
+                                                    Dp.Reserve7 = ParseData[16].toInt();
+                                                    Dp.Reserve8 = ParseData[17].toInt();
+                                                    Dp.Reserve9 = ParseData[18].toInt();
+                                                    Dp.Reserve10 = ParseData[19].toInt();
+                                                    Dp.Reserve11 = ParseData[20].toInt();
+                                                    Dp.Reserve12 = ParseData[21].toInt();
+                                                    Dp.Reserve13 = ParseData[22].toInt();
+                                                    Dp.Reserve14 = ParseData[23].toInt();
+                                                    Dp.Reserve15 = ParseData[24].toInt();
+                                                    Dp.Reserve16 = ParseData[25].toInt();
+                                                    Dp.Reserve17 = ParseData[26].toInt();
+                                                    Dp.Reserve18 = ParseData[27].toInt();
+                                                    Dp.Reserve19 = ParseData[28].toInt();
+                                                    Dp.Reserve20 = ParseData[29].toInt();
+                                                    Dp.Reserve21 = ParseData[30].toInt();
+                                                    Dp.Reserve22 = ParseData[31].toInt();
+                                                    Dp.Reserve23 = ParseData[32].toInt();
+                                                    Dp.Reserve24 = ParseData[33].toInt();
+                                                    Dp.Reserve25 = ParseData[34].toInt();
+                                                    Dp.Reserve26 = ParseData[35].toInt();
+                                                    Dp.Reserve27 = ParseData[36].toInt();
+                                                    Dp.Reserve28 = ParseData[37].toInt();
+                                                    DefectList.Add(Dp);
+                                                    Find = true;
+                                                }
+
+                                                if (Line.Contains(Separator))
+                                                {
+                                                    string[] PosDataTemp = Line.Split('_');
+                                                    Pos = PosDataTemp[1].Replace("]", "");
+                                                    isData = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (Find)
+                            break;
+                    }
+                    if (!Find)
+                    {
+                        DataTable Dt = Dgv_Defect.DataSource as DataTable;
+                        Dt.Rows.Clear();
+                        Dgv_Defect.DataSource = Dt;
+                    }
+                    else
+                    {
+                        UpdateDefectList(DefectList);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
     }
 }

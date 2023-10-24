@@ -58,11 +58,6 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                             Thread.Sleep(2);
                             continue;
                         }
-
-                        if(Queue.Count > 8 )
-                        {
-                            int aa = 0;
-                        }
                         if (Queue.TryPeek(out Temp))
                         {
                             int Rtn = Collection_Object.Start_Insp(Temp);
@@ -170,7 +165,15 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
             }
             Locker_1 = new object();
         }
-
+        public Inspector_Ver2 FindInspector(string cell_id)
+        {
+            foreach(Inspector_Ver2 item in Collection_Object.Inspectors)
+            {
+                if (item.CellID == cell_id)
+                    return item;
+            }
+            return null;
+        }
         private static Inspector_Ver2 FindOldestInspector()
         {
             DateTime UsedTime = new DateTime();
@@ -388,7 +391,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
         [Serializable]
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         // Inspector 객체는 싱글톤으로 생성
-        class Inspector_Ver2 : IDisposable
+        public class Inspector_Ver2 : IDisposable
         {
             private string RecipeName = string.Empty;
             public int Inspector_Id;
@@ -414,7 +417,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
             public bool Crop { get; set; } = false;
 
             Judgement_Data JudgementData = new Judgement_Data();
-
+            DefectItem_List DefectItem_List = new DefectItem_List();
             public void AddJobManagerEvent()
             {
                 foreach (Area_Inspector item in Area_Insp)
@@ -536,7 +539,8 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         }
 
                         Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Inspection Done... Cell ID : {CellID}", true, Manual);
-                        Clear();
+                        //Clear();
+                        Reset();
                     }
                 }
                 catch (Exception ex)
@@ -601,6 +605,8 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                     Defect.PatternName = ptn_item.Key;
                                                     Defect.ROIName = roi_item.Key;
                                                     Defect.AlgName = rcd_item.Key;
+                                                    Defect.DefectName = "배면깨짐";
+                                           
                                                     string Text = cgc_item.TipText;
 
                                                     Cognex_Helper.ParseDefectData(Text, ref Defect);
@@ -618,6 +624,12 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     }
 
                     JudgementResult Grade = Do_Judgement(Result.DefectList, JudgementData);
+
+
+                    Result.MajorDefectName = Grade.MajorDefectName;
+                    Result.InspResult = Grade.Grade;
+                    Result.DefectCode = Grade.DefectCede;
+
                     Thread t = new Thread(new ThreadStart(() =>
                     {
                         if (Manual)
@@ -628,9 +640,6 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     t.Start();
                     t.Join();
 
-                    Result.MajorDefectName = Grade.MajorDefectName;
-                    Result.InspResult = Grade.Grade;
-
                     WriteCellResultData(Result);
                     if(Crop)
                         WriteCellResultData_Ver2(DispayItems, Result);
@@ -638,10 +647,12 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     if (Manual == true)
                     {
                         Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual.UpdateResult(Result);
+                        //(Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).AddDefectTrend(Result);
                     }
                     else
                     {
                         (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).UpdateResult(Result);
+                        (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).AddDefectTrend(Result);
                     }
 
                     Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Judge Done... CellID : {CellID}", true, Manual);
@@ -652,7 +663,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     throw ex;
                 }
             }
-            private void CropDefect(CogCopyRegionTool ctrl, Bitmap origin_Image, Defect_Property defect, string path, int cnt)
+            private void CropDefect(CogCopyRegionTool ctrl, CogImage8Grey origin_Image, Defect_Property defect, string path, int cnt)
             {
                 try
                 {
@@ -666,7 +677,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
 
 
 
-                    ctrl.InputImage = new CogImage24PlanarColor(origin_Image);
+                    ctrl.InputImage = new CogImage8Grey(origin_Image);
 
 
                     //List<Defect_Property> FindTemp = coord.DefectList.FindAll(x => x.AreaName == item.AreaName);
@@ -675,17 +686,17 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     //foreach (Defect_Property item2 in FindTemp)
                     //{
                     CogRectangle Rect;
-                    Rect = new CogRectangle() { X = defect.X - 64, Y = defect.Y - 64, Width = 128, Height = 128 };
+                    Rect = new CogRectangle() { X = ((defect.FE_X + defect.FS_X) / 2) - 64, Y = ((defect.FE_Y + defect.FS_Y) / 2) - 64, Width = 128, Height = 128 };
                     // Rect.SetXYWidthHeight(defect.X - 64, defect.Y - 64, 128, 128)
                     //RegionCopyTool.
                     ctrl.Region = Rect;
 
 
                     ctrl.Run();
-                    CogImage24PlanarColor FindImage = new CogImage24PlanarColor();
-                    FindImage = ctrl.OutputImage as CogImage24PlanarColor;
+                    CogImage8Grey FindImage = new CogImage8Grey();
+                    FindImage = ctrl.OutputImage as CogImage8Grey;
                     string TotalFileName = $@"{path}{defect.AreaName}_{cnt}.jpg";
-                    Cognex_Helper.SaveToFile_ImageColor(FindImage, TotalFileName);
+                    Cognex_Helper.SaveToFile(FindImage, TotalFileName);
 
                     //    }
                     //}
@@ -700,64 +711,12 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
             {
                 try
                 {
-                    //IniFile ResultFile = new IniFile();
-
-                    //ResultFile.SaveEmptySections = true;
-
-                    //ResultFile.Add("DATA");
-
-                    //ResultFile["DATA"].Add("RECIPE_NAME", result.RecipeName);
-                    //ResultFile["DATA"].Add("ACTIVE", result.Active);
-                    //ResultFile["DATA"].Add("STAGE", result.Stage);
-                    //ResultFile["DATA"].Add("CELL_ID", CellID);
-                    //ResultFile["DATA"].Add("INNER_ID", VirID);
-                    //ResultFile["DATA"].Add("INSPECTION_TIME", StartTime);
-                    //ResultFile["DATA"].Add("TACT_TIME", result.TactTime);
-                    //ResultFile["DATA"].Add("GRAB_TIME", result.GrabTime);
-                    //ResultFile["DATA"].Add("CLASS_TIME", " ");
-                    //ResultFile["DATA"].Add("검사결과", result.InspResult);
-                    //ResultFile["DATA"].Add("검사_CLASS", " ");
-                    //ResultFile["DATA"].Add("검사대표불량명", result.MajorDefectName);
-                    //ResultFile["DATA"].Add("검사_RESULT_결과", " ");
-                    //ResultFile["DATA"].Add("불량코드", " ");
-                    //string FileName = CellID.Replace(":", "");
-                    //string ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
-
-                    //int i = 1;
-                    //foreach (Area_Inspector item in Area_Insp)
-                    //{
-                    //    if (!ResultFile.ContainsSection($"{Globals.PcActiveName.ToUpper()}_{item.AreaName.ToUpper()}"))
-                    //        ResultFile.Add($"{Globals.PcActiveName.ToUpper()}_{item.AreaName.ToUpper()}");
-                    //}
-                    //foreach (Defect_Property item in result.DefectList)
-                    //{
-                    //    if (!ResultFile.ContainsSection($"{Globals.PcActiveName.ToUpper()}_{item.AreaName.ToUpper()}"))
-                    //        ResultFile.Add($"{Globals.PcActiveName.ToUpper()}_{item.AreaName.ToUpper()}");
-
-                    //    ResultFile[$"{Globals.PcActiveName.ToUpper()}_{item.AreaName.ToUpper()}"].Add($@"Defect_{ i++}", $@"[ Vicinity={item.Vicinity}, Area={item.Area}, X={item.X}, Y={item.Y} ]");
-                    //}
-
-                    //if (!fileProc.DirExists(ResultPath))
-                    //    fileProc.CreateDirectory(ResultPath);
-
-
-                    //ResultFile.Save($@"{ResultPath}{FileName}.ini", Encoding.Unicode, FileMode.Create);
-
-                    //if (fileProc.FileExists($@"{ResultPath}{FileName}.ini"))
-                    //{
-                    //    string FolderPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}{Paths.FINAL_RESULT[Globals.CurrentPCno]}";
-                    //    string FilePath = $@"{FolderPath}{FileName}";   //2023.08.25 string FilePath = $@"{FolderPath}{FileName}.ini";
-
-                    //    if (!fileProc.DirExists(FolderPath))
-                    //    {
-                    //        fileProc.CreateDirectory(FolderPath);
-                    //    }
-                    //    ResultFile.Save($@"{FilePath}.ini", Encoding.Default, FileMode.Create);
-                    //}
-
+                    string ResultPath = string.Empty;
                     string FileName = CellID.Replace(":", "");
-                    string ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
-
+                    if(!Manual)
+                        ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{Date}\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
+                    else
+                        ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}SimulationResult\{Date}\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
                     //string ResultPath = CreateFileName("", FileName);
 
 
@@ -773,7 +732,10 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         string fileName = $@"{FileName}";
                     }
 
-                    StreamWriter Sr = new StreamWriter(TotalResultFile, true, Encoding.Default);
+                    StreamWriter Sr = new StreamWriter(TotalResultFile, false, Encoding.Default);
+
+                    int ClassNum = -1;
+                    string ClassResult = string.Empty;
 
                     Sr.WriteLine("[DATA]");
                     Sr.WriteLine($@"RECIPE_NAME={result.RecipeName}");
@@ -784,12 +746,28 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     Sr.WriteLine($@"INSPECTION_TIME={StartTime}");
                     Sr.WriteLine($@"TACT_TIME={result.TactTime}");
                     Sr.WriteLine($@"GRAB_TIME={result.GrabTime}");
-                    Sr.WriteLine($@"CLASS_TIME={""}");
+                    Sr.WriteLine($@"CLASS_TIME={result.TactTime}");
                     Sr.WriteLine($@"검사결과={result.InspResult}");
-                    Sr.WriteLine($@"검사_CLASS={""}");
+                    if (result.InspResult.ToUpper() == "GOOD")
+                    {
+                        ClassNum = 0;
+                        ClassResult = "GOOD";
+                    }
+                    else if (result.InspResult.ToUpper() == "REJECT")
+                    {
+                        ClassNum = 1;
+                        ClassResult = "REJECT";
+                    }
+                    else
+                    {
+                        ClassNum = 2;
+                        ClassResult = "BIN2";
+                    }
+                    Sr.WriteLine($@"검사_CLASS={ClassNum}");
                     Sr.WriteLine($@"검사대표불량명={result.MajorDefectName}");
-                    Sr.WriteLine($@"검사_RESULT_결과={""}");
-                    Sr.WriteLine($@"불량코드={""}");
+
+                    Sr.WriteLine($@"검사_RESULT_결과={ClassResult}");
+                    Sr.WriteLine($@"불량코드={result.DefectCode}");
 
                     Sr.WriteLine("");
 
@@ -811,20 +789,35 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                             foreach (Defect_Property item in Temp)
                             {
                                 string DefectData = string.Empty;
-                                if (Globals.PcActiveName.ToUpper().Contains("REAR"))
-                                {
-                                    DefectData = $@"111111,CHIPPING,{item.X},{item.Y},,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-                                }
-                                else
-                                {
-                                    DefectData = $@"111111,CHIPPING,{item.OX},{item.OY},{item.X},{item.Y},,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
-                                }
+                                //if (Globals.PcActiveName.ToUpper().Contains("REAR"))
+                                //{
+                                   // DefectData = $@"{item.DefectCode},{item.DefectName},{item.X},{item.Y},,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+                                //}
+                                //else
+                                //{
+                                    DefectData = $@"{item.DefectCode},{item.DefectName},{item.FS_X},{item.FS_Y},{item.FE_X},{item.FE_Y},{item.CS_X},{item.CS_Y},{item.CE_X},{item.CE_Y},,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+                               // }
                                 Sr.WriteLine(DefectData);
                             }
                         }
                     }
 
                     Sr.Close();
+
+                    if (fileProc.FileExists($@"{ResultPath}{FileName}.ini"))
+                    {
+                        string FolderPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.FIXED_DRIVE[Globals.CurrentPCno]}{Paths.FINAL_RESULT[Globals.CurrentPCno]}";
+                        string FilePath = $@"{FolderPath}{FileName}";   //2023.08.25 string FilePath = $@"{FolderPath}{FileName}.ini";
+
+                        if (!fileProc.DirExists(FolderPath))
+                        {
+                            fileProc.CreateDirectory(FolderPath);    
+                        }
+
+                        fileProc.FileCopy($@"{ResultPath}{FileName}.ini", $@"{FilePath}.ini");
+                    }
+
+
                     Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Create Result File, Cell ID : {CellID}", true, Manual);
                 }
                 catch (Exception ex)
@@ -861,11 +854,15 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
             {
                 try
                 {
+                    string ResultPath = string.Empty;
                     string FileName = CellID.Replace(":", "");
-                    //string ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
+                    if (!Manual)
+                        ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{Date}\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
+                    else
+                        ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}SimulationResult\{Date}\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
 
-                    string ResultPath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}TestResult\{FileName}\{Paths.NET_RESULT_PATH[Globals.CurrentPCno]}";
-                 
+
+
                     string TotalResultFile = $@"{ResultPath}{FileName}_반복성.ini";
 
                     Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Result File Path : {TotalResultFile}", true, Manual);
@@ -881,22 +878,6 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
 
                     StreamWriter Sr = new StreamWriter(TotalResultFile, true, Encoding.Default);
 
-                    //Sr.WriteLine("[DATA]");
-                    //Sr.WriteLine($@"RECIPE_NAME={result.RecipeName}");
-                    //Sr.WriteLine($@"ACTIVE={result.Active}");
-                    //Sr.WriteLine($@"STAGE={result.Stage}");
-                    //Sr.WriteLine($@"CELL_ID={CellID}");
-                    //Sr.WriteLine($@"INNER_ID={VirID}");
-                    //Sr.WriteLine($@"INSPECTION_TIME={StartTime}");
-                    //Sr.WriteLine($@"TACT_TIME={result.TactTime}");
-                    //Sr.WriteLine($@"GRAB_TIME={result.GrabTime}");
-                    //Sr.WriteLine($@"CLASS_TIME={""}");
-                    //Sr.WriteLine($@"검사결과={result.InspResult}");
-                    //Sr.WriteLine($@"검사_CLASS={""}");
-                    //Sr.WriteLine($@"검사대표불량명={result.MajorDefectName}");
-                    //Sr.WriteLine($@"검사_RESULT_결과={""}");
-                    //Sr.WriteLine($@"불량코드={""}");
-
 
                     Sr.WriteLine("Defect_Num, Area, X, Y, Crop");
                     List<string> CurAreaNames = new List<string>();
@@ -906,17 +887,17 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         CurAreaNames.Add(item.AreaName);
                     }
 
-                    Image Img1;
-                    if (!Manual)
-                        Img1 = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).GetPadImage() as Image;
-                    else
-                        Img1 = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual as Main_Frm_Manual_Ver2).GetPadImage() as Image;
+                    //Image Img1;
+                    //if (!Manual)
+                    //    Img1 = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).GetPadImage() as Image;
+                    //else
+                    //    Img1 = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual as Main_Frm_Manual_Ver2).GetPadImage() as Image;
 
-                    Image Img2;
-                    if (!Manual)
-                        Img2 = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).GetRightImage() as Image;
-                    else
-                        Img2 = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual as Main_Frm_Manual_Ver2).GetRightImage() as Image;
+                    //Image Img2;
+                    //if (!Manual)
+                    //    Img2 = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).GetRightImage() as Image;
+                    //else
+                    //    Img2 = (Program.Frm_MainContent_[Globals.CurrentPCno].Frm_Manual as Main_Frm_Manual_Ver2).GetRightImage() as Image;
 
                     //Image Img3;
                     //if (!Manual)
@@ -940,124 +921,104 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         DisplayData Temp1 = data.Find(x => x.AreaName.ToUpper() == name.ToUpper());
 
                         CogCopyRegionTool CropCtrl = CogSerializer.DeepCopyObject(RegionCopyTool) as CogCopyRegionTool;
-
-
+                   
+                        CogImage8Grey OriginImg = Temp1.Result.Content as CogImage8Grey;
                         if (Temp.Count > 0)
-                        {
+                        {                           
                             if (name.ToUpper() == "PAD")
                             {
-                                Bitmap CropOrigin = Img1.Clone() as Bitmap;
+                               // Bitmap CropOrigin = Img1.Clone() as Bitmap;
 
                                 foreach (Defect_Property item in Temp)
                                 {
 
                                     if (Temp1 != null)
-                                    {                                     
-                                        //Thread t = new Thread(new ThreadStart(delegate ()
-                                        //{
+                                    {
                                         CropCtrl = CogSerializer.DeepCopyObject(RegionCopyTool) as CogCopyRegionTool;
-
-
-                                        CropDefect(CropCtrl, CropOrigin, item, ResultPath, Cnt);
-                                        //}));
-                                        //t.Start();
-
+                                        CropDefect(CropCtrl, OriginImg, item, ResultPath, Cnt);               
                                     }
                                     string DefectData = string.Empty;
-                                    if (Globals.PcActiveName.ToUpper().Contains("REAR"))
-                                    {
-                                        DefectData = $@"{name}_{Cnt++}, {item.Area},{item.X}, {item.Y}";
-                                    }
-                                    else
-                                    {
-                                        DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.OX}, {item.OY}";
-                                    }
+                                    //if (Globals.PcActiveName.ToUpper().Contains("REAR"))
+                                    //{
+                                    DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.FS_X}, {item.FS_Y}, {item.FE_X}, {item.FE_Y} ";
+                                    //}
+                                    //else
+                                    //{
+                                    //    DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.OX}, {item.OY}";
+                                    //}
                                     Sr.WriteLine(DefectData);
                                 }
                             }
                             if (name.ToUpper() == "RIGHT")
                             {
-                                Bitmap CropOrigin = Img2.Clone() as Bitmap;
                                 foreach (Defect_Property item in Temp)
                                 {
 
 
                                     if (Temp1 != null)
                                     {                                     
-                                        //  Thread t = new Thread(new ThreadStart(delegate ()
-                                        //  {
                                         CropCtrl = CogSerializer.DeepCopyObject(RegionCopyTool) as CogCopyRegionTool;
-                                        CropDefect(CropCtrl, CropOrigin, item, ResultPath, Cnt);
-                                        //  }));
-                                        //  t.Start();
+                                        CropDefect(CropCtrl, OriginImg, item, ResultPath, Cnt);
                                     }
                                     string DefectData = string.Empty;
-                                    if (Globals.PcActiveName.ToUpper().Contains("REAR"))
-                                    {
-                                        DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.X}, {item.Y}";
-                                    }
-                                    else
-                                    {
-                                        DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.OX}, {item.OY}";
-                                    }
+                                    //if (Globals.PcActiveName.ToUpper().Contains("REAR"))
+                                    //{
+                                        DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.FS_X}, {item.FS_Y}, {item.FE_X}, {item.FE_Y} ";
+                                    //}
+                                    //else
+                                    //{
+                                    //    DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.OX}, {item.OY}";
+                                    //}
                                     Sr.WriteLine(DefectData);
                                 }
                             }
-                            //if (name.ToUpper() == "TOP")
-                            //{
-                            //    Bitmap CropOrigin = Img3.Clone() as Bitmap;
+                            if (name.ToUpper() == "TOP")
+                            {
+                               // Bitmap CropOrigin = Img3.Clone() as Bitmap;
 
-                            //    foreach (Defect_Property item in Temp)
-                            //    {
+                                foreach (Defect_Property item in Temp)
+                                {
 
-                            //        if (Temp1 != null)
-                            //        {
-                            //            //  Thread t = new Thread(new ThreadStart(delegate ()
-                            //            // {
-                            //            CropCtrl = CogSerializer.DeepCopyObject(RegionCopyTool) as CogCopyRegionTool;
-                            //            CropDefect(CropCtrl, CropOrigin, item, ResultPath, Cnt);
-                            //            //  }));
-                            //            //  t.Start();
-                            //        }
-                            //        string DefectData = string.Empty;
-                            //        if (Globals.PcActiveName.ToUpper().Contains("REAR"))
-                            //        {
-                            //            DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.X}, {item.Y}";
-                            //        }
-                            //        else
-                            //        {
-                            //            DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.OX}, {item.OY}";
-                            //        }
-                            //        Sr.WriteLine(DefectData);
-                            //    }
-                            //}
-                            //if (name.ToUpper() == "BOTTOM")
-                            //{
-                            //    Bitmap CropOrigin = Img4.Clone() as Bitmap;
+                                    if (Temp1 != null)
+                                    {
+                                        CropCtrl = CogSerializer.DeepCopyObject(RegionCopyTool) as CogCopyRegionTool;
+                                        CropDefect(CropCtrl, OriginImg, item, ResultPath, Cnt);
+                                    }
+                                    string DefectData = string.Empty;
+                                    //if (Globals.PcActiveName.ToUpper().Contains("REAR"))
+                                    //{
+                                    DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.FS_X}, {item.FS_Y}, {item.FE_X}, {item.FE_Y} ";
+                                    //}
+                                    //else
+                                    //{
+                                    //    DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.OX}, {item.OY}";
+                                    //}
+                                    Sr.WriteLine(DefectData);
+                                }
+                            }
+                            if (name.ToUpper() == "BOTTOM")
+                            {
+                               // Bitmap CropOrigin = Img4.Clone() as Bitmap;
 
-                            //    foreach (Defect_Property item in Temp)
-                            //    {
-                            //        if (Temp1 != null)
-                            //        {
-                            //            //    Thread t = new Thread(new ThreadStart(delegate ()
-                            //            //   {
-                            //            CropCtrl = CogSerializer.DeepCopyObject(RegionCopyTool) as CogCopyRegionTool;
-                            //            CropDefect(CropCtrl, CropOrigin, item, ResultPath, Cnt);
-                            //            //   }));
-                            //            //   t.Start();
-                            //        }
-                            //        string DefectData = string.Empty;
-                            //        if (Globals.PcActiveName.ToUpper().Contains("REAR"))
-                            //        {
-                            //            DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.X}, {item.Y}";
-                            //        }
-                            //        else
-                            //        {
-                            //            DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.OX}, {item.OY}";
-                            //        }
-                            //        Sr.WriteLine(DefectData);
-                            //    }
-                            //}
+                                foreach (Defect_Property item in Temp)
+                                {
+                                    if (Temp1 != null)
+                                    {
+                                        CropCtrl = CogSerializer.DeepCopyObject(RegionCopyTool) as CogCopyRegionTool;
+                                        CropDefect(CropCtrl, OriginImg, item, ResultPath, Cnt);
+                                    }
+                                    string DefectData = string.Empty;
+                                    //if (Globals.PcActiveName.ToUpper().Contains("REAR"))
+                                    //{
+                                    DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.FS_X}, {item.FS_Y}, {item.FE_X}, {item.FE_Y} ";
+                                    //}
+                                    //else
+                                    //{
+                                    //    DefectData = $@"{name}_{Cnt++}, {item.Area}, {item.OX}, {item.OY}";
+                                    //}
+                                    Sr.WriteLine(DefectData);
+                                }
+                            }
                             //Temp.Sort();
 
                         }
@@ -1088,69 +1049,115 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
             {
                 WriteFile(data, result);
             }
+            public void CategorizeDefect(ref List<Defect_Property> defects)
+            {
+                foreach(Defect_Property item in defects)
+                {
+                    foreach(Defect_Info item2 in DefectItem_List.Defects)
+                    {
+                        if (item.DefectName == item2.DefectName)
+                        {
+                            item.DefectCode = item2.DefectCode;
+                            break;
+                        }
+                        item.DefectCode = "-";
+                    }
+                 
+                }
+            }
             private JudgementResult Do_Judgement(List<Defect_Property> defect, Judgement_Data judge)
             {
                 try
                 {
+                    string MajorGrade = "-";
+                    string MajorDefect = "-";
+                    string MajorDefectCode = "-";
+                    bool FindGrade = false;
+                    CategorizeDefect(ref defect);
                     JudgementResult FinalResult = new JudgementResult();
 
-                    List<Defect_Property> FilterData = new List<Defect_Property>();
+                    //List<Defect_Property> FilterData = new List<Defect_Property>();
                     foreach (Grade g_item in judge.Grades)
                     {
-                        foreach (Defect d_item in g_item.Defects)
+                        if (g_item.Defects.Count > 0)
                         {
-                            List<Defect_Property> FindDefect = defect.FindAll(x => x.DefectName == d_item.DefectName) ?? null;
-
-                            foreach (Defect_Property item in FindDefect)
-                                item.GradeName = g_item.GradeName;
-
-                            if (FindDefect.Count > 0)
+                            List<Defect> OrderedDefect = g_item.Defects.OrderBy(x => x.Priority).ToList();
+                            List<JudgementDefectResult> ResultTemp = new List<JudgementDefectResult>();
+                            foreach (Defect item in OrderedDefect)
                             {
-                                if (d_item.Sign == "<")
-                                    if (FindDefect.Count > d_item.Count)
-                                        FilterData.AddRange(FindDefect);
-                                    else { }
-                                else if (d_item.Sign == ">")
+                                JudgementDefectResult Temp = new JudgementDefectResult();
+
+                                Temp.DefectName = item.DefectName;
+                                Temp.DefectCode = item.DefectCode;
+                                Temp.Count = item.Count;
+                                Temp.Priority = item.Priority;
+                                Temp.Sign = item.Sign;
+                                ResultTemp.Add(Temp);
+                            }
+                            foreach (JudgementDefectResult dfr in ResultTemp)
+                            {
+                                List<Defect_Property> FindDefect = defect.FindAll(x => x.DefectName == dfr.DefectName);
+                                dfr.DefectCount = FindDefect.Count;
+                            }
+
+
+                            foreach (JudgementDefectResult item in ResultTemp)
+                            {
+                                if (item.Sign == ">=")
                                 {
-                                    if (FindDefect.Count < d_item.Count)
-                                        FilterData.AddRange(FindDefect);
+                                    if (item.DefectCount >= item.Count)
+                                        item.Find = true;
+
+                                }
+                                else if (item.Sign == "<=")
+                                {
+                                    if (item.DefectCount <= item.Count)
+                                        item.Find = true;
+
+                                }
+                                else if (item.Sign == ">")
+                                {
+                                    if (item.DefectCount > item.Count)
+                                        item.Find = true;
+
+                                }
+                                else if (item.Sign == "<")
+                                {
+                                    if (item.DefectCount < item.Count)
+                                        item.Find = true;
+
+                                }
+                                else if (item.Sign == "==")
+                                {
+                                    if (item.DefectCount == item.Count)
+                                        item.Find = true;
                                 }
                                 else
-                                {
-                                    if (FindDefect.Count != d_item.Count)
-                                        FilterData.AddRange(FindDefect);
-                                }
+                                    item.Find = false;
+                                
                             }
-                            else
+
+                            if (ResultTemp.Count == ResultTemp.FindAll(x => x.Find == true).Count)
                             {
-                                continue;
+                                List<JudgementDefectResult> FindManyDefect = ResultTemp.FindAll(x => x.Count != 0);
+                                List<JudgementDefectResult> SortedSamePriority = FindManyDefect.OrderBy(x => x.Priority).ToList();
+
+                                MajorGrade = g_item.GradeName;
+                                MajorDefect = SortedSamePriority[0].DefectName;
+                                MajorDefectCode = SortedSamePriority[0].DefectCode;
+                                break;
                             }
                         }
-                        if (FilterData.Count > 0)
-                            break;
-                        FilterData.Clear();
                     }
-                    if (FilterData.Count > 0)
-                    {
-                        List<Defect_Property> OrderResult = FilterData.OrderBy(x => x.Priority).ToList();
-                        FinalResult.MajorDefectName = OrderResult[0].DefectName;
-                        FinalResult.Grade = OrderResult[0].GradeName;
 
-                    }
-                    else if (FilterData.Count <= 0 && defect.Count > 0)
-                    {
-                        FinalResult.MajorDefectName = "Undefine";
-                        FinalResult.Grade = "Undefine";
-                    }
-                    else
-                    {
-                        FinalResult.MajorDefectName = "-";
-                        FinalResult.Grade = "OK";
-
-                    }
+                    FinalResult.MajorDefectName = MajorDefect;
+                    FinalResult.Grade = MajorGrade;
+                    FinalResult.DefectCede = MajorDefectCode;
 
                     return FinalResult;
                 }
+
+
                 catch (Exception ex)
                 {
                     Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] Do_Judgement Error... Cell ID : {CellID}, Exception Message : {ex.Message} Stack Trace : {ex.StackTrace}", true, Manual);
@@ -1217,15 +1224,19 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                     RecipeName = string.Empty;
                     Active = string.Empty;
                     Stage = string.Empty;
+                    Date = string.Empty;
                     CellID = string.Empty;
                     VirID = string.Empty;
                     StartTime = string.Empty;
                     EndTime = string.Empty;
-                    RecipeName = string.Empty;
                     AreaIndex = -1;
+                    Busy = false;
+                    Finishe = true;
+                    InitError = false;
+                    Manual = false;
                     GrabTact = "00:00:00.000";
                     Area_Results.Area_Result.Clear();
-                    JudgementData = new Judgement_Data();
+                    //JudgementData = new Judgement_Data();
                     Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Inspector Clearing Done...", true, Manual);
                 }
                 catch (Exception ex)
@@ -1250,7 +1261,7 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         }
                     }
                     JudgementData = Utility.DeepCopy(recipe.JudgementData);
-
+                    DefectItem_List = Utility.DeepCopy(recipe.DefectList);
                     if (Area_Insp.Count <= 0)
                         InitError = true;
                 }
@@ -1277,8 +1288,8 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                         AreaIndex = data.AreaIndex;
                         Systems.WriteLog(0, Enums.LogLevel.INFO, $"[ GUI ] Inspection Start... Cell ID : {CellID} Inspector ID : {Inspector_Id}", true, Manual);
                         DateTime Now = DateTime.Now;
-                        StartTime = StartTime == string.Empty ? Now.ToString("yyyy-MM-dd HH:mm:ss.fff") : StartTime;
-                        Date = Date == string.Empty ? Now.ToString("yyyy-MM-dd") : Date;
+                        StartTime = StartTime == string.Empty ? data.StartTime: StartTime;
+                        Date = Date == string.Empty ? data.StartDate : Date;
                         Crop = data.Crop;
                         foreach (Area_Inspector item in Area_Insp)
                         {
@@ -1375,20 +1386,19 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                 RecipeName = string.Empty;
                 Active = string.Empty;
                 Stage = string.Empty;
-                Busy = false;
-                //Inspector_Id = -1;
                 Date = string.Empty;
                 CellID = string.Empty;
                 VirID = string.Empty;
                 StartTime = string.Empty;
                 EndTime = string.Empty;
                 GrabTact = "00:00:00.000";
-                Busy = false;
-                Finishe = false;
                 AreaIndex = -1;
+                Busy = false;
+                Finishe = true;
                 InitError = false;
-                Manual = false;
-                obj1 = new object();
+                Manual = false;              
+                Area_Results.Area_Result.Clear();
+                //JudgementData = new Judgement_Data();
                 foreach (Area_Inspector item in Area_Insp)
                 {
                     item.Reset();
@@ -2376,14 +2386,14 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                                                 RecordImagePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CellID.Replace(":", "")}\{Paths.RECORD_IMAGE_PATH[Globals.CurrentPCno]}";
                                                 AutoRunSavePath = $@"{Paths.NET_DRIVE[Globals.CurrentPCno]}{Paths.NET_CURRENT_DRIVE[Globals.CurrentPCno]}Result\{CellID.Replace(":", "")}\{Paths.RECORD_PATH[Globals.CurrentPCno]}";
 
-                                                if (!fileProc.DirExists(AutoRunSavePath))
-                                                {
-                                                    fileProc.CreateDirectory(AutoRunSavePath);
-                                                }
-                                                if (!fileProc.DirExists(RecordImagePath))
-                                                {
-                                                    fileProc.CreateDirectory($@"{RecordImagePath}");
-                                                }
+                                                //if (!fileProc.DirExists(AutoRunSavePath))
+                                                //{
+                                                //    fileProc.CreateDirectory(AutoRunSavePath);
+                                                //}
+                                                //if (!fileProc.DirExists(RecordImagePath))
+                                                //{
+                                                //    fileProc.CreateDirectory($@"{RecordImagePath}");
+                                                //}
                                             }
                                             CogRecord ResultData = (Temp.VisionTool as CogToolGroup).UserData["Result"] as CogRecord;
                                             /// Auto

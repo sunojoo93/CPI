@@ -38,11 +38,15 @@
             this.Btn_Close = new System.Windows.Forms.Button();
             this.Lb_Judgement = new System.Windows.Forms.Label();
             this.Grb_GradeInfo = new System.Windows.Forms.GroupBox();
-            this.Dgv_Grade = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.Dgv_Grade = new System.Windows.Forms.DataGridView();
+            this.Btn_Down = new System.Windows.Forms.Button();
+            this.Btn_Up = new System.Windows.Forms.Button();
             this.Grb_DefectInfo = new System.Windows.Forms.GroupBox();
             this.Dgv_Judgement = new CRUX_GUI_Cognex.User_Controls.DoubleBufferdDataGridView();
             this.Tlp_Judgement.SuspendLayout();
             this.Grb_GradeInfo.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Grade)).BeginInit();
             this.Grb_DefectInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Judgement)).BeginInit();
@@ -52,7 +56,7 @@
             // 
             this.Tlp_Judgement.ColumnCount = 2;
             this.Tlp_Judgement.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Judgement.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.Tlp_Judgement.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.Tlp_Judgement.Controls.Add(this.Btn_Close, 1, 0);
             this.Tlp_Judgement.Controls.Add(this.Lb_Judgement, 0, 0);
             this.Tlp_Judgement.Controls.Add(this.Grb_GradeInfo, 0, 1);
@@ -64,17 +68,17 @@
             this.Tlp_Judgement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.Tlp_Judgement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.Tlp_Judgement.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.Tlp_Judgement.Size = new System.Drawing.Size(346, 522);
+            this.Tlp_Judgement.Size = new System.Drawing.Size(445, 522);
             this.Tlp_Judgement.TabIndex = 0;
             // 
             // Btn_Close
             // 
             this.Btn_Close.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_Close.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Close.Location = new System.Drawing.Point(271, 0);
+            this.Btn_Close.Location = new System.Drawing.Point(365, 0);
             this.Btn_Close.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_Close.Name = "Btn_Close";
-            this.Btn_Close.Size = new System.Drawing.Size(75, 50);
+            this.Btn_Close.Size = new System.Drawing.Size(80, 50);
             this.Btn_Close.TabIndex = 3;
             this.Btn_Close.Text = "Close";
             this.Btn_Close.UseVisualStyleBackColor = true;
@@ -89,7 +93,7 @@
             this.Lb_Judgement.Location = new System.Drawing.Point(0, 0);
             this.Lb_Judgement.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_Judgement.Name = "Lb_Judgement";
-            this.Lb_Judgement.Size = new System.Drawing.Size(271, 50);
+            this.Lb_Judgement.Size = new System.Drawing.Size(365, 50);
             this.Lb_Judgement.TabIndex = 4;
             this.Lb_Judgement.Text = "판정";
             this.Lb_Judgement.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -99,14 +103,31 @@
             // Grb_GradeInfo
             // 
             this.Tlp_Judgement.SetColumnSpan(this.Grb_GradeInfo, 2);
-            this.Grb_GradeInfo.Controls.Add(this.Dgv_Grade);
+            this.Grb_GradeInfo.Controls.Add(this.tableLayoutPanel1);
             this.Grb_GradeInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_GradeInfo.Location = new System.Drawing.Point(3, 53);
             this.Grb_GradeInfo.Name = "Grb_GradeInfo";
-            this.Grb_GradeInfo.Size = new System.Drawing.Size(340, 182);
+            this.Grb_GradeInfo.Size = new System.Drawing.Size(439, 182);
             this.Grb_GradeInfo.TabIndex = 6;
             this.Grb_GradeInfo.TabStop = false;
             this.Grb_GradeInfo.Text = "Grades";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Controls.Add(this.Btn_Down, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.Dgv_Grade, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.Btn_Up, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 17);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(433, 162);
+            this.tableLayoutPanel1.TabIndex = 8;
             // 
             // Dgv_Grade
             // 
@@ -132,7 +153,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.Dgv_Grade.DefaultCellStyle = dataGridViewCellStyle2;
             this.Dgv_Grade.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Dgv_Grade.Location = new System.Drawing.Point(3, 17);
+            this.Dgv_Grade.Location = new System.Drawing.Point(3, 3);
             this.Dgv_Grade.MultiSelect = false;
             this.Dgv_Grade.Name = "Dgv_Grade";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -144,10 +165,12 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.Dgv_Grade.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.Dgv_Grade.RowHeadersVisible = false;
+            this.tableLayoutPanel1.SetRowSpan(this.Dgv_Grade, 2);
             this.Dgv_Grade.RowTemplate.Height = 23;
             this.Dgv_Grade.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Grade.Size = new System.Drawing.Size(334, 162);
+            this.Dgv_Grade.Size = new System.Drawing.Size(397, 156);
             this.Dgv_Grade.TabIndex = 7;
+            this.Dgv_Grade.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Grade_CellMouseDown);
             this.Dgv_Grade.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Grade_CellMouseUp);
             this.Dgv_Grade.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Grade_CellValueChanged);
             this.Dgv_Grade.SelectionChanged += new System.EventHandler(this.Dgv_Grade_SelectionChanged);
@@ -156,6 +179,32 @@
             this.Dgv_Grade.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Dgv_Grade_MouseDown);
             this.Dgv_Grade.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Dgv_Grade_MouseMove);
             // 
+            // Btn_Down
+            // 
+            this.Btn_Down.BackgroundImage = global::CRUX_GUI_Cognex.Properties.Resources.DownArrow;
+            this.Btn_Down.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Btn_Down.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Down.Font = new System.Drawing.Font("나눔스퀘어라운드 Regular", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Down.Location = new System.Drawing.Point(406, 84);
+            this.Btn_Down.Name = "Btn_Down";
+            this.Btn_Down.Size = new System.Drawing.Size(24, 75);
+            this.Btn_Down.TabIndex = 9;
+            this.Btn_Down.UseVisualStyleBackColor = true;
+            this.Btn_Down.Click += new System.EventHandler(this.Btn_Down_Click);
+            // 
+            // Btn_Up
+            // 
+            this.Btn_Up.BackgroundImage = global::CRUX_GUI_Cognex.Properties.Resources.UpArrow;
+            this.Btn_Up.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Btn_Up.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Btn_Up.Font = new System.Drawing.Font("나눔스퀘어라운드 Regular", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Btn_Up.Location = new System.Drawing.Point(406, 3);
+            this.Btn_Up.Name = "Btn_Up";
+            this.Btn_Up.Size = new System.Drawing.Size(24, 75);
+            this.Btn_Up.TabIndex = 8;
+            this.Btn_Up.UseVisualStyleBackColor = true;
+            this.Btn_Up.Click += new System.EventHandler(this.Btn_Up_Click);
+            // 
             // Grb_DefectInfo
             // 
             this.Tlp_Judgement.SetColumnSpan(this.Grb_DefectInfo, 2);
@@ -163,7 +212,7 @@
             this.Grb_DefectInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_DefectInfo.Location = new System.Drawing.Point(3, 241);
             this.Grb_DefectInfo.Name = "Grb_DefectInfo";
-            this.Grb_DefectInfo.Size = new System.Drawing.Size(340, 278);
+            this.Grb_DefectInfo.Size = new System.Drawing.Size(439, 278);
             this.Grb_DefectInfo.TabIndex = 7;
             this.Grb_DefectInfo.TabStop = false;
             this.Grb_DefectInfo.Text = "Defects";
@@ -206,7 +255,7 @@
             this.Dgv_Judgement.RowHeadersVisible = false;
             this.Dgv_Judgement.RowTemplate.Height = 23;
             this.Dgv_Judgement.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Judgement.Size = new System.Drawing.Size(334, 258);
+            this.Dgv_Judgement.Size = new System.Drawing.Size(433, 258);
             this.Dgv_Judgement.TabIndex = 6;
             this.Dgv_Judgement.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Judgement_CellMouseUp);
             this.Dgv_Judgement.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Judgement_CellValueChanged);
@@ -216,7 +265,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 522);
+            this.ClientSize = new System.Drawing.Size(445, 522);
             this.Controls.Add(this.Tlp_Judgement);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Ex_Frm_Judgement";
@@ -226,6 +275,7 @@
             this.Tlp_Judgement.ResumeLayout(false);
             this.Tlp_Judgement.PerformLayout();
             this.Grb_GradeInfo.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Grade)).EndInit();
             this.Grb_DefectInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Judgement)).EndInit();
@@ -239,8 +289,11 @@
         private System.Windows.Forms.Button Btn_Close;
         private System.Windows.Forms.Label Lb_Judgement;
         private System.Windows.Forms.GroupBox Grb_GradeInfo;
-        private User_Controls.DoubleBufferdDataGridView Dgv_Grade;
+        private System.Windows.Forms.DataGridView Dgv_Grade;
         private System.Windows.Forms.GroupBox Grb_DefectInfo;
         private User_Controls.DoubleBufferdDataGridView Dgv_Judgement;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button Btn_Down;
+        private System.Windows.Forms.Button Btn_Up;
     }
 }

@@ -408,7 +408,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                     foreach (Defect_Property item in data.DefectList)
                     {
                         DataRow ItemDr = DefectTable.NewRow();
-                        ItemDr.ItemArray = new object[] { item.AreaName, item.X, item.Y, item.Vicinity, item.Id };
+                        ItemDr.ItemArray = new object[] { item.AreaName, item.FS_X, item.FS_Y, item.Vicinity, item.Id };
                         DefectTable.Rows.Add(ItemDr);
                     }
 

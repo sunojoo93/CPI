@@ -51,7 +51,7 @@
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28F));
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
             this.Tlp_Main.Controls.Add(this.Pb_Logo, 0, 0);
             this.Tlp_Main.Controls.Add(this.Btn_Exit, 6, 0);
             this.Tlp_Main.Controls.Add(this.Btn_Minimize, 5, 0);
@@ -80,6 +80,7 @@
             this.Pb_Logo.TabStop = false;
             this.Pb_Logo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseDown);
             this.Pb_Logo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseMove);
+            this.Pb_Logo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseUp);
             // 
             // Btn_Exit
             // 
@@ -90,9 +91,9 @@
             this.Btn_Exit.FlatAppearance.BorderSize = 0;
             this.Btn_Exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Exit.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Exit.Location = new System.Drawing.Point(1841, 3);
+            this.Btn_Exit.Location = new System.Drawing.Point(1834, 3);
             this.Btn_Exit.Name = "Btn_Exit";
-            this.Btn_Exit.Size = new System.Drawing.Size(76, 45);
+            this.Btn_Exit.Size = new System.Drawing.Size(83, 45);
             this.Btn_Exit.TabIndex = 1;
             this.Btn_Exit.UseVisualStyleBackColor = false;
             this.Btn_Exit.Click += new System.EventHandler(this.Btn_Exit_Click);
@@ -106,7 +107,7 @@
             this.Btn_Minimize.FlatAppearance.BorderSize = 0;
             this.Btn_Minimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Minimize.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Minimize.Location = new System.Drawing.Point(1761, 3);
+            this.Btn_Minimize.Location = new System.Drawing.Point(1754, 3);
             this.Btn_Minimize.Name = "Btn_Minimize";
             this.Btn_Minimize.Size = new System.Drawing.Size(74, 45);
             this.Btn_Minimize.TabIndex = 0;
@@ -122,7 +123,7 @@
             this.Cmb_SelPC.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Cmb_SelPC.ForeColor = System.Drawing.SystemColors.InfoText;
             this.Cmb_SelPC.FormattingEnabled = true;
-            this.Cmb_SelPC.Location = new System.Drawing.Point(1221, 5);
+            this.Cmb_SelPC.Location = new System.Drawing.Point(1216, 5);
             this.Cmb_SelPC.Margin = new System.Windows.Forms.Padding(0, 5, 2, 0);
             this.Cmb_SelPC.Name = "Cmb_SelPC";
             this.Cmb_SelPC.Size = new System.Drawing.Size(99, 38);
@@ -141,7 +142,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(461, 45);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(459, 45);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // Lb_ViewModel
@@ -152,10 +153,10 @@
             this.Lb_ViewModel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_ViewModel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Lb_ViewModel.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_ViewModel.Location = new System.Drawing.Point(230, 0);
+            this.Lb_ViewModel.Location = new System.Drawing.Point(229, 0);
             this.Lb_ViewModel.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_ViewModel.Name = "Lb_ViewModel";
-            this.Lb_ViewModel.Size = new System.Drawing.Size(231, 45);
+            this.Lb_ViewModel.Size = new System.Drawing.Size(230, 45);
             this.Lb_ViewModel.TabIndex = 14;
             this.Lb_ViewModel.Text = "JOB NAME";
             this.Lb_ViewModel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -173,7 +174,7 @@
             this.Lb_RunModel.Location = new System.Drawing.Point(0, 0);
             this.Lb_RunModel.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_RunModel.Name = "Lb_RunModel";
-            this.Lb_RunModel.Size = new System.Drawing.Size(230, 45);
+            this.Lb_RunModel.Size = new System.Drawing.Size(229, 45);
             this.Lb_RunModel.TabIndex = 13;
             this.Lb_RunModel.Text = "JOB NAME";
             this.Lb_RunModel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

@@ -267,10 +267,10 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Inspector..."));
                                 Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize Inspector...", false, false);
-                                Systems.Inspector_ = Inspector_Collection.Instance();
+                                //Systems.Inspector_ = Inspector_Collection.Instance();
                                 for (int i = 0; i < Globals.MaxVisionCnt; ++i)
                                 {
-                                    if (!Systems.Inspector_.CreateInspectorFromRecipe(RecipeList[0].MainRecipe)) // 다중 피씨 고려해서 추후에 수정 필요함
+                                    if (!Inspector_Collection.Instance().CreateInspectorFromRecipe(RecipeList[0].MainRecipe)) // 다중 피씨 고려해서 추후에 수정 필요함
                                     {
                                         Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "Inspector 생성 오류가 발생했습니다.");
                                         Noti.ShowDialog();
@@ -481,6 +481,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Paths.NET_DRIVE = new string[Globals.MaxVisionCnt];
                 Paths.NET_INITIAL_PATH = new string[Globals.MaxVisionCnt];
                 Paths.NET_ORIGIN_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_JPG_PATH = new string[Globals.MaxVisionCnt];
                 Paths.NET_RESULT_PATH = new string[Globals.MaxVisionCnt];
                 Paths.NET_REFERENCE_PATH = new string[Globals.MaxVisionCnt];
                 Paths.NET_ALGORITHM_PATH = new string[Globals.MaxVisionCnt];
@@ -493,6 +494,10 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Paths.FINAL_RESULT = new string[Globals.MaxVisionCnt];
                 Paths.RECORD_PATH = new string[Globals.MaxVisionCnt];
                 Paths.RECORD_IMAGE_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_DEFECTTREND_BACKUP_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_DEFECTTREND_EXTRACT_PATH = new string[Globals.MaxVisionCnt];
+                Paths.RESULT_HISTORY_PATH = new string[Globals.MaxVisionCnt];
+
                 Globals.Insp_Type = new int[Globals.MaxVisionCnt];
                 Program.Ui_LogPrint_Auto = new List<LogPrinter>();
                 Program.UI_LogPrint_Manual = new List<LogPrinter>();
@@ -532,20 +537,23 @@ namespace CRUX_GUI_Cognex.Main_Form
                     Paths.NET_PANEL_MANUAL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_MANUAL_PATH", Paths.INIT_PATH);
                     Paths.FIXED_DRIVE[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["FixedPath"].ToString().Trim();
                     Paths.NET_ORIGIN_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["OriginImagePath"].ToString().Trim();
+                    Paths.NET_JPG_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["JpgImagePath"].ToString().Trim();
                     Paths.NET_RESULT_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["InspResultPath"].ToString().Trim();
                     Paths.NET_REFERENCE_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["ReferencePath"].ToString().Trim();
                     Paths.NET_CURRENT_DRIVE[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["CurDrive"].ToString().Trim();
                     Paths.NET_ALGORITHM_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["AlgorithmPath"].ToString().Trim();
                     //string a1 = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["RecipePath"].ToString().Trim();
                     Paths.NET_RECIPE_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["RecipePath"].ToString().Trim();
-
+                    Paths.NET_DEFECTTREND_BACKUP_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["DefectTrendBackUpPath"].ToString().Trim();
+                    Paths.NET_DEFECTTREND_EXTRACT_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["DefectTrendExtractPath"].ToString().Trim();
                     //string strInitPath = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INIT_PATH", Paths.INIT_PATH);
-                   // Paths.NET_INITIAL_PATH[i] = Path.Combine(Paths.NET_DRIVE[i], strInitPath);
+                    // Paths.NET_INITIAL_PATH[i] = Path.Combine(Paths.NET_DRIVE[i], strInitPath);
                     Paths.MANUAL_RESULT_DATA_DRIVE[i] = iniUtl.GetIniValue("DiskInformation", "Simulation Drive", "D", Paths.NET_INITIAL_PATH[i]).ToString().toSplit(0, '_') + Consts.NET_DRIVE_NAME;
                     Paths.PROGRAM_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["ProgramPath"].ToString().Trim();
                     Paths.FINAL_RESULT[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["FinalResultPath"].ToString().Trim();
                     Paths.RECORD_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["RecordPath"].ToString().Trim();
                     Paths.RECORD_IMAGE_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["RecordImagePath"].ToString().Trim();
+                    Paths.RESULT_HISTORY_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["ResultHistoryPath"].ToString().Trim();
                     Systems.AliveList[i].init();
 
                     string AlgorithmPath = $@"{Paths.NET_DRIVE[i]}{Paths.FIXED_DRIVE[i]}{Paths.PROGRAM_PATH[i]}{Paths.NET_ALGORITHM_PATH[i]}";

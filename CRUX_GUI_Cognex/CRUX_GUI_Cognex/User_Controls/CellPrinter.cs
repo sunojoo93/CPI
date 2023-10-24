@@ -28,6 +28,10 @@ namespace CRUX_GUI_Cognex.User_Controls
         object obj = new object();
         bool AutoScroll = true;
 
+        private object LockerForPad = new object();
+        private object LockerForRight = new object();
+        private object LockerForTop = new object();
+        private object LockerForBottom = new object();
         int PcNum = 0;
         public CellPrinter()
         {
@@ -63,6 +67,7 @@ namespace CRUX_GUI_Cognex.User_Controls
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
+
         public void RecordClear()
         {
             CogRecordPad.Record = null;
@@ -78,20 +83,23 @@ namespace CRUX_GUI_Cognex.User_Controls
         {
             CogRecordPad.Invoke(new MethodInvoker(delegate ()
             {
-                try
+                lock (LockerForPad)
                 {
-                    CogRecordPad.DrawingEnabled = false;
-                    CogRecordPad.Record = null; ;
-                    CogRecordPad.Record = record;
-                    CogRecordPad.DrawingEnabled = true;
-                    CogRecordPad.Refresh();
-                    if(!manual)
-                     CogRecordPad.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"{path}\Pad.bmp", ImageFormat.Bmp);
-                    Systems.WriteLog(PcNum, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Pad Done", true, false);
-                }
-                catch (Exception ex)
-                {
-                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+                    try
+                    {
+                        CogRecordPad.DrawingEnabled = false;
+                        CogRecordPad.Record = null; ;
+                        CogRecordPad.Record = record;
+                        CogRecordPad.DrawingEnabled = true;
+                        CogRecordPad.Refresh();
+                        if (!manual)
+                            CogRecordPad.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"{path}\Pad.bmp", ImageFormat.Bmp);
+                        Systems.WriteLog(PcNum, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Pad Done", true, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+                    }
                 }
             }));
         }
@@ -99,20 +107,23 @@ namespace CRUX_GUI_Cognex.User_Controls
         {
             CogRecordRight.Invoke(new MethodInvoker(delegate ()
             {
-                try
+                lock (LockerForRight)
                 {
-                    CogRecordRight.DrawingEnabled = false;
-                    CogRecordRight.Record = null;
-                    CogRecordRight.Record = record;
-                    CogRecordRight.DrawingEnabled = true;
-                    CogRecordRight.Refresh();
-                    if (!manual)
-                        CogRecordRight.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"{path}\Right.bmp", ImageFormat.Bmp);
-                    Systems.WriteLog(PcNum, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Right Done", true, false);
-                }
-                catch (Exception ex)
-                {
-                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+                    try
+                    {
+                        CogRecordRight.DrawingEnabled = false;
+                        CogRecordRight.Record = null;
+                        CogRecordRight.Record = record;
+                        CogRecordRight.DrawingEnabled = true;
+                        CogRecordRight.Refresh();
+                        if (!manual)
+                            CogRecordRight.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"{path}\Right.bmp", ImageFormat.Bmp);
+                        Systems.WriteLog(PcNum, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Right Done", true, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+                    }
                 }
             }));
         }
@@ -125,10 +136,10 @@ namespace CRUX_GUI_Cognex.User_Controls
             List<WriteRecordData> Records = new List<WriteRecordData>();
             foreach (DisplayData item in data)
             {
-                if (!fileProc.DirExists(item.Path))
-                {
-                    fileProc.CreateDirectory($@"{item.Path}");
-                }
+                //if (!fileProc.DirExists(item.Path))
+                //{
+                //    fileProc.CreateDirectory($@"{item.Path}");
+                //}
 
                 if (item.AreaIndex == 0 || item.AreaName.ToUpper().Contains("PAD"))
                 {
@@ -317,20 +328,23 @@ namespace CRUX_GUI_Cognex.User_Controls
         {
             CogRecordBottom.Invoke(new MethodInvoker(delegate ()
             {
-                try
+                lock (LockerForBottom)
                 {
-                    CogRecordBottom.DrawingEnabled = false;
-                    CogRecordBottom.Record = null;
-                    CogRecordBottom.Record = record;
-                    CogRecordBottom.DrawingEnabled = true;
-                    CogRecordBottom.Refresh();
-                    if (!manual)
-                        CogRecordBottom.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"{path}\Bottom.bmp", ImageFormat.Bmp);
-                    Systems.WriteLog(PcNum, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Bottom Done", true, false);
-                }
-                catch (Exception ex)
-                {
-                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+                    try
+                    {
+                        CogRecordBottom.DrawingEnabled = false;
+                        CogRecordBottom.Record = null;
+                        CogRecordBottom.Record = record;
+                        CogRecordBottom.DrawingEnabled = true;
+                        CogRecordBottom.Refresh();
+                        if (!manual)
+                            CogRecordBottom.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"{path}\Bottom.bmp", ImageFormat.Bmp);
+                        Systems.WriteLog(PcNum, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord Bottom Done", true, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+                    }
                 }
             }));
         }
@@ -339,20 +353,23 @@ namespace CRUX_GUI_Cognex.User_Controls
         {
             CogRecordTop.Invoke(new MethodInvoker(delegate ()
             {
-                try
+                lock (LockerForTop)
                 {
-                    CogRecordTop.DrawingEnabled = false;
-                    CogRecordTop.Record = null;
-                    CogRecordTop.Record = record;
-                    CogRecordTop.DrawingEnabled = true;
-                    CogRecordTop.Refresh();
-                    if (!manual)
-                        CogRecordTop.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"{path}\Top.bmp", ImageFormat.Bmp);
-                    Systems.WriteLog(PcNum, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord TOP Done", true, false);
-                }
-                catch (Exception ex)
-                {
-                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+                    try
+                    {
+                        CogRecordTop.DrawingEnabled = false;
+                        CogRecordTop.Record = null;
+                        CogRecordTop.Record = record;
+                        CogRecordTop.DrawingEnabled = true;
+                        CogRecordTop.Refresh();
+                        if (!manual)
+                            CogRecordTop.CreateContentBitmap(Cognex.VisionPro.Display.CogDisplayContentBitmapConstants.Image).Save($@"{path}\Top.bmp", ImageFormat.Bmp);
+                        Systems.WriteLog(PcNum, Enums.LogLevel.DEBUG, $@"[ GUI ] {Name}_SetRecord TOP Done", true, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+                    }
                 }
             }));
         }

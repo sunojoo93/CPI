@@ -352,7 +352,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                 bool Result = false;
                 Thread t = new Thread(delegate ()
                 {
-                    Result = Systems.Inspector_.CreateInspectorFromRecipe(Shared_Recipe.ViewRecipe);
+                    Result = Inspector_Collection.Instance().CreateInspectorFromRecipe(Shared_Recipe.ViewRecipe);
                 });
                 t.Start();
 
@@ -365,7 +365,7 @@ namespace CRUX_GUI_Cognex.Main_Form
 
                     Thread RecoverT = new Thread(delegate ()
                     {
-                        Result = Systems.Inspector_.CreateInspectorFromRecipe(Shared_Recipe.MainRecipe);
+                        Result = Inspector_Collection.Instance().CreateInspectorFromRecipe(Shared_Recipe.MainRecipe);
                     });
                     RecoverT.Start();
 
@@ -427,6 +427,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                 WinApis.SetWindowRgn(Btn_Apply.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Apply.Width, Btn_Apply.Height, 15, 15), true);
                 WinApis.SetWindowRgn(Btn_Save.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Save.Width, Btn_Save.Height, 15, 15), true);
                 WinApis.SetWindowRgn(Btn_Judge.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Judge.Width, Btn_Judge.Height, 15, 15), true);
+                WinApis.SetWindowRgn(Btn_DefectList.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_DefectList.Width, Btn_DefectList.Height, 15, 15), true);
             }
             catch (Exception ex)
             {
@@ -816,7 +817,24 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
                 Ex_Frm_Judgement Judgement_Form = new Ex_Frm_Judgement();
                 Judgement_Form.SetJudgeData(Shared_Recipe.ViewRecipe.JudgementData);
+                Judgement_Form.SetDefectList(Shared_Recipe.ViewRecipe.DefectList);
                 Judgement_Form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
+        }
+
+        private void Btn_DefectList_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Systems.WriteLog(0, Enums.LogLevel.OPERATION, MethodBase.GetCurrentMethod().Name.ToString(), true, false);
+                Ex_Frm_DefectList DefectList_Form = new Ex_Frm_DefectList();
+                DefectList_Form.SetDefectList(Shared_Recipe.ViewRecipe.DefectList);
+                DefectList_Form.SetJudgeData(Shared_Recipe.ViewRecipe.JudgementData);
+                DefectList_Form.ShowDialog();
             }
             catch (Exception ex)
             {

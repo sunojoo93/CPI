@@ -1,4 +1,5 @@
 ﻿using CRUX_GUI_Cognex.Class;
+using CRUX_GUI_Cognex.Class.InspVer2;
 using CRUX_GUI_Cognex.Ex_Form;
 using CRUX_GUI_Cognex.Main_Form;
 using CRUX_GUI_Cognex.Utils;
@@ -52,6 +53,8 @@ namespace CRUX_GUI_Cognex
                 Frm_Init Init = new Frm_Init();
                 Init.ShowDialog();
                 Program.SysInfo = new System_Information();
+                Program.DiskManagement = new DiskManager();
+
                 List<Recipes> Temp = Init.GetLoadedRecipe();
                 if (Init.DialogResult == DialogResult.Yes)
                 {
@@ -65,6 +68,8 @@ namespace CRUX_GUI_Cognex
                     Frm_AccountManage = new Ex_Frm_Account_Info();
                     Tlp_Main.Controls.Add(Frm_Status, 2, 0);
                     Tlp_Main.Controls.Add(Frm_AccountManage, 4, 0);
+                    AccountManager.Instance();
+                    DisplayCurrentUser();
                     Frm_Status.StartCheckStatus();
 
                     CurDisplayForm = "Upper";
@@ -79,6 +84,7 @@ namespace CRUX_GUI_Cognex
                 }
                 ToolTip RunModelTooltip = new ToolTip();
 
+               
                 RunModelTooltip.AutoPopDelay = 5000;
                 RunModelTooltip.InitialDelay = 0;
                 RunModelTooltip.ReshowDelay = 0;
@@ -95,7 +101,11 @@ namespace CRUX_GUI_Cognex
             }
             //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
         }
-
+        public void DisplayCurrentUser()
+        {
+            User CurUser = AccountManager.Instance().GetCurrentAccount();
+            Frm_AccountManage.RefreshCurrentUser(CurUser);
+        }
         public void InitMainForm(List<Recipes> recipe)
         {
             try
@@ -112,6 +122,7 @@ namespace CRUX_GUI_Cognex
                     // 레시피를 각 폼마다 Reference로 사용
                     Program.Frm_MainContent_[i].LinkRecipe(ref Temp);
                     Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
+                    Program.Frm_MainContent_[i].TrendInitialize();
 
                     // 현재 레시피를 변환하여 시퀀스에 적용
                     CmdMsgParam SendParam = new CmdMsgParam();
@@ -198,7 +209,7 @@ namespace CRUX_GUI_Cognex
                         Program.Frm_MainContent_[i].Dispose();
                         Program.Frm_MainContent_[i].Close();
 
-                        Systems.Inspector_.Dispose();
+                        Inspector_Collection.Instance().Dispose();
                     }
                 // 프로세스 리스트 종료
                 foreach (ProcessSet item in Program.GetProcessList())
@@ -330,6 +341,15 @@ namespace CRUX_GUI_Cognex
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private void Pb_Logo_MouseUp(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                string CurVersion = $@"Current Version is {Utility.Get_BuildDateTime(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ToString()}";
+                MessageBox.Show(CurVersion);                
             }
         }
     }
