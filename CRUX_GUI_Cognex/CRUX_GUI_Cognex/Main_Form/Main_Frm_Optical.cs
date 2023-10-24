@@ -14,35 +14,78 @@ namespace CRUX_GUI_Cognex.Main_Form
         List<Ex_Frm_Optic_Area_Content> AreaCamForm = new List<Ex_Frm_Optic_Area_Content>();
         public Main_Frm_Optical ()
         {
-            InitializeComponent();
-            TopLevel = false;
-            Dock = DockStyle.Fill;
-            FormBorderStyle = FormBorderStyle.None;
-            Initialize();
-            Show();
+            try
+            {
+                InitializeComponent();
+                TopLevel = false;
+                Dock = DockStyle.Fill;
+                FormBorderStyle = FormBorderStyle.None;
+                Initialize();
+                Show();
+            }
+            catch (System.Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
         public void SetRecipe(ref Recipes recipe)
         {
-            Shared_Recipe = recipe;
-            foreach(Ex_Frm_Optic_Area_Content item in AreaCamForm)
-                item.SetRecipe(ref Shared_Recipe);
+            try
+            {
+                Shared_Recipe = recipe;
+                foreach (Ex_Frm_Optic_Area_Content item in AreaCamForm)
+                    item.SetRecipe(ref Shared_Recipe);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
         public void SetFormNameIndex(ref string name, ref int index)
         {
-            CurrentFormName = name;
-            CurFormIndex = index;
+            try
+            {
+                CurrentFormName = name;
+                CurFormIndex = index;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void FrmUpdate()
+        {
+            try
+            {
+                foreach (Ex_Frm_Optic_Area_Content item in AreaCamForm)
+                {
+                    item.AllDgvUpdate();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
         private void Initialize()
         {
-            foreach(string item in Systems.AvaliableCamNameList)
+            try
             {
-                Ex_Frm_Optic_Area_Content Temp = new Ex_Frm_Optic_Area_Content() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex, CamName = item };
-                Temp.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex, item);
-                AreaCamForm.Add(Temp);
-                TabPage Tp = new TabPage(item);
-                tab_caminfo.TabPages.Add(Tp);
-                Temp.Show();
-                Tp.Controls.Add(Temp); 
+                foreach (string item in Systems.AvaliableCamNameList)
+                {
+                    Ex_Frm_Optic_Area_Content Temp = new Ex_Frm_Optic_Area_Content() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex, CamName = item };
+                    Temp.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex, item);
+                    AreaCamForm.Add(Temp);
+                    TabPage Tp = new TabPage(item);
+                    tab_caminfo.TabPages.Add(Tp);
+                    Temp.Show();
+                    Tp.Controls.Add(Temp);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
             }
 
             //LineCamForm = new Ex_Frm_Optic_Line() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };

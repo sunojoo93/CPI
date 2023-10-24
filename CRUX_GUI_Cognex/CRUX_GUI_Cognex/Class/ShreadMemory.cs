@@ -67,6 +67,7 @@ namespace CRUX_GUI_Cognex.Class
             catch (Exception ex)
             {
                 //Systems.LogWriter.Error(ex);
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Shared Memory Access 실패... Exception Message : {ex.Message} Stack Trace : {ex.StackTrace}", false, false);
                 throw new Exception("공유메모리 접근 실패");
             }   
         }

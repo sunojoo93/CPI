@@ -30,12 +30,15 @@
         {
             this.Tlp_Main = new System.Windows.Forms.TableLayoutPanel();
             this.Pb_Logo = new System.Windows.Forms.PictureBox();
-            this.Lb_RecipeName = new System.Windows.Forms.Label();
             this.Btn_Exit = new System.Windows.Forms.Button();
             this.Btn_Minimize = new System.Windows.Forms.Button();
             this.Cmb_SelPC = new CRUX_GUI_Cognex.User_Controls.ColorfulComboBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.Lb_ViewModel = new System.Windows.Forms.Label();
+            this.Lb_RunModel = new System.Windows.Forms.Label();
             this.Tlp_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_Logo)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tlp_Main
@@ -50,10 +53,10 @@
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.Tlp_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
             this.Tlp_Main.Controls.Add(this.Pb_Logo, 0, 0);
-            this.Tlp_Main.Controls.Add(this.Lb_RecipeName, 1, 0);
             this.Tlp_Main.Controls.Add(this.Btn_Exit, 6, 0);
             this.Tlp_Main.Controls.Add(this.Btn_Minimize, 5, 0);
             this.Tlp_Main.Controls.Add(this.Cmb_SelPC, 3, 0);
+            this.Tlp_Main.Controls.Add(this.tableLayoutPanel1, 1, 0);
             this.Tlp_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Main.Location = new System.Drawing.Point(0, 0);
             this.Tlp_Main.Margin = new System.Windows.Forms.Padding(0);
@@ -77,24 +80,7 @@
             this.Pb_Logo.TabStop = false;
             this.Pb_Logo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseDown);
             this.Pb_Logo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseMove);
-            // 
-            // Lb_RecipeName
-            // 
-            this.Lb_RecipeName.AutoSize = true;
-            this.Lb_RecipeName.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.Lb_RecipeName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.Lb_RecipeName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lb_RecipeName.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Lb_RecipeName.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lb_RecipeName.Location = new System.Drawing.Point(103, 4);
-            this.Lb_RecipeName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.Lb_RecipeName.Name = "Lb_RecipeName";
-            this.Lb_RecipeName.Size = new System.Drawing.Size(459, 44);
-            this.Lb_RecipeName.TabIndex = 13;
-            this.Lb_RecipeName.Text = "JOB NAME";
-            this.Lb_RecipeName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Lb_RecipeName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Lb_JobName_MouseDown);
-            this.Lb_RecipeName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Lb_JobName_MouseMove);
+            this.Pb_Logo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Pb_Logo_MouseUp);
             // 
             // Btn_Exit
             // 
@@ -144,6 +130,57 @@
             this.Cmb_SelPC.TabIndex = 14;
             this.Cmb_SelPC.SelectedIndexChanged += new System.EventHandler(this.Cmb_SelPC_SelectedIndexChanged);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.Lb_ViewModel, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.Lb_RunModel, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(103, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(459, 45);
+            this.tableLayoutPanel1.TabIndex = 15;
+            // 
+            // Lb_ViewModel
+            // 
+            this.Lb_ViewModel.AutoSize = true;
+            this.Lb_ViewModel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Lb_ViewModel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.Lb_ViewModel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_ViewModel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Lb_ViewModel.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_ViewModel.Location = new System.Drawing.Point(229, 0);
+            this.Lb_ViewModel.Margin = new System.Windows.Forms.Padding(0);
+            this.Lb_ViewModel.Name = "Lb_ViewModel";
+            this.Lb_ViewModel.Size = new System.Drawing.Size(230, 45);
+            this.Lb_ViewModel.TabIndex = 14;
+            this.Lb_ViewModel.Text = "JOB NAME";
+            this.Lb_ViewModel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_ViewModel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Lb_ViewModel_MouseDown);
+            this.Lb_ViewModel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Lb_ViewModel_MouseMove);
+            // 
+            // Lb_RunModel
+            // 
+            this.Lb_RunModel.AutoSize = true;
+            this.Lb_RunModel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Lb_RunModel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.Lb_RunModel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lb_RunModel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Lb_RunModel.Font = new System.Drawing.Font("나눔스퀘어라운드 ExtraBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lb_RunModel.Location = new System.Drawing.Point(0, 0);
+            this.Lb_RunModel.Margin = new System.Windows.Forms.Padding(0);
+            this.Lb_RunModel.Name = "Lb_RunModel";
+            this.Lb_RunModel.Size = new System.Drawing.Size(229, 45);
+            this.Lb_RunModel.TabIndex = 13;
+            this.Lb_RunModel.Text = "JOB NAME";
+            this.Lb_RunModel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Lb_RunModel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Lb_JobName_MouseDown);
+            this.Lb_RunModel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Lb_JobName_MouseMove);
+            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -154,10 +191,12 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
             this.Name = "Frm_Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Shown += new System.EventHandler(this.Frm_Main_Shown);
             this.Tlp_Main.ResumeLayout(false);
-            this.Tlp_Main.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Pb_Logo)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -166,9 +205,11 @@
 
         private System.Windows.Forms.TableLayoutPanel Tlp_Main;
         private System.Windows.Forms.PictureBox Pb_Logo;
-        private System.Windows.Forms.Label Lb_RecipeName;
+        private System.Windows.Forms.Label Lb_RunModel;
         private System.Windows.Forms.Button Btn_Exit;
         private System.Windows.Forms.Button Btn_Minimize;
         private User_Controls.ColorfulComboBox Cmb_SelPC;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label Lb_ViewModel;
     }
 }

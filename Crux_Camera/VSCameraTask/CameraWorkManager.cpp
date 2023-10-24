@@ -71,12 +71,12 @@ int VSMessageProcessor::m_fnStart(const CString strInitFilePath, const int nTask
 
 		if (nRet == APP_OK)
 		{
-			//for (int i = 0; i < 5; i++)
-			//{
+			for (int i = 0; i < 10; i++)
+			{
 				handle = m_fnStartThread();
 				if ( handle == NULL || handle == (HANDLE)-1 )
 					return APP_NG;
-			//}
+			}
 		}
 		else
 		{
@@ -289,7 +289,7 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 		SEQUENCE_TABLE (	90,		10	,	VS_InitCamera					, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		11	,	VS_CameraExpose					, true	,			true, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		12	,	VS_WaitGrabEnd					, false	,			false, &m_csSequenceLock_2)
-		SEQUENCE_TABLE (	90,		13	,	VS_GetGrabBuffer				, false	,			false, &m_csSequenceLock_2)
+		SEQUENCE_TABLE (	90,		13	,	VS_GetGrabBuffer				, false	,			false, NULL)
 		SEQUENCE_TABLE (	90,		14	,	VS_GetGrabBufferNoRes			, false	,			false, &m_csSequenceLock_2)
 		SEQUENCE_TABLE (	90,		15	,	VS_LiveGrab						, false	,			false, &m_csSequenceLock_3)
 		SEQUENCE_TABLE (	90,		115	,	VS_ManualLoadImage				, false	,			false, &m_csSequenceLock_2)
@@ -313,6 +313,7 @@ int VSMessageProcessor::AnalyzeMsg(CMDMSG* pCmdMsg)
 		SEQUENCE_TABLE (	90,		34	,	VS_SetTriggerMode				, false	,			false, &m_csSequenceLock_5)
 		SEQUENCE_TABLE (	90,		99	,	VS_GetCamInfo					, false	,			false, &m_csSequenceLock_5)
 		SEQUENCE_TABLE (	90,		98	,	VS_GetCameraTemperature			, false	,			false, &m_csSequenceLock_5)
+		SEQUENCE_TABLE (	90,		97	,	VS_SetCameraProperty			, false	,			false, &m_csSequenceLock_4)
 		if( m_SeqenceCount <= 0 )
 		{
 			m_bSeqResetFlag = 0;
@@ -377,6 +378,37 @@ int VSMessageProcessor::VS_TaskAlive( byte* pParam, ULONG& nPrmSize, bool bAlway
 		return nRet;
 }
 
+int VSMessageProcessor::VS_SetCameraProperty(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/)
+{
+	int nRet = APP_OK;
+	int nStepNo = 0;
+	CString strInitFilePath = _T("");
+
+	byte* tempParam = pParam;
+	strInitFilePath = tempParam;
+	strInitFilePath.TrimRight();
+	ST_GRAB_AREA_INFO_AOT CamProperty;
+	// Sequence In LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq9097_Set Camera Property Sequence Start. strInitFilePath=%s \n"), strInitFilePath);
+
+	EXCEPTION_TRY
+	#ifdef _TestCam
+		theApp.m_pCamera->SetCamSequencerProperty(&CamProperty);
+	#endif
+	EXCEPTION_CATCH
+
+		if (nRet != APP_OK)
+		{
+			// Error Log
+			m_fnPrintLog(_T("CAMLOG -- Seq9097_Set Camera Property Sequence Error Occured. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+			return nRet;
+		}
+
+	// Sequence Out LOG
+	m_fnPrintLog(_T("CAMLOG -- Seq9097_Set Camera Property Sequence END. StepNo=%d, RetVal=%d \n"), nStepNo, nRet);
+
+	return nRet;
+}
 
 int VSMessageProcessor::VS_InitCamera( byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode /*= false*/, bool bBusyCheck /*= false*/, bool bSeqResetPossible /*= true*/ )
 {
@@ -412,7 +444,7 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 {
 	int nRet = APP_OK;
 	int nStepNo = 0;
-	
+	m_fnPrintLog(_T("CAMLOG -- Seq9011_Camera_Expose Sequence Start(). \n"));
 
 	//byte* tempParam	= pParam;
 	//int dd = sizeof(int);
@@ -428,6 +460,7 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 	//stLineParam = *(ST_LINE_INFO *)tempParam;
 
 	/////// 아이디 추가 ////
+
 	TCHAR strPanelID[50] = { 0, };		// 100 byte
 	memcpy(strPanelID, tempParam, sizeof(strPanelID));
 	tempParam += sizeof(strPanelID);
@@ -443,10 +476,12 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 	memcpy(strPosition, tempParam, sizeof(strPosition));
 	tempParam += sizeof(strPosition);
 
+	BOOL bSaveParticleImage = *(BOOL*)tempParam;
+	tempParam += sizeof(BOOL);
 	/////// 아이디 추가 ////
-
+	m_fnPrintLog(_T("CAMLOG -- Seq9011_Camera_Expose Sequence Parse Done, %d. \n"), nGrabLine);
 	// Sequence In LOG
-	m_fnPrintLog(_T("CAMLOG -- Seq9011_Camera_Expose Sequence Start(), %d. \n"), nGrabLine);
+
 	
 //#ifdef _DALSALINECAMERA 1221
 //	CDalsaLineCamera* temp = (CDalsaLineCamera*)theApp.m_pCamera;
@@ -495,7 +530,12 @@ int VSMessageProcessor::VS_CameraExpose( byte* pParam, ULONG& nPrmSize, bool bAl
 	VirID = (LPCTSTR)strVirtualID;
 	PanelID = (LPCTSTR)strPanelID;
 	Position = (LPCTSTR)strPosition;
-	theApp.m_pCamera->CameraExpose(PanelID, VirID, Position, nGrabLine);
+	CString IniPath;
+	IniPath = theApp.GetInitFilePath();
+	int DirectSave = GetPrivateProfileInt(_T("Settings"), _T("DirectSave"), 0, IniPath);
+
+	BOOL bDirectSave = DirectSave == 1 ? TRUE : FALSE;
+	theApp.m_pCamera->CameraExpose(PanelID, VirID, Position, nGrabLine, bSaveParticleImage, bDirectSave);
 #endif
 
 	EXCEPTION_CATCH
@@ -616,7 +656,7 @@ int VSMessageProcessor::VS_WaitGrabEnd(byte* pParam, ULONG& nPrmSize, bool bAlwa
 	m_fnPrintLog(_T("CAMLOG -- Seq9012_Wait_Grab_End Sequence Start. \n"));
 
 	EXCEPTION_TRY
-		theApp.m_pCamera->WaitGrabEnd();
+		theApp.m_pCamera->WaitGrabEnd(0);
 	EXCEPTION_CATCH
 
 		if ( nRet != APP_OK)
@@ -657,10 +697,12 @@ int VSMessageProcessor::VS_WaitGrabEndSequence( byte* pParam, ULONG& nPrmSize, b
 
 		int nRetryCnt = 3;
 	int	ProcessGrabCnt = 0;
-		for (int i =0 ; i < nRetryCnt; i++)
+	for (int i = 0; i < nRetryCnt; i++)
+	{
+		m_fnPrintLog(_T("CAMLOG -- Seq9017_Wait_Grab_End Sequence Before WaitGrabEnd. Loop = %d."), i);
+		nRet = theApp.m_pCamera->WaitGrabEnd(stWaitGrabEndParam.GrabCnt); // 스테이지 이동속도 빠르면 확인해야 함
+		if (nRet == APP_OK)
 		{
-			m_fnPrintLog(_T("CAMLOG -- Seq9017_Wait_Grab_End Sequence Before WaitGrabEnd."));
-			//theApp.m_pCamera->WaitGrabEnd();
 			if (stWaitGrabEndParam.bUseSMem)
 				ProcessGrabCnt = theApp.m_pCamera->SetSMemCurBuffer(stWaitGrabEndParam.GrabCnt, stWaitGrabEndParam.strPanelID);
 			if (stWaitGrabEndParam.bUseFileSave)
@@ -673,14 +715,16 @@ int VSMessageProcessor::VS_WaitGrabEndSequence( byte* pParam, ULONG& nPrmSize, b
 				theApp.m_pCamera->SaveFileCurBuffer(stWaitGrabEndParam.strSavePath);
 			}
 
-			if(theApp.m_pCamera->GetImageCallBackState() == 0)  
+			if (theApp.m_pCamera->GetImageCallBackState() == 0)
 				break;
+		}
+	}
 			//else 
 				//theApp.m_pCamera->retryConnect();
 			//*(int *)pParam = theApp.m_pCamera->GetImageCallBackState();	pParam   += sizeof(int);
 			//*(int *)pParam = ProcessGrabCnt;	pParam += sizeof(int);
 			//stWaitGrabEndParam.GrabCnt = ProcessGrabCnt;
-		}
+	
 			
 
 		EXCEPTION_CATCH
@@ -713,7 +757,7 @@ int VSMessageProcessor::VS_GetDimmingData( byte* pParam, ULONG& nPrmSize, bool b
 
 	EXCEPTION_TRY
 
-		theApp.m_pCamera->WaitGrabEnd();
+		theApp.m_pCamera->WaitGrabEnd(0);
 
 		 int nOutExp = 0, nOutGain = 0 ;
 		theApp.m_pCamera->GetBrightnessVal(nBrightVal, crecGuideLine , nOutExp, nOutGain);
@@ -835,27 +879,27 @@ int VSMessageProcessor::VS_LiveGrab( byte* pParam, ULONG& nPrmSize, bool bAlways
 	BOOL bLive;
 
 	byte* tempParam	= pParam;
-	bLive = *(BOOL *)tempParam;		tempParam += sizeof(BOOL);
+	bLive = *(BOOL *)tempParam;		//tempParam += sizeof(BOOL);
 
 	// Sequence In LOG
 	m_fnPrintLog(_T("CAMLOG -- Seq9015_Live_Grab Sequence Start. bLive=%s \n"), bLive?_T("TRUE"):_T("FALSE"));	
 	
 	EXCEPTION_TRY
 	int nRetryCnt = 3;
-	for (int i =0 ; i < nRetryCnt; i++)
-	{
+	//for (int i =0 ; i < nRetryCnt; i++)
+	//{
 		if (bLive)
 			nRet = theApp.m_pCamera->StartLiveGrab() ? APP_OK : APP_NG;
 		else
-			nRet = theApp.m_pCamera->StopLiveGrab() ? APP_OK : APP_NG;;
+			nRet = theApp.m_pCamera->StopLiveGrab() ? APP_OK : APP_NG;
 
-		if(theApp.m_pCamera->GetImageCallBackState() == 0)  break;
-		else theApp.m_pCamera->retryConnect();
-		//*(int *)pParam = theApp.m_pCamera->GetImageCallBackState();	pParam   += sizeof(int);
-	}
+		//if(theApp.m_pCamera->GetImageCallBackState() == 0)  break;
+		//else theApp.m_pCamera->retryConnect();
+		//*(int *)tempParam = theApp.m_pCamera->GetImageCallBackState();	tempParam += sizeof(int);
+	//}
 
 	nChCnt = theApp.m_pCamera->GetImageBandwidth();
-	*(int *)pParam = nChCnt;	pParam   += sizeof(int);
+	*(int *)tempParam = nChCnt;	tempParam += sizeof(int);
 	EXCEPTION_CATCH
 
 	if ( nRet != APP_OK)
@@ -1140,6 +1184,8 @@ int VSMessageProcessor::VS_GrabStop(byte* pParam, ULONG& nPrmSize, bool bAlwaysR
 	m_fnPrintLog(_T("CAMLOG -- Seq9050_GrabStop Sequence Start. \n"));
 
 	EXCEPTION_TRY
+
+		ProcessNum = *(int*)tempParam;
 #ifdef _MATROXCAMERA
 #elif _VISTEKCAMERA
 		//theApp.m_pCamera->StopGrab();
@@ -1149,11 +1195,11 @@ int VSMessageProcessor::VS_GrabStop(byte* pParam, ULONG& nPrmSize, bool bAlwaysR
 #elif _MATROXLINECAMERA
 #elif _NEDLINECAMERA
 #elif _DALSALINECAMERA
-		ProcessNum = theApp.m_pCamera->StopGrab(50);
+		ProcessNum = theApp.m_pCamera->StopGrab(ProcessNum);
 #elif _TestCam
-		ProcessNum = theApp.m_pCamera->StopGrab(50);	
+		ProcessNum = theApp.m_pCamera->StopGrab(ProcessNum);
 #endif
-		*(int*)tempParam = ProcessNum;
+	
 	EXCEPTION_CATCH
 
 		if (nRet != APP_OK)
@@ -1383,25 +1429,28 @@ int VSMessageProcessor::VS_GetCamInfo(byte* pParam, ULONG& nPrmSize, bool bAlway
 	byte* tempParam = pParam;
 	ST_CAM_INFOMATION stCurCamInfo;
 	stCurCamInfo = *(ST_CAM_INFOMATION *)tempParam;	
-
+	int tt = sizeof(char);
 	// Sequence In LOG
 	m_fnPrintLog(_T("CAMLOG -- Seq9099_Get_Cam_Information Sequence Start.\n"));
 
 	EXCEPTION_TRY
-
+		CString BoardName = theApp.m_pCamera->GetBoardName();
+	CString CamType = theApp.m_pCamera->GetCameraType();
 		CString CamName = theApp.m_pCamera->GetCameraName();
 	int CamWidth = theApp.m_pCamera->GetCameraWidth();
 	int CamHeight = theApp.m_pCamera->GetCameraHeight();
 	int CamDepth = theApp.m_pCamera->GetCameraDepth();
-	unsigned int CamTemp = theApp.m_pCamera->GetCameraTemperature();
+	double CamTemp = theApp.m_pCamera->GetCameraTemperature();
 
+	memcpy((*(ST_CAM_INFOMATION *)tempParam).BoardName, BoardName, BoardName.GetLength() * 2);
 	memcpy((*(ST_CAM_INFOMATION *)tempParam).Name, CamName, CamName.GetLength() * 2);
+	memcpy((*(ST_CAM_INFOMATION *)tempParam).Type, CamType, CamType.GetLength() * 2);
 	(*(ST_CAM_INFOMATION *)tempParam).Width = CamWidth;
 	(*(ST_CAM_INFOMATION *)tempParam).Height = CamHeight;
 	(*(ST_CAM_INFOMATION *)tempParam).Depth = CamDepth;
 	(*(ST_CAM_INFOMATION *)tempParam).Temp = CamTemp;
-		//if (!theApp.m_pCamera->SetTriggerMode(nTrigMode))
-		//	nRet = APP_NG;
+	//if (!theApp.m_pCamera->SetTriggerMode(nTrigMode))
+	//	nRet = APP_NG;
 	EXCEPTION_CATCH
 
 		if (nRet != APP_OK)
@@ -1424,9 +1473,9 @@ int VSMessageProcessor::VS_GetCameraTemperature(byte* pParam, ULONG& nPrmSize, b
 
 	byte* tempParam = pParam;
 	m_fnPrintLog(_T("CAMLOG -- Seq9098_Get_Cam_Temperature Sequence Start.\n"));
-	unsigned int CamTemp = theApp.m_pCamera->GetCameraTemperature();
+	double CamTemp = theApp.m_pCamera->GetCameraTemperature();
 
-	*(unsigned int*)tempParam = CamTemp;
+	*(double*)tempParam = CamTemp;
 	EXCEPTION_CATCH
 
 		if (nRet != APP_OK)

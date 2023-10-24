@@ -26,8 +26,13 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Create Account Info 실패... Exception Message : {ex.Message} Stack Trace : {ex.StackTrace}", false, false);
                 throw ex;
             }
+        }
+        public void RefreshCurrentUser(User user)
+        {
+            Lb_CurUserInfo.Text = user.Id;
         }
 
         private void Btn_Connect_Click(object sender, EventArgs e)
@@ -51,6 +56,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] Btn Connect Click 실패... Exception Message : {ex.Message} Stack Trace : {ex.StackTrace}", false, false);
                 throw ex;
             }
         }
@@ -70,6 +76,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] AccountManage Shown 실패... Exception Message : {ex.Message} Stack Trace : {ex.StackTrace}", false, false);
                 throw ex;
             }
         }
@@ -84,6 +91,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] BtnLogin_Click 실패... Exception Message : {ex.Message} Stack Trace : {ex.StackTrace}", false, false);
                 throw ex;
             }
         }
@@ -92,11 +100,27 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                Ex_Frm_Account_Manage Frm_Manage = new Ex_Frm_Account_Manage();
-                Frm_Manage.ShowDialog();
+             
+                string bb = "09:15:57.355";
+                TimeSpan bd = TimeSpan.Parse(bb);
+                TimeSpan GrabTimeSpan = TimeSpan.Parse("00:00:00.000");
+         
+
+                //DateTime GrabTactTemp = new DateTime(0000,00,00,00,00,00,000);
+
+                    TimeSpan ta = GrabTimeSpan.Add(bd);
+
+              
+                DateTime tt2 = DateTime.Parse(bb);
+
+                TimeSpan t = new TimeSpan();
+             
+                //Ex_Frm_Account_Manage Frm_Manage = new Ex_Frm_Account_Manage();
+                //Frm_Manage.ShowDialog();
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, $"[ GUI ] BtnManage_Click 실패... Exception Message : {ex.Message} Stack Trace : {ex.StackTrace}", false, false);
                 throw ex;
             }
         }

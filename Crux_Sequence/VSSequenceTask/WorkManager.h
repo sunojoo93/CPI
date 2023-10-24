@@ -29,6 +29,7 @@
 #define SEND_UI_NOTIFY_INIT							10, 90	
 #define SEND_UI_TACT_TIME_DATA						10, 100	
 #define SEND_UI_INSP_START							10, 10
+#define SEND_UI_INSP_RESET							10, 11
 
 // Algoithm
 #define SEND_INSPECT_START							21, 1
@@ -39,6 +40,7 @@
 #define SEND_LIGHT_ON								80, 20
 #define SEND_LIGHT_SEQUENCE_IDX_INIT				80, 41
 #define SEND_LIGHT_OFF								80, 30
+#define SEND_APPLY_LIGHT_PROPERTY					80, 15
 
 // PG
 #define SEND_PATTERN_ON_OFF							40, 11
@@ -55,14 +57,14 @@
 // Camera
 #define SEND_CAMERA_EXPOSE							90, 11
 #define SEND_CAMERA_TRIGGER							90, 26
+#define SEND_CAMERA_APPLY_PROPERTY					90, 97
 
 #define SEND_WAIT_CAMERA_GRAB_END					90, 12
 #define SEND_WAIT_CAMERA_GRAB_END_SEQUENCE			90, 17
 #define SEND_SET_CAMERA_COND						90, 30
 #define SEND_SET_CAMERA_EXPOSE_TIME					90, 31	// 2021.12.15~ MDJ Modify Camera ExposeTime
 #define SEND_SET_TRIGGER_MODE						90, 34
-#define SEND_GRAB_STOP								90, 50
-#define SEND_ALARM_OCCURRED							60, 52
+#define SEND_GRAB_STOP								90, 50		
 
 // Main PC Interface
 #define REQ_MOVE_MOTION								60, 53
@@ -76,6 +78,7 @@
 #define REQ_PG_OFF									60, 58		// PG OFF				180801 YSS
 #define REQ_PG_ON									60, 59		// PG OFF				180822 YSS
 #define REQ_GRAB_START								60, 04
+#define SEND_ALARM_OCCURRED							60, 52
 
 // Other PC Sequence Task
 #define SEND_ASYNC_SEQUENCE							21, 88
@@ -218,7 +221,8 @@ private:
 	int	Seq_AutoInspectGrabImage_ALM(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	// 2023.05.26 ALM JSO
 	int Seq_AFReady(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	int Seq_GrabEnd_FromMainPC(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
-	
+	int Seq_SetParticleImage(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+
 	//int	Seq_AutoChangeModel			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);	
 	// Sequence
 	//int	Seq_ClassifyEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
@@ -235,6 +239,7 @@ private:
 
 	// Async Sequence
 	int	Seq_AsyncSequence			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
+	int	Seq_GrabSeqReset			(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 	// Receive Dust End
 	//int	Seq_RcvCheckDustEnd				(byte* pParam, ULONG& nPrmSize, bool bAlwaysRunMode = false, bool bBusyCheck = false, bool bSeqResetPossible = true);
 

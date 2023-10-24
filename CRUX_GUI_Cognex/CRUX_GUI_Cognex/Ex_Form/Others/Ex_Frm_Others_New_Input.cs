@@ -132,6 +132,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }
@@ -147,6 +148,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message}", false, false);
                 throw ex;
             }
         }

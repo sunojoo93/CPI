@@ -29,7 +29,8 @@
 //KYH
 #define BUFFER_COUNT	200
 #define BUFFREE(milBuffer)		if(milBuffer == 0) { MbufFree	(milBuffer);	milBuffer=M_NULL;	/*MbufClear(milBuffer,0);*/}
-
+long MFTYPE HookFrameStart(long HookType, MIL_ID EventId, void *UserDataPtr);
+long MFTYPE HookFrameEnd(long HookType, MIL_ID EventId, void *UserDataPtr);
 class CTestCam : public CameraInterface
 {
 public:
@@ -43,8 +44,8 @@ public:
 	BOOL			InitializeGrabber(int nGrabberNo, int nDigCh, CString strDcfFilePath);
 	BOOL			OpenCameraComPort(int nComPort, int nBaudrate, eCamModel eModel);	
 	// Grab
-	void			CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt);									// Exposure Time 동안만 대기 후 반환
-	void			WaitGrabEnd();									// Wait Image Grab End	
+	void			CameraExpose(CString PanelID, CString VirID, CString Position, int nBufCnt, BOOL BSpi, BOOL bDctS);									// Exposure Time 동안만 대기 후 반환
+	int				WaitGrabEnd(int proc_num);									// Wait Image Grab End	
 	BYTE*			GetGrabBuffer();
 	BOOL			DoRotateImage(cv::Mat matSrcBuffer, cv::Mat& matDstBuffer, double dAngle);
 	void			GetGrabImage(byte* byteImgArr);
@@ -77,7 +78,8 @@ public:
 	BOOL			SetAnalogGain(double dGainValue);
 	BOOL			SetTriggerMode(int nMode);
 	void			SetImgaeBandWidth(int nBandWidth);
-	BOOL			SetSequenceMode(int nSeqMode)							{	return TRUE		;};
+	BOOL			SetSequenceMode(int nSeqMode);
+		BOOL			SetSequenceIndex(int nSeqIdx);
 
 	BOOL			SetDataBit(int nDataBit)								{	return TRUE		;};
 
@@ -114,11 +116,17 @@ public:
 	int				GetImageBandwidth() { return	m_lDigBand; }
 
 	CString			GetCameraName();
+	CString			GetBoardName();
 	CString			GetCameraType();
 	int				GetCameraWidth();
 	int				GetCameraHeight();
 	int				GetCameraDepth();
-	unsigned int			GetCameraTemperature();
+	double			GetCameraTemperature();
+
+	int				SetCamSequencerProperty(ST_GRAB_AREA_INFO_AOT* data);
+	int				ApplyProperty(ST_GRAB_CAMERA_VALUE_SET_AOT data, int seq_idx);
+	//MIL_ID			GetMilGrabBuffer();
+	MIL_ID			GetLiveGrabImage();
 
 	//void			SetDisplayImage(MIL_ID milImage, HWND hDispWnd = NULL);
 	//void			ChangeDisplayMap(HWND hDispWnd, MIL_ID milImage = M_NULL);
@@ -133,11 +141,25 @@ public:
 
 	
 	// 16.07.04 Live 사용 여부
-	BOOL			m_bFreeRunLive;
+	BOOL			m_bFreeRunLive = FALSE;
+	BOOL			m_bTriggerLive = FALSE;
 	BOOL			m_bLiveMode;
 
 	double m_dStartTime;
 	double m_dEndTime;
+
+	LONGLONG m_i64Freq;
+	LONGLONG m_i64Start;
+	LONGLONG m_i64End;
+
+	LONGLONG m_i64Start2;
+	LONGLONG m_i64End2;
+
+	int g_nHookCount = 0;
+	int g_nHookGrabStart = 0;
+	int g_nHookGrabEnd = 0;
+
+	//HANDLE g_hExpEnd[MAX_BUFFER_NUMBER] = { NULL, };		// Exposure End 시점
 
 #pragma region Trigger 관련
 	CTriggerControl* m_Trigger;
@@ -173,7 +195,7 @@ public:
 		int		MaxCount;
 		int		ProcessedImageCount;
 		bool	isGrabEnd;
-		bool	isSaveImage;
+		bool	isSaveParticleImage;
 		HANDLE	hGrabEnd;
 		CString SavePath;
 		CString Position;
@@ -197,12 +219,26 @@ public:
 	bool	m_GrabFlag = false;
 	bool InitGrabber(int nGrabberNo, int nDigCh, CString strDcfFile);
 	void StartGrab(int nTriggerCountF, int nTriggerCountB, CString strpos ,bool sync, bool fileSave = false);
-	void StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave = false);
+	void StartGrab(CString PanelID, CString VirID, CString Position, int nBufCnt, bool sync, bool fileSave = false, bool directSave = false);
 	void StopGrab(int nTriggerCountF, int nTriggerCountB);
 	int StopGrab(int nBufCnt);
 	void AllocClearBuffer(int nBufCnt, bool onlyClear = false);
 	void m_fnMbufExport(CString strFilePath, MIL_ID milBuffer);
 	static MIL_INT ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr);
+	MIL_ID			m_LiveImage;
+	MIL_ID			m_milLiveGrabBuffer;
+	MIL_ID			m_milCropImage;
+	MIL_ID			m_milDisplay;
+	MIL_ID			m_ColorImage;
+	MIL_ID			m_milCropLoadClrImg;
+	MIL_ID			m_MilWBCoefficients;			// White Balance 보정치
+
+
+	BOOL			m_fnInitializeImageBuffer();
+	BOOL			m_fnPrepareGrabBuffer();
+
+
+	//bool m_bTriggerLive;
 #pragma endregion
 
 private:

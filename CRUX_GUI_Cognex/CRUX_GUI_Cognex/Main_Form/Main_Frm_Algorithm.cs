@@ -49,7 +49,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
         public void SetRecipe(ref Recipes recipe)
@@ -80,11 +80,12 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             try
             {
-                WinApis.SetWindowRgn(Btn_Save.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Save.Width, Btn_Save.Height, 15, 15), true);
+                //WinApis.SetWindowRgn(Btn_Save.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Save.Width, Btn_Save.Height, 15, 15), true);
+                //WinApis.SetWindowRgn(Btn_Refesh.Handle, WinApis.CreateRoundRectRgn(0, 0, Btn_Refesh.Width, Btn_Refesh.Height, 15, 15), true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -98,8 +99,8 @@ namespace CRUX_GUI_Cognex.Main_Form
         {
             try
             {
-                string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
-           
+                string AlgorithmPath = Paths.NET_DRIVE[CurFormIndex] + Paths.FIXED_DRIVE[CurFormIndex] + Paths.PROGRAM_PATH[CurFormIndex] + Paths.NET_ALGORITHM_PATH[CurFormIndex];
+
                 string TotalPath = $@"{AlgorithmPath}\{name}";
 
                 if (CurrentOpenJob != null)
@@ -111,7 +112,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch(Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, $"[ GUI ] Job Change Error : {ex.Message}", true, false);
                 throw ex;
             }
         }
@@ -134,7 +134,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -149,20 +149,70 @@ namespace CRUX_GUI_Cognex.Main_Form
                     return;
                 }
                 Utility.LoadingStart();
-                string AlgorithmPath = ((Systems.Ini_Collection[CurFormIndex]["CRUX_GUI_Renewal.ini"])[$@"PC{CurFormIndex + 1}_AlgorithmPath"]["Path"].ToString().Replace(" ", ""));
+                string AlgorithmPath = Paths.NET_DRIVE[CurFormIndex] + Paths.FIXED_DRIVE[CurFormIndex] + Paths.PROGRAM_PATH[CurFormIndex] + Paths.NET_ALGORITHM_PATH[CurFormIndex];
                 string VppName = LstB_Algorithm.SelectedItem as string;
                 CogSerializer.SaveObjectToFile(CurrentOpenJob, $@"{AlgorithmPath}\{VppName}", typeof(System.Runtime.Serialization.Formatters.Binary.BinaryFormatter), CogSerializationOptionsConstants.Minimum);
                 Utility.LoadingStop();
+                Btn_Save.BackColor = Color.LimeGreen;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
         private void Btn_Revert_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Btn_Refesh_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LstB_Algorithm.Items.Clear();
+                string AlgorithmPath = $@"{Paths.NET_DRIVE[CurFormIndex]}{Paths.FIXED_DRIVE[CurFormIndex]}{Paths.PROGRAM_PATH[CurFormIndex]}{Paths.NET_ALGORITHM_PATH[CurFormIndex]}";
+                AlgorithmManager.GetAlgorithmForVpp(AlgorithmPath, ref Systems.Algo_Info);
+
+                foreach (Algorithm_Infomation item in Systems.Algo_Info)
+                {
+                    LstB_Algorithm.Items.Add(item.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
+        }
+
+        private void CTGB_Algorithm_ShapeClick(object sender, CogShapeEventArgs e)
+        {
+            int a = 0;
+        }
+
+        private void CTGB_Algorithm_SubjectChanged(object sender, EventArgs e)
+        {
+            int a = 0;
+        }
+
+        private void CTGB_Algorithm_ShapeDragStop(object sender, CogShapeEventArgs e)
+        {
+            int a = 0;
+        }
+
+        private void CTGB_Algorithm_Click(object sender, EventArgs e)
+        {
+            int a = 0;
+        }
+
+        private void CTGB_Algorithm_MouseClick(object sender, MouseEventArgs e)
+        {
+            int a = 0;
+        }
+
+        private void CTGB_Algorithm_Enter(object sender, EventArgs e)
+        {
+            Btn_Save.BackColor = Color.DarkOrange;
         }
     }
 }

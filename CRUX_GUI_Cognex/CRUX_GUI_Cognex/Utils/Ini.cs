@@ -334,13 +334,13 @@ public class IniFile : IEnumerable<KeyValuePair<string, IniSection>>, IDictionar
         }
     }
 
-    public void Save(string path, FileMode mode = FileMode.Create)
+    public void Save(string path, Encoding type, FileMode mode = FileMode.Create)
     {
         try
         {
             using (var stream = new FileStream(path, mode, FileAccess.Write))
             {
-                Save(stream);
+                Save(stream, type);
             }
         }
         catch (Exception ex)
@@ -350,14 +350,14 @@ public class IniFile : IEnumerable<KeyValuePair<string, IniSection>>, IDictionar
         }
     }
 
-    public void Save(Stream stream) 
+    public void Save(Stream stream, Encoding type) 
     {
         try
         {
-            using (var writer = new StreamWriter(stream))
-            {
-                Save(writer);
-            }
+                using (var writer = new StreamWriter(stream, type))
+                {
+                    Save(writer);
+                }
         }
         catch (Exception ex)
         {
@@ -365,6 +365,21 @@ public class IniFile : IEnumerable<KeyValuePair<string, IniSection>>, IDictionar
             throw ex;
         }
     }
+    //public void Save(Stream stream)
+    //{
+    //    try
+    //    {
+    //        using (var writer = new StreamWriter(stream, Encoding.Default))
+    //        {
+    //            Save(writer);
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        //Systems.LogWriter.Error(string.Format("Exception Message : {0} Stack : {1} Prev Func Name : {2} }", ex.Message.ToString(), ex.StackTrace.ToString(), $"{new StackFrame(1, true).GetMethod().Name}"));
+    //        throw ex;
+    //    }
+    //}
 
     public void Save(StreamWriter writer) 
     {
@@ -780,7 +795,7 @@ public class IniFile : IEnumerable<KeyValuePair<string, IniSection>>, IDictionar
         {
             using (var stream = new MemoryStream())
             {
-                Save(stream);
+                Save(stream, Encoding.UTF8);
                 stream.Flush();
                 var builder = new StringBuilder(Encoding.UTF8.GetString(stream.ToArray()));
                 return builder.ToString();

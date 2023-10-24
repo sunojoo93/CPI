@@ -48,6 +48,7 @@ public:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnDestroy();
+	UINT OcuuredAlarmCode = 0;
 private:
 	// 트레이 아이콘 추가
 	LRESULT TrayIconMessage(WPARAM wParam, LPARAM lParam);

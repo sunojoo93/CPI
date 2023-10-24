@@ -31,7 +31,7 @@ namespace CRUX_GUI_Cognex.Main_Form
         }
         public void SetRecipe(ref Recipes recipe)
         {
-            Shared_Recipe = recipe;
+            Shared_Recipe = recipe;            
         }
     }
 }

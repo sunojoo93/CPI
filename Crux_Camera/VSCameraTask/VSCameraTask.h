@@ -40,7 +40,7 @@ public:
 	BOOL				GetSimulationMode()			{	return m_bSimulationMode	;};
 	int					GetPcNum()					{	return m_nPcNum				;};
 	int					GetTaskNum()				{	return m_nTaskNo			;};
-	CString				GetPcName()					{	return m_strPcName; };
+	CString				GetPcName()					{	return m_strPcName			;};
 	// Set
 	void				SetCameraState(BOOL bState)	{	m_bCamState = bState		;};
 	void				SetIPCState(BOOL bState)	{	m_bIPCConnect = bState		;};

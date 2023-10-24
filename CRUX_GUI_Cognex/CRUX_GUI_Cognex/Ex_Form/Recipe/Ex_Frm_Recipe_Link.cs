@@ -59,7 +59,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -193,7 +193,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public DataTable GetImageMergeOffset()
@@ -469,7 +469,14 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void LstB_RegistedAlgorithm_MouseUp(object sender, MouseEventArgs e)
         {
-            UpdateParameter();
+            try
+            {
+                UpdateParameter();
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
 
         private void Btn_AlgorithmManage_Click(object sender, EventArgs e)
@@ -506,9 +513,8 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
-
         }
 
         private void Btn_ROIManager_Click(object sender, EventArgs e)
@@ -548,8 +554,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(CurFormIndex, Enums.LogLevel.ERROR, "[ GUI ] - ROI Form 열기 실패", false, false);
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -582,7 +587,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -594,7 +599,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -616,8 +621,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -653,7 +657,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -679,7 +683,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -699,7 +703,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -711,7 +715,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -727,7 +731,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -750,7 +754,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -790,7 +794,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -798,90 +802,106 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
 
             //오른쪽 클릭일 경우
-            if (e.Button.Equals(MouseButtons.Right))
+            try
             {
-                if (LstV_Parameter.GetItemAt(e.X, e.Y) == null)
+                if (e.Button.Equals(MouseButtons.Right))
                 {
-                }
-                else
-                {
-                }
-                //오른쪽 메뉴를 만듭니다
-                ContextMenu m = new ContextMenu();
-
-                //메뉴에 들어갈 아이템을 만듭니다
-                MenuItem m1 = new MenuItem();
-                MenuItem m2 = new MenuItem();
-
-                m1.Text = "추가";
-                m2.Text = "삭제";
-
-                m1.Click += (senders, es) =>
-                {
-                        // 파라미터 추가
-                        if (Dgv_Pattern.SelectedRows.Count <= 0 || Dgv_Roi.SelectedRows.Count <= 0 || LstB_RegistedAlgorithm.SelectedItem == null)
-                        return;
-
-                    string selectedNickname = LstV_Parameter.GetItemAt(e.X, e.Y)?.Text;
-                    string SelectedCategory = LstV_Parameter.GetItemAt(e.X, e.Y)?.Tag as string;
-
-                    string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
-                    string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
-
-
-                    string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-                    List<InspParam> FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param;
-
-                    List<string> TempList = new List<string>();
-
-                    foreach (InspParam item in FindCategory)
+                    if (LstV_Parameter.GetItemAt(e.X, e.Y) == null)
                     {
-                        TempList.Add(item.Name);
+                    }
+                    else
+                    {
+                    }
+                    ContextMenu m = new ContextMenu();
+
+                    //메뉴에 들어갈 아이템을 만듭니다
+                    MenuItem m1 = new MenuItem();
+                    MenuItem m2 = new MenuItem();
+
+                    m1.Text = "추가";
+                    m2.Text = "삭제";
+                    //오른쪽 메뉴를 만듭니다
+                    if (LstV_Parameter.SelectedItems.Count <= 0)
+                    {
+                        m2.Enabled = false;
+                    }
+                    else
+                    {
+                        m2.Enabled = true;
                     }
 
-                    Ex_Frm_Others_New_Input Frm_NewInput = new Ex_Frm_Others_New_Input("새 파라미터 입력", TempList);
-                    Frm_NewInput.ShowDialog();
-                    if (Frm_NewInput.DialogResult == DialogResult.OK)
+
+                    m1.Click += (senders, es) =>
                     {
-                        InspParam NewParam = new InspParam();
-                        NewParam.Name = Frm_NewInput.ResultName;
-                        NewParam.Value = "0";
-
-                        Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Add(NewParam);
-                        UpdateParameter();
-                    }
-                };
-
-                m2.Click += (senders, es) =>
-                {
+                    // 파라미터 추가
                     if (Dgv_Pattern.SelectedRows.Count <= 0 || Dgv_Roi.SelectedRows.Count <= 0 || LstB_RegistedAlgorithm.SelectedItem == null)
-                        return;
+                            return;
 
-                    string selectedNickname = LstV_Parameter.GetItemAt(e.X, e.Y)?.Text;
-                    string SelectedCategory = LstV_Parameter.GetItemAt(e.X, e.Y)?.Tag as string;
+                        string selectedNickname = LstV_Parameter.GetItemAt(e.X, e.Y)?.Text;
+                        string SelectedCategory = LstV_Parameter.GetItemAt(e.X, e.Y)?.Tag as string;
 
-                    string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
-                    string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
+                        string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
+                        string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
 
-                        // 파라미터 삭제
+
                         string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-                    InspParam FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == selectedNickname);
-                    Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Remove(FindCategory);
-                    UpdateParameter();
-                };
-                //메뉴에 메뉴 아이템을 등록해줍니다
-                if (LstV_Parameter.GetItemAt(e.X, e.Y) == null)
-                {
-                    m.MenuItems.Add(m1);
-                }
-                else
-                {
-                    m.MenuItems.Add(m1);
-                    m.MenuItems.Add(m2);
-                }
+                        List<InspParam> FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param;
 
-                //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
-                m.Show(LstV_Parameter, new Point(e.X, e.Y));
+                        List<string> TempList = new List<string>();
+
+                        foreach (InspParam item in FindCategory)
+                        {
+                            TempList.Add(item.Name);
+                        }
+
+                        Ex_Frm_Others_New_Input Frm_NewInput = new Ex_Frm_Others_New_Input("새 파라미터 입력", TempList);
+                        Frm_NewInput.ShowDialog();
+                        if (Frm_NewInput.DialogResult == DialogResult.OK)
+                        {
+                            InspParam NewParam = new InspParam();
+                            NewParam.Name = Frm_NewInput.ResultName;
+                            NewParam.Value = "0";
+
+                            Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Add(NewParam);
+                            UpdateParameter();
+                        }
+                    };
+
+                    m2.Click += (senders, es) =>
+                    {
+                        if (Dgv_Pattern.SelectedRows.Count <= 0 || Dgv_Roi.SelectedRows.Count <= 0 || LstB_RegistedAlgorithm.SelectedItem == null)
+                            return;
+
+                        string selectedNickname = LstV_Parameter.GetItemAt(e.X, e.Y)?.Text;
+                        string SelectedCategory = LstV_Parameter.GetItemAt(e.X, e.Y)?.Tag as string;
+
+                        string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
+                        string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
+
+                    // 파라미터 삭제
+                    string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                        InspParam FindCategory = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == selectedNickname);
+                        Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Remove(FindCategory);
+                        UpdateParameter();
+                    };
+                    //메뉴에 메뉴 아이템을 등록해줍니다
+                    if (LstV_Parameter.GetItemAt(e.X, e.Y) == null)
+                    {
+                        m.MenuItems.Add(m1);
+                    }
+                    else
+                    {
+                        m.MenuItems.Add(m1);
+                        m.MenuItems.Add(m2);
+                    }
+
+                    //현재 마우스가 위치한 장소에 메뉴를 띄워줍니다
+                    m.Show(LstV_Parameter, new Point(e.X, e.Y));
+                }
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -889,168 +909,189 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             //InputBox.Show();
             // Name 컬럼의 데이터 더블클릭 시 텍스트 박스 범위 수정 필요
-            curItem = LstV_Parameter.GetItemAt(e.X, e.Y);
-
-            if (curItem == null)
-                return;
-            curSB = curItem.GetSubItemAt(e.X, e.Y);
-            Tip.IsBalloon = true;
-            Tip.ToolTipTitle = "Tip";
-            int idxSub = curItem.SubItems.IndexOf(curSB);
-
-            int lLeft = curSB.Bounds.Left + 2;
-            int lWidth = curSB.Bounds.Width;
-            Tip.InitialDelay = 200;
-            switch (idxSub)
+            try
             {
-                case 0: // Name
+                curItem = LstV_Parameter.GetItemAt(e.X, e.Y);
 
-                    if (Tip.GetToolTip(Tb_ParamEdit) != "")
-                    {
-                        Tip.RemoveAll();
-                    }
-                    Tb_ParamEdit.BringToFront();
-                    Tip.SetToolTip(Tb_ParamEdit, "공백과 '^' 문자는 포함할 수 없습니다.");
-                    Tb_ParamEdit.SetBounds(lLeft, curSB.Bounds.Top + LstV_Parameter.Top, lWidth, curSB.Bounds.Height);
-                    Tb_ParamEdit.Text = curSB.Text;
-                    Tb_ParamEdit.Show();
-                    Tb_ParamEdit.Focus();
-                    break;
-                //case 2: // Category
-                //    if (Tip.GetToolTip(InputBox) != "")
-                //        Tip.RemoveAll();
-                //    LstB_Category.BringToFront();
-                //    //LstB_Category.SetBounds(lLeft, curSB.Bounds.Top + LstV_ROI.Top, lWidth, curSB.Bounds.Height);
-                //    LstB_Category.Location = new Point(lLeft, curSB.Bounds.Top + LstV_ROI.Top);
-                //    LstB_Category.Size = new Size(lWidth, 30);
-                //    LstB_Category.SelectedItem = curSB.Text;
-                //    LstB_Category.Show();
-                //    LstB_Category.Focus();
-                //    Tip.SetToolTip(LstB_Category, "카테고리를 변경합니다.");
-                //    break;
-                case 1: // X
-                case 2: // Y
-                case 3: // W
-                case 4: // H
-                    if (Tip.GetToolTip(Tb_ParamEdit) != "")
-                        Tip.RemoveAll();
-                    Tb_ParamEdit.BringToFront();
-                    Tip.SetToolTip(Tb_ParamEdit, "숫자만 입력해주세요.");
-                    Tb_ParamEdit.SetBounds(lLeft, curSB.Bounds.Top + LstV_Parameter.Top, lWidth, curSB.Bounds.Height);
-                    Tb_ParamEdit.Text = curSB.Text;
-                    Tb_ParamEdit.Show();
-                    Tb_ParamEdit.Focus();
-                    break;
-                default:
+                if (curItem == null)
                     return;
+                curSB = curItem.GetSubItemAt(e.X, e.Y);
+                Tip.IsBalloon = true;
+                Tip.ToolTipTitle = "Tip";
+                int idxSub = curItem.SubItems.IndexOf(curSB);
+
+                int lLeft = curSB.Bounds.Left + 2;
+                int lWidth = curSB.Bounds.Width;
+                Tip.InitialDelay = 200;
+                switch (idxSub)
+                {
+                    case 0: // Name
+
+                        if (Tip.GetToolTip(Tb_ParamEdit) != "")
+                        {
+                            Tip.RemoveAll();
+                        }
+                        Tb_ParamEdit.BringToFront();
+                        Tip.SetToolTip(Tb_ParamEdit, "공백과 '^' 문자는 포함할 수 없습니다.");
+                        Tb_ParamEdit.SetBounds(lLeft, curSB.Bounds.Top + LstV_Parameter.Top, lWidth, curSB.Bounds.Height);
+                        Tb_ParamEdit.Text = curSB.Text;
+                        Tb_ParamEdit.Show();
+                        Tb_ParamEdit.Focus();
+                        break;
+                    //case 2: // Category
+                    //    if (Tip.GetToolTip(InputBox) != "")
+                    //        Tip.RemoveAll();
+                    //    LstB_Category.BringToFront();
+                    //    //LstB_Category.SetBounds(lLeft, curSB.Bounds.Top + LstV_ROI.Top, lWidth, curSB.Bounds.Height);
+                    //    LstB_Category.Location = new Point(lLeft, curSB.Bounds.Top + LstV_ROI.Top);
+                    //    LstB_Category.Size = new Size(lWidth, 30);
+                    //    LstB_Category.SelectedItem = curSB.Text;
+                    //    LstB_Category.Show();
+                    //    LstB_Category.Focus();
+                    //    Tip.SetToolTip(LstB_Category, "카테고리를 변경합니다.");
+                    //    break;
+                    case 1: // X
+                    case 2: // Y
+                    case 3: // W
+                    case 4: // H
+                        if (Tip.GetToolTip(Tb_ParamEdit) != "")
+                            Tip.RemoveAll();
+                        Tb_ParamEdit.BringToFront();
+                        Tip.SetToolTip(Tb_ParamEdit, "숫자만 입력해주세요.");
+                        Tb_ParamEdit.SetBounds(lLeft, curSB.Bounds.Top + LstV_Parameter.Top, lWidth, curSB.Bounds.Height);
+                        Tb_ParamEdit.Text = curSB.Text;
+                        Tb_ParamEdit.Show();
+                        Tb_ParamEdit.Focus();
+                        break;
+                    default:
+                        return;
+                }
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
         private void InputBox_Leave(object sender, EventArgs e)
         {
-            if (Tb_ParamEdit.Visible)
+            try
             {
-                if (cancelEdit == false)
+                if (Tb_ParamEdit.Visible)
                 {
-                    if (Tb_ParamEdit.Text.Trim() != "")
+                    if (cancelEdit == false)
                     {
-                        if (LstV_Parameter.SelectedItems.Count > 0)
+                        if (Tb_ParamEdit.Text.Trim() != "")
                         {
-                            ListViewItem Item = LstV_Parameter.SelectedItems[0];
-
-                            string Col = curSB.Name;
-
-                            bool CoordChange = false;
-                            bool NameChange = false;
-                            string ObjectName = string.Empty;
-                            string NewObjectName = string.Empty;
-
-                            InspParam OriginItem = new InspParam();
-                            InspParam FindItem = new InspParam();
-                            string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
-                            string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
-                            string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-                            OriginItem = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == curItem.SubItems["Name"].Text);
-
-                            if (Col == "Name")
+                            if (LstV_Parameter.SelectedItems.Count > 0)
                             {
-                                if (Tb_ParamEdit.Text.Contains("^") || Tb_ParamEdit.Text.Contains(" "))
-                                {
-                                    NameChange = false;
-                                    Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
-                                    Noti.ShowDialog();
-                                }
-                                else
-                                {
-                                    NameChange = true;
+                                ListViewItem Item = LstV_Parameter.SelectedItems[0];
 
-                                    FindItem = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == Tb_ParamEdit.Text);
-                                    if (curSB.Text == Tb_ParamEdit.Text)
+                                string Col = curSB.Name;
+
+                                bool CoordChange = false;
+                                bool NameChange = false;
+                                string ObjectName = string.Empty;
+                                string NewObjectName = string.Empty;
+
+                                InspParam OriginItem = new InspParam();
+                                InspParam FindItem = new InspParam();
+                                string SelectedROI = Dgv_Roi.SelectedRows[0].Cells["Name"].Value.ToString();
+                                string SelectedAlgo = LstB_RegistedAlgorithm.SelectedItem as string;
+                                string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                                OriginItem = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == curItem.SubItems["Name"].Text);
+
+                                if (Col == "Name")
+                                {
+                                    if (Tb_ParamEdit.Text.Contains("^") || Tb_ParamEdit.Text.Contains(" "))
                                     {
-                                        Tb_ParamEdit.Hide();
-                                        LstV_Parameter.Focus();
-                                        return;
-                                    }
-                                    if (FindItem != null)
-                                    {
-                                        Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 이름이 존재합니다.");
+                                        NameChange = false;
+                                        Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "이름을 확인해주세요.");
                                         Noti.ShowDialog();
-                                        Tb_ParamEdit.Hide();
-                                        LstV_Parameter.Focus();
-                                        return;
                                     }
-
-                                    ObjectName = $"{curItem.SubItems["Name"].Text}";
-                                    curSB.Text = Tb_ParamEdit.Text;
-                                    NewObjectName = $"{Tb_ParamEdit.Text}";
-
-                                    if (ObjectName == NewObjectName)
+                                    else
                                     {
-                                        Tb_ParamEdit.Hide();
-                                        LstV_Parameter.Focus();
-                                        return;
+                                        NameChange = true;
+
+                                        FindItem = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == Tb_ParamEdit.Text);
+                                        if (curSB.Text == Tb_ParamEdit.Text)
+                                        {
+                                            Tb_ParamEdit.Hide();
+                                            LstV_Parameter.Focus();
+                                            return;
+                                        }
+                                        if (FindItem != null)
+                                        {
+                                            Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "동일한 이름이 존재합니다.");
+                                            Noti.ShowDialog();
+                                            Tb_ParamEdit.Hide();
+                                            LstV_Parameter.Focus();
+                                            return;
+                                        }
+
+                                        ObjectName = $"{curItem.SubItems["Name"].Text}";
+                                        curSB.Text = Tb_ParamEdit.Text;
+                                        NewObjectName = $"{Tb_ParamEdit.Text}";
+
+                                        if (ObjectName == NewObjectName)
+                                        {
+                                            Tb_ParamEdit.Hide();
+                                            LstV_Parameter.Focus();
+                                            return;
+                                        }
+                                        OriginItem.Name = Tb_ParamEdit.Text;
+                                        UpdateParameter();
                                     }
-                                    OriginItem.Name = Tb_ParamEdit.Text;
+                                }
+
+                                else if (Col == "Value")
+                                {
+                                    OriginItem = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == curItem.Text);
+                                    OriginItem.Value = Tb_ParamEdit.Text;
                                     UpdateParameter();
                                 }
                             }
-
-                            else if (Col == "Value")
-                            {
-                                OriginItem = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex]).Patterns.Find(x => x.Name == SelectedPtnName)?.ROI_Data.Find(x => x.Name == SelectedROI).Algo_List.Find(x => x.Name == SelectedAlgo).Param.Find(x => x.Name == curItem.Text);
-                                OriginItem.Value = Tb_ParamEdit.Text;
-                                UpdateParameter();
-                            }
+                        }
+                        else
+                        {
+                            cancelEdit = false;
                         }
                     }
-                    else
-                    {
-                        cancelEdit = false;
-                    }
                 }
+                Tb_ParamEdit.Hide();
+                LstV_Parameter.Focus();
             }
-            Tb_ParamEdit.Hide();
-            LstV_Parameter.Focus();
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
         private void InputBox_KeyDown(object sender, KeyEventArgs e)
         {
             // 엔터키 수정 ESC키 취소
 
-            switch (e.KeyCode)
+            try
             {
-                case System.Windows.Forms.Keys.Enter:
-                    cancelEdit = false;
-                    e.Handled = true;
-                    Tip.RemoveAll();
+                switch (e.KeyCode)
+                {
+                    case System.Windows.Forms.Keys.Enter:
+                        cancelEdit = false;
+                        e.Handled = true;
+                        Tip.RemoveAll();
 
-                    Tb_ParamEdit.Hide();
-                    break;
+                        Tb_ParamEdit.Hide();
+                        break;
 
-                case System.Windows.Forms.Keys.Escape:
-                    cancelEdit = true;
-                    e.Handled = true;
-                    Tb_ParamEdit.Hide();
-                    break;
+                    case System.Windows.Forms.Keys.Escape:
+                        cancelEdit = true;
+                        e.Handled = true;
+                        Tb_ParamEdit.Hide();
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -1061,23 +1102,33 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void Dgv_Pattern_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (CurPtnName != "")
-            {
-                if (Dgv_Pattern.SelectedRows.Count > 0)
-                {
-                    string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-                    DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                    Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == CurPtnName);
-                    if (Temp != null)
-                    {
-                        Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
-                        Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
-                        Temp.Insp = SelItem.Cells["Insp"].Value.toBool();
-                        Temp.Name = SelItem.Cells["Name"].Value.ToString();
-                    }
-                    CurPtnName = "";
-                }
-            }
+            //try
+            //{
+            //    if (CurPtnName != "")
+            //    {
+            //        if (Dgv_Pattern.SelectedRows.Count > 0)
+            //        {
+            //            if (Dgv_Pattern.SelectedRows[0].Cells["Name"].Value != null)
+            //            {
+            //                string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+            //                DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
+            //                Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == CurPtnName);
+            //                if (Temp != null)
+            //                {
+            //                    Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
+            //                    Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
+            //                    Temp.Insp = SelItem.Cells["Insp"].Value.toBool();
+            //                    Temp.Name = SelItem.Cells["Name"].Value.ToString();
+            //                }
+            //                CurPtnName = "";
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            //}
         }
 
         private void Dgv_Pattern_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -1097,13 +1148,15 @@ namespace CRUX_GUI_Cognex.Ex_Form
                         return;
                     DataGridViewRow Row = Dgv_Pattern.SelectedRows[0];
 
-                    string CurPtn = Row.Cells["Name"].Value.ToString();
+                    string CurPtn = Row.Cells["Name"].Value?.ToString() ?? " ";
                     CurPtnName = CurPtn;
 
                     UpdateROI();
                     if (Dgv_Roi.Rows.Count > 0)
-                        CurROIName = Dgv_Roi.Rows[0].Cells["Name"].Value.ToString();
-
+                        if (Dgv_Roi.Rows[0].Cells["Name"].Value != null)
+                        {
+                            CurROIName = Dgv_Roi.Rows[0].Cells["Name"].Value.ToString();
+                        }
                     ROI_PreView(CurROIName);
                     UpdateAlgorithm();
                     UpdateParameter();
@@ -1120,10 +1173,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 {
                     //선택된 아이템의 Text를 저장해 놓습니다. 중요한 부분.
                     string SelPatternName = string.Empty;
-                    if (Dgv_Pattern.SelectedRows.Count > 0)
-                        SelPatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-
-                    //오른쪽 메뉴를 만듭니다
                     ContextMenu m = new ContextMenu();
 
                     //메뉴에 들어갈 아이템을 만듭니다
@@ -1132,6 +1181,19 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
                     m0.Text = "New Pattern";
                     m1.Text = "Delete";
+
+                    if (Dgv_Pattern.SelectedRows.Count > 0)
+                    {
+                        SelPatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                        m1.Enabled = true;
+                    }
+                    else
+                    {
+                        m1.Enabled = false;
+                    }
+
+                    //오른쪽 메뉴를 만듭니다
+                  
                     m0.Click += (senders, ex) =>
                     {
                         try
@@ -1142,6 +1204,11 @@ namespace CRUX_GUI_Cognex.Ex_Form
                             {
                                 Pattern NewPattern = new Pattern();
                                 NewPattern.Name = Input.ResultName;
+                                for(int i = 0; i < 4; ++i)
+                                {
+                                    NewPattern.Grab_Data.AutoFocus.Add(new AutoFocus() { Number = i.ToString(), Use = true, AxisZ = 0.0 });
+                                }
+                         
                                 Shared_Recipe.ViewRecipe.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Add(NewPattern);
 
                                 UpdatePattern();
@@ -1194,7 +1261,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
                 }                
             }
         }
@@ -1206,10 +1273,10 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 if (Dgv_Pattern.SelectedRows.Count > 0)
                 {
                     string SelectedPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
-                    if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2)
+                    if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3)
                     {
                         DataGridViewRow SelItem = Dgv_Pattern.Rows[e.RowIndex];
-                        Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == SelectedPtnName);
+                        Pattern Temp = Shared_Recipe?.ViewRecipe?.Area_Data.Area?.Find(x => x.Name == Systems.CurrentSelectedAreaName[CurFormIndex])?.Patterns.Find(x => x.Name == CurPtnName);
                         Temp.Grab = SelItem.Cells["Grab"].Value.toBool();
                         Temp.Vacuum = SelItem.Cells["Vac"].Value.toBool();
                         Temp.Insp = SelItem.Cells["Insp"].Value.toBool();
@@ -1219,7 +1286,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -1235,7 +1302,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 

@@ -16,7 +16,7 @@
 #define  MAX_CAMERA_COUNT  4
 #define  MAX_AUTOFOCUS_COUNT 4
 #define  MAX_LIGHT_COUNT  4
-#define  MAX_LIGHT_CHANNEL_COUNT  28
+#define  MAX_LIGHT_CHANNEL_COUNT  50
 
 #define MAX_IMAGE_RATIO				1
 
@@ -266,12 +266,13 @@ struct ST_CAM_COND_AOT
 
 struct ST_CAM_INFOMATION
 {
+	char BoardName[100];
 	char Name[100];
 	char Type[100];
 	int Width;
 	int Height;
 	int Depth;
-	int Temp;
+	double Temp;
 	ST_CAM_INFOMATION()
 	{
 		Width = 0;
@@ -284,16 +285,15 @@ struct ST_CAM_INFOMATION
 struct ST_LIGHT_COND_AOT
 {
 	BOOL Use;
-	int Port_No;
-	int Controller_No;
-	STRU_SERIAL_INFO_AOT LightModule[MAX_LIGHT_COUNT];
+	UINT Port_No;
+	UINT Controller_No;
+	STRU_SERIAL_INFO_AOT LightModule;
 
 	ST_LIGHT_COND_AOT()
 	{
 		Use = true;
 		Port_No = 0;
 		Controller_No = 0;
-		memset(LightModule, 0, sizeof(STRU_SERIAL_INFO_AOT) * MAX_LIGHT_COUNT);
 	}
 };
 struct ST_AUTOFOCUS_AOT
@@ -316,6 +316,7 @@ struct ST_PATTERN_INFO_AOT
 	BOOL Insp;
 	int CamCondCount;
 	int LightCondCount;
+	UINT LightSequencer;
 	ST_CAM_COND_AOT Cam_Condition[MAX_CAMERA_COUNT];
 	ST_LIGHT_COND_AOT Light_Condition[MAX_LIGHT_COUNT];
 	ST_AUTOFOCUS_AOT AutoFocus_Condition[MAX_AUTOFOCUS_COUNT];
@@ -326,6 +327,7 @@ struct ST_PATTERN_INFO_AOT
 		Insp = false;
 		CamCondCount = 0;
 		LightCondCount = 0;
+		LightSequencer = 0;
 		memset(Cam_Condition, 0, sizeof(ST_CAM_COND_AOT) * MAX_CAMERA_COUNT);
 		memset(Light_Condition, 0, sizeof(ST_LIGHT_COND_AOT) * MAX_LIGHT_COUNT);
 		memset(AutoFocus_Condition, 0, sizeof(ST_AUTOFOCUS_AOT) * MAX_AUTOFOCUS_COUNT);
@@ -342,6 +344,55 @@ struct ST_GRAB_AREA_INFO_AOT
 		memset(PatternList, 0, sizeof(ST_PATTERN_INFO_AOT) * MAX_PATTERN_COUNT);
 	}
 };
+struct ST_GRAB_LIGHT_VALUE_SET_AOT
+{
+	BOOL Use;
+	UINT CtrlNo;
+	UINT LightValues;
+	
+	ST_GRAB_LIGHT_VALUE_SET_AOT()
+	{
+		Use = FALSE;
+		CtrlNo = 0;
+		LightValues = 0;
+	}
+};
+struct ST_GRAB_CAMERA_VALUE_SET_AOT
+{
+	BOOL Use;
+	int CamIndex;
+	int PtnIndex;
+	double Expose;
+	double Gain;
+	double PS;
+	double Delay;
+	double nCountF;
+	double nCountB;
+	double nStartF;
+	double nStartB;
+	double nStopF;
+	double nStopB;
+	double nPeriodF;
+	double nPeriodB;
+	ST_GRAB_CAMERA_VALUE_SET_AOT()
+	{
+		Use = false;
+		CamIndex = 0;
+		PtnIndex = 0;
+		Expose = 100;
+		Gain = 1;
+		PS = 0;
+		Delay = 0;
+		nCountF = 0;
+		nCountB = 0;
+		nStartF = 0;
+		nStartB = 0;
+		nStopF = 0;
+		nStopB = 0;
+		nPeriodF = 0;
+		nPeriodB = 0;
+	}
+};
 struct ST_RECIPE_INFO_AOT
 {
 	TCHAR RecipeName[100];
@@ -354,6 +405,33 @@ struct ST_RECIPE_INFO_AOT
 		GrabCount = 0;
 	}
 };
+struct ST_GRABIMAGE_LINKDATA
+{
+	TCHAR AreaName[50];
+	int AreaIndex;
+	int RepeatIndex;
+	int TrgCount;
+	BOOL First;
+	ST_GRABIMAGE_LINKDATA()
+	{
+		AreaIndex = 0;
+		RepeatIndex = 0;
+		TrgCount = 0;
+		First = false;
+	}
+};
+struct ST_GRABIMAGE_LINK_LIST
+{
+	ST_GRABIMAGE_LINKDATA LinkDatas[MAX_PATTERN_COUNT];
+	int GrabCount;
+
+	ST_GRABIMAGE_LINK_LIST()
+	{
+		memset(LinkDatas, 0, sizeof(ST_GRABIMAGE_LINKDATA) * MAX_PATTERN_COUNT);
+		GrabCount = 0;
+	}
+};
+
 struct IMAGE_SET_AOT
 {
 	TCHAR PatternName[50];
@@ -384,11 +462,12 @@ struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 	wchar_t strPanelID[50];
 	wchar_t strVirtualID[50];
 	wchar_t strArea[50];
+	wchar_t GrabStartTime[50];
 	int GrabLine;
 	int CamNo;
 	BOOL FirstPattern;
-
-
+	int AreaIndex;
+	int RepeatIdx;
 
 	PARAM_INSPECT_START_AOT_CHIPPING_ALM()
 	{
@@ -399,9 +478,26 @@ struct PARAM_INSPECT_START_AOT_CHIPPING_ALM
 		memset(strPanelID, 0, sizeof(strPanelID));
 		memset(strVirtualID, 0, sizeof(strVirtualID));
 		memset(strArea, 0, sizeof(strArea));
+		memset(GrabStartTime, 0, sizeof(GrabStartTime));
 		GrabLine = 0;
 		CamNo = 0;
 		FirstPattern = false;
+		AreaIndex = 0;
+		RepeatIdx = 0;
+	}
+};
+struct PARAM_INSPECTOR_RESET
+{
+	wchar_t strVirtualID[50];
+	wchar_t strPanelID[50];
+	int Result;
+	int PCNum;
+	PARAM_INSPECTOR_RESET()
+	{
+		memset(strVirtualID, 0, sizeof(strVirtualID));
+		memset(strPanelID, 0, sizeof(strPanelID));	
+		Result = 0;
+		PCNum = -1;
 	}
 };
 /////////////////////////////// AOT ///////////////////////////////

@@ -90,9 +90,9 @@
             this.Tlp_Link.Location = new System.Drawing.Point(0, 0);
             this.Tlp_Link.Name = "Tlp_Link";
             this.Tlp_Link.RowCount = 2;
-            this.Tlp_Link.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 580F));
+            this.Tlp_Link.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 628F));
             this.Tlp_Link.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Link.Size = new System.Drawing.Size(1532, 840);
+            this.Tlp_Link.Size = new System.Drawing.Size(1532, 910);
             this.Tlp_Link.TabIndex = 1;
             // 
             // Tlp_Display
@@ -105,10 +105,10 @@
             this.Tlp_Display.Location = new System.Drawing.Point(3, 3);
             this.Tlp_Display.Name = "Tlp_Display";
             this.Tlp_Display.RowCount = 3;
-            this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.Tlp_Display.Size = new System.Drawing.Size(630, 574);
+            this.Tlp_Display.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.Tlp_Display.Size = new System.Drawing.Size(630, 622);
             this.Tlp_Display.TabIndex = 9;
             // 
             // cogDisplayStatusBarV21
@@ -117,11 +117,11 @@
             this.cogDisplayStatusBarV21.CoordinateSpaceName3D = "*\\#";
             this.cogDisplayStatusBarV21.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cogDisplayStatusBarV21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.cogDisplayStatusBarV21.Location = new System.Drawing.Point(0, 548);
+            this.cogDisplayStatusBarV21.Location = new System.Drawing.Point(0, 594);
             this.cogDisplayStatusBarV21.Margin = new System.Windows.Forms.Padding(0);
             this.cogDisplayStatusBarV21.Name = "cogDisplayStatusBarV21";
             this.cogDisplayStatusBarV21.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cogDisplayStatusBarV21.Size = new System.Drawing.Size(630, 26);
+            this.cogDisplayStatusBarV21.Size = new System.Drawing.Size(630, 28);
             this.cogDisplayStatusBarV21.TabIndex = 2;
             this.cogDisplayStatusBarV21.Use3DCoordinateSpaceTree = false;
             // 
@@ -135,13 +135,13 @@
             this.Cog_ROI_Display.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cog_ROI_Display.DoubleTapZoomCycleLength = 2;
             this.Cog_ROI_Display.DoubleTapZoomSensitivity = 2.5D;
-            this.Cog_ROI_Display.Location = new System.Drawing.Point(0, 26);
+            this.Cog_ROI_Display.Location = new System.Drawing.Point(0, 28);
             this.Cog_ROI_Display.Margin = new System.Windows.Forms.Padding(0);
             this.Cog_ROI_Display.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.Cog_ROI_Display.MouseWheelSensitivity = 1D;
             this.Cog_ROI_Display.Name = "Cog_ROI_Display";
             this.Cog_ROI_Display.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("Cog_ROI_Display.OcxState")));
-            this.Cog_ROI_Display.Size = new System.Drawing.Size(630, 522);
+            this.Cog_ROI_Display.Size = new System.Drawing.Size(630, 566);
             this.Cog_ROI_Display.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -157,7 +157,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(630, 26);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(630, 28);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // cogDisplayToolbarV21
@@ -166,7 +166,7 @@
             this.cogDisplayToolbarV21.Location = new System.Drawing.Point(0, 0);
             this.cogDisplayToolbarV21.Margin = new System.Windows.Forms.Padding(0);
             this.cogDisplayToolbarV21.Name = "cogDisplayToolbarV21";
-            this.cogDisplayToolbarV21.Size = new System.Drawing.Size(430, 26);
+            this.cogDisplayToolbarV21.Size = new System.Drawing.Size(430, 28);
             this.cogDisplayToolbarV21.TabIndex = 1;
             // 
             // Btn_ImageLoad
@@ -176,7 +176,7 @@
             this.Btn_ImageLoad.Location = new System.Drawing.Point(430, 0);
             this.Btn_ImageLoad.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_ImageLoad.Name = "Btn_ImageLoad";
-            this.Btn_ImageLoad.Size = new System.Drawing.Size(200, 26);
+            this.Btn_ImageLoad.Size = new System.Drawing.Size(200, 28);
             this.Btn_ImageLoad.TabIndex = 2;
             this.Btn_ImageLoad.Text = "ImageLoad";
             this.Btn_ImageLoad.UseVisualStyleBackColor = true;
@@ -191,7 +191,7 @@
             this.Grb_ROI.Location = new System.Drawing.Point(884, 0);
             this.Grb_ROI.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_ROI.Name = "Grb_ROI";
-            this.Grb_ROI.Size = new System.Drawing.Size(187, 580);
+            this.Grb_ROI.Size = new System.Drawing.Size(187, 628);
             this.Grb_ROI.TabIndex = 10;
             this.Grb_ROI.TabStop = false;
             this.Grb_ROI.Text = "ROI";
@@ -203,13 +203,13 @@
             this.Tlp_Roi.Controls.Add(this.Dgv_Roi, 0, 0);
             this.Tlp_Roi.Controls.Add(this.Btn_ROIManager, 0, 1);
             this.Tlp_Roi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Roi.Location = new System.Drawing.Point(3, 18);
+            this.Tlp_Roi.Location = new System.Drawing.Point(3, 20);
             this.Tlp_Roi.Name = "Tlp_Roi";
             this.Tlp_Roi.RowCount = 2;
             this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Roi.Size = new System.Drawing.Size(181, 559);
+            this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 81F));
+            this.Tlp_Roi.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.Tlp_Roi.Size = new System.Drawing.Size(181, 606);
             this.Tlp_Roi.TabIndex = 0;
             // 
             // Dgv_Roi
@@ -227,7 +227,7 @@
             this.Dgv_Roi.RowTemplate.Height = 23;
             this.Dgv_Roi.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Dgv_Roi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Roi.Size = new System.Drawing.Size(175, 478);
+            this.Dgv_Roi.Size = new System.Drawing.Size(175, 519);
             this.Dgv_Roi.TabIndex = 15;
             this.Dgv_Roi.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Roi_CellEndEdit);
             this.Dgv_Roi.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Roi_CellMouseDoubleClick);
@@ -241,10 +241,10 @@
             // 
             this.Btn_ROIManager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_ROIManager.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_ROIManager.Location = new System.Drawing.Point(0, 484);
+            this.Btn_ROIManager.Location = new System.Drawing.Point(0, 525);
             this.Btn_ROIManager.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_ROIManager.Name = "Btn_ROIManager";
-            this.Btn_ROIManager.Size = new System.Drawing.Size(181, 75);
+            this.Btn_ROIManager.Size = new System.Drawing.Size(181, 81);
             this.Btn_ROIManager.TabIndex = 0;
             this.Btn_ROIManager.Text = "ROI 관리";
             this.Btn_ROIManager.UseVisualStyleBackColor = true;
@@ -259,7 +259,7 @@
             this.Grb_Algorithm.Location = new System.Drawing.Point(1071, 0);
             this.Grb_Algorithm.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_Algorithm.Name = "Grb_Algorithm";
-            this.Grb_Algorithm.Size = new System.Drawing.Size(188, 580);
+            this.Grb_Algorithm.Size = new System.Drawing.Size(188, 628);
             this.Grb_Algorithm.TabIndex = 11;
             this.Grb_Algorithm.TabStop = false;
             this.Grb_Algorithm.Text = "Algorithm";
@@ -271,14 +271,14 @@
             this.Tlp_Algorithm.Controls.Add(this.LstB_RegistedAlgorithm, 0, 0);
             this.Tlp_Algorithm.Controls.Add(this.Btn_AlgorithmManage, 0, 1);
             this.Tlp_Algorithm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Algorithm.Location = new System.Drawing.Point(3, 18);
+            this.Tlp_Algorithm.Location = new System.Drawing.Point(3, 20);
             this.Tlp_Algorithm.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_Algorithm.Name = "Tlp_Algorithm";
             this.Tlp_Algorithm.RowCount = 2;
             this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Algorithm.Size = new System.Drawing.Size(182, 559);
+            this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 81F));
+            this.Tlp_Algorithm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.Tlp_Algorithm.Size = new System.Drawing.Size(182, 606);
             this.Tlp_Algorithm.TabIndex = 0;
             // 
             // LstB_RegistedAlgorithm
@@ -292,7 +292,7 @@
             this.LstB_RegistedAlgorithm.Margin = new System.Windows.Forms.Padding(0);
             this.LstB_RegistedAlgorithm.Name = "LstB_RegistedAlgorithm";
             this.LstB_RegistedAlgorithm.ScrollAlwaysVisible = true;
-            this.LstB_RegistedAlgorithm.Size = new System.Drawing.Size(182, 484);
+            this.LstB_RegistedAlgorithm.Size = new System.Drawing.Size(182, 525);
             this.LstB_RegistedAlgorithm.TabIndex = 3;
             this.LstB_RegistedAlgorithm.MouseClick += new System.Windows.Forms.MouseEventHandler(this.LstB_RegistedAlgorithm_MouseClick);
             this.LstB_RegistedAlgorithm.SelectedIndexChanged += new System.EventHandler(this.LstB_Algorithm_SelectedIndexChanged);
@@ -304,10 +304,10 @@
             // 
             this.Btn_AlgorithmManage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Btn_AlgorithmManage.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_AlgorithmManage.Location = new System.Drawing.Point(0, 484);
+            this.Btn_AlgorithmManage.Location = new System.Drawing.Point(0, 525);
             this.Btn_AlgorithmManage.Margin = new System.Windows.Forms.Padding(0);
             this.Btn_AlgorithmManage.Name = "Btn_AlgorithmManage";
-            this.Btn_AlgorithmManage.Size = new System.Drawing.Size(182, 75);
+            this.Btn_AlgorithmManage.Size = new System.Drawing.Size(182, 81);
             this.Btn_AlgorithmManage.TabIndex = 4;
             this.Btn_AlgorithmManage.Text = "알고리즘 연결";
             this.Btn_AlgorithmManage.UseVisualStyleBackColor = true;
@@ -323,7 +323,7 @@
             this.Grb_Params.Location = new System.Drawing.Point(1259, 0);
             this.Grb_Params.Margin = new System.Windows.Forms.Padding(0);
             this.Grb_Params.Name = "Grb_Params";
-            this.Grb_Params.Size = new System.Drawing.Size(273, 580);
+            this.Grb_Params.Size = new System.Drawing.Size(273, 628);
             this.Grb_Params.TabIndex = 12;
             this.Grb_Params.TabStop = false;
             this.Grb_Params.Text = "Params";
@@ -334,12 +334,12 @@
             this.Tlp_Parameter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Tlp_Parameter.Controls.Add(this.LstV_Parameter, 0, 0);
             this.Tlp_Parameter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Parameter.Location = new System.Drawing.Point(3, 18);
+            this.Tlp_Parameter.Location = new System.Drawing.Point(3, 20);
             this.Tlp_Parameter.Name = "Tlp_Parameter";
             this.Tlp_Parameter.RowCount = 2;
             this.Tlp_Parameter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_Parameter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Parameter.Size = new System.Drawing.Size(267, 559);
+            this.Tlp_Parameter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.Tlp_Parameter.Size = new System.Drawing.Size(267, 606);
             this.Tlp_Parameter.TabIndex = 2;
             // 
             // LstV_Parameter
@@ -350,7 +350,7 @@
             this.LstV_Parameter.LabelEdit = true;
             this.LstV_Parameter.Location = new System.Drawing.Point(3, 3);
             this.LstV_Parameter.Name = "LstV_Parameter";
-            this.LstV_Parameter.Size = new System.Drawing.Size(261, 533);
+            this.LstV_Parameter.Size = new System.Drawing.Size(261, 578);
             this.LstV_Parameter.TabIndex = 0;
             this.LstV_Parameter.UseCompatibleStateImageBehavior = false;
             this.LstV_Parameter.View = System.Windows.Forms.View.Details;
@@ -374,7 +374,7 @@
             this.CAGB_Pattern.Location = new System.Drawing.Point(636, 0);
             this.CAGB_Pattern.Margin = new System.Windows.Forms.Padding(0);
             this.CAGB_Pattern.Name = "CAGB_Pattern";
-            this.CAGB_Pattern.Size = new System.Drawing.Size(248, 580);
+            this.CAGB_Pattern.Size = new System.Drawing.Size(248, 628);
             this.CAGB_Pattern.TabIndex = 13;
             this.CAGB_Pattern.TabStop = false;
             this.CAGB_Pattern.Text = "Pattern";
@@ -385,11 +385,11 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.Dgv_Pattern, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 20);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(242, 559);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(242, 606);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // Dgv_Pattern
@@ -407,7 +407,7 @@
             this.Dgv_Pattern.RowTemplate.Height = 23;
             this.Dgv_Pattern.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Dgv_Pattern.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Pattern.Size = new System.Drawing.Size(236, 553);
+            this.Dgv_Pattern.Size = new System.Drawing.Size(236, 600);
             this.Dgv_Pattern.TabIndex = 16;
             this.Dgv_Pattern.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pattern_CellEndEdit);
             this.Dgv_Pattern.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Dgv_Pattern_CellMouseDoubleClick);
@@ -420,9 +420,9 @@
             // 
             this.CAGB_ImageMergeOffset.Controls.Add(this.Dgv_MergeOffset);
             this.CAGB_ImageMergeOffset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CAGB_ImageMergeOffset.Location = new System.Drawing.Point(639, 583);
+            this.CAGB_ImageMergeOffset.Location = new System.Drawing.Point(639, 631);
             this.CAGB_ImageMergeOffset.Name = "CAGB_ImageMergeOffset";
-            this.CAGB_ImageMergeOffset.Size = new System.Drawing.Size(242, 254);
+            this.CAGB_ImageMergeOffset.Size = new System.Drawing.Size(242, 276);
             this.CAGB_ImageMergeOffset.TabIndex = 14;
             this.CAGB_ImageMergeOffset.TabStop = false;
             this.CAGB_ImageMergeOffset.Text = "Merge Offset";
@@ -439,17 +439,18 @@
             this.Dgv_MergeOffset.Name = "Dgv_MergeOffset";
             this.Dgv_MergeOffset.RowHeadersVisible = false;
             this.Dgv_MergeOffset.RowTemplate.Height = 23;
-            this.Dgv_MergeOffset.Size = new System.Drawing.Size(236, 234);
+            this.Dgv_MergeOffset.Size = new System.Drawing.Size(236, 256);
             this.Dgv_MergeOffset.TabIndex = 0;
             // 
             // Ex_Frm_Recipe_Link
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1532, 840);
+            this.ClientSize = new System.Drawing.Size(1532, 910);
             this.Controls.Add(this.Tlp_Link);
             this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("나눔스퀘어", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
             this.Name = "Ex_Frm_Recipe_Link";

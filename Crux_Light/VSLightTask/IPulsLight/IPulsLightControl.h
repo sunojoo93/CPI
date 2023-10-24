@@ -57,6 +57,10 @@ public:
 
 	WORD			GetCrc(BYTE *pBuff, WORD nByte);
 	WORD			ConvertWord(WORD nValue);
+
+	UINT32			GetAlarmCode();
+	int				ApplyLightProperty(ST_GRAB_AREA_INFO_AOT param);
+	int				ApplyValues(ST_GRAB_LIGHT_VALUE_SET_AOT param);
 	
 	// Modbus 조명 통신
 	FLOAT			Read_Func3_FLOAT(BYTE SlaveID, BYTE Func, WORD StartRegister, WORD Quantity);

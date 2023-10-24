@@ -102,7 +102,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.CAGB_SystemInfo.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.CAGB_SystemInfo.Location = new System.Drawing.Point(3, 3);
             this.CAGB_SystemInfo.Name = "CAGB_SystemInfo";
-            this.CAGB_SystemInfo.Size = new System.Drawing.Size(209, 473);
+            this.CAGB_SystemInfo.Size = new System.Drawing.Size(212, 712);
             this.CAGB_SystemInfo.TabIndex = 3;
             this.CAGB_SystemInfo.TabStop = false;
             this.CAGB_SystemInfo.Text = "System";
@@ -125,7 +125,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 195F));
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.Tlp_SystemsInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Tlp_SystemsInfo.Size = new System.Drawing.Size(203, 448);
+            this.Tlp_SystemsInfo.Size = new System.Drawing.Size(206, 687);
             this.Tlp_SystemsInfo.TabIndex = 0;
             // 
             // Tlp_CpuMemArea
@@ -267,7 +267,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_DriveInfo.RowHeadersVisible = false;
             this.Dgv_DriveInfo.RowTemplate.Height = 23;
             this.Dgv_DriveInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dgv_DriveInfo.Size = new System.Drawing.Size(384, 191);
+            this.Dgv_DriveInfo.Size = new System.Drawing.Size(384, 430);
             this.Dgv_DriveInfo.TabIndex = 3;
             // 
             // ID
@@ -295,7 +295,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Grb_InspResultList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grb_InspResultList.Location = new System.Drawing.Point(3, 3);
             this.Grb_InspResultList.Name = "Grb_InspResultList";
-            this.Grb_InspResultList.Size = new System.Drawing.Size(210, 132);
+            this.Grb_InspResultList.Size = new System.Drawing.Size(210, 203);
             this.Grb_InspResultList.TabIndex = 1;
             this.Grb_InspResultList.TabStop = false;
             this.Grb_InspResultList.Text = "Results";
@@ -317,7 +317,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Dgv_Result.ReadOnly = true;
             this.Dgv_Result.RowHeadersVisible = false;
             this.Dgv_Result.RowTemplate.Height = 23;
-            this.Dgv_Result.Size = new System.Drawing.Size(204, 112);
+            this.Dgv_Result.Size = new System.Drawing.Size(204, 183);
             this.Dgv_Result.TabIndex = 0;
             // 
             // Tlp_Bottom
@@ -328,11 +328,11 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Bottom.Controls.Add(this.Grb_InspResultList, 0, 0);
             this.Tlp_Bottom.Controls.Add(this.Grb_Log, 1, 0);
             this.Tlp_Bottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Bottom.Location = new System.Drawing.Point(218, 482);
+            this.Tlp_Bottom.Location = new System.Drawing.Point(221, 721);
             this.Tlp_Bottom.Name = "Tlp_Bottom";
             this.Tlp_Bottom.RowCount = 1;
             this.Tlp_Bottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_Bottom.Size = new System.Drawing.Size(1094, 138);
+            this.Tlp_Bottom.Size = new System.Drawing.Size(1094, 209);
             this.Tlp_Bottom.TabIndex = 2;
             // 
             // Tlp_Records
@@ -343,7 +343,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Records.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Tlp_Records.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Tlp_Records.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tlp_Records.Location = new System.Drawing.Point(215, 0);
+            this.Tlp_Records.Location = new System.Drawing.Point(218, 0);
             this.Tlp_Records.Margin = new System.Windows.Forms.Padding(0);
             this.Tlp_Records.Name = "Tlp_Records";
             this.Tlp_Records.RowCount = 4;
@@ -352,7 +352,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Records.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.92929F));
             this.Tlp_Records.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.Tlp_Records.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Records.Size = new System.Drawing.Size(1100, 479);
+            this.Tlp_Records.Size = new System.Drawing.Size(1100, 718);
             this.Tlp_Records.TabIndex = 0;
             // 
             // Tlp_Auto
@@ -373,7 +373,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.Tlp_Auto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tlp_Auto.Size = new System.Drawing.Size(1531, 623);
+            this.Tlp_Auto.Size = new System.Drawing.Size(1537, 933);
             this.Tlp_Auto.TabIndex = 1;
             // 
             // Tmr_SystemInfo
@@ -386,7 +386,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1531, 623);
+            this.ClientSize = new System.Drawing.Size(1537, 933);
             this.Controls.Add(this.Tlp_Auto);
             this.Name = "Main_Frm_Auto_For_ALM";
             this.Grb_Log.ResumeLayout(false);

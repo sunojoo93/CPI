@@ -41,7 +41,7 @@ public:
 	/************************************************************/
 		virtual UINT16	GetTriggerCount(BYTE SlaveID) {		return 0;	};
 	virtual UINT16	SequenceIndexReset(UINT8 mode, BYTE SlabeID) { return 0; };
-
+	virtual UINT32	GetAlarmCode	(UINT8 mode, BYTE SlabeID) { return 0; };
 	virtual FLOAT Read_Func3_FLOAT(BYTE SlaveID, BYTE Func, WORD StartRegister, WORD Quantity) { return 0; };
 	virtual UINT16 Read_Func3_UINT16(BYTE SlaveID, BYTE Func, WORD StartRegister, WORD Quantity) { return 0; };
 	virtual UINT32 Read_Func3_UINT32(BYTE SlaveID, BYTE Func, WORD StartRegister, WORD Quantity) { return 0; };
@@ -50,6 +50,8 @@ public:
 	virtual UINT16 Write_Func6_UINT16(BYTE SlaveID, BYTE Func, WORD StartRegister, WORD Value) { return 0; };
 	virtual UINT32 Write_Func6_UINT32(BYTE SlaveID, BYTE Func, WORD StartRegister, UINT32 Value) { return 0; };
 
+	virtual UINT16	ApplySequenceIndexer() { return 0; };
+	virtual int	ApplyLightProperty(ST_GRAB_AREA_INFO_AOT data) { return 0; };
 
 };
 

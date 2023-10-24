@@ -1,4 +1,5 @@
 ﻿using CRUX_GUI_Cognex.Class;
+using CRUX_GUI_Cognex.Class.InspVer2;
 using CRUX_GUI_Cognex.Ex_Form;
 using CRUX_GUI_Cognex.Main_Form;
 using CRUX_GUI_Cognex.Utils;
@@ -52,6 +53,8 @@ namespace CRUX_GUI_Cognex
                 Frm_Init Init = new Frm_Init();
                 Init.ShowDialog();
                 Program.SysInfo = new System_Information();
+                Program.DiskManagement = new DiskManager();
+
                 List<Recipes> Temp = Init.GetLoadedRecipe();
                 if (Init.DialogResult == DialogResult.Yes)
                 {
@@ -65,6 +68,8 @@ namespace CRUX_GUI_Cognex
                     Frm_AccountManage = new Ex_Frm_Account_Info();
                     Tlp_Main.Controls.Add(Frm_Status, 2, 0);
                     Tlp_Main.Controls.Add(Frm_AccountManage, 4, 0);
+                    AccountManager.Instance();
+                    DisplayCurrentUser();
                     Frm_Status.StartCheckStatus();
 
                     CurDisplayForm = "Upper";
@@ -77,6 +82,17 @@ namespace CRUX_GUI_Cognex
                     Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] 비정상 종료", false, false);
                     throw new Exception("Ui Initialize 실패");
                 }
+                ToolTip RunModelTooltip = new ToolTip();
+
+               
+                RunModelTooltip.AutoPopDelay = 5000;
+                RunModelTooltip.InitialDelay = 0;
+                RunModelTooltip.ReshowDelay = 0;
+                RunModelTooltip.ShowAlways = true;
+                RunModelTooltip.IsBalloon = false;
+                       
+                RunModelTooltip.SetToolTip(this.Lb_RunModel, "Run Model");
+                RunModelTooltip.SetToolTip(this.Lb_ViewModel, "View Model");
             }
             catch(Exception ex)
             {
@@ -85,7 +101,11 @@ namespace CRUX_GUI_Cognex
             }
             //Systems.RecipeContent.ViewRecipe = Utility.DeepCopy(Systems.RecipeContent.MainRecipe);
         }
-
+        public void DisplayCurrentUser()
+        {
+            User CurUser = AccountManager.Instance().GetCurrentAccount();
+            Frm_AccountManage.RefreshCurrentUser(CurUser);
+        }
         public void InitMainForm(List<Recipes> recipe)
         {
             try
@@ -102,12 +122,15 @@ namespace CRUX_GUI_Cognex
                     // 레시피를 각 폼마다 Reference로 사용
                     Program.Frm_MainContent_[i].LinkRecipe(ref Temp);
                     Cmb_SelPC.Items.Add(Globals.MAINFORM_NAME[i]);
+                    Program.Frm_MainContent_[i].TrendInitialize();
 
                     // 현재 레시피를 변환하여 시퀀스에 적용
                     CmdMsgParam SendParam = new CmdMsgParam();
                     int Ret = Consts.APP_NG;
                     ST_RECIPE_INFO ConvertedRecipe = RecipeManager.CreateSeqRecipeFromRecipe(Temp.MainRecipe);
                     SendParam.SetStruct(ConvertedRecipe);
+                    ST_GRABIMAGE_LINK_LIST ConvertedLinkData = RecipeManager.CreateSeqLinkDataFromRecipe(Systems.RecipeData_Collection[Globals.CurrentPCno]["GrabData.ini"]);
+                    SendParam.SetStruct(ConvertedLinkData);
                     Ret = Systems.g_Ipc.SendCommand((ushort)((i + 1) * 100 + IpcConst.SEQ_TASK), IpcConst.SEQ_FUNC, IpcConst.SEQ_SEND_MODEL_INFO,
                                                               IpcInterface.CMD_TYPE_RES, 100000, SendParam.GetByteSize(), SendParam.GetParam());
                 }
@@ -186,7 +209,7 @@ namespace CRUX_GUI_Cognex
                         Program.Frm_MainContent_[i].Dispose();
                         Program.Frm_MainContent_[i].Close();
 
-                        Systems.Inspector_.Dispose();
+                        Inspector_Collection.Instance().Dispose();
                     }
                 // 프로세스 리스트 종료
                 foreach (ProcessSet item in Program.GetProcessList())
@@ -254,9 +277,13 @@ namespace CRUX_GUI_Cognex
         /// 레시피 이름 지정
         /// </summary>
         /// <param name="name"></param>
-        public void SetRecipeName(string name)
+        public void SetRunModelName(string name)
         {
-            Lb_RecipeName.Text = name;
+            Lb_RunModel.Text = name;
+        }
+        public void SetViewModelName(string name)
+        {
+            Lb_ViewModel.Text = name;
         }
         /// <summary>
         /// PC간 UI 전환
@@ -292,6 +319,37 @@ namespace CRUX_GUI_Cognex
                 //Systems.LogWriter.Error(ex);
                 Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] PC 탭 전환 실패, Exception Message : {ex.Message}", true, false);
                 throw ex;
+            }
+        }
+
+        private void Lb_ViewModel_MouseDown(object sender, MouseEventArgs e)
+        {
+            // 창 잡고 끌기
+            CurWindowPosition = new Point(e.X, e.Y);
+        }
+
+        private void Lb_ViewModel_MouseMove(object sender, MouseEventArgs e)
+        {
+            // 창 잡고 끌기
+            try
+            {
+                if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+                {
+                    Program.Frm_Main.Location = new Point(this.Left - (CurWindowPosition.X - e.X), this.Top - (CurWindowPosition.Y - e.Y));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void Pb_Logo_MouseUp(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                string CurVersion = $@"Current Version is {Utility.Get_BuildDateTime(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ToString()}";
+                MessageBox.Show(CurVersion);                
             }
         }
     }

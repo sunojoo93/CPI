@@ -45,7 +45,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.PGE_ROIProp = new PropertyGridExt.PropertyGridEx();
             this.Tlp_Title = new System.Windows.Forms.TableLayoutPanel();
             this.Lb_ROIManage = new System.Windows.Forms.Label();
-            this.Btn_Apply = new System.Windows.Forms.Button();
             this.Btn_Close = new System.Windows.Forms.Button();
             this.Tlp_Buttons = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_AutoFit = new System.Windows.Forms.Button();
@@ -299,7 +298,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_Title.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_Title.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.Tlp_Title.Controls.Add(this.Lb_ROIManage, 0, 0);
-            this.Tlp_Title.Controls.Add(this.Btn_Apply, 1, 0);
             this.Tlp_Title.Controls.Add(this.Btn_Close, 2, 0);
             this.Tlp_Title.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Title.Location = new System.Drawing.Point(0, 0);
@@ -314,30 +312,18 @@ namespace CRUX_GUI_Cognex.Ex_Form
             // 
             this.Lb_ROIManage.AutoSize = true;
             this.Lb_ROIManage.BackColor = System.Drawing.Color.Silver;
+            this.Tlp_Title.SetColumnSpan(this.Lb_ROIManage, 2);
             this.Lb_ROIManage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lb_ROIManage.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Lb_ROIManage.Location = new System.Drawing.Point(0, 0);
             this.Lb_ROIManage.Margin = new System.Windows.Forms.Padding(0);
             this.Lb_ROIManage.Name = "Lb_ROIManage";
-            this.Lb_ROIManage.Size = new System.Drawing.Size(1550, 26);
+            this.Lb_ROIManage.Size = new System.Drawing.Size(1650, 26);
             this.Lb_ROIManage.TabIndex = 0;
             this.Lb_ROIManage.Text = "ROI 관리";
             this.Lb_ROIManage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.Lb_ROIManage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Lb_ROIManage_MouseDown);
             this.Lb_ROIManage.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Lb_ROIManage_MouseMove);
-            // 
-            // Btn_Apply
-            // 
-            this.Btn_Apply.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Apply.Font = new System.Drawing.Font("나눔스퀘어라운드 Bold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Btn_Apply.Location = new System.Drawing.Point(1550, 0);
-            this.Btn_Apply.Margin = new System.Windows.Forms.Padding(0);
-            this.Btn_Apply.Name = "Btn_Apply";
-            this.Btn_Apply.Size = new System.Drawing.Size(100, 26);
-            this.Btn_Apply.TabIndex = 1;
-            this.Btn_Apply.Text = "Apply";
-            this.Btn_Apply.UseVisualStyleBackColor = true;
-            this.Btn_Apply.Click += new System.EventHandler(this.Btn_Apply_Click);
             // 
             // Btn_Close
             // 
@@ -465,7 +451,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private System.Windows.Forms.ListBox LstB_Category;
         private System.Windows.Forms.TableLayoutPanel Tlp_Title;
         private System.Windows.Forms.Label Lb_ROIManage;
-        private System.Windows.Forms.Button Btn_Apply;
         private System.Windows.Forms.Button Btn_Close;
         private System.Windows.Forms.Button Btn_AutoFit;
         private System.Windows.Forms.TableLayoutPanel Tlp_Buttons;

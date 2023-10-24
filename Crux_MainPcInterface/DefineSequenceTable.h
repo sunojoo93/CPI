@@ -29,6 +29,8 @@
 #define START_GRAB_REQ								21, 20
 #define START_AF_READY							21, 23
 #define START_GRAB_END							21, 24
+#define START_GRAB_SEQ_RESET					21, 87
+
 // Main PC Interface
 #define START_MAIN_PC_IF_SOCKET						20, 1
 

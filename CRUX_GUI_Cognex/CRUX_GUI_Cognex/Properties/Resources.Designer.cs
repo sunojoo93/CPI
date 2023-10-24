@@ -101,6 +101,16 @@ namespace CRUX_GUI_Cognex.Properties {
         }
         
         /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap DownArrow {
+            get {
+                object obj = ResourceManager.GetObject("DownArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   (아이콘)과(와) 유사한 System.Drawing.Icon 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
         internal static System.Drawing.Icon Icon {
@@ -206,6 +216,16 @@ namespace CRUX_GUI_Cognex.Properties {
         internal static System.Drawing.Bitmap Unstable {
             get {
                 object obj = ResourceManager.GetObject("Unstable", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap UpArrow {
+            get {
+                object obj = ResourceManager.GetObject("UpArrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

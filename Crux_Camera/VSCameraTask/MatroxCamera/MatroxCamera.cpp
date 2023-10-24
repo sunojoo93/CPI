@@ -1487,7 +1487,7 @@ long MFTYPE HookFrameEnd(long HookType, MIL_ID EventId, void *UserDataPtr)
 	return 0;
 }
 
-MIL_INT MFTYPE ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void MPTYPE *HookDataPtr)
+MIL_INT MFTYPE ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr)
 {
 	CMatroxCamera *pData = (CMatroxCamera*)HookDataPtr;
 
@@ -1525,12 +1525,12 @@ long MFTYPE HookTimerEnd(long HookType, MIL_ID EventId, void *UserDataPtr)
 }
 
 
-void CMatroxCamera::WaitGrabEnd()
+int CMatroxCamera::WaitGrabEnd()
 {	
 	if (m_bFreeRunLive || m_bTriggerLive)
 	{
-		//MdigGrabWait(m_milDigitizer, M_FRAME_END);
-		return;
+		MdigGrabWait(m_milDigitizer, M_FRAME_END);
+		return 0;
 	}
 
 	if (m_bIsMultiShot)

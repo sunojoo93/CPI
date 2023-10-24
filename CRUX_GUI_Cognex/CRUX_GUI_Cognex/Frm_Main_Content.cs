@@ -26,11 +26,11 @@ namespace CRUX_GUI_Cognex
         public Ex_Frm_Menubar Frm_MenuBar;
 
         // 오토 폼
-        public Main_Frm_Auto_For_CHIPPING Frm_Auto_Chipping;
+        public Main_Frm_Auto_For_CHIPPING_Ver2 Frm_Auto_Chipping;
         public Main_Frm_Auto_For_ALM Frm_Auto_ALM;
         public Main_Frm_Auto Frm_Auto_Default;
         // 메뉴얼 폼
-        public Main_Frm_Manual Frm_Manual;
+        public Main_Frm_Manual_Ver2 Frm_Manual;
         // 레시피 폼
         public Main_Frm_Recipe Frm_Recipe;
         // 광학 폼
@@ -38,8 +38,15 @@ namespace CRUX_GUI_Cognex
         public Main_Frm_Algorithm Frm_Algorithm;
         public Frm_MainContent ()
         {
-            InitializeComponent();
-            Initialize();
+            try
+            {
+                InitializeComponent();
+                Initialize();
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
         public Recipes GetRecipe()
         {
@@ -62,7 +69,7 @@ namespace CRUX_GUI_Cognex
             {
                 if (Globals.Insp_Type[0] == 5)
                 {
-                    Frm_Auto_Default.SetRecipe(ref recipe);
+                    (Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).SetRecipe(ref recipe);
                 }
                 if (Globals.Insp_Type[0] == 6)
                 {
@@ -73,7 +80,25 @@ namespace CRUX_GUI_Cognex
                 Frm_Recipe.SetRecipe(ref recipe);
                 Frm_Optical.SetRecipe(ref recipe);
                 Frm_Algorithm.SetRecipe(ref Recipe);
-                Frm_Recipe.RefeshRecipe();
+                Frm_Recipe.RefeshRecipe();                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void TrendInitialize()
+        {
+            try
+            {
+                if (Globals.Insp_Type[0] == 5)
+                {
+                    (Frm_Auto_Default as Main_Frm_Auto_For_CHIPPING_Ver2).TrendInitialize();
+                }
+                if (Globals.Insp_Type[0] == 6)
+                {
+        
+                }
             }
             catch (Exception ex)
             {
@@ -89,7 +114,7 @@ namespace CRUX_GUI_Cognex
                 Frm_MenuBar = new Ex_Frm_Menubar() { Owner = this.Owner };
                 if (Globals.Insp_Type[0] == 5)
                 {
-                    Frm_Auto_Default = new Main_Frm_Auto_For_CHIPPING() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+                    Frm_Auto_Default = new Main_Frm_Auto_For_CHIPPING_Ver2() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
                     Frm_Auto_Default.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
                 }
                 else if (Globals.Insp_Type[0] == 6)
@@ -103,7 +128,7 @@ namespace CRUX_GUI_Cognex
                     Frm_Auto_Default.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
                 }
 
-                Frm_Manual = new Main_Frm_Manual() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+                Frm_Manual = new Main_Frm_Manual_Ver2() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
                 Frm_Manual.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex);
                 Frm_Manual.SetRecipe(ref Recipe);
 
