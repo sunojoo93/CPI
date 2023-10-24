@@ -1140,11 +1140,18 @@ namespace CRUX_GUI_Cognex.Class.InspVer2
                             if (ResultTemp.Count == ResultTemp.FindAll(x => x.Find == true).Count)
                             {
                                 List<JudgementDefectResult> FindManyDefect = ResultTemp.FindAll(x => x.Count != 0);
-                                List<JudgementDefectResult> SortedSamePriority = FindManyDefect.OrderBy(x => x.Priority).ToList();
+                                if(FindManyDefect.Count > 0)
+                                {
+                                    List<JudgementDefectResult> SortedSamePriority = FindManyDefect.OrderBy(x => x.Priority).ToList();
 
-                                MajorGrade = g_item.GradeName;
-                                MajorDefect = SortedSamePriority[0].DefectName;
-                                MajorDefectCode = SortedSamePriority[0].DefectCode;
+                                    MajorGrade = g_item.GradeName;
+                                    MajorDefect = SortedSamePriority[0].DefectName;
+                                    MajorDefectCode = SortedSamePriority[0].DefectCode;
+                                }
+                                else
+                                {
+                                    MajorGrade = g_item.GradeName;
+                                }   
                                 break;
                             }
                         }
