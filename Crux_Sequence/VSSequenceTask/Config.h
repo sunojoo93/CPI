@@ -17,8 +17,8 @@
 
 #define VS_SEQUENCE_TASK_INI_FILE			theApp.m_Config.GETDRV() + _T(":\\CRUX\\Data\\INI\\CRUX_Sequence.ini")
 #define PATH_INIT_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\Initialize.ini")
-#define PATH_GUI_INIT_FILE					theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\CRUX_GUI_Renewal.ini")
-#define PATH_DalsaLineCamera_FILE			theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\DalsaLineCamera1.ini")
+#define PATH_GUI_INIT_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\CRUX_GUI_Renewal.ini")
+#define PATH_DalsaLineCamera_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\DalsaLineCamera1.ini")
 #define PATH_DEVICE_FILE					theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\Device.cfg")
 #define PATH_MODEL_FILE						theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\MODEL\\")
 #define PATH_PG_INIT_FILE					theApp.m_Config.GETDRV() + _T(":\\CRUX\\DATA\\INI\\PGController.ini")
@@ -93,7 +93,6 @@ public:
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 	CString GETDRV()
 	{
 		TCHAR buff[MAX_PATH];
@@ -115,6 +114,8 @@ public:
 	//	}		
 	//};
 	BOOL					IsDust(int nGrabCnt)									{	return m_bIsUseLight[nGrabCnt]											;};
+	BOOL					GetSaveParticleImage()									{	return m_bSaveParticleImage												;};
+	void					SetSaveParticleImage(BOOL temp)							{	m_bSaveParticleImage = temp												;};
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	int		GetGrabCount(CString AreaName)
 	{
@@ -192,6 +193,30 @@ public:
 			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
 			{
 				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition[nLightNum];
+			}
+		}
+	};
+	ST_LIGHT_COND_AOT*		GetAllLightInfo(CString AreaName, int nGrabCnt)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
+			{
+				return m_stModelInfo.GrabArea[i].PatternList[nGrabCnt].Light_Condition;
+			}
+		}
+	};
+	ST_GRAB_AREA_INFO_AOT	GetAreaInfo(CString AreaName)
+	{
+		for (int i = 0; i < m_stModelInfo.GrabCount; ++i)
+		{
+			CString AreaNameTemp;
+			AreaNameTemp.Format(_T("%s"), m_stModelInfo.GrabArea[i].Name);
+			if (AreaNameTemp.MakeUpper() == AreaName.MakeUpper())
+			{
+				return m_stModelInfo.GrabArea[i];
 			}
 		}
 	};
@@ -319,15 +344,27 @@ public:
 			}
 		}
 	};
+	ST_GRABIMAGE_LINKDATA AnalyzeInspStartPacket(int area_idx, int repeat_idx)
+	{
+		ST_GRABIMAGE_LINKDATA Temp;
+		Temp.AreaIndex = -99;
+		for(int i = 0 ; i < m_stLinkInfo.GrabCount; ++i)
+		{
+			if (area_idx == m_stLinkInfo.LinkDatas[i].AreaIndex && repeat_idx == m_stLinkInfo.LinkDatas[i].RepeatIndex)
+			{
+				Temp = m_stLinkInfo.LinkDatas[i];
+				return Temp;
+			}			
+		}
+		return Temp;
+	};
 	bool					UpdatePGVoltInfo(CString strMtpDrv, CString strOrgFilePath);		// 17.08.10 PG Voltage 값 갱신 함수
 	//void					SetPgInfo(ST_PG_INFO stPgInfo)							{	m_stModelInfo.stPgInfo = stPgInfo										;};
 	//int						GetCurPgIndex(int nGrabCnt)	{if (IsDust(nGrabCnt)) return DUST_PG_INDEX;	return m_stModelInfo.stPgInfo.stPgData[nGrabCnt].nPtnNum;};
 	void					SetModelInfo(ST_RECIPE_INFO_AOT* pStModelInfo)				{	m_stModelInfo = *pStModelInfo;							 };
-
+	void					SetGrabLinkInfo(ST_GRABIMAGE_LINK_LIST* pStLinkInfo)		{ m_stLinkInfo = *pStLinkInfo;								 };
 	//// AOT ////
 	//void					SetModelInfo_AOT(ST_RECIPE_INFO_AOT* pStModelInfo) { m_stModelInfo = *pStModelInfo;	/*SetUseLight();*/ };
-
-
 
 private:
 	void					Write(TCHAR* sec, TCHAR* key, UINT val);
@@ -365,10 +402,12 @@ private:
 
 	// Model Info
 	ST_RECIPE_INFO_AOT			m_stModelInfo;
+	ST_GRABIMAGE_LINK_LIST      m_stLinkInfo;
 	//ST_RECIPE_INFO_AOT		m_stModelInfo_AOT;
 
 	// 조명 사용 유무 (DUST 판단용)
 	BOOL					m_bIsUseLight[MAX_GRAB_STEP_COUNT];
+	BOOL					m_bSaveParticleImage;
 //	ST_PG_INFO				m_stPgInfo;
 	// 	BOOL					m_bUseStep;
 	// 	CString					m_strGrabName[MAX_GRAB_COUNT];

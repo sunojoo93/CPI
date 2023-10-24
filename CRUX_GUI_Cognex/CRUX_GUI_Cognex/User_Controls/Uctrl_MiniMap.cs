@@ -169,7 +169,7 @@ namespace CRUX_GUI_Cognex.User_Controls
                                 System.Diagnostics.Debug.WriteLine("{0} // {1} // {2} // {3}", m_imgRect.Width, m_imgRect.Height, nWidth, nHeight);
                             }
                             nRet = Systems.g_Ipc.SendCommand((ushort)((m_nVisionNo + 1) * 100 + IpcConst.CAMERA_TASK + m_nCamIndex), IpcConst.CAMERA_FUNC, IpcConst.LIVE_REQ,
-                                                                IpcInterface.CMD_TYPE_RES, 500 /*IpcInterface.CMD_TIMEOUT*/, Param.GetByteSize(), Param.GetParam(), (int)Enums.CompressLevel.NONE, 1000);
+                                                                IpcInterface.CMD_TYPE_RES, 10000 /*IpcInterface.CMD_TIMEOUT*/, Param.GetByteSize(), Param.GetParam(), (int)Enums.CompressLevel.NONE, 1000);
                             if (nRet == Consts.APP_OK)
                             {
 

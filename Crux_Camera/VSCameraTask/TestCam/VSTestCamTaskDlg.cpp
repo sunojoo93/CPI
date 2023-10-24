@@ -496,11 +496,15 @@ void CVSCameraTaskDlg::OnBnClickedButtonCam()
 {
 	//TestCam* param = &DalsaLineParam::Instance();
 	int buttonID = GetFocus()->GetDlgCtrlID();
+	int TrgCnt = 20;
 	CString VirID;
 	struct tm curr_tm;
 	time_t curr_time = time(nullptr);
 	_localtime64_s(&curr_tm, &curr_time);
 	VirID.Format(_T("%4d%02d%02d-%02d%02d%02d"), curr_tm.tm_year + 1900, curr_tm.tm_mon + 1, curr_tm.tm_mday, curr_tm.tm_hour, curr_tm.tm_min, curr_tm.tm_sec);
+	CString IniPath;
+	IniPath = theApp.GetInitFilePath();
+	TrgCnt = GetPrivateProfileInt(_T("Settings"), _T("LineCount"), 20, IniPath);
 	switch (buttonID)
 	{
 	case IDC_BUTTON_CAM_LOAD:
@@ -545,12 +549,10 @@ void CVSCameraTaskDlg::OnBnClickedButtonCam()
 		//m_checkReverse.SetCheck(param->GetParamInt(_T("rev")));
 		break;
 	case IDC_BUTTON_CAM_GRABSTART:
-
-
-		((CTestCam*)theApp.m_pCamera)->StartGrab(VirID, VirID, _T("Test"), 84,false, true);
+		((CTestCam*)theApp.m_pCamera)->StartGrab(VirID, VirID, _T("Test"), TrgCnt,false, true, true);
 		break;
 	case IDC_BUTTON_CAM_GRABSTOP:
-		((CTestCam*)theApp.m_pCamera)->StopGrab(84);
+		((CTestCam*)theApp.m_pCamera)->StopGrab(TrgCnt);
 		break;
 	}
 }

@@ -30,6 +30,7 @@ namespace CRUX_GUI_Cognex
         // For multi ui thread
         public static Ex_Frm_Others_Loading LoadingForm;
         public static System_Information SysInfo;
+        public static DiskManager DiskManagement;
         /// <summary>
         /// 해당 응용 프로그램의 주 진입점입니다.
         /// </summary>
@@ -45,24 +46,29 @@ namespace CRUX_GUI_Cognex
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            #if !DEBUG
+            
             var Temp = IsExistProcess();
             if ( Temp != null )
             {
                 DialogResult dr = MessageBox.Show($"현재 프로그램이 실행 중 입니다. \nPID : {Temp.Id}, Start Time : {Temp.StartTime} \n (Yes : 기존 프로그램 활성화) (No : 모두 종료)", "알림", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 IntPtr procHandler = WinApis.FindWindow(null, Temp.MainWindowTitle);
-                if ( dr == DialogResult.Yes )
+                if (dr == DialogResult.Yes)
                 {
                     //활성화
                     WinApis.ShowWindow(procHandler, (int)Enums.WINDOWS_STATE.SW_SHOW);
                     WinApis.SetForegroundWindow(procHandler);
                 }
-                else if ( dr == DialogResult.No )                
+                else if (dr == DialogResult.No)
+                {
                     Temp.Kill();
-                
-                Application.Exit();
+                    Application.Exit();
+                }               
+
                 return;
             }
+            #endif
             Frm_Main = new Frm_Main();
             Application.Run(Frm_Main);
         }
@@ -89,143 +95,232 @@ namespace CRUX_GUI_Cognex
         }
         static Process FindOldestProcess (List<Process> procs)
         {
-            var Temp = procs.OrderBy(x => x.StartTime);
-            return Temp.ElementAt(0);
+            try
+            {
+                var Temp = procs.OrderBy(x => x.StartTime);
+                return Temp.ElementAt(0);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public static void StartVSServer ()
         {
-            var procs = Process.GetProcessesByName("VisualStationServer");
-            if ( procs.Length == 0 )
+            try
             {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\VisualStationServer.exe");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
+                var procs = Process.GetProcessesByName("VisualStationServer");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\VisualStationServer.exe");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public static void StartLight(string task_name, int task_num, string ini_name)
         {
-            var procs = Process.GetProcessesByName(task_name);
-            if (procs.Length == 0)
+            try
             {
-                //bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
-                ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" {task_num} {ini_name}.ini");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
-            }
-        }
-        public static void StartMainInterface ()
-        {
-            var procs = Process.GetProcessesByName("Crux_MainPcInterface");
-            if ( procs.Length == 0 )
-            {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\Crux_MainPcInterface.exe");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
-            }
-        }
-        public static void StartAutoFocus()
-        {
-            var procs = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
-            if (procs.Length == 0)
-            {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\AFTS_SimplifiedExample_MFC.exe", "1 AFCamera1.ini" );
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
-            }
-        }
-        public static void StartDalsaCameraTask ()
-        {
-            var procs = Process.GetProcessesByName("DalsaLineCameraTask");
-            if ( procs.Length == 0 )
-            {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\DalsaLineCameraTask.exe", "1 DalsaLineCamera1.ini");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
-            }
-        }
-        public static void StartSimulCameraTask ()
-        {
-            var procs = Process.GetProcessesByName("SimulationCameraTask");
-            if ( procs.Length == 0 )
-            {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\SimulationCameraTask.exe", " 1 SimulationCamera1.ini");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
-            }
-        }
-        public static void StartCameraTask(string task_name, int task_num, string ini_name)
-        {
-
                 var procs = Process.GetProcessesByName(task_name);
                 if (procs.Length == 0)
                 {
-                //bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
+                    //bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
                     ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" {task_num} {ini_name}.ini");
                     Psi.WindowStyle = ProcessWindowStyle.Minimized;
                     var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
                     ProcessList.Add(temp);
                 }
-            
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static void StartMainInterface ()
+        {
+            try
+            {
+                var procs = Process.GetProcessesByName("Crux_MainPcInterface");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\Crux_MainPcInterface.exe");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static void StartAutoFocus()
+        {
+            try
+            {
+                var procs = Process.GetProcessesByName("AFTS_SimplifiedExample_MFC");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\AFTS_SimplifiedExample_MFC.exe", "1 AFCamera1.ini");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static void StartDalsaCameraTask ()
+        {
+            try
+            {
+                var procs = Process.GetProcessesByName("DalsaLineCameraTask");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\DalsaLineCameraTask.exe", "1 DalsaLineCamera1.ini");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static void StartSimulCameraTask ()
+        {
+            try
+            {
+                var procs = Process.GetProcessesByName("SimulationCameraTask");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\SimulationCameraTask.exe", " 1 SimulationCamera1.ini");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static void StartCameraTask(string task_name, int task_num, string ini_name)
+        {
+            try
+            {
+                var procs = Process.GetProcessesByName(task_name);
+                if (procs.Length == 0)
+                {
+                    //bool Temp = fileProc.FileExists($@"D:\CRUX\DATA\INI\TestCam1.ini");
+                    ProcessStartInfo Psi = new ProcessStartInfo($@"D:\CRUX\EXE\{task_name}.exe", $@" {task_num} {ini_name}.ini");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }            
         }
         public static void StartTrivisionLight ()
         {
-            var procs = Process.GetProcessesByName("TrivisionLightTask");
-            if ( procs.Length == 0 )
+            try
             {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\TrivisionLightTask.exe", "1 TrivisionLight.ini");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
+                var procs = Process.GetProcessesByName("TrivisionLightTask");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\TrivisionLightTask.exe", "1 TrivisionLight.ini");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public static void StartLLightLight ()
         {
-            var procs = Process.GetProcessesByName("LLightLightTask");
-            if ( procs.Length == 0 )
+            try
             {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\LLightLightTask.exe", "2 LLightLight.ini");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
+                var procs = Process.GetProcessesByName("LLightLightTask");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\LLightLightTask.exe", "2 LLightLight.ini");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public static void StartSequence ()
         {
-            var procs = Process.GetProcessesByName("VSSequenceTask");
-            if ( procs.Length == 0 )
+            try
             {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\VSSequenceTask.exe");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
+                var procs = Process.GetProcessesByName("VSSequenceTask");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\VSSequenceTask.exe");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public static void StartAlgorithm ()
         {
-            var procs = Process.GetProcessesByName("VSAlgorithmTask");
-            if ( procs.Length == 0 )
+            try
             {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\VSAlgorithmTask.exe");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
+                var procs = Process.GetProcessesByName("VSAlgorithmTask");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\VSAlgorithmTask.exe");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public static void StartSpaceManager ()
         {
-            var procs = Process.GetProcessesByName("SpaceManagerCS");
-            if ( procs.Length == 0 )
+            try
             {
-                ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\SpaceManagerCS.exe");
-                Psi.WindowStyle = ProcessWindowStyle.Minimized;
-                var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
-                ProcessList.Add(temp);
+                var procs = Process.GetProcessesByName("SpaceManagerCS");
+                if (procs.Length == 0)
+                {
+                    ProcessStartInfo Psi = new ProcessStartInfo(@"D:\CRUX\EXE\\SpaceManagerCS.exe");
+                    Psi.WindowStyle = ProcessWindowStyle.Minimized;
+                    var temp = new ProcessSet(Process.Start(Psi), Enums.WINDOWS_STATE.SW_MINIMIZE);
+                    ProcessList.Add(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public static void KillTasks ()
@@ -293,19 +388,32 @@ namespace CRUX_GUI_Cognex
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", false, false);
+                throw ex;
             }
         }
         public static ProcessSet GetProcess(string name)
         {
-            return ProcessList.Find(x => x.Proc.ProcessName == name);
+            try
+            {
+                return ProcessList.Find(x => x.Proc.ProcessName == name);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            KillTasks();
-            //Systems.LogWriter.Info("Process Exit");
-            Systems.WriteLog(0, Enums.LogLevel.ERROR, "[ GUI ] Process Exit", false, false);
+            try
+            {
+                KillTasks();
+                //Systems.LogWriter.Info("Process Exit");
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, "[ GUI ] Process Exit", false, false);
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] Program _ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
 
         ////이벤트 클래스(처리되지 않은 예외)

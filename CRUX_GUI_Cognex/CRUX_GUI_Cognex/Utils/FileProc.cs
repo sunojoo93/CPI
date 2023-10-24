@@ -288,11 +288,11 @@ namespace CRUX_GUI_Cognex
         /// 작성자 : 임경민 (IKM)
         /// /클래스 : fileProc    
         /// </summary>
-        public static ArrayList getDirList(string path)
+        public static List<string> getDirList(string path)
         {
             System.IO.DirectoryInfo Info = new System.IO.DirectoryInfo((path));
 
-            ArrayList aryLst = new ArrayList();
+            List<string> aryLst = new List<string>();
 
             if (Info.Exists)
             {
@@ -302,7 +302,6 @@ namespace CRUX_GUI_Cognex
                 foreach (var info in Info.GetDirectories("*", System.IO.SearchOption.TopDirectoryOnly))
                 {
                    aryLst.Add(info.FullName.ToString());
-
                 }
             }
             return aryLst;

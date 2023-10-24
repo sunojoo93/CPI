@@ -39,7 +39,7 @@ namespace CRUX_GUI_Cognex
         //public static IniFile[] ROI_Property;        
         public static List<string> AvaliableCamNameList = new List<string>();
         public static List<string> AvaliableLightNameList = new List<string>();
-
+        public static object LockObj1 = new object();
 
         // Server와 통신을 하기 위한 인덱스
         public static int CurDisplayIndex { get; set; } = 0;
@@ -47,13 +47,21 @@ namespace CRUX_GUI_Cognex
 
         public static void SetIniEnvironment()
         {
-            IniFile Default_INI = new IniFile();
-            Default_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
+            try
+            {
+                IniFile Default_INI = new IniFile();
+                Default_INI.Load($"{Paths.INIT_GUI_RENEWAL_PATH}");
 
-            Globals.MaxVisionCnt = Default_INI["UI_Property"]["VisionTotalCount"].ToInt();
-            Globals.CurrentPCno = Default_INI["UI_Property"]["CurrentUINumber"].ToInt();
-            Globals.MAINFORM_NAME = Default_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
-            Globals.PcName = Default_INI["PC_INFO"]["Name"].ToString();
+                Globals.MaxVisionCnt = Default_INI["UI_Property"]["VisionTotalCount"].ToInt();
+                Globals.CurrentPCno = Default_INI["UI_Property"]["CurrentUINumber"].ToInt();
+                Globals.MAINFORM_NAME = Default_INI["UI_Property"]["Name"].ToString().Split(',').ToList();
+                Globals.PcName = Default_INI["PC_INFO"]["Stage"].ToString();
+                Globals.PcActiveName = Default_INI["PC_INFO"]["Active"].ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// 
@@ -63,42 +71,49 @@ namespace CRUX_GUI_Cognex
         /// <param name="ui_write">UI에 로그를 남기는지에 대한 플래그</param>
         public static void WriteLog(int pc_num, Enums.LogLevel lv, string data, bool ui_write, bool manual)
         {
-            string Time = DateTime.Now.ToString("HH:mm:ss.fff");
-            string FullLog = $"[ {Time} ] - {data}";
-            switch(lv)
+            try
             {
-                case Enums.LogLevel.ALL:
-                    //Systems.LogWriter.
-                    break;                    
-                case Enums.LogLevel.OPERATION:
-                    Systems.LogWriter?.Debug(FullLog);
-                    break;
-                case Enums.LogLevel.ERROR:
-                    Systems.LogWriter?.Error(FullLog);
-                    break;
-                case Enums.LogLevel.FATAL:
-                    Systems.LogWriter?.Fatal(FullLog);
-                    break;
-                case Enums.LogLevel.INFO:
-                    Systems.LogWriter?.Info(FullLog);
-                    break;
-                case Enums.LogLevel.WARNNING:
-                    Systems.LogWriter?.Warn(FullLog);
-                    break;
-                default:
-                    break;
-            }
-            if (ui_write && !manual)
-            {
-                string WriteMsg = $"[ {Time} ] - {data}";
-                Program.Ui_LogPrint_Auto[pc_num]?.Enqueue(lv, WriteMsg);
-            }
-            if (ui_write && manual)
-            {
-                string WriteMsg = $"[ {Time} ] - {data}";
-                Program.UI_LogPrint_Manual[pc_num]?.Enqueue(lv, WriteMsg);
-            }
+                string Time = DateTime.Now.ToString("HH:mm:ss.fff");
+                string FullLog = $"[ {Time} ] - {data}";
+                switch (lv)
+                {
+                    case Enums.LogLevel.ALL:
+                        //Systems.LogWriter.
+                        break;
+                    case Enums.LogLevel.OPERATION:
+                        Systems.LogWriter?.Fatal(FullLog);
+                        break;
+                    case Enums.LogLevel.ERROR:
+                        Systems.LogWriter?.Error(FullLog);
+                        break;
+                    case Enums.LogLevel.WARNNING:
+                        Systems.LogWriter?.Warn(FullLog);
+                        break;
+                    case Enums.LogLevel.INFO:
+                        Systems.LogWriter?.Info(FullLog);
+                        break;
+                    case Enums.LogLevel.DEBUG:
+                        Systems.LogWriter?.Debug(FullLog);
+                        break;
+                    default:
+                        break;
+                }
+                if (ui_write && !manual)
+                {
+                    string WriteMsg = $"[ {Time} ] - {data}";
+                    Program.Ui_LogPrint_Auto[pc_num]?.Enqueue(lv, WriteMsg);
+                }
+                if (ui_write && manual)
+                {
+                    string WriteMsg = $"[ {Time} ] - {data}";
+                    Program.UI_LogPrint_Manual[pc_num]?.Enqueue(lv, WriteMsg);
+                }
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

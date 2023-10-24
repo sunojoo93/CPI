@@ -27,59 +27,80 @@ namespace CRUX_GUI_Cognex.Main_Form
         public bool Finished { get; set; } = false;
         public Frm_Init()
         {
-            InitializeComponent();
-            lbl_CurrentState.Parent = CircleProgressBar;
-            //타이머 객체 시작 필요
-            //if (CircleProgressBar.ColorTimer)
-            //    Task.Factory.StartNew(() => CircleProgressBar.TimerStart());
-            Globals.MaxVisionCnt = Convert.ToInt32(iniUtl.GetIniValue("Common", "VISION PC COUNT", Paths.INIT_PATH));
+            try
+            {
+                InitializeComponent();
+                lbl_CurrentState.Parent = CircleProgressBar;
+                //타이머 객체 시작 필요
+                //if (CircleProgressBar.ColorTimer)
+                //    Task.Factory.StartNew(() => CircleProgressBar.TimerStart());
+                Globals.MaxVisionCnt = Convert.ToInt32(iniUtl.GetIniValue("Common", "VISION PC COUNT", Paths.INIT_PATH));
 
-            thread = new Thread(new ParameterizedThreadStart(initialize));
-            thread.IsBackground = true;
-            thread.Name = "Initial Thread";
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start(this);
+                thread = new Thread(new ParameterizedThreadStart(initialize));
+                thread.IsBackground = true;
+                thread.Name = "Initial Thread";
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start(this);
+            }
+            catch (Exception ex)
+            {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
+            }
         }
         public List<Recipes> GetLoadedRecipe()
         {
-            return RecipeList.Count > 0 ? RecipeList : null;
+            try
+            {
+                return RecipeList.Count > 0 ? RecipeList : null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private void Device_Info_Init()
         {
-            int TotalCamCount = 0;
-            int TotalLightCount = 0;
-            for(int i = 0; i < Consts.MAX_CAMERA_COUNT; ++i)
+            try
             {
-                IniSection GrabberSection = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Grabber_Board"];
-                bool GrabberUseFlag = GrabberSection[$"Frame Grabber_{i}"].ToString().Trim() == "T" ? true : false;
-                Grabber_Connection Temp = new Grabber_Connection();
-                Temp.Use = GrabberUseFlag;
-                if (GrabberUseFlag)
+                int TotalCamCount = 0;
+                int TotalLightCount = 0;
+                for (int i = 0; i < Consts.MAX_CAMERA_COUNT; ++i)
                 {
-                    for (int j = 0; j < Consts.MAX_DIGITIZER_COUNT; ++j)
+                    IniSection GrabberSection = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Grabber_Board"];
+                    bool GrabberUseFlag = GrabberSection[$"Frame Grabber_{i}"].ToString().Trim() == "T" ? true : false;
+                    Grabber_Connection Temp = new Grabber_Connection();
+                    Temp.Use = GrabberUseFlag;
+                    if (GrabberUseFlag)
                     {
-                        bool CameraFlag = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Frame Grabber_{i}"][$"Insp Camera_{j}"].ToString().Trim() == "T" ? true : false;
-                        Temp.Digitizer.Add(CameraFlag);
-                        if (CameraFlag)
+                        for (int j = 0; j < Consts.MAX_DIGITIZER_COUNT; ++j)
                         {
-                            Systems.AvaliableCamNameList.Add($"CAM#{TotalCamCount}");
-                            TotalCamCount++;
+                            bool CameraFlag = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Frame Grabber_{i}"][$"Insp Camera_{j}"].ToString().Trim() == "T" ? true : false;
+                            Temp.Digitizer.Add(CameraFlag);
+                            if (CameraFlag)
+                            {
+                                Systems.AvaliableCamNameList.Add($"CAM#{TotalCamCount}");
+                                TotalCamCount++;
+                            }
                         }
                     }
-                }    
-                Camera_Connection_Environment.Instance().Grabber.Add(Temp);
-            }
-
-            for (int i = 0; i < Consts.MAX_LIGHT_PORT_COUNT; ++i)
-            {
-                bool LightUseFlag = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Light Controller"][$"PORT_{i+1}"].ToString().Trim() == "1" ? true : false;
-
-                Light_Connection_Environment.Instance().Light_Cond.PortNum.Add(LightUseFlag);
-                if (LightUseFlag)
-                {
-                    Systems.AvaliableLightNameList.Add($"CAM#{TotalLightCount}");
-                    TotalLightCount++;
+                    Camera_Connection_Environment.Instance().Grabber.Add(Temp);
                 }
+
+                for (int i = 0; i < Consts.MAX_LIGHT_PORT_COUNT; ++i)
+                {
+                    bool LightUseFlag = Systems.Ini_Collection[Globals.CurrentPCno]["Device.Cfg"][$"Light Controller"][$"PORT_{i + 1}"].ToString().Trim() == "1" ? true : false;
+
+                    Light_Connection_Environment.Instance().Light_Cond.PortNum.Add(LightUseFlag);
+                    if (LightUseFlag)
+                    {
+                        Systems.AvaliableLightNameList.Add($"CAM#{TotalLightCount}");
+                        TotalLightCount++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -102,7 +123,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Closing Program..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Closing Program...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Closing Program...", false, false);
                                 Program.KillTasks();
                                 ++InitFlag;
                             }
@@ -115,7 +136,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Set Environment..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Set Environment...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Set Environment...", false, false);
                                 //Systems.LogWriter.Info("Set Evironment...");
                                 Thread t = new Thread(() =>
                                {
@@ -140,7 +161,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Read Program Data..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Read Program Data...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Read Program Data...", false, false);
                                 m_fnLoadInitInfo();
                                 ++InitFlag;
                             }
@@ -153,7 +174,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Read Camera Information..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Read Camera Information...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Read Camera Information...", false, false);
                                 Device_Info_Init();
                                 ++InitFlag;
                             }
@@ -166,7 +187,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize IPC..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize IPC...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize IPC...", false, false);
                                 InitializeIpc();
                                 Program.StartVSServer();
                                 Thread.Sleep(3000);
@@ -181,11 +202,11 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Camera Program..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Camera Program...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize Camera Program...", false, false);
                                 if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
                                     if (SimulMode.ToString() == "FALSE")
-                                        //Program.StartCameraTask("TestCamTask", 1,"TestCam1"); // 추후에 수정
+                                       // Program.StartCameraTask("TestCamTask", 1,"TestCam1"); // 추후에 수정
                                     Program.StartCameraTask("VistekCameraTask", 1, "VistekCamera1"); // 추후에 수정
                                     else
                                         Program.StartSimulCameraTask();
@@ -210,7 +231,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Access Shared Memory..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Access Shared Memory...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Access Shared Memory...", false, false);
                                 if (SimulMode.ToString() == "FALSE")
                                 {
                                     Systems.SharedMemory = new Class.SharedMem();
@@ -233,7 +254,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Job..."));
                                 LoadRecipe(); // 모델 적용
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Job...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize Job...", false, false);
                                 ++InitFlag;
                             }
                             catch (Exception ex)
@@ -245,11 +266,11 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Inspector..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Inspector...", false, false);
-                                Systems.Inspector_ = Inspector_Collection.Instance();
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize Inspector...", false, false);
+                                //Systems.Inspector_ = Inspector_Collection.Instance();
                                 for (int i = 0; i < Globals.MaxVisionCnt; ++i)
                                 {
-                                    if (!Systems.Inspector_.CreateInspectorFromRecipe(RecipeList[0].MainRecipe)) // 다중 피씨 고려해서 추후에 수정 필요함
+                                    if (!Inspector_Collection.Instance().CreateInspectorFromRecipe(RecipeList[0].MainRecipe)) // 다중 피씨 고려해서 추후에 수정 필요함
                                     {
                                         Ex_Frm_Notification_Announce Noti = new Ex_Frm_Notification_Announce(Enums.ENUM_NOTIFICAION.ERROR, "Inspector 생성 오류가 발생했습니다.");
                                         Noti.ShowDialog();
@@ -266,7 +287,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Main Program..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Main Program...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize Main Program...", false, false);
                                 Program.StartMainInterface();
                                 ++InitFlag;
                             }
@@ -279,12 +300,12 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize AF Program..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize AF Program...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize AF Program...", false, false);
                                 if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
                                     if (SimulMode.ToString() == "FALSE")
                                     {
-                                        if (Globals.PcName == "L1")
+                                        if (Globals.PcActiveName.ToUpper() == "RearChipping".ToUpper() && Globals.PcName == "1")
                                             Program.StartAutoFocus();
                                     }
                                     else
@@ -297,7 +318,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                                 {
                                     if (SimulMode.ToString() == "FALSE")
                                     {
-                                        Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Skip AF Program...", false, false);
+                                        Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize Skip AF Program...", false, false);
                                     }
                                 }
                                 ++InitFlag;
@@ -311,7 +332,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Sequence Program..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Sequence Program...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize Sequence Program...", false, false);
                                 Program.StartSequence();
                                 ++InitFlag;
                             }
@@ -324,7 +345,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                             try
                             {
                                 setControlText(lbl_CurrentState, string.Format("Initialize Light Program..."));
-                                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Initialize Light Program...", false, false);
+                                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Initialize Light Program...", false, false);
                                 if (Globals.Insp_Type[0] == 5) // CHIPPING
                                 {
                                     if (SimulMode.ToString() == "FALSE")
@@ -371,7 +392,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                     while (Temp != true) ;
                 }
 
-                Systems.WriteLog(0, Enums.LogLevel.INFO, "[ GUI ] Program Opening...", false, false);
+                Systems.WriteLog(0, Enums.LogLevel.DEBUG, "[ GUI ] Program Opening...", false, false);
                 setControlText(lbl_CurrentState, string.Format("Program Opening... "));
                 Thread.Sleep(500);
                 DialogResult = DialogResult.Yes;
@@ -402,7 +423,7 @@ namespace CRUX_GUI_Cognex.Main_Form
                     setTextboxContent(lbl_CurrentState, string.Format("프로그램을 종료합니다."), Color.Black);
                     DialogResult = DialogResult.No;
                 }
-                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", false, false);
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
                 CircleProgressBar.TimerStop();
                 //DialogResult = DialogResult.No;
                 //Program.KillAllTask();
@@ -456,16 +477,27 @@ namespace CRUX_GUI_Cognex.Main_Form
                 //Globals.DrawRctColor = new Color[5]; // ROI 색은 5개까지
                 //for(int i = 0; i < Globals.DrawRctColor.Count(); i++)
                 //Globals.MAINFORM_NAME = new List<string>();
+                Paths.FIXED_DRIVE = new string[Globals.MaxVisionCnt];
                 Paths.NET_DRIVE = new string[Globals.MaxVisionCnt];
                 Paths.NET_INITIAL_PATH = new string[Globals.MaxVisionCnt];
                 Paths.NET_ORIGIN_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_JPG_PATH = new string[Globals.MaxVisionCnt];
                 Paths.NET_RESULT_PATH = new string[Globals.MaxVisionCnt];
-                Paths.NET_INSPDATA_PATH = new string[Globals.MaxVisionCnt];
-                Paths.NET_ALGRESULT_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_REFERENCE_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_ALGORITHM_PATH = new string[Globals.MaxVisionCnt];
                 Paths.NET_PANEL_INFO = new string[Globals.MaxVisionCnt];
                 Paths.NET_PANEL_MANUAL_INFO = new string[Globals.MaxVisionCnt];
                 Paths.NET_RECIPE_PATH = new string[Globals.MaxVisionCnt];
+                Paths.PROGRAM_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_CURRENT_DRIVE = new string[Globals.MaxVisionCnt];
                 Paths.MANUAL_RESULT_DATA_DRIVE = new string[Globals.MaxVisionCnt];
+                Paths.FINAL_RESULT = new string[Globals.MaxVisionCnt];
+                Paths.RECORD_PATH = new string[Globals.MaxVisionCnt];
+                Paths.RECORD_IMAGE_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_DEFECTTREND_BACKUP_PATH = new string[Globals.MaxVisionCnt];
+                Paths.NET_DEFECTTREND_EXTRACT_PATH = new string[Globals.MaxVisionCnt];
+                Paths.RESULT_HISTORY_PATH = new string[Globals.MaxVisionCnt];
+
                 Globals.Insp_Type = new int[Globals.MaxVisionCnt];
                 Program.Ui_LogPrint_Auto = new List<LogPrinter>();
                 Program.UI_LogPrint_Manual = new List<LogPrinter>();
@@ -491,41 +523,55 @@ namespace CRUX_GUI_Cognex.Main_Form
                     }
 
                     if (Modes.NET_SIMULATION_MODE)
-                        Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE_SIMUL", Paths.INIT_PATH);
+                        Paths.NET_DRIVE[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["NetDrive"].ToString().Trim();
                     else
-                        Paths.NET_DRIVE[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "DRIVE", Paths.INIT_PATH);
+                        Paths.NET_DRIVE[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["NetDrive"].ToString().Trim();
+
                     Globals.Insp_Type[i] = Systems.Ini_Collection[i]["Initialize.ini"]["Common"]["TYPE"].toInt();
 
 
                     //Paths.OPERATION_PATH = iniUtl.GetIniValue("OperationPC", "Address", Paths.INIT_PATH); // 0623 JSO
-                    Paths.NET_ORIGIN_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ORIGIN_PATH", Paths.INIT_PATH);
-                    Paths.NET_RESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RESULT_PATH", Paths.INIT_PATH);
-                    Paths.NET_INSPDATA_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INSPDATA_PATH", Paths.INIT_PATH);
+
                     Paths.NET_PANEL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_PATH", Paths.INIT_PATH);
+            
                     Paths.NET_PANEL_MANUAL_INFO[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "PANELINFO_MANUAL_PATH", Paths.INIT_PATH);
-                    Paths.NET_ALGRESULT_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "ALGOLITHM_RESULT_PATH", Paths.INIT_PATH);
-                    Paths.NET_RECIPE_PATH[i] = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "RECIPE_PATH", Paths.INIT_PATH);
-
-                    string strInitPath = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INIT_PATH", Paths.INIT_PATH);
-                    Paths.NET_INITIAL_PATH[i] = Path.Combine(Paths.NET_DRIVE[i], strInitPath);
+                    Paths.FIXED_DRIVE[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["FixedPath"].ToString().Trim();
+                    Paths.NET_ORIGIN_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["OriginImagePath"].ToString().Trim();
+                    Paths.NET_JPG_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["JpgImagePath"].ToString().Trim();
+                    Paths.NET_RESULT_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["InspResultPath"].ToString().Trim();
+                    Paths.NET_REFERENCE_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["ReferencePath"].ToString().Trim();
+                    Paths.NET_CURRENT_DRIVE[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["CurDrive"].ToString().Trim();
+                    Paths.NET_ALGORITHM_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["AlgorithmPath"].ToString().Trim();
+                    //string a1 = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["RecipePath"].ToString().Trim();
+                    Paths.NET_RECIPE_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["RecipePath"].ToString().Trim();
+                    Paths.NET_DEFECTTREND_BACKUP_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["DefectTrendBackUpPath"].ToString().Trim();
+                    Paths.NET_DEFECTTREND_EXTRACT_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["DefectTrendExtractPath"].ToString().Trim();
+                    //string strInitPath = iniUtl.GetIniValue("NETWORK_DRIVE_PATH_" + (i + 1), "INIT_PATH", Paths.INIT_PATH);
+                    // Paths.NET_INITIAL_PATH[i] = Path.Combine(Paths.NET_DRIVE[i], strInitPath);
                     Paths.MANUAL_RESULT_DATA_DRIVE[i] = iniUtl.GetIniValue("DiskInformation", "Simulation Drive", "D", Paths.NET_INITIAL_PATH[i]).ToString().toSplit(0, '_') + Consts.NET_DRIVE_NAME;
-
+                    Paths.PROGRAM_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["ProgramPath"].ToString().Trim();
+                    Paths.FINAL_RESULT[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["FinalResultPath"].ToString().Trim();
+                    Paths.RECORD_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["RecordPath"].ToString().Trim();
+                    Paths.RECORD_IMAGE_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["RecordImagePath"].ToString().Trim();
+                    Paths.RESULT_HISTORY_PATH[i] = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_PATH"]["ResultHistoryPath"].ToString().Trim();
                     Systems.AliveList[i].init();
 
-                    string AlgorithmPath = Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"][$@"PC{i + 1}_AlgorithmPath"]["Path"].ToString();
-                    ArrayList FileList = fileProc.getFileList(AlgorithmPath, ".vpp");
-                    foreach (string item in FileList)
-                    {
-                        string[] Temp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
-                        Algorithm_Infomation Info = new Algorithm_Infomation();
+                    string AlgorithmPath = $@"{Paths.NET_DRIVE[i]}{Paths.FIXED_DRIVE[i]}{Paths.PROGRAM_PATH[i]}{Paths.NET_ALGORITHM_PATH[i]}";
+                    //ArrayList FileList = fileProc.getFileList(AlgorithmPath, ".vpp");
+                    //foreach (string item in FileList)
+                    //{
+                    //    string[] Temp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
+                    //    Algorithm_Infomation Info = new Algorithm_Infomation();
 
-                        string FileName = Temp[Temp.Length - 1];
-                        string[] Name = FileName.Split('.');
-                        Info.Name = Name[0];
-                        Info.Path = item;
-                        Info.FileName = FileName;
-                        Systems.Algo_Info.Add(Info);
-                    }
+                    //    string FileName = Temp[Temp.Length - 1];
+                    //    string[] Name = FileName.Split('.');
+                    //    Info.Name = Name[0];
+                    //    Info.Path = item;
+                    //    Info.FileName = FileName;
+                    //    Systems.Algo_Info.Add(Info);
+                    //}
+
+                    AlgorithmManager.GetAlgorithmForVpp(AlgorithmPath, ref Systems.Algo_Info);
                 }
                 Globals.nLanguageFlg = iniUtl.GetIniValue("common", "Language", Paths.INIT_PATH).toInt();
             }
@@ -556,14 +602,15 @@ namespace CRUX_GUI_Cognex.Main_Form
                 {
                     Systems.CurrentApplyRecipeName.Add(new PropertyString(new Action(() =>
                     {
-                        Program.Frm_Main?.SetRecipeName(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+                        Program.Frm_Main?.SetRunModelName(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
+                        Program.Frm_Main?.SetViewModelName(Systems.CurrentApplyRecipeName[Systems.CurDisplayIndex].GetString());
                     })));
                     Systems.CurrentSelectedAreaName.Add("");
                     Systems.RecipeData_Collection.Add(new Dictionary<string, IniFile>());
                     Systems.CurrentSelectedRecipe.Add("");
                     string RecipeName = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipeName"].ToString().Replace(" ", "");
-                    string Path = (Systems.Ini_Collection[i]["CRUX_GUI_Renewal.ini"])[$@"PC{i + 1}_LastUsedRecipe"]["RecipePath"].ToString().Replace(" ", "");
-                    ArrayList FileList = fileProc.getFileList($@"{Paths.RECIPE_PATH_RENEWAL}{RecipeName}");
+                    string Path = Paths.NET_DRIVE[i] + Paths.FIXED_DRIVE[i] + Paths.PROGRAM_PATH[i] + Paths.NET_RECIPE_PATH[i];
+                    ArrayList FileList = fileProc.getFileList($@"{Path}{RecipeName}");
 
                     RecipeList.Add(new Recipes());
                     RecipeManager.ReadRecipe(Path, RecipeList[i].MainRecipe, RecipeName);
@@ -595,7 +642,6 @@ namespace CRUX_GUI_Cognex.Main_Form
                 Thread thread = new Thread(new ThreadStart(delegate () { ThreadConnectVSServer(); }));
                 thread.IsBackground = true;
                 thread.Start();
-
             }
             catch (Exception ex)
             {
@@ -708,6 +754,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
                 throw ex;
             }
         }
@@ -728,6 +775,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
                 throw ex;
             }
         }
@@ -748,6 +796,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
                 throw ex;
             }
         }
@@ -770,7 +819,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -784,7 +832,7 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                throw ex;
+                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {Name}_ Exception Message : {ex.Message} StackTrace : {ex.StackTrace}", false, false);
             }
         }
 
@@ -809,7 +857,6 @@ namespace CRUX_GUI_Cognex.Main_Form
             }
             catch (Exception ex)
             {
-                Systems.WriteLog(0, Enums.LogLevel.ERROR, $"[ GUI ] {ex.Message}", false, false);
                 throw ex;
             }
         }

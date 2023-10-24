@@ -221,15 +221,15 @@ BOOL CVSLightTaskDlg::OnInitDialog()
 	GetDlgItem(IDC_TB_RATED4)->SetWindowTextW(Led_Rated4);
 
 	CString Duration;
-	Duration.Format(_T("%d"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0310, 2));
+	Duration.Format(_T("%f"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0310, 2));
 	GetDlgItem(IDC_TB_DURATION)->SetWindowTextW(Duration);
 
 	CString Period;
-	Period.Format(_T("%d"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0312, 2));
+	Period.Format(_T("%f"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0312, 2));
 	GetDlgItem(IDC_TB_PERIOD)->SetWindowTextW(Period);
 
 	CString TriggerDelay;
-	TriggerDelay.Format(_T("%d"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0314, 2));
+	TriggerDelay.Format(_T("%f"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0314, 2));
 	GetDlgItem(IDC_TB_TRGDELAY)->SetWindowTextW(TriggerDelay);
 
 	CString Voltage;
@@ -240,38 +240,58 @@ BOOL CVSLightTaskDlg::OnInitDialog()
 	MultiTrigger.Format(_T("%d"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0318, 2));
 	GetDlgItem(IDC_TB_MULTITRG)->SetWindowTextW(MultiTrigger);
 
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_INTERNAL))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_DIGIO))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_RJ45))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_SOFT))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_CHAPORT))->SetCheck(FALSE);
+
 	WORD TrgInput = theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0301, 1);
 	if (TrgInput == 0)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_INTERNAL))->SetCheck(TRUE);
-	if (TrgInput == 1)
+	else if (TrgInput == 1)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_DIGIO))->SetCheck(TRUE);
-	if (TrgInput == 2)
+	else if (TrgInput == 2)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_RJ45))->SetCheck(TRUE);
-	if (TrgInput == 3)
+	else if (TrgInput == 3)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_SOFT))->SetCheck(TRUE);
-	if (TrgInput == 4)
+	else if (TrgInput == 4)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_CHAPORT))->SetCheck(TRUE);
+	else {}
+
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_RISING))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_FALLING))->SetCheck(FALSE);
 
 	WORD TrgActivation = theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0302, 1);
 	if (TrgActivation == 0)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_RISING))->SetCheck(TRUE);
-	if (TrgActivation == 1)
+	else if (TrgActivation == 1)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_FALLING))->SetCheck(TRUE);
+	else {}
 
+
+
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_LED))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_TRGINPUT))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_ERREVTSGN))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_LOW))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_HIGH))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_BYPASS))->SetCheck(FALSE);
 
 	WORD TrgOutput = theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0303, 1);
-	if (SeqMode == 0)
+	if (TrgOutput == 0)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_LED))->SetCheck(TRUE);
-	if (SeqMode == 1)
+	else if (TrgOutput == 1)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_TRGINPUT))->SetCheck(TRUE);
-	if (SeqMode == 2)
+	else if (TrgOutput == 2)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_ERREVTSGN))->SetCheck(TRUE);
-	if (SeqMode == 3)
+	else if (TrgOutput == 3)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_LOW))->SetCheck(TRUE);
-	if (SeqMode == 4)
+	else if (TrgOutput == 4)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_HIGH))->SetCheck(TRUE);
-	if (SeqMode == 5)
+	else if (TrgOutput == 5)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_BYPASS))->SetCheck(TRUE);
+	else {}
 	//theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0331, 1);
 	//theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0332, 1);
 	//theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0333, 1);
@@ -436,28 +456,28 @@ BOOL CVSLightTaskDlg::PreTranslateMessage(MSG* pMsg)
 	if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == GetDlgItem(IDC_TB_PULSE1_RATE)->m_hWnd && pMsg->wParam == VK_RETURN)
 	{
 		CString Data;
-		GetDlgItem(IDC_TB_CONTI1_RATE)->GetWindowTextW(Data);
+		GetDlgItem(IDC_TB_PULSE1_RATE)->GetWindowTextW(Data);
 		WORD Value = _ttoi(Data);
 		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0340, Value);
 	}
 	if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == GetDlgItem(IDC_TB_PULSE2_RATE)->m_hWnd && pMsg->wParam == VK_RETURN)
 	{
 		CString Data;
-		GetDlgItem(IDC_TB_CONTI1_RATE)->GetWindowTextW(Data);
+		GetDlgItem(IDC_TB_PULSE2_RATE)->GetWindowTextW(Data);
 		WORD Value = _ttoi(Data);
 		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0341, Value);
 	}
 	if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == GetDlgItem(IDC_TB_PULSE3_RATE)->m_hWnd && pMsg->wParam == VK_RETURN)
 	{
 		CString Data;
-		GetDlgItem(IDC_TB_CONTI1_RATE)->GetWindowTextW(Data);	
+		GetDlgItem(IDC_TB_PULSE3_RATE)->GetWindowTextW(Data);
 		WORD Value = _ttoi(Data);
 		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0342, Value);
 	}
 	if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == GetDlgItem(IDC_TB_PULSE4_RATE)->m_hWnd && pMsg->wParam == VK_RETURN)
 	{
 		CString Data;
-		GetDlgItem(IDC_TB_CONTI1_RATE)->GetWindowTextW(Data);	
+		GetDlgItem(IDC_TB_PULSE4_RATE)->GetWindowTextW(Data);
 		WORD Value = _ttoi(Data);
 		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0343, Value);
 	}
@@ -535,28 +555,28 @@ BOOL CVSLightTaskDlg::PreTranslateMessage(MSG* pMsg)
 	if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == GetDlgItem(IDC_TB_RATED1)->m_hWnd && pMsg->wParam == VK_RETURN)
 	{
 		CString Data;
-		GetDlgItem(IDC_TB_SEQ_IDX7)->GetWindowTextW(Data);
+		GetDlgItem(IDC_TB_RATED1)->GetWindowTextW(Data);
 		WORD Value = _ttoi(Data);
 		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0350, 0);
 	}
 	if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == GetDlgItem(IDC_TB_RATED2)->m_hWnd && pMsg->wParam == VK_RETURN)
 	{
 		CString Data;
-		GetDlgItem(IDC_TB_SEQ_IDX7)->GetWindowTextW(Data);
+		GetDlgItem(IDC_TB_RATED2)->GetWindowTextW(Data);
 		WORD Value = _ttoi(Data);
 		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0351, 0);
 	}
 	if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == GetDlgItem(IDC_TB_RATED3)->m_hWnd && pMsg->wParam == VK_RETURN)
 	{
 		CString Data;
-		GetDlgItem(IDC_TB_SEQ_IDX7)->GetWindowTextW(Data);
+		GetDlgItem(IDC_TB_RATED3)->GetWindowTextW(Data);
 		WORD Value = _ttoi(Data);
 		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0352, 0);
 	}
 	if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == GetDlgItem(IDC_TB_RATED4)->m_hWnd && pMsg->wParam == VK_RETURN)
 	{
 		CString Data;
-		GetDlgItem(IDC_TB_SEQ_IDX7)->GetWindowTextW(Data);
+		GetDlgItem(IDC_TB_RATED4)->GetWindowTextW(Data);
 		WORD Value = _ttoi(Data);
 		theApp.m_pLight->Write_Func6_UINT16((BYTE)0, (BYTE)0x06, (WORD)0x0353, 0);
 	}
@@ -664,10 +684,16 @@ void CVSLightTaskDlg::OnTimer(UINT_PTR nIDEvent)
 			CString AlarmCount;
 			AlarmCount.Format(_T("%d"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0104, 2));
 			GetDlgItem(IDC_TB_ALARMCNT)->SetWindowTextW(AlarmCount);
+			theApp.OccuredAlaramCode = _ttoi(AlarmCount);		
 
 			CString SequenceIndex;
 			SequenceIndex.Format(_T("%d"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0106, 2));
 			GetDlgItem(IDC_TB_SEQIDX)->SetWindowTextW(SequenceIndex);
+
+			CString Temperature;
+			Temperature.Format(_T("%f"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x010E, 2));
+			//GetDlgItem(IDC_TB_ALARMCNT)->SetWindowTextW(AlarmCount);
+			theApp.Temperature = _ttoi(Temperature);
 		}
 	}	
 
@@ -894,7 +920,7 @@ void CVSLightTaskDlg::OnBnClickedBtnGetAlarmcnt()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	CString AlarmCount;
-	AlarmCount.Format(_T("%d"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0104, 2));
+	AlarmCount.Format(_T("%x"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0104, 2));
 	GetDlgItem(IDC_TB_ALARMCNT)->SetWindowTextW(AlarmCount);
 }
 
@@ -1073,15 +1099,15 @@ void CVSLightTaskDlg::OnBnClickedBtnLoad()
 	GetDlgItem(IDC_TB_RATED4)->SetWindowTextW(Led_Rated4);
 
 	CString Duration;
-	Duration.Format(_T("%d"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0310, 2));
+	Duration.Format(_T("%f"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0310, 2));
 	GetDlgItem(IDC_TB_DURATION)->SetWindowTextW(Duration);
 
 	CString Period;
-	Period.Format(_T("%d"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0312, 2));
+	Period.Format(_T("%f"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0312, 2));
 	GetDlgItem(IDC_TB_PERIOD)->SetWindowTextW(Period);
 
 	CString TriggerDelay;
-	TriggerDelay.Format(_T("%d"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0314, 2));
+	TriggerDelay.Format(_T("%f"), theApp.m_pLight->Read_Func3_FLOAT((BYTE)0, (BYTE)0x03, (WORD)0x0314, 2));
 	GetDlgItem(IDC_TB_TRGDELAY)->SetWindowTextW(TriggerDelay);
 
 	CString Voltage;
@@ -1092,38 +1118,58 @@ void CVSLightTaskDlg::OnBnClickedBtnLoad()
 	MultiTrigger.Format(_T("%d"), theApp.m_pLight->Read_Func3_UINT32((BYTE)0, (BYTE)0x03, (WORD)0x0318, 2));
 	GetDlgItem(IDC_TB_MULTITRG)->SetWindowTextW(MultiTrigger);
 
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_INTERNAL))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_DIGIO))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_RJ45))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_SOFT))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_CHAPORT))->SetCheck(FALSE);
+
+
 	WORD TrgInput = theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0301, 1);
 	if (TrgInput == 0)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_INTERNAL))->SetCheck(TRUE);
-	if (TrgInput == 1)
+	else if (TrgInput == 1)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_DIGIO))->SetCheck(TRUE);
-	if (TrgInput == 2)
+	else if (TrgInput == 2)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_RJ45))->SetCheck(TRUE);
-	if (TrgInput == 3)
+	else if (TrgInput == 3)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_SOFT))->SetCheck(TRUE);
-	if (TrgInput == 4)
+	else if (TrgInput == 4)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_CHAPORT))->SetCheck(TRUE);
+	else {}
+
+
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_RISING))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_FALLING))->SetCheck(FALSE);
 
 	WORD TrgActivation = theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0302, 1);
 	if (TrgActivation == 0)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_RISING))->SetCheck(TRUE);
-	if (TrgActivation == 1)
+	else if (TrgActivation == 1)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_FALLING))->SetCheck(TRUE);
+	else {}
 
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_LED))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_TRGINPUT))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_ERREVTSGN))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_LOW))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_HIGH))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO_TRG_BYPASS))->SetCheck(FALSE);
 
 	WORD TrgOutput = theApp.m_pLight->Read_Func3_UINT16((BYTE)0, (BYTE)0x03, (WORD)0x0303, 1);
-	if (SeqMode == 0)
+	if (TrgOutput == 0)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_LED))->SetCheck(TRUE);
-	if (SeqMode == 1)
+	else if (TrgOutput == 1)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_TRGINPUT))->SetCheck(TRUE);
-	if (SeqMode == 2)
+	else if (TrgOutput == 2)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_ERREVTSGN))->SetCheck(TRUE);
-	if (SeqMode == 3)
+	else if (TrgOutput == 3)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_LOW))->SetCheck(TRUE);
-	if (SeqMode == 4)
+	else if (TrgOutput == 4)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_HIGH))->SetCheck(TRUE);
-	if (SeqMode == 5)
+	else if (TrgOutput == 5)
 		((CButton*)GetDlgItem(IDC_RADIO_TRG_BYPASS))->SetCheck(TRUE);
+	else {}
 }
 
 
@@ -1172,6 +1218,10 @@ void CVSLightTaskDlg::OnBnClickedBtnAlarmReset2()
 			CString Anal;
 			Anal.Format(_T("알람 설명 : %s\nSOP : %s"), AlarmDesc[i], AlarmSOP[i]);
 			AfxMessageBox(Anal);
+			return;
 		}
 	}
+	CString Anal;
+	Anal.Format(_T("확인되지 않은 알람 : %s"), Code);
+	AfxMessageBox(Anal);
 }

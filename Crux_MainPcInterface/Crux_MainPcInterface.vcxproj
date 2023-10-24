@@ -14,6 +14,7 @@
     <ProjectGuid>{22311FA6-4B83-4A82-B962-BCFC6F6B0AC6}</ProjectGuid>
     <RootNamespace>Crux_MainPcInterface</RootNamespace>
     <Keyword>MFCProj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

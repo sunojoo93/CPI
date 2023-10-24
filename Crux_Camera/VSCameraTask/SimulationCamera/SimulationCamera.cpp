@@ -244,9 +244,10 @@ void CSimulationCamera::GetBrightnessVal( int nWantMean, CRect rect, int& nOutEx
 	nOutGain = nGain;
 }
 
-void CSimulationCamera::WaitGrabEnd()
+int CSimulationCamera::WaitGrabEnd()
 {
 	Sleep(m_nSimulationGrabTime);
+	return 0;
 }
 void CSimulationCamera::SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode)
 {

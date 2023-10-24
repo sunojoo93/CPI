@@ -4,6 +4,10 @@ using CRUX_GUI_Cognex;
 using CRUX_GUI_Cognex.Class;
 using CRUX_GUI_Cognex.Ex_Form;
 using CRUX_GUI_Cognex.Utils;
+using log4net;
+using log4net.Appender;
+using log4net.Layout;
+using log4net.Repository.Hierarchy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -155,50 +159,14 @@ namespace CRUX_GUI_Cognex
             }
         }
 
-        public static void RecipeSerialize<T>(string path, string name, T recipe)
-        {
-            string FullPath = $@"{path}\{name}";
-            //string path = @"D:\CRUX\DATA\Recipes\Test\Patterns11.xml";
-            var ns = new XmlSerializerNamespaces();
-            ns.Add(string.Empty, string.Empty);
 
-            var xs = new XmlSerializer(typeof(T));
-            using (var sw = new StreamWriter(FullPath))
-            {
-                var info = recipe;
-                xs.Serialize(sw, info, ns);
-            }
-        }
-        public static T RecipeDeserialize<T>(string path, string file_name)
-        {
-            string FullPath = $@"{path}{file_name}";
-            if (File.Exists(FullPath))
-            {
-                try
-                {
-                    using (var sr = new StreamReader(FullPath))
-                    {
-                        var xs = new XmlSerializer(typeof(T));
-                        var Temp = (T)xs.Deserialize(sr);
-                        return Temp;
-                        //this.project.Set(prj);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    throw ex;
-                    //Systems.LogWriter.Info($@"Recipe Load Fail, Exception : {ex}");
-                    //MessageBox.Show("프로젝트 파일 로딩 실패 : " + FullPath);
-                }
-            }
-            return default(T);
-        }
         public static void SaveRecipe(Recipe recipe)
         {
             try
             {
-                RecipeManager.RecipeSerialize($"{ recipe.Path}{recipe.Name}", "MainRecipe.xml", recipe.Area_Data);
+                Utility.XMLSerialize($"{ recipe.Path}{recipe.Name}", "MainRecipe.xml", recipe.Area_Data);
+                Utility.XMLSerialize($"{ recipe.Path}{recipe.Name}", "Judgement.xml", recipe.JudgementData);
+                Utility.XMLSerialize($"{ recipe.Path}{recipe.Name}", "DefectList.xml", recipe.DefectList);
             }
             catch (Exception ex)
             {
@@ -214,7 +182,7 @@ namespace CRUX_GUI_Cognex
         {
             try
             {
-                RecipeManager.RecipeSerialize($"{ recipe.Path}{name}", "MainRecipe.xml", recipe.Area_Data);
+                Utility.XMLSerialize($"{ recipe.Path}{name}", "MainRecipe.xml", recipe.Area_Data);
             }
             catch (Exception ex)
             {
@@ -269,25 +237,35 @@ namespace CRUX_GUI_Cognex
 
                                     case "MainRecipe.xml":
                                         recipe.Area_Data = null;
-                                        recipe.Area_Data = RecipeManager.RecipeDeserialize<Areas>($@"{FullPath}\", "MainRecipe.xml");
+                                        recipe.Area_Data = Utility.XMLDeserialize<Areas>($@"{FullPath}\", "MainRecipe.xml");
                                         break;
                                     case "ImageMergeOffset.ini":
                                         IniFile OffsetFile = new IniFile();
                                         OffsetFile.Load($@"{FullPath}\ImageMergeOffset.ini");
-                                        //Dictionary<string, IniFile> Data = new Dictionary<string, IniFile>();
-
                                         Systems.RecipeData_Collection[pc_num].Add("ImageMergeOffset.ini", OffsetFile);
-                                        //int aa = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
                                         break;
                                     case "GuideLine.ini":
                                         IniFile GuideLineData = new IniFile();
                                         GuideLineData.Load($@"{FullPath}\GuideLine.ini");
-                                        //Dictionary<string, IniFile> GuideLine = new Dictionary<string, IniFile>();
-
-                                        Systems.RecipeData_Collection[pc_num].Add("GuideLine.ini", GuideLineData);
-
-                                        //int aa = Systems.RecipeData_Collection[0]["ImageMergeOffset.ini"]["Offset"]["AllShift"].ToInt();
+                                        Systems.RecipeData_Collection[pc_num].Add("GuideLine.ini", GuideLineData);  
                                         break;
+                                    case "GrabData.ini":
+                                        IniFile GrabData = new IniFile();
+                                        GrabData.Load($@"{FullPath}\GrabData.ini");
+                                        Systems.RecipeData_Collection[pc_num].Add("GrabData.ini", GrabData);
+                                        break;
+                                    case "Judgement.xml":
+                                        recipe.JudgementData = null;
+                                        recipe.JudgementData = Utility.XMLDeserialize<Judgement_Data>($@"{FullPath}\", "Judgement.xml");
+                                        break;
+                                    case "DefectList.xml":
+                                        recipe.DefectList = null;
+                                        recipe.DefectList = Utility.XMLDeserialize<DefectItem_List>($@"{FullPath}\", "DefectList.xml");
+                                        break;
+                                        //case "DefectList.xml":
+                                        //    recipe.JudgementData = null;
+                                        //    recipe.JudgementData = RecipeManager.RecipeDeserialize<Judgement_Data>($@"{FullPath}\", "Judgement.xml");
+                                        //    break;
                                 }
                             }
                         }
@@ -302,6 +280,34 @@ namespace CRUX_GUI_Cognex
                 Console.WriteLine(ex.Message);
                 throw ex;
                 //Systems.LogWriter.Info($@"Recipe Read Fail, Exception : {ex}");
+            }
+        }
+        public static ST_GRABIMAGE_LINK_LIST CreateSeqLinkDataFromRecipe(IniFile file)
+        {
+            try
+            {
+                ST_GRABIMAGE_LINK_LIST LinkDatas = new ST_GRABIMAGE_LINK_LIST(0);
+         
+                IniFile FileData = file;
+
+                List<string> KeysList = FileData.Keys.ToList();
+                for(int i = 0; i < KeysList.Count; ++i)
+                {
+                    ST_GRABIMAGE_LINKDATA Data = new ST_GRABIMAGE_LINKDATA(0);
+                    Data.AreaName = KeysList[i].toUniByteAry(100);
+                    Data.AreaIndex = FileData[KeysList[i]]["AreaIndex"].ToInt();
+                    Data.RepeatIndex = FileData[KeysList[i]]["RepeatCount"].ToInt();
+                    Data.TrgCount = FileData[KeysList[i]]["TrgCount"].ToInt();
+                    Data.FirstPattern = FileData[KeysList[i]]["First"].ToBool();
+                    LinkDatas.LinkDatas[i] = Data;
+                }
+                LinkDatas.DataCount = KeysList.Count;                
+
+                return LinkDatas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public static ST_RECIPE_INFO CreateSeqRecipeFromRecipe(Recipe recipe)
@@ -324,6 +330,7 @@ namespace CRUX_GUI_Cognex
                     NewPatternInfo.Vacuum = recipe.Area_Data.Area[i].Patterns[j].Vacuum;
                     NewPatternInfo.CamCondCount = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data.Count;
                     NewPatternInfo.LightCondCount = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data.Count;
+                    NewPatternInfo.Sequencer = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data?.LightSequencer?.Sequencer;
                     for (int k = 0; k < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Camera_Data.Count; ++k)
                     {
                         ST_CAM_COND NewCamInfo = new ST_CAM_COND(0);
@@ -350,11 +357,13 @@ namespace CRUX_GUI_Cognex
                         NewLightInfo.Use = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Use;
                         NewLightInfo.Port_No = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Port_No;
                         NewLightInfo.Controller_No = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].Controller_No;
-                        NewLightInfo.Modules[k] = new STRU_SERIAL_INFO_AOT(0);
-                        NewLightInfo.Modules[k].nChCnt = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightValue.Count;
+
+                        NewLightInfo.Modules = new STRU_SERIAL_INFO_AOT(0);
+                        NewLightInfo.Modules.nChCnt = (uint)recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightValue.Count;
+
                         for (int t = 0; t < recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightValue.Count; ++t)
-                        {                                                        
-                            NewLightInfo.Modules[k].nLightVal[t] = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightValue[t];                                             
+                        {
+                            NewLightInfo.Modules.nLightVal[t] = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.Light_Data[k].LightValue[t];
                         }
                         NewPatternInfo.Light_Condition[k] = NewLightInfo;
                     }
@@ -366,7 +375,6 @@ namespace CRUX_GUI_Cognex
                         NewAutoFocusInfo.AxisZ = recipe.Area_Data.Area[i].Patterns[j].Grab_Data.AutoFocus[k].AxisZ;
                         NewPatternInfo.AutoFocus_Condition[k] = NewAutoFocusInfo;
                     }
-
                     NewGrabInfo.PatternList[j] = NewPatternInfo;
                 }
                 NewRecipe.GrabArea[i] = NewGrabInfo;
@@ -377,6 +385,99 @@ namespace CRUX_GUI_Cognex
 
     static class Utility
     {
+        /// <summary>
+        /// 버전 정보를 넣으면 빌드 시간을 반환.
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        static public DateTime Get_BuildDateTime(System.Version version = null)
+        {
+            // 주.부.빌드.수정
+            // 주 버전    Major Number
+            // 부 버전    Minor Number
+            // 빌드 번호  Build Number
+            // 수정 버전  Revision NUmber
+
+            //매개 변수가 존재할 경우
+            if (version == null)
+                version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+
+            //세번째 값(Build Number)은 2000년 1월 1일부터
+            //Build된 날짜까지의 총 일(Days) 수 이다.
+            int day = version.Build;
+            System.DateTime dtBuild = (new System.DateTime(2000, 1, 1)).AddDays(day);
+
+            //네번째 값(Revision NUmber)은 자정으로부터 Build된
+            //시간까지의 지나간 초(Second) 값 이다.
+            int intSeconds = version.Revision;
+            intSeconds = intSeconds * 2;
+            dtBuild = dtBuild.AddSeconds(intSeconds);
+
+
+            //시차 보정
+            System.Globalization.DaylightTime daylingTime = System.TimeZone.CurrentTimeZone
+                    .GetDaylightChanges(dtBuild.Year);
+            if (System.TimeZone.IsDaylightSavingTime(dtBuild, daylingTime))
+                dtBuild = dtBuild.Add(daylingTime.Delta);
+
+            return dtBuild;
+        }
+        public static void XMLSerialize<T>(string path, string name, T recipe)
+        {
+            string FullPath = $@"{path}\{name}";
+            //string path = @"D:\CRUX\DATA\Recipes\Test\Patterns11.xml";
+            var ns = new XmlSerializerNamespaces();
+            ns.Add(string.Empty, string.Empty);
+
+            var xs = new XmlSerializer(typeof(T));
+            using (var sw = new StreamWriter(FullPath))
+            {
+                var info = recipe;
+                xs.Serialize(sw, info, ns);
+            }
+        }
+        public static T XMLDeserialize<T>(string path, string file_name)
+        {
+            string FullPath = $@"{path}{file_name}";
+            if (File.Exists(FullPath))
+            {
+                try
+                {
+                    using (var sr = new StreamReader(FullPath))
+                    {
+                        var xs = new XmlSerializer(typeof(T));
+                        var Temp = (T)xs.Deserialize(sr);
+                        return Temp;
+                        //this.project.Set(prj);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw ex;
+                    //Systems.LogWriter.Info($@"Recipe Load Fail, Exception : {ex}");
+                    //MessageBox.Show("프로젝트 파일 로딩 실패 : " + FullPath);
+                }
+            }
+            return default(T);
+        }
+        /// <summary>
+        /// DateTime을 MilliSecond로 변환한다.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        static public string CvtTimeToMilliSec(DateTime time)
+        {
+            long Ticks = time.Ticks;
+            long MilliSec = (long)(Ticks / 10000);
+            return MilliSec.ToString();
+        }
+        static public string CvtTimeToMilliSec(TimeSpan time)
+        {
+            long Ticks = time.Ticks;
+            long MilliSec = (long)(Ticks / 10000);
+            return MilliSec.ToString();
+        }
         /// <summary>
         /// Verify that the same form exists
         /// </summary>
@@ -836,9 +937,30 @@ namespace CRUX_GUI_Cognex
         }
     }
 
+    public static class AlgorithmManager
+    {
+        public static void GetAlgorithmForVpp(string path, ref List<Algorithm_Infomation> algo_list)
+        {
+            algo_list.Clear();
+            string AlgorithmPath = path;
+            ArrayList FileList = fileProc.getFileList(AlgorithmPath, ".vpp");
+            foreach (string item in FileList)
+            {
+                string[] Temp = item.Split(new string[] { "\\" }, StringSplitOptions.None);
+                Algorithm_Infomation Info = new Algorithm_Infomation();
+
+                string FileName = Temp[Temp.Length - 1];
+                string[] Name = FileName.Split('.');
+                Info.Name = Name[0];
+                Info.Path = item;
+                Info.FileName = FileName;
+                algo_list.Add(Info);
+            }
+        }
+    }
+
     public static class SystemInfomation
     {
 
     }
-
 }

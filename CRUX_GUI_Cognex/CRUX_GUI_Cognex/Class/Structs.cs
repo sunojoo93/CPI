@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Implementation;
 using Cognex.VisionPro.QuickBuild;
 using CRUX_GUI_Cognex.User_Controls;
 using CRUX_GUI_Cognex.Utils;
@@ -19,6 +20,44 @@ using static CRUX_GUI_Cognex.Enums;
 
 namespace CRUX_GUI_Cognex.Class
 {
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [XmlRoot("DefectTrend")]
+    public class DefectTrend
+    {
+        [XmlArray("Defects")]
+        [XmlArrayItem("Item")]
+        public List<DefectTrendData> TrendData = new List<DefectTrendData>();
+        public DefectTrend()
+        {
+
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class DefectTrendData
+    {
+        [XmlAttribute("DefectName")]
+        public string DefectName { get; set; } = string.Empty;
+        [XmlAttribute("DefectCount")]
+        public int DefectCount { get; set; } = -1;
+        [XmlArray("Cells")]
+        [XmlArrayItem("Id")]
+        public List<CellID_ForDefectTrend> CellID = new List<CellID_ForDefectTrend>();
+
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class CellID_ForDefectTrend
+    {
+        [XmlAttribute("Name")]
+        public string CellID { get; set; } = string.Empty;
+        public CellID_ForDefectTrend()
+        {
+
+        }
+    }
+
     class Structs
     {
     }
@@ -26,12 +65,17 @@ namespace CRUX_GUI_Cognex.Class
     /// 검사에 필요한 정보
     /// </summary>
     [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class InspData
     {
         public List<ImageData> Datas = new List<ImageData>();
+        public string RecipeName { get; set; } = null;
         public string Area { get; set; } = null;
+        public string Stage { get; set; } = null;
+        public string Active { get; set; } = null;
         public string VirID { get; set; } = null;
-        public string Face { get; set; } = null;
+        public string StartTime { get; set; } = string.Empty;
+        public string StartDate { get; set; } = string.Empty;
         public string CellID { get; set; } = null;
         public string AreaInspStartTime { get; set; } = null;
         public string AreaInspEndTime { get; set; } = null;
@@ -41,19 +85,29 @@ namespace CRUX_GUI_Cognex.Class
         public string PatternName { get; set; } = null;
         public bool FirstPattern { get; set; } = false;
         public bool Manual { get; set; } = false;
-    }
+        public string GrabTact { get; set; } = string.Empty;
+        public int AreaIndex { get; set; } = -1;
 
+        // 크롭 여부
+        public bool Crop { get; set; } = false;
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ImageData: IDisposable
     {
         public CogImage8Grey OriginImage { get; set; } = null;
         public int SharedMemIdx { get; set; } = 0;
         public string PatternName { get; set; } = string.Empty;
         public string Direction { get; set; } = null;
+        public int CamIndex { get; set; } = -1;
+        public int PatternIndex { get; set; } = -1;
         public void Dispose()
         {
          
         }
     }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ManualImageData : ImageData
     {
         public string Area = null;
@@ -64,6 +118,8 @@ namespace CRUX_GUI_Cognex.Class
     /// <summary>
     /// 검사에 필요한 정보
     /// </summary>
+    ///     [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class CommonInspData : IDisposable
     {
         public string Face { get; set; } = null;
@@ -84,6 +140,8 @@ namespace CRUX_GUI_Cognex.Class
     /// <summary>
     /// 레시피 파라미터
     /// </summary>
+    ///     [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class RecipeParams : IDisposable
     {
         public RecipeParams()
@@ -146,9 +204,13 @@ namespace CRUX_GUI_Cognex.Class
         public byte[] VirID;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Area;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] GrabStartTime;
         public int GrabLine;
         public int CamNo;
         public bool FirstPattern;
+        public int AreaIndex;
+        public int RepeatIndex;
         //public int ParticleCount;
     
 
@@ -161,9 +223,12 @@ namespace CRUX_GUI_Cognex.Class
             VirID = new byte[100];
             GrabLine = 0;
             Area = new byte[100];
+            GrabStartTime = new byte[100];
             PatternCount = 0;
             CamNo = 0;
             FirstPattern = false;
+            AreaIndex = 0;
+            RepeatIndex = 0;
         }
     }
     [Serializable]
@@ -292,41 +357,10 @@ namespace CRUX_GUI_Cognex.Class
         public string Name { get; set; }
         public string Path { get; set; }
         public bool Opend { get; set; }
-        //public CogJobManager Manager { get; set; } = null;
-        //public Dictionary<string, List<ROI_Data>> ROI_List;
+
         public Areas Area_Data = new Areas();
-        //public List<ROI_Property> ROI_Prop = new List<ROI_Property>();
-
-        public void SaveROI_Property()
-        {
-
-        }
-        public void SavePatterns()
-        {
-
-        }
-
-        public void SaveOptics()
-        {
-
-        }
-        public void SetSmartListAddEvent()
-        {
-
-        }
-        public void SetSmartListRemoveEvent()
-        {
-
-        }
-        public void SetSmartListInsertEvent()
-        {
-
-        }
-        //public void SetRecipeData(string path, string name)
-        //{
-        //    Recipe Temp = Systems.RecipeContent.MainRecipe[Systems.CurDisplayIndex];
-        //    //RecipeManager.RecipeDeserialize(path, name);
-        //}
+        public Judgement_Data JudgementData = new Judgement_Data();
+        public DefectItem_List DefectList = new DefectItem_List();
         #region IDisposable Support
         private bool disposedValue = false; // 중복 호출을 검색하려면
 
@@ -571,6 +605,38 @@ namespace CRUX_GUI_Cognex.Class
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_GRABIMAGE_LINKDATA
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] AreaName;
+        public int AreaIndex;
+        public int RepeatIndex;
+        public int TrgCount;
+        public bool FirstPattern;
+        public ST_GRABIMAGE_LINKDATA(int num)
+        {
+            AreaName = new byte[100];
+            AreaIndex = 0;
+            RepeatIndex = 0;
+            TrgCount = 0;
+            FirstPattern = false;
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ST_GRABIMAGE_LINK_LIST
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_PATTERN_COUNT)]
+        public ST_GRABIMAGE_LINKDATA[] LinkDatas;
+        public int DataCount;
+        public ST_GRABIMAGE_LINK_LIST(int num)
+        {
+            LinkDatas = new ST_GRABIMAGE_LINKDATA[Consts.MAX_PATTERN_COUNT];
+            DataCount = 0;
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_GRAB_AREA_INFO
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
@@ -611,6 +677,7 @@ namespace CRUX_GUI_Cognex.Class
         public bool Insp;
         public int CamCondCount;
         public int LightCondCount;
+        public uint Sequencer;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_CAMERA_COUNT)]
         public ST_CAM_COND[] Cam_Condition;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_COUNT)]
@@ -625,6 +692,7 @@ namespace CRUX_GUI_Cognex.Class
             Insp = false;
             CamCondCount = 0;
             LightCondCount = 0;
+            Sequencer = 0;
             Cam_Condition = new ST_CAM_COND[Consts.MAX_CAMERA_COUNT];
             Light_Condition = new ST_LIGHT_COND[Consts.MAX_LIGHT_COUNT];
             AutoFocus_Condition = new ST_AUTOFOCUS[Consts.MAX_AF_MODULE_COUNT];
@@ -656,7 +724,7 @@ namespace CRUX_GUI_Cognex.Class
             Type = new byte[100];
             Name = new byte[100];
             Use = false;
-            Expose = 100;
+            Expose = 0;
             Gain = 1;
             PS = 0;
             Delay = 0;
@@ -693,14 +761,13 @@ namespace CRUX_GUI_Cognex.Class
         public bool Use;
         public uint Port_No;
         public uint Controller_No;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Consts.MAX_LIGHT_COUNT)]
-        public STRU_SERIAL_INFO_AOT[] Modules;
+        public STRU_SERIAL_INFO_AOT Modules;
         public ST_LIGHT_COND(int num)
         {
             Use = true;
             Port_No = 0;
             Controller_No = 0;
-            Modules = new STRU_SERIAL_INFO_AOT[Consts.MAX_LIGHT_COUNT];
+            Modules = new STRU_SERIAL_INFO_AOT();
         }
     }
     [Serializable]
@@ -847,6 +914,105 @@ namespace CRUX_GUI_Cognex.Class
     //        Ch_Value = new List<uint>();
     //    }
     //}
+
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [XmlRoot("Judgement")]
+    public class Judgement_Data
+    {
+        [XmlArray("Grade")]
+        [XmlArrayItem("item")]
+        public List<Grade> Grades { get; set; }
+        public Judgement_Data()
+        {
+            Grades = new List<Grade>();
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [XmlRoot("DefectList")]
+    public class DefectItem_List
+    {
+        [XmlArray("Defects")]
+        [XmlArrayItem("item")]
+        public List<Defect_Info> Defects { get; set; }
+        public DefectItem_List()
+        {
+            Defects = new List<Defect_Info>();
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Defect_Info
+    {
+        [XmlAttribute("DefectName")]
+        public string DefectName { get; set; } = string.Empty;
+        [XmlAttribute("DefectCode")]
+        public string DefectCode { get; set; } = string.Empty;
+
+        public Defect_Info()
+        {
+          
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Grade
+    {
+        [XmlAttribute("GradeName")]
+        public string GradeName { get; set; } = string.Empty;
+        [XmlArray("Defects")]
+        [XmlArrayItem("Df")]
+        public List<Defect> Defects { get; set; }
+
+        public Grade()
+        {
+            Defects = new List<Defect>();
+        }
+        public Grade DeepCopy()
+        {
+            Grade Temp = new Grade();
+            Temp.GradeName = GradeName;
+            foreach(Defect item in Defects)            
+                Temp.Defects.Add(item.DeepCopy());
+            return Temp;
+        }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Defect
+    {
+        [XmlAttribute("DefectName")]
+        public string DefectName { get; set; } = string.Empty;
+        [XmlAttribute("Sign")]
+        public string Sign { get; set; } = ">";
+        [XmlAttribute("Count")]
+        public int Count { get; set; } = 0;
+        [XmlAttribute("Priority")]
+        public string Priority { get; set; } = "0";
+        [XmlAttribute("Code")]
+        public string DefectCode { get; set; } = "0";
+
+        public Defect()
+        {
+
+        }
+        public Defect DeepCopy()
+        {
+            Defect Temp = new Defect();
+            Temp.DefectName = DefectName;
+            Temp.Sign = Sign;
+            Temp.Count = Count;
+            Temp.Priority = Priority;
+            Temp.DefectCode = DefectCode;
+            return Temp;
+        }
+    }
+    public class JudgementDefectResult : Defect
+    {
+        public int DefectCount { get; set; } = -1;
+        public bool Find { get; set; } = false;
+    }
     /// <summary>
     /// Patterns Struct
     /// </summary>
@@ -943,7 +1109,15 @@ namespace CRUX_GUI_Cognex.Class
         {
             Camera_Data = new List<CameraInfo>();
             Light_Data = new List<LightInfo>();
-            AutoFocus = new List<AutoFocus>();
+            AutoFocus = new List<AutoFocus>();        
+            LightSequencer = new LightSequencer();
+        }
+        public void InitAutoFocus()
+        {
+            if (AutoFocus == null)
+                AutoFocus = new List<Class.AutoFocus>();
+            for(int i = 0; i < 4; ++i)
+                AutoFocus.Add(new Class.AutoFocus() { Number =  i.ToString(), AxisZ = 0.0, Use = true });
         }
     }
     [Serializable]
@@ -1116,17 +1290,46 @@ namespace CRUX_GUI_Cognex.Class
 
     public class ClassEndData
     {
+        public string RecipeName { get; set; } = string.Empty;
+        public string Active { get; set; } = string.Empty;
+        public string Stage { get; set; } = string.Empty;
         public string CellID { get; set; } = string.Empty;
+        public string VirID { get; set; } = string.Empty;
         public string Date { get; set; } = string.Empty;
         public string StartTime { get; set; } = string.Empty;
-        public string EndTime { get; set; } = string.Empty;
         public string TactTime { get; set; } = string.Empty;
-        public string Result { get; set; } = string.Empty;
+        public string GrabTime { get; set; } = string.Empty;
+        public string ClassTime { get; set; } = string.Empty;
+        public string InspResult { get; set; } = string.Empty;
+        public string ResultClass { get; set; } = string.Empty;
+        public string MajorDefectName { get; set; } = string.Empty;
+        public string DefectCode { get; set; } = string.Empty;
+        public string EndTime { get; set; } = string.Empty;
+        public List<Defect_Property> DefectList = new List<Defect_Property>();
+    }
+    
+    public class DisplayData
+    {
+        public int AreaIndex { get; set; } = -1;
+        public string AreaName { get; set; } = string.Empty;
+        public string AlgName { get; set; } = string.Empty;
+        public CogRecord Result = new CogRecord();
+        public bool Manual { get; set; } = false;
+        public string CellID { get; set; } = string.Empty;
+        public string Path { get; set; } = string.Empty;   
+    }
+    public class WriteRecordData
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Path { get; set; } = string.Empty;
+        public Image RecordImage;
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ST_CAM_INFOMATION
     {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] BoardName;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
         public byte[] Name;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
@@ -1134,10 +1337,11 @@ namespace CRUX_GUI_Cognex.Class
         public int Width;
         public int Height;
         public int Depth;
-        public uint Temp;
+        public double Temp;
         public ST_CAM_INFOMATION(int num)
         {
-            Name = new byte[200];
+            BoardName = new byte[100];
+            Name = new byte[100];
             Type = new byte[100];
             Width = 0;
             Height = 0;
@@ -1221,5 +1425,211 @@ namespace CRUX_GUI_Cognex.Class
             SequencerMode = false;
             EmitMode = 0;
         }
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Algorithm_InspResult_Collection
+    {
+        public Dictionary<string, CogRecord> AlgoResult = new Dictionary<string, CogRecord>();
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class ROI_InspResult_Collection
+    {
+        public Dictionary<string, Algorithm_InspResult_Collection> Roi_Result = new Dictionary<string, Algorithm_InspResult_Collection>();
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Pattern_InspResult_Collection
+    {
+        public Dictionary<string, ROI_InspResult_Collection> Pattern_Result = new Dictionary<string, ROI_InspResult_Collection>();
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Area_InspResult_Collection
+    {
+        public Dictionary<string, Pattern_InspResult_Collection> Area_Result = new Dictionary<string, Pattern_InspResult_Collection>();
+    }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class Panel_InspResult_Collection
+    {
+        public Dictionary<string, Area_InspResult_Collection> Insp_Result = new Dictionary<string, Area_InspResult_Collection>();
+    }
+
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct PARAM_INSPECTOR_RESET
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] VirID;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
+        public byte[] CellID;
+        public int Result;
+        public int PCNum;
+        public PARAM_INSPECTOR_RESET(int n)
+        {
+            VirID = new byte[100];
+            CellID = new byte[100];
+            Result = 0;
+            PCNum = -1;
+        }
+    }
+
+    public class Defect_Property
+    {
+        public string GradeName { get; set; } = string.Empty;
+        public string DefectName { get; set; } = string.Empty;
+        public string AreaName { get; set; } = string.Empty;
+        public string PatternName { get; set; } = string.Empty;
+        public string ROIName { get; set; } = string.Empty;
+        public string AlgName { get; set; } = string.Empty;
+        public int Id = 0;
+
+        public double Vicinity = 0;
+
+        public int CE_Y = 0;
+        public int CE_X = 0;
+        public int CS_Y = 0;
+        public int CS_X = 0;
+        public int FE_Y = 0;
+        public int FE_X = 0;
+        public int FS_Y = 0;
+        public int FS_X = 0;
+        public double Area = 0;
+        public int Reserve1 = 0;
+        public int Reserve2 = 0;
+        public int Reserve3 = 0;
+        public int Reserve4 = 0;
+        public int Reserve5 = 0;
+        public int Reserve6 = 0;
+        public int Reserve7 = 0;
+        public int Reserve8 = 0;
+        public int Reserve9 = 0;
+        public int Reserve10 = 0;
+        public int Reserve11 = 0;
+        public int Reserve12 = 0;
+        public int Reserve13 = 0;
+        public int Reserve14 = 0;
+        public int Reserve15 = 0;
+        public int Reserve16 = 0;
+        public int Reserve17 = 0;
+        public int Reserve18 = 0;
+        public int Reserve19 = 0;
+        public int Reserve20 = 0;
+        public int Reserve21 = 0;
+        public int Reserve22 = 0;
+        public int Reserve23 = 0;
+        public int Reserve24 = 0;
+        public int Reserve25 = 0;
+        public int Reserve26 = 0;
+        public int Reserve27 = 0;
+        public int Reserve28 = 0;
+        public int Reserve29 = 0;
+        public int Reserve30 = 0;
+        public int Reserve31 = 0;
+        public int Reserve32 = 0;
+        public int Reserve33 = 0;
+        public int Reserve34 = 0;
+        public int Reserve35 = 0;
+        public int Reserve36 = 0;
+        public int Reserve37 = 0;
+        public int Reserve38 = 0;
+        public int Reserve39 = 0;
+        public int Reserve40 = 0;
+        public int Reserve41 = 0;
+        public int Reserve42 = 0;
+        public int Reserve43 = 0;
+        public int Reserve44 = 0;
+        public int Reserve45 = 0;
+        public int Reserve46 = 0;
+        public int Reserve47 = 0;
+        public int Reserve48 = 0;
+        public int Reserve49 = 0;
+        public int Reserve50 = 0;
+        public int Reserve51 = 0;
+        public int Reserve52 = 0;
+        public int Reserve53 = 0;
+        public int Reserve54 = 0;
+        public int Reserve55 = 0;
+        public int Reserve56 = 0;
+        public int Reserve57 = 0;
+        public int Reserve58 = 0;
+        public int Reserve59 = 0;
+        public int Reserve60 = 0;
+        public int Reserve61 = 0;
+        public int Reserve62 = 0;
+        public int Reserve63 = 0;
+        public int Reserve64 = 0;
+        public int Reserve65 = 0;
+        public int Reserve66 = 0;
+        public int Reserve67 = 0;
+        public int Reserve68 = 0;
+        public int Reserve69 = 0;
+        public int Reserve70 = 0;
+        public int Reserve71 = 0;
+        public int Reserve72 = 0;
+        public int Reserve73 = 0;
+        public int Reserve74 = 0;
+        public int Reserve75 = 0;
+        public int Reserve76 = 0;
+        public int Reserve77 = 0;
+        public int Reserve78 = 0;
+        public int Reserve79 = 0;
+        public int Reserve80 = 0;
+        public int Reserve81 = 0;
+        public int Reserve82 = 0;
+        public int Reserve83 = 0;
+        public int Reserve84 = 0;
+        public int Reserve85 = 0;
+        public int Reserve86 = 0;
+        public int Reserve87 = 0;
+        public int Reserve88 = 0;
+        public int Reserve89 = 0;
+        public int Reserve90 = 0;
+        public int Reserve91 = 0;
+        public int Reserve92 = 0;
+        public int Reserve93 = 0;
+        public int Reserve94 = 0;
+        public int Reserve95 = 0;
+        public int Reserve96 = 0;
+        public int Reserve97 = 0;
+        public int Reserve98 = 0;
+        public int Reserve99 = 0;
+        public int Reserve100 = 0;
+
+        public int Priority = 0;
+        public string DefectCode { get; set; } = string.Empty;
+    }
+    public class JudgeFilterDefect
+    {
+        public string GradeName { get; set; } = string.Empty;
+        public string DefectName { get; set; } = string.Empty;
+        public string AreaName { get; set; } = string.Empty;
+        public string PatternName { get; set; } = string.Empty;
+        public string ROIName { get; set; } = string.Empty;
+        public string AlgName { get; set; } = string.Empty;
+        public int Id = 0;
+        public double Area = 0;
+        public double Vicinity = 0;
+        public int X = 0;
+        public int Y = 0;
+        public int Priority = 0;
+    }
+    public class JudgementResult
+    {
+        public string Grade { get; set; } = string.Empty;
+        public string MajorDefectName { get; set; } = string.Empty;
+        public string DefectCede { get; set; } = string.Empty;
+    }
+
+    public class InspHistoryData
+    {
+        public string Data { get; set; } = string.Empty;
+        public string CellID { get; set; } = string.Empty;
+        public string GrabTact { get; set; } = string.Empty;
+        public string InspTact { get; set; } = string.Empty;
+        public string InspResult { get; set; } = string.Empty;
+
     }
 }

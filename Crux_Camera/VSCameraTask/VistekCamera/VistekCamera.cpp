@@ -337,13 +337,14 @@ void CVistekCamera::DisplayLive(HWND hDispWnd)
 {
 
 }
-void CVistekCamera::WaitGrabEnd()
+int CVistekCamera::WaitGrabEnd()
 {	
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera WaitGrabEnd Start"));
 	/*WaitForSingleObject(g_hGrabEnd, 5000);	
 	ResetEvent(g_hGrabEnd);*/
 	m_GrabTime.End();	
 	theApp.m_pLogWriter->m_fnWriteLog(_T("Camera WaitGrabEnd End"));
+	return 0;
 }
 
 void CVistekCamera::SetSMemCurBuffer(UINT nGrabNum, TCHAR* strPanelID, TCHAR* strGrabStepName, int nSeqMode)

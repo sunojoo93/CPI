@@ -33,15 +33,14 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.components = new System.ComponentModel.Container();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.Tlp_Algorithm = new System.Windows.Forms.TableLayoutPanel();
-            this.CAGB_CurAlgo = new CenterAlignedGroupBox();
+            this.CAGB_CurAlgo = new CRUX_GUI_Cognex.User_Controls.CenterAlignedGroupBox();
             this.LstB_RegistedAlgo = new System.Windows.Forms.ListBox();
             this.Tlp_Button = new System.Windows.Forms.TableLayoutPanel();
             this.Btn_Add = new System.Windows.Forms.Button();
             this.Btn_Remove = new System.Windows.Forms.Button();
             this.Tlp_Button2 = new System.Windows.Forms.TableLayoutPanel();
-            this.Btn_Apply = new System.Windows.Forms.Button();
             this.Btn_Cancle = new System.Windows.Forms.Button();
-            this.CAGB_AvailableAlgo = new CenterAlignedGroupBox();
+            this.CAGB_AvailableAlgo = new CRUX_GUI_Cognex.User_Controls.CenterAlignedGroupBox();
             this.LstB_AvailableAlgo = new System.Windows.Forms.ListBox();
             this.Tlp_Title = new System.Windows.Forms.TableLayoutPanel();
             this.Lb_Title = new System.Windows.Forms.Label();
@@ -101,6 +100,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.LstB_RegistedAlgo.Name = "LstB_RegistedAlgo";
             this.LstB_RegistedAlgo.Size = new System.Drawing.Size(328, 518);
             this.LstB_RegistedAlgo.TabIndex = 0;
+            this.LstB_RegistedAlgo.DoubleClick += new System.EventHandler(this.LstB_RegistedAlgo_DoubleClick);
             // 
             // Tlp_Button
             // 
@@ -149,7 +149,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_Button2.ColumnCount = 2;
             this.Tlp_Button2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.Tlp_Button2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Tlp_Button2.Controls.Add(this.Btn_Apply, 0, 0);
             this.Tlp_Button2.Controls.Add(this.Btn_Cancle, 1, 0);
             this.Tlp_Button2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tlp_Button2.Location = new System.Drawing.Point(414, 570);
@@ -160,17 +159,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.Tlp_Button2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.Tlp_Button2.Size = new System.Drawing.Size(340, 35);
             this.Tlp_Button2.TabIndex = 1;
-            // 
-            // Btn_Apply
-            // 
-            this.Btn_Apply.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Btn_Apply.Location = new System.Drawing.Point(3, 3);
-            this.Btn_Apply.Name = "Btn_Apply";
-            this.Btn_Apply.Size = new System.Drawing.Size(164, 29);
-            this.Btn_Apply.TabIndex = 0;
-            this.Btn_Apply.Text = "Apply";
-            this.Btn_Apply.UseVisualStyleBackColor = true;
-            this.Btn_Apply.Click += new System.EventHandler(this.Btn_Apply_Click);
             // 
             // Btn_Cancle
             // 
@@ -203,6 +191,7 @@ namespace CRUX_GUI_Cognex.Ex_Form
             this.LstB_AvailableAlgo.Name = "LstB_AvailableAlgo";
             this.LstB_AvailableAlgo.Size = new System.Drawing.Size(327, 518);
             this.LstB_AvailableAlgo.TabIndex = 0;
+            this.LstB_AvailableAlgo.DoubleClick += new System.EventHandler(this.LstB_AvailableAlgo_DoubleClick);
             // 
             // Tlp_Title
             // 
@@ -269,7 +258,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private System.Windows.Forms.Button Btn_Add;
         private System.Windows.Forms.Button Btn_Remove;
         private System.Windows.Forms.TableLayoutPanel Tlp_Button2;
-        private System.Windows.Forms.Button Btn_Apply;
         private System.Windows.Forms.Button Btn_Cancle;
         private User_Controls.CenterAlignedGroupBox CAGB_CurAlgo;
         private User_Controls.CenterAlignedGroupBox CAGB_AvailableAlgo;

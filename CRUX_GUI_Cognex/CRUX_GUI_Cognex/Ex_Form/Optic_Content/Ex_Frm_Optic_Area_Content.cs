@@ -402,17 +402,19 @@ namespace CRUX_GUI_Cognex.Ex_Form
                     ST_CAM_INFOMATION CamInfo = new ST_CAM_INFOMATION();
 
                     CmdMsgParam Param = new CmdMsgParam();
+                    Param.ClearOffset();
                     Param.SetStruct(CamInfo);
-
-
+                    
                     nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.CAMERA_TASK + CamIndex), IpcConst.CAMERA_FUNC, IpcConst.GET_CAMINFO,
-                                                    IpcInterface.CMD_TYPE_RES, 100000, Param.GetByteSize(), Param.GetParam());
+                                                    IpcInterface.CMD_TYPE_RES, 1000000, Param.GetByteSize(), Param.GetParam());
                     Param.SetOffset(0);
                     CamInfo = (ST_CAM_INFOMATION)Param.GetStruct(typeof(ST_CAM_INFOMATION), (int)Param.GetByteSize());
 
                     SetCameraInfo(CamInfo);
 
                     Tmr_CamTemperature.Start();
+                    Tmr_LightErrorCode.Start();
+
                 }
             }
             catch (Exception ex)
@@ -424,10 +426,12 @@ namespace CRUX_GUI_Cognex.Ex_Form
         private void SetCameraInfo(ST_CAM_INFOMATION data)
         {
             Lb_CameraNameContent.Text = $"{data.Name.toUniString()}";
+            Lb_BoardNameContent.Text = $"{data.BoardName.toUniString()}";
+            //Lb_.Text = $"{data.BoardName.toUniString()}";
             Lb_WidthContent.Text = $"{data.Width.ToString()} Pixel";
             Lb_HeightContent.Text = $"{data.Height.ToString()} Pixel";
             Lb_DepthContent.Text = $"{data.Depth.ToString()} Bit";
-            Lb_TempContent.Text = $"{data.Temp.ToString()} ℃";
+            Lb_TempContent.Text = $"{Math.Ceiling(data.Temp)}℃";
         }
         private void Btn_GrabStart_Click(object sender, EventArgs e)
         {
@@ -512,10 +516,23 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
 
         }
+        public void AllDgvUpdate()
+        {
+            UpdateArea();
+            UpdatePattern();
+            UpdateGrabCondition();
+            UpdateLightCondition();
+        }
+        private void UpdateArea()
+        {
+            DataTable AreasData = Dgv_Area.DataSource as DataTable;
+            Dgv_Area.DataSource = RecipeManager.CvtDtAreaInfo(AreasData, Shared_Recipe.ViewRecipe.Area_Data);
+            Dgv_Area.Refresh();
+        }
         private void UpdatePattern()
         {
             try
-            {
+            {              
                 if (Dgv_Area.SelectedRows.Count > 0)
                 {
                     //ClearRecipeControl();
@@ -669,21 +686,24 @@ namespace CRUX_GUI_Cognex.Ex_Form
         {
             try
             {
-                int nRet = Consts.APP_OK;
-                uint Temp = 0;
-                CmdMsgParam Param = new CmdMsgParam();
-                Param.ClearOffset();
-                Param.SetUInteger((uint)0);
-
-                nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.CAMERA_TASK + CamIndex), IpcConst.CAMERA_FUNC, IpcConst.GET_CAMTEMPATURE,
-                                                IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
-                if (nRet == Consts.APP_OK)
+                if (Systems.AliveList[Systems.CurDisplayIndex].Camera)
                 {
-                    Param.SetOffset(0);
-                    Temp = Param.GetUInteger();
-                }
+                    int nRet = Consts.APP_OK;
+                    double Temp = 0;
+                    CmdMsgParam Param = new CmdMsgParam();
+                    Param.ClearOffset();
+                    Param.SetDbl((double)0);
 
-                Lb_TempContent.Text = $"{Temp.ToString()} ℃";
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.CAMERA_TASK + CamIndex), IpcConst.CAMERA_FUNC, IpcConst.GET_CAMTEMPATURE,
+                                                    IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                    {
+                        Param.SetOffset(0);
+                        Temp = Param.GetDbl();
+                    }
+
+                    Lb_TempContent.Text = $"{Math.Ceiling(Temp)}℃";
+                }
             }
             catch (Exception ex)
             {
@@ -693,7 +713,51 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void Btn_ProperyApply_Click(object sender, EventArgs e)
         {
+            ST_CAM_COND SendCamParam = new ST_CAM_COND(0); 
+            if (Dgv_Area.SelectedRows.Count > 0)
+            {
+                string CurAreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                string CurPatternName = string.Empty;
+                if(Dgv_Pattern.SelectedRows.Count > 0)
+                {
+                    CurPatternName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
 
+                    Pattern FindPtn = Shared_Recipe.ViewRecipe.Area_Data.Area.Find(x => x.Name == CurAreaName)?.Patterns.Find(x => x.Name == CurPatternName);
+
+                    if(FindPtn != null)
+                    {
+                        foreach(CameraInfo item in FindPtn.Grab_Data.Camera_Data)
+                        {
+                            if(item.Use)
+                            {
+
+                                SendCamParam.Use = item.Use;
+                                SendCamParam.Name = Encoding.UTF8.GetBytes(item.Name);
+                                SendCamParam.Expose = item.Expose;
+
+                                SendCamParam.Gain = item.Gain;
+                                SendCamParam.PS = item.PS;
+                                SendCamParam.Delay = item.Delay;
+                                SendCamParam.nCountF = item.nCountF;
+                                SendCamParam.nCountB = item.nCountB;
+                                SendCamParam.nStartF = item.nStartF;
+                                SendCamParam.nStartB = item.nStartB;
+                                SendCamParam.nStopF = item.nStopF;
+                                SendCamParam.nStopB = item.nStopB;
+                                SendCamParam.nPeriodF = item.nPeriodF;
+                                SendCamParam.nPeriodB = item.nPeriodB;
+
+                                CmdMsgParam Param = new CmdMsgParam();
+                                Param.ClearOffset();
+
+                                Param.SetStruct(SendCamParam);
+                                int Ret = Systems.g_Ipc.SendCommand((ushort)((CurFormIndex + 1) * 100 + IpcConst.CAMERA_TASK + item.Name.toInt()), IpcConst.CAMERA_FUNC, IpcConst.CAMERA_SET_DATA,
+                                                                     IpcInterface.CMD_TYPE_RES, 100000, Param.GetByteSize(), Param.GetParam());
+                            }
+                        }
+                    }         
+                }
+            }
         }
 
         private void Dgv_Area_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -950,7 +1014,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
 
         private void Btn_Seq_Click(object sender, EventArgs e)
         {
-
             if(Dgv_Area.SelectedRows.Count > 0 && Dgv_Pattern.SelectedRows.Count > 0)
             {
                 Ex_Frm_Light_Sequencer Frm = new Ex_Frm_Light_Sequencer() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
@@ -960,7 +1023,6 @@ namespace CRUX_GUI_Cognex.Ex_Form
                 Frm.SetRecipe(ref Shared_Recipe);
                 Frm.ShowDialog();
             }
-
         }
 
         private void Dgv_LightCond_CurrentCellChanged(object sender, EventArgs e)
@@ -975,10 +1037,82 @@ namespace CRUX_GUI_Cognex.Ex_Form
             //    }
             int a = 0;
         }
-
-        private void Dgv_LightCond_SelectionChanged(object sender, EventArgs e)
+		private void Dgv_LightCond_SelectionChanged(object sender, EventArgs e)
         {
             int a = 0;
+        }
+
+        private void Tmr_LightErrorCode_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Systems.AliveList[Systems.CurDisplayIndex].Light)
+                {
+                    int nRet = Consts.APP_OK;
+                    UInt32 ErrorCode = 0;
+                    UInt32 Temperature = 0;
+                    CmdMsgParam Param = new CmdMsgParam();
+                    Param.ClearOffset();
+                    Param.SetUInteger((UInt32)0);
+                    Param.SetUInteger((UInt32)0);
+                    nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.LIGHT_TASK + CamIndex + 0), IpcConst.LIGHT_FUNC, IpcConst.LIGHT_GET_ERRORCODE,
+                                                    IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
+                    if (nRet == Consts.APP_OK)
+                    {
+                        Param.SetOffset(0);
+                        ErrorCode = Param.GetUInteger();
+                        Temperature = Param.GetUInteger();
+                    }
+
+                    Lb_LightErrorCodeContent.Text = $"{ErrorCode}";
+                    Lb_LightTempContent.Text = $"{Temperature}℃";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void Btn_GrabImageCnt_Click(object sender, EventArgs e)
+        {
+            if (Dgv_Area.SelectedRows.Count > 0 && Dgv_Pattern.SelectedRows.Count > 0)
+            {
+                Ex_Frm_GrabImageCount Frm = new Ex_Frm_GrabImageCount() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+                string SelAreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                string SelPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                Frm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex, SelAreaName, SelPtnName);
+                Frm.SetRecipe(ref Shared_Recipe);
+                Frm.ShowDialog();
+            }
+        }
+
+        private void Btn_AF_Click(object sender, EventArgs e)
+        {
+            if (Dgv_Area.SelectedRows.Count > 0 && Dgv_Pattern.SelectedRows.Count > 0)
+            {
+                Ex_Frm_AFSetting Frm = new Ex_Frm_AFSetting() { CurrentFormName = CurrentFormName, CurFormIndex = CurFormIndex };
+                string SelAreaName = Dgv_Area.SelectedRows[0].Cells["Name"].Value.ToString();
+                string SelPtnName = Dgv_Pattern.SelectedRows[0].Cells["Name"].Value.ToString();
+                Frm.SetFormNameIndex(ref CurrentFormName, ref CurFormIndex, SelAreaName, SelPtnName);
+                Frm.SetRecipe(ref Shared_Recipe);
+                Frm.ShowDialog();
+            }
+        }
+
+        private void Btn_LightApply_Click(object sender, EventArgs e)
+        {
+            //CmdMsgParam Param = new CmdMsgParam();
+            //Param.ClearOffset();
+            //Param.SetUInteger((UInt32)0);
+            //Param.SetUInteger((UInt32)0);
+            //nRet = Systems.g_Ipc.SendCommand((ushort)((Globals.CurrentPCno + 1) * 100 + IpcConst.LIGHT_TASK + CamIndex + 0), IpcConst.LIGHT_FUNC, IpcConst.LIGHT_PROPERY_APPLY,
+            //                                IpcInterface.CMD_TYPE_RES, 1000, Param.GetByteSize(), Param.GetParam());
+            //if (nRet == Consts.APP_OK)
+            //{
+            //    Param.SetOffset(0);
+            //    ErrorCode = Param.GetUInteger();
+            //    Temperature = Param.GetUInteger();
+            //}
         }
     }
 }

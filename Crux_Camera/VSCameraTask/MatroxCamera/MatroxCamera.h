@@ -29,7 +29,7 @@ long MFTYPE HookFrameStart(long HookType, MIL_ID EventId, void *UserDataPtr);
 long MFTYPE HookFrameEnd(long HookType, MIL_ID EventId, void *UserDataPtr);
 long MFTYPE HookTimerStart(long HookType, MIL_ID EventId, void *UserDataPtr);
 long MFTYPE HookTimerEnd(long HookType, MIL_ID EventId, void *UserDataPtr);
-MIL_INT MFTYPE ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void MPTYPE *HookDataPtr);
+MIL_INT MFTYPE ProcessingFunction(MIL_INT HookType, MIL_ID HookId, void *HookDataPtr);
 
 // for test0627
 const int TESTOFFSET = 100;
@@ -49,7 +49,7 @@ public:
 	BOOL			OpenCameraComPort(int nComPort, int nBaudrate, eCamModel eModel);	
 	// Grab
 	void			CameraExpose();									// Exposure Time 동안만 대기 후 반환
-	void			WaitGrabEnd();									// Wait Image Grab End	
+	int				WaitGrabEnd();									// Wait Image Grab End	
 	BOOL			DoRotateImage(cv::Mat matSrcBuffer, cv::Mat& matDstBuffer, double dAngle);
 	void			GetGrabImage(byte* byteImgArr);
 	void			GetGrabImage(int nImgCnt, BOOL bIsLiveImage, byte* byteImgArr, ULONG lOffsetX, ULONG lOffsetY, ULONG lCropSizeX, ULONG lCropSizeY, ULONG lWindowSizeX, ULONG lWindowSizeY);

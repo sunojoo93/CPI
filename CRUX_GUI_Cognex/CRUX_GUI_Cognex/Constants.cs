@@ -22,7 +22,6 @@ namespace CRUX_GUI_Cognex
 
     static class Paths 
     {
-        public const string DEFAULT_DRIVE = "D:\\";
 
         public const string RECIPE_EXTENS_PNL_INFO = ".pnlinf";
         public const string RECIPE_EXTENS_PRM = ".prm";
@@ -76,22 +75,33 @@ namespace CRUX_GUI_Cognex
         public static string[] NET_RECIPE_PATH;
         public static string[] NET_DRIVE;
         public static string[] NET_ORIGIN_PATH;
+        public static string[] NET_JPG_PATH;
         public static string[] NET_RESULT_PATH;
-        public static string[] NET_INSPDATA_PATH;
-        public static string[] NET_ALGRESULT_PATH;
+        public static string[] NET_REFERENCE_PATH;
+        public static string[] NET_ALGORITHM_PATH;
         public static string[] NET_PANEL_INFO;
         public static string[] NET_PANEL_MANUAL_INFO;
         public static string[] MANUAL_RESULT_DATA_DRIVE;
+        public static string[] FIXED_DRIVE;
+        public const string DEFAULT_DRIVE = "D:\\";
+        public static string[] NET_CURRENT_DRIVE;
+        public static string[] PROGRAM_PATH;
+        public static string[] FINAL_RESULT;
+        public static string[] RECORD_PATH;
+        public static string[] RECORD_IMAGE_PATH;
+        public static string[] RESULT_HISTORY_PATH;
 
         public static string RECIPE_PATH_RENEWAL = @"D:\CRUX\DATA\Recipes\";
         public static string ROI_PROPERTY = @"D:\CRUX\DATA\TXT\";
         public const string INIT_FOLDER_PATH = DEFAULT_DRIVE + @"CRUX\DATA\INI\";
         public const string TXT_FOLDER_PATH = DEFAULT_DRIVE + @"CRUX\DATA\TXT\";
-
+        public static string[] NET_DEFECTTREND_BACKUP_PATH;
+        public static string[] NET_DEFECTTREND_EXTRACT_PATH;
         //public static List<string> 
 
 
     }
+
     static class Globals
     {
         // 5 : CHIPPING, 6 : ALM
@@ -103,6 +113,7 @@ namespace CRUX_GUI_Cognex
         public static int MaxVisionCnt = 0;
         public static int CurrentPCno = 0;
         public static string PcName;
+        public static string PcActiveName;
         private static string[] CurGrabVersion;
         //private static string[] CurInspVersion;
         public static int CurLogView = 0;
@@ -116,7 +127,7 @@ namespace CRUX_GUI_Cognex
         
         public static string[] Ini_Init_Names = { "Initialize.ini", "CRUX_GUI_Renewal.ini", "CRUX_Sequence.ini", "Device.Cfg" };
         public static string[] Ini_DefaultData_Names = { "ROI_Property.dat" };
-        public static string[] RecipeItem_Names = { /*"ROI.list", */"ROI_Property.dat", "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini" };
+        public static string[] RecipeItem_Names = { "MainRecipe.xml", "ImageMergeOffset.ini", "GuideLine.ini", "GrabData.ini", "Judgement.xml", "DefectList.xml" };
         public static List<string> SelectRecipe = new List<string>();
     }
 
@@ -130,6 +141,7 @@ namespace CRUX_GUI_Cognex
         public static ushort SEQ_SEND_MANUAL_INSP = (ushort)(12);
         public static ushort SEQ_SEND_MANUAL_GRABAndINSP = (ushort)(20);
         public static ushort SEQ_SEND_GUI_CLASSIFY_END = (ushort)(31);
+        public static ushort SEQ_SEND_PARTICLE_IMAGE_SAVE = (ushort)(35);
 
         // Algorithm
         public static ushort ALGORITHM_TASK = (ushort)(50);
@@ -143,7 +155,9 @@ namespace CRUX_GUI_Cognex
         public static ushort LIGHT_TASK = (ushort)(80);
         public static ushort LIGHT_FUNC = (ushort)(80);
         public static ushort LIGHT_SET_DATA = (ushort)(20);
-        
+        public static ushort LIGHT_GET_ERRORCODE = (ushort)(42);
+        public static ushort LIGHT_GET_TEMPERATURE = (ushort)(43);
+        public static ushort LIGHT_PROPERY_APPLY = (ushort)(15);
         // Camera
         public static ushort CAMERA_TASK = (ushort)(90);
         public static ushort CAMERA_FUNC = (ushort)(90);        
@@ -170,6 +184,8 @@ namespace CRUX_GUI_Cognex
         public static ushort MAINPC_PG_OFF = (ushort)(58);                  // PG Off               180801 YSS
         public static ushort MAINPC_PG_STAGE_NO = (ushort)(60);             // Stage No             2019.01.31 for CSOT
         public static ushort MAINPC_ALARM = (ushort)(52);                   // Alarm Send to MainPC(Directly) 2020.06.11 JSO
+        public static ushort MAINPC_GRAB_RESET_REQ = (ushort)(98);
+        public static ushort MAINPC_CLASS_END = (ushort)(97);
 
         // AF
         public static ushort AF_TASK = (ushort)(70);
@@ -513,6 +529,24 @@ namespace CRUX_GUI_Cognex
             CAM4 = 3,
             MAX
         };
+        public enum AccountLevel
+        {
+            [Description("마스터")]
+            Master,
+            [Description("게스트")]
+            // 버튼 조작에 대한 로그
+            Guest,
+            // 예외 상황에 대한 로그
+            [Description("오퍼레이터")]
+            Operator,
+            // 치명적 상황에 대한 로그
+            [Description("엔지니어")]
+            Engineer,
+            // 검사에 대한 일련의 시퀀스 로그
+            [Description("매니저")]
+            Manager,
+            MAX
+        }
         public enum LogLevel
         {
             // 모든 로그 기입
@@ -526,13 +560,13 @@ namespace CRUX_GUI_Cognex
             ERROR,
             // 치명적 상황에 대한 로그
             [Description("FATAL 로그에 기록한다.")]
-            FATAL,
+            WARNNING,
             // 검사에 대한 일련의 시퀀스 로그
             [Description("INFO 로그에 기록한다.")]
             INFO,
             // 주의해야할 로그
-            [Description("WARNNING 로그에 기록한다.")]
-            WARNNING,
+            [Description("DEBUG 로그에 기록한다.")]
+            DEBUG,
             MAX
         }
         public enum E_PNT_VIEW_KIND : int { CROSS = 0, POINT, POLYGON, MAX };
